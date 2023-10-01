@@ -1,0 +1,6 @@
+version: v1
+directories:
+    - lib/biochain/schema
+    - lib/fabric/state
+    - lib/fabric/rbac
+    - tools/protoc-gen-cc-state

@@ -1,0 +1,76 @@
+{
+    "protoc": {
+        "options": [
+            "--proto_path=${workspaceFolder}",
+            "--proto_path=${userHome}/.cache/buf/v1/module/data/"
+        ]
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "*.specimen.json"
+            ],
+            "url": "./gen/json_schema/Specimen.json"
+            // "url": "./gen/schema.json"
+        },
+        // {
+        //     "fileMatch": [
+        //         "*.fabric"
+        //     ],
+        //     // "url": "./gen/schema.json"
+
+        // }
+    ],
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "Log",
+        "go"
+    ],
+    "spellright.parserByClass": {
+        "Log": {
+            "parser": "code"
+        }
+    },
+    // Add to VS Code settings.js file
+    "cSpell.languageSettings": [
+        // GoLang settings
+        {
+            "languageId": "go",
+            // Turn off compound words, because it is only checking strings.
+            "allowCompoundWords": false,
+            // Only check comments and strings
+            "includeRegExpList": [
+                "CStyleComment",
+                "string"
+            ],
+            // Exclude imports, because they are also strings.
+            "ignoreRegExpList": [
+                // ignore mulltiline imports
+                "import\\s*\\((.|[\r\n])*?\\)",
+                // ignore single line imports
+                "import\\s*.*\".*?\"",
+                // ignore go generate directive
+                "//\\s*go:generate.*",
+                // ignore nolint directive
+                "//\\s*nolint:.*"
+            ]
+        }
+    ],
+    "cSpell.enableFiletypes": [
+        "!yaml",
+        "proto3"
+    ],
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
+    "todo-tree.general.showActivityBarBadge": true,
+    "todo-tree.tree.buttons.export": false,
+    "todo-tree.general.statusBar": "current file",
+    "todo-tree.tree.showBadges": true,
+    "todo-tree.tree.disableCompactFolders": true,
+    "todo-tree.tree.showCountsInTree": false,
+    "todo-tree.tree.scanMode": "workspace only"
+}

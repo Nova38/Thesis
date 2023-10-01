@@ -1,0 +1,22 @@
+import "google/protobuf/descriptor.proto";
+
+enum TransactionType{
+  INVOKE = 0;
+  QUERY = 1;
+}
+
+extend google.protobuf.ServiceOptions {
+  optional TransactionType type  = 50 006;
+}
+
+
+
+extend google.protobuf.MessageOptions {
+  optional string namespace = 54599;
+  optional bool key_field = 54598;
+}
+
+
+
+
+
