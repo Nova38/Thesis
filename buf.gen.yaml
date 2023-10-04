@@ -13,7 +13,7 @@ plugins:
 #  ccbio_v1
 
   - plugin: buf.build/protocolbuffers/go
-    out: gen/go
+    out: lib/gen/go
     opt:
       - paths=source_relative
   - plugin: buf.build/community/mitchellh-go-json:v1.1.0
@@ -24,10 +24,17 @@ plugins:
       - orig_name=true
       - enums_as_ints=true
   - plugin: buf.build/bufbuild/validate-go
-    out: gen/go
+    out: lib/gen/go
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/es:v1.3.1
-    out: gen/es
+    out: lib/gen/es
     opt: target=ts
+
+
+
+  - plugin: cckey
+    out: lib/gen/go
+    opt:
+      - paths=source_relative

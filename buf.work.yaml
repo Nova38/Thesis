@@ -1,8 +1,9 @@
 version: v1
 directories:
-    - lib/chaincode
+    - lib/proto/chaincode
     # - lib/chainecode
-    - tools/protoc-gen-cc-state/
+    - lib/proto/keyer
+    # - ./tools/protoc-gen-cckey/example
     # - .
     # - lib/fabric/state
     # - lib/fabric/rbac

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "key/key.proto";
+
+
+message Item {
+    option (key.key_schema).namespace = "user";
+    option (key.key_schema).key_paths = {paths: ["id.collection_id", "id.id"]};
+    message Id {
+        option (key.is_key) = true;
+        string collection_id = 1 ;
+        string id = 2 ;
+      }
+
+
+    Id id = 1;
+}
