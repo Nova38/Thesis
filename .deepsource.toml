@@ -1,0 +1,30 @@
+version = 1
+
+[[analyzers]]
+name = "test-coverage"
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["vue"]
+  environment = [
+    "nodejs",
+    "vitest",
+    "browser"
+  ]
+
+[[analyzers]]
+name = "docker"
+
+[[analyzers]]
+name = "go"
+
+  [analyzers.meta]
+  import_root = "github.com/Nova38/Thesis"
+
+[[transformers]]
+name = "prettier"
+
+[[transformers]]
+name = "gofumpt"
