@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nova38/biochain/chaincode/ccbio/context"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
 
 	"github.com/pkg/errors"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	"github.com/nova38/biochain/chaincode/ccbio/schema"
-	"github.com/nova38/biochain/chaincode/ccbio/state"
+	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+
+	"github.com/nova38/thesis/lib/fabric/state"
 )
 
 // AuthContract contract for handling BasicAssets

@@ -17,11 +17,11 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 
-	"github.com/nova38/biochain/chaincode/ccbio/state"
+	"github.com/nova38/thesis/lib/fabric/state"
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
-	"github.com/nova38/biochain/chaincode/ccbio/schema"
+	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
 )
 
 //	type AuthTransport struct {

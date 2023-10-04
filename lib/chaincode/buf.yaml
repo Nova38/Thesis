@@ -1,10 +1,8 @@
 version: v1
 deps:
   - buf.build/googleapis/googleapis
-  # - buf.build/protocolbuffers/wellknowntypes:v21.12
   - buf.build/bufbuild/protovalidate
-
-
+  
 breaking:
   use:
     - FILE
@@ -12,5 +10,3 @@ lint:
   use:
     - DEFAULT
   except:
-    - PACKAGE_DIRECTORY_MATCH
-    - PACKAGE_VERSION_SUFFIX

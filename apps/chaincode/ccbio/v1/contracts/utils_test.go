@@ -4,8 +4,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nova38/biochain/chaincode/ccbio/context"
-	"github.com/nova38/biochain/chaincode/ccbio/schema"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
+	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+
 	"google.golang.org/genproto/protobuf/field_mask"
 )
 

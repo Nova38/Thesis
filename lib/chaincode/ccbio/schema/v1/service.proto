@@ -1,0 +1,243 @@
+syntax = "proto3";
+
+package ccbio.schema.v1;
+
+import "buf/validate/validate.proto";
+// import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// import "key/v1/key.proto";
+import "ccbio/schema/v1/state.proto";
+
+
+
+
+
+// option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
+//import "schema/user.proto";
+
+enum Permission {
+    PERMISSION_UNSPECIFIED = 0;
+    PERMISSION_READ = 1;
+    PERMISSION_WRITE = 2;
+    PERMISSION_ADMIN = 3;
+}
+
+message Permissions {
+    bool roles = 1;
+    bool role_permissions = 2;
+    bool users = 3;
+    bool specimen = 4;
+    bool primary = 5;
+    bool secondary = 6;
+    bool taxon = 7;
+    bool georeference = 8;
+    bool images = 9;
+    bool loans = 10;
+    bool grants = 11;
+    bool hidden = 12;
+}
+
+service BiochainSpecimenService{
+    //  // Specimen functions
+
+    rpc GetSpecimen(GetSpecimenRequest) returns (Specimen);
+    rpc GetSpecimenList(google.protobuf.Empty) returns (Specimen.List);
+    rpc GetSpecimenByCollection(GetSpecimenByCollectionRequest) returns (Specimen.List);
+    rpc GetSpecimenHistory(GetSpecimenHistoryRequest) returns (Specimen.History);
+
+    rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse);
+    rpc SpecimenUpdate(SpecimenUpdateRequest) returns (Specimen);
+    rpc SpecimenHideTransaction(SpecimenHideTxRequest) returns (Specimen);
+    rpc SpecimenUnHideTransaction(SpecimenUnHideTxRequest) returns (Specimen);
+    rpc SpecimenDelete(SpecimenDeleteRequest) returns (google.protobuf.Empty);
+
+    //  rpc specimenGetFullById(SpecimenId) returns (SpecimenGetFullByIdResponse);
+    //  rpc specimenGetHistoryById(SpecimenId) returns (SpecimenHistory);
+    //  rpc specimenGetFullHistoryById(SpecimenId) returns (SpecimenHistory);
+
+    // Suggest
+
+    rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (SuggestedUpdate);
+    rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (SuggestedStateList);
+    rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (SuggestedStateList);
+    rpc GetSuggestedUpdateList(google.protobuf.Empty) returns (Specimen);
+
+    rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdate);
+    rpc SpecimenUpdateApprove(SuggestedUpdateApproveRequest) returns (Specimen);
+    rpc SpecimenUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdate);
+}
+
+service BiochainAuthService {
+    /**
+     * GetCurrentUser: Returns the current user.
+     *
+     * Returns the current user.
+     * Requires:
+     * - User submitting the transaction is a registered user.
+     */
+    rpc GetCurrentUser(google.protobuf.Empty) returns (User);
+
+    /**
+     * Returns the current user id.
+     * Requires:
+     * - User submitting the transaction is a registered user.
+     */
+    rpc GetCurrentUserId(google.protobuf.Empty) returns (User.Id);
+
+    /**
+  
+    */
+    rpc GetUserList(GetUserListRequest) returns (GetUserListResponse);
+    rpc GetUser(GetUserRequest) returns (User);
+
+    rpc UserRegister(UserRegisterRequest) returns (User);
+    rpc UserUpdateMembership(UpdateMembershipRequest) returns (User);
+
+    rpc AddTestUsers(User.Id) returns (google.protobuf.Empty);
+    //  // Collection functions
+    rpc GetCollectionList(google.protobuf.Empty) returns (CollectionList);
+    rpc GetCollection(GetCollectionRequest) returns (Collection);
+    //  rpc collectionGetUsers(CollectionId) returns (UserList);
+    //
+    rpc CollectionCreate(CollectionCreateRequest) returns (Collection);
+    rpc CollectionUpdate(CollectionUpdateRequest) returns (Collection);
+    //
+
+}
+
+// message SuggestedUpdateRejectRequest {
+//   SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+//   string comment = 2 [(buf.validate.field).required = true];
+// }
+
+// message SuggestedUpdateApproveRequest {
+//   SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+//   string comment = 2 [(buf.validate.field).required = true];
+// }
+
+// message SuggestedUpdateCreateRequest {
+//   SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+// }
+
+
+
+message GetSuggestedUpdateRequest {
+    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetSuggestedUpdateBySpecimenRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetSuggestedUpdateByCollectionRequest {
+    Collection.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetUserListRequest {}
+
+message GetUserListResponse {
+    repeated User users = 1;
+}
+message GetUserRequest {
+    User.Id id = 1 [(buf.validate.field).required = true];
+}
+message GetCollectionRequest {
+    Collection.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetSpecimenRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetSpecimenHistoryRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+    bool include_hidden = 2 [(buf.validate.field).required = true];
+}
+
+message GetSpecimenByCollectionRequest {
+    Collection.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message GetUserByCollectionRequest {
+    Collection.Id id = 1 [(buf.validate.field).required = true];
+}
+
+message UserRegisterRequest {
+    string name = 1 [(buf.validate.field).required = true];
+    string email = 2 [(buf.validate.field).string.email = true];
+    string affiliation = 3 [(buf.validate.field).required = true];
+}
+
+message UpdateMembershipRequest {
+    User.Id user_id = 1 [(buf.validate.field).required = true];
+    Collection.Id collection_id = 2 [(buf.validate.field).required = true];
+    Role new_role = 3 [(buf.validate.field).required = true];
+}
+
+message CollectionCreateRequest {
+    Collection collection = 1 [(buf.validate.field).required = true];
+}
+
+message CollectionUpdateRequest {
+    Collection collection = 1 [(buf.validate.field).required = true];
+}
+
+message sTest{
+    Specimen.Georeference georeference = 5 [(buf.validate.field).required = true];
+
+
+}
+
+message SpecimenCreateRequest {
+    //  Specimen specimen = 1 [(buf.validate.field).required = true];
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+    Specimen.Taxon taxon = 2 [(buf.validate.field).required = true];
+    Specimen.Primary primary = 3 [(buf.validate.field).required = true];
+    Specimen.Secondary secondary = 4 [(buf.validate.field).required = true];
+    Specimen.Georeference georeference = 5 [(buf.validate.field).required = true];
+    map<string, Specimen.Image> images = 7;
+    string loans = 8;
+    string grants = 9;
+
+
+    //  Specimen.Image images = 6 [(buf.validate.field).required = true];
+    //  Specimen.Loan loans = 7 [(buf.validate.field).required = true];
+    //  Specimen.Grant grants = 8 [(buf.validate.field).required = true];
+}
+
+message SpecimenCreateResponse {
+    Specimen specimen = 1 [(buf.validate.field).required = true];
+}
+
+message SpecimenUpdateRequest {
+    Specimen specimen = 1 [(buf.validate.field).required = true];
+}
+
+message SpecimenHideTxRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+    Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+}
+message SpecimenUnHideTxRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+    Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+}
+
+message SpecimenDeleteRequest {
+    Specimen.Id id = 1 [(buf.validate.field).required = true];
+}
+
+
+message SuggestedUpdateCreateRequest {
+    SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+}
+
+message SuggestedUpdateApproveRequest {
+    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+    string comment = 2 [(buf.validate.field).required = true];
+}
+
+message SuggestedUpdateRejectRequest {
+    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+    string comment = 2 [(buf.validate.field).required = true];
+}

@@ -6,8 +6,12 @@ import (
 	pgsgo "github.com/lyft/protoc-gen-star/v2/lang/go"
 
 	pgs "github.com/lyft/protoc-gen-star/v2"
+
+	ccbio "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+	pb "github.com/nova38/thesis/gen/go/key"
 )
 
+// pb.type
 // JSONifyPlugin adds encoding/json Marshaler and Unmarshaler methods on PB
 // messages that utilizes the more correct jsonpb package.
 // See: https://godoc.org/github.com/golang/protobuf/jsonpb
@@ -24,6 +28,8 @@ func (p *JSONifyModule) InitContext(c pgs.BuildContext) {
 	p.ModuleBase.InitContext(c)
 	p.ctx = pgsgo.InitContext(c.Parameters())
 
+	pb.E_KeyField
+	ccbio.Action
 	tpl := template.New("jsonify").Funcs(map[string]interface{}{
 		"package":     p.ctx.PackageName,
 		"name":        p.ctx.Name,

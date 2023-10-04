@@ -7,8 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/nova38/biochain/chaincode/ccbio/context"
-	"github.com/nova38/biochain/chaincode/ccbio/schema"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
+	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
@@ -18,7 +19,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	"github.com/nova38/biochain/chaincode/ccbio/contracts"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/contracts"
 )
 
 type ServerConfig struct {

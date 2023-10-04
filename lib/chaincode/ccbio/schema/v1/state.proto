@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package schema;
+package ccbio.schema.v1;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "schema/defs.proto";
+import "key/key.proto";
 
 
-option go_package = "github.com/nova38/Thesis/lib/biochain/schemav1";
+// option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
 
 // AC helpers
 
@@ -130,7 +130,7 @@ message CollectionList {
 // --------------------------------------------------
 
 message User {
-  option (namespace) = "users";
+  option (key.namespace) = "users";
 
   // The key for the ledger
   message Id {
@@ -158,7 +158,7 @@ message User {
 
 
 message Specimen {
-  option (namespace) = "specimen";
+  option (key.namespace) = "specimen";
 
   
 

@@ -1,4 +1,11 @@
+syntax = "proto2";
+
 import "google/protobuf/descriptor.proto";
+
+
+package key;
+
+// option go_package = "github.com/nova38/Thesis/tools/protoc-gen-state/key/v1;keyv1";
 
 enum TransactionType{
   INVOKE = 0;
@@ -6,7 +13,7 @@ enum TransactionType{
 }
 
 extend google.protobuf.ServiceOptions {
-  optional TransactionType type  = 50 006;
+  optional TransactionType type  = 50006;
 }
 
 

@@ -9,7 +9,6 @@ func main() {
 	pgs.Init(
 		pgs.DebugEnv("DEBUG"),
 	).RegisterModule(
-		ASTPrinter(),
 		JSONify(),
 	).RegisterPostProcessor(
 		pgsgo.GoFmt(),

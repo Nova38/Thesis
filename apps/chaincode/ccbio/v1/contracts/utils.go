@@ -3,8 +3,9 @@ package contracts
 import (
 	"log/slog"
 
-	"github.com/nova38/biochain/chaincode/ccbio/context"
-	"github.com/nova38/biochain/chaincode/ccbio/schema"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
+	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
