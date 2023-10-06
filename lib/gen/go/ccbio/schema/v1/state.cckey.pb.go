@@ -10,6 +10,22 @@ import (
 	lo "github.com/samber/lo"
 )
 
+// collection is the namespace for Collection
+func (m *Collection) Namespace() string {
+	return "collection"
+}
+func (m *Collection) Key() ([]string, error) {
+	attr := []string{}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetId().GetCollectionId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}
+
 // user is the namespace for User
 func (m *User) Namespace() string {
 	return "user"

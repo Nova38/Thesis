@@ -64,6 +64,8 @@ message Action {
 // Collection
 // --------------------------------------------------
 message Collection {
+    option (key.key_schema).namespace = "collection";
+    option (key.key_schema).key_paths = {paths: ["id.collection_id"]};
   message Id {
     string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   }

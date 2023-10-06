@@ -116,7 +116,7 @@ func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *s
 	if !colExists {
 		return nil, &state.KeyNotFoundError{
 			Key:       id.GetCollectionId(),
-			Namespace: schema.NS_COL,
+			Namespace: "Collection",
 			MSG:       "Collection not found",
 		}
 	}

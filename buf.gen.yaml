@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/nova38/thesis/gen/go
+    default: github.com/nova38/thesis/lib/gen/go
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
