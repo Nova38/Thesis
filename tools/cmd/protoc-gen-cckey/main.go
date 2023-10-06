@@ -53,11 +53,11 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 
 func generateMessage(gen *protogen.Plugin, g *protogen.GeneratedFile, msg *protogen.Message) {
 
-	g.P("// ", msg.GoIdent.GoName, " is a generated protocol buffer message")
+	//g.P("// ", msg.GoIdent.GoName, " is a generated protocol buffer message")
 
-	for _, ext := range msg.Extensions {
-		g.P("// ", ext.GoName, " is an extension of ", msg.GoIdent.GoName)
-	}
+	//for _, ext := range msg.Extensions {
+	//	g.P("// ", ext.GoName, " is an extension of ", msg.GoIdent.GoName)
+	//}
 
 	key_schema := KeySchemaOptions(msg)
 	if key_schema == nil {

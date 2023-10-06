@@ -4,5 +4,3 @@
 // source: key/key.proto
 
 package key
-
-// KeySchema is a generated protocol buffer message

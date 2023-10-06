@@ -3,7 +3,7 @@ package context
 import (
 	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
 )
 
 type CollectionIDTypeHolder interface {

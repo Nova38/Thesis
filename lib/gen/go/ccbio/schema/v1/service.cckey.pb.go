@@ -4,30 +4,3 @@
 // source: ccbio/schema/v1/service.proto
 
 package schemav1
-
-// Permissions is a generated protocol buffer message
-// GetSuggestedUpdateRequest is a generated protocol buffer message
-// GetSuggestedUpdateBySpecimenRequest is a generated protocol buffer message
-// GetSuggestedUpdateByCollectionRequest is a generated protocol buffer message
-// GetUserListRequest is a generated protocol buffer message
-// GetUserListResponse is a generated protocol buffer message
-// GetUserRequest is a generated protocol buffer message
-// GetCollectionRequest is a generated protocol buffer message
-// GetSpecimenRequest is a generated protocol buffer message
-// GetSpecimenHistoryRequest is a generated protocol buffer message
-// GetSpecimenByCollectionRequest is a generated protocol buffer message
-// GetUserByCollectionRequest is a generated protocol buffer message
-// UserRegisterRequest is a generated protocol buffer message
-// UpdateMembershipRequest is a generated protocol buffer message
-// CollectionCreateRequest is a generated protocol buffer message
-// CollectionUpdateRequest is a generated protocol buffer message
-// STest is a generated protocol buffer message
-// SpecimenCreateRequest is a generated protocol buffer message
-// SpecimenCreateResponse is a generated protocol buffer message
-// SpecimenUpdateRequest is a generated protocol buffer message
-// SpecimenHideTxRequest is a generated protocol buffer message
-// SpecimenUnHideTxRequest is a generated protocol buffer message
-// SpecimenDeleteRequest is a generated protocol buffer message
-// SuggestedUpdateCreateRequest is a generated protocol buffer message
-// SuggestedUpdateApproveRequest is a generated protocol buffer message
-// SuggestedUpdateRejectRequest is a generated protocol buffer message

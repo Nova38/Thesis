@@ -11,7 +11,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
 
 	"github.com/nova38/thesis/lib/fabric/state"
 )

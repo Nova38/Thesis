@@ -10,11 +10,6 @@ import (
 	lo "github.com/samber/lo"
 )
 
-// LastModified is a generated protocol buffer message
-// Action is a generated protocol buffer message
-// Collection is a generated protocol buffer message
-// CollectionList is a generated protocol buffer message
-// User is a generated protocol buffer message
 // user is the namespace for User
 func (m *User) Namespace() string {
 	return "user"
@@ -32,10 +27,6 @@ func (m *User) Key() ([]string, error) {
 	return attr, nil
 }
 
-// User_Id is a generated protocol buffer message
-// User_List is a generated protocol buffer message
-// User_MembershipsEntry is a generated protocol buffer message
-// Specimen is a generated protocol buffer message
 // specimen is the namespace for Specimen
 func (m *Specimen) Namespace() string {
 	return "specimen"
@@ -53,18 +44,6 @@ func (m *Specimen) Key() ([]string, error) {
 	return attr, nil
 }
 
-// Specimen_Id is a generated protocol buffer message
-// Specimen_List is a generated protocol buffer message
-// Specimen_History is a generated protocol buffer message
-// Specimen_Primary is a generated protocol buffer message
-// Specimen_Secondary is a generated protocol buffer message
-// Specimen_Taxon is a generated protocol buffer message
-// Specimen_Georeference is a generated protocol buffer message
-// Specimen_Image is a generated protocol buffer message
-// Specimen_HiddenTx is a generated protocol buffer message
-// Specimen_ImagesEntry is a generated protocol buffer message
-// Specimen_HiddenTxsEntry is a generated protocol buffer message
-// SuggestedUpdate is a generated protocol buffer message
 // specimen is the namespace for SuggestedUpdate
 func (m *SuggestedUpdate) Namespace() string {
 	return "specimen"
@@ -82,6 +61,3 @@ func (m *SuggestedUpdate) Key() ([]string, error) {
 	}
 	return attr, nil
 }
-
-// SuggestedUpdate_Id is a generated protocol buffer message
-// SuggestedStateList is a generated protocol buffer message

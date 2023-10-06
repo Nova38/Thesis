@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 

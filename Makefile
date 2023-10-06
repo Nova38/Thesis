@@ -3,6 +3,5 @@ build: install
  
 
 install:
-	go install .\tools\protoc-gen-cc-state
-	go install .\tools\protoc-gen-cckey
+	go install .\tools\cmd\protoc-gen-cckey
 	

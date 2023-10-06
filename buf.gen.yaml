@@ -17,7 +17,7 @@ plugins:
     opt:
       - paths=source_relative
   - plugin: buf.build/community/mitchellh-go-json:v1.1.0
-    out: gen/go
+    out: lib/gen/go
     opt:
       - paths=source_relative
       - emit_defaults=true
