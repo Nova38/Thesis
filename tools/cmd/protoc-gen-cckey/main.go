@@ -3,6 +3,7 @@ package main
 import (
 	// "fmt"
 	//
+	"fmt"
 	"strings"
 
 	"github.com/nova38/thesis/lib/gen/go/key"
@@ -109,8 +110,8 @@ func generateMessage(gen *protogen.Plugin, g *protogen.GeneratedFile, msg *proto
 		g.P("return attr, nil")
 		g.P("}")
 	} else {
-		g.P("//Invalid key path")
-		// gen.Error(fmt.Errorf("Invalid key path"))
+		// g.P("//Invalid key path")
+		gen.Error(fmt.Errorf("Invalid key path", msg.GoIdent.GoName))
 	}
 
 	for _, nestedMessage := range msg.Messages {

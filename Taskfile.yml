@@ -1,0 +1,18 @@
+version: 3
+dotenv:
+  - ""
+
+
+tasks:
+    install:
+        cmds:
+        - go install ./tools/cmd/protoc-gen-cckey
+    gen:
+        cmds:
+        - buf generate
+    
+    gen-lib:
+        vars:
+          template:  buf-lib-gen.yaml
+        cmds:
+        - buf generate --template "${template}" 

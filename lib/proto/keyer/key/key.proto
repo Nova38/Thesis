@@ -25,7 +25,7 @@ message KeySchema {
 
 extend google.protobuf.MessageOptions {
     optional KeySchema key_schema = 54599;
-    optional string namespace = 54600;
+    // optional string namespace = 54600;
 
     optional bool is_key = 54601;
 }

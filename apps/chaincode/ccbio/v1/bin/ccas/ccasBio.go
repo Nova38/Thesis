@@ -28,7 +28,6 @@ type ServerConfig struct {
 }
 
 func makeBioContract() *contracts.SpecimenContract {
-
 	contract := new(contracts.SpecimenContract)
 	contract.TransactionContextHandler = &context.AuthTxContext{}
 	contract.BeforeTransaction = context.HandelBefore
@@ -54,7 +53,6 @@ func makeBioContract() *contracts.SpecimenContract {
 }
 
 func makeAuthContract() *contracts.AuthContract {
-
 	contract := new(contracts.AuthContract)
 	contract.TransactionContextHandler = &context.AuthTxContext{}
 	contract.BeforeTransaction = context.HandelBefore
@@ -123,36 +121,6 @@ func runChaincode() {
 	}
 }
 
-// func example() {
-// 	item := &schema.Specimen{
-// 		Id: &schema.Specimen_Id{
-// 			CollectionId: "",
-// 			Id:           "",
-// 		},
-// 		Primary:      nil,
-// 		Secondary:    nil,
-// 		Taxon:        nil,
-// 		Georeference: nil,
-// 		Images:       nil,
-// 		Loans:        "",
-// 		Grants:       "",
-// 		HiddenTxs:    nil,
-// 		LastModified: nil,
-// 	}
-
-// 	fmt.Printf("%+v\n", item)
-
-// 	// name := &schema.E_Namespace{}
-
-// 	// Print out the value of the protobuf message option called namespace for the type specimen (which is a message)
-// 	// in the file schema/defs.proto
-// 	d := schema.E_Namespace.TypeDescriptor()
-// 	name := item.ProtoReflect().Descriptor().Options().ProtoReflect().Get(d)
-
-// 	fmt.Printf("%+v\n", name)
-
-// }
-
 func print_empty() {
 	out := &schema.LastModified{
 		UserId: &schema.User_Id{
@@ -183,8 +151,8 @@ func FormatTime(groups []string, a slog.Attr) slog.Attr {
 }
 
 func main() {
-	//logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-	//slog.SetDefault(logger)
+	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	// slog.SetDefault(logger)
 
 	print_empty()
 	// attr := &map[string]string{"time": ""}
@@ -193,28 +161,11 @@ func main() {
 		AddSource:   true,
 		ReplaceAttr: FormatTime,
 	}
-	// opts.ReplaceAttr([]string{"time"})
-	// handler := slog.NewJSONHandler(os.Stdout, opts)
+
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &opts))
 	slog.SetDefault(logger)
 
 	oops.SourceFragmentsHidden = false
-	// zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	// log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	// zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
-	// 	short := file
-	// 	for i := len(file) - 1; i > 0; i-- {
-	// 		if file[i] == '/' {
-	// 			short = file[i+1:]
-	// 			break
-	// 		}
-	// 	}
-	// 	file = short
-	// 	return file + ":" + strconv.Itoa(line)
-	// }
-	// log.Logger = log.With().Caller().Logger()
-
-	//example()
 	runChaincode()
 }

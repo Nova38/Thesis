@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package rbac;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/field_mask.proto";
+import "key/key.proto";
+
+//message MyMessage {
+//  option (my_option) = "Hello world!";
+//}
+
+// Collections look up is a tree structure
+
+message Operations {
+
+  message Action{
+    enum Type {
+      TYPE_UNSPECIFIED = 0;
+      TYPE_VIEW = 1;
+      TYPE_EDIT = 2;
+      TYPE_SUGGEST_EDIT = 3;
+      TYPE_SUGGEST_APPROVE = 4;
+      TYPE_SUGGEST_REJECT = 5;
+      TYPE_CREATE = 6;
+      TYPE_DELETE = 7;
+      TYPE_HIDDEN_TX = 8;
+      TYPE_INIT = 9;
+    }
+    Type type = 1;
+    google.protobuf.FieldMask paths = 2;
+  }
+
+  message Membership {
+    bool view = 1;
+    bool edit = 2;
+  }
+  message Object {
+    bool view = 1;
+    bool create = 2;
+    bool delete = 3;
+    bool hidden_txs = 4;
+  }
+  message ObjectField {
+    bool view = 1;
+    bool edit = 2;
+    bool suggest_edit = 3;
+    bool suggest_approve = 4;
+    bool suggest_reject = 5;
+  }
+
+  // This message is the tree node for operations on the state object
+  message PathRolePermission {
+    // The path is a sub path of a field mask
+    string path = 1;
+
+    // The key is a valid sub path in the collection object descriptor
+    map<string, PathRolePermission> sub_paths = 2;
+
+    // The Key must be a valid role id defined in the roles map
+    map<int32, Operations.ObjectField> acl = 3;
+  }
+}
+
+
+
+
+
+/*
+* TODO:
+* 
+*/
+
+
+message Collection {
+  option (key.key_schema).namespace = "collection";
+  option (key.key_schema).key_paths = {
+    paths: ["id.collection_id"]
+  };
+
+  message Id {
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  }
+
+  message List {
+    repeated Collection items = 1;
+  }
+
+  Id id = 1;
+
+  // The namespace of the object
+  string object_namespace = 2;
+
+  // protobuf message descriptor
+  google.protobuf.DescriptorProto object_descriptor = 3;
+
+  // Declared Roles
+  map<int32, string> roles = 4;
+
+  // Keys must be valid role ids defined in the roles map
+  map<int32, Operations.Membership> acl_role_permissions = 5;
+
+  // acl_memberships are the permissions for assigning roles to users
+  // Keys must be valid role ids defined in the roles map
+  map<int32, Operations.Membership> acl_memberships = 6;
+
+  // acl_object are the permissions for the object
+  // Keys must be valid role ids defined in the roles map
+  map<int32, Operations.Object> acl_object = 7;
+
+  // ObjectField Permissions
+  // This object is a tree structure that follows the same pattern as 
+  // field paths
+  repeated Operations.PathRolePermission acl_object_paths = 8;
+}
+
+// Users are a special type of object
+message User {
+  option (key.key_schema).namespace = "users";
+  option (key.key_schema).key_paths = {
+    paths: [
+      "id.msp_id",
+      "id.id"
+    ]
+  };
+
+  // The key for the ledger
+  message Id {
+    string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+    string id = 2 [(buf.validate.field).string.min_len = 1];
+  }
+  message List {
+    repeated User items = 1;
+  }
+
+  Id id = 1 [(buf.validate.field).required = true];
+
+  string name = 2 [(buf.validate.field).string.min_len = 1];
+
+  // Key is the collectionID
+  map<string, int32> roles = 3;
+  google.protobuf.Struct metadata = 4;
+}

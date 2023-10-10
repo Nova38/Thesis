@@ -8,7 +8,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
 // Generic structures
@@ -38,14 +37,14 @@ type HistoryList[T StateObject] struct {
 // UTIL Functions
 
 // MakeCompositeKey creates a composite key from the given attributes
-func MakeCompositeKey[T StateObject](ctx contractapi.TransactionContextInterface, obj T) (key string, err error) {
+func MakeCompositeKey[T StateObject](ctx LogedTxCtxInterface, obj T) (key string, err error) {
 	namespace := obj.Namespace()
 	attr, err := obj.Key()
 	if err != nil {
 		return "", err
 	}
 
-	slog.Info("MakeCompositeKey", slog.Group("Key", "Namespace", namespace, "attr", attr))
+	ctx.GetLogger().Info("MakeCompositeKey", slog.Group("Key", "Namespace", namespace, "attr", attr))
 	key, err = ctx.GetStub().CreateCompositeKey(namespace, attr)
 
 	if err != nil {
@@ -54,7 +53,7 @@ func MakeCompositeKey[T StateObject](ctx contractapi.TransactionContextInterface
 	return key, nil
 }
 
-func ObjExists[T StateObject](ctx contractapi.TransactionContextInterface, obj T) (bool, error) {
+func ObjExists[T StateObject](ctx LogedTxCtxInterface, obj T) (bool, error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return false, err
@@ -64,7 +63,7 @@ func ObjExists[T StateObject](ctx contractapi.TransactionContextInterface, obj T
 }
 
 // Exists returns true if the object exists in the ledger
-func Exists(ctx contractapi.TransactionContextInterface, key string) bool {
+func Exists(ctx LogedTxCtxInterface, key string) bool {
 
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
@@ -75,7 +74,7 @@ func Exists(ctx contractapi.TransactionContextInterface, key string) bool {
 }
 
 // PutState puts the object into the ledger
-func PutState[T StateObject](ctx contractapi.TransactionContextInterface, obj T) (err error) {
+func PutState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -92,7 +91,7 @@ func PutState[T StateObject](ctx contractapi.TransactionContextInterface, obj T)
 
 // InsertState inserts the object into the ledger
 // returns error if the object already exists
-func InsertState[T StateObject](ctx contractapi.TransactionContextInterface, obj T) (err error) {
+func InsertState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -117,7 +116,7 @@ func InsertState[T StateObject](ctx contractapi.TransactionContextInterface, obj
 
 // UpdateState updates the object in the ledger
 // returns error if the object does not exist
-func UpdateState[T StateObject](ctx contractapi.TransactionContextInterface, obj T) (err error) {
+func UpdateState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -141,9 +140,9 @@ func UpdateState[T StateObject](ctx contractapi.TransactionContextInterface, obj
 }
 
 // GetState returns the object from the ledger
-func GetState[T StateObject](ctx contractapi.TransactionContextInterface, in T) (err error) {
+func GetState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
-	slog.Info("fn: GetState", "Namespace", namespace)
+	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
@@ -166,7 +165,7 @@ func GetState[T StateObject](ctx contractapi.TransactionContextInterface, in T) 
 }
 
 // DeleteState deletes the object from the ledger
-func DeleteState[T StateObject](ctx contractapi.TransactionContextInterface, in T) (err error) {
+func DeleteState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -176,7 +175,7 @@ func DeleteState[T StateObject](ctx contractapi.TransactionContextInterface, in 
 }
 
 // GetStateHistory returns the history of the object from the ledger
-func GetStateHistory[T StateObject](ctx contractapi.TransactionContextInterface, in T) (list HistoryList[T], err error) {
+func GetStateHistory[T StateObject](ctx LogedTxCtxInterface, in T) (list HistoryList[T], err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return HistoryList[T]{}, err
@@ -214,7 +213,7 @@ func GetStateHistory[T StateObject](ctx contractapi.TransactionContextInterface,
 	return list, nil
 }
 
-func TxIdInHistory[T StateObject](ctx contractapi.TransactionContextInterface, in T, txId string) (bool, error) {
+func TxIdInHistory[T StateObject](ctx LogedTxCtxInterface, in T, txId string) (bool, error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return false, err
@@ -244,9 +243,9 @@ func TxIdInHistory[T StateObject](ctx contractapi.TransactionContextInterface, i
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPartialKeyList[T StateObject](ctx contractapi.TransactionContextInterface, in T, numAttr int) (list []T, err error) {
+func GetPartialKeyList[T StateObject](ctx LogedTxCtxInterface, in T, numAttr int) (list []T, err error) {
 	// obj = []*T{}
-	slog.Info("GetPartialKeyList")
+	ctx.GetLogger().Info("GetPartialKeyList")
 	namespace := in.Namespace()
 
 	attr, err := in.Key()
@@ -262,7 +261,7 @@ func GetPartialKeyList[T StateObject](ctx contractapi.TransactionContextInterfac
 
 	attr = attr[:len(attr)-numAttr]
 
-	slog.Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr)))
+	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr)))
 
 	resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(namespace, attr)
 	if err != nil {
@@ -289,7 +288,7 @@ func GetPartialKeyList[T StateObject](ctx contractapi.TransactionContextInterfac
 	return list, nil
 }
 
-func GetFullStateList[T StateObject](ctx contractapi.TransactionContextInterface, in T) (list []T, err error) {
+func GetFullStateList[T StateObject](ctx LogedTxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -319,4 +318,91 @@ func GetFullStateList[T StateObject](ctx contractapi.TransactionContextInterface
 	}
 
 	return list, nil
+}
+
+// ------------------------------------------------------------
+// Pagination
+// ------------------------------------------------------------
+
+// GetPartialKeyList returns a list of objects of type T
+// T must implement StateObject interface
+// numAttr is the number of attributes in the key to search for
+func GetPagedPartialKeyList[T StateObject](ctx PagedTxCtxInterface, in T, numAttr int, bookmark string) (list []T, nextBookmark string, err error) {
+	// obj = []*T{}
+	// ctx.GetLogger().Info("GetPagedPartialKeyList")
+	namespace := in.Namespace()
+
+	attr, err := in.Key()
+	if err != nil {
+		return nil, "", err
+	}
+	if len(attr) == 0 {
+		return nil, "", fmt.Errorf("key is empty")
+	}
+	if len(attr) < numAttr {
+		return nil, "", fmt.Errorf("key has less than %d attributes", numAttr)
+	}
+
+	attr = attr[:len(attr)-numAttr]
+
+	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr), slog.Group("Bookmark", bookmark, "PageSize", ctx.GetPageSize())))
+
+	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, attr, ctx.GetPageSize(), bookmark)
+	if err != nil {
+		return nil, "", err
+	}
+	defer func(resultIterator shim.StateQueryIteratorInterface) {
+		_ = resultIterator.Close()
+	}(resultIterator)
+
+	for resultIterator.HasNext() {
+		queryResponse, err := resultIterator.Next()
+		if err != nil {
+			return nil, resMeta.Bookmark, err
+		}
+		obj := new(T)
+
+		if err := json.Unmarshal(queryResponse.Value, &obj); err != nil {
+			return nil, resMeta.Bookmark, err
+		}
+
+		list = append(list, *obj)
+	}
+
+	return list, resMeta.GetBookmark(), nil
+}
+
+// ------------------------------------------------------------
+func GetPagedFullStateList[T StateObject](ctx PagedTxCtxInterface, in T, bookmark string) (list []T, nextBookmark string, err error) {
+	// obj = []*T{}
+
+	namespace := in.Namespace()
+
+	// key, err := ctx.GetStub().CreateCompositeKey()
+
+	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Group("Bookmark", bookmark, "PageSize", ctx.GetPageSize())))
+
+	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, []string{}, ctx.GetPageSize(), bookmark)
+	if err != nil {
+		return nil, "", err
+	}
+	defer func(resultIterator shim.StateQueryIteratorInterface) {
+		_ = resultIterator.Close()
+	}(resultIterator)
+
+	for resultIterator.HasNext() {
+		queryResponse, err := resultIterator.Next()
+		if err != nil {
+			return nil, "", err
+		}
+		obj := new(T)
+
+		if err := json.Unmarshal(queryResponse.Value, &obj); err != nil {
+			return nil, "", err
+		}
+
+		list = append(list, *obj)
+	}
+
+	return list, resMeta.GetBookmark(), nil
 }

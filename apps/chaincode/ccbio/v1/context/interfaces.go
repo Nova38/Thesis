@@ -3,6 +3,7 @@ package context
 import (
 	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	"github.com/nova38/thesis/lib/fabric/state"
 	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
 )
 
@@ -34,7 +35,7 @@ type LoggingTxContext interface {
 }
 
 type TxContext interface {
-	LoggingTxContext
+	state.LogedTxCtxInterface
 
 	GetUserId() (*schema.User_Id, error)
 	GetUser() (*schema.User, error)
@@ -62,9 +63,6 @@ type TxContext interface {
 	SetAction(action *schema.Action) error
 
 	AddActionDomain(domain schema.Action_Domain)
-
-	GetLogger() *log.Logger
-	SetLogger(logger *log.Logger) error
 }
 
 type LastModifiedTxContext interface {
