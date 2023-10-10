@@ -3,6 +3,8 @@ package rbac
 import (
 	"fmt"
 	"strings"
+
+	pb "github.com/nova38/thesis/lib/gen/go/rbac"
 )
 
 // type Collection pb.Collection
@@ -14,21 +16,11 @@ func splitPath(path string) []string {
 	return strings.Split(path, ".")
 }
 
-// Search PathRolePermission for a given paths and return the permission for the given role
-
-// GetPathToRoleObjectField returns the permission for the given path and role
-// func (c *Collection) t(path string, role int) (*pb.Operations_ObjectField, error) {
-
-// 	// Get the next path part
-
-// 	// Check to see if
-
-// 	return nil, fmt.Errorf("no permission found for path: %v, role: %v, action: %v", paths, role)
-// }
-
-func (current *Operations_PathRolePermission) walkPath(
+// walkACLPath walks though though the path and returns the permission for the path
+func WalkACLPath(
+	current *pb.Operations_PathRolePermission,
 	path string,
-) (map[int32]*Operations_ObjectField, error) {
+) (map[int32]*pb.Operations_ObjectField, error) {
 	paths := splitPath(path)
 
 	// check to see if paths is empty
@@ -60,6 +52,7 @@ func (current *Operations_PathRolePermission) walkPath(
 	// Recursively call walkPath on the nested permission with the remaining paths
 	remainingPaths := paths[1:]
 
-	return nestedPermission.walkPath(strings.Join(remainingPaths, "."))
-
+	return WalkACLPath(nestedPermission, strings.Join(remainingPaths, "."))
 }
+
+// GetPermission returns the permission for the path

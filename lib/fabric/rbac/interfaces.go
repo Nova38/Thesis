@@ -32,7 +32,5 @@ type TxCtxInterface interface {
 	GetRole() (int, error)
 
 	//
-	Authorize() (valid bool, err error)
+	GetRolePermission(role int, action rbac_pb.Operations_Action) (*rbac_pb.Operations, error)
 }
-
-type RoleCollection interface{}
