@@ -1,3 +1,5 @@
 # Node dependencies
 node_modules
 vendor
+.task
+lib/fabric/rbac/ginkgo.report

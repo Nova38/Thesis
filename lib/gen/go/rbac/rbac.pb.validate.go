@@ -219,25 +219,25 @@ func (m *Collection) validate(all bool) error {
 	// no validation rules for Roles
 
 	{
-		sorted_keys := make([]int32, len(m.GetAclRolePermissions()))
+		sorted_keys := make([]int32, len(m.GetAcl()))
 		i := 0
-		for key := range m.GetAclRolePermissions() {
+		for key := range m.GetAcl() {
 			sorted_keys[i] = key
 			i++
 		}
 		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
 		for _, key := range sorted_keys {
-			val := m.GetAclRolePermissions()[key]
+			val := m.GetAcl()[key]
 			_ = val
 
-			// no validation rules for AclRolePermissions[key]
+			// no validation rules for Acl[key]
 
 			if all {
 				switch v := interface{}(val).(type) {
 				case interface{ ValidateAll() error }:
 					if err := v.ValidateAll(); err != nil {
 						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclRolePermissions[%v]", key),
+							field:  fmt.Sprintf("Acl[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
 						})
@@ -245,7 +245,7 @@ func (m *Collection) validate(all bool) error {
 				case interface{ Validate() error }:
 					if err := v.Validate(); err != nil {
 						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclRolePermissions[%v]", key),
+							field:  fmt.Sprintf("Acl[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
 						})
@@ -254,7 +254,7 @@ func (m *Collection) validate(all bool) error {
 			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
 				if err := v.Validate(); err != nil {
 					return CollectionValidationError{
-						field:  fmt.Sprintf("AclRolePermissions[%v]", key),
+						field:  fmt.Sprintf("Acl[%v]", key),
 						reason: "embedded message failed validation",
 						cause:  err,
 					}
@@ -262,132 +262,6 @@ func (m *Collection) validate(all bool) error {
 			}
 
 		}
-	}
-
-	{
-		sorted_keys := make([]int32, len(m.GetAclMemberships()))
-		i := 0
-		for key := range m.GetAclMemberships() {
-			sorted_keys[i] = key
-			i++
-		}
-		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
-		for _, key := range sorted_keys {
-			val := m.GetAclMemberships()[key]
-			_ = val
-
-			// no validation rules for AclMemberships[key]
-
-			if all {
-				switch v := interface{}(val).(type) {
-				case interface{ ValidateAll() error }:
-					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclMemberships[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				case interface{ Validate() error }:
-					if err := v.Validate(); err != nil {
-						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclMemberships[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				}
-			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
-				if err := v.Validate(); err != nil {
-					return CollectionValidationError{
-						field:  fmt.Sprintf("AclMemberships[%v]", key),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
-				}
-			}
-
-		}
-	}
-
-	{
-		sorted_keys := make([]int32, len(m.GetAclObject()))
-		i := 0
-		for key := range m.GetAclObject() {
-			sorted_keys[i] = key
-			i++
-		}
-		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
-		for _, key := range sorted_keys {
-			val := m.GetAclObject()[key]
-			_ = val
-
-			// no validation rules for AclObject[key]
-
-			if all {
-				switch v := interface{}(val).(type) {
-				case interface{ ValidateAll() error }:
-					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclObject[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				case interface{ Validate() error }:
-					if err := v.Validate(); err != nil {
-						errors = append(errors, CollectionValidationError{
-							field:  fmt.Sprintf("AclObject[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				}
-			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
-				if err := v.Validate(); err != nil {
-					return CollectionValidationError{
-						field:  fmt.Sprintf("AclObject[%v]", key),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
-				}
-			}
-
-		}
-	}
-
-	for idx, item := range m.GetAclObjectPaths() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, CollectionValidationError{
-						field:  fmt.Sprintf("AclObjectPaths[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, CollectionValidationError{
-						field:  fmt.Sprintf("AclObjectPaths[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return CollectionValidationError{
-					field:  fmt.Sprintf("AclObjectPaths[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
 	}
 
 	if len(errors) > 0 {
@@ -1520,6 +1394,239 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = Collection_ListValidationError{}
+
+// Validate checks the field values on Collection_ACL with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Collection_ACL) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Collection_ACL with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in Collection_ACLMultiError,
+// or nil if none found.
+func (m *Collection_ACL) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Collection_ACL) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetRolePermissions()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "RolePermissions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "RolePermissions",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRolePermissions()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Collection_ACLValidationError{
+				field:  "RolePermissions",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetMemberships()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "Memberships",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "Memberships",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMemberships()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Collection_ACLValidationError{
+				field:  "Memberships",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetObject()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "Object",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Collection_ACLValidationError{
+					field:  "Object",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Collection_ACLValidationError{
+				field:  "Object",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	{
+		sorted_keys := make([]string, len(m.GetObjectPaths()))
+		i := 0
+		for key := range m.GetObjectPaths() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetObjectPaths()[key]
+			_ = val
+
+			// no validation rules for ObjectPaths[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, Collection_ACLValidationError{
+							field:  fmt.Sprintf("ObjectPaths[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, Collection_ACLValidationError{
+							field:  fmt.Sprintf("ObjectPaths[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return Collection_ACLValidationError{
+						field:  fmt.Sprintf("ObjectPaths[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
+
+	if len(errors) > 0 {
+		return Collection_ACLMultiError(errors)
+	}
+
+	return nil
+}
+
+// Collection_ACLMultiError is an error wrapping multiple validation errors
+// returned by Collection_ACL.ValidateAll() if the designated constraints
+// aren't met.
+type Collection_ACLMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m Collection_ACLMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m Collection_ACLMultiError) AllErrors() []error { return m }
+
+// Collection_ACLValidationError is the validation error returned by
+// Collection_ACL.Validate if the designated constraints aren't met.
+type Collection_ACLValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Collection_ACLValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Collection_ACLValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Collection_ACLValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Collection_ACLValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Collection_ACLValidationError) ErrorName() string { return "Collection_ACLValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Collection_ACLValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCollection_ACL.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Collection_ACLValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Collection_ACLValidationError{}
 
 // Validate checks the field values on User_Id with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

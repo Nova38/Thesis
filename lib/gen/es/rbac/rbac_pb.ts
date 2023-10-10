@@ -388,43 +388,39 @@ export class Collection extends Message<Collection> {
   objectDescriptor?: DescriptorProto;
 
   /**
-   * Declared Roles
+   * Declared Roles for the collection
+   *   - The key is the role id
+   *   - The value is the role name
    *
    * @generated from field: map<int32, string> roles = 4;
    */
   roles: { [key: number]: string } = {};
 
   /**
-   * Keys must be valid role ids defined in the roles map
-   *
-   * @generated from field: map<int32, rbac.Operations.Membership> acl_role_permissions = 5;
+   * @generated from field: repeated int32 role_nums = 9;
    */
-  aclRolePermissions: { [key: number]: Operations_Membership } = {};
+  roleNums: number[] = [];
 
   /**
-   * acl_memberships are the permissions for assigning roles to users
-   * Keys must be valid role ids defined in the roles map
+   * Declared Permissions for the permissions of all roles in the collection
    *
-   * @generated from field: map<int32, rbac.Operations.Membership> acl_memberships = 6;
-   */
-  aclMemberships: { [key: number]: Operations_Membership } = {};
-
-  /**
-   * acl_object are the permissions for the object
-   * Keys must be valid role ids defined in the roles map
+   *   [
+   *         // (buf.validate.field).map.keys  = {
+   *         //     cel: {
+   *         //         id: "ACL Keys"
+   *         //         message: "ACL[Role]: The keys must be valid role ids defined in the roles map"
+   *         //         expression: "this.roles_nums.exists(role)"
+   *         //     }
+   *         // }
+   *         // (buf.validate.field).map.values  = {
+   *         //     cel: {
+   *         //         id: "ACL Keys"
+   *         //         message: "ACL[Role]: The keys must be valid role ids defined in the roles map"
+   *         //         expression: "this.acl.all(role, this.roles.exists(role))"
    *
-   * @generated from field: map<int32, rbac.Operations.Object> acl_object = 7;
+   * @generated from field: map<int32, rbac.Collection.ACL> acl = 5;
    */
-  aclObject: { [key: number]: Operations_Object } = {};
-
-  /**
-   * ObjectField Permissions
-   * This object is a tree structure that follows the same pattern as 
-   * field paths
-   *
-   * @generated from field: repeated rbac.Operations.PathRolePermission acl_object_paths = 8;
-   */
-  aclObjectPaths: Operations_PathRolePermission[] = [];
+  acl: { [key: number]: Collection_ACL } = {};
 
   constructor(data?: PartialMessage<Collection>) {
     super();
@@ -438,10 +434,8 @@ export class Collection extends Message<Collection> {
     { no: 2, name: "object_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "object_descriptor", kind: "message", T: DescriptorProto },
     { no: 4, name: "roles", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
-    { no: 5, name: "acl_role_permissions", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: Operations_Membership} },
-    { no: 6, name: "acl_memberships", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: Operations_Membership} },
-    { no: 7, name: "acl_object", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: Operations_Object} },
-    { no: 8, name: "acl_object_paths", kind: "message", T: Operations_PathRolePermission, repeated: true },
+    { no: 9, name: "role_nums", kind: "scalar", T: 5 /* ScalarType.INT32 */, repeated: true },
+    { no: 5, name: "acl", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: Collection_ACL} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
@@ -532,6 +526,74 @@ export class Collection_List extends Message<Collection_List> {
 
   static equals(a: Collection_List | PlainMessage<Collection_List> | undefined, b: Collection_List | PlainMessage<Collection_List> | undefined): boolean {
     return proto3.util.equals(Collection_List, a, b);
+  }
+}
+
+/**
+ * @generated from message rbac.Collection.ACL
+ */
+export class Collection_ACL extends Message<Collection_ACL> {
+  /**
+   * Declared Permissions for the permissions of all roles in the collection
+   *   - The value is the permissions for the role
+   *
+   * @generated from field: rbac.Operations.Membership role_permissions = 5;
+   */
+  rolePermissions?: Operations_Membership;
+
+  /**
+   * Declared Permissions for the memberships of all roles in the Collection
+   *   - The key is the role id
+   *   - The value is the permissions for the role 
+   *
+   * @generated from field: rbac.Operations.Membership memberships = 6;
+   */
+  memberships?: Operations_Membership;
+
+  /**
+   * acl_object are the permissions for the object
+   * Keys must be valid role ids defined in the roles map
+   *
+   * @generated from field: rbac.Operations.Object object = 7;
+   */
+  object?: Operations_Object;
+
+  /**
+   *  ObjectField Permissions
+   * Key must be a valid field path in the object descriptor
+   *
+   * @generated from field: map<string, rbac.Operations.PathRolePermission> object_paths = 8;
+   */
+  objectPaths: { [key: string]: Operations_PathRolePermission } = {};
+
+  constructor(data?: PartialMessage<Collection_ACL>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "rbac.Collection.ACL";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 5, name: "role_permissions", kind: "message", T: Operations_Membership },
+    { no: 6, name: "memberships", kind: "message", T: Operations_Membership },
+    { no: 7, name: "object", kind: "message", T: Operations_Object },
+    { no: 8, name: "object_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Operations_PathRolePermission} },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection_ACL {
+    return new Collection_ACL().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection_ACL {
+    return new Collection_ACL().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection_ACL {
+    return new Collection_ACL().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Collection_ACL | PlainMessage<Collection_ACL> | undefined, b: Collection_ACL | PlainMessage<Collection_ACL> | undefined): boolean {
+    return proto3.util.equals(Collection_ACL, a, b);
   }
 }
 

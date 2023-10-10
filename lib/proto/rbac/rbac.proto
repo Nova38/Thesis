@@ -157,10 +157,32 @@ message Collection {
   //   - The value is the role name
   map<int32, string> roles = 4 ;
 
+  repeated int32 role_nums = 9;
+
   // Declared Permissions for the permissions of all roles in the collection
   map<int32, ACL> acl = 5;
-  
-  
+//   [
+//         // (buf.validate.field).map.keys  = {
+//         //     cel: {
+//         //         id: "ACL Keys"
+//         //         message: "ACL[Role]: The keys must be valid role ids defined in the roles map"
+//         //         expression: "this.roles_nums.exists(role)"
+//         //     }
+//         // }
+//         // (buf.validate.field).map.values  = {
+//         //     cel: {
+//         //         id: "ACL Keys"
+//         //         message: "ACL[Role]: The keys must be valid role ids defined in the roles map"
+//         //         expression: "this.acl.all(role, this.roles.exists(role))"
+
+//         //     }
+//         // }
+//     ];
+
+
+
+    
+
   // --------------------------------------------------------------------------
   // Validations
   // --------------------------------------------------------------------------
@@ -168,40 +190,19 @@ message Collection {
   // Role ids in the ACL must be defined in the roles map
   // ----------------------------------------------------
 
-//   option (buf.validate.message).cel = {
-//     id: "ACL.role_permissions: [Keys]"
-//     message: "ACL.role_permissions: The keys must be valid role ids defined in the roles map"
-//     expression: "this.acl.role_permissions.all(role, sets.contains(this.roles, role))"
-
-//   };
-
-//   option (buf.validate.message).cel = {
-//     id: "ACL.Membership: [Keys]"
-//     message: "ACL.Membership: The keys must be valid role ids defined in the roles map"
-//     expression: "this.acl.Membership.all(role, sets.contains(this.roles, role))"
-//   };
-//   option (buf.validate.message).cel = {
-//     id: "ACL.object: [Keys]"
-//     message: "ACL.object: The keys must be valid role ids defined in the roles map"
-//     expression: "this.acl.object.all(role, sets.contains(this.roles, role))"
-//   };
-
-
-//   // TODO: Validate the object paths roles
-//   option (buf.validate.message).cel = {
-//     id: "ACL.object_paths.acl: [Keys]"
-//     message: "ACL.object_paths.acl: The keys must be valid role ids defined in the roles map"
-//     expression: 
-//     "this.acl.object_paths.acl.all(role, sets.contains(this.roles, role))"
-//   };
-
+    option (buf.validate.message).cel = {
+        id: "ACL Keys"
+        message: "ACL[Role]: The keys must be valid role ids defined in the roles map"
+        expression: "this.acl.all(role, has(this.roles.role))"
+    };
 
 
   // Object paths 
   // ----------------------------------------------------
 
-
 }
+
+
 
 // Users are a special type of object
 message User {
