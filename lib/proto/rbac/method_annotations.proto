@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package rbac;
+import "buf/validate/validate.proto";
+
+import "rbac/rbac.proto";
+
+message MethodAnnotation {
+    bool Submit = 1; /* Wither to evaluate or just submit it */    
+    
+    
+    // Action    
+    Operations.Domain domain = 2; /* Domain of the operation */
+    Operations.Action.Type action = 3; /* The type of Action to be performed */
+    
+    
+    // Events?
+}
+
+
