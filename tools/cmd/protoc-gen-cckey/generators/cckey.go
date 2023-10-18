@@ -1,4 +1,4 @@
-package main
+package generators
 
 import (
 	// "fmt"
@@ -14,20 +14,9 @@ import (
 	"google.golang.org/protobuf/types/dynamicpb"
 )
 
-// This will check the for the existence of an extension on the message that defines the namespace value and the key field
+type CCKey struct{}
 
-func main() {
-	protogen.Options{}.Run(func(gen *protogen.Plugin) error {
-		for _, f := range gen.Files {
-			if f.Generate {
-				generateFile(gen, f)
-			}
-		}
-		return nil
-	})
-}
-
-func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
+func (k *CCKey) generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
 	filename := file.GeneratedFilenamePrefix + ".cckey.pb.go"
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
@@ -41,7 +30,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 
 	// g.Import("errors")
 	for _, message := range file.Messages {
-		generateMessage(gen, g, message)
+		k.generateMessage(gen, g, message)
 	}
 
 	return g
@@ -50,7 +39,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) *protogen.Generated
 // interate recursively through the messages and write a function for each message
 // that will return the key and the namespace for that message
 
-func generateMessage(gen *protogen.Plugin, g *protogen.GeneratedFile, msg *protogen.Message) {
+func (k *CCKey) generateMessage(gen *protogen.Plugin, g *protogen.GeneratedFile, msg *protogen.Message) {
 	// g.P("// ", msg.GoIdent.GoName, " is a generated protocol buffer message")
 
 	//for _, ext := range msg.Extensions {
@@ -112,7 +101,7 @@ func generateMessage(gen *protogen.Plugin, g *protogen.GeneratedFile, msg *proto
 	}
 
 	for _, nestedMessage := range msg.Messages {
-		generateMessage(gen, g, nestedMessage)
+		k.generateMessage(gen, g, nestedMessage)
 	}
 }
 
