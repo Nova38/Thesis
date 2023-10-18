@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"fmt"
+	state2 "github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
 
 	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
@@ -16,7 +17,6 @@ import (
 	// schema "github.com/nova38/thesis/gen/go/ccbio/schema/v1"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	"github.com/nova38/thesis/lib/fabric/state"
 )
 
 // SpecimenContract contract for handling BasicAssets
@@ -85,7 +85,7 @@ func (s *SpecimenContract) GetSpecimen(ctx context.TxContext, req *schema.GetSpe
 		},
 	}
 
-	if err := state.GetState(ctx, specimen); err != nil {
+	if err := state2.GetState(ctx, specimen); err != nil {
 		return nil, err
 	}
 
@@ -93,7 +93,7 @@ func (s *SpecimenContract) GetSpecimen(ctx context.TxContext, req *schema.GetSpe
 }
 
 func (s *SpecimenContract) GetSpecimenList(ctx context.TxContext) ([]*schema.Specimen, error) {
-	return state.GetFullStateList(ctx, &schema.Specimen{})
+	return state2.GetFullStateList(ctx, &schema.Specimen{})
 }
 
 func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *schema.GetSpecimenByCollectionRequest) ([]*schema.Specimen, error) {
@@ -103,7 +103,7 @@ func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *s
 	id := req.GetId()
 
 	// Check if collection exists
-	colExists, err := state.ObjExists(ctx, &schema.Collection{
+	colExists, err := state2.ObjExists(ctx, &schema.Collection{
 		Id: &schema.Collection_Id{
 			CollectionId: id.GetCollectionId(),
 		},
@@ -114,7 +114,7 @@ func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *s
 	}
 
 	if !colExists {
-		return nil, &state.KeyNotFoundError{
+		return nil, &state2.KeyNotFoundError{
 			Key:       id.GetCollectionId(),
 			Namespace: "Collection",
 			MSG:       "Collection not found",
@@ -128,7 +128,7 @@ func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *s
 		},
 	}
 	slog.Info("SpecimenId", slog.Any("specimen", specimen))
-	return state.GetPartialKeyList(ctx, specimen, 1)
+	return state2.GetPartialKeyList(ctx, specimen, 1)
 }
 
 // GetSpecimenHistory returns the history of the specimen
@@ -149,7 +149,7 @@ func (s *SpecimenContract) GetSpecimenHistory(ctx context.TxContext, req *schema
 			Id:           id.GetId(),
 		},
 	}
-	err := state.GetState(ctx, specimen)
+	err := state2.GetState(ctx, specimen)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "GetSpecimenHistory failed to get specimen")
@@ -162,7 +162,7 @@ func (s *SpecimenContract) GetSpecimenHistory(ctx context.TxContext, req *schema
 		Entries: []*schema.Specimen_History_Entry{},
 	}
 
-	rawHistory, err := state.GetStateHistory(ctx, specimen)
+	rawHistory, err := state2.GetStateHistory(ctx, specimen)
 	if err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func (s *SpecimenContract) GetSuggestedUpdate(ctx context.TxContext, req *schema
 		},
 	}
 
-	if err := state.GetState(ctx, suggestion); err != nil {
+	if err := state2.GetState(ctx, suggestion); err != nil {
 		return nil, err
 	}
 
@@ -244,7 +244,7 @@ func (s *SpecimenContract) GetSuggestedUpdate(ctx context.TxContext, req *schema
 }
 
 func (s *SpecimenContract) GetSuggestedUpdateList(ctx context.TxContext) ([]*schema.SuggestedUpdate, error) {
-	return state.GetFullStateList(ctx, &schema.SuggestedUpdate{})
+	return state2.GetFullStateList(ctx, &schema.SuggestedUpdate{})
 }
 
 func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(ctx context.TxContext, req *schema.GetSuggestedUpdateBySpecimenRequest) ([]*schema.SuggestedUpdate, error) {
@@ -262,7 +262,7 @@ func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(ctx context.TxContext, r
 		},
 	}
 
-	list, err := state.GetPartialKeyList(ctx, suggestion, 2)
+	list, err := state2.GetPartialKeyList(ctx, suggestion, 2)
 	if err != nil {
 		return nil, errors.Wrap(err, "GetSuggestedUpdateBySpecimen failed")
 	}
@@ -284,7 +284,7 @@ func (s *SpecimenContract) GetSuggestedUpdateByCollectionRequest(ctx context.TxC
 		},
 	}
 
-	list, err := state.GetPartialKeyList(ctx, suggestion, 1)
+	list, err := state2.GetPartialKeyList(ctx, suggestion, 1)
 	if err != nil {
 		return nil, errors.Wrap(err, "GetSuggestedUpdateByCollection failed")
 	}
@@ -353,7 +353,7 @@ func (s *SpecimenContract) SpecimenCreate(ctx context.TxContext, req *schema.Spe
 		image.LastModified = madeAt
 	}
 
-	if err := state.InsertState(ctx, specimen); err != nil {
+	if err := state2.InsertState(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenCreate failed to insert")
 	}
 	return specimen, nil
@@ -387,7 +387,7 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 	}
 
 	// Get the specimen
-	if err := state.GetState(ctx, currentSpecimen); err != nil {
+	if err := state2.GetState(ctx, currentSpecimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenUnHideTx failed to get specimen")
 	}
 
@@ -543,7 +543,7 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 
 	currentSpecimen.LastModified = updatedAt
 
-	return currentSpecimen, state.UpdateState(ctx, currentSpecimen)
+	return currentSpecimen, state2.UpdateState(ctx, currentSpecimen)
 }
 
 // SpecimenDelete removes the specimen from the world state
@@ -571,7 +571,7 @@ func (s *SpecimenContract) SpecimenDelete(ctx context.TxContext, req *schema.Spe
 		},
 	}
 
-	if err := state.DeleteState(ctx, specimenToDel); err != nil {
+	if err := state2.DeleteState(ctx, specimenToDel); err != nil {
 		return nil, errors.Wrap(err, "SpecimenDelete failed to delete")
 	}
 
@@ -610,7 +610,7 @@ func (s *SpecimenContract) SpecimenHideTx(ctx context.TxContext, req *schema.Spe
 		},
 	}
 	// Get the specimen
-	if err := state.GetState(ctx, specimen); err != nil {
+	if err := state2.GetState(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenHideTx failed to get specimen")
 	}
 
@@ -626,7 +626,7 @@ func (s *SpecimenContract) SpecimenHideTx(ctx context.TxContext, req *schema.Spe
 	}
 
 	// Check if the tx is in history
-	found, err := state.TxIdInHistory(ctx, specimen, req.GetTx().GetTxId())
+	found, err := state2.TxIdInHistory(ctx, specimen, req.GetTx().GetTxId())
 	if err != nil {
 		return nil, errors.Wrap(err, "SpecimenHideTx failed to check if tx is in history")
 	}
@@ -644,7 +644,7 @@ func (s *SpecimenContract) SpecimenHideTx(ctx context.TxContext, req *schema.Spe
 	}
 	specimen.LastModified = updatedAt
 
-	return specimen, state.UpdateState(ctx, specimen)
+	return specimen, state2.UpdateState(ctx, specimen)
 }
 
 // SpecimenUnHideTx removes the tx from the specimen's hidden txs
@@ -676,7 +676,7 @@ func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.S
 		},
 	}
 	// Get the specimen
-	if err := state.GetState(ctx, specimen); err != nil {
+	if err := state2.GetState(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenUnHideTx failed to get specimen")
 	}
 
@@ -695,7 +695,7 @@ func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.S
 	}
 	specimen.LastModified = updatedAt
 
-	return specimen, state.UpdateState(ctx, specimen)
+	return specimen, state2.UpdateState(ctx, specimen)
 
 }
 

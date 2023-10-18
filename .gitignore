@@ -2,4 +2,4 @@
 node_modules
 vendor
 .task
-lib/fabric/rbac/ginkgo.report
+lib/go/fabric/rbac/ginkgo.report

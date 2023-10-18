@@ -20,8 +20,20 @@ package key;
 
 message KeySchema {
     required string namespace = 1;
-    required google.protobuf.FieldMask  key_paths = 2;
+    required google.protobuf.FieldMask key_paths = 2;
 }
+
+message DataField {
+    required bool is_data = 1;
+    optional google.protobuf.FieldMask updated_log = 2;
+}
+
+
+extend google.protobuf.FieldOptions {
+    optional DataField data_field = 54599;
+    
+}
+
 
 extend google.protobuf.MessageOptions {
     optional KeySchema key_schema = 54599;
