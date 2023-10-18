@@ -3,3 +3,7 @@ node_modules
 vendor
 .task
 lib/fabric/rbac/ginkgo.report
+tools/scripts/bin
+tools/scripts/builders
+tools/scripts/config
+
