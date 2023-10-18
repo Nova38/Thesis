@@ -1,2 +1,25 @@
 syntax = "proto3";
 
+import "key/key.proto";
+
+
+message SimpleStateObject {
+    option (key.key_schema).namespace = "SimpleStateObject";
+    option (key.key_schema).key_paths = {
+        paths: "id.id"
+    };
+
+    message Id {
+        string id = 1;
+    }
+    
+    message List {
+        repeated Id ids = 1;
+    }
+    
+    Id id = 1;
+    
+    
+    repeated string strings = 2 [(key.data_field).is_data = true];
+    int32 int32 = 3 [(key.data_field).is_data = true];
+}

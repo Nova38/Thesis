@@ -8,14 +8,20 @@ import "google/protobuf/descriptor.proto";
 import "google/protobuf/type.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/field_mask.proto";
-import "key/key.proto";
+import "google/protobuf/timestamp.proto";
 
+
+import "key/key.proto";
 
 // Collections look up is a tree structure
 
 
-
-
+message StateActivity{
+    string tx_id = 1;
+    string note = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    User.Id user_id = 4;
+}
 
 
 

@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/nova38/thesis/lib/gen/go
+    default: github.com/nova38/thesis/lib/go/gen
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
@@ -13,23 +13,23 @@ plugins:
 #  ccbio_v1
 
   - plugin: buf.build/protocolbuffers/go
-    out: lib/gen/go
+    out: lib/go/gen
     opt:
       - paths=source_relative
   - plugin: buf.build/community/mitchellh-go-json:v1.1.0
-    out: lib/gen/go
+    out: lib/go/gen
     opt:
       - paths=source_relative
       - emit_defaults=true
       - orig_name=true
       - enums_as_ints=true
   - plugin: buf.build/bufbuild/validate-go
-    out: lib/gen/go
+    out: lib/go/gen
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/es:v1.3.1
-    out: lib/gen/es
+    out: lib/es/gen
     opt: target=ts
 
 
@@ -38,3 +38,4 @@ plugins:
     out: lib/gen/go
     opt:
       - paths=source_relative
+

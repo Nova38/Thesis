@@ -2,6 +2,7 @@ package context
 
 import (
 	"fmt"
+	"github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
 	"os"
 	"strings"
@@ -16,8 +17,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-
-	"github.com/nova38/thesis/lib/fabric/state"
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
