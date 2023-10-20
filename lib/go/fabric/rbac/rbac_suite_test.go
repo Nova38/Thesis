@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/bufbuild/protovalidate-go"
-	pb "github.com/nova38/thesis/lib/gen/go/rbac"
+	pb "github.com/nova38/thesis/lib/go/gen/rbac"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

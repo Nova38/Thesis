@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	pb "github.com/nova38/thesis/lib/gen/go/rbac"
+	pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 // type Collection pb.Collection

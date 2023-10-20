@@ -1,25 +1,45 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {
-              "dockerDashComposeVersion" : "v2"
-      },
-    "ghcr.io/devcontainers/features/common-utils:2": {
-        "configureZshAsDefaultShell": true,
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "dockerDashComposeVersion": "v2"
+        },
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true,
+        },
+        "ghcr.io/devcontainers/features/go:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "none"
+        },
+        "ghcr.io/devcontainers-contrib/features/pnpm:2": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers-contrib/features/go-task:1": {},
+        "ghcr.io/marcozac/devcontainer-features/buf:1": {},
+        "ghcr.io/devcontainers-contrib/features/kind:1": {},
+        "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+        "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {},
+        "ghcr.io/devcontainers/features/nix": {}
     },
-    "ghcr.io/devcontainers/features/go:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-        "version": "none"
+    "containerEnv": {
+        "PATH": "${containerEnv:PATH}:/workspaces/Thesis/tools/scripts/bin",
+        "FABRIC_CFG_PATH": "/workspaces/Thesis/tools/fabric/config",
     },
-    "ghcr.io/devcontainers-contrib/features/pnpm:2": {},
-
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers-contrib/features/go-task:1": {},
-    "ghcr.io/marcozac/devcontainer-features/buf:1": {},
-    "ghcr.io/devcontainers-contrib/features/kind:1": {},
-    "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
-    "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {}
-  },
-
-  "updateContentCommand": ""
+    "updateContentCommand": "",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Nuxtr.nuxtr-vscode",
+                "Vue.volar",
+                "redhat.vscode-xml",
+                "redhat.vscode-yaml",
+                "Gruntfuggly.todo-tree",
+                "foxundermoon.shell-format",
+                "yoavbls.pretty-ts-errors",
+                "esbenp.prettier-vscode",
+                "WallabyJs.console-ninja",
+                "bufbuild.vscode-buf",
+                "aaron-bond.better-comments"
+            ]
+        }
+    }
 }

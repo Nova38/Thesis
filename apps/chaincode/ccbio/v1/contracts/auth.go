@@ -2,8 +2,9 @@ package contracts
 
 import (
 	"fmt"
-	"github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
+
+	"github.com/nova38/thesis/lib/go/fabric/state"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
 
@@ -12,7 +13,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
 )
 
 // AuthContract contract for handling BasicAssets

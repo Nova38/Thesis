@@ -2,10 +2,11 @@ package contracts
 
 import (
 	"fmt"
-	state2 "github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
 
-	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
+	state2 "github.com/nova38/thesis/lib/go/fabric/state"
+
+	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
 
 	"github.com/pkg/errors"
 	"github.com/samber/lo"

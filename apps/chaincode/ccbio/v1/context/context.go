@@ -2,11 +2,12 @@ package context
 
 import (
 	"fmt"
-	"github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/nova38/thesis/lib/go/fabric/state"
 
 	"github.com/charmbracelet/log"
 	"github.com/pkg/errors"
@@ -20,7 +21,7 @@ import (
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
-	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
 )
 
 //	type AuthTransport struct {

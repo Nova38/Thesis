@@ -3,7 +3,7 @@ package rbac
 import (
 	"github.com/nova38/thesis/lib/go/fabric/state"
 
-	rbac_pb "github.com/nova38/thesis/lib/gen/go/rbac"
+	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 // An interface for a transaction context that has a user and collection

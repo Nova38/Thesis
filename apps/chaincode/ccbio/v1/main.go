@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -185,8 +185,6 @@ func FormatTime(groups []string, a slog.Attr) slog.Attr {
 func runChaincode() {
 	fmt.Println("Starting BioChain")
 
-
-
 	// bioContract := makeBioContract()
 	// authContract := makeAuthContract()
 
@@ -205,8 +203,8 @@ func runChaincode() {
 	sm.Info.Title = "CCBIO"
 	sm.DefaultContract = specimenContract.Name
 
-    if err := sm.Start(); err != nil {
-     slog.Error("Failed to start", err)
+	if err := sm.Start(); err != nil {
+		slog.Error("Failed to start", err)
 	}
 
 	// server := &shim.ChaincodeServer{
