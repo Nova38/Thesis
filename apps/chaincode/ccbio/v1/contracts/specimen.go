@@ -2,10 +2,11 @@ package contracts
 
 import (
 	"fmt"
-	state2 "github.com/nova38/thesis/lib/go/fabric/state"
 	"log/slog"
 
-	schema "github.com/nova38/thesis/lib/gen/go/ccbio/schema/v1"
+	state2 "github.com/nova38/thesis/lib/go/fabric/state"
+
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
@@ -150,7 +151,6 @@ func (s *SpecimenContract) GetSpecimenHistory(ctx context.TxContext, req *schema
 		},
 	}
 	err := state2.GetState(ctx, specimen)
-
 	if err != nil {
 		return nil, errors.Wrap(err, "GetSpecimenHistory failed to get specimen")
 	}
@@ -362,7 +362,6 @@ func (s *SpecimenContract) SpecimenCreate(ctx context.TxContext, req *schema.Spe
 // SpecimenUpdate updates the specimen
 // If any of the fields contain an empty last modified field that field will be ignored
 func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.SpecimenUpdateRequest) (*schema.Specimen, error) {
-
 	// Validate request
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
@@ -403,7 +402,6 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 	// Primary
 	{
 		modified, err := UpdateMessageField("primary", currentSpecimen.GetPrimary(), req.GetSpecimen().GetPrimary())
-
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update primary")
 		}
@@ -416,7 +414,6 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 	// Secondary
 	{
 		modified, err := UpdateMessageField("secondary", currentSpecimen.GetSecondary(), req.GetSpecimen().GetSecondary())
-
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update secondary")
 		}
@@ -696,7 +693,6 @@ func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.S
 	specimen.LastModified = updatedAt
 
 	return specimen, state2.UpdateState(ctx, specimen)
-
 }
 
 // -------------------------
@@ -704,7 +700,6 @@ func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.S
 // -------------------------
 
 func (s *SpecimenContract) SuggestedUpdateCreate(ctx context.TxContext, req *schema.SuggestedUpdateCreateRequest) (*schema.SuggestedUpdate, error) {
-
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -721,7 +716,6 @@ func (s *SpecimenContract) SuggestedUpdateCreate(ctx context.TxContext, req *sch
 }
 
 func (s *SpecimenContract) SuggestedUpdateReject(ctx context.TxContext, req *schema.SuggestedUpdateRejectRequest) (*schema.SuggestedUpdate, error) {
-
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -738,7 +732,6 @@ func (s *SpecimenContract) SuggestedUpdateReject(ctx context.TxContext, req *sch
 }
 
 func (s *SpecimenContract) SuggestedUpdateApprove(ctx context.TxContext, req *schema.SuggestedUpdateApproveRequest) (*schema.SuggestedUpdate, error) {
-
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}

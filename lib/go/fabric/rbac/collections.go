@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	pb "github.com/nova38/thesis/lib/gen/go/rbac"
+	pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 // type Collection pb.Collection
@@ -16,7 +16,7 @@ func splitPath(path string) []string {
 	return strings.Split(path, ".")
 }
 
-// walkACLPath walks though though the path and returns the permission for the path
+// WalkACLPath walks through though the path and returns the permission for the path
 func WalkACLPath(
 	current *pb.Operations_PathRolePermission,
 	path string,

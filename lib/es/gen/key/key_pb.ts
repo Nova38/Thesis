@@ -92,3 +92,64 @@ export class DataField extends Message<DataField> {
   }
 }
 
+/**
+ * @generated from message key.ObjectDiff
+ */
+export class ObjectDiff extends Message<ObjectDiff> {
+  /**
+   * @generated from field: required string object_name = 1;
+   */
+  objectName?: string;
+
+  /**
+   * @generated from field: required bool all_fields = 2;
+   */
+  allFields?: boolean;
+
+  /**
+   * @generated from field: repeated string updated_fields = 3;
+   */
+  updatedFields: string[] = [];
+
+  /**
+   * @generated from field: repeated string deleted_fields = 4;
+   */
+  deletedFields: string[] = [];
+
+  /**
+   * @generated from field: repeated string added_fields = 5;
+   */
+  addedFields: string[] = [];
+
+  constructor(data?: PartialMessage<ObjectDiff>) {
+    super();
+    proto2.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto2 = proto2;
+  static readonly typeName = "key.ObjectDiff";
+  static readonly fields: FieldList = proto2.util.newFieldList(() => [
+    { no: 1, name: "object_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "all_fields", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "updated_fields", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 4, name: "deleted_fields", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "added_fields", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectDiff {
+    return new ObjectDiff().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectDiff {
+    return new ObjectDiff().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectDiff {
+    return new ObjectDiff().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ObjectDiff | PlainMessage<ObjectDiff> | undefined, b: ObjectDiff | PlainMessage<ObjectDiff> | undefined): boolean {
+    return proto2.util.equals(ObjectDiff, a, b);
+  }
+}
+

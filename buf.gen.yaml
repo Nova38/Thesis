@@ -33,9 +33,12 @@ plugins:
     opt: target=ts
 
 
-
-  - plugin: cckey
-    out: lib/gen/go
+  - plugin: go-hlf
+    out: lib/go/gen
     opt:
-      - paths=source_relative
+        - paths=source_relative
+#  - plugin: cckey
+#    out: lib/go/gen
+#    opt:
+#      - paths=source_relative
 
