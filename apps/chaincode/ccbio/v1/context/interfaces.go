@@ -4,7 +4,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/state"
-	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 )
 
 type CollectionIDTypeHolder interface {
@@ -35,7 +35,7 @@ type LoggingTxContext interface {
 }
 
 type TxContext interface {
-	state.LogedTxCtxInterface
+	state.LoggedTxCtxInterface
 
 	GetUserId() (*schema.User_Id, error)
 	GetUser() (*schema.User, error)
@@ -46,7 +46,7 @@ type TxContext interface {
 	// MakeClearedLastModified Makes a LastModified that is empty
 	// This is used when we want to see if we should update a field.
 	MakeClearedLastModified() *schema.LastModified
-	//SetUser(user *schema.User) error
+	// SetUser(user *schema.User) error
 
 	GetCollection() (*schema.Collection, error)
 	SetCollection(collection *schema.Collection) error
@@ -54,7 +54,7 @@ type TxContext interface {
 
 	// GetRole requires a collection to be set
 	GetRole() (schema.Role, error)
-	//SetRole(role *schema.Role) error
+	// SetRole(role *schema.Role) error
 
 	Authorize() (valid bool, err error)
 	IsAuthorized() (valid bool, err error)

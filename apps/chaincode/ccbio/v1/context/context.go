@@ -1,16 +1,18 @@
 package context
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 
-	"github.com/charmbracelet/log"
-	"github.com/pkg/errors"
+	//"github.com/charmbracelet/log"
+	//"github.com/pkg/errors"
 
 	// "github.com/rs/zerolog/log"
 	"github.com/samber/lo"
@@ -21,7 +23,7 @@ import (
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
-	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 )
 
 //	type AuthTransport struct {
@@ -32,7 +34,6 @@ import (
 //	}
 
 func HandelBefore(ctx TxContext) error {
-
 	fn, params := ctx.GetStub().GetFunctionAndParameters()
 
 	logger := log.NewWithOptions(os.Stderr, log.Options{
@@ -42,7 +43,7 @@ func HandelBefore(ctx TxContext) error {
 		Prefix:          "Chaincode",
 		Level:           log.DebugLevel,
 	}).With("fn", fn)
-	ctx.SetLogger(logger)
+	//ctx.SetLogger(logger)
 
 	logger.Info("Handling Before", "params", params)
 
@@ -51,7 +52,7 @@ func HandelBefore(ctx TxContext) error {
 
 type AuthTxContext struct {
 	contractapi.TransactionContext
-	Logger      *log.Logger
+	Logger      *slog.Logger
 	User        *schema.User
 	Collection  *schema.Collection
 	Role        schema.Role
@@ -60,16 +61,17 @@ type AuthTxContext struct {
 	AuthChecked bool
 }
 
-func (ctx *AuthTxContext) GetLogger() *log.Logger {
+func (ctx *AuthTxContext) GetLogger() *slog.Logger {
 	if ctx.Logger != nil {
 		return ctx.Logger
 	}
 
-	ctx.Logger = log.NewWithOptions(os.Stderr, log.Options{})
+	ctx.Logger = slog.With("fn", "GetLogger")
+	//ctx.Logger = log.NewWithOptions(os.Stderr, log.Options{})
 	return ctx.Logger
 }
 
-func (ctx *AuthTxContext) SetLogger(logger *log.Logger) error {
+func (ctx *AuthTxContext) SetLogger(logger *slog.Logger) error {
 	if logger == nil {
 		return fmt.Errorf("logger is nil")
 	}
@@ -82,7 +84,6 @@ func (ctx *AuthTxContext) IsAuthorized() (bool, error) {
 		return false, fmt.Errorf("authorization was not checked")
 	}
 	return ctx.Authorized, nil
-
 }
 
 // InitViaRequest initializes the context based on the request
@@ -91,7 +92,6 @@ func (ctx *AuthTxContext) IsAuthorized() (bool, error) {
 // If it fails to authorize, it will return an error
 // If it succeeds, it will set ctx.Authorized to true
 func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
-
 	// Set preAuth to true if we should immediately check authorization
 	preAuth := false
 
@@ -109,7 +109,6 @@ func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
 	case CollectionIDTypeHolder:
 		id := v.GetId()
 		if id == nil {
-
 			// slog.Warn("failed to extract collection id from the collection payload")
 			return oops.
 				In("InitViaRequest").
@@ -208,7 +207,6 @@ func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
 				With("collection", ctx.Collection).
 				With("req", req).
 				Wrapf(err, "Failed to set collection from: %s", err)
-
 		}
 
 	}
@@ -247,7 +245,7 @@ func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
 	case *schema.GetSpecimenByCollectionRequest:
 		levelView()
 	case *schema.GetSpecimenHistoryRequest:
-		//levelView()
+		// levelView()
 		// This is a special case where they might ask for the hidden txs
 		setLevel(schema.Action_LEVEL_HIDE_TX)
 	case *schema.GetSuggestedUpdateRequest:
@@ -313,7 +311,7 @@ func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
 			ctx.AuthChecked = true
 			ctx.Authorized = false
 			slog.Error("Failed to Authorize", "err", err)
-			return errors.Wrap(err, "Failed to Authorize")
+			return fmt.Errorf("Failed to Authorize: %w", err)
 
 		} else {
 			ctx.AuthChecked = true
@@ -330,16 +328,16 @@ func (ctx *AuthTxContext) InitViaRequest(req interface{}) (err error) {
 
 	return nil
 }
-func (ctx *AuthTxContext) MakeLastModified() (*schema.LastModified, error) {
 
+func (ctx *AuthTxContext) MakeLastModified() (*schema.LastModified, error) {
 	user, err := ctx.GetUser()
 	if err != nil {
-		return nil, errors.Wrap(err, "Failed to get user")
+		return nil, fmt.Errorf("failed to get user: %w", err)
 	}
 
 	timestamp, err := ctx.GetStub().GetTxTimestamp()
 	if err != nil {
-		return nil, errors.Wrap(err, "Failed to get timestamp")
+		return nil, fmt.Errorf("Failed to get timestamp: %w", err)
 	}
 
 	return &schema.LastModified{
@@ -348,10 +346,9 @@ func (ctx *AuthTxContext) MakeLastModified() (*schema.LastModified, error) {
 		TxId:      ctx.GetStub().GetTxID(),
 		UpdatedAt: timestamp,
 	}, nil
-
 }
-func (ctx *AuthTxContext) SetAction(action *schema.Action) error {
 
+func (ctx *AuthTxContext) SetAction(action *schema.Action) error {
 	if action == nil {
 		return fmt.Errorf("action is nil")
 	}
@@ -391,7 +388,7 @@ func (ctx *AuthTxContext) GetUser() (*schema.User, error) {
 	}
 
 	if err := state.GetState(ctx, ctx.User); err != nil {
-		return nil, errors.Wrap(err, "Failed to get user from state")
+		return nil, fmt.Errorf("failed to get user from state: %w", err)
 	}
 
 	return ctx.User, nil
@@ -426,7 +423,6 @@ func (ctx *AuthTxContext) GetUserId() (*schema.User_Id, error) {
 }
 
 func (ctx *AuthTxContext) SetCollection(collection *schema.Collection) error {
-
 	if collection == nil {
 		return fmt.Errorf("collection is nil")
 	}
@@ -434,7 +430,7 @@ func (ctx *AuthTxContext) SetCollection(collection *schema.Collection) error {
 	ctx.Collection = collection
 
 	if err := state.GetState(ctx, ctx.Collection); err != nil {
-		return errors.Wrap(err, "Failed to get collection from state")
+		return fmt.Errorf("Failed to get collection from state:%w", err)
 	}
 
 	return nil
@@ -449,15 +445,14 @@ func (ctx *AuthTxContext) GetCollection() (*schema.Collection, error) {
 }
 
 func (ctx *AuthTxContext) GetRole() (schema.Role, error) {
-
 	user, err := ctx.GetUser()
 	if err != nil {
-		return schema.Role_ROLE_PUBLIC_UNSPECIFIED, errors.Wrap(err, "Failed to get user")
+		return schema.Role_ROLE_PUBLIC_UNSPECIFIED, fmt.Errorf("failed to get user: %w", err)
 	}
 
 	collection, err := ctx.GetCollection()
 	if err != nil {
-		return schema.Role_ROLE_PUBLIC_UNSPECIFIED, errors.Wrap(err, "Failed to get collection")
+		return schema.Role_ROLE_PUBLIC_UNSPECIFIED, fmt.Errorf("failed to get collection: %w", err)
 	}
 
 	if collection.GetId() == nil {
@@ -470,7 +465,7 @@ func (ctx *AuthTxContext) GetRole() (schema.Role, error) {
 	if user.Memberships == nil {
 		slog.Warn("user.Memberships is nil")
 		return schema.Role_ROLE_PUBLIC_UNSPECIFIED, nil
-		//return nil, fmt.Errorf("user.Memberships is nil")
+		// return nil, fmt.Errorf("user.Memberships is nil")
 	}
 
 	if role, exists := user.Memberships[collectionId]; exists {
@@ -481,7 +476,6 @@ func (ctx *AuthTxContext) GetRole() (schema.Role, error) {
 }
 
 func (ctx *AuthTxContext) Authorize() (valid bool, err error) {
-
 	action := ctx.Action
 
 	if action == nil {
@@ -489,7 +483,7 @@ func (ctx *AuthTxContext) Authorize() (valid bool, err error) {
 	}
 
 	if err := action.ValidateAll(); err != nil {
-		return false, errors.Wrap(err, "Failed to validate action")
+		return false, fmt.Errorf("failed to validate action: %w", err)
 	}
 
 	ctx.Action = action
@@ -498,31 +492,31 @@ func (ctx *AuthTxContext) Authorize() (valid bool, err error) {
 
 	collection, err := ctx.GetCollection()
 	if err != nil {
-		return false, errors.Wrap(err, "Failed to get collection")
+		return false, fmt.Errorf("failed to get collection: %w", err)
 	}
 	ac := collection.GetAccessControl()
 	if ac == nil {
 		return false, fmt.Errorf("ac is nil")
 	}
 	if err := ac.ValidateAll(); err != nil {
-		return false, errors.Wrap(err, "Failed to validate ac")
+		return false, fmt.Errorf("Failed to validate ac: %w", err)
 	}
 
 	role, err := ctx.GetRole()
 	if err != nil {
-		return false, errors.Wrap(err, "Failed to get role")
+		return false, fmt.Errorf("Failed to get role: %w", err)
 	}
 
-	//AccessControlActions Sections:
+	// AccessControlActions Sections:
 	//	roles
 
-	//AccessControlActions
+	// AccessControlActions
 	//	users
 
-	//SpecimenActions sections:
+	// SpecimenActions sections:
 	//	specimen
 
-	//SectionActions sections:
+	// SectionActions sections:
 	//	primary
 	//	secondary
 	//	taxon
@@ -532,7 +526,7 @@ func (ctx *AuthTxContext) Authorize() (valid bool, err error) {
 	//	grants
 	//	hidden
 
-	//SuggestedActions sections:
+	// SuggestedActions sections:
 	// suggested
 
 	invalidAction := false
@@ -697,7 +691,6 @@ func (ctx *AuthTxContext) Authorize() (valid bool, err error) {
 		invalidAction = true
 		return false, fmt.Errorf("invalid level")
 	}
-
 }
 
 func (ctx *AuthTxContext) GetAction() (*schema.Action, error) {

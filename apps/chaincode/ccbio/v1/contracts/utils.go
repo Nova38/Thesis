@@ -4,7 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 
 	"github.com/pkg/errors"
 	"github.com/samber/lo"

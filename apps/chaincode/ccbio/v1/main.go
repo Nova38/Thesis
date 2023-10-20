@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -28,7 +28,6 @@ type ServerConfig struct {
 }
 
 func makeBioContract() *contracts.SpecimenContract {
-
 	contract := new(contracts.SpecimenContract)
 	contract.TransactionContextHandler = &context.AuthTxContext{}
 	contract.BeforeTransaction = context.HandelBefore
@@ -54,7 +53,6 @@ func makeBioContract() *contracts.SpecimenContract {
 }
 
 func makeAuthContract() *contracts.AuthContract {
-
 	contract := new(contracts.AuthContract)
 	contract.TransactionContextHandler = &context.AuthTxContext{}
 	contract.BeforeTransaction = context.HandelBefore
@@ -226,8 +224,8 @@ func runChaincode() {
 }
 
 func main() {
-	//logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-	//slog.SetDefault(logger)
+	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	// slog.SetDefault(logger)
 
 	print_empty()
 	// attr := &map[string]string{"time": ""}
@@ -258,6 +256,6 @@ func main() {
 	// }
 	// log.Logger = log.With().Caller().Logger()
 
-	//example()
+	// example()
 	runChaincode()
 }

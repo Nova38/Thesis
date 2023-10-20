@@ -132,6 +132,85 @@ func (x *DataField) GetUpdatedLog() *fieldmaskpb.FieldMask {
 	return nil
 }
 
+type ObjectDiff struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ObjectName    *string  `protobuf:"bytes,1,req,name=object_name,json=objectName" json:"object_name,omitempty"`
+	AllFields     *bool    `protobuf:"varint,2,req,name=all_fields,json=allFields" json:"all_fields,omitempty"`
+	UpdatedFields []string `protobuf:"bytes,3,rep,name=updated_fields,json=updatedFields" json:"updated_fields,omitempty"`
+	DeletedFields []string `protobuf:"bytes,4,rep,name=deleted_fields,json=deletedFields" json:"deleted_fields,omitempty"`
+	AddedFields   []string `protobuf:"bytes,5,rep,name=added_fields,json=addedFields" json:"added_fields,omitempty"`
+}
+
+func (x *ObjectDiff) Reset() {
+	*x = ObjectDiff{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_key_key_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ObjectDiff) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ObjectDiff) ProtoMessage() {}
+
+func (x *ObjectDiff) ProtoReflect() protoreflect.Message {
+	mi := &file_key_key_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ObjectDiff.ProtoReflect.Descriptor instead.
+func (*ObjectDiff) Descriptor() ([]byte, []int) {
+	return file_key_key_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ObjectDiff) GetObjectName() string {
+	if x != nil && x.ObjectName != nil {
+		return *x.ObjectName
+	}
+	return ""
+}
+
+func (x *ObjectDiff) GetAllFields() bool {
+	if x != nil && x.AllFields != nil {
+		return *x.AllFields
+	}
+	return false
+}
+
+func (x *ObjectDiff) GetUpdatedFields() []string {
+	if x != nil {
+		return x.UpdatedFields
+	}
+	return nil
+}
+
+func (x *ObjectDiff) GetDeletedFields() []string {
+	if x != nil {
+		return x.DeletedFields
+	}
+	return nil
+}
+
+func (x *ObjectDiff) GetAddedFields() []string {
+	if x != nil {
+		return x.AddedFields
+	}
+	return nil
+}
+
 var file_key_key_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -193,7 +272,19 @@ var file_key_key_proto_rawDesc = []byte{
 	0x74, 0x61, 0x12, 0x3b, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x6c, 0x6f,
 	0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d,
-	0x61, 0x73, 0x6b, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x4c, 0x6f, 0x67, 0x3a,
+	0x61, 0x73, 0x6b, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x4c, 0x6f, 0x67, 0x22,
+	0xbd, 0x01, 0x0a, 0x0a, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x44, 0x69, 0x66, 0x66, 0x12, 0x1f,
+	0x0a, 0x0b, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
+	0x02, 0x28, 0x09, 0x52, 0x0a, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x4e, 0x61, 0x6d, 0x65, 0x12,
+	0x1d, 0x0a, 0x0a, 0x61, 0x6c, 0x6c, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18, 0x02, 0x20,
+	0x02, 0x28, 0x08, 0x52, 0x09, 0x61, 0x6c, 0x6c, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x12, 0x25,
+	0x0a, 0x0e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73,
+	0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0d, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x46,
+	0x69, 0x65, 0x6c, 0x64, 0x73, 0x12, 0x25, 0x0a, 0x0e, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64,
+	0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0d, 0x64,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x12, 0x21, 0x0a, 0x0c,
+	0x61, 0x64, 0x64, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18, 0x05, 0x20, 0x03,
+	0x28, 0x09, 0x52, 0x0b, 0x61, 0x64, 0x64, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x3a,
 	0x4e, 0x0a, 0x0a, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x12, 0x1d, 0x2e,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
 	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xc7, 0xaa, 0x03,
@@ -229,20 +320,21 @@ func file_key_key_proto_rawDescGZIP() []byte {
 	return file_key_key_proto_rawDescData
 }
 
-var file_key_key_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_key_key_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_key_key_proto_goTypes = []interface{}{
 	(*KeySchema)(nil),                   // 0: key.KeySchema
 	(*DataField)(nil),                   // 1: key.DataField
-	(*fieldmaskpb.FieldMask)(nil),       // 2: google.protobuf.FieldMask
-	(*descriptorpb.FieldOptions)(nil),   // 3: google.protobuf.FieldOptions
-	(*descriptorpb.MessageOptions)(nil), // 4: google.protobuf.MessageOptions
+	(*ObjectDiff)(nil),                  // 2: key.ObjectDiff
+	(*fieldmaskpb.FieldMask)(nil),       // 3: google.protobuf.FieldMask
+	(*descriptorpb.FieldOptions)(nil),   // 4: google.protobuf.FieldOptions
+	(*descriptorpb.MessageOptions)(nil), // 5: google.protobuf.MessageOptions
 }
 var file_key_key_proto_depIdxs = []int32{
-	2, // 0: key.KeySchema.key_paths:type_name -> google.protobuf.FieldMask
-	2, // 1: key.DataField.updated_log:type_name -> google.protobuf.FieldMask
-	3, // 2: key.data_field:extendee -> google.protobuf.FieldOptions
-	4, // 3: key.key_schema:extendee -> google.protobuf.MessageOptions
-	4, // 4: key.is_key:extendee -> google.protobuf.MessageOptions
+	3, // 0: key.KeySchema.key_paths:type_name -> google.protobuf.FieldMask
+	3, // 1: key.DataField.updated_log:type_name -> google.protobuf.FieldMask
+	4, // 2: key.data_field:extendee -> google.protobuf.FieldOptions
+	5, // 3: key.key_schema:extendee -> google.protobuf.MessageOptions
+	5, // 4: key.is_key:extendee -> google.protobuf.MessageOptions
 	1, // 5: key.data_field:type_name -> key.DataField
 	0, // 6: key.key_schema:type_name -> key.KeySchema
 	7, // [7:7] is the sub-list for method output_type
@@ -282,6 +374,18 @@ func file_key_key_proto_init() {
 				return nil
 			}
 		}
+		file_key_key_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ObjectDiff); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -289,7 +393,7 @@ func file_key_key_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_key_key_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 3,
 			NumServices:   0,
 		},

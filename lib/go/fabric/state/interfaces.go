@@ -1,20 +1,25 @@
 package state
 
 import (
+	"github.com/bufbuild/protovalidate-go"
 	"log/slog"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-type LogedTxCtxInterface interface {
+type LoggedTxCtxInterface interface {
 	contractapi.TransactionContextInterface
 	GetLogger() *slog.Logger
-	SetLogger(logger *slog.Logger)
+	SetLogger(logger *slog.Logger) error
 }
 
-// Paged Transaction Context Interface
+// PagedTxCtxInterface Paged Transaction Context Interface
 type PagedTxCtxInterface interface {
-	LogedTxCtxInterface
+	LoggedTxCtxInterface
 	GetPageSize() int32
 	SetPageSize(pageSize int32)
+}
+
+type ValidateAbleTxCtxInterface interface {
+	GetValidator() (*protovalidate.Validator, error)
 }

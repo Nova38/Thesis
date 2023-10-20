@@ -16,7 +16,7 @@ func splitPath(path string) []string {
 	return strings.Split(path, ".")
 }
 
-// walkACLPath walks though though the path and returns the permission for the path
+// WalkACLPath walks through though the path and returns the permission for the path
 func WalkACLPath(
 	current *pb.Operations_PathRolePermission,
 	path string,

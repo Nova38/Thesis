@@ -37,7 +37,7 @@ type HistoryList[T StateObject] struct {
 // UTIL Functions
 
 // MakeCompositeKey creates a composite key from the given attributes
-func MakeCompositeKey[T StateObject](ctx LogedTxCtxInterface, obj T) (key string, err error) {
+func MakeCompositeKey[T StateObject](ctx LoggedTxCtxInterface, obj T) (key string, err error) {
 	namespace := obj.Namespace()
 	attr, err := obj.Key()
 	if err != nil {
@@ -53,7 +53,7 @@ func MakeCompositeKey[T StateObject](ctx LogedTxCtxInterface, obj T) (key string
 	return key, nil
 }
 
-func ObjExists[T StateObject](ctx LogedTxCtxInterface, obj T) (bool, error) {
+func ObjExists[T StateObject](ctx LoggedTxCtxInterface, obj T) (bool, error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return false, err
@@ -63,7 +63,7 @@ func ObjExists[T StateObject](ctx LogedTxCtxInterface, obj T) (bool, error) {
 }
 
 // Exists returns true if the object exists in the ledger
-func Exists(ctx LogedTxCtxInterface, key string) bool {
+func Exists(ctx LoggedTxCtxInterface, key string) bool {
 
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
@@ -74,7 +74,7 @@ func Exists(ctx LogedTxCtxInterface, key string) bool {
 }
 
 // PutState puts the object into the ledger
-func PutState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
+func PutState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -91,7 +91,7 @@ func PutState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 
 // InsertState inserts the object into the ledger
 // returns error if the object already exists
-func InsertState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
+func InsertState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -116,7 +116,7 @@ func InsertState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 
 // UpdateState updates the object in the ledger
 // returns error if the object does not exist
-func UpdateState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
+func UpdateState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
@@ -140,7 +140,7 @@ func UpdateState[T StateObject](ctx LogedTxCtxInterface, obj T) (err error) {
 }
 
 // GetState returns the object from the ledger
-func GetState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
+func GetState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
@@ -165,7 +165,7 @@ func GetState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
 }
 
 // DeleteState deletes the object from the ledger
-func DeleteState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
+func DeleteState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -175,7 +175,7 @@ func DeleteState[T StateObject](ctx LogedTxCtxInterface, in T) (err error) {
 }
 
 // GetStateHistory returns the history of the object from the ledger
-func GetStateHistory[T StateObject](ctx LogedTxCtxInterface, in T) (list HistoryList[T], err error) {
+func GetStateHistory[T StateObject](ctx LoggedTxCtxInterface, in T) (list HistoryList[T], err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return HistoryList[T]{}, err
@@ -213,7 +213,7 @@ func GetStateHistory[T StateObject](ctx LogedTxCtxInterface, in T) (list History
 	return list, nil
 }
 
-func TxIdInHistory[T StateObject](ctx LogedTxCtxInterface, in T, txId string) (bool, error) {
+func TxIdInHistory[T StateObject](ctx LoggedTxCtxInterface, in T, txId string) (bool, error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return false, err
@@ -243,7 +243,7 @@ func TxIdInHistory[T StateObject](ctx LogedTxCtxInterface, in T, txId string) (b
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPartialKeyList[T StateObject](ctx LogedTxCtxInterface, in T, numAttr int) (list []T, err error) {
+func GetPartialKeyList[T StateObject](ctx LoggedTxCtxInterface, in T, numAttr int) (list []T, err error) {
 	// obj = []*T{}
 	ctx.GetLogger().Info("GetPartialKeyList")
 	namespace := in.Namespace()
@@ -288,7 +288,7 @@ func GetPartialKeyList[T StateObject](ctx LogedTxCtxInterface, in T, numAttr int
 	return list, nil
 }
 
-func GetFullStateList[T StateObject](ctx LogedTxCtxInterface, in T) (list []T, err error) {
+func GetFullStateList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()

@@ -13,7 +13,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	schema "github.com/nova38/thesis/lib/go/gen/ccbio/schema/v1"
+	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 )
 
 // AuthContract contract for handling BasicAssets
@@ -73,12 +73,11 @@ func (s *AuthContract) GetIgnoredFunctions() []string {
 // User
 // -------------------------
 func (s *AuthContract) GetCurrentUser(ctx context.TxContext) (*schema.User, error) {
-	//return ctx.CurrentUser()
+	// return ctx.CurrentUser()
 
 	id, err := ctx.GetUserId()
 	if err != nil {
 		return nil, err
-
 	}
 
 	user := &schema.User{
