@@ -29,12 +29,19 @@ plugins:
     - plugin: buf.build/bufbuild/es:v1.3.1
       out: lib/es/gen
       opt: target=ts
+
+    - plugin: buf.build/bufbuild/connect-es
+      out: lib/es/gen/connect
+      # opt: ["paths=source_relative"]
+
     #    out: lib/go/gen
     #    opt:
     #      - paths=source_relative
 
-    - plugin: hlf
+    - plugin: go-hlf
       out: lib/go/gen
-      opt:
-          - paths=source_relative
-#  - plugin: cckey
+      opt: [paths=source_relative]
+
+    - plugin: buf.build/community/google-gnostic-openapi:v0.7.0
+      out: gen/gnostic
+      opt: [paths=source_relative]
