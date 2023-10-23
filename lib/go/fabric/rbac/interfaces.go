@@ -9,6 +9,7 @@ import (
 
 type TxCtxInterface interface {
 	state.LoggedTxCtxInterface
+	state.RegistryTxCtx
 
 	// GetUserId Uses the ctx stub to get the user id from transaction context
 	GetUserId() (*rbac_pb.User_Id, error)
@@ -24,13 +25,21 @@ type TxCtxInterface interface {
 	// SetCollection Sets the collection value in the state
 	SetCollection(collection *rbac_pb.Collection) error
 
-	// GetRole requires a collection to be set
-	// requires:
+	// GetRole: Gets the role of the user in the collection.
+	//
+	//
+	// Requirements:
 	//  - collection to be set
 	//  - user to be set
-	// if user is not a member of the collection it returns 0
+	// if user is not a member of the collection it returns 0 for public user
 	GetRole() (int, error)
 
+	// GetRolePermission: Gets the permission of the user in the collection.
+	//
+	// # Requirements:
+	//  - collection to be set
+	//  - user to be set
+	// if user is not a member of the collection it returns that public user permissions
 	GetRolePermission(role int, action rbac_pb.Operations_Action) (*rbac_pb.Operations, error)
 
 	GetDomain() (*rbac_pb.Operations_Domain, error)

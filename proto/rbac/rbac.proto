@@ -76,7 +76,9 @@ message Collection {
   string object_namespace = 2;
 
   // protobuf message descriptor
-  google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
+  // google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
+  descriptor object_type = 3 [(buf.validate.field).required = true];
+
 
   // Declared Roles for the collection
   //   - The key is the role id
