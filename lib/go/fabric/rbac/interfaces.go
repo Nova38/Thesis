@@ -5,9 +5,35 @@ import (
 	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
+type AuthContractEval interface {
+	GetCurrentUser() (*rbac_pb.User, error)
+	GetCurrentUserId() (*rbac_pb.User_Id, error)
+	GetUser(rbac_pb.GetUserRequest) (*rbac_pb.User, error)
+	GetUserList() (*rbac_pb.User_List, error)
+
+	GetCollection() (*rbac_pb.Collection, error)
+	GetCollectionList() (*rbac_pb.Collection_List, error)
+}
+
+type AuthContractSubmit interface {
+	UserRegister(*rbac_pb.UserRegisterRequest) (*rbac_pb.User, error)
+	UserUpdateMembership(*rbac_pb.UpdateMembershipRequest) (*rbac_pb.User, error)
+	CollectionCreate(*rbac_pb.CollectionCreateRequest) (*rbac_pb.Collection, error)
+	CollectionUpdateRequest(*rbac_pb.CollectionUpdateRequest) (*rbac_pb.Collection, error)
+}
+
+type AuthService interface {
+	AuthContractEval
+	AuthContractSubmit
+}
+
+/*
+   Transaction Context interfaces
+*/
+
 // An interface for a transaction context that has a user and collection
 
-type TxCtxInterface interface {
+type AuthTxCtxInterface interface {
 	state.LoggedTxCtxInterface
 	state.RegistryTxCtx
 
@@ -42,9 +68,20 @@ type TxCtxInterface interface {
 	// if user is not a member of the collection it returns that public user permissions
 	GetRolePermission(role int, action rbac_pb.Operations_Action) (*rbac_pb.Operations, error)
 
-	GetDomain() (*rbac_pb.Operations_Domain, error)
-	SetDomain(domain *rbac_pb.Operations_Domain) error
+	// GetDomain() (*rbac_pb.Operations_Domain, error)
+	// SetDomain(domain *rbac_pb.Operations_Domain) error
 
-	GetAction() (*rbac_pb.Operations_Action, error)
-	SetAction(action *rbac_pb.Operations_Action) error
+	// GetAction() (*rbac_pb.Operations_Action, error)
+	// SetAction(action *rbac_pb.Operations_Action) error
+
+	SetOperation(operation *rbac_pb.Operations) error
+	GetOperation() (*rbac_pb.Operations, error)
+
+	// Authorize: Checks if the user is authorized to perform the action on the collection
+	//
+	// # Requirements:
+	//  - collection to be set
+	//  - action to be set
+	//  - domain to be set
+	Authorize() (bool, error)
 }

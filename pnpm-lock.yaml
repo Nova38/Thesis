@@ -1,13 +1,12 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@bufbuild/buf':
     specifier: ^1.26.1
     version: 1.26.1
+  '@sinclair/typebox':
+    specifier: ^0.31.18
+    version: 0.31.18
 
 packages:
 
@@ -78,3 +77,11 @@ packages:
       '@bufbuild/buf-win32-arm64': 1.26.1
       '@bufbuild/buf-win32-x64': 1.26.1
     dev: false
+
+  /@sinclair/typebox@0.31.18:
+    resolution: {integrity: sha512-p2JGz+SciGJVl1zokCIK15f7LYDrI2ZsxItcLhkAyx50hEYEj/Qdy7z30qRYiakzdIu8dV4DfBi+e6xEZuugiQ==}
+    dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

@@ -1,9 +1,11 @@
 package rbac
 
 import (
+	_ "strings"
+
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	"github.com/samber/oops"
-	_ "strings"
+
 	// "github.com/rs/zerolog/log"
 	_ "github.com/samber/lo"
 
@@ -17,8 +19,7 @@ import (
 type TransactionObjects struct {
 	User       *pb.User
 	Collection *pb.Collection
-	Domain     *pb.Operations_Domain
-	Action     *pb.Operations_Action
+	ops        *pb.Operations
 }
 
 type AuthTxCtx struct {
@@ -57,40 +58,49 @@ func (ctx *AuthTxCtx) SetCollection(collection *pb.Collection) error {
 	return nil
 }
 
-func (ctx *AuthTxCtx) GetDomain() (*pb.Operations_Domain, error) {
-	if ctx.Domain != nil {
-		return ctx.Domain, nil
+func (ctx *AuthTxCtx) GetOperation() (*pb.Operations, error) {
+	if ctx.Domain == pb.Operations_DOMAIN_UNSPECIFIED || ctx.Action == nil {
+		return nil, oops.Errorf("operation not set")
 	}
 
-	return nil, oops.Errorf("domain not set")
+	return &pb.Operations{
+		Domain: ctx.Domain,
+		Action: ctx.Action,
+	}, nil
 }
 
-func (ctx *AuthTxCtx) SetDomain(domain *pb.Operations_Domain) error {
-	//TODO implement me
-	panic("implement me")
-}
+func (ctx *AuthTxCtx) SetOperation(op *pb.Operations) error {
 
-func (ctx *AuthTxCtx) GetAction() (*pb.Operations_Action, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (ctx *AuthTxCtx) SetAction(action *pb.Operations_Action) error {
-	// check if the action is set
-	if action == nil {
-		return oops.Errorf("action is nil")
+	// See if the operation pointer has an ID and is not nil
+	if op == nil || op.Action == nil {
+		return oops.Errorf("operation is nil or actions is nil")
 	}
 
-	// Get the collection's data type
-	collection, err := ctx.GetCollection()
+	// Set Domain
 
-	if err != nil {
-		return oops.Wrap(err)
+	if op.Domain == pb.Operations_DOMAIN_UNSPECIFIED {
+		return oops.Errorf("operation domain is unspecified")
 	}
 
-	// validate the action
-	action.Paths.IsValid()
+	ctx.Domain = op.Domain
 
+	// Set Action
+
+	// switch op.Action.Type {
+	// case pb.Operations_Action_TYPE_UNSPECIFIED:
+	// 	return oops.Errorf("operation action type is unspecified")
+	// case pb.Operations_Action_TYPE_CREATE, pb.Operations_Action_TYPE_DELETE:
+	// }
+
+	if op.Action.Type == pb.Operations_Action_TYPE_UNSPECIFIED {
+		return oops.Errorf("operation action type is unspecified")
+	}
+
+	ctx.Action = op.Action
+
+	// TODO: Should we validate the action here?
+
+	return nil
 }
 
 func (ctx *AuthTxCtx) Authorize() (bool, error) {
@@ -100,7 +110,7 @@ func (ctx *AuthTxCtx) Authorize() (bool, error) {
 	}
 
 	// Check if all the objects are set
-	if ctx.Collection == nil || ctx.Domain == nil || ctx.Action == nil {
+	if ctx.Collection == nil || ctx.Action == nil {
 		return false, oops.Errorf("authorization objects not set")
 	}
 

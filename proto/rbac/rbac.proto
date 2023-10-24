@@ -77,7 +77,7 @@ message Collection {
 
   // protobuf message descriptor
   // google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
-  descriptor object_type = 3 [(buf.validate.field).required = true];
+  google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
 
 
   // Declared Roles for the collection
@@ -166,6 +166,10 @@ message Operations {
         // The Key must be a valid role id defined in the roles map
         map<int32, Operations.ObjectField> acl = 3 [(buf.validate.field).required = true];
     }
+
+
+    Domain domain = 1;
+    Action action = 2;
 }
 
 // Users are a special type of object

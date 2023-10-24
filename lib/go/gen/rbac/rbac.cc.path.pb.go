@@ -282,6 +282,29 @@ func (m *Operations_PathRolePermission) DiffPath(other *Operations_PathRolePermi
 func (m *Operations) DiffPath(other *Operations) (updated []string, all bool) {
 
 	all = true
+	// domain: is a enum
+	if m.Domain != other.Domain {
+		updated = append(updated, "domain")
+	} else {
+		all = false
+	}
+	// action: is a message
+	if m.Action != nil || other.Action != nil {
+		updated_Action, all_Action := m.Action.DiffPath(other.Action)
+		if len(updated_Action) > 0 {
+			if all_Action {
+				updated = append(updated, "action")
+			} else {
+				for _, u := range updated_Action {
+					updated = append(updated, "action."+u)
+				}
+			}
+		} else {
+			all = false
+		}
+	} else {
+		all = false
+	}
 
 	return updated, all
 }

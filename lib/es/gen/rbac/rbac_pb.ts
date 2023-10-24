@@ -79,6 +79,7 @@ export class Collection extends Message<Collection> {
 
   /**
    * protobuf message descriptor
+   * google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
    *
    * @generated from field: google.protobuf.Type object_type = 3;
    */
@@ -284,6 +285,16 @@ export class Collection_ACL extends Message<Collection_ACL> {
  * @generated from message rbac.Operations
  */
 export class Operations extends Message<Operations> {
+  /**
+   * @generated from field: rbac.Operations.Domain domain = 1;
+   */
+  domain = Operations_Domain.UNSPECIFIED;
+
+  /**
+   * @generated from field: rbac.Operations.Action action = 2;
+   */
+  action?: Operations_Action;
+
   constructor(data?: PartialMessage<Operations>) {
     super();
     proto3.util.initPartial(data, this);
@@ -292,6 +303,8 @@ export class Operations extends Message<Operations> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.Operations";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "domain", kind: "enum", T: proto3.getEnumType(Operations_Domain) },
+    { no: 2, name: "action", kind: "message", T: Operations_Action },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Operations {
