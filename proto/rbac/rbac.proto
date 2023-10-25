@@ -34,6 +34,7 @@ message ACL {
     DOMAIN_USER = 5;
 
     DOMAIN_OBJECT = 6;
+    DOMAIN_OBJECT_FIELD = 7;
 
   }
   enum Action {
@@ -72,6 +73,7 @@ message ACL {
     message Membership {
       bool view = 1;
       bool edit = 2;
+      bool delete = 3;
     }
 
     // Policy for altering the object
@@ -80,7 +82,7 @@ message ACL {
       bool create = 2;
       bool delete = 3;
       bool view_history = 4;
-      bool hidden_txs = 5;
+      bool hidden_tx = 5;
     }
 
     // Policy for altering the object
@@ -123,18 +125,28 @@ message ACL {
 
 
   // The permissions for modifications to valid roles in the collection
+  // # Policy
+  //   - Maps to the domain: DOMAIN_COLLECTION_ROLES
   Policy.Roles role_defs = 1 [(buf.validate.field).required = true];
 
   // The permissions for modifications the permissions of a role
+  // # Policy
+  //   - Maps to the domain: DOMAIN_COLLECTION_PERMISSION
   Policy.Membership role_permissions  = 2 [(buf.validate.field).required = true];
 
   // The permissions for modifications user memberships in the collection
+  // # Policy
+  //   - Maps to the domain: DOMAIN_COLLECTION_MEMBERSHIP
   Policy.Membership memberships = 3 [(buf.validate.field).required = true];
 
   // The permissions for modifications to the object
+  // # Policy
+  //   - Maps to the domain: DOMAIN_OBJECT
   Policy.Object object = 4 [(buf.validate.field).required = true];
 
   // The permissions for modifications to the object's fields
+  // # Policy
+  //   - Maps to the domain: DOMAIN_OBJECT_FIELD
   PathRolePermission object_paths = 5 [(buf.validate.field).required = true];
 }
 
@@ -254,55 +266,60 @@ message History {
 
 enum Error {
   ERROR_UNSPECIFIED = 0;
-
+  ERROR_REQUEST_INVALID = 1;
+  ERROR_RUNTIME = 2;
+  ERROR_RUNTIME_BAD_OPS = 3;
 
   /* Collection Errors */
 
   // The collection id is invalid
-  ERROR_COLLECTION_INVALID_ID = 1;
+  ERROR_COLLECTION_INVALID_ID = 11;
   // The collection is not registered
-  ERROR_COLLECTION_UNREGISTERED = 2;
+  ERROR_COLLECTION_UNREGISTERED = 12;
   // The collection is already registered
-  ERROR_COLLECTION_ALREADY_REGISTERED = 3;
+  ERROR_COLLECTION_ALREADY_REGISTERED = 13;
   // The Collection is invalid
-  ERROR_COLLECTION_INVALID = 4;
+  ERROR_COLLECTION_INVALID = 14;
   // The object type name is invalid
-  ERROR_COLLECTION_INVALID_OBJECT_TYPE = 5;
+  ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
   // The role id is invalid
-  ERROR_COLLECTION_INVALID_ROLE_ID = 6;
+  ERROR_COLLECTION_INVALID_ROLE_ID = 16;
 
 
   // User Errors
 
   // The user does not have permission to perform the operation
-  ERROR_USER_INVALID_ID = 10;
+  ERROR_USER_INVALID_ID = 20;
   // The user is not registered
-  ERROR_USER_UNREGISTERED = 11;
+  ERROR_USER_UNREGISTERED = 21;
   // The user is already registered
-  ERROR_USER_ALREADY_REGISTERED = 12;
+  ERROR_USER_ALREADY_REGISTERED = 22;
   // The user is invalid
-  ERROR_USER_INVALID = 13;
+  ERROR_USER_INVALID = 23;
   // The user does not have a role in the collection
-  ERROR_USER_NO_ROLE = 14;
+  ERROR_USER_NO_ROLE = 24;
   // The user has a deleted role in the collection
-  ERROR_USER_DELETED_ROLE = 15;
+  ERROR_USER_DELETED_ROLE = 25;
   // The user does not have permission to perform the operation
-  ERROR_USER_PERMISSION_DENIED = 16;
+  ERROR_USER_PERMISSION_DENIED = 26;
 
 
 
   // The object id is invalid
-  ERROR_OBJECT_INVALID_ID = 21;
+  ERROR_OBJECT_INVALID_ID = 31;
   // The object is not registered
-  ERROR_OBJECT_UNREGISTERED = 22;
+  ERROR_OBJECT_UNREGISTERED = 32;
   // The object is already registered
-  ERROR_OBJECT_ALREADY_REGISTERED = 23;
+  ERROR_OBJECT_ALREADY_REGISTERED = 33;
   // The object is invalid
-  ERROR_OBJECT_INVALID = 24;
+  ERROR_OBJECT_INVALID = 34;
 
   //
-  ERROR_INVALID_OBJECT_FIELD_PATH = 8;
-  ERROR_INVALID_OBJECT_FIELD_VALUE = 9;
+  ERROR_INVALID_OBJECT_FIELD_PATH = 35;
+  ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
+
+
+  //
 
 
 }

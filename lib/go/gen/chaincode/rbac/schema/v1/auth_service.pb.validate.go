@@ -1933,11 +1933,11 @@ func (m *CollectionGetRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetId()).(type) {
+		switch v := interface{}(m.GetCollectionId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CollectionGetRequestValidationError{
-					field:  "Id",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1945,16 +1945,16 @@ func (m *CollectionGetRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CollectionGetRequestValidationError{
-					field:  "Id",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CollectionGetRequestValidationError{
-				field:  "Id",
+				field:  "CollectionId",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -2195,11 +2195,11 @@ func (m *CollectionGetHistoryRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetId()).(type) {
+		switch v := interface{}(m.GetCollectionId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CollectionGetHistoryRequestValidationError{
-					field:  "Id",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -2207,16 +2207,16 @@ func (m *CollectionGetHistoryRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CollectionGetHistoryRequestValidationError{
-					field:  "Id",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CollectionGetHistoryRequestValidationError{
-				field:  "Id",
+				field:  "CollectionId",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

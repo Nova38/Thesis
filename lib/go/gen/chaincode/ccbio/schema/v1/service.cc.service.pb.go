@@ -70,7 +70,7 @@ func (s *BiochainSpecimenServiceBase) GetEvaluateTransactions() []string {
 	return []string{}
 }
 
-func (s *BiochainSpecimenServiceBase) GetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
+func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "GetSpecimen":
 	// <nil>
@@ -164,7 +164,7 @@ func (s *BiochainAuthServiceBase) GetEvaluateTransactions() []string {
 	return []string{}
 }
 
-func (s *BiochainAuthServiceBase) GetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
+func BiochainAuthServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "GetCurrentUser":
 	// <nil>

@@ -1668,6 +1668,8 @@ func (m *ACL_Policy_Membership) validate(all bool) error {
 
 	// no validation rules for Edit
 
+	// no validation rules for Delete
+
 	if len(errors) > 0 {
 		return ACL_Policy_MembershipMultiError(errors)
 	}
@@ -1778,7 +1780,7 @@ func (m *ACL_Policy_Object) validate(all bool) error {
 
 	// no validation rules for ViewHistory
 
-	// no validation rules for HiddenTxs
+	// no validation rules for HiddenTx
 
 	if len(errors) > 0 {
 		return ACL_Policy_ObjectMultiError(errors)

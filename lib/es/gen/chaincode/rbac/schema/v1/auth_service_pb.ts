@@ -574,9 +574,9 @@ export class CollectionGetListResponse extends Message<CollectionGetListResponse
  */
 export class CollectionGetRequest extends Message<CollectionGetRequest> {
   /**
-   * @generated from field: rbac.Collection.Id id = 1;
+   * @generated from field: rbac.Collection.Id collection_id = 1;
    */
-  id?: Collection_Id;
+  collectionId?: Collection_Id;
 
   constructor(data?: PartialMessage<CollectionGetRequest>) {
     super();
@@ -586,7 +586,7 @@ export class CollectionGetRequest extends Message<CollectionGetRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionGetRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
+    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionGetRequest {
@@ -650,9 +650,9 @@ export class CollectionGetResponse extends Message<CollectionGetResponse> {
  */
 export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryRequest> {
   /**
-   * @generated from field: rbac.Collection.Id id = 1;
+   * @generated from field: rbac.Collection.Id collection_id = 1;
    */
-  id?: Collection_Id;
+  collectionId?: Collection_Id;
 
   constructor(data?: PartialMessage<CollectionGetHistoryRequest>) {
     super();
@@ -662,7 +662,7 @@ export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryReq
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionGetHistoryRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
+    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionGetHistoryRequest {

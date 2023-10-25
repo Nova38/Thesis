@@ -13,7 +13,7 @@ import (
 
 type AuthTxCtxInterface interface {
 	state.LoggedTxCtxInterface
-	state.RegistryTxCtx
+	state.ValidateAbleTxCtxInterface
 
 	// GetUserId Uses the ctx stub to get the user id from transaction context
 	GetUserId() (*rbac_pb.User_Id, error)
@@ -63,3 +63,25 @@ type AuthTxCtxInterface interface {
 	//  - domain to be set
 	Authorize() (bool, error)
 }
+
+// AuthTransactionObjectInterfaces
+
+type CollectionWrapperInterface interface {
+	GetCollection() *rbac_pb.Collection
+}
+type CollectionIdWrapperInterface interface {
+	GetCollectionId() *rbac_pb.Collection_Id
+}
+type UserWrapperInterface interface {
+	GetUser() *rbac_pb.User
+}
+type UserIdWrapperInterface interface {
+	GetUserId() *rbac_pb.User_Id
+}
+
+// type RoleWrapperInterface interface {
+//     GetRole() (int, error)
+// }
+// type RolePermissionWrapperInterface interface {
+//     GetRolePermission(role int) (*rbac_pb.ACL, error)
+// }

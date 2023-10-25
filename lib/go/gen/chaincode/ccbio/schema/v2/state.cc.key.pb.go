@@ -26,3 +26,21 @@ func (m *Specimen) Key() ([]string, error) {
 	}
 	return attr, nil
 }
+
+// specimen_update is the namespace for SuggestedUpdate
+func (m *SuggestedUpdate) Namespace() string {
+	return "specimen_update"
+}
+func (m *SuggestedUpdate) Key() ([]string, error) {
+	attr := []string{}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetId().GetSpecimenId().GetCollectionId())
+		attr = append(attr, m.GetId().GetSpecimenId().GetId())
+		attr = append(attr, m.GetId().GetId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}

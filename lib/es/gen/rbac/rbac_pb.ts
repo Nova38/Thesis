@@ -16,158 +16,174 @@ export enum Error {
   UNSPECIFIED = 0,
 
   /**
+   * @generated from enum value: ERROR_REQUEST_INVALID = 1;
+   */
+  REQUEST_INVALID = 1,
+
+  /**
+   * @generated from enum value: ERROR_RUNTIME = 2;
+   */
+  RUNTIME = 2,
+
+  /**
+   * @generated from enum value: ERROR_RUNTIME_BAD_OPS = 3;
+   */
+  RUNTIME_BAD_OPS = 3,
+
+  /**
    * The collection id is invalid
    *
-   * @generated from enum value: ERROR_COLLECTION_INVALID_ID = 1;
+   * @generated from enum value: ERROR_COLLECTION_INVALID_ID = 11;
    */
-  COLLECTION_INVALID_ID = 1,
+  COLLECTION_INVALID_ID = 11,
 
   /**
    * The collection is not registered
    *
-   * @generated from enum value: ERROR_COLLECTION_UNREGISTERED = 2;
+   * @generated from enum value: ERROR_COLLECTION_UNREGISTERED = 12;
    */
-  COLLECTION_UNREGISTERED = 2,
+  COLLECTION_UNREGISTERED = 12,
 
   /**
    * The collection is already registered
    *
-   * @generated from enum value: ERROR_COLLECTION_ALREADY_REGISTERED = 3;
+   * @generated from enum value: ERROR_COLLECTION_ALREADY_REGISTERED = 13;
    */
-  COLLECTION_ALREADY_REGISTERED = 3,
+  COLLECTION_ALREADY_REGISTERED = 13,
 
   /**
    * The Collection is invalid
    *
-   * @generated from enum value: ERROR_COLLECTION_INVALID = 4;
+   * @generated from enum value: ERROR_COLLECTION_INVALID = 14;
    */
-  COLLECTION_INVALID = 4,
+  COLLECTION_INVALID = 14,
 
   /**
    * The object type name is invalid
    *
-   * @generated from enum value: ERROR_COLLECTION_INVALID_OBJECT_TYPE = 5;
+   * @generated from enum value: ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
    */
-  COLLECTION_INVALID_OBJECT_TYPE = 5,
+  COLLECTION_INVALID_OBJECT_TYPE = 15,
 
   /**
    * The role id is invalid
    *
-   * @generated from enum value: ERROR_COLLECTION_INVALID_ROLE_ID = 6;
+   * @generated from enum value: ERROR_COLLECTION_INVALID_ROLE_ID = 16;
    */
-  COLLECTION_INVALID_ROLE_ID = 6,
+  COLLECTION_INVALID_ROLE_ID = 16,
 
   /**
    * The user does not have permission to perform the operation
    *
-   * @generated from enum value: ERROR_USER_INVALID_ID = 10;
+   * @generated from enum value: ERROR_USER_INVALID_ID = 20;
    */
-  USER_INVALID_ID = 10,
+  USER_INVALID_ID = 20,
 
   /**
    * The user is not registered
    *
-   * @generated from enum value: ERROR_USER_UNREGISTERED = 11;
+   * @generated from enum value: ERROR_USER_UNREGISTERED = 21;
    */
-  USER_UNREGISTERED = 11,
+  USER_UNREGISTERED = 21,
 
   /**
    * The user is already registered
    *
-   * @generated from enum value: ERROR_USER_ALREADY_REGISTERED = 12;
+   * @generated from enum value: ERROR_USER_ALREADY_REGISTERED = 22;
    */
-  USER_ALREADY_REGISTERED = 12,
+  USER_ALREADY_REGISTERED = 22,
 
   /**
    * The user is invalid
    *
-   * @generated from enum value: ERROR_USER_INVALID = 13;
+   * @generated from enum value: ERROR_USER_INVALID = 23;
    */
-  USER_INVALID = 13,
+  USER_INVALID = 23,
 
   /**
    * The user does not have a role in the collection
    *
-   * @generated from enum value: ERROR_USER_NO_ROLE = 14;
+   * @generated from enum value: ERROR_USER_NO_ROLE = 24;
    */
-  USER_NO_ROLE = 14,
+  USER_NO_ROLE = 24,
 
   /**
    * The user has a deleted role in the collection
    *
-   * @generated from enum value: ERROR_USER_DELETED_ROLE = 15;
+   * @generated from enum value: ERROR_USER_DELETED_ROLE = 25;
    */
-  USER_DELETED_ROLE = 15,
+  USER_DELETED_ROLE = 25,
 
   /**
    * The user does not have permission to perform the operation
    *
-   * @generated from enum value: ERROR_USER_PERMISSION_DENIED = 16;
+   * @generated from enum value: ERROR_USER_PERMISSION_DENIED = 26;
    */
-  USER_PERMISSION_DENIED = 16,
+  USER_PERMISSION_DENIED = 26,
 
   /**
    * The object id is invalid
    *
-   * @generated from enum value: ERROR_OBJECT_INVALID_ID = 21;
+   * @generated from enum value: ERROR_OBJECT_INVALID_ID = 31;
    */
-  OBJECT_INVALID_ID = 21,
+  OBJECT_INVALID_ID = 31,
 
   /**
    * The object is not registered
    *
-   * @generated from enum value: ERROR_OBJECT_UNREGISTERED = 22;
+   * @generated from enum value: ERROR_OBJECT_UNREGISTERED = 32;
    */
-  OBJECT_UNREGISTERED = 22,
+  OBJECT_UNREGISTERED = 32,
 
   /**
    * The object is already registered
    *
-   * @generated from enum value: ERROR_OBJECT_ALREADY_REGISTERED = 23;
+   * @generated from enum value: ERROR_OBJECT_ALREADY_REGISTERED = 33;
    */
-  OBJECT_ALREADY_REGISTERED = 23,
+  OBJECT_ALREADY_REGISTERED = 33,
 
   /**
    * The object is invalid
    *
-   * @generated from enum value: ERROR_OBJECT_INVALID = 24;
+   * @generated from enum value: ERROR_OBJECT_INVALID = 34;
    */
-  OBJECT_INVALID = 24,
+  OBJECT_INVALID = 34,
 
   /**
-   *
-   *
-   * @generated from enum value: ERROR_INVALID_OBJECT_FIELD_PATH = 8;
+   * @generated from enum value: ERROR_INVALID_OBJECT_FIELD_PATH = 35;
    */
-  INVALID_OBJECT_FIELD_PATH = 8,
+  INVALID_OBJECT_FIELD_PATH = 35,
 
   /**
-   * @generated from enum value: ERROR_INVALID_OBJECT_FIELD_VALUE = 9;
+   * @generated from enum value: ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
    */
-  INVALID_OBJECT_FIELD_VALUE = 9,
+  INVALID_OBJECT_FIELD_VALUE = 36,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Error)
 proto3.util.setEnumType(Error, "rbac.Error", [
   { no: 0, name: "ERROR_UNSPECIFIED" },
-  { no: 1, name: "ERROR_COLLECTION_INVALID_ID" },
-  { no: 2, name: "ERROR_COLLECTION_UNREGISTERED" },
-  { no: 3, name: "ERROR_COLLECTION_ALREADY_REGISTERED" },
-  { no: 4, name: "ERROR_COLLECTION_INVALID" },
-  { no: 5, name: "ERROR_COLLECTION_INVALID_OBJECT_TYPE" },
-  { no: 6, name: "ERROR_COLLECTION_INVALID_ROLE_ID" },
-  { no: 10, name: "ERROR_USER_INVALID_ID" },
-  { no: 11, name: "ERROR_USER_UNREGISTERED" },
-  { no: 12, name: "ERROR_USER_ALREADY_REGISTERED" },
-  { no: 13, name: "ERROR_USER_INVALID" },
-  { no: 14, name: "ERROR_USER_NO_ROLE" },
-  { no: 15, name: "ERROR_USER_DELETED_ROLE" },
-  { no: 16, name: "ERROR_USER_PERMISSION_DENIED" },
-  { no: 21, name: "ERROR_OBJECT_INVALID_ID" },
-  { no: 22, name: "ERROR_OBJECT_UNREGISTERED" },
-  { no: 23, name: "ERROR_OBJECT_ALREADY_REGISTERED" },
-  { no: 24, name: "ERROR_OBJECT_INVALID" },
-  { no: 8, name: "ERROR_INVALID_OBJECT_FIELD_PATH" },
-  { no: 9, name: "ERROR_INVALID_OBJECT_FIELD_VALUE" },
+  { no: 1, name: "ERROR_REQUEST_INVALID" },
+  { no: 2, name: "ERROR_RUNTIME" },
+  { no: 3, name: "ERROR_RUNTIME_BAD_OPS" },
+  { no: 11, name: "ERROR_COLLECTION_INVALID_ID" },
+  { no: 12, name: "ERROR_COLLECTION_UNREGISTERED" },
+  { no: 13, name: "ERROR_COLLECTION_ALREADY_REGISTERED" },
+  { no: 14, name: "ERROR_COLLECTION_INVALID" },
+  { no: 15, name: "ERROR_COLLECTION_INVALID_OBJECT_TYPE" },
+  { no: 16, name: "ERROR_COLLECTION_INVALID_ROLE_ID" },
+  { no: 20, name: "ERROR_USER_INVALID_ID" },
+  { no: 21, name: "ERROR_USER_UNREGISTERED" },
+  { no: 22, name: "ERROR_USER_ALREADY_REGISTERED" },
+  { no: 23, name: "ERROR_USER_INVALID" },
+  { no: 24, name: "ERROR_USER_NO_ROLE" },
+  { no: 25, name: "ERROR_USER_DELETED_ROLE" },
+  { no: 26, name: "ERROR_USER_PERMISSION_DENIED" },
+  { no: 31, name: "ERROR_OBJECT_INVALID_ID" },
+  { no: 32, name: "ERROR_OBJECT_UNREGISTERED" },
+  { no: 33, name: "ERROR_OBJECT_ALREADY_REGISTERED" },
+  { no: 34, name: "ERROR_OBJECT_INVALID" },
+  { no: 35, name: "ERROR_INVALID_OBJECT_FIELD_PATH" },
+  { no: 36, name: "ERROR_INVALID_OBJECT_FIELD_VALUE" },
 ]);
 
 /**
@@ -178,6 +194,8 @@ proto3.util.setEnumType(Error, "rbac.Error", [
 export class ACL extends Message<ACL> {
   /**
    * The permissions for modifications to valid roles in the collection
+   * # Policy
+   *   - Maps to the domain: DOMAIN_COLLECTION_ROLES
    *
    * @generated from field: rbac.ACL.Policy.Roles role_defs = 1;
    */
@@ -185,6 +203,8 @@ export class ACL extends Message<ACL> {
 
   /**
    * The permissions for modifications the permissions of a role
+   * # Policy
+   *   - Maps to the domain: DOMAIN_COLLECTION_PERMISSION
    *
    * @generated from field: rbac.ACL.Policy.Membership role_permissions = 2;
    */
@@ -192,6 +212,8 @@ export class ACL extends Message<ACL> {
 
   /**
    * The permissions for modifications user memberships in the collection
+   * # Policy
+   *   - Maps to the domain: DOMAIN_COLLECTION_MEMBERSHIP
    *
    * @generated from field: rbac.ACL.Policy.Membership memberships = 3;
    */
@@ -199,6 +221,8 @@ export class ACL extends Message<ACL> {
 
   /**
    * The permissions for modifications to the object
+   * # Policy
+   *   - Maps to the domain: DOMAIN_OBJECT
    *
    * @generated from field: rbac.ACL.Policy.Object object = 4;
    */
@@ -206,6 +230,8 @@ export class ACL extends Message<ACL> {
 
   /**
    * The permissions for modifications to the object's fields
+   * # Policy
+   *   - Maps to the domain: DOMAIN_OBJECT_FIELD
    *
    * @generated from field: rbac.ACL.PathRolePermission object_paths = 5;
    */
@@ -281,6 +307,11 @@ export enum ACL_Domain {
    * @generated from enum value: DOMAIN_OBJECT = 6;
    */
   OBJECT = 6,
+
+  /**
+   * @generated from enum value: DOMAIN_OBJECT_FIELD = 7;
+   */
+  OBJECT_FIELD = 7,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ACL_Domain)
 proto3.util.setEnumType(ACL_Domain, "rbac.ACL.Domain", [
@@ -291,6 +322,7 @@ proto3.util.setEnumType(ACL_Domain, "rbac.ACL.Domain", [
   { no: 4, name: "DOMAIN_COLLECTION_ROLES" },
   { no: 5, name: "DOMAIN_USER" },
   { no: 6, name: "DOMAIN_OBJECT" },
+  { no: 7, name: "DOMAIN_OBJECT_FIELD" },
 ]);
 
 /**
@@ -565,6 +597,11 @@ export class ACL_Policy_Membership extends Message<ACL_Policy_Membership> {
    */
   edit = false;
 
+  /**
+   * @generated from field: bool delete = 3;
+   */
+  delete = false;
+
   constructor(data?: PartialMessage<ACL_Policy_Membership>) {
     super();
     proto3.util.initPartial(data, this);
@@ -575,6 +612,7 @@ export class ACL_Policy_Membership extends Message<ACL_Policy_Membership> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 2, name: "edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Membership {
@@ -621,9 +659,9 @@ export class ACL_Policy_Object extends Message<ACL_Policy_Object> {
   viewHistory = false;
 
   /**
-   * @generated from field: bool hidden_txs = 5;
+   * @generated from field: bool hidden_tx = 5;
    */
-  hiddenTxs = false;
+  hiddenTx = false;
 
   constructor(data?: PartialMessage<ACL_Policy_Object>) {
     super();
@@ -637,7 +675,7 @@ export class ACL_Policy_Object extends Message<ACL_Policy_Object> {
     { no: 2, name: "create", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 3, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 4, name: "view_history", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 5, name: "hidden_txs", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 5, name: "hidden_tx", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Object {

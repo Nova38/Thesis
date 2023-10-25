@@ -148,7 +148,7 @@ func GenerateOperationLookup(
 	fmtImport := g.QualifiedGoIdent(protogen.GoIdent{GoImportPath: "fmt"})
 	g.P("//")
 
-	g.P("func (s *", v.GoName, "Base) GetTxOperation(txName string)", "( op *", opImport, ", err error) {")
+	g.P("func ", v.GoName, "GetTxOperation(txName string)", "( op *", opImport, ", err error) {")
 
 	g.P("switch txName {")
 	for _, m := range v.Methods {

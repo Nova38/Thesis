@@ -143,7 +143,7 @@ func (s *BiochainSpecimenServiceBase) GetEvaluateTransactions() []string {
 	}
 }
 
-func (s *BiochainSpecimenServiceBase) GetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
+func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "GetSpecimen":
 		// domain:DOMAIN_OBJECT action:ACTION_VIEW

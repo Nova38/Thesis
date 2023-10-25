@@ -31,14 +31,19 @@ func (kg *KeyGenerator) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
-	toSkip := true
+	v := true
 	for _, msg := range file.Messages {
-		toSkip = toSkip && kg.GenerateMessage(gen, g, msg)
+		b := kg.GenerateMessage(gen, g, msg)
+		v = v && b
 	}
 
-	if toSkip {
+	if v {
+		g.P("// No key schema found. Skipping file.")
 		g.Skip()
 	}
+	// if toSkip {
+	// 	g.Skip()
+	// }
 
 	return g, nil
 }
@@ -49,11 +54,11 @@ func (kg *KeyGenerator) GenerateMessage(
 	g *protogen.GeneratedFile,
 	msg *protogen.Message,
 ) (notUsed bool) {
-	notUsed = true
+	// notUsed = true
 	// Check for sub messages
-	for _, subMsg := range msg.Messages {
-		notUsed = notUsed && kg.GenerateMessage(gen, g, subMsg)
-	}
+	// for _, subMsg := range msg.Messages {
+	// 	notUsed = notUsed && kg.GenerateMessage(gen, g, subMsg)
+	// }
 
 	keySchema := KeySchemaOptions(msg)
 	if keySchema == nil {

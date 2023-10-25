@@ -168,7 +168,7 @@ func (s *AuthServiceBase) GetEvaluateTransactions() []string {
 	}
 }
 
-func (s *AuthServiceBase) GetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
+func AuthServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "UserGetCurrent":
 		// domain:DOMAIN_USER action:ACTION_VIEW

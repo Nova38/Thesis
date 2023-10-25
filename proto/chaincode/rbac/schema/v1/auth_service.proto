@@ -297,7 +297,7 @@ service AuthService {
 
     // CollectionGet
       message CollectionGetRequest {
-          Collection.Id id = 1;
+          Collection.Id collection_id = 1;
       }
       message CollectionGetResponse {
           Collection collection = 1;
@@ -305,7 +305,7 @@ service AuthService {
 
     // CollectionGetHistory
       message CollectionGetHistoryRequest {
-          Collection.Id id = 1;
+          Collection.Id collection_id = 1;
       }
       message CollectionGetHistoryResponse {
           repeated Collection collections = 1;
