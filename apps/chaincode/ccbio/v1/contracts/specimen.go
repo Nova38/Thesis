@@ -73,7 +73,10 @@ func (s *SpecimenContract) GetEvaluateTransactions() []string {
 // Specimen
 // -------------------------
 
-func (s *SpecimenContract) GetSpecimen(ctx context.TxContext, req *schema.GetSpecimenRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) GetSpecimen(
+	ctx context.TxContext,
+	req *schema.GetSpecimenRequest,
+) (*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -97,7 +100,10 @@ func (s *SpecimenContract) GetSpecimenList(ctx context.TxContext) ([]*schema.Spe
 	return state2.GetFullStateList(ctx, &schema.Specimen{})
 }
 
-func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *schema.GetSpecimenByCollectionRequest) ([]*schema.Specimen, error) {
+func (s *SpecimenContract) GetSpecimenByCollection(
+	ctx context.TxContext,
+	req *schema.GetSpecimenByCollectionRequest,
+) ([]*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -138,7 +144,10 @@ func (s *SpecimenContract) GetSpecimenByCollection(ctx context.TxContext, req *s
 //   - Requires the user to be registered
 //   - Requires the user to be a have a role authorized to see hidden txs
 //   - If the request does not include hidden txs, then the history will not include hidden txs
-func (s *SpecimenContract) GetSpecimenHistory(ctx context.TxContext, req *schema.GetSpecimenHistoryRequest) (*schema.Specimen_History, error) {
+func (s *SpecimenContract) GetSpecimenHistory(
+	ctx context.TxContext,
+	req *schema.GetSpecimenHistoryRequest,
+) (*schema.Specimen_History, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -220,7 +229,10 @@ func (s *SpecimenContract) GetSpecimenHistory(ctx context.TxContext, req *schema
 // -------------------------
 
 // GetSuggestedUpdate returns the suggested update with the given ID
-func (s *SpecimenContract) GetSuggestedUpdate(ctx context.TxContext, req *schema.GetSuggestedUpdateRequest) (*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) GetSuggestedUpdate(
+	ctx context.TxContext,
+	req *schema.GetSuggestedUpdateRequest,
+) (*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -243,11 +255,16 @@ func (s *SpecimenContract) GetSuggestedUpdate(ctx context.TxContext, req *schema
 	return suggestion, nil
 }
 
-func (s *SpecimenContract) GetSuggestedUpdateList(ctx context.TxContext) ([]*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) GetSuggestedUpdateList(
+	ctx context.TxContext,
+) ([]*schema.SuggestedUpdate, error) {
 	return state2.GetFullStateList(ctx, &schema.SuggestedUpdate{})
 }
 
-func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(ctx context.TxContext, req *schema.GetSuggestedUpdateBySpecimenRequest) ([]*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(
+	ctx context.TxContext,
+	req *schema.GetSuggestedUpdateBySpecimenRequest,
+) ([]*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -270,7 +287,10 @@ func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(ctx context.TxContext, r
 	return list, nil
 }
 
-func (s *SpecimenContract) GetSuggestedUpdateByCollectionRequest(ctx context.TxContext, req *schema.GetSuggestedUpdateByCollectionRequest) ([]*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) GetSuggestedUpdateByCollectionRequest(
+	ctx context.TxContext,
+	req *schema.GetSuggestedUpdateByCollectionRequest,
+) ([]*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -307,7 +327,10 @@ func (s *SpecimenContract) Stest(ctx context.TxContext, req *schema.STest) {
 // SpecimenCreate creates a new specimen in the collection
 //   - Requires the user to be registered
 //   - Requires the user to be a have a role authorized to create specimens
-func (s *SpecimenContract) SpecimenCreate(ctx context.TxContext, req *schema.SpecimenCreateRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) SpecimenCreate(
+	ctx context.TxContext,
+	req *schema.SpecimenCreateRequest,
+) (*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -361,7 +384,10 @@ func (s *SpecimenContract) SpecimenCreate(ctx context.TxContext, req *schema.Spe
 
 // SpecimenUpdate updates the specimen
 // If any of the fields contain an empty last modified field that field will be ignored
-func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.SpecimenUpdateRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) SpecimenUpdate(
+	ctx context.TxContext,
+	req *schema.SpecimenUpdateRequest,
+) (*schema.Specimen, error) {
 	// Validate request
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
@@ -401,7 +427,11 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 
 	// Primary
 	{
-		modified, err := UpdateMessageField("primary", currentSpecimen.GetPrimary(), req.GetSpecimen().GetPrimary())
+		modified, err := UpdateMessageField(
+			"primary",
+			currentSpecimen.GetPrimary(),
+			req.GetSpecimen().GetPrimary(),
+		)
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update primary")
 		}
@@ -413,7 +443,11 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 
 	// Secondary
 	{
-		modified, err := UpdateMessageField("secondary", currentSpecimen.GetSecondary(), req.GetSpecimen().GetSecondary())
+		modified, err := UpdateMessageField(
+			"secondary",
+			currentSpecimen.GetSecondary(),
+			req.GetSpecimen().GetSecondary(),
+		)
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update secondary")
 		}
@@ -425,7 +459,11 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 
 	// Taxon
 	{
-		modified, err := UpdateMessageField("taxon", currentSpecimen.GetTaxon(), req.GetSpecimen().GetTaxon())
+		modified, err := UpdateMessageField(
+			"taxon",
+			currentSpecimen.GetTaxon(),
+			req.GetSpecimen().GetTaxon(),
+		)
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update taxon")
 		}
@@ -437,7 +475,11 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 
 	// Georeference
 	{
-		modified, err := UpdateMessageField("georeference", currentSpecimen.GetGeoreference(), req.GetSpecimen().GetGeoreference())
+		modified, err := UpdateMessageField(
+			"georeference",
+			currentSpecimen.GetGeoreference(),
+			req.GetSpecimen().GetGeoreference(),
+		)
 		if err != nil {
 			return nil, errors.Wrap(err, "SpecimenUpdate failed to update georeference")
 		}
@@ -544,7 +586,10 @@ func (s *SpecimenContract) SpecimenUpdate(ctx context.TxContext, req *schema.Spe
 }
 
 // SpecimenDelete removes the specimen from the world state
-func (s *SpecimenContract) SpecimenDelete(ctx context.TxContext, req *schema.SpecimenDeleteRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) SpecimenDelete(
+	ctx context.TxContext,
+	req *schema.SpecimenDeleteRequest,
+) (*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -583,7 +628,10 @@ func (s *SpecimenContract) SpecimenDelete(ctx context.TxContext, req *schema.Spe
 //   - Requires the tx to be in the specimen history
 //   - Requires the tx to not already be hidden
 //   - Requires the tx to not be the last modified tx
-func (s *SpecimenContract) SpecimenHideTx(ctx context.TxContext, req *schema.SpecimenHideTxRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) SpecimenHideTx(
+	ctx context.TxContext,
+	req *schema.SpecimenHideTxRequest,
+) (*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -649,7 +697,10 @@ func (s *SpecimenContract) SpecimenHideTx(ctx context.TxContext, req *schema.Spe
 //   - Requires the user to be registered
 //   - Requires the user to be a have a role authorized to unHide txs
 //   - Requires the tx to be hidden
-func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.SpecimenUnHideTxRequest) (*schema.Specimen, error) {
+func (s *SpecimenContract) SpecimenUnHideTx(
+	ctx context.TxContext,
+	req *schema.SpecimenUnHideTxRequest,
+) (*schema.Specimen, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -699,7 +750,10 @@ func (s *SpecimenContract) SpecimenUnHideTx(ctx context.TxContext, req *schema.S
 // suggest Specimens
 // -------------------------
 
-func (s *SpecimenContract) SuggestedUpdateCreate(ctx context.TxContext, req *schema.SuggestedUpdateCreateRequest) (*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) SuggestedUpdateCreate(
+	ctx context.TxContext,
+	req *schema.SuggestedUpdateCreateRequest,
+) (*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -715,7 +769,10 @@ func (s *SpecimenContract) SuggestedUpdateCreate(ctx context.TxContext, req *sch
 	return nil, nil
 }
 
-func (s *SpecimenContract) SuggestedUpdateReject(ctx context.TxContext, req *schema.SuggestedUpdateRejectRequest) (*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) SuggestedUpdateReject(
+	ctx context.TxContext,
+	req *schema.SuggestedUpdateRejectRequest,
+) (*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -731,7 +788,10 @@ func (s *SpecimenContract) SuggestedUpdateReject(ctx context.TxContext, req *sch
 	return nil, nil
 }
 
-func (s *SpecimenContract) SuggestedUpdateApprove(ctx context.TxContext, req *schema.SuggestedUpdateApproveRequest) (*schema.SuggestedUpdate, error) {
+func (s *SpecimenContract) SuggestedUpdateApprove(
+	ctx context.TxContext,
+	req *schema.SuggestedUpdateApproveRequest,
+) (*schema.SuggestedUpdate, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}

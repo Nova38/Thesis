@@ -81,7 +81,11 @@ func ExtractPathPolicy(
 	}
 }
 
-func CheckPathAction(path string, action pb.ACL_Action, policies *pb.ACL_PathRolePermission) (bool, error) {
+func CheckPathAction(
+	path string,
+	action pb.ACL_Action,
+	policies *pb.ACL_PathRolePermission,
+) (bool, error) {
 	policy, err := ExtractPathPolicy(policies, path)
 	if err != nil {
 		return false, err

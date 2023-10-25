@@ -46,7 +46,11 @@ func (d *DiffGenerator) GenerateMessage(
 	}
 
 	// Start the function
-	g.P("func (m *", msg.GoIdent.GoName, ") DiffPath(other *", msg.GoIdent.GoName, ") (updated []string, all bool) {")
+	g.P(
+		"func (m *", msg.GoIdent.GoName, ") ",
+		"DiffPath(other *", msg.GoIdent.GoName, ")",
+		"(updated []string, all bool) {",
+	)
 	g.P()
 	g.P("all = true")
 	defer func() { g.P("return updated, all"); g.P("}"); g.P() }()

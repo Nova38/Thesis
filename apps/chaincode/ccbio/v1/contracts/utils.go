@@ -23,7 +23,11 @@ type MappedProto interface {
 	schema.Specimen_Image | schema.Specimen_HiddenTx
 }
 
-func UpdateMappedFiled[T TimestampedProto](ctx context.LastModifiedTxContext, oldMap map[string]T, newMap map[string]T) (updatedMap map[string]T, modified bool, err error) {
+func UpdateMappedFiled[T TimestampedProto](
+	ctx context.LastModifiedTxContext,
+	oldMap map[string]T,
+	newMap map[string]T,
+) (updatedMap map[string]T, modified bool, err error) {
 	// Make a cleared last modified
 	clearedLastModified := ctx.MakeClearedLastModified()
 	// Make last modified for this transaction

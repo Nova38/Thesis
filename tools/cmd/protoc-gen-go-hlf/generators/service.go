@@ -63,7 +63,12 @@ func (sv *ServiceGenerator) GenerateService(
 }
 
 func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *protogen.Service) {
-	ctx := g.QualifiedGoIdent(protogen.GoIdent{GoName: "LoggedTxCtxInterface", GoImportPath: "github.com/nova38/thesis/lib/go/fabric/state"})
+	ctx := g.QualifiedGoIdent(
+		protogen.GoIdent{
+			GoName:       "LoggedTxCtxInterface",
+			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/state",
+		},
+	)
 
 	g.P("type ", v.GoName, "Interface interface{")
 	defer g.P("}")
@@ -87,7 +92,11 @@ func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *proto
 			mComments += "//   - Action: " + op.Action.String() + "\n"
 		}
 
-		g.P(mComments, m.GoName, "(ctx ", ctx, ", req *", m.Input.GoIdent, ") (res *", m.Output.GoIdent, ",err error)")
+		g.P(
+			mComments, m.GoName,
+			"(ctx ", ctx, ", req *", m.Input.GoIdent, ") ",
+			"(res *", m.Output.GoIdent, ",err error)",
+		)
 
 		g.P()
 	}
@@ -144,7 +153,12 @@ func GenerateOperationLookup(
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
 ) {
-	opImport := g.QualifiedGoIdent(protogen.GoIdent{GoName: "ACL_Operation", GoImportPath: "github.com/nova38/thesis/lib/go/gen/rbac"})
+	opImport := g.QualifiedGoIdent(
+		protogen.GoIdent{
+			GoName:       "ACL_Operation",
+			GoImportPath: "github.com/nova38/thesis/lib/go/gen/rbac",
+		},
+	)
 	fmtImport := g.QualifiedGoIdent(protogen.GoIdent{GoImportPath: "fmt"})
 	g.P("//")
 

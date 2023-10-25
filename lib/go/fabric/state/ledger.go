@@ -45,7 +45,9 @@ func MakeCompositeKey[T StateObject](ctx LoggedTxCtxInterface, obj T) (key strin
 		return "", err
 	}
 
-	ctx.GetLogger().Info("MakeCompositeKey", slog.Group("Key", "Namespace", namespace, "attr", attr))
+	ctx.GetLogger().
+		Info("MakeCompositeKey",
+			slog.Group("Key", "Namespace", namespace, "attr", attr))
 	key, err = ctx.GetStub().CreateCompositeKey(namespace, attr)
 
 	if err != nil {
@@ -172,7 +174,10 @@ func DeleteState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 }
 
 // GetStateHistory returns the history of the object from the ledger
-func GetStateHistory[T StateObject](ctx LoggedTxCtxInterface, in T) (list HistoryList[T], err error) {
+func GetStateHistory[T StateObject](
+	ctx LoggedTxCtxInterface,
+	in T,
+) (list HistoryList[T], err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return HistoryList[T]{}, err
@@ -240,7 +245,11 @@ func TxIdInHistory[T StateObject](ctx LoggedTxCtxInterface, in T, txId string) (
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPartialKeyList[T StateObject](ctx LoggedTxCtxInterface, in T, numAttr int) (list []T, err error) {
+func GetPartialKeyList[T StateObject](
+	ctx LoggedTxCtxInterface,
+	in T,
+	numAttr int,
+) (list []T, err error) {
 	// obj = []*T{}
 	ctx.GetLogger().Info("GetPartialKeyList")
 	namespace := in.Namespace()
@@ -258,7 +267,8 @@ func GetPartialKeyList[T StateObject](ctx LoggedTxCtxInterface, in T, numAttr in
 
 	attr = attr[:len(attr)-numAttr]
 
-	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr)))
+	ctx.GetLogger().
+		Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr)))
 
 	resultIterator, err := ctx.GetStub().GetStateByPartialCompositeKey(namespace, attr)
 	if err != nil {
@@ -324,7 +334,12 @@ func GetFullStateList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, 
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPagedPartialKeyList[T StateObject](ctx PagedTxCtxInterface, in T, numAttr int, bookmark string) (list []T, nextBookmark string, err error) {
+func GetPagedPartialKeyList[T StateObject](
+	ctx PagedTxCtxInterface,
+	in T,
+	numAttr int,
+	bookmark string,
+) (list []T, nextBookmark string, err error) {
 	// obj = []*T{}
 	// ctx.GetLogger().Info("GetPagedPartialKeyList")
 	namespace := in.Namespace()
@@ -356,7 +371,8 @@ func GetPagedPartialKeyList[T StateObject](ctx PagedTxCtxInterface, in T, numAtt
 			),
 		)
 
-	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, attr, ctx.GetPageSize(), bookmark)
+	resultIterator, resMeta, err := ctx.GetStub().
+		GetStateByPartialCompositeKeyWithPagination(namespace, attr, ctx.GetPageSize(), bookmark)
 	if err != nil {
 		return nil, "", err
 	}
@@ -382,7 +398,11 @@ func GetPagedPartialKeyList[T StateObject](ctx PagedTxCtxInterface, in T, numAtt
 }
 
 // ------------------------------------------------------------
-func GetPagedFullStateList[T StateObject](ctx PagedTxCtxInterface, in T, bookmark string) (list []T, nextBookmark string, err error) {
+func GetPagedFullStateList[T StateObject](
+	ctx PagedTxCtxInterface,
+	in T,
+	bookmark string,
+) (list []T, nextBookmark string, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -398,7 +418,8 @@ func GetPagedFullStateList[T StateObject](ctx PagedTxCtxInterface, in T, bookmar
 			),
 		)
 
-	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, []string{}, ctx.GetPageSize(), bookmark)
+	resultIterator, resMeta, err := ctx.GetStub().
+		GetStateByPartialCompositeKeyWithPagination(namespace, []string{}, ctx.GetPageSize(), bookmark)
 	if err != nil {
 		return nil, "", err
 	}

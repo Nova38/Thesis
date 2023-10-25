@@ -36,16 +36,28 @@ func TestUpdateMappedFiled(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotUpdatedMap, gotModified, err := UpdateMappedFiled(tt.args.ctx, tt.args.oldMap, tt.args.newMap)
+			gotUpdatedMap, gotModified, err := UpdateMappedFiled(
+				tt.args.ctx,
+				tt.args.oldMap,
+				tt.args.newMap,
+			)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UpdateMappedFiled() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(gotUpdatedMap, tt.wantUpdatedMap) {
-				t.Errorf("UpdateMappedFiled() gotUpdatedMap = %v, want %v", gotUpdatedMap, tt.wantUpdatedMap)
+				t.Errorf(
+					"UpdateMappedFiled() gotUpdatedMap = %v, want %v",
+					gotUpdatedMap,
+					tt.wantUpdatedMap,
+				)
 			}
 			if gotModified != tt.wantModified {
-				t.Errorf("UpdateMappedFiled() gotModified = %v, want %v", gotModified, tt.wantModified)
+				t.Errorf(
+					"UpdateMappedFiled() gotModified = %v, want %v",
+					gotModified,
+					tt.wantModified,
+				)
 			}
 		})
 	}

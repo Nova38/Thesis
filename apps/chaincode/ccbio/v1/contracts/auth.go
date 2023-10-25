@@ -98,7 +98,10 @@ func (s *AuthContract) GetCurrentUserId(ctx context.TxContext) (*schema.User_Id,
 }
 
 // GetUser  returns the user with the given ID
-func (s *AuthContract) GetUser(ctx context.TxContext, id *schema.GetUserRequest) (user *schema.User, er error) {
+func (s *AuthContract) GetUser(
+	ctx context.TxContext,
+	id *schema.GetUserRequest,
+) (user *schema.User, er error) {
 	if err := id.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -174,7 +177,10 @@ func (s *AuthContract) GetUserList(ctx context.TxContext) (users *schema.User_Li
 // Collection
 // -------------------------
 
-func (s *AuthContract) GetCollection(ctx context.TxContext, req *schema.GetCollectionRequest) (*schema.Collection, error) {
+func (s *AuthContract) GetCollection(
+	ctx context.TxContext,
+	req *schema.GetCollectionRequest,
+) (*schema.Collection, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}
@@ -210,7 +216,10 @@ func (s *AuthContract) GetCollectionList(ctx context.TxContext) (*schema.Collect
 // User
 // -------------------------
 
-func (s *AuthContract) UserRegister(ctx context.TxContext, req *schema.UserRegisterRequest) (*schema.User, error) {
+func (s *AuthContract) UserRegister(
+	ctx context.TxContext,
+	req *schema.UserRegisterRequest,
+) (*schema.User, error) {
 	id, err := ctx.GetUserId()
 	if err != nil {
 		return nil, err
@@ -259,7 +268,10 @@ func (s *AuthContract) AddTestUsers(ctx context.TxContext) (*schema.User, error)
 	return &user, nil
 }
 
-func (s *AuthContract) UserUpdateMembership(ctx context.TxContext, req *schema.UpdateMembershipRequest) (*schema.User, error) {
+func (s *AuthContract) UserUpdateMembership(
+	ctx context.TxContext,
+	req *schema.UpdateMembershipRequest,
+) (*schema.User, error) {
 	// Validate request
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
@@ -301,7 +313,10 @@ func (s *AuthContract) UserUpdateMembership(ctx context.TxContext, req *schema.U
 
 // CollectionCreate creates a new collection and adds the user as a manager
 // Requires the user to be registered
-func (s *AuthContract) CollectionCreate(ctx context.TxContext, req *schema.CollectionCreateRequest) (*schema.Collection, error) {
+func (s *AuthContract) CollectionCreate(
+	ctx context.TxContext,
+	req *schema.CollectionCreateRequest,
+) (*schema.Collection, error) {
 	logger := ctx.GetLogger()
 	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
@@ -364,7 +379,10 @@ func (s *AuthContract) CollectionCreate(ctx context.TxContext, req *schema.Colle
 }
 
 // CollectionUpdate updates the collection role permissions
-func (s *AuthContract) CollectionUpdate(ctx context.TxContext, req *schema.CollectionUpdateRequest) (*schema.Collection, error) {
+func (s *AuthContract) CollectionUpdate(
+	ctx context.TxContext,
+	req *schema.CollectionUpdateRequest,
+) (*schema.Collection, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, err
 	}

@@ -50,7 +50,10 @@ func HandelBefore(ctx rbac.AuthTxCtx) error {
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
-func (a AuthContractImpl) UserGetCurrent(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *cc.UserGetCurrentResponse, err error) {
+func (a AuthContractImpl) UserGetCurrent(
+	ctx rbac.AuthTxCtx,
+	req *emptypb.Empty,
+) (res *cc.UserGetCurrentResponse, err error) {
 	user, err := ctx.GetUser()
 	if err != nil {
 		return nil, err
@@ -67,7 +70,10 @@ func (a AuthContractImpl) UserGetCurrent(ctx rbac.AuthTxCtx, req *emptypb.Empty)
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
-func (a AuthContractImpl) UserGetCurrentId(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *cc.UserGetCurrentIdResponse, err error) {
+func (a AuthContractImpl) UserGetCurrentId(
+	ctx rbac.AuthTxCtx,
+	req *emptypb.Empty,
+) (res *cc.UserGetCurrentIdResponse, err error) {
 	user_id, err := ctx.GetUserId()
 	if err != nil {
 		return nil, oops.
@@ -86,7 +92,10 @@ func (a AuthContractImpl) UserGetCurrentId(ctx rbac.AuthTxCtx, req *emptypb.Empt
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
-func (a AuthContractImpl) UserGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *cc.UserGetListResponse, err error) {
+func (a AuthContractImpl) UserGetList(
+	ctx rbac.AuthTxCtx,
+	req *emptypb.Empty,
+) (res *cc.UserGetListResponse, err error) {
 	// TODO implement me
 	userList, err := state.GetFullStateList(&ctx, &rbac_pb.User{})
 	if err != nil {
@@ -107,7 +116,10 @@ func (a AuthContractImpl) UserGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (r
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
-func (a AuthContractImpl) UserGet(ctx rbac.AuthTxCtx, req *cc.UserGetRequest) (res *cc.UserGetResponse, err error) {
+func (a AuthContractImpl) UserGet(
+	ctx rbac.AuthTxCtx,
+	req *cc.UserGetRequest,
+) (res *cc.UserGetResponse, err error) {
 	// Validate the request
 	v, err := ctx.GetValidator()
 	if err != nil {
@@ -137,7 +149,10 @@ func (a AuthContractImpl) UserGet(ctx rbac.AuthTxCtx, req *cc.UserGetRequest) (r
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW_HISTORY
-func (a AuthContractImpl) UserGetHistory(ctx rbac.AuthTxCtx, req *cc.UserGetHistoryRequest) (res *cc.UserGetHistoryResponse, err error) {
+func (a AuthContractImpl) UserGetHistory(
+	ctx rbac.AuthTxCtx,
+	req *cc.UserGetHistoryRequest,
+) (res *cc.UserGetHistoryResponse, err error) {
 	// TODO implement me
 	panic("implement me")
 }
@@ -150,7 +165,10 @@ func (a AuthContractImpl) UserGetHistory(ctx rbac.AuthTxCtx, req *cc.UserGetHist
 // # Operation:
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_CREATE
-func (a AuthContractImpl) UserRegister(ctx rbac.AuthTxCtx, req *cc.UserRegisterRequest) (res *cc.UserRegisterResponse, err error) {
+func (a AuthContractImpl) UserRegister(
+	ctx rbac.AuthTxCtx,
+	req *cc.UserRegisterRequest,
+) (res *cc.UserRegisterResponse, err error) {
 	// TODO implement me
 
 	// Validate the request
@@ -187,7 +205,10 @@ func (a AuthContractImpl) UserRegister(ctx rbac.AuthTxCtx, req *cc.UserRegisterR
 	return &cc.UserRegisterResponse{User: user}, nil
 }
 
-func (a AuthContractImpl) UserUpdate(ctx rbac.AuthTxCtx, req *cc.UserUpdateRequest) (res *cc.UserUpdateResponse, err error) {
+func (a AuthContractImpl) UserUpdate(
+	ctx rbac.AuthTxCtx,
+	req *cc.UserUpdateRequest,
+) (res *cc.UserUpdateResponse, err error) {
 	// TODO implement me
 
 	// Validate the request
@@ -210,7 +231,10 @@ func (a AuthContractImpl) UserUpdate(ctx rbac.AuthTxCtx, req *cc.UserUpdateReque
 	panic("implement me")
 }
 
-func (a AuthContractImpl) UserUpdateMembership(ctx rbac.AuthTxCtx, req *cc.UserUpdateMembershipRequest) (res *cc.UserUpdateMembershipResponse, err error) {
+func (a AuthContractImpl) UserUpdateMembership(
+	ctx rbac.AuthTxCtx,
+	req *cc.UserUpdateMembershipRequest,
+) (res *cc.UserUpdateMembershipResponse, err error) {
 	// TODO implement me
 	// Validate the request
 	{
@@ -287,7 +311,10 @@ func (a AuthContractImpl) UserUpdateMembership(ctx rbac.AuthTxCtx, req *cc.UserU
 		state.UpdateState(&ctx, userToModify)
 }
 
-func (a AuthContractImpl) CollectionGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *cc.CollectionGetListResponse, err error) {
+func (a AuthContractImpl) CollectionGetList(
+	ctx rbac.AuthTxCtx,
+	req *emptypb.Empty,
+) (res *cc.CollectionGetListResponse, err error) {
 	// TODO implement me
 	// panic("implement me")
 
@@ -314,7 +341,10 @@ func (a AuthContractImpl) CollectionGetList(ctx rbac.AuthTxCtx, req *emptypb.Emp
 	}, nil
 }
 
-func (a AuthContractImpl) CollectionGet(ctx rbac.AuthTxCtx, req *cc.CollectionGetRequest) (res *cc.CollectionGetResponse, err error) {
+func (a AuthContractImpl) CollectionGet(
+	ctx rbac.AuthTxCtx,
+	req *cc.CollectionGetRequest,
+) (res *cc.CollectionGetResponse, err error) {
 	// TODO implement me
 	// panic("implement me")
 
@@ -350,22 +380,34 @@ func (a AuthContractImpl) CollectionGet(ctx rbac.AuthTxCtx, req *cc.CollectionGe
 	}, nil
 }
 
-func (a AuthContractImpl) CollectionGetHistory(ctx rbac.AuthTxCtx, req *cc.CollectionGetHistoryRequest) (res *cc.CollectionGetHistoryResponse, err error) {
+func (a AuthContractImpl) CollectionGetHistory(
+	ctx rbac.AuthTxCtx,
+	req *cc.CollectionGetHistoryRequest,
+) (res *cc.CollectionGetHistoryResponse, err error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (a AuthContractImpl) CollectionCreate(ctx rbac.AuthTxCtx, req *cc.CollectionCreateRequest) (res *cc.CollectionCreateResponse, err error) {
+func (a AuthContractImpl) CollectionCreate(
+	ctx rbac.AuthTxCtx,
+	req *cc.CollectionCreateRequest,
+) (res *cc.CollectionCreateResponse, err error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (a AuthContractImpl) CollectionUpdateRoles(ctx rbac.AuthTxCtx, req *cc.CollectionUpdateRolesRequest) (res *cc.CollectionUpdateRolesResponse, err error) {
+func (a AuthContractImpl) CollectionUpdateRoles(
+	ctx rbac.AuthTxCtx,
+	req *cc.CollectionUpdateRolesRequest,
+) (res *cc.CollectionUpdateRolesResponse, err error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (a AuthContractImpl) CollectionUpdatePermission(ctx rbac.AuthTxCtx, req *cc.CollectionUpdatePermissionRequest) (res *cc.CollectionUpdatePermissionResponse, err error) {
+func (a AuthContractImpl) CollectionUpdatePermission(
+	ctx rbac.AuthTxCtx,
+	req *cc.CollectionUpdatePermissionRequest,
+) (res *cc.CollectionUpdatePermissionResponse, err error) {
 	// TODO implement me
 	panic("implement me")
 }

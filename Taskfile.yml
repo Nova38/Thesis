@@ -20,6 +20,11 @@ tasks:
     cmds:
       - buf generate --template "${template}"
 
+  go:format:
+    cmds:
+      - golines --ignore-generated  . -w
+
+
   default:
     watch: true
     sources:
