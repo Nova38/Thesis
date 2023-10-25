@@ -1,7 +1,6 @@
 package state
 
 import (
-	"fmt"
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
@@ -32,15 +31,6 @@ type (
 
 func (ctx LoggedTxCtx) GetLogger() *slog.Logger {
 	return ctx.Logger
-}
-
-func (ctx LoggedTxCtx) SetLogger(logger *slog.Logger) error {
-	if logger == nil {
-		return fmt.Errorf("Logger is nil")
-	}
-
-	ctx.Logger = logger
-	return nil
 }
 
 func (ctx LoggedTxCtx) NewLogger() (*slog.Logger, error) {

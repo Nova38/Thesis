@@ -24,9 +24,7 @@ var _ = Describe("RBAC", func() {
 	Describe("Collection CEL validation", func() {
 		Context("Missing Parts", func() {
 			It("Empty Collection Should Fail", func() {
-				msg := &pb.Collection{
-					Roles: map[int32]string{},
-				}
+				msg := &pb.Collection{}
 				Expect(v.Validate(msg)).To(BeFalse())
 			})
 		})

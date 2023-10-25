@@ -1,7 +1,5 @@
 package context
 
-// nolint
-
 import (
 	"errors"
 	"fmt"

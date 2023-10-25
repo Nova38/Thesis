@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"strconv"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
@@ -64,7 +65,6 @@ func ObjExists[T StateObject](ctx LoggedTxCtxInterface, obj T) (bool, error) {
 
 // Exists returns true if the object exists in the ledger
 func Exists(ctx LoggedTxCtxInterface, key string) bool {
-
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return false
@@ -75,7 +75,6 @@ func Exists(ctx LoggedTxCtxInterface, key string) bool {
 
 // PutState puts the object into the ledger
 func PutState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
-
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -92,7 +91,6 @@ func PutState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 // InsertState inserts the object into the ledger
 // returns error if the object already exists
 func InsertState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
-
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -117,7 +115,6 @@ func InsertState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 // UpdateState updates the object in the ledger
 // returns error if the object does not exist
 func UpdateState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
-
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -345,7 +342,19 @@ func GetPagedPartialKeyList[T StateObject](ctx PagedTxCtxInterface, in T, numAtt
 
 	attr = attr[:len(attr)-numAttr]
 
-	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Int("numAttr", numAttr), slog.Any("attr", attr), slog.Group("Bookmark", bookmark, "PageSize", ctx.GetPageSize())))
+	ctx.GetLogger().
+		Info("GetPartialKeyList",
+			slog.Group(
+				"Key", "Namespace", namespace,
+				slog.Int("numAttr", numAttr),
+				slog.Any("attr", attr),
+				slog.Group(
+					"Paged",
+					"Bookmark", bookmark,
+					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
+				),
+			),
+		)
 
 	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, attr, ctx.GetPageSize(), bookmark)
 	if err != nil {
@@ -380,7 +389,14 @@ func GetPagedFullStateList[T StateObject](ctx PagedTxCtxInterface, in T, bookmar
 
 	// key, err := ctx.GetStub().CreateCompositeKey()
 
-	ctx.GetLogger().Info("GetPartialKeyList", slog.Group("Key", "Namespace", namespace, slog.Group("Bookmark", bookmark, "PageSize", ctx.GetPageSize())))
+	ctx.GetLogger().
+		Info("GetPartialKeyList",
+			slog.Group("Key", "Namespace", namespace,
+				slog.Group("Paged",
+					"Bookmark", bookmark, "PageSize",
+					strconv.Itoa(int(ctx.GetPageSize()))),
+			),
+		)
 
 	resultIterator, resMeta, err := ctx.GetStub().GetStateByPartialCompositeKeyWithPagination(namespace, []string{}, ctx.GetPageSize(), bookmark)
 	if err != nil {

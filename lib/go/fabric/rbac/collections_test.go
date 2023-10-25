@@ -151,6 +151,16 @@ func TestAuthorizeOperation(t *testing.T) {
 		wantErr        bool
 	}{
 		// TODO: Add test cases.
+		{
+			name: "",
+			args: args{
+				op:         &pb.ACL_Operation{},
+				role:       0,
+				collection: collection1,
+			},
+			wantAuthorized: false,
+			wantErr:        false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

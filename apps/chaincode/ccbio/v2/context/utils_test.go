@@ -20,19 +20,7 @@ func TestExtractSpecimenId(t *testing.T) {
 		{
 			name: "Specimen Create Request Extraction",
 			args: args{
-				req: &pb.SpecimenCreateRequest{
-					Id: &pb.Specimen_Id{
-						CollectionId: "CollectionIDValue",
-						Id:           "IDValue",
-					},
-					Taxon:        &pb.Specimen_Taxon{},
-					Primary:      &pb.Specimen_Primary{},
-					Secondary:    &pb.Specimen_Secondary{},
-					Georeference: &pb.Specimen_Georeference{},
-					Images:       map[string]*pb.Specimen_Image{},
-					Loans:        "",
-					Grants:       "",
-				},
+				req: &pb.SpecimenCreateRequest{},
 			},
 			wantId: &pb.Specimen_Id{
 				CollectionId: "CollectionIDValue",

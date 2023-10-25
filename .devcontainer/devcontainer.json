@@ -1,4 +1,6 @@
+/* cSpell:disable */
 {
+
     "image": "mcr.microsoft.com/devcontainers/universal:2",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {

@@ -147,7 +147,7 @@ func (ctx *AuthTxCtx) IsAuthorized() error {
 
 		auth, err := ctx.authorize()
 		if err != nil {
-			ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+			slog.Error(err.Error(), slog.Any("error", err))
 			return oops.Wrap(err)
 		}
 

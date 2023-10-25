@@ -5,16 +5,12 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
-type DiffGenerator struct {
-	gen  *protogen.Plugin
-	file *protogen.File
-}
+type DiffGenerator struct{}
 
 func (d *DiffGenerator) GenerateFile(
 	gen *protogen.Plugin,
 	file *protogen.File,
 ) (*protogen.GeneratedFile, error) {
-
 	filename := file.GeneratedFilenamePrefix + ".cc.path.pb.go"
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
@@ -40,7 +36,6 @@ func (d *DiffGenerator) GenerateMessage(
 	g *protogen.GeneratedFile,
 	msg *protogen.Message,
 ) {
-
 	// Skip map entries as we can't directly compare them
 	if msg.Desc.IsMapEntry() {
 		return
@@ -57,14 +52,12 @@ func (d *DiffGenerator) GenerateMessage(
 	defer func() { g.P("return updated, all"); g.P("}"); g.P() }()
 
 	for _, f := range msg.Fields {
-
 		d.handelField(g, f)
 	}
 
 	g.P()
 
 	g.P()
-
 }
 
 // https://github.com/planetscale/vtprotobuf/blob/5a1a54cdaaaeaeed916c09300c7cfdbb9b9bb051/features/equal/equal.go#L167
@@ -72,7 +65,6 @@ func (d *DiffGenerator) handelField(
 	g *protogen.GeneratedFile,
 	f *protogen.Field,
 ) {
-
 	g.P("// ", f.Desc.Name(), ": is a ", f.Desc.Kind())
 
 	// Check if the field is a scalar
@@ -80,7 +72,6 @@ func (d *DiffGenerator) handelField(
 	// check if the field is a list
 	if f.Desc.IsList() {
 		g.P("// TODO: Handle lists")
-
 	} else if f.Desc.IsMap() {
 		// TODO: Handle maps
 		g.P("// TODO: Handle maps")
@@ -116,7 +107,6 @@ func (d *DiffGenerator) handelField(
 
 		g.P("} else { all = false }")
 	}
-
 }
 
 // https://github.com/planetscale/vtprotobuf/blob/5a1a54cdaaaeaeed916c09300c7cfdbb9b9bb051/features/equal/equal.go#L272C1-L285C2

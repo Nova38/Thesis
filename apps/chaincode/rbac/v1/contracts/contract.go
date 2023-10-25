@@ -110,7 +110,13 @@ func (a AuthContractImpl) UserGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (r
 func (a AuthContractImpl) UserGet(ctx rbac.AuthTxCtx, req *cc.UserGetRequest) (res *cc.UserGetResponse, err error) {
 	// Validate the request
 	v, err := ctx.GetValidator()
-	v.Validate(req)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err := v.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	// Get the user
 	user := &rbac_pb.User{Id: req.GetId()}
@@ -296,6 +302,12 @@ func (a AuthContractImpl) CollectionGetList(ctx rbac.AuthTxCtx, req *emptypb.Emp
 
 	// Get the collections
 	collectionList, err := state.GetFullStateList(&ctx, &rbac_pb.Collection{})
+	if err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			Code(rbac_pb.Error_ERROR_UNSPECIFIED.String()).
+			Wrap(err)
+	}
 
 	return &cc.CollectionGetListResponse{
 		Collections: collectionList,

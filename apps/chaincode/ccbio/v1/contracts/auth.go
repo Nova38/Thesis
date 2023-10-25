@@ -305,8 +305,6 @@ func (s *AuthContract) CollectionCreate(ctx context.TxContext, req *schema.Colle
 	logger := ctx.GetLogger()
 	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
-	// logger.Debugf("CollectionCreate: %+v", req)
-
 	if err := req.ValidateAll(); err != nil {
 		// logger.Error("CollectionCreate failed", "err", err)
 		logger.Error(err.Error(), "error", err)
