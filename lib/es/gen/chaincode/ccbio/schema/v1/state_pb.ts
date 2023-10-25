@@ -1763,4 +1763,3 @@ export class SuggestedStateList extends Message<SuggestedStateList> {
     return proto3.util.equals(SuggestedStateList, a, b);
   }
 }
-

@@ -86,7 +86,7 @@ service BiochainAuthService {
     rpc GetCurrentUserId(google.protobuf.Empty) returns (User.Id);
 
     /**
-  
+
     */
     rpc GetUserList(GetUserListRequest) returns (GetUserListResponse);
     rpc GetUser(GetUserRequest) returns (User);

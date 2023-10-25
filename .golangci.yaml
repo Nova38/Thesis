@@ -8,11 +8,9 @@ linters-settings:
     # Such cases aren't reported by default.
     # Default: false
     check-blank: true
-   
+
   staticcheck:
 
     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
     # Default: ["*"]
     checks: ["all"]
-
-

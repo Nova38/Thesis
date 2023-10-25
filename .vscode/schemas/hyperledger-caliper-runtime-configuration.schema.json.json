@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft-06/schema",
     "$ref": "#/definitions/ConfigurationHelper",
-    "definitions": {   
+    "definitions": {
         "ConfigurationHelper": {
             "type": "object",
             "additionalProperties": false,
@@ -74,7 +74,7 @@
                             "title": "Bind"
                         },
                         "report": {
-                            "description": "Report file-related options", 
+                            "description": "Report file-related options",
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
@@ -88,7 +88,7 @@
                                     "additionalProperties": false,
                                     "properties": {
                                         "flag": {
-                                            "description": "The mode in which file will be opened in", 
+                                            "description": "The mode in which file will be opened in",
                                             "type": "string"
                                         },
                                         "mode": {
