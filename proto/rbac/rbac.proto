@@ -3,39 +3,146 @@ syntax = "proto3";
 package rbac;
 
 import "buf/validate/validate.proto";
-import "google/api/annotations.proto";
 import "google/protobuf/descriptor.proto";
-import "google/protobuf/type.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
 
 
-import "key/key.proto";
+import "hlf/key.proto";
 
-// Collections look up is a tree structure
-
-
-message StateActivity{
-    string tx_id = 1;
-    string note = 2;
-    google.protobuf.Timestamp timestamp = 3;
-    User.Id user_id = 4;
+// Define method options
+extend google.protobuf.MethodOptions {
+  ACL.Operation operation = 57777;
 }
 
 
 
 
 
-/*
-* TODO:
-* 
-*/
+// The ACL will be defined in a map per role
+message ACL {
+  enum Domain {
+    DOMAIN_UNSPECIFIED = 0;
+
+    DOMAIN_COLLECTION = 1;
+      DOMAIN_COLLECTION_MEMBERSHIP = 2;
+      DOMAIN_COLLECTION_PERMISSION = 3;
+      DOMAIN_COLLECTION_ROLES = 4;
+
+    DOMAIN_USER = 5;
+
+    DOMAIN_OBJECT = 6;
+
+  }
+  enum Action {
+    ACTION_UNSPECIFIED = 0;   // Default
+    ACTION_VIEW = 1;          // View
+    ACTION_CREATE = 2;        // Create
+    ACTION_DELETE = 3;        // Delete
+    ACTION_EDIT = 4;          // Edit/Update
+
+    ACTION_VIEW_SUGGEST = 5;    // View the suggested update to the object
+    ACTION_SUGGEST_EDIT = 6;    // Suggest an update to the object
+    ACTION_SUGGEST_APPROVE = 7; // Approve the suggested update
+    ACTION_SUGGEST_REJECT = 8;  // Reject the suggested update
+
+    ACTION_VIEW_HISTORY = 9;    // View the history of the object
+
+    ACTION_HIDDEN_TX = 10;      // view, hide, unhide
+  }
+
+  message Operation {
+    Domain domain = 1;
+    Action action = 2;
+     google.protobuf.FieldMask paths = 3;
+  }
+
+  // Types of Policies for the ACL
+  message Policy {
+
+    // Policy for altering the valid roles in the collection
+    message Roles {
+      bool create = 1;
+      bool delete = 2;
+    }
+
+    // Policy for altering the membership of a role
+    message Membership {
+      bool view = 1;
+      bool edit = 2;
+    }
+
+    // Policy for altering the object
+    message Object {
+      bool view = 1;
+      bool create = 2;
+      bool delete = 3;
+      bool view_history = 4;
+      bool hidden_txs = 5;
+    }
+
+    // Policy for altering the object
+    message ObjectField {
+      bool view = 1;
+      bool edit = 2;
+      bool suggest_edit = 3;
+      bool suggest_approve = 4;
+      bool suggest_reject = 5;
+    }
+
+    oneof policy {
+      Roles roles = 1;
+      Membership membership = 2;
+      Object object = 3;
+      ObjectField object_field = 4;
+    }
+  }
+
+  // This message is the tree node for operations on the state object
+  message PathRolePermission {
+    // The path is a sub path of a field mask
+    string path = 1 [(buf.validate.field).string.min_len = 1];
+
+    bool allow_sub_paths = 2;
+    // The key is a valid sub path in the type of state object
+    map<string, PathRolePermission> sub_paths = 3;
+
+    // The Key must be a valid role id defined in the roles map
+    Policy.ObjectField policy = 4 [(buf.validate.field).required = true];
+
+
+    option (buf.validate.message).cel = {
+        id: "SubPathsAllowed"
+        message: "Sub Paths are not allowed"
+        expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+    };
+
+  }
+
+
+  // The permissions for modifications to valid roles in the collection
+  Policy.Roles role_defs = 1 [(buf.validate.field).required = true];
+
+  // The permissions for modifications the permissions of a role
+  Policy.Membership role_permissions  = 2 [(buf.validate.field).required = true];
+
+  // The permissions for modifications user memberships in the collection
+  Policy.Membership memberships = 3 [(buf.validate.field).required = true];
+
+  // The permissions for modifications to the object
+  Policy.Object object = 4 [(buf.validate.field).required = true];
+
+  // The permissions for modifications to the object's fields
+  PathRolePermission object_paths = 5 [(buf.validate.field).required = true];
+}
+
 
 
 message Collection {
-  option (key.key_schema).namespace = "collection";
-  option (key.key_schema).key_paths = {
+  option (hlf.key_schema).namespace = "collection";
+  option (hlf.key_schema).key_paths = {
     paths: ["id.collection_id"]
   };
 
@@ -43,33 +150,7 @@ message Collection {
     string collection_id = 1 [(buf.validate.field).string.email = true];
   }
 
-  message List {
-    repeated Collection items = 1;
-  }
-  
-    message ACL {
-        // Declared Permissions for the permissions of all roles in the collection
-        //   - The value is the permissions for the role
-        Operations.Membership role_permissions = 5 ;
-    
-        // acl_memberships are the permissions for assigning roles to users
-        // Keys must be valid role ids defined in the roles map
-    
-        // Declared Permissions for the memberships of all roles in the Collection
-        //   - The key is the role id
-        //   - The value is the permissions for the role 
-        Operations.Membership memberships = 6;
-    
-        // acl_object are the permissions for the object
-        // Keys must be valid role ids defined in the roles map
-        Operations.Object object = 7;
-        
-        //  ObjectField Permissions
-        // Key must be a valid field path in the object descriptor
-        map<string, Operations.PathRolePermission> object_paths = 8;
-    } 
-
-    
+  // The key for the ledger
   Id id = 1;
 
   // The namespace of the object
@@ -77,8 +158,10 @@ message Collection {
 
   // protobuf message descriptor
   // google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
-  google.protobuf.Type object_type = 3 [(buf.validate.field).required = true];
 
+  // The full name of the object type
+  // must be a valid protobuf message type
+  string object_type = 3 [(buf.validate.field).required = true];
 
   // Declared Roles for the collection
   //   - The key is the role id
@@ -104,78 +187,16 @@ message Collection {
     };
 
 
-  // Object paths 
+  // Object paths
   // ----------------------------------------------------
 
 }
 
-message Operations {
-    enum Domain {
-        DOMAIN_UNSPECIFIED = 0;
-        DOMAIN_COLLECTION = 1;
-        DOMAIN_OBJECT = 2;
-        DOMAIN_OBJECT_FIELD = 3;
-    }
-    
-    message Action{
-        enum Type {
-            TYPE_UNSPECIFIED = 0;
-            TYPE_VIEW = 1;
-            TYPE_EDIT = 2;
-            TYPE_SUGGEST_EDIT = 3;
-            TYPE_SUGGEST_APPROVE = 4;
-            TYPE_SUGGEST_REJECT = 5;
-            TYPE_CREATE = 6;
-            TYPE_DELETE = 7;
-            TYPE_HIDDEN_TX = 8;
-            TYPE_INIT = 9;
-        }
-        
-        Type type = 1;
-        google.protobuf.FieldMask paths = 2;
-    }
-    
-    
-
-    message Membership {
-        bool view = 1;
-        bool edit = 2;
-    }
-    message Object {
-        bool view = 1;
-        bool create = 2;
-        bool delete = 3;
-        bool hidden_txs = 4;
-    }
-    message ObjectField {
-        bool view = 1;
-        bool edit = 2;
-        bool suggest_edit = 3;
-        bool suggest_approve = 4;
-        bool suggest_reject = 5;
-    }
-
-    // This message is the tree node for operations on the state object
-    message PathRolePermission {
-        // The path is a sub path of a field mask
-        string path = 1 [(buf.validate.field).string.min_len = 1];
-
-        // The key is a valid sub path in the collection object descriptor
-        map<string, PathRolePermission> sub_paths = 2;
-
-        // The Key must be a valid role id defined in the roles map
-        map<int32, Operations.ObjectField> acl = 3 [(buf.validate.field).required = true];
-    }
-
-
-    Domain domain = 1;
-    Action action = 2;
-}
-
 // Users are a special type of object
+// buf:lint:ignore MESSAGE_NO_DELETE
 message User {
-  option (key.key_schema).namespace = "users";
-  option (key.key_schema).key_paths = {
+  option (hlf.key_schema).namespace = "users";
+  option (hlf.key_schema).key_paths = {
     paths: [
       "id.msp_id",
       "id.id"
@@ -187,15 +208,101 @@ message User {
     string msp_id = 1 [(buf.validate.field).string.min_len = 1];
     string id = 2 [(buf.validate.field).string.min_len = 1];
   }
-  message List {
-    repeated User items = 1;
+
+  message role {
+    Collection.Id collection_id = 1;
+    int32 role_id = 2;
+    User.Id granted_by = 3;
   }
 
+  // The key for the ledger
   Id id = 1 [(buf.validate.field).required = true];
 
   string name = 2 [(buf.validate.field).string.min_len = 1];
 
   // Key is the collectionID
-  map<string, int32> roles = 3;
+  map<string, role> roles = 3;
   google.protobuf.Struct metadata = 4;
+}
+
+
+
+
+
+// Utils
+
+
+message StateActivity{
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string note = 2;
+  google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
+  User.Id user_id = 4;
+}
+
+message History {
+  message Entry {
+    string tx_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    bool is_deleted = 3;
+    bool is_hidden = 4;
+    google.protobuf.Any state = 5;
+  }
+
+  repeated Entry entries = 1;
+}
+
+
+enum Error {
+  ERROR_UNSPECIFIED = 0;
+
+
+  /* Collection Errors */
+
+  // The collection id is invalid
+  ERROR_COLLECTION_INVALID_ID = 1;
+  // The collection is not registered
+  ERROR_COLLECTION_UNREGISTERED = 2;
+  // The collection is already registered
+  ERROR_COLLECTION_ALREADY_REGISTERED = 3;
+  // The Collection is invalid
+  ERROR_COLLECTION_INVALID = 4;
+  // The object type name is invalid
+  ERROR_COLLECTION_INVALID_OBJECT_TYPE = 5;
+  // The role id is invalid
+  ERROR_COLLECTION_INVALID_ROLE_ID = 6;
+
+
+  // User Errors
+
+  // The user does not have permission to perform the operation
+  ERROR_USER_INVALID_ID = 10;
+  // The user is not registered
+  ERROR_USER_UNREGISTERED = 11;
+  // The user is already registered
+  ERROR_USER_ALREADY_REGISTERED = 12;
+  // The user is invalid
+  ERROR_USER_INVALID = 13;
+  // The user does not have a role in the collection
+  ERROR_USER_NO_ROLE = 14;
+  // The user has a deleted role in the collection
+  ERROR_USER_DELETED_ROLE = 15;
+  // The user does not have permission to perform the operation
+  ERROR_USER_PERMISSION_DENIED = 16;
+
+
+
+  // The object id is invalid
+  ERROR_OBJECT_INVALID_ID = 21;
+  // The object is not registered
+  ERROR_OBJECT_UNREGISTERED = 22;
+  // The object is already registered
+  ERROR_OBJECT_ALREADY_REGISTERED = 23;
+  // The object is invalid
+  ERROR_OBJECT_INVALID = 24;
+
+  //
+  ERROR_INVALID_OBJECT_FIELD_PATH = 8;
+  ERROR_INVALID_OBJECT_FIELD_VALUE = 9;
+
+
 }

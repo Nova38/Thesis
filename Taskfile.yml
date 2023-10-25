@@ -5,7 +5,7 @@ dotenv:
 tasks:
   install:
     cmds:
-      - go install ./tools/cmd/protoc-gen-cckey
+#      - go install ./tools/cmd/protoc-gen-cckey
       - go install ./tools/cmd/protoc-gen-go-hlf
   gen:
     watch: true
@@ -26,5 +26,3 @@ tasks:
       - "lib/**/*"
     cmds:
       - buf generate
-
-

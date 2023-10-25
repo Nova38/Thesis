@@ -1,14 +1,15 @@
 package generators
 
 import (
-	"github.com/nova38/thesis/lib/go/gen/key"
+	"strings"
+
+	"github.com/nova38/thesis/lib/go/gen/hlf"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 
 	"google.golang.org/protobuf/types/dynamicpb"
-	"strings"
 )
 
 type KeyGenerator struct{}
@@ -17,7 +18,6 @@ func (kg *KeyGenerator) GenerateFile(
 	gen *protogen.Plugin,
 	file *protogen.File,
 ) (*protogen.GeneratedFile, error) {
-
 	filename := file.GeneratedFilenamePrefix + ".cc.key.pb.go"
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
@@ -31,8 +31,13 @@ func (kg *KeyGenerator) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
+	toSkip := true
 	for _, msg := range file.Messages {
-		kg.GenerateMessage(gen, g, msg)
+		toSkip = toSkip && kg.GenerateMessage(gen, g, msg)
+	}
+
+	if toSkip {
+		g.Skip()
 	}
 
 	return g, nil
@@ -43,11 +48,16 @@ func (kg *KeyGenerator) GenerateMessage(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	msg *protogen.Message,
-) {
+) (notUsed bool) {
+	notUsed = true
+	// Check for sub messages
+	for _, subMsg := range msg.Messages {
+		notUsed = notUsed && kg.GenerateMessage(gen, g, subMsg)
+	}
 
 	keySchema := KeySchemaOptions(msg)
 	if keySchema == nil {
-		return
+		return true
 	}
 
 	ns := keySchema.GetNamespace()
@@ -87,8 +97,10 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("return nil, errors.New(\"Key is nil\")}")
 		g.P("return attr, nil")
 		g.P("}")
-	}
 
+		return false
+	}
+	return true
 }
 
 func PathToGetter(path string) string {
@@ -124,8 +136,9 @@ func toSubPaths(rawPaths string) []string {
 	}
 	return p
 }
-func KeySchemaOptions(m *protogen.Message) *key.KeySchema {
-	v, ok := proto.GetExtension(m.Desc.Options(), key.E_KeySchema).(*key.KeySchema)
+
+func KeySchemaOptions(m *protogen.Message) *hlf.KeySchema {
+	v, ok := proto.GetExtension(m.Desc.Options(), hlf.E_KeySchema).(*hlf.KeySchema)
 	if !ok {
 		return nil
 	}

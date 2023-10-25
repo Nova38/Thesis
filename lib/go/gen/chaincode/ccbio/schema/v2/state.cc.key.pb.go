@@ -10,39 +10,6 @@ import (
 	lo "github.com/samber/lo"
 )
 
-// collection is the namespace for Collection
-func (m *Collection) Namespace() string {
-	return "collection"
-}
-func (m *Collection) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId().GetCollectionId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-
-// user is the namespace for User
-func (m *User) Namespace() string {
-	return "user"
-}
-func (m *User) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId().GetMspId())
-		attr = append(attr, m.GetId().GetId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-
 // specimen is the namespace for Specimen
 func (m *Specimen) Namespace() string {
 	return "specimen"
@@ -51,24 +18,6 @@ func (m *Specimen) Key() ([]string, error) {
 	attr := []string{}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetId().GetCollectionId())
-		attr = append(attr, m.GetId().GetId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-
-// specimen is the namespace for SuggestedUpdate
-func (m *SuggestedUpdate) Namespace() string {
-	return "specimen"
-}
-func (m *SuggestedUpdate) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId().GetSpecimenId().GetCollectionId())
-		attr = append(attr, m.GetId().GetSpecimenId().GetId())
 		attr = append(attr, m.GetId().GetId())
 		return nil
 	})

@@ -25,20 +25,3 @@ func (m *Collection) Key() ([]string, error) {
 	}
 	return attr, nil
 }
-
-// users is the namespace for User
-func (m *User) Namespace() string {
-	return "users"
-}
-func (m *User) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId().GetMspId())
-		attr = append(attr, m.GetId().GetId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}

@@ -6,14 +6,13 @@ import (
 )
 
 func main() {
-
 	fileGenerators := []generators.FileGenerator{
 		&generators.KeyGenerator{},
-		&generators.DiffGenerator{},
+		// &generators.DiffGenerator{},
+		&generators.ServiceGenerator{},
 	}
 
 	protogen.Options{}.Run(func(gen *protogen.Plugin) error {
-
 		for _, generator := range fileGenerators {
 			for _, f := range gen.Files {
 				if f.Generate {

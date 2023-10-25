@@ -10,7 +10,12 @@ import (
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
-	_ "github.com/nova38/thesis/lib/go/gen/rbac"
+	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
 )
 
-type AuthContractImpl struct{}
+// Check if AuthContractImpl implements AuthServiceInterface
+var _ cc.AuthServiceInterface = (*AuthContractImpl)(nil)
+
+type AuthContractImpl struct {
+	cc.AuthServiceBase
+}

@@ -4,7 +4,7 @@ package ccbio.schema.v1;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "key/key.proto";
+import "hlf/key.proto";
 
 // option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
 
@@ -64,8 +64,8 @@ message Action {
 // Collection
 // --------------------------------------------------
 message Collection {
-    option (key.key_schema).namespace = "collection";
-    option (key.key_schema).key_paths = {paths: ["id.collection_id"]};
+    option (hlf.key_schema).namespace = "collection";
+    option (hlf.key_schema).key_paths = {paths: ["id.collection_id"]};
   message Id {
     string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   }
@@ -131,8 +131,8 @@ message CollectionList {
 // --------------------------------------------------
 
 message User {
-  option (key.key_schema).namespace = "user";
-  option (key.key_schema).key_paths = {paths: ["id.msp_id" , "id.id"]};
+  option (hlf.key_schema).namespace = "user";
+  option (hlf.key_schema).key_paths = {paths: ["id.msp_id" , "id.id"]};
   //    option (key.key_schema).key_paths = "id.id";
 
   // The key for the ledger
@@ -159,8 +159,8 @@ message User {
 // --------------------------------------------------
 
 message Specimen {
-  option (key.key_schema).namespace = "specimen";
-  option (key.key_schema).key_paths = {paths: ["id.collection_id", "id.id"]};
+  option (hlf.key_schema).namespace = "specimen";
+  option (hlf.key_schema).key_paths = {paths: ["id.collection_id", "id.id"]};
 
   message Id {
     string collection_id = 1 [(buf.validate.field).string.min_len = 1];
@@ -291,8 +291,8 @@ message Specimen {
 // --------------------------------------------------
 
 message SuggestedUpdate {
-    option (key.key_schema).namespace = "specimen";
-    option (key.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
+    option (hlf.key_schema).namespace = "specimen";
+    option (hlf.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
 
   message Id {
     Specimen.Id specimen_id = 1 [(buf.validate.field).required = true];

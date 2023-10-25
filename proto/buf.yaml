@@ -1,17 +1,23 @@
 version: v1
 deps:
-  - buf.build/googleapis/googleapis
-  # - buf.build/protocolbuffers/wellknowntypes:v21.12
-  - buf.build/bufbuild/protovalidate
+    - buf.build/googleapis/googleapis
+    # - buf.build/protocolbuffers/wellknowntypes:v21.12
+    - buf.build/bufbuild/protovalidate
 
 
 
 breaking:
-  use:
-    - FILE
+    use:
+        - FILE
+    ignore:
+        - rbac/rbac.proto
+        - rbac/auth_service.proto
 lint:
-  use:
-    - DEFAULT
-  except:
-    - PACKAGE_DIRECTORY_MATCH
-    - PACKAGE_VERSION_SUFFIX
+    use:
+        - DEFAULT
+    except:
+        - PACKAGE_DIRECTORY_MATCH
+        - PACKAGE_VERSION_SUFFIX
+    rpc_allow_google_protobuf_empty_requests: true
+    rpc_allow_google_protobuf_empty_responses: true
+    allow_comment_ignores: true

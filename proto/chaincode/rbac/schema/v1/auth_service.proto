@@ -1,0 +1,339 @@
+syntax = "proto3";
+
+package rbac.schema.v1;
+
+import "rbac/rbac.proto";
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/empty.proto";
+
+
+import "hlf/utils.proto";
+
+
+
+
+service AuthService {
+  // buf:lint:ignore RPC_NO_DELETE
+  /*
+       * UserGetCurrent: Returns the current user.
+       *
+       * Returns the current user.
+       * # Requires:
+       *  - User submitting the transaction is a registered user.
+   */
+    rpc UserGetCurrent(google.protobuf.Empty) returns (UserGetCurrentResponse) {
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        // buf:lint:ignore RPC_NO_DELETE
+        domain: DOMAIN_USER
+      };
+    }
+  ;
+
+    /*
+         * Returns the current user id.
+         *
+         * # Requires:
+         *  - User submitting the transaction is a registered user.
+     */
+    rpc UserGetCurrentId(google.protobuf.Empty) returns (UserGetCurrentIdResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        domain: DOMAIN_USER
+      };
+    };
+
+    /*
+         * UserGetList: Returns the list of users.
+         *
+         * # Requires:
+         *  - Non-register users can call this method.
+     */
+    rpc UserGetList(google.protobuf.Empty) returns (UserGetListResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        domain: DOMAIN_USER
+      };
+    };
+
+//    rpc UserGetListByCollection(UserGetListByCollectionRequest) returns (UserGetListByCollectionResponse){
+//      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (rbac.operation) = {
+//        action: ACTION_VIEW
+//        domain: DOMAIN_USER
+//      };
+//    };
+//
+    /*
+         * UserGet: Returns the user.
+         *
+         * # Requires:
+         *  - Non-register users can call this method.
+     */
+    rpc UserGet(UserGetRequest) returns (UserGetResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        domain: DOMAIN_USER
+      };
+    };
+
+    /*
+         * UserGetHistory: Returns the user history.
+         *
+         * # Requires:
+         *  - Non-register users can call this method.
+     */
+    rpc UserGetHistory(UserGetHistoryRequest) returns (UserGetHistoryResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_HISTORY
+        domain: DOMAIN_USER
+      };
+    };
+
+    /*
+         * UserRegister: Registers the user.
+         *
+         * # Requires:
+         *  - The certificate for the user submitting this request must not be already registered as a user.
+     */
+    rpc UserRegister(UserRegisterRequest) returns (UserRegisterResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_CREATE
+        domain: DOMAIN_USER
+      };
+    };
+
+    rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_EDIT
+        domain: DOMAIN_USER
+      };
+    };
+
+
+    /*
+        * UserUpdateMembership: Updates the user's membership.
+        *
+        * # Requires:
+        *  - User submitting the transaction is a registered user.
+        *  - The specified user id is a registered user.
+        *  - The specified collection id is a registered collection.
+        *  - The user submitting the transaction is a member of the specified collection.
+        *  - The user submitting the transaction the a role who has permission
+        *     to update the membership of the specified collection.
+     */
+    rpc UserUpdateMembership(UserUpdateMembershipRequest) returns (UserUpdateMembershipResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+
+      option (rbac.operation) = {
+        action: ACTION_EDIT
+        domain: DOMAIN_COLLECTION_MEMBERSHIP
+      };
+    };
+
+
+
+
+    // Collection
+
+    /*
+        * CollectionGetList: Returns the list of collections.
+        *
+        * # Requires:
+        *  - Non-register users can call this method.
+     */
+    rpc CollectionGetList(google.protobuf.Empty) returns (CollectionGetListResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        domain: DOMAIN_COLLECTION
+      };
+    };
+
+    /*
+        * CollectionGet: Returns the collection.
+        *
+        * # Requires:
+        *  - Non-register users can call this method.
+     */
+    rpc CollectionGet(CollectionGetRequest) returns (CollectionGetResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW
+        domain: DOMAIN_COLLECTION
+      };
+    };
+
+    /*
+        * CollectionGetHistory: Returns the collection history.
+        *
+        * # Requires:
+        *  - Non-register users can call this method.
+     */
+    rpc CollectionGetHistory(CollectionGetHistoryRequest) returns (CollectionGetHistoryResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_HISTORY
+        domain: DOMAIN_COLLECTION
+      };
+    };
+
+    /*
+        * CollectionCreate: Creates the collection.
+        *
+        * # Requires:
+        *  - User submitting the transaction is a registered user.
+     */
+    rpc CollectionCreate(CollectionCreateRequest) returns (CollectionCreateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_CREATE
+        domain: DOMAIN_COLLECTION
+      };
+    };
+
+
+    rpc CollectionUpdateRoles(CollectionUpdateRolesRequest) returns (CollectionUpdateRolesResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_EDIT
+        domain: DOMAIN_COLLECTION_ROLES
+      };
+    };
+
+    rpc CollectionUpdatePermission(CollectionUpdatePermissionRequest) returns (CollectionUpdatePermissionResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_EDIT
+        domain: DOMAIN_COLLECTION_PERMISSION
+      };
+    };
+
+}
+
+
+// Auth
+
+// User
+  // Query
+    // UserGetCurrent
+      message UserGetCurrentResponse {
+          User user = 1;
+      }
+
+    // UserGetCurrentId
+      message UserGetCurrentIdResponse {
+          User.Id user_id = 1;
+      }
+
+    // UserGetList
+      message UserGetListResponse {
+          repeated User users = 1;
+      }
+
+
+
+    // UserGet
+      message UserGetRequest {
+          User.Id id = 1;
+      }
+      message UserGetResponse {
+          User user = 1;
+      }
+
+    // UserGetHistory
+      message UserGetHistoryRequest {
+          User.Id id = 1;
+      }
+      message UserGetHistoryResponse {
+          User.Id user_id = 1;
+          History history = 2;
+      }
+
+
+  // Invoke
+    //
+    // UserRegister
+      message UserRegisterRequest {
+        string name = 1 [(buf.validate.field).required = true];
+      }
+      message UserRegisterResponse{
+          User user = 1;
+      }
+
+    // UserUpdateMembership
+      message UserUpdateMembershipRequest {
+          User.Id id = 1;
+          Collection.Id collection_id = 2;
+          int32 role = 3;
+      }
+      message UserUpdateMembershipResponse {
+          User user = 1;
+      }
+
+    // UserUpdate
+      message UserUpdateRequest {
+          User user = 1;
+      }
+      message UserUpdateResponse {
+          User user = 1;
+      }
+
+// Collection
+  // Query
+    // CollectionGetList
+      message CollectionGetListResponse {
+          repeated Collection collections = 1;
+      }
+
+    // CollectionGet
+      message CollectionGetRequest {
+          Collection.Id id = 1;
+      }
+      message CollectionGetResponse {
+          Collection collection = 1;
+      }
+
+    // CollectionGetHistory
+      message CollectionGetHistoryRequest {
+          Collection.Id id = 1;
+      }
+      message CollectionGetHistoryResponse {
+          repeated Collection collections = 1;
+      }
+
+  // Invoke
+    // CollectionCreate
+      message CollectionCreateRequest {
+          Collection collection = 1;
+      }
+      message CollectionCreateResponse {
+          Collection collection = 1;
+      }
+
+    // CollectionRolesUpdate
+      message CollectionUpdateRolesRequest {
+          Collection.Id collection_id = 1;
+          map<int32, string> roles = 2;
+      }
+      message CollectionUpdateRolesResponse {
+          Collection collection = 1;
+      }
+
+    // CollectionPermissionsUpdate
+      message CollectionUpdatePermissionRequest {
+          Collection.Id collection_id = 1;
+          map<int32, ACL> acl = 5;
+      }
+      message CollectionUpdatePermissionResponse {
+          Collection collection = 1;
+      }

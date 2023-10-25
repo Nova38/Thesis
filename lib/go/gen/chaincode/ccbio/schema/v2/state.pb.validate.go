@@ -35,693 +35,6 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on LastModified with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *LastModified) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on LastModified with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in LastModifiedMultiError, or
-// nil if none found.
-func (m *LastModified) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *LastModified) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetUserId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, LastModifiedValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, LastModifiedValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUserId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return LastModifiedValidationError{
-				field:  "UserId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for UserName
-
-	// no validation rules for TxId
-
-	if all {
-		switch v := interface{}(m.GetUpdatedAt()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, LastModifiedValidationError{
-					field:  "UpdatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, LastModifiedValidationError{
-					field:  "UpdatedAt",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return LastModifiedValidationError{
-				field:  "UpdatedAt",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return LastModifiedMultiError(errors)
-	}
-
-	return nil
-}
-
-// LastModifiedMultiError is an error wrapping multiple validation errors
-// returned by LastModified.ValidateAll() if the designated constraints aren't met.
-type LastModifiedMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m LastModifiedMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m LastModifiedMultiError) AllErrors() []error { return m }
-
-// LastModifiedValidationError is the validation error returned by
-// LastModified.Validate if the designated constraints aren't met.
-type LastModifiedValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e LastModifiedValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e LastModifiedValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e LastModifiedValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e LastModifiedValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e LastModifiedValidationError) ErrorName() string { return "LastModifiedValidationError" }
-
-// Error satisfies the builtin error interface
-func (e LastModifiedValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sLastModified.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = LastModifiedValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = LastModifiedValidationError{}
-
-// Validate checks the field values on Action with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Action) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Action with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in ActionMultiError, or nil if none found.
-func (m *Action) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Action) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Level
-
-	if len(errors) > 0 {
-		return ActionMultiError(errors)
-	}
-
-	return nil
-}
-
-// ActionMultiError is an error wrapping multiple validation errors returned by
-// Action.ValidateAll() if the designated constraints aren't met.
-type ActionMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ActionMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ActionMultiError) AllErrors() []error { return m }
-
-// ActionValidationError is the validation error returned by Action.Validate if
-// the designated constraints aren't met.
-type ActionValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ActionValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ActionValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ActionValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ActionValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ActionValidationError) ErrorName() string { return "ActionValidationError" }
-
-// Error satisfies the builtin error interface
-func (e ActionValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sAction.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ActionValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ActionValidationError{}
-
-// Validate checks the field values on Collection with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Collection) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Collection with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in CollectionMultiError, or
-// nil if none found.
-func (m *Collection) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionValidationError{
-				field:  "Id",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetAccessControl()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionValidationError{
-					field:  "AccessControl",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionValidationError{
-					field:  "AccessControl",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetAccessControl()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionValidationError{
-				field:  "AccessControl",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return CollectionMultiError(errors)
-	}
-
-	return nil
-}
-
-// CollectionMultiError is an error wrapping multiple validation errors
-// returned by Collection.ValidateAll() if the designated constraints aren't met.
-type CollectionMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CollectionMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CollectionMultiError) AllErrors() []error { return m }
-
-// CollectionValidationError is the validation error returned by
-// Collection.Validate if the designated constraints aren't met.
-type CollectionValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CollectionValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CollectionValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CollectionValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CollectionValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CollectionValidationError) ErrorName() string { return "CollectionValidationError" }
-
-// Error satisfies the builtin error interface
-func (e CollectionValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CollectionValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CollectionValidationError{}
-
-// Validate checks the field values on CollectionList with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *CollectionList) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CollectionList with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in CollectionListMultiError,
-// or nil if none found.
-func (m *CollectionList) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CollectionList) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetItems() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, CollectionListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, CollectionListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return CollectionListValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return CollectionListMultiError(errors)
-	}
-
-	return nil
-}
-
-// CollectionListMultiError is an error wrapping multiple validation errors
-// returned by CollectionList.ValidateAll() if the designated constraints
-// aren't met.
-type CollectionListMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CollectionListMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CollectionListMultiError) AllErrors() []error { return m }
-
-// CollectionListValidationError is the validation error returned by
-// CollectionList.Validate if the designated constraints aren't met.
-type CollectionListValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CollectionListValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CollectionListValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CollectionListValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CollectionListValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CollectionListValidationError) ErrorName() string { return "CollectionListValidationError" }
-
-// Error satisfies the builtin error interface
-func (e CollectionListValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollectionList.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CollectionListValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CollectionListValidationError{}
-
-// Validate checks the field values on User with the rules defined in the proto
-// definition for this message. If any rules are violated, the first error
-// encountered is returned, or nil if there are no violations.
-func (m *User) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on User with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in UserMultiError, or nil if none found.
-func (m *User) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *User) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UserValidationError{
-				field:  "Id",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Name
-
-	// no validation rules for Email
-
-	// no validation rules for Affiliation
-
-	// no validation rules for Memberships
-
-	if len(errors) > 0 {
-		return UserMultiError(errors)
-	}
-
-	return nil
-}
-
-// UserMultiError is an error wrapping multiple validation errors returned by
-// User.ValidateAll() if the designated constraints aren't met.
-type UserMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UserMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UserMultiError) AllErrors() []error { return m }
-
-// UserValidationError is the validation error returned by User.Validate if the
-// designated constraints aren't met.
-type UserValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e UserValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e UserValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e UserValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e UserValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e UserValidationError) ErrorName() string { return "UserValidationError" }
-
-// Error satisfies the builtin error interface
-func (e UserValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUser.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = UserValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = UserValidationError{}
-
 // Validate checks the field values on Specimen with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -935,9 +248,97 @@ func (m *Specimen) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Loans
+	{
+		sorted_keys := make([]string, len(m.GetLoans()))
+		i := 0
+		for key := range m.GetLoans() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetLoans()[key]
+			_ = val
 
-	// no validation rules for Grants
+			// no validation rules for Loans[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, SpecimenValidationError{
+							field:  fmt.Sprintf("Loans[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, SpecimenValidationError{
+							field:  fmt.Sprintf("Loans[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return SpecimenValidationError{
+						field:  fmt.Sprintf("Loans[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
+
+	{
+		sorted_keys := make([]string, len(m.GetGrants()))
+		i := 0
+		for key := range m.GetGrants() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetGrants()[key]
+			_ = val
+
+			// no validation rules for Grants[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, SpecimenValidationError{
+							field:  fmt.Sprintf("Grants[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, SpecimenValidationError{
+							field:  fmt.Sprintf("Grants[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return SpecimenValidationError{
+						field:  fmt.Sprintf("Grants[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
 
 	{
 		sorted_keys := make([]string, len(m.GetHiddenTxs()))
@@ -1143,11 +544,11 @@ func (m *SuggestedUpdate) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetSuggestedBy()).(type) {
+		switch v := interface{}(m.GetUpdateInfo()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "SuggestedBy",
+					field:  "UpdateInfo",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1155,16 +556,16 @@ func (m *SuggestedUpdate) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "SuggestedBy",
+					field:  "UpdateInfo",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuggestedBy()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetUpdateInfo()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestedUpdateValidationError{
-				field:  "SuggestedBy",
+				field:  "UpdateInfo",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1172,11 +573,11 @@ func (m *SuggestedUpdate) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetSuggestedDate()).(type) {
+		switch v := interface{}(m.GetSpecimen()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "SuggestedDate",
+					field:  "Specimen",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1184,47 +585,16 @@ func (m *SuggestedUpdate) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "SuggestedDate",
+					field:  "Specimen",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuggestedDate()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetSpecimen()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestedUpdateValidationError{
-				field:  "SuggestedDate",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for SuggestedReason
-
-	if all {
-		switch v := interface{}(m.GetPrimary()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Primary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Primary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPrimary()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestedUpdateValidationError{
-				field:  "Primary",
+				field:  "Specimen",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1232,11 +602,11 @@ func (m *SuggestedUpdate) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetSecondary()).(type) {
+		switch v := interface{}(m.GetMask()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Secondary",
+					field:  "Mask",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1244,83 +614,21 @@ func (m *SuggestedUpdate) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Secondary",
+					field:  "Mask",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSecondary()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetMask()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestedUpdateValidationError{
-				field:  "Secondary",
+				field:  "Mask",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
-
-	if all {
-		switch v := interface{}(m.GetTaxon()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Taxon",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Taxon",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetTaxon()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestedUpdateValidationError{
-				field:  "Taxon",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetGeoreference()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Georeference",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestedUpdateValidationError{
-					field:  "Georeference",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetGeoreference()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestedUpdateValidationError{
-				field:  "Georeference",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Loans
-
-	// no validation rules for Grants
 
 	if len(errors) > 0 {
 		return SuggestedUpdateMultiError(errors)
@@ -1399,1326 +707,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SuggestedUpdateValidationError{}
-
-// Validate checks the field values on SuggestedStateList with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SuggestedStateList) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on SuggestedStateList with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// SuggestedStateListMultiError, or nil if none found.
-func (m *SuggestedStateList) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *SuggestedStateList) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetItems() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, SuggestedStateListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, SuggestedStateListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return SuggestedStateListValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return SuggestedStateListMultiError(errors)
-	}
-
-	return nil
-}
-
-// SuggestedStateListMultiError is an error wrapping multiple validation errors
-// returned by SuggestedStateList.ValidateAll() if the designated constraints
-// aren't met.
-type SuggestedStateListMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m SuggestedStateListMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m SuggestedStateListMultiError) AllErrors() []error { return m }
-
-// SuggestedStateListValidationError is the validation error returned by
-// SuggestedStateList.Validate if the designated constraints aren't met.
-type SuggestedStateListValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e SuggestedStateListValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e SuggestedStateListValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e SuggestedStateListValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e SuggestedStateListValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e SuggestedStateListValidationError) ErrorName() string {
-	return "SuggestedStateListValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e SuggestedStateListValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sSuggestedStateList.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = SuggestedStateListValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = SuggestedStateListValidationError{}
-
-// Validate checks the field values on Collection_Id with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Collection_Id) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Collection_Id with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in Collection_IdMultiError, or
-// nil if none found.
-func (m *Collection_Id) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_Id) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for CollectionId
-
-	if len(errors) > 0 {
-		return Collection_IdMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_IdMultiError is an error wrapping multiple validation errors
-// returned by Collection_Id.ValidateAll() if the designated constraints
-// aren't met.
-type Collection_IdMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_IdMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_IdMultiError) AllErrors() []error { return m }
-
-// Collection_IdValidationError is the validation error returned by
-// Collection_Id.Validate if the designated constraints aren't met.
-type Collection_IdValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_IdValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_IdValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Collection_IdValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_IdValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_IdValidationError) ErrorName() string { return "Collection_IdValidationError" }
-
-// Error satisfies the builtin error interface
-func (e Collection_IdValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_Id.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_IdValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_IdValidationError{}
-
-// Validate checks the field values on Collection_List with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *Collection_List) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Collection_List with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// Collection_ListMultiError, or nil if none found.
-func (m *Collection_List) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_List) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetItems() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, Collection_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, Collection_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return Collection_ListValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return Collection_ListMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_ListMultiError is an error wrapping multiple validation errors
-// returned by Collection_List.ValidateAll() if the designated constraints
-// aren't met.
-type Collection_ListMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_ListMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_ListMultiError) AllErrors() []error { return m }
-
-// Collection_ListValidationError is the validation error returned by
-// Collection_List.Validate if the designated constraints aren't met.
-type Collection_ListValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_ListValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_ListValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Collection_ListValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_ListValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_ListValidationError) ErrorName() string { return "Collection_ListValidationError" }
-
-// Error satisfies the builtin error interface
-func (e Collection_ListValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_List.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_ListValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_ListValidationError{}
-
-// Validate checks the field values on Collection_AccessControl with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *Collection_AccessControl) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Collection_AccessControl with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// Collection_AccessControlMultiError, or nil if none found.
-func (m *Collection_AccessControl) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_AccessControl) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetRoles()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Roles",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Roles",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRoles()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Roles",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetUsers()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Users",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Users",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUsers()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Users",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetSpecimen()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Specimen",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Specimen",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSpecimen()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Specimen",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetPrimary()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Primary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Primary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPrimary()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Primary",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetSecondary()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Secondary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Secondary",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSecondary()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Secondary",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetTaxon()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Taxon",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Taxon",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetTaxon()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Taxon",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetGeoreference()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Georeference",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Georeference",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetGeoreference()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Georeference",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetImages()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Images",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Images",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetImages()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Images",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetLoans()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Loans",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Loans",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetLoans()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Loans",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetGrants()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Grants",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, Collection_AccessControlValidationError{
-					field:  "Grants",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetGrants()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return Collection_AccessControlValidationError{
-				field:  "Grants",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return Collection_AccessControlMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_AccessControlMultiError is an error wrapping multiple validation
-// errors returned by Collection_AccessControl.ValidateAll() if the designated
-// constraints aren't met.
-type Collection_AccessControlMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_AccessControlMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_AccessControlMultiError) AllErrors() []error { return m }
-
-// Collection_AccessControlValidationError is the validation error returned by
-// Collection_AccessControl.Validate if the designated constraints aren't met.
-type Collection_AccessControlValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_AccessControlValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_AccessControlValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Collection_AccessControlValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_AccessControlValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_AccessControlValidationError) ErrorName() string {
-	return "Collection_AccessControlValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e Collection_AccessControlValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_AccessControl.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_AccessControlValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_AccessControlValidationError{}
-
-// Validate checks the field values on
-// Collection_AccessControl_AccessControlActions with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Collection_AccessControl_AccessControlActions) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// Collection_AccessControl_AccessControlActions with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// Collection_AccessControl_AccessControlActionsMultiError, or nil if none found.
-func (m *Collection_AccessControl_AccessControlActions) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_AccessControl_AccessControlActions) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return Collection_AccessControl_AccessControlActionsMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_AccessControl_AccessControlActionsMultiError is an error wrapping
-// multiple validation errors returned by
-// Collection_AccessControl_AccessControlActions.ValidateAll() if the
-// designated constraints aren't met.
-type Collection_AccessControl_AccessControlActionsMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_AccessControl_AccessControlActionsMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_AccessControl_AccessControlActionsMultiError) AllErrors() []error { return m }
-
-// Collection_AccessControl_AccessControlActionsValidationError is the
-// validation error returned by
-// Collection_AccessControl_AccessControlActions.Validate if the designated
-// constraints aren't met.
-type Collection_AccessControl_AccessControlActionsValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_AccessControl_AccessControlActionsValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_AccessControl_AccessControlActionsValidationError) Reason() string {
-	return e.reason
-}
-
-// Cause function returns cause value.
-func (e Collection_AccessControl_AccessControlActionsValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_AccessControl_AccessControlActionsValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_AccessControl_AccessControlActionsValidationError) ErrorName() string {
-	return "Collection_AccessControl_AccessControlActionsValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e Collection_AccessControl_AccessControlActionsValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_AccessControl_AccessControlActions.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_AccessControl_AccessControlActionsValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_AccessControl_AccessControlActionsValidationError{}
-
-// Validate checks the field values on Collection_AccessControl_SpecimenActions
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
-func (m *Collection_AccessControl_SpecimenActions) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// Collection_AccessControl_SpecimenActions with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// Collection_AccessControl_SpecimenActionsMultiError, or nil if none found.
-func (m *Collection_AccessControl_SpecimenActions) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_AccessControl_SpecimenActions) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return Collection_AccessControl_SpecimenActionsMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_AccessControl_SpecimenActionsMultiError is an error wrapping
-// multiple validation errors returned by
-// Collection_AccessControl_SpecimenActions.ValidateAll() if the designated
-// constraints aren't met.
-type Collection_AccessControl_SpecimenActionsMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_AccessControl_SpecimenActionsMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_AccessControl_SpecimenActionsMultiError) AllErrors() []error { return m }
-
-// Collection_AccessControl_SpecimenActionsValidationError is the validation
-// error returned by Collection_AccessControl_SpecimenActions.Validate if the
-// designated constraints aren't met.
-type Collection_AccessControl_SpecimenActionsValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_AccessControl_SpecimenActionsValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_AccessControl_SpecimenActionsValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Collection_AccessControl_SpecimenActionsValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_AccessControl_SpecimenActionsValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_AccessControl_SpecimenActionsValidationError) ErrorName() string {
-	return "Collection_AccessControl_SpecimenActionsValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e Collection_AccessControl_SpecimenActionsValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_AccessControl_SpecimenActions.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_AccessControl_SpecimenActionsValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_AccessControl_SpecimenActionsValidationError{}
-
-// Validate checks the field values on Collection_AccessControl_SectionActions
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
-func (m *Collection_AccessControl_SectionActions) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// Collection_AccessControl_SectionActions with the rules defined in the proto
-// definition for this message. If any rules are violated, the result is a
-// list of violation errors wrapped in
-// Collection_AccessControl_SectionActionsMultiError, or nil if none found.
-func (m *Collection_AccessControl_SectionActions) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Collection_AccessControl_SectionActions) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return Collection_AccessControl_SectionActionsMultiError(errors)
-	}
-
-	return nil
-}
-
-// Collection_AccessControl_SectionActionsMultiError is an error wrapping
-// multiple validation errors returned by
-// Collection_AccessControl_SectionActions.ValidateAll() if the designated
-// constraints aren't met.
-type Collection_AccessControl_SectionActionsMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Collection_AccessControl_SectionActionsMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Collection_AccessControl_SectionActionsMultiError) AllErrors() []error { return m }
-
-// Collection_AccessControl_SectionActionsValidationError is the validation
-// error returned by Collection_AccessControl_SectionActions.Validate if the
-// designated constraints aren't met.
-type Collection_AccessControl_SectionActionsValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Collection_AccessControl_SectionActionsValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Collection_AccessControl_SectionActionsValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Collection_AccessControl_SectionActionsValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Collection_AccessControl_SectionActionsValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Collection_AccessControl_SectionActionsValidationError) ErrorName() string {
-	return "Collection_AccessControl_SectionActionsValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e Collection_AccessControl_SectionActionsValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCollection_AccessControl_SectionActions.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Collection_AccessControl_SectionActionsValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Collection_AccessControl_SectionActionsValidationError{}
-
-// Validate checks the field values on User_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *User_Id) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on User_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in User_IdMultiError, or nil if none found.
-func (m *User_Id) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *User_Id) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for MspId
-
-	// no validation rules for Id
-
-	if len(errors) > 0 {
-		return User_IdMultiError(errors)
-	}
-
-	return nil
-}
-
-// User_IdMultiError is an error wrapping multiple validation errors returned
-// by User_Id.ValidateAll() if the designated constraints aren't met.
-type User_IdMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m User_IdMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m User_IdMultiError) AllErrors() []error { return m }
-
-// User_IdValidationError is the validation error returned by User_Id.Validate
-// if the designated constraints aren't met.
-type User_IdValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e User_IdValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e User_IdValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e User_IdValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e User_IdValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e User_IdValidationError) ErrorName() string { return "User_IdValidationError" }
-
-// Error satisfies the builtin error interface
-func (e User_IdValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUser_Id.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = User_IdValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = User_IdValidationError{}
-
-// Validate checks the field values on User_List with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *User_List) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on User_List with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in User_ListMultiError, or nil
-// if none found.
-func (m *User_List) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *User_List) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetItems() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, User_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, User_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return User_ListValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return User_ListMultiError(errors)
-	}
-
-	return nil
-}
-
-// User_ListMultiError is an error wrapping multiple validation errors returned
-// by User_List.ValidateAll() if the designated constraints aren't met.
-type User_ListMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m User_ListMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m User_ListMultiError) AllErrors() []error { return m }
-
-// User_ListValidationError is the validation error returned by
-// User_List.Validate if the designated constraints aren't met.
-type User_ListValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e User_ListValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e User_ListValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e User_ListValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e User_ListValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e User_ListValidationError) ErrorName() string { return "User_ListValidationError" }
-
-// Error satisfies the builtin error interface
-func (e User_ListValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUser_List.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = User_ListValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = User_ListValidationError{}
 
 // Validate checks the field values on Specimen_Id with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -2822,140 +810,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = Specimen_IdValidationError{}
-
-// Validate checks the field values on Specimen_List with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Specimen_List) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Specimen_List with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in Specimen_ListMultiError, or
-// nil if none found.
-func (m *Specimen_List) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Specimen_List) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetItems() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, Specimen_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, Specimen_ListValidationError{
-						field:  fmt.Sprintf("Items[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return Specimen_ListValidationError{
-					field:  fmt.Sprintf("Items[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if len(errors) > 0 {
-		return Specimen_ListMultiError(errors)
-	}
-
-	return nil
-}
-
-// Specimen_ListMultiError is an error wrapping multiple validation errors
-// returned by Specimen_List.ValidateAll() if the designated constraints
-// aren't met.
-type Specimen_ListMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Specimen_ListMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Specimen_ListMultiError) AllErrors() []error { return m }
-
-// Specimen_ListValidationError is the validation error returned by
-// Specimen_List.Validate if the designated constraints aren't met.
-type Specimen_ListValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Specimen_ListValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Specimen_ListValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Specimen_ListValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Specimen_ListValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Specimen_ListValidationError) ErrorName() string { return "Specimen_ListValidationError" }
-
-// Error satisfies the builtin error interface
-func (e Specimen_ListValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sSpecimen_List.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Specimen_ListValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Specimen_ListValidationError{}
 
 // Validate checks the field values on Specimen_History with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -4051,86 +1905,88 @@ var _ interface {
 	ErrorName() string
 } = Specimen_HiddenTxValidationError{}
 
-// Validate checks the field values on Specimen_History_Entry with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *Specimen_History_Entry) Validate() error {
+// Validate checks the field values on Specimen_Loan with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Specimen_Loan) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Specimen_History_Entry with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// Specimen_History_EntryMultiError, or nil if none found.
-func (m *Specimen_History_Entry) ValidateAll() error {
+// ValidateAll checks the field values on Specimen_Loan with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in Specimen_LoanMultiError, or
+// nil if none found.
+func (m *Specimen_Loan) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Specimen_History_Entry) validate(all bool) error {
+func (m *Specimen_Loan) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for TxId
+	// no validation rules for Id
+
+	// no validation rules for Description
+
+	// no validation rules for LoanedBy
+
+	// no validation rules for LoanedTo
 
 	if all {
-		switch v := interface{}(m.GetTimestamp()).(type) {
+		switch v := interface{}(m.GetLoanedDate()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Specimen_History_EntryValidationError{
-					field:  "Timestamp",
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LoanedDate",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, Specimen_History_EntryValidationError{
-					field:  "Timestamp",
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LoanedDate",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetTimestamp()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetLoanedDate()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return Specimen_History_EntryValidationError{
-				field:  "Timestamp",
+			return Specimen_LoanValidationError{
+				field:  "LoanedDate",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
 
-	// no validation rules for IsDeleted
-
-	// no validation rules for IsHidden
-
 	if all {
-		switch v := interface{}(m.GetState()).(type) {
+		switch v := interface{}(m.GetLastModified()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Specimen_History_EntryValidationError{
-					field:  "State",
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LastModified",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, Specimen_History_EntryValidationError{
-					field:  "State",
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LastModified",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetState()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetLastModified()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return Specimen_History_EntryValidationError{
-				field:  "State",
+			return Specimen_LoanValidationError{
+				field:  "LastModified",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -4138,19 +1994,19 @@ func (m *Specimen_History_Entry) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return Specimen_History_EntryMultiError(errors)
+		return Specimen_LoanMultiError(errors)
 	}
 
 	return nil
 }
 
-// Specimen_History_EntryMultiError is an error wrapping multiple validation
-// errors returned by Specimen_History_Entry.ValidateAll() if the designated
-// constraints aren't met.
-type Specimen_History_EntryMultiError []error
+// Specimen_LoanMultiError is an error wrapping multiple validation errors
+// returned by Specimen_Loan.ValidateAll() if the designated constraints
+// aren't met.
+type Specimen_LoanMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m Specimen_History_EntryMultiError) Error() string {
+func (m Specimen_LoanMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -4159,11 +2015,11 @@ func (m Specimen_History_EntryMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m Specimen_History_EntryMultiError) AllErrors() []error { return m }
+func (m Specimen_LoanMultiError) AllErrors() []error { return m }
 
-// Specimen_History_EntryValidationError is the validation error returned by
-// Specimen_History_Entry.Validate if the designated constraints aren't met.
-type Specimen_History_EntryValidationError struct {
+// Specimen_LoanValidationError is the validation error returned by
+// Specimen_Loan.Validate if the designated constraints aren't met.
+type Specimen_LoanValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -4171,24 +2027,22 @@ type Specimen_History_EntryValidationError struct {
 }
 
 // Field function returns field value.
-func (e Specimen_History_EntryValidationError) Field() string { return e.field }
+func (e Specimen_LoanValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e Specimen_History_EntryValidationError) Reason() string { return e.reason }
+func (e Specimen_LoanValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e Specimen_History_EntryValidationError) Cause() error { return e.cause }
+func (e Specimen_LoanValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e Specimen_History_EntryValidationError) Key() bool { return e.key }
+func (e Specimen_LoanValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e Specimen_History_EntryValidationError) ErrorName() string {
-	return "Specimen_History_EntryValidationError"
-}
+func (e Specimen_LoanValidationError) ErrorName() string { return "Specimen_LoanValidationError" }
 
 // Error satisfies the builtin error interface
-func (e Specimen_History_EntryValidationError) Error() string {
+func (e Specimen_LoanValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -4200,14 +2054,14 @@ func (e Specimen_History_EntryValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSpecimen_History_Entry.%s: %s%s",
+		"invalid %sSpecimen_Loan.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = Specimen_History_EntryValidationError{}
+var _ error = Specimen_LoanValidationError{}
 
 var _ interface {
 	Field() string
@@ -4215,7 +2069,173 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = Specimen_History_EntryValidationError{}
+} = Specimen_LoanValidationError{}
+
+// Validate checks the field values on Specimen_Grant with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Specimen_Grant) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Specimen_Grant with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in Specimen_GrantMultiError,
+// or nil if none found.
+func (m *Specimen_Grant) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Specimen_Grant) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Description
+
+	// no validation rules for GrantedBy
+
+	// no validation rules for GrantedTo
+
+	if all {
+		switch v := interface{}(m.GetGrantedDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "GrantedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "GrantedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGrantedDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_GrantValidationError{
+				field:  "GrantedDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetLastModified()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "LastModified",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "LastModified",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLastModified()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_GrantValidationError{
+				field:  "LastModified",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return Specimen_GrantMultiError(errors)
+	}
+
+	return nil
+}
+
+// Specimen_GrantMultiError is an error wrapping multiple validation errors
+// returned by Specimen_Grant.ValidateAll() if the designated constraints
+// aren't met.
+type Specimen_GrantMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m Specimen_GrantMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m Specimen_GrantMultiError) AllErrors() []error { return m }
+
+// Specimen_GrantValidationError is the validation error returned by
+// Specimen_Grant.Validate if the designated constraints aren't met.
+type Specimen_GrantValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Specimen_GrantValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Specimen_GrantValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Specimen_GrantValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Specimen_GrantValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Specimen_GrantValidationError) ErrorName() string { return "Specimen_GrantValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Specimen_GrantValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpecimen_Grant.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Specimen_GrantValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Specimen_GrantValidationError{}
 
 // Validate checks the field values on SuggestedUpdate_Id with the rules
 // defined in the proto definition for this message. If any rules are

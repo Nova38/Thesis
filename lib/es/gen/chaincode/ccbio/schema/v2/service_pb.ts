@@ -4,263 +4,14 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
-import { Collection, Collection_Id, Role, Specimen, Specimen_Georeference, Specimen_HiddenTx, Specimen_Id, Specimen_Image, Specimen_Primary, Specimen_Secondary, Specimen_Taxon, SuggestedUpdate, SuggestedUpdate_Id, User, User_Id } from "./state_pb.js";
+import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
+import { Specimen, Specimen_HiddenTx, Specimen_History, Specimen_Id, SuggestedUpdate, SuggestedUpdate_Id } from "./state_pb.js";
+import { Collection_Id } from "../../../../rbac/rbac_pb.js";
 
 /**
- * @generated from message ccbio.schema.v2.GetSuggestedUpdateRequest
- */
-export class GetSuggestedUpdateRequest extends Message<GetSuggestedUpdateRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.SuggestedUpdate.Id id = 1;
-   */
-  id?: SuggestedUpdate_Id;
-
-  constructor(data?: PartialMessage<GetSuggestedUpdateRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: SuggestedUpdate_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateRequest {
-    return new GetSuggestedUpdateRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateRequest {
-    return new GetSuggestedUpdateRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateRequest {
-    return new GetSuggestedUpdateRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetSuggestedUpdateRequest | PlainMessage<GetSuggestedUpdateRequest> | undefined, b: GetSuggestedUpdateRequest | PlainMessage<GetSuggestedUpdateRequest> | undefined): boolean {
-    return proto3.util.equals(GetSuggestedUpdateRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetSuggestedUpdateBySpecimenRequest
- */
-export class GetSuggestedUpdateBySpecimenRequest extends Message<GetSuggestedUpdateBySpecimenRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
-   */
-  id?: Specimen_Id;
-
-  constructor(data?: PartialMessage<GetSuggestedUpdateBySpecimenRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateBySpecimenRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Specimen_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateBySpecimenRequest {
-    return new GetSuggestedUpdateBySpecimenRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenRequest {
-    return new GetSuggestedUpdateBySpecimenRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenRequest {
-    return new GetSuggestedUpdateBySpecimenRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetSuggestedUpdateBySpecimenRequest | PlainMessage<GetSuggestedUpdateBySpecimenRequest> | undefined, b: GetSuggestedUpdateBySpecimenRequest | PlainMessage<GetSuggestedUpdateBySpecimenRequest> | undefined): boolean {
-    return proto3.util.equals(GetSuggestedUpdateBySpecimenRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetSuggestedUpdateByCollectionRequest
- */
-export class GetSuggestedUpdateByCollectionRequest extends Message<GetSuggestedUpdateByCollectionRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Collection.Id id = 1;
-   */
-  id?: Collection_Id;
-
-  constructor(data?: PartialMessage<GetSuggestedUpdateByCollectionRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateByCollectionRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateByCollectionRequest {
-    return new GetSuggestedUpdateByCollectionRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionRequest {
-    return new GetSuggestedUpdateByCollectionRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionRequest {
-    return new GetSuggestedUpdateByCollectionRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetSuggestedUpdateByCollectionRequest | PlainMessage<GetSuggestedUpdateByCollectionRequest> | undefined, b: GetSuggestedUpdateByCollectionRequest | PlainMessage<GetSuggestedUpdateByCollectionRequest> | undefined): boolean {
-    return proto3.util.equals(GetSuggestedUpdateByCollectionRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetUserListRequest
- */
-export class GetUserListRequest extends Message<GetUserListRequest> {
-  constructor(data?: PartialMessage<GetUserListRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetUserListRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserListRequest {
-    return new GetUserListRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserListRequest {
-    return new GetUserListRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserListRequest {
-    return new GetUserListRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetUserListRequest | PlainMessage<GetUserListRequest> | undefined, b: GetUserListRequest | PlainMessage<GetUserListRequest> | undefined): boolean {
-    return proto3.util.equals(GetUserListRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetUserListResponse
- */
-export class GetUserListResponse extends Message<GetUserListResponse> {
-  /**
-   * @generated from field: repeated ccbio.schema.v2.User users = 1;
-   */
-  users: User[] = [];
-
-  constructor(data?: PartialMessage<GetUserListResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetUserListResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "users", kind: "message", T: User, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserListResponse {
-    return new GetUserListResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserListResponse {
-    return new GetUserListResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserListResponse {
-    return new GetUserListResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetUserListResponse | PlainMessage<GetUserListResponse> | undefined, b: GetUserListResponse | PlainMessage<GetUserListResponse> | undefined): boolean {
-    return proto3.util.equals(GetUserListResponse, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetUserRequest
- */
-export class GetUserRequest extends Message<GetUserRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.User.Id id = 1;
-   */
-  id?: User_Id;
-
-  constructor(data?: PartialMessage<GetUserRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetUserRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: User_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserRequest {
-    return new GetUserRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetUserRequest | PlainMessage<GetUserRequest> | undefined, b: GetUserRequest | PlainMessage<GetUserRequest> | undefined): boolean {
-    return proto3.util.equals(GetUserRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.GetCollectionRequest
- */
-export class GetCollectionRequest extends Message<GetCollectionRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Collection.Id id = 1;
-   */
-  id?: Collection_Id;
-
-  constructor(data?: PartialMessage<GetCollectionRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetCollectionRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCollectionRequest {
-    return new GetCollectionRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCollectionRequest {
-    return new GetCollectionRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCollectionRequest {
-    return new GetCollectionRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetCollectionRequest | PlainMessage<GetCollectionRequest> | undefined, b: GetCollectionRequest | PlainMessage<GetCollectionRequest> | undefined): boolean {
-    return proto3.util.equals(GetCollectionRequest, a, b);
-  }
-}
-
-/**
+ * Evaluate
+ * GetSpecimen
+ *
  * @generated from message ccbio.schema.v2.GetSpecimenRequest
  */
 export class GetSpecimenRequest extends Message<GetSpecimenRequest> {
@@ -298,6 +49,160 @@ export class GetSpecimenRequest extends Message<GetSpecimenRequest> {
 }
 
 /**
+ * @generated from message ccbio.schema.v2.GetSpecimenResponse
+ */
+export class GetSpecimenResponse extends Message<GetSpecimenResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  constructor(data?: PartialMessage<GetSpecimenResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSpecimenResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenResponse {
+    return new GetSpecimenResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenResponse {
+    return new GetSpecimenResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenResponse {
+    return new GetSpecimenResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSpecimenResponse | PlainMessage<GetSpecimenResponse> | undefined, b: GetSpecimenResponse | PlainMessage<GetSpecimenResponse> | undefined): boolean {
+    return proto3.util.equals(GetSpecimenResponse, a, b);
+  }
+}
+
+/**
+ * GetSpecimenList
+ *
+ * @generated from message ccbio.schema.v2.GetSpecimenListResponse
+ */
+export class GetSpecimenListResponse extends Message<GetSpecimenListResponse> {
+  /**
+   * @generated from field: repeated ccbio.schema.v2.Specimen specimens = 1;
+   */
+  specimens: Specimen[] = [];
+
+  constructor(data?: PartialMessage<GetSpecimenListResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSpecimenListResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimens", kind: "message", T: Specimen, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenListResponse {
+    return new GetSpecimenListResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenListResponse {
+    return new GetSpecimenListResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenListResponse {
+    return new GetSpecimenListResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSpecimenListResponse | PlainMessage<GetSpecimenListResponse> | undefined, b: GetSpecimenListResponse | PlainMessage<GetSpecimenListResponse> | undefined): boolean {
+    return proto3.util.equals(GetSpecimenListResponse, a, b);
+  }
+}
+
+/**
+ * GetSpecimenByCollection
+ *
+ * @generated from message ccbio.schema.v2.GetSpecimenByCollectionRequest
+ */
+export class GetSpecimenByCollectionRequest extends Message<GetSpecimenByCollectionRequest> {
+  /**
+   * @generated from field: rbac.Collection.Id id = 1;
+   */
+  id?: Collection_Id;
+
+  constructor(data?: PartialMessage<GetSpecimenByCollectionRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSpecimenByCollectionRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "message", T: Collection_Id },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenByCollectionRequest {
+    return new GetSpecimenByCollectionRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionRequest {
+    return new GetSpecimenByCollectionRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionRequest {
+    return new GetSpecimenByCollectionRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSpecimenByCollectionRequest | PlainMessage<GetSpecimenByCollectionRequest> | undefined, b: GetSpecimenByCollectionRequest | PlainMessage<GetSpecimenByCollectionRequest> | undefined): boolean {
+    return proto3.util.equals(GetSpecimenByCollectionRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message ccbio.schema.v2.GetSpecimenByCollectionResponse
+ */
+export class GetSpecimenByCollectionResponse extends Message<GetSpecimenByCollectionResponse> {
+  /**
+   * @generated from field: repeated ccbio.schema.v2.Specimen specimens = 1;
+   */
+  specimens: Specimen[] = [];
+
+  constructor(data?: PartialMessage<GetSpecimenByCollectionResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSpecimenByCollectionResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimens", kind: "message", T: Specimen, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenByCollectionResponse {
+    return new GetSpecimenByCollectionResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionResponse {
+    return new GetSpecimenByCollectionResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionResponse {
+    return new GetSpecimenByCollectionResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSpecimenByCollectionResponse | PlainMessage<GetSpecimenByCollectionResponse> | undefined, b: GetSpecimenByCollectionResponse | PlainMessage<GetSpecimenByCollectionResponse> | undefined): boolean {
+    return proto3.util.equals(GetSpecimenByCollectionResponse, a, b);
+  }
+}
+
+/**
+ * GetSpecimenHistory
+ *
  * @generated from message ccbio.schema.v2.GetSpecimenHistoryRequest
  */
 export class GetSpecimenHistoryRequest extends Message<GetSpecimenHistoryRequest> {
@@ -341,333 +246,52 @@ export class GetSpecimenHistoryRequest extends Message<GetSpecimenHistoryRequest
 }
 
 /**
- * @generated from message ccbio.schema.v2.GetSpecimenByCollectionRequest
+ * @generated from message ccbio.schema.v2.GetSpecimenHistoryResponse
  */
-export class GetSpecimenByCollectionRequest extends Message<GetSpecimenByCollectionRequest> {
+export class GetSpecimenHistoryResponse extends Message<GetSpecimenHistoryResponse> {
   /**
-   * @generated from field: ccbio.schema.v2.Collection.Id id = 1;
+   * @generated from field: ccbio.schema.v2.Specimen.History history = 1;
    */
-  id?: Collection_Id;
+  history?: Specimen_History;
 
-  constructor(data?: PartialMessage<GetSpecimenByCollectionRequest>) {
+  constructor(data?: PartialMessage<GetSpecimenHistoryResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetSpecimenByCollectionRequest";
+  static readonly typeName = "ccbio.schema.v2.GetSpecimenHistoryResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
+    { no: 1, name: "history", kind: "message", T: Specimen_History },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenByCollectionRequest {
-    return new GetSpecimenByCollectionRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSpecimenHistoryResponse {
+    return new GetSpecimenHistoryResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionRequest {
-    return new GetSpecimenByCollectionRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSpecimenHistoryResponse {
+    return new GetSpecimenHistoryResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenByCollectionRequest {
-    return new GetSpecimenByCollectionRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSpecimenHistoryResponse {
+    return new GetSpecimenHistoryResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: GetSpecimenByCollectionRequest | PlainMessage<GetSpecimenByCollectionRequest> | undefined, b: GetSpecimenByCollectionRequest | PlainMessage<GetSpecimenByCollectionRequest> | undefined): boolean {
-    return proto3.util.equals(GetSpecimenByCollectionRequest, a, b);
+  static equals(a: GetSpecimenHistoryResponse | PlainMessage<GetSpecimenHistoryResponse> | undefined, b: GetSpecimenHistoryResponse | PlainMessage<GetSpecimenHistoryResponse> | undefined): boolean {
+    return proto3.util.equals(GetSpecimenHistoryResponse, a, b);
   }
 }
 
 /**
- * @generated from message ccbio.schema.v2.GetUserByCollectionRequest
- */
-export class GetUserByCollectionRequest extends Message<GetUserByCollectionRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Collection.Id id = 1;
-   */
-  id?: Collection_Id;
-
-  constructor(data?: PartialMessage<GetUserByCollectionRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.GetUserByCollectionRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserByCollectionRequest {
-    return new GetUserByCollectionRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserByCollectionRequest {
-    return new GetUserByCollectionRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserByCollectionRequest {
-    return new GetUserByCollectionRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: GetUserByCollectionRequest | PlainMessage<GetUserByCollectionRequest> | undefined, b: GetUserByCollectionRequest | PlainMessage<GetUserByCollectionRequest> | undefined): boolean {
-    return proto3.util.equals(GetUserByCollectionRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.UserRegisterRequest
- */
-export class UserRegisterRequest extends Message<UserRegisterRequest> {
-  /**
-   * @generated from field: string name = 1;
-   */
-  name = "";
-
-  /**
-   * @generated from field: string email = 2;
-   */
-  email = "";
-
-  /**
-   * @generated from field: string affiliation = 3;
-   */
-  affiliation = "";
-
-  constructor(data?: PartialMessage<UserRegisterRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.UserRegisterRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "email", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "affiliation", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserRegisterRequest {
-    return new UserRegisterRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserRegisterRequest {
-    return new UserRegisterRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserRegisterRequest {
-    return new UserRegisterRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: UserRegisterRequest | PlainMessage<UserRegisterRequest> | undefined, b: UserRegisterRequest | PlainMessage<UserRegisterRequest> | undefined): boolean {
-    return proto3.util.equals(UserRegisterRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.UpdateMembershipRequest
- */
-export class UpdateMembershipRequest extends Message<UpdateMembershipRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.User.Id user_id = 1;
-   */
-  userId?: User_Id;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Collection.Id collection_id = 2;
-   */
-  collectionId?: Collection_Id;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Role new_role = 3;
-   */
-  newRole = Role.PUBLIC_UNSPECIFIED;
-
-  constructor(data?: PartialMessage<UpdateMembershipRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.UpdateMembershipRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "user_id", kind: "message", T: User_Id },
-    { no: 2, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 3, name: "new_role", kind: "enum", T: proto3.getEnumType(Role) },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UpdateMembershipRequest {
-    return new UpdateMembershipRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UpdateMembershipRequest {
-    return new UpdateMembershipRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UpdateMembershipRequest {
-    return new UpdateMembershipRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: UpdateMembershipRequest | PlainMessage<UpdateMembershipRequest> | undefined, b: UpdateMembershipRequest | PlainMessage<UpdateMembershipRequest> | undefined): boolean {
-    return proto3.util.equals(UpdateMembershipRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.CollectionCreateRequest
- */
-export class CollectionCreateRequest extends Message<CollectionCreateRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Collection collection = 1;
-   */
-  collection?: Collection;
-
-  constructor(data?: PartialMessage<CollectionCreateRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.CollectionCreateRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection", kind: "message", T: Collection },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionCreateRequest {
-    return new CollectionCreateRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CollectionCreateRequest {
-    return new CollectionCreateRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CollectionCreateRequest {
-    return new CollectionCreateRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: CollectionCreateRequest | PlainMessage<CollectionCreateRequest> | undefined, b: CollectionCreateRequest | PlainMessage<CollectionCreateRequest> | undefined): boolean {
-    return proto3.util.equals(CollectionCreateRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.CollectionUpdateRequest
- */
-export class CollectionUpdateRequest extends Message<CollectionUpdateRequest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Collection collection = 1;
-   */
-  collection?: Collection;
-
-  constructor(data?: PartialMessage<CollectionUpdateRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.CollectionUpdateRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection", kind: "message", T: Collection },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionUpdateRequest {
-    return new CollectionUpdateRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CollectionUpdateRequest {
-    return new CollectionUpdateRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CollectionUpdateRequest {
-    return new CollectionUpdateRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: CollectionUpdateRequest | PlainMessage<CollectionUpdateRequest> | undefined, b: CollectionUpdateRequest | PlainMessage<CollectionUpdateRequest> | undefined): boolean {
-    return proto3.util.equals(CollectionUpdateRequest, a, b);
-  }
-}
-
-/**
- * @generated from message ccbio.schema.v2.sTest
- */
-export class sTest extends Message<sTest> {
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Georeference georeference = 5;
-   */
-  georeference?: Specimen_Georeference;
-
-  constructor(data?: PartialMessage<sTest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.sTest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 5, name: "georeference", kind: "message", T: Specimen_Georeference },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): sTest {
-    return new sTest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): sTest {
-    return new sTest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): sTest {
-    return new sTest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: sTest | PlainMessage<sTest> | undefined, b: sTest | PlainMessage<sTest> | undefined): boolean {
-    return proto3.util.equals(sTest, a, b);
-  }
-}
-
-/**
+ * SpecimenCreate
+ *
  * @generated from message ccbio.schema.v2.SpecimenCreateRequest
  */
 export class SpecimenCreateRequest extends Message<SpecimenCreateRequest> {
   /**
-   *  Specimen specimen = 1 [(buf.validate.field).required = true];
-   *
-   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
    */
-  id?: Specimen_Id;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Taxon taxon = 2;
-   */
-  taxon?: Specimen_Taxon;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Primary primary = 3;
-   */
-  primary?: Specimen_Primary;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Secondary secondary = 4;
-   */
-  secondary?: Specimen_Secondary;
-
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Georeference georeference = 5;
-   */
-  georeference?: Specimen_Georeference;
-
-  /**
-   * @generated from field: map<string, ccbio.schema.v2.Specimen.Image> images = 7;
-   */
-  images: { [key: string]: Specimen_Image } = {};
-
-  /**
-   * @generated from field: string loans = 8;
-   */
-  loans = "";
-
-  /**
-   * @generated from field: string grants = 9;
-   */
-  grants = "";
+  specimen?: Specimen;
 
   constructor(data?: PartialMessage<SpecimenCreateRequest>) {
     super();
@@ -677,14 +301,7 @@ export class SpecimenCreateRequest extends Message<SpecimenCreateRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ccbio.schema.v2.SpecimenCreateRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Specimen_Id },
-    { no: 2, name: "taxon", kind: "message", T: Specimen_Taxon },
-    { no: 3, name: "primary", kind: "message", T: Specimen_Primary },
-    { no: 4, name: "secondary", kind: "message", T: Specimen_Secondary },
-    { no: 5, name: "georeference", kind: "message", T: Specimen_Georeference },
-    { no: 7, name: "images", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_Image} },
-    { no: 8, name: "loans", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 9, name: "grants", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenCreateRequest {
@@ -742,6 +359,8 @@ export class SpecimenCreateResponse extends Message<SpecimenCreateResponse> {
 }
 
 /**
+ * SpecimenUpdate
+ *
  * @generated from message ccbio.schema.v2.SpecimenUpdateRequest
  */
 export class SpecimenUpdateRequest extends Message<SpecimenUpdateRequest> {
@@ -749,6 +368,11 @@ export class SpecimenUpdateRequest extends Message<SpecimenUpdateRequest> {
    * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
    */
   specimen?: Specimen;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask update_mask = 2;
+   */
+  updateMask?: FieldMask;
 
   constructor(data?: PartialMessage<SpecimenUpdateRequest>) {
     super();
@@ -759,6 +383,7 @@ export class SpecimenUpdateRequest extends Message<SpecimenUpdateRequest> {
   static readonly typeName = "ccbio.schema.v2.SpecimenUpdateRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "specimen", kind: "message", T: Specimen },
+    { no: 2, name: "update_mask", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenUpdateRequest {
@@ -779,6 +404,127 @@ export class SpecimenUpdateRequest extends Message<SpecimenUpdateRequest> {
 }
 
 /**
+ * @generated from message ccbio.schema.v2.SpecimenUpdateResponse
+ */
+export class SpecimenUpdateResponse extends Message<SpecimenUpdateResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask update_mask = 2;
+   */
+  updateMask?: FieldMask;
+
+  constructor(data?: PartialMessage<SpecimenUpdateResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SpecimenUpdateResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+    { no: 2, name: "update_mask", kind: "message", T: FieldMask },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenUpdateResponse {
+    return new SpecimenUpdateResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenUpdateResponse {
+    return new SpecimenUpdateResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenUpdateResponse {
+    return new SpecimenUpdateResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenUpdateResponse | PlainMessage<SpecimenUpdateResponse> | undefined, b: SpecimenUpdateResponse | PlainMessage<SpecimenUpdateResponse> | undefined): boolean {
+    return proto3.util.equals(SpecimenUpdateResponse, a, b);
+  }
+}
+
+/**
+ * SpecimenDelete
+ *
+ * @generated from message ccbio.schema.v2.SpecimenDeleteRequest
+ */
+export class SpecimenDeleteRequest extends Message<SpecimenDeleteRequest> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
+   */
+  id?: Specimen_Id;
+
+  constructor(data?: PartialMessage<SpecimenDeleteRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SpecimenDeleteRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "message", T: Specimen_Id },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenDeleteRequest {
+    return new SpecimenDeleteRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenDeleteRequest {
+    return new SpecimenDeleteRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenDeleteRequest {
+    return new SpecimenDeleteRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenDeleteRequest | PlainMessage<SpecimenDeleteRequest> | undefined, b: SpecimenDeleteRequest | PlainMessage<SpecimenDeleteRequest> | undefined): boolean {
+    return proto3.util.equals(SpecimenDeleteRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message ccbio.schema.v2.SpecimenDeleteResponse
+ */
+export class SpecimenDeleteResponse extends Message<SpecimenDeleteResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  constructor(data?: PartialMessage<SpecimenDeleteResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SpecimenDeleteResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenDeleteResponse {
+    return new SpecimenDeleteResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenDeleteResponse {
+    return new SpecimenDeleteResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenDeleteResponse {
+    return new SpecimenDeleteResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenDeleteResponse | PlainMessage<SpecimenDeleteResponse> | undefined, b: SpecimenDeleteResponse | PlainMessage<SpecimenDeleteResponse> | undefined): boolean {
+    return proto3.util.equals(SpecimenDeleteResponse, a, b);
+  }
+}
+
+/**
+ * SpecimenHideTx
+ *
  * @generated from message ccbio.schema.v2.SpecimenHideTxRequest
  */
 export class SpecimenHideTxRequest extends Message<SpecimenHideTxRequest> {
@@ -822,6 +568,45 @@ export class SpecimenHideTxRequest extends Message<SpecimenHideTxRequest> {
 }
 
 /**
+ * @generated from message ccbio.schema.v2.SpecimenHideTxResponse
+ */
+export class SpecimenHideTxResponse extends Message<SpecimenHideTxResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  constructor(data?: PartialMessage<SpecimenHideTxResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SpecimenHideTxResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenHideTxResponse {
+    return new SpecimenHideTxResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenHideTxResponse {
+    return new SpecimenHideTxResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenHideTxResponse {
+    return new SpecimenHideTxResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenHideTxResponse | PlainMessage<SpecimenHideTxResponse> | undefined, b: SpecimenHideTxResponse | PlainMessage<SpecimenHideTxResponse> | undefined): boolean {
+    return proto3.util.equals(SpecimenHideTxResponse, a, b);
+  }
+}
+
+/**
+ * SpecimenUnHideTx
+ *
  * @generated from message ccbio.schema.v2.SpecimenUnHideTxRequest
  */
 export class SpecimenUnHideTxRequest extends Message<SpecimenUnHideTxRequest> {
@@ -865,43 +650,312 @@ export class SpecimenUnHideTxRequest extends Message<SpecimenUnHideTxRequest> {
 }
 
 /**
- * @generated from message ccbio.schema.v2.SpecimenDeleteRequest
+ * @generated from message ccbio.schema.v2.SpecimenUnHideTxResponse
  */
-export class SpecimenDeleteRequest extends Message<SpecimenDeleteRequest> {
+export class SpecimenUnHideTxResponse extends Message<SpecimenUnHideTxResponse> {
   /**
-   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
    */
-  id?: Specimen_Id;
+  specimen?: Specimen;
 
-  constructor(data?: PartialMessage<SpecimenDeleteRequest>) {
+  constructor(data?: PartialMessage<SpecimenUnHideTxResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.SpecimenDeleteRequest";
+  static readonly typeName = "ccbio.schema.v2.SpecimenUnHideTxResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Specimen_Id },
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenDeleteRequest {
-    return new SpecimenDeleteRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenUnHideTxResponse {
+    return new SpecimenUnHideTxResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenDeleteRequest {
-    return new SpecimenDeleteRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenUnHideTxResponse {
+    return new SpecimenUnHideTxResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenDeleteRequest {
-    return new SpecimenDeleteRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenUnHideTxResponse {
+    return new SpecimenUnHideTxResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: SpecimenDeleteRequest | PlainMessage<SpecimenDeleteRequest> | undefined, b: SpecimenDeleteRequest | PlainMessage<SpecimenDeleteRequest> | undefined): boolean {
-    return proto3.util.equals(SpecimenDeleteRequest, a, b);
+  static equals(a: SpecimenUnHideTxResponse | PlainMessage<SpecimenUnHideTxResponse> | undefined, b: SpecimenUnHideTxResponse | PlainMessage<SpecimenUnHideTxResponse> | undefined): boolean {
+    return proto3.util.equals(SpecimenUnHideTxResponse, a, b);
   }
 }
 
 /**
+ * GetSuggestedUpdate
+ *
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateRequest
+ */
+export class GetSuggestedUpdateRequest extends Message<GetSuggestedUpdateRequest> {
+  /**
+   * @generated from field: ccbio.schema.v2.SuggestedUpdate.Id id = 1;
+   */
+  id?: SuggestedUpdate_Id;
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "message", T: SuggestedUpdate_Id },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateRequest {
+    return new GetSuggestedUpdateRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateRequest {
+    return new GetSuggestedUpdateRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateRequest {
+    return new GetSuggestedUpdateRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateRequest | PlainMessage<GetSuggestedUpdateRequest> | undefined, b: GetSuggestedUpdateRequest | PlainMessage<GetSuggestedUpdateRequest> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateResponse
+ */
+export class GetSuggestedUpdateResponse extends Message<GetSuggestedUpdateResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.SuggestedUpdate suggested_update = 1;
+   */
+  suggestedUpdate?: SuggestedUpdate;
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "suggested_update", kind: "message", T: SuggestedUpdate },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateResponse {
+    return new GetSuggestedUpdateResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateResponse {
+    return new GetSuggestedUpdateResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateResponse {
+    return new GetSuggestedUpdateResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateResponse | PlainMessage<GetSuggestedUpdateResponse> | undefined, b: GetSuggestedUpdateResponse | PlainMessage<GetSuggestedUpdateResponse> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateResponse, a, b);
+  }
+}
+
+/**
+ * GetSuggestedUpdateBySpecimen
+ *
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateBySpecimenRequest
+ */
+export class GetSuggestedUpdateBySpecimenRequest extends Message<GetSuggestedUpdateBySpecimenRequest> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
+   */
+  id?: Specimen_Id;
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateBySpecimenRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateBySpecimenRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "message", T: Specimen_Id },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateBySpecimenRequest {
+    return new GetSuggestedUpdateBySpecimenRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenRequest {
+    return new GetSuggestedUpdateBySpecimenRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenRequest {
+    return new GetSuggestedUpdateBySpecimenRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateBySpecimenRequest | PlainMessage<GetSuggestedUpdateBySpecimenRequest> | undefined, b: GetSuggestedUpdateBySpecimenRequest | PlainMessage<GetSuggestedUpdateBySpecimenRequest> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateBySpecimenRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateBySpecimenResponse
+ */
+export class GetSuggestedUpdateBySpecimenResponse extends Message<GetSuggestedUpdateBySpecimenResponse> {
+  /**
+   * @generated from field: repeated ccbio.schema.v2.SuggestedUpdate suggested_updates = 1;
+   */
+  suggestedUpdates: SuggestedUpdate[] = [];
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateBySpecimenResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateBySpecimenResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "suggested_updates", kind: "message", T: SuggestedUpdate, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateBySpecimenResponse {
+    return new GetSuggestedUpdateBySpecimenResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenResponse {
+    return new GetSuggestedUpdateBySpecimenResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateBySpecimenResponse {
+    return new GetSuggestedUpdateBySpecimenResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateBySpecimenResponse | PlainMessage<GetSuggestedUpdateBySpecimenResponse> | undefined, b: GetSuggestedUpdateBySpecimenResponse | PlainMessage<GetSuggestedUpdateBySpecimenResponse> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateBySpecimenResponse, a, b);
+  }
+}
+
+/**
+ * GetSuggestedUpdateByCollection
+ *
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateByCollectionRequest
+ */
+export class GetSuggestedUpdateByCollectionRequest extends Message<GetSuggestedUpdateByCollectionRequest> {
+  /**
+   * @generated from field: rbac.Collection.Id id = 1;
+   */
+  id?: Collection_Id;
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateByCollectionRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateByCollectionRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "id", kind: "message", T: Collection_Id },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateByCollectionRequest {
+    return new GetSuggestedUpdateByCollectionRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionRequest {
+    return new GetSuggestedUpdateByCollectionRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionRequest {
+    return new GetSuggestedUpdateByCollectionRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateByCollectionRequest | PlainMessage<GetSuggestedUpdateByCollectionRequest> | undefined, b: GetSuggestedUpdateByCollectionRequest | PlainMessage<GetSuggestedUpdateByCollectionRequest> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateByCollectionRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateByCollectionResponse
+ */
+export class GetSuggestedUpdateByCollectionResponse extends Message<GetSuggestedUpdateByCollectionResponse> {
+  /**
+   * @generated from field: repeated ccbio.schema.v2.SuggestedUpdate suggested_updates = 1;
+   */
+  suggestedUpdates: SuggestedUpdate[] = [];
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateByCollectionResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateByCollectionResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "suggested_updates", kind: "message", T: SuggestedUpdate, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateByCollectionResponse {
+    return new GetSuggestedUpdateByCollectionResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionResponse {
+    return new GetSuggestedUpdateByCollectionResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateByCollectionResponse {
+    return new GetSuggestedUpdateByCollectionResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateByCollectionResponse | PlainMessage<GetSuggestedUpdateByCollectionResponse> | undefined, b: GetSuggestedUpdateByCollectionResponse | PlainMessage<GetSuggestedUpdateByCollectionResponse> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateByCollectionResponse, a, b);
+  }
+}
+
+/**
+ * GetSuggestedUpdateListResponse
+ *
+ * @generated from message ccbio.schema.v2.GetSuggestedUpdateListResponse
+ */
+export class GetSuggestedUpdateListResponse extends Message<GetSuggestedUpdateListResponse> {
+  /**
+   * @generated from field: repeated ccbio.schema.v2.SuggestedUpdate suggested_updates = 1;
+   */
+  suggestedUpdates: SuggestedUpdate[] = [];
+
+  constructor(data?: PartialMessage<GetSuggestedUpdateListResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.GetSuggestedUpdateListResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "suggested_updates", kind: "message", T: SuggestedUpdate, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetSuggestedUpdateListResponse {
+    return new GetSuggestedUpdateListResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetSuggestedUpdateListResponse {
+    return new GetSuggestedUpdateListResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetSuggestedUpdateListResponse {
+    return new GetSuggestedUpdateListResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetSuggestedUpdateListResponse | PlainMessage<GetSuggestedUpdateListResponse> | undefined, b: GetSuggestedUpdateListResponse | PlainMessage<GetSuggestedUpdateListResponse> | undefined): boolean {
+    return proto3.util.equals(GetSuggestedUpdateListResponse, a, b);
+  }
+}
+
+/**
+ * SuggestedUpdateCreate
+ *
  * @generated from message ccbio.schema.v2.SuggestedUpdateCreateRequest
  */
 export class SuggestedUpdateCreateRequest extends Message<SuggestedUpdateCreateRequest> {
@@ -939,6 +993,45 @@ export class SuggestedUpdateCreateRequest extends Message<SuggestedUpdateCreateR
 }
 
 /**
+ * @generated from message ccbio.schema.v2.SuggestedUpdateCreateResponse
+ */
+export class SuggestedUpdateCreateResponse extends Message<SuggestedUpdateCreateResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.SuggestedUpdate suggested_update = 1;
+   */
+  suggestedUpdate?: SuggestedUpdate;
+
+  constructor(data?: PartialMessage<SuggestedUpdateCreateResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SuggestedUpdateCreateResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "suggested_update", kind: "message", T: SuggestedUpdate },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestedUpdateCreateResponse {
+    return new SuggestedUpdateCreateResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestedUpdateCreateResponse {
+    return new SuggestedUpdateCreateResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestedUpdateCreateResponse {
+    return new SuggestedUpdateCreateResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SuggestedUpdateCreateResponse | PlainMessage<SuggestedUpdateCreateResponse> | undefined, b: SuggestedUpdateCreateResponse | PlainMessage<SuggestedUpdateCreateResponse> | undefined): boolean {
+    return proto3.util.equals(SuggestedUpdateCreateResponse, a, b);
+  }
+}
+
+/**
+ * SpecimenUpdateApprove
+ *
  * @generated from message ccbio.schema.v2.SuggestedUpdateApproveRequest
  */
 export class SuggestedUpdateApproveRequest extends Message<SuggestedUpdateApproveRequest> {
@@ -982,6 +1075,45 @@ export class SuggestedUpdateApproveRequest extends Message<SuggestedUpdateApprov
 }
 
 /**
+ * @generated from message ccbio.schema.v2.SuggestedUpdateApproveResponse
+ */
+export class SuggestedUpdateApproveResponse extends Message<SuggestedUpdateApproveResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  constructor(data?: PartialMessage<SuggestedUpdateApproveResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SuggestedUpdateApproveResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestedUpdateApproveResponse {
+    return new SuggestedUpdateApproveResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestedUpdateApproveResponse {
+    return new SuggestedUpdateApproveResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestedUpdateApproveResponse {
+    return new SuggestedUpdateApproveResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SuggestedUpdateApproveResponse | PlainMessage<SuggestedUpdateApproveResponse> | undefined, b: SuggestedUpdateApproveResponse | PlainMessage<SuggestedUpdateApproveResponse> | undefined): boolean {
+    return proto3.util.equals(SuggestedUpdateApproveResponse, a, b);
+  }
+}
+
+/**
+ * SpecimenUpdateReject
+ *
  * @generated from message ccbio.schema.v2.SuggestedUpdateRejectRequest
  */
 export class SuggestedUpdateRejectRequest extends Message<SuggestedUpdateRejectRequest> {
@@ -1024,3 +1156,39 @@ export class SuggestedUpdateRejectRequest extends Message<SuggestedUpdateRejectR
   }
 }
 
+/**
+ * @generated from message ccbio.schema.v2.SuggestedUpdateRejectResponse
+ */
+export class SuggestedUpdateRejectResponse extends Message<SuggestedUpdateRejectResponse> {
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  constructor(data?: PartialMessage<SuggestedUpdateRejectResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v2.SuggestedUpdateRejectResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestedUpdateRejectResponse {
+    return new SuggestedUpdateRejectResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestedUpdateRejectResponse {
+    return new SuggestedUpdateRejectResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestedUpdateRejectResponse {
+    return new SuggestedUpdateRejectResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SuggestedUpdateRejectResponse | PlainMessage<SuggestedUpdateRejectResponse> | undefined, b: SuggestedUpdateRejectResponse | PlainMessage<SuggestedUpdateRejectResponse> | undefined): boolean {
+    return proto3.util.equals(SuggestedUpdateRejectResponse, a, b);
+  }
+}

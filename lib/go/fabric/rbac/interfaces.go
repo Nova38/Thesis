@@ -5,28 +5,6 @@ import (
 	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
-type AuthContractEval interface {
-	GetCurrentUser() (*rbac_pb.User, error)
-	GetCurrentUserId() (*rbac_pb.User_Id, error)
-	GetUser(rbac_pb.GetUserRequest) (*rbac_pb.User, error)
-	GetUserList() (*rbac_pb.User_List, error)
-
-	GetCollection() (*rbac_pb.Collection, error)
-	GetCollectionList() (*rbac_pb.Collection_List, error)
-}
-
-type AuthContractSubmit interface {
-	UserRegister(*rbac_pb.UserRegisterRequest) (*rbac_pb.User, error)
-	UserUpdateMembership(*rbac_pb.UpdateMembershipRequest) (*rbac_pb.User, error)
-	CollectionCreate(*rbac_pb.CollectionCreateRequest) (*rbac_pb.Collection, error)
-	CollectionUpdateRequest(*rbac_pb.CollectionUpdateRequest) (*rbac_pb.Collection, error)
-}
-
-type AuthService interface {
-	AuthContractEval
-	AuthContractSubmit
-}
-
 /*
    Transaction Context interfaces
 */
@@ -66,7 +44,7 @@ type AuthTxCtxInterface interface {
 	//  - collection to be set
 	//  - user to be set
 	// if user is not a member of the collection it returns that public user permissions
-	GetRolePermission(role int, action rbac_pb.Operations_Action) (*rbac_pb.Operations, error)
+	GetRolePermission(role int) (*rbac_pb.ACL, error)
 
 	// GetDomain() (*rbac_pb.Operations_Domain, error)
 	// SetDomain(domain *rbac_pb.Operations_Domain) error
@@ -74,8 +52,8 @@ type AuthTxCtxInterface interface {
 	// GetAction() (*rbac_pb.Operations_Action, error)
 	// SetAction(action *rbac_pb.Operations_Action) error
 
-	SetOperation(operation *rbac_pb.Operations) error
-	GetOperation() (*rbac_pb.Operations, error)
+	SetOperation(operation *rbac_pb.ACL_Operation) error
+	GetOperation() (*rbac_pb.ACL_Operation, error)
 
 	// Authorize: Checks if the user is authorized to perform the action on the collection
 	//

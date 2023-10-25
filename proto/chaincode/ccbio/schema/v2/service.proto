@@ -9,209 +9,305 @@ import "google/protobuf/empty.proto";
 // import "key/v1/key.proto";
 import "chaincode/ccbio/schema/v2/state.proto";
 
+import "google/protobuf/field_mask.proto";
 
-
+import "hlf/key.proto";
+import "hlf/utils.proto";
+import "rbac/rbac.proto";
 
 service BiochainSpecimenService{
     //  // Specimen functions
 
-    rpc GetSpecimen(GetSpecimenRequest) returns (Specimen);
-    rpc GetSpecimenList(google.protobuf.Empty) returns (Specimen.List);
-    rpc GetSpecimenByCollection(GetSpecimenByCollectionRequest) returns (Specimen.List);
-    rpc GetSpecimenHistory(GetSpecimenHistoryRequest) returns (Specimen.History);
+    // Evaluated
 
-    rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse);
-    rpc SpecimenUpdate(SpecimenUpdateRequest) returns (Specimen);
-    rpc SpecimenHideTransaction(SpecimenHideTxRequest) returns (Specimen);
-    rpc SpecimenUnHideTransaction(SpecimenUnHideTxRequest) returns (Specimen);
-    rpc SpecimenDelete(SpecimenDeleteRequest) returns (google.protobuf.Empty);
+    rpc GetSpecimen(GetSpecimenRequest) returns (GetSpecimenResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 
-    //  rpc specimenGetFullById(SpecimenId) returns (SpecimenGetFullByIdResponse);
-    //  rpc specimenGetHistoryById(SpecimenId) returns (SpecimenHistory);
-    //  rpc specimenGetFullHistoryById(SpecimenId) returns (SpecimenHistory);
+    rpc GetSpecimenList(google.protobuf.Empty) returns (GetSpecimenListResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc GetSpecimenByCollection(GetSpecimenByCollectionRequest) returns (GetSpecimenByCollectionResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc GetSpecimenHistory(GetSpecimenHistoryRequest) returns (GetSpecimenHistoryResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+          action: ACTION_VIEW;
+          domain: DOMAIN_OBJECT;
+      };
+    };
+
+
+    rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_CREATE;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc SpecimenUpdate(SpecimenUpdateRequest) returns (SpecimenUpdateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_EDIT;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc SpecimenDelete(SpecimenDeleteRequest) returns (SpecimenDeleteRequest){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_DELETE;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc SpecimenHideTransaction(SpecimenHideTxRequest) returns (SpecimenHideTxResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_HIDDEN_TX;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
+    rpc SpecimenUnHideTransaction(SpecimenUnHideTxRequest) returns (SpecimenUnHideTxResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_HIDDEN_TX;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+
 
     // Suggest
 
-    rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (SuggestedUpdate);
-    rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (SuggestedStateList);
-    rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (SuggestedStateList);
-    rpc GetSuggestedUpdateList(google.protobuf.Empty) returns (Specimen);
+    rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (GetSuggestedUpdateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_SUGGEST;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 
-    rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdate);
-    rpc SpecimenUpdateApprove(SuggestedUpdateApproveRequest) returns (Specimen);
-    rpc SpecimenUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdate);
-}
+    rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (GetSuggestedUpdateBySpecimenResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_SUGGEST;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 
-service BiochainAuthService {
-    /**
-     * GetCurrentUser: Returns the current user.
-     *
-     * Returns the current user.
-     * Requires:
-     * - User submitting the transaction is a registered user.
-     */
-    rpc GetCurrentUser(google.protobuf.Empty) returns (User);
+    rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (GetSuggestedUpdateByCollectionResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_SUGGEST;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 
-    /**
-     * Returns the current user id.
-     * Requires:
-     * - User submitting the transaction is a registered user.
-     */
-    rpc GetCurrentUserId(google.protobuf.Empty) returns (User.Id);
+    rpc GetSuggestedUpdateList(google.protobuf.Empty) returns (GetSuggestedUpdateListResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (rbac.operation) = {
+        action: ACTION_VIEW_SUGGEST;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 
-    /**
-  
-    */
-    rpc GetUserList(GetUserListRequest) returns (GetUserListResponse);
-    rpc GetUser(GetUserRequest) returns (User);
-
-    rpc UserRegister(UserRegisterRequest) returns (User);
-    rpc UserUpdateMembership(UpdateMembershipRequest) returns (User);
-
-    rpc AddTestUsers(User.Id) returns (google.protobuf.Empty);
-    //  // Collection functions
-    rpc GetCollectionList(google.protobuf.Empty) returns (CollectionList);
-    rpc GetCollection(GetCollectionRequest) returns (Collection);
-    //  rpc collectionGetUsers(CollectionId) returns (UserList);
-    //
-    rpc CollectionCreate(CollectionCreateRequest) returns (Collection);
-    rpc CollectionUpdate(CollectionUpdateRequest) returns (Collection);
-    //
-
-}
-
-// message SuggestedUpdateRejectRequest {
-//   SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-//   string comment = 2 [(buf.validate.field).required = true];
-// }
-
-// message SuggestedUpdateApproveRequest {
-//   SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-//   string comment = 2 [(buf.validate.field).required = true];
-// }
-
-// message SuggestedUpdateCreateRequest {
-//   SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-// }
-
-
-
-message GetSuggestedUpdateRequest {
-    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetSuggestedUpdateBySpecimenRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetSuggestedUpdateByCollectionRequest {
-    Collection.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetUserListRequest {}
-
-message GetUserListResponse {
-    repeated User users = 1;
-}
-message GetUserRequest {
-    User.Id id = 1 [(buf.validate.field).required = true];
-}
-message GetCollectionRequest {
-    Collection.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetSpecimenRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetSpecimenHistoryRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-    bool include_hidden = 2 [(buf.validate.field).required = true];
-}
-
-message GetSpecimenByCollectionRequest {
-    Collection.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message GetUserByCollectionRequest {
-    Collection.Id id = 1 [(buf.validate.field).required = true];
-}
-
-message UserRegisterRequest {
-    string name = 1 [(buf.validate.field).required = true];
-    string email = 2 [(buf.validate.field).string.email = true];
-    string affiliation = 3 [(buf.validate.field).required = true];
-}
-
-message UpdateMembershipRequest {
-    User.Id user_id = 1 [(buf.validate.field).required = true];
-    Collection.Id collection_id = 2 [(buf.validate.field).required = true];
-    Role new_role = 3 [(buf.validate.field).required = true];
-}
-
-message CollectionCreateRequest {
-    Collection collection = 1 [(buf.validate.field).required = true];
-}
-
-message CollectionUpdateRequest {
-    Collection collection = 1 [(buf.validate.field).required = true];
-}
-
-message sTest{
-    Specimen.Georeference georeference = 5 [(buf.validate.field).required = true];
-
-
-}
-
-message SpecimenCreateRequest {
-    //  Specimen specimen = 1 [(buf.validate.field).required = true];
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-    Specimen.Taxon taxon = 2 [(buf.validate.field).required = true];
-    Specimen.Primary primary = 3 [(buf.validate.field).required = true];
-    Specimen.Secondary secondary = 4 [(buf.validate.field).required = true];
-    Specimen.Georeference georeference = 5 [(buf.validate.field).required = true];
-    map<string, Specimen.Image> images = 7;
-    string loans = 8;
-    string grants = 9;
-
-
-    //  Specimen.Image images = 6 [(buf.validate.field).required = true];
-    //  Specimen.Loan loans = 7 [(buf.validate.field).required = true];
-    //  Specimen.Grant grants = 8 [(buf.validate.field).required = true];
-}
-
-message SpecimenCreateResponse {
-    Specimen specimen = 1 [(buf.validate.field).required = true];
-}
-
-message SpecimenUpdateRequest {
-    Specimen specimen = 1 [(buf.validate.field).required = true];
-}
-
-message SpecimenHideTxRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-    Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
-}
-message SpecimenUnHideTxRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
-    Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
-}
-
-message SpecimenDeleteRequest {
-    Specimen.Id id = 1 [(buf.validate.field).required = true];
+    rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdateCreateResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_SUGGEST_EDIT;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+    rpc SpecimenUpdateApprove(SuggestedUpdateApproveRequest) returns (SuggestedUpdateApproveResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_SUGGEST_APPROVE;
+        domain: DOMAIN_OBJECT;
+      };
+    };
+    rpc SpecimenUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdateRejectResponse){
+      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (rbac.operation) = {
+        action: ACTION_SUGGEST_REJECT;
+        domain: DOMAIN_OBJECT;
+      };
+    };
 }
 
 
-message SuggestedUpdateCreateRequest {
-    SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-}
 
-message SuggestedUpdateApproveRequest {
-    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-    string comment = 2 [(buf.validate.field).required = true];
-}
 
-message SuggestedUpdateRejectRequest {
-    SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-    string comment = 2 [(buf.validate.field).required = true];
-}
+
+
+// Specimen
+
+  // Evaluate
+    // GetSpecimen
+      message GetSpecimenRequest {
+        Specimen.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message GetSpecimenResponse {
+        Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+    // GetSpecimenList
+      message GetSpecimenListResponse {
+        repeated Specimen specimens = 1;
+      }
+
+    // GetSpecimenByCollection
+      message GetSpecimenByCollectionRequest {
+        rbac.Collection.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message GetSpecimenByCollectionResponse {
+        repeated Specimen specimens = 1;
+      }
+
+    // GetSpecimenHistory
+      message GetSpecimenHistoryRequest {
+        Specimen.Id id = 1 [(buf.validate.field).required = true];
+        bool include_hidden = 2 [(buf.validate.field).required = true];
+      }
+      message GetSpecimenHistoryResponse {
+        Specimen.History history = 1;
+      }
+
+
+  // Submit
+
+    // SpecimenCreate
+      message SpecimenCreateRequest {
+            Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+      message SpecimenCreateResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+    // SpecimenUpdate
+      message SpecimenUpdateRequest {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+          google.protobuf.FieldMask update_mask = 2;
+      }
+      message SpecimenUpdateResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+          google.protobuf.FieldMask update_mask = 2;
+      }
+
+
+    // SpecimenDelete
+      message SpecimenDeleteRequest {
+        Specimen.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message SpecimenDeleteResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+    // SpecimenHideTx
+      message SpecimenHideTxRequest {
+          Specimen.Id id = 1 [(buf.validate.field).required = true];
+          Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+      }
+      message SpecimenHideTxResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+    // SpecimenUnHideTx
+      message SpecimenUnHideTxRequest {
+          Specimen.Id id = 1 [(buf.validate.field).required = true];
+          Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+      }
+      message SpecimenUnHideTxResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+
+
+
+
+
+
+
+
+
+// SuggestedUpdate
+
+  // Evaluate
+
+    // GetSuggestedUpdate
+      message GetSuggestedUpdateRequest {
+        SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message GetSuggestedUpdateResponse {
+        SuggestedUpdate suggested_update = 1;
+      }
+
+
+    // GetSuggestedUpdateBySpecimen
+      message GetSuggestedUpdateBySpecimenRequest {
+        Specimen.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message GetSuggestedUpdateBySpecimenResponse {
+          repeated SuggestedUpdate suggested_updates = 1;
+      }
+
+    // GetSuggestedUpdateByCollection
+      message GetSuggestedUpdateByCollectionRequest {
+        rbac.Collection.Id id = 1 [(buf.validate.field).required = true];
+      }
+      message GetSuggestedUpdateByCollectionResponse {
+          repeated SuggestedUpdate suggested_updates = 1;
+      }
+
+    // GetSuggestedUpdateListResponse
+      message GetSuggestedUpdateListResponse {
+          repeated SuggestedUpdate suggested_updates = 1;
+      }
+
+
+
+
+  // Submit
+
+    // SuggestedUpdateCreate
+      message SuggestedUpdateCreateRequest {
+          SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+      }
+      message SuggestedUpdateCreateResponse {
+          SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+      }
+
+    // SpecimenUpdateApprove
+      message SuggestedUpdateApproveRequest {
+          SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+          string comment = 2 [(buf.validate.field).required = true];
+      }
+      message SuggestedUpdateApproveResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
+
+
+    // SpecimenUpdateReject
+      message SuggestedUpdateRejectRequest {
+          SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+          string comment = 2 [(buf.validate.field).required = true];
+      }
+      message SuggestedUpdateRejectResponse {
+          Specimen specimen = 1 [(buf.validate.field).required = true];
+      }
