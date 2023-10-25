@@ -855,3 +855,4 @@ export class SuggestedUpdate_Id extends Message<SuggestedUpdate_Id> {
     return proto3.util.equals(SuggestedUpdate_Id, a, b);
   }
 }
+

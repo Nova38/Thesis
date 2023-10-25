@@ -30,3 +30,4 @@ proto2.util.setEnumType(TransactionType, "hlf.TransactionType", [
   { no: 1, name: "TRANSACTION_TYPE_INVOKE" },
   { no: 2, name: "TRANSACTION_TYPE_QUERY" },
 ]);
+

@@ -1158,3 +1158,4 @@ export class SuggestedUpdateRejectRequest extends Message<SuggestedUpdateRejectR
     return proto3.util.equals(SuggestedUpdateRejectRequest, a, b);
   }
 }
+

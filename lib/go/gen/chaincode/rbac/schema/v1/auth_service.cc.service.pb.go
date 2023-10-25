@@ -171,85 +171,85 @@ func (s *AuthServiceBase) GetEvaluateTransactions() []string {
 func AuthServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "UserGetCurrent":
-		// domain:DOMAIN_USER action:ACTION_VIEW
+		// domain:DOMAIN_USER  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 1,
 		}, nil
 	case "UserGetCurrentId":
-		// domain:DOMAIN_USER action:ACTION_VIEW
+		// domain:DOMAIN_USER  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 1,
 		}, nil
 	case "UserGetList":
-		// domain:DOMAIN_USER action:ACTION_VIEW
+		// domain:DOMAIN_USER  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 1,
 		}, nil
 	case "UserGet":
-		// domain:DOMAIN_USER action:ACTION_VIEW
+		// domain:DOMAIN_USER  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 1,
 		}, nil
 	case "UserGetHistory":
-		// domain:DOMAIN_USER action:ACTION_VIEW_HISTORY
+		// domain:DOMAIN_USER  action:ACTION_VIEW_HISTORY
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 9,
 		}, nil
 	case "UserRegister":
-		// domain:DOMAIN_USER action:ACTION_CREATE
+		// domain:DOMAIN_USER  action:ACTION_CREATE
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 2,
 		}, nil
 	case "UserUpdate":
-		// domain:DOMAIN_USER action:ACTION_EDIT
+		// domain:DOMAIN_USER  action:ACTION_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 5,
 			Action: 4,
 		}, nil
 	case "UserUpdateMembership":
-		// domain:DOMAIN_COLLECTION_MEMBERSHIP action:ACTION_EDIT
+		// domain:DOMAIN_COLLECTION_MEMBERSHIP  action:ACTION_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 2,
 			Action: 4,
 		}, nil
 	case "CollectionGetList":
-		// domain:DOMAIN_COLLECTION action:ACTION_VIEW
+		// domain:DOMAIN_COLLECTION  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 1,
 			Action: 1,
 		}, nil
 	case "CollectionGet":
-		// domain:DOMAIN_COLLECTION action:ACTION_VIEW
+		// domain:DOMAIN_COLLECTION  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 1,
 			Action: 1,
 		}, nil
 	case "CollectionGetHistory":
-		// domain:DOMAIN_COLLECTION action:ACTION_VIEW_HISTORY
+		// domain:DOMAIN_COLLECTION  action:ACTION_VIEW_HISTORY
 		return &rbac.ACL_Operation{
 			Domain: 1,
 			Action: 9,
 		}, nil
 	case "CollectionCreate":
-		// domain:DOMAIN_COLLECTION action:ACTION_CREATE
+		// domain:DOMAIN_COLLECTION  action:ACTION_CREATE
 		return &rbac.ACL_Operation{
 			Domain: 1,
 			Action: 2,
 		}, nil
 	case "CollectionUpdateRoles":
-		// domain:DOMAIN_COLLECTION_ROLES action:ACTION_EDIT
+		// domain:DOMAIN_COLLECTION_ROLES  action:ACTION_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 4,
 			Action: 4,
 		}, nil
 	case "CollectionUpdatePermission":
-		// domain:DOMAIN_COLLECTION_PERMISSION action:ACTION_EDIT
+		// domain:DOMAIN_COLLECTION_PERMISSION  action:ACTION_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 3,
 			Action: 4,
@@ -257,6 +257,7 @@ func AuthServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}
+	return nil, nil
 }
 
 func (s *AuthServiceBase) GetIgnoredFunctions() []string {

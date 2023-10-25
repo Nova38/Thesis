@@ -1192,3 +1192,4 @@ export class SuggestedUpdateRejectResponse extends Message<SuggestedUpdateReject
     return proto3.util.equals(SuggestedUpdateRejectResponse, a, b);
   }
 }
+

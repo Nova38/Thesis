@@ -169,6 +169,7 @@ func GenerateOperationLookup(
 	g.P("default:")
 	g.P("return nil,", fmtImport, "Errorf(\"No operation defined for \"+txName)")
 	g.P("}")
+	g.P("return nil, nil")
 	g.P("}")
 
 	// Gen GetIgnoredFunctions

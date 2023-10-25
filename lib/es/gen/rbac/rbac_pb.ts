@@ -1246,3 +1246,4 @@ export class History_Entry extends Message<History_Entry> {
     return proto3.util.equals(History_Entry, a, b);
   }
 }
+

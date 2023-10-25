@@ -959,3 +959,4 @@ export class CollectionUpdatePermissionResponse extends Message<CollectionUpdate
     return proto3.util.equals(CollectionUpdatePermissionResponse, a, b);
   }
 }
+

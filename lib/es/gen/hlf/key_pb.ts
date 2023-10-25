@@ -152,3 +152,4 @@ export class DataField extends Message<DataField> {
     return proto2.util.equals(DataField, a, b);
   }
 }
+

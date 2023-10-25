@@ -4,5 +4,9 @@ repos:
     rev: v2.3.0
     hooks:
     -   id: check-yaml
+        exclude: "lib/es/gen/"
     -   id: end-of-file-fixer
+        exclude: "lib/es/gen/"
+
     -   id: trailing-whitespace
+        exclude: "lib/es/gen/"

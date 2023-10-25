@@ -160,3 +160,4 @@ export declare const BiochainSpecimenService: {
     },
   }
 };
+

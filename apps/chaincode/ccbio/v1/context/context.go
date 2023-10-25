@@ -1,5 +1,7 @@
 package context
 
+// nolint
+
 import (
 	"errors"
 	"fmt"
@@ -43,7 +45,7 @@ func HandelBefore(ctx TxContext) error {
 		Prefix:          "Chaincode",
 		Level:           log.DebugLevel,
 	}).With("fn", fn)
-	//ctx.SetLogger(logger)
+	// ctx.SetLogger(logger)
 
 	logger.Info("Handling Before", "params", params)
 
@@ -67,7 +69,7 @@ func (ctx *AuthTxContext) GetLogger() *slog.Logger {
 	}
 
 	ctx.Logger = slog.With("fn", "GetLogger")
-	//ctx.Logger = log.NewWithOptions(os.Stderr, log.Options{})
+	// ctx.Logger = log.NewWithOptions(os.Stderr, log.Options{})
 	return ctx.Logger
 }
 

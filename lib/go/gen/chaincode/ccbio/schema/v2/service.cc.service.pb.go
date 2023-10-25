@@ -146,97 +146,97 @@ func (s *BiochainSpecimenServiceBase) GetEvaluateTransactions() []string {
 func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, err error) {
 	switch txName {
 	case "GetSpecimen":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 1,
 		}, nil
 	case "GetSpecimenList":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 1,
 		}, nil
 	case "GetSpecimenByCollection":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 1,
 		}, nil
 	case "GetSpecimenHistory":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 1,
 		}, nil
 	case "SpecimenCreate":
-		// domain:DOMAIN_OBJECT action:ACTION_CREATE
+		// domain:DOMAIN_OBJECT  action:ACTION_CREATE
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 2,
 		}, nil
 	case "SpecimenUpdate":
-		// domain:DOMAIN_OBJECT action:ACTION_EDIT
+		// domain:DOMAIN_OBJECT  action:ACTION_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 4,
 		}, nil
 	case "SpecimenDelete":
-		// domain:DOMAIN_OBJECT action:ACTION_DELETE
+		// domain:DOMAIN_OBJECT  action:ACTION_DELETE
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 3,
 		}, nil
 	case "SpecimenHideTransaction":
-		// domain:DOMAIN_OBJECT action:ACTION_HIDDEN_TX
+		// domain:DOMAIN_OBJECT  action:ACTION_HIDDEN_TX
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 10,
 		}, nil
 	case "SpecimenUnHideTransaction":
-		// domain:DOMAIN_OBJECT action:ACTION_HIDDEN_TX
+		// domain:DOMAIN_OBJECT  action:ACTION_HIDDEN_TX
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 10,
 		}, nil
 	case "GetSuggestedUpdate":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW_SUGGEST
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 5,
 		}, nil
 	case "GetSuggestedUpdateBySpecimen":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW_SUGGEST
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 5,
 		}, nil
 	case "GetSuggestedUpdateByCollection":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW_SUGGEST
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 5,
 		}, nil
 	case "GetSuggestedUpdateList":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
+		// domain:DOMAIN_OBJECT  action:ACTION_VIEW_SUGGEST
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 5,
 		}, nil
 	case "SuggestedUpdateCreate":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_EDIT
+		// domain:DOMAIN_OBJECT  action:ACTION_SUGGEST_EDIT
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 6,
 		}, nil
 	case "SpecimenUpdateApprove":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_APPROVE
+		// domain:DOMAIN_OBJECT  action:ACTION_SUGGEST_APPROVE
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 7,
 		}, nil
 	case "SpecimenUpdateReject":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_REJECT
+		// domain:DOMAIN_OBJECT  action:ACTION_SUGGEST_REJECT
 		return &rbac.ACL_Operation{
 			Domain: 6,
 			Action: 8,
@@ -244,6 +244,7 @@ func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac.ACL_Operatio
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}
+	return nil, nil
 }
 
 func (s *BiochainSpecimenServiceBase) GetIgnoredFunctions() []string {

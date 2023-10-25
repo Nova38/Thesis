@@ -107,6 +107,7 @@ func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac.ACL_Operatio
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}
+	return nil, nil
 }
 
 func (s *BiochainSpecimenServiceBase) GetIgnoredFunctions() []string {
@@ -191,6 +192,7 @@ func BiochainAuthServiceGetTxOperation(txName string) (op *rbac.ACL_Operation, e
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}
+	return nil, nil
 }
 
 func (s *BiochainAuthServiceBase) GetIgnoredFunctions() []string {
