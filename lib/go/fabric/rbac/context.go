@@ -59,14 +59,11 @@ func (ctx *AuthTxCtx) SetCollection(collection *pb.Collection) error {
 }
 
 func (ctx *AuthTxCtx) GetOperation() (*pb.Operations, error) {
-	if ctx.Domain == pb.Operations_DOMAIN_UNSPECIFIED || ctx.Action == nil {
+	if ctx.ops == nil || ctx.ops.Domain == pb.Operations_DOMAIN_UNSPECIFIED || ctx.ops.Action == nil {
 		return nil, oops.Errorf("operation not set")
 	}
 
-	return &pb.Operations{
-		Domain: ctx.Domain,
-		Action: ctx.Action,
-	}, nil
+	return ctx.ops, nil
 }
 
 func (ctx *AuthTxCtx) SetOperation(op *pb.Operations) error {
@@ -82,7 +79,7 @@ func (ctx *AuthTxCtx) SetOperation(op *pb.Operations) error {
 		return oops.Errorf("operation domain is unspecified")
 	}
 
-	ctx.Domain = op.Domain
+	ctx.ops.Domain = op.Domain
 
 	// Set Action
 
@@ -96,7 +93,7 @@ func (ctx *AuthTxCtx) SetOperation(op *pb.Operations) error {
 		return oops.Errorf("operation action type is unspecified")
 	}
 
-	ctx.Action = op.Action
+	ctx.ops.Action = op.Action
 
 	// TODO: Should we validate the action here?
 
@@ -110,7 +107,7 @@ func (ctx *AuthTxCtx) Authorize() (bool, error) {
 	}
 
 	// Check if all the objects are set
-	if ctx.Collection == nil || ctx.Action == nil {
+	if ctx.Collection == nil || ctx.ops.Action == nil {
 		return false, oops.Errorf("authorization objects not set")
 	}
 

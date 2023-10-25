@@ -10,7 +10,7 @@ import (
 
 	// "github.com/hyperledger-labs/cckit/identity"
 
-	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
+	_ "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 type AuthContractImpl struct{}
