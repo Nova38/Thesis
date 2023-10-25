@@ -279,6 +279,8 @@ export enum ACL_Domain {
   UNSPECIFIED = 0,
 
   /**
+   * Meta create
+   *
    * @generated from enum value: DOMAIN_COLLECTION = 1;
    */
   COLLECTION = 1,

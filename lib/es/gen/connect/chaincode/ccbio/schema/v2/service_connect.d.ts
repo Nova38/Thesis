@@ -3,55 +3,55 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetSpecimenByCollectionRequest, GetSpecimenByCollectionResponse, GetSpecimenHistoryRequest, GetSpecimenHistoryResponse, GetSpecimenListResponse, GetSpecimenRequest, GetSpecimenResponse, GetSuggestedUpdateByCollectionRequest, GetSuggestedUpdateByCollectionResponse, GetSuggestedUpdateBySpecimenRequest, GetSuggestedUpdateBySpecimenResponse, GetSuggestedUpdateListResponse, GetSuggestedUpdateRequest, GetSuggestedUpdateResponse, SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse, SuggestedUpdateApproveRequest, SuggestedUpdateApproveResponse, SuggestedUpdateCreateRequest, SuggestedUpdateCreateResponse, SuggestedUpdateRejectRequest, SuggestedUpdateRejectResponse } from "./service_pb.js";
+import { GetSuggestedUpdateByCollectionRequest, GetSuggestedUpdateByCollectionResponse, GetSuggestedUpdateBySpecimenRequest, GetSuggestedUpdateBySpecimenResponse, GetSuggestedUpdateListResponse, GetSuggestedUpdateRequest, GetSuggestedUpdateResponse, SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse, SuggestedUpdateApproveRequest, SuggestedUpdateApproveResponse, SuggestedUpdateCreateRequest, SuggestedUpdateCreateResponse, SuggestedUpdateRejectRequest, SuggestedUpdateRejectResponse } from "./service_pb.js";
 import { Empty, MethodKind } from "@bufbuild/protobuf";
 
 /**
  *  // Specimen functions
  *
- * @generated from service ccbio.schema.v2.BiochainSpecimenService
+ * @generated from service ccbio.schema.v2.SpecimenService
  */
-export declare const BiochainSpecimenService: {
-  readonly typeName: "ccbio.schema.v2.BiochainSpecimenService",
+export declare const SpecimenService: {
+  readonly typeName: "ccbio.schema.v2.SpecimenService",
   readonly methods: {
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSpecimen
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenGet
      */
-    readonly getSpecimen: {
-      readonly name: "GetSpecimen",
-      readonly I: typeof GetSpecimenRequest,
-      readonly O: typeof GetSpecimenResponse,
+    readonly specimenGet: {
+      readonly name: "SpecimenGet",
+      readonly I: typeof SpecimenGetRequest,
+      readonly O: typeof SpecimenGetResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSpecimenList
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenGetList
      */
-    readonly getSpecimenList: {
-      readonly name: "GetSpecimenList",
+    readonly specimenGetList: {
+      readonly name: "SpecimenGetList",
       readonly I: typeof Empty,
-      readonly O: typeof GetSpecimenListResponse,
+      readonly O: typeof SpecimenGetListResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSpecimenByCollection
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenGetByCollection
      */
-    readonly getSpecimenByCollection: {
-      readonly name: "GetSpecimenByCollection",
-      readonly I: typeof GetSpecimenByCollectionRequest,
-      readonly O: typeof GetSpecimenByCollectionResponse,
+    readonly specimenGetByCollection: {
+      readonly name: "SpecimenGetByCollection",
+      readonly I: typeof SpecimenGetByCollectionRequest,
+      readonly O: typeof SpecimenGetByCollectionResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSpecimenHistory
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenGetHistory
      */
-    readonly getSpecimenHistory: {
-      readonly name: "GetSpecimenHistory",
-      readonly I: typeof GetSpecimenHistoryRequest,
-      readonly O: typeof GetSpecimenHistoryResponse,
+    readonly specimenGetHistory: {
+      readonly name: "SpecimenGetHistory",
+      readonly I: typeof SpecimenGetHistoryRequest,
+      readonly O: typeof SpecimenGetHistoryResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenCreate
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenCreate
      */
     readonly specimenCreate: {
       readonly name: "SpecimenCreate",
@@ -60,7 +60,7 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenUpdate
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenUpdate
      */
     readonly specimenUpdate: {
       readonly name: "SpecimenUpdate",
@@ -69,34 +69,34 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenDelete
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenDelete
      */
     readonly specimenDelete: {
       readonly name: "SpecimenDelete",
       readonly I: typeof SpecimenDeleteRequest,
-      readonly O: typeof SpecimenDeleteRequest,
+      readonly O: typeof SpecimenDeleteResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenHideTransaction
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenHideTx
      */
-    readonly specimenHideTransaction: {
-      readonly name: "SpecimenHideTransaction",
+    readonly specimenHideTx: {
+      readonly name: "SpecimenHideTx",
       readonly I: typeof SpecimenHideTxRequest,
       readonly O: typeof SpecimenHideTxResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenUnHideTransaction
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SpecimenUnHideTx
      */
-    readonly specimenUnHideTransaction: {
-      readonly name: "SpecimenUnHideTransaction",
+    readonly specimenUnHideTx: {
+      readonly name: "SpecimenUnHideTx",
       readonly I: typeof SpecimenUnHideTxRequest,
       readonly O: typeof SpecimenUnHideTxResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSuggestedUpdate
+     * @generated from rpc ccbio.schema.v2.SpecimenService.GetSuggestedUpdate
      */
     readonly getSuggestedUpdate: {
       readonly name: "GetSuggestedUpdate",
@@ -105,7 +105,7 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSuggestedUpdateBySpecimen
+     * @generated from rpc ccbio.schema.v2.SpecimenService.GetSuggestedUpdateBySpecimen
      */
     readonly getSuggestedUpdateBySpecimen: {
       readonly name: "GetSuggestedUpdateBySpecimen",
@@ -114,7 +114,7 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSuggestedUpdateByCollection
+     * @generated from rpc ccbio.schema.v2.SpecimenService.GetSuggestedUpdateByCollection
      */
     readonly getSuggestedUpdateByCollection: {
       readonly name: "GetSuggestedUpdateByCollection",
@@ -123,7 +123,7 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.GetSuggestedUpdateList
+     * @generated from rpc ccbio.schema.v2.SpecimenService.GetSuggestedUpdateList
      */
     readonly getSuggestedUpdateList: {
       readonly name: "GetSuggestedUpdateList",
@@ -132,7 +132,7 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SuggestedUpdateCreate
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SuggestedUpdateCreate
      */
     readonly suggestedUpdateCreate: {
       readonly name: "SuggestedUpdateCreate",
@@ -141,19 +141,19 @@ export declare const BiochainSpecimenService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenUpdateApprove
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SuggestedUpdateApprove
      */
-    readonly specimenUpdateApprove: {
-      readonly name: "SpecimenUpdateApprove",
+    readonly suggestedUpdateApprove: {
+      readonly name: "SuggestedUpdateApprove",
       readonly I: typeof SuggestedUpdateApproveRequest,
       readonly O: typeof SuggestedUpdateApproveResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc ccbio.schema.v2.BiochainSpecimenService.SpecimenUpdateReject
+     * @generated from rpc ccbio.schema.v2.SpecimenService.SuggestedUpdateReject
      */
-    readonly specimenUpdateReject: {
-      readonly name: "SpecimenUpdateReject",
+    readonly suggestedUpdateReject: {
+      readonly name: "SuggestedUpdateReject",
       readonly I: typeof SuggestedUpdateRejectRequest,
       readonly O: typeof SuggestedUpdateRejectResponse,
       readonly kind: MethodKind.Unary,

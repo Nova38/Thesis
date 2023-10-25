@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on GetSpecimenRequest with the rules
+// Validate checks the field values on SpecimenGetRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenRequest) Validate() error {
+func (m *SpecimenGetRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenRequest with the rules
+// ValidateAll checks the field values on SpecimenGetRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetSpecimenRequestMultiError, or nil if none found.
-func (m *GetSpecimenRequest) ValidateAll() error {
+// SpecimenGetRequestMultiError, or nil if none found.
+func (m *SpecimenGetRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenRequest) validate(all bool) error {
+func (m *SpecimenGetRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -61,7 +61,7 @@ func (m *GetSpecimenRequest) validate(all bool) error {
 		switch v := interface{}(m.GetId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSpecimenRequestValidationError{
+				errors = append(errors, SpecimenGetRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -69,7 +69,7 @@ func (m *GetSpecimenRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSpecimenRequestValidationError{
+				errors = append(errors, SpecimenGetRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -78,7 +78,7 @@ func (m *GetSpecimenRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetSpecimenRequestValidationError{
+			return SpecimenGetRequestValidationError{
 				field:  "Id",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -87,19 +87,19 @@ func (m *GetSpecimenRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenRequestMultiError(errors)
+		return SpecimenGetRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenRequestMultiError is an error wrapping multiple validation errors
-// returned by GetSpecimenRequest.ValidateAll() if the designated constraints
+// SpecimenGetRequestMultiError is an error wrapping multiple validation errors
+// returned by SpecimenGetRequest.ValidateAll() if the designated constraints
 // aren't met.
-type GetSpecimenRequestMultiError []error
+type SpecimenGetRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenRequestMultiError) Error() string {
+func (m SpecimenGetRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -108,11 +108,11 @@ func (m GetSpecimenRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenRequestMultiError) AllErrors() []error { return m }
+func (m SpecimenGetRequestMultiError) AllErrors() []error { return m }
 
-// GetSpecimenRequestValidationError is the validation error returned by
-// GetSpecimenRequest.Validate if the designated constraints aren't met.
-type GetSpecimenRequestValidationError struct {
+// SpecimenGetRequestValidationError is the validation error returned by
+// SpecimenGetRequest.Validate if the designated constraints aren't met.
+type SpecimenGetRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -120,24 +120,24 @@ type GetSpecimenRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenRequestValidationError) Field() string { return e.field }
+func (e SpecimenGetRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenRequestValidationError) Reason() string { return e.reason }
+func (e SpecimenGetRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenRequestValidationError) Cause() error { return e.cause }
+func (e SpecimenGetRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenRequestValidationError) Key() bool { return e.key }
+func (e SpecimenGetRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenRequestValidationError) ErrorName() string {
-	return "GetSpecimenRequestValidationError"
+func (e SpecimenGetRequestValidationError) ErrorName() string {
+	return "SpecimenGetRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenRequestValidationError) Error() string {
+func (e SpecimenGetRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -149,14 +149,14 @@ func (e GetSpecimenRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenRequest.%s: %s%s",
+		"invalid %sSpecimenGetRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenRequestValidationError{}
+var _ error = SpecimenGetRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -164,24 +164,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenRequestValidationError{}
+} = SpecimenGetRequestValidationError{}
 
-// Validate checks the field values on GetSpecimenResponse with the rules
+// Validate checks the field values on SpecimenGetResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenResponse) Validate() error {
+func (m *SpecimenGetResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenResponse with the rules
+// ValidateAll checks the field values on SpecimenGetResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetSpecimenResponseMultiError, or nil if none found.
-func (m *GetSpecimenResponse) ValidateAll() error {
+// SpecimenGetResponseMultiError, or nil if none found.
+func (m *SpecimenGetResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenResponse) validate(all bool) error {
+func (m *SpecimenGetResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -192,7 +192,7 @@ func (m *GetSpecimenResponse) validate(all bool) error {
 		switch v := interface{}(m.GetSpecimen()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSpecimenResponseValidationError{
+				errors = append(errors, SpecimenGetResponseValidationError{
 					field:  "Specimen",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -200,7 +200,7 @@ func (m *GetSpecimenResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSpecimenResponseValidationError{
+				errors = append(errors, SpecimenGetResponseValidationError{
 					field:  "Specimen",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -209,7 +209,7 @@ func (m *GetSpecimenResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetSpecimen()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetSpecimenResponseValidationError{
+			return SpecimenGetResponseValidationError{
 				field:  "Specimen",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -218,19 +218,19 @@ func (m *GetSpecimenResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenResponseMultiError(errors)
+		return SpecimenGetResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenResponseMultiError is an error wrapping multiple validation
-// errors returned by GetSpecimenResponse.ValidateAll() if the designated
+// SpecimenGetResponseMultiError is an error wrapping multiple validation
+// errors returned by SpecimenGetResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetSpecimenResponseMultiError []error
+type SpecimenGetResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenResponseMultiError) Error() string {
+func (m SpecimenGetResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -239,11 +239,11 @@ func (m GetSpecimenResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenResponseMultiError) AllErrors() []error { return m }
+func (m SpecimenGetResponseMultiError) AllErrors() []error { return m }
 
-// GetSpecimenResponseValidationError is the validation error returned by
-// GetSpecimenResponse.Validate if the designated constraints aren't met.
-type GetSpecimenResponseValidationError struct {
+// SpecimenGetResponseValidationError is the validation error returned by
+// SpecimenGetResponse.Validate if the designated constraints aren't met.
+type SpecimenGetResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -251,24 +251,24 @@ type GetSpecimenResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenResponseValidationError) Field() string { return e.field }
+func (e SpecimenGetResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenResponseValidationError) Reason() string { return e.reason }
+func (e SpecimenGetResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenResponseValidationError) Cause() error { return e.cause }
+func (e SpecimenGetResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenResponseValidationError) Key() bool { return e.key }
+func (e SpecimenGetResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenResponseValidationError) ErrorName() string {
-	return "GetSpecimenResponseValidationError"
+func (e SpecimenGetResponseValidationError) ErrorName() string {
+	return "SpecimenGetResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenResponseValidationError) Error() string {
+func (e SpecimenGetResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -280,14 +280,14 @@ func (e GetSpecimenResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenResponse.%s: %s%s",
+		"invalid %sSpecimenGetResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenResponseValidationError{}
+var _ error = SpecimenGetResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -295,24 +295,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenResponseValidationError{}
+} = SpecimenGetResponseValidationError{}
 
-// Validate checks the field values on GetSpecimenListResponse with the rules
+// Validate checks the field values on SpecimenGetListResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenListResponse) Validate() error {
+func (m *SpecimenGetListResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenListResponse with the
+// ValidateAll checks the field values on SpecimenGetListResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetSpecimenListResponseMultiError, or nil if none found.
-func (m *GetSpecimenListResponse) ValidateAll() error {
+// SpecimenGetListResponseMultiError, or nil if none found.
+func (m *SpecimenGetListResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenListResponse) validate(all bool) error {
+func (m *SpecimenGetListResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -326,7 +326,7 @@ func (m *GetSpecimenListResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetSpecimenListResponseValidationError{
+					errors = append(errors, SpecimenGetListResponseValidationError{
 						field:  fmt.Sprintf("Specimens[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -334,7 +334,7 @@ func (m *GetSpecimenListResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, GetSpecimenListResponseValidationError{
+					errors = append(errors, SpecimenGetListResponseValidationError{
 						field:  fmt.Sprintf("Specimens[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -343,7 +343,7 @@ func (m *GetSpecimenListResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return GetSpecimenListResponseValidationError{
+				return SpecimenGetListResponseValidationError{
 					field:  fmt.Sprintf("Specimens[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -354,19 +354,19 @@ func (m *GetSpecimenListResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenListResponseMultiError(errors)
+		return SpecimenGetListResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenListResponseMultiError is an error wrapping multiple validation
-// errors returned by GetSpecimenListResponse.ValidateAll() if the designated
+// SpecimenGetListResponseMultiError is an error wrapping multiple validation
+// errors returned by SpecimenGetListResponse.ValidateAll() if the designated
 // constraints aren't met.
-type GetSpecimenListResponseMultiError []error
+type SpecimenGetListResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenListResponseMultiError) Error() string {
+func (m SpecimenGetListResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -375,11 +375,11 @@ func (m GetSpecimenListResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenListResponseMultiError) AllErrors() []error { return m }
+func (m SpecimenGetListResponseMultiError) AllErrors() []error { return m }
 
-// GetSpecimenListResponseValidationError is the validation error returned by
-// GetSpecimenListResponse.Validate if the designated constraints aren't met.
-type GetSpecimenListResponseValidationError struct {
+// SpecimenGetListResponseValidationError is the validation error returned by
+// SpecimenGetListResponse.Validate if the designated constraints aren't met.
+type SpecimenGetListResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -387,24 +387,24 @@ type GetSpecimenListResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenListResponseValidationError) Field() string { return e.field }
+func (e SpecimenGetListResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenListResponseValidationError) Reason() string { return e.reason }
+func (e SpecimenGetListResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenListResponseValidationError) Cause() error { return e.cause }
+func (e SpecimenGetListResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenListResponseValidationError) Key() bool { return e.key }
+func (e SpecimenGetListResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenListResponseValidationError) ErrorName() string {
-	return "GetSpecimenListResponseValidationError"
+func (e SpecimenGetListResponseValidationError) ErrorName() string {
+	return "SpecimenGetListResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenListResponseValidationError) Error() string {
+func (e SpecimenGetListResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -416,14 +416,14 @@ func (e GetSpecimenListResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenListResponse.%s: %s%s",
+		"invalid %sSpecimenGetListResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenListResponseValidationError{}
+var _ error = SpecimenGetListResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -431,24 +431,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenListResponseValidationError{}
+} = SpecimenGetListResponseValidationError{}
 
-// Validate checks the field values on GetSpecimenByCollectionRequest with the
+// Validate checks the field values on SpecimenGetByCollectionRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenByCollectionRequest) Validate() error {
+func (m *SpecimenGetByCollectionRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenByCollectionRequest with
+// ValidateAll checks the field values on SpecimenGetByCollectionRequest with
 // the rules defined in the proto definition for this message. If any rules
 // are violated, the result is a list of violation errors wrapped in
-// GetSpecimenByCollectionRequestMultiError, or nil if none found.
-func (m *GetSpecimenByCollectionRequest) ValidateAll() error {
+// SpecimenGetByCollectionRequestMultiError, or nil if none found.
+func (m *SpecimenGetByCollectionRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenByCollectionRequest) validate(all bool) error {
+func (m *SpecimenGetByCollectionRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -459,7 +459,7 @@ func (m *GetSpecimenByCollectionRequest) validate(all bool) error {
 		switch v := interface{}(m.GetId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSpecimenByCollectionRequestValidationError{
+				errors = append(errors, SpecimenGetByCollectionRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -467,7 +467,7 @@ func (m *GetSpecimenByCollectionRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSpecimenByCollectionRequestValidationError{
+				errors = append(errors, SpecimenGetByCollectionRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -476,7 +476,7 @@ func (m *GetSpecimenByCollectionRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetSpecimenByCollectionRequestValidationError{
+			return SpecimenGetByCollectionRequestValidationError{
 				field:  "Id",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -485,19 +485,19 @@ func (m *GetSpecimenByCollectionRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenByCollectionRequestMultiError(errors)
+		return SpecimenGetByCollectionRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenByCollectionRequestMultiError is an error wrapping multiple
-// validation errors returned by GetSpecimenByCollectionRequest.ValidateAll()
+// SpecimenGetByCollectionRequestMultiError is an error wrapping multiple
+// validation errors returned by SpecimenGetByCollectionRequest.ValidateAll()
 // if the designated constraints aren't met.
-type GetSpecimenByCollectionRequestMultiError []error
+type SpecimenGetByCollectionRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenByCollectionRequestMultiError) Error() string {
+func (m SpecimenGetByCollectionRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -506,12 +506,12 @@ func (m GetSpecimenByCollectionRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenByCollectionRequestMultiError) AllErrors() []error { return m }
+func (m SpecimenGetByCollectionRequestMultiError) AllErrors() []error { return m }
 
-// GetSpecimenByCollectionRequestValidationError is the validation error
-// returned by GetSpecimenByCollectionRequest.Validate if the designated
+// SpecimenGetByCollectionRequestValidationError is the validation error
+// returned by SpecimenGetByCollectionRequest.Validate if the designated
 // constraints aren't met.
-type GetSpecimenByCollectionRequestValidationError struct {
+type SpecimenGetByCollectionRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -519,24 +519,24 @@ type GetSpecimenByCollectionRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenByCollectionRequestValidationError) Field() string { return e.field }
+func (e SpecimenGetByCollectionRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenByCollectionRequestValidationError) Reason() string { return e.reason }
+func (e SpecimenGetByCollectionRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenByCollectionRequestValidationError) Cause() error { return e.cause }
+func (e SpecimenGetByCollectionRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenByCollectionRequestValidationError) Key() bool { return e.key }
+func (e SpecimenGetByCollectionRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenByCollectionRequestValidationError) ErrorName() string {
-	return "GetSpecimenByCollectionRequestValidationError"
+func (e SpecimenGetByCollectionRequestValidationError) ErrorName() string {
+	return "SpecimenGetByCollectionRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenByCollectionRequestValidationError) Error() string {
+func (e SpecimenGetByCollectionRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -548,14 +548,14 @@ func (e GetSpecimenByCollectionRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenByCollectionRequest.%s: %s%s",
+		"invalid %sSpecimenGetByCollectionRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenByCollectionRequestValidationError{}
+var _ error = SpecimenGetByCollectionRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -563,24 +563,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenByCollectionRequestValidationError{}
+} = SpecimenGetByCollectionRequestValidationError{}
 
-// Validate checks the field values on GetSpecimenByCollectionResponse with the
+// Validate checks the field values on SpecimenGetByCollectionResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenByCollectionResponse) Validate() error {
+func (m *SpecimenGetByCollectionResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenByCollectionResponse with
+// ValidateAll checks the field values on SpecimenGetByCollectionResponse with
 // the rules defined in the proto definition for this message. If any rules
 // are violated, the result is a list of violation errors wrapped in
-// GetSpecimenByCollectionResponseMultiError, or nil if none found.
-func (m *GetSpecimenByCollectionResponse) ValidateAll() error {
+// SpecimenGetByCollectionResponseMultiError, or nil if none found.
+func (m *SpecimenGetByCollectionResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenByCollectionResponse) validate(all bool) error {
+func (m *SpecimenGetByCollectionResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -594,7 +594,7 @@ func (m *GetSpecimenByCollectionResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetSpecimenByCollectionResponseValidationError{
+					errors = append(errors, SpecimenGetByCollectionResponseValidationError{
 						field:  fmt.Sprintf("Specimens[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -602,7 +602,7 @@ func (m *GetSpecimenByCollectionResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, GetSpecimenByCollectionResponseValidationError{
+					errors = append(errors, SpecimenGetByCollectionResponseValidationError{
 						field:  fmt.Sprintf("Specimens[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -611,7 +611,7 @@ func (m *GetSpecimenByCollectionResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return GetSpecimenByCollectionResponseValidationError{
+				return SpecimenGetByCollectionResponseValidationError{
 					field:  fmt.Sprintf("Specimens[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -622,19 +622,19 @@ func (m *GetSpecimenByCollectionResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenByCollectionResponseMultiError(errors)
+		return SpecimenGetByCollectionResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenByCollectionResponseMultiError is an error wrapping multiple
-// validation errors returned by GetSpecimenByCollectionResponse.ValidateAll()
+// SpecimenGetByCollectionResponseMultiError is an error wrapping multiple
+// validation errors returned by SpecimenGetByCollectionResponse.ValidateAll()
 // if the designated constraints aren't met.
-type GetSpecimenByCollectionResponseMultiError []error
+type SpecimenGetByCollectionResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenByCollectionResponseMultiError) Error() string {
+func (m SpecimenGetByCollectionResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -643,12 +643,12 @@ func (m GetSpecimenByCollectionResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenByCollectionResponseMultiError) AllErrors() []error { return m }
+func (m SpecimenGetByCollectionResponseMultiError) AllErrors() []error { return m }
 
-// GetSpecimenByCollectionResponseValidationError is the validation error
-// returned by GetSpecimenByCollectionResponse.Validate if the designated
+// SpecimenGetByCollectionResponseValidationError is the validation error
+// returned by SpecimenGetByCollectionResponse.Validate if the designated
 // constraints aren't met.
-type GetSpecimenByCollectionResponseValidationError struct {
+type SpecimenGetByCollectionResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -656,24 +656,24 @@ type GetSpecimenByCollectionResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenByCollectionResponseValidationError) Field() string { return e.field }
+func (e SpecimenGetByCollectionResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenByCollectionResponseValidationError) Reason() string { return e.reason }
+func (e SpecimenGetByCollectionResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenByCollectionResponseValidationError) Cause() error { return e.cause }
+func (e SpecimenGetByCollectionResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenByCollectionResponseValidationError) Key() bool { return e.key }
+func (e SpecimenGetByCollectionResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenByCollectionResponseValidationError) ErrorName() string {
-	return "GetSpecimenByCollectionResponseValidationError"
+func (e SpecimenGetByCollectionResponseValidationError) ErrorName() string {
+	return "SpecimenGetByCollectionResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenByCollectionResponseValidationError) Error() string {
+func (e SpecimenGetByCollectionResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -685,14 +685,14 @@ func (e GetSpecimenByCollectionResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenByCollectionResponse.%s: %s%s",
+		"invalid %sSpecimenGetByCollectionResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenByCollectionResponseValidationError{}
+var _ error = SpecimenGetByCollectionResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -700,24 +700,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenByCollectionResponseValidationError{}
+} = SpecimenGetByCollectionResponseValidationError{}
 
-// Validate checks the field values on GetSpecimenHistoryRequest with the rules
+// Validate checks the field values on SpecimenGetHistoryRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenHistoryRequest) Validate() error {
+func (m *SpecimenGetHistoryRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenHistoryRequest with the
+// ValidateAll checks the field values on SpecimenGetHistoryRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetSpecimenHistoryRequestMultiError, or nil if none found.
-func (m *GetSpecimenHistoryRequest) ValidateAll() error {
+// SpecimenGetHistoryRequestMultiError, or nil if none found.
+func (m *SpecimenGetHistoryRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenHistoryRequest) validate(all bool) error {
+func (m *SpecimenGetHistoryRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -728,7 +728,7 @@ func (m *GetSpecimenHistoryRequest) validate(all bool) error {
 		switch v := interface{}(m.GetId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSpecimenHistoryRequestValidationError{
+				errors = append(errors, SpecimenGetHistoryRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -736,7 +736,7 @@ func (m *GetSpecimenHistoryRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSpecimenHistoryRequestValidationError{
+				errors = append(errors, SpecimenGetHistoryRequestValidationError{
 					field:  "Id",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -745,7 +745,7 @@ func (m *GetSpecimenHistoryRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetSpecimenHistoryRequestValidationError{
+			return SpecimenGetHistoryRequestValidationError{
 				field:  "Id",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -756,19 +756,19 @@ func (m *GetSpecimenHistoryRequest) validate(all bool) error {
 	// no validation rules for IncludeHidden
 
 	if len(errors) > 0 {
-		return GetSpecimenHistoryRequestMultiError(errors)
+		return SpecimenGetHistoryRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenHistoryRequestMultiError is an error wrapping multiple validation
-// errors returned by GetSpecimenHistoryRequest.ValidateAll() if the
+// SpecimenGetHistoryRequestMultiError is an error wrapping multiple validation
+// errors returned by SpecimenGetHistoryRequest.ValidateAll() if the
 // designated constraints aren't met.
-type GetSpecimenHistoryRequestMultiError []error
+type SpecimenGetHistoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenHistoryRequestMultiError) Error() string {
+func (m SpecimenGetHistoryRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -777,11 +777,11 @@ func (m GetSpecimenHistoryRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenHistoryRequestMultiError) AllErrors() []error { return m }
+func (m SpecimenGetHistoryRequestMultiError) AllErrors() []error { return m }
 
-// GetSpecimenHistoryRequestValidationError is the validation error returned by
-// GetSpecimenHistoryRequest.Validate if the designated constraints aren't met.
-type GetSpecimenHistoryRequestValidationError struct {
+// SpecimenGetHistoryRequestValidationError is the validation error returned by
+// SpecimenGetHistoryRequest.Validate if the designated constraints aren't met.
+type SpecimenGetHistoryRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -789,24 +789,24 @@ type GetSpecimenHistoryRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenHistoryRequestValidationError) Field() string { return e.field }
+func (e SpecimenGetHistoryRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenHistoryRequestValidationError) Reason() string { return e.reason }
+func (e SpecimenGetHistoryRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenHistoryRequestValidationError) Cause() error { return e.cause }
+func (e SpecimenGetHistoryRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenHistoryRequestValidationError) Key() bool { return e.key }
+func (e SpecimenGetHistoryRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenHistoryRequestValidationError) ErrorName() string {
-	return "GetSpecimenHistoryRequestValidationError"
+func (e SpecimenGetHistoryRequestValidationError) ErrorName() string {
+	return "SpecimenGetHistoryRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenHistoryRequestValidationError) Error() string {
+func (e SpecimenGetHistoryRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -818,14 +818,14 @@ func (e GetSpecimenHistoryRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenHistoryRequest.%s: %s%s",
+		"invalid %sSpecimenGetHistoryRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenHistoryRequestValidationError{}
+var _ error = SpecimenGetHistoryRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -833,24 +833,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenHistoryRequestValidationError{}
+} = SpecimenGetHistoryRequestValidationError{}
 
-// Validate checks the field values on GetSpecimenHistoryResponse with the
+// Validate checks the field values on SpecimenGetHistoryResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSpecimenHistoryResponse) Validate() error {
+func (m *SpecimenGetHistoryResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetSpecimenHistoryResponse with the
+// ValidateAll checks the field values on SpecimenGetHistoryResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// GetSpecimenHistoryResponseMultiError, or nil if none found.
-func (m *GetSpecimenHistoryResponse) ValidateAll() error {
+// SpecimenGetHistoryResponseMultiError, or nil if none found.
+func (m *SpecimenGetHistoryResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetSpecimenHistoryResponse) validate(all bool) error {
+func (m *SpecimenGetHistoryResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -861,7 +861,7 @@ func (m *GetSpecimenHistoryResponse) validate(all bool) error {
 		switch v := interface{}(m.GetHistory()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSpecimenHistoryResponseValidationError{
+				errors = append(errors, SpecimenGetHistoryResponseValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -869,7 +869,7 @@ func (m *GetSpecimenHistoryResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSpecimenHistoryResponseValidationError{
+				errors = append(errors, SpecimenGetHistoryResponseValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -878,7 +878,7 @@ func (m *GetSpecimenHistoryResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetHistory()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetSpecimenHistoryResponseValidationError{
+			return SpecimenGetHistoryResponseValidationError{
 				field:  "History",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -887,19 +887,19 @@ func (m *GetSpecimenHistoryResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetSpecimenHistoryResponseMultiError(errors)
+		return SpecimenGetHistoryResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetSpecimenHistoryResponseMultiError is an error wrapping multiple
-// validation errors returned by GetSpecimenHistoryResponse.ValidateAll() if
+// SpecimenGetHistoryResponseMultiError is an error wrapping multiple
+// validation errors returned by SpecimenGetHistoryResponse.ValidateAll() if
 // the designated constraints aren't met.
-type GetSpecimenHistoryResponseMultiError []error
+type SpecimenGetHistoryResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetSpecimenHistoryResponseMultiError) Error() string {
+func (m SpecimenGetHistoryResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -908,11 +908,11 @@ func (m GetSpecimenHistoryResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetSpecimenHistoryResponseMultiError) AllErrors() []error { return m }
+func (m SpecimenGetHistoryResponseMultiError) AllErrors() []error { return m }
 
-// GetSpecimenHistoryResponseValidationError is the validation error returned
-// by GetSpecimenHistoryResponse.Validate if the designated constraints aren't met.
-type GetSpecimenHistoryResponseValidationError struct {
+// SpecimenGetHistoryResponseValidationError is the validation error returned
+// by SpecimenGetHistoryResponse.Validate if the designated constraints aren't met.
+type SpecimenGetHistoryResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -920,24 +920,24 @@ type GetSpecimenHistoryResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetSpecimenHistoryResponseValidationError) Field() string { return e.field }
+func (e SpecimenGetHistoryResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetSpecimenHistoryResponseValidationError) Reason() string { return e.reason }
+func (e SpecimenGetHistoryResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetSpecimenHistoryResponseValidationError) Cause() error { return e.cause }
+func (e SpecimenGetHistoryResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetSpecimenHistoryResponseValidationError) Key() bool { return e.key }
+func (e SpecimenGetHistoryResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetSpecimenHistoryResponseValidationError) ErrorName() string {
-	return "GetSpecimenHistoryResponseValidationError"
+func (e SpecimenGetHistoryResponseValidationError) ErrorName() string {
+	return "SpecimenGetHistoryResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e GetSpecimenHistoryResponseValidationError) Error() string {
+func (e SpecimenGetHistoryResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -949,14 +949,14 @@ func (e GetSpecimenHistoryResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetSpecimenHistoryResponse.%s: %s%s",
+		"invalid %sSpecimenGetHistoryResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetSpecimenHistoryResponseValidationError{}
+var _ error = SpecimenGetHistoryResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -964,7 +964,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetSpecimenHistoryResponseValidationError{}
+} = SpecimenGetHistoryResponseValidationError{}
 
 // Validate checks the field values on SpecimenCreateRequest with the rules
 // defined in the proto definition for this message. If any rules are

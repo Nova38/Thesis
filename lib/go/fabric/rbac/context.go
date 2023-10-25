@@ -3,10 +3,13 @@ package rbac
 import (
 	_ "strings"
 
+	"log/slog"
+
+	"github.com/bufbuild/protovalidate-go"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	"github.com/samber/oops"
-	"golang.org/x/exp/slog"
+	"google.golang.org/protobuf/proto"
 
 	// "github.com/rs/zerolog/log"
 	_ "github.com/samber/lo"
@@ -19,22 +22,83 @@ import (
 	pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
+const (
+	// DefaultPageSize default page size
+	DefaultPageSize int32 = 10000
+)
+
 type AuthTransactionObjects struct {
 	User       *pb.User
 	Collection *pb.Collection
 	ops        *pb.ACL_Operation
 }
 
-type AuthTxCtx struct {
-	state.LoggedTxCtx
-	state.ValidateAbleTxCtx
+type ContextHelpers struct {
+	Logger    *slog.Logger
+	PageSize  int32
+	Validator *protovalidate.Validator
+}
 
+type AuthTxCtx struct {
 	contractapi.TransactionContext
 
+	ContextHelpers
 	AuthTransactionObjects
 
+	// auth values
 	authorized  bool
 	authChecked bool
+}
+
+// LoggedTxCtxInterface functions
+func (ctx *AuthTxCtx) GetLogger() *slog.Logger {
+	return ctx.Logger
+}
+
+func (ctx *AuthTxCtx) SetLogger(logger *slog.Logger) error {
+	if logger == nil {
+		return oops.Errorf("logger is nil")
+	}
+	ctx.Logger = logger
+	return nil
+}
+
+// PagedTxCtxInterface functions
+func (ctx *AuthTxCtx) GetPageSize() int32 {
+	if ctx.PageSize == 0 {
+		return DefaultPageSize
+	}
+	return ctx.PageSize
+}
+
+func (ctx *AuthTxCtx) SetPageSize(pageSize int32) {
+	ctx.PageSize = pageSize
+}
+
+// ----------------------------------------------
+// ValidateAbleTxCtxInterface functions
+// ----------------------------------------------
+func (ctx *AuthTxCtx) GetValidator() (*protovalidate.Validator, error) {
+	if ctx.Validator == nil {
+		v, err := protovalidate.New()
+		if err != nil {
+			return nil, oops.Errorf("failed to create validator: %w", err)
+		}
+		ctx.Validator = v
+	}
+
+	return ctx.Validator, nil
+}
+
+func (ctx *AuthTxCtx) Validate(msg proto.Message) error {
+	v, err := ctx.GetValidator()
+	if err != nil {
+		return oops.Errorf("failed to get validator: %w", err)
+	}
+	if v == nil {
+		return oops.Errorf("validator is nil")
+	}
+	return v.Validate(msg)
 }
 
 func (ctx *AuthTxCtx) GetFnName() string {

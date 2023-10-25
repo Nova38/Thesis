@@ -9,6 +9,9 @@ linters-settings:
     # Default: false
     check-blank: true
 
+linters:
+  enable:
+    - cyclop
 #   staticcheck:
 
 #     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks

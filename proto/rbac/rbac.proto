@@ -26,6 +26,7 @@ message ACL {
   enum Domain {
     DOMAIN_UNSPECIFIED = 0;
 
+    // Meta create
     DOMAIN_COLLECTION = 1;
       DOMAIN_COLLECTION_MEMBERSHIP = 2;
       DOMAIN_COLLECTION_PERMISSION = 3;
