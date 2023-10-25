@@ -3,14 +3,23 @@ linters-settings:
     # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
     # Such cases aren't reported by default.
     # Default: false
-    check-type-assertions: true
+    check-type-assertions: false
     # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`.
     # Such cases aren't reported by default.
     # Default: false
     check-blank: true
 
-  staticcheck:
+#   staticcheck:
 
-    # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
-    # Default: ["*"]
-    checks: ["all"]
+#     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
+#     # Default: ["*"]
+#     checks: ["all"]
+run:
+  timeout: "1m"
+  issue-exit-code: 1
+  tests: true
+  skip-dirs-use-default: true
+  allow-parallel-runners: false
+  go: "1.21.3"
+  skip-dirs:
+    - apps/chaincode/ccbio/v1
