@@ -18,7 +18,9 @@ type BiochainSpecimenServiceInterface interface {
 	GetSpecimen(ctx rbac.AuthTxCtx, req *GetSpecimenRequest) (res *Specimen, err error)
 
 	// GetSpecimenList
-	GetSpecimenList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *Specimen_List, err error)
+	//
+	// req is empty
+	GetSpecimenList(ctx rbac.AuthTxCtx) (res *Specimen_List, err error)
 
 	// GetSpecimenByCollection
 	GetSpecimenByCollection(ctx rbac.AuthTxCtx, req *GetSpecimenByCollectionRequest) (res *Specimen_List, err error)
@@ -51,7 +53,9 @@ type BiochainSpecimenServiceInterface interface {
 	GetSuggestedUpdateByCollection(ctx rbac.AuthTxCtx, req *GetSuggestedUpdateByCollectionRequest) (res *SuggestedStateList, err error)
 
 	// GetSuggestedUpdateList
-	GetSuggestedUpdateList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *Specimen, err error)
+	//
+	// req is empty
+	GetSuggestedUpdateList(ctx rbac.AuthTxCtx) (res *Specimen, err error)
 
 	// SuggestedUpdateCreate
 	SuggestedUpdateCreate(ctx rbac.AuthTxCtx, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdate, err error)
@@ -122,13 +126,17 @@ type BiochainAuthServiceInterface interface {
 	// Returns the current user.
 	// Requires:
 	// - User submitting the transaction is a registered user.
-	GetCurrentUser(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *User, err error)
+	//
+	// req is empty
+	GetCurrentUser(ctx rbac.AuthTxCtx) (res *User, err error)
 
 	// *
 	// Returns the current user id.
 	// Requires:
 	// - User submitting the transaction is a registered user.
-	GetCurrentUserId(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *User_Id, err error)
+	//
+	// req is empty
+	GetCurrentUserId(ctx rbac.AuthTxCtx) (res *User_Id, err error)
 
 	// *
 	GetUserList(ctx rbac.AuthTxCtx, req *GetUserListRequest) (res *GetUserListResponse, err error)
@@ -145,8 +153,10 @@ type BiochainAuthServiceInterface interface {
 	// AddTestUsers
 	AddTestUsers(ctx rbac.AuthTxCtx, req *User_Id) (res *emptypb.Empty, err error)
 
-	// // Collection functions
-	GetCollectionList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *CollectionList, err error)
+	//	// Collection functions
+	//
+	// req is empty
+	GetCollectionList(ctx rbac.AuthTxCtx) (res *CollectionList, err error)
 
 	// GetCollection
 	GetCollection(ctx rbac.AuthTxCtx, req *GetCollectionRequest) (res *Collection, err error)

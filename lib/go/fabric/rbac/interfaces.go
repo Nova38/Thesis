@@ -62,20 +62,22 @@ type AuthTxCtxInterface interface {
 	//  - action to be set
 	//  - domain to be set
 	Authorize() (bool, error)
+
+	MakeLastModified() (*rbac_pb.StateActivity, error)
 }
 
 // AuthTransactionObjectInterfaces
 
-type CollectionWrapperInterface interface {
+type CollectionHolder interface {
 	GetCollection() *rbac_pb.Collection
 }
-type CollectionIdWrapperInterface interface {
+type CollectionIdHolder interface {
 	GetCollectionId() *rbac_pb.Collection_Id
 }
-type UserWrapperInterface interface {
+type UserHolder interface {
 	GetUser() *rbac_pb.User
 }
-type UserIdWrapperInterface interface {
+type UserIdHolder interface {
 	GetUserId() *rbac_pb.User_Id
 }
 

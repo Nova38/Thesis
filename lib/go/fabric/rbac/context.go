@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"fmt"
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
@@ -14,7 +15,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
-	pb "github.com/nova38/thesis/lib/go/gen/rbac"
+	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 const (
@@ -22,10 +23,12 @@ const (
 	DefaultPageSize int32 = 10000
 )
 
+var validator *protovalidate.Validator
+
 type AuthTransactionObjects struct {
-	User       *pb.User
-	Collection *pb.Collection
-	ops        *pb.ACL_Operation
+	User       *rbac_pb.User
+	Collection *rbac_pb.Collection
+	ops        *rbac_pb.ACL_Operation
 }
 
 type ContextHelpers struct {
@@ -54,6 +57,14 @@ func (ctx *AuthTxCtx) HandelBefore() error {
 			"channel_id", ctx.GetStub().GetChannelID(),
 		),
 	))
+
+	if validator == nil {
+		v, err := protovalidate.New()
+		if err != nil {
+			panic(err)
+		}
+		validator = v
+	}
 
 	return nil
 }
@@ -105,7 +116,10 @@ func (ctx *AuthTxCtx) Validate(msg proto.Message) error {
 	if v == nil {
 		return oops.Errorf("validator is nil")
 	}
-	return v.Validate(msg)
+	return oops.
+		In(ctx.GetFnName()).
+		Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+		Wrap(v.Validate(msg))
 }
 
 func (ctx *AuthTxCtx) GetFnName() string {
@@ -113,17 +127,20 @@ func (ctx *AuthTxCtx) GetFnName() string {
 	return name
 }
 
-func (ctx *AuthTxCtx) SetCollection(id *pb.Collection_Id) (*pb.Collection, error) {
+func (ctx *AuthTxCtx) SetCollection(id *rbac_pb.Collection_Id) error {
+	// TODO:
+	// FIXME: Need to check in fns before calling is Authorized
+
 	// See if the collection pointer has an ID and is not nil
 	if id == nil || id.CollectionId == "" {
-		return nil, oops.
+		return oops.
 			In("SetCollection").
-			Code(pb.Error_ERROR_COLLECTION_INVALID_ID.String()).
+			Code(rbac_pb.Error_ERROR_COLLECTION_INVALID_ID.String()).
 			Errorf("collection is nil or has no ID")
 	}
 
-	ctx.Collection = &pb.Collection{
-		Id: &pb.Collection_Id{
+	ctx.Collection = &rbac_pb.Collection{
+		Id: &rbac_pb.Collection_Id{
 			CollectionId: id.CollectionId,
 		},
 	}
@@ -131,17 +148,17 @@ func (ctx *AuthTxCtx) SetCollection(id *pb.Collection_Id) (*pb.Collection, error
 	// Check if the collection exists
 	err := state.GetState(ctx, ctx.Collection)
 	if err != nil {
-		return nil, oops.
+		return oops.
 			In("SetCollection").
 			With("collectionId", id.CollectionId).
-			Code(pb.Error_ERROR_COLLECTION_UNREGISTERED.String()).
+			Code(rbac_pb.Error_ERROR_COLLECTION_UNREGISTERED.String()).
 			Wrap(err)
 	}
 
-	return ctx.Collection, nil
+	return nil
 }
 
-func (ctx *AuthTxCtx) GetOperations() *pb.ACL_Operation {
+func (ctx *AuthTxCtx) GetOperations() *rbac_pb.ACL_Operation {
 	return ctx.ops
 }
 
@@ -158,20 +175,20 @@ func (ctx *AuthTxCtx) SetOperationsPaths(paths *fieldmaskpb.FieldMask) error {
 	return nil
 }
 
-func (ctx *AuthTxCtx) SetOperation(op *pb.ACL_Operation) error {
+func (ctx *AuthTxCtx) SetOperation(op *rbac_pb.ACL_Operation) error {
 	// See if the operation pointer has an ID and is not nil
 	if op == nil {
 		return oops.Errorf("operation is nil or actions is nil")
 	}
 
-	if op.Domain == pb.ACL_DOMAIN_UNSPECIFIED {
+	if op.Domain == rbac_pb.ACL_DOMAIN_UNSPECIFIED {
 		return oops.Errorf("operation domain is unspecified")
 	}
-	if op.Action == pb.ACL_ACTION_UNSPECIFIED {
+	if op.Action == rbac_pb.ACL_ACTION_UNSPECIFIED {
 		return oops.Errorf("operation action type is unspecified")
 	}
 
-	ctx.ops = &pb.ACL_Operation{}
+	ctx.ops = &rbac_pb.ACL_Operation{}
 
 	ctx.ops.Action = op.Action
 	ctx.ops.Domain = op.Domain
@@ -203,7 +220,7 @@ func (ctx *AuthTxCtx) authorize() (bool, error) {
 	if !ok {
 		return false, oops.
 			In("AuthorizeOperation").
-			Code(pb.Error_ERROR_COLLECTION_INVALID_ROLE_ID.String()).
+			Code(rbac_pb.Error_ERROR_COLLECTION_INVALID_ROLE_ID.String()).
 			Errorf("Role %v is not valid for collection %v", role, ctx.Collection.Id.CollectionId)
 	}
 
@@ -216,7 +233,10 @@ func (ctx *AuthTxCtx) IsAuthorized() error {
 		auth, err := ctx.authorize()
 		if err != nil {
 			slog.Error(err.Error(), slog.Any("error", err))
-			return oops.Wrap(err)
+			return oops.
+				In(ctx.GetFnName()).
+				Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
+				Wrap(err)
 		}
 
 		ctx.authorized = auth
@@ -224,7 +244,7 @@ func (ctx *AuthTxCtx) IsAuthorized() error {
 	return nil
 }
 
-func (ctx *AuthTxCtx) GetUser() (*pb.User, error) {
+func (ctx *AuthTxCtx) GetUser() (*rbac_pb.User, error) {
 	if ctx.User != nil {
 		return ctx.User, nil
 	}
@@ -234,7 +254,7 @@ func (ctx *AuthTxCtx) GetUser() (*pb.User, error) {
 		return nil, oops.Wrap(err)
 	}
 
-	ctx.User = &pb.User{Id: id}
+	ctx.User = &rbac_pb.User{Id: id}
 
 	err = state.GetState(ctx, ctx.User)
 
@@ -245,10 +265,10 @@ func (ctx *AuthTxCtx) GetUser() (*pb.User, error) {
 	return ctx.User, nil
 }
 
-func (ctx *AuthTxCtx) GetUserId() (*pb.User_Id, error) {
+func (ctx *AuthTxCtx) GetUserId() (*rbac_pb.User_Id, error) {
 	var err error
 
-	Id := &pb.User_Id{
+	Id := &rbac_pb.User_Id{
 		MspId: "",
 		Id:    "",
 	}
@@ -269,7 +289,7 @@ func (ctx *AuthTxCtx) GetUserId() (*pb.User_Id, error) {
 	return Id, nil
 }
 
-func (ctx *AuthTxCtx) GetCollection() (*pb.Collection, error) {
+func (ctx *AuthTxCtx) GetCollection() (*rbac_pb.Collection, error) {
 	if ctx.Collection != nil {
 		return ctx.Collection, nil
 	}
@@ -278,54 +298,73 @@ func (ctx *AuthTxCtx) GetCollection() (*pb.Collection, error) {
 }
 
 func (ctx *AuthTxCtx) ExtractAuthTransactionItems(req interface{}) error {
-	if col, ok := req.(CollectionWrapperInterface); ok {
+	if col, ok := req.(CollectionHolder); ok {
 		ctx.Collection = col.GetCollection()
 		if ctx.Collection == nil {
 			return oops.
 				In(ctx.GetFnName()).
-				Code(pb.Error_ERROR_COLLECTION_INVALID.String()).
+				Code(rbac_pb.Error_ERROR_COLLECTION_INVALID.String()).
 				Errorf("collection is nil")
 		}
 	}
 
-	if col_id, ok := req.(CollectionIdWrapperInterface); ok {
+	if col_id, ok := req.(CollectionIdHolder); ok {
 		if _, err := ctx.SetCollection(col_id.GetCollectionId()); err != nil {
 			return oops.
 				In(ctx.GetFnName()).
-				Code(pb.Error_ERROR_COLLECTION_INVALID.String()).
+				Code(rbac_pb.Error_ERROR_COLLECTION_INVALID.String()).
 				Wrap(err)
 		}
 	}
 
-	if user, ok := req.(UserWrapperInterface); ok {
+	if user, ok := req.(UserHolder); ok {
 		ctx.User = user.GetUser()
 		if ctx.User == nil {
 			return oops.
 				In(ctx.GetFnName()).
-				Code(pb.Error_ERROR_USER_INVALID.String()).
+				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
 				Errorf("user is nil")
 		}
 	}
 
-	if user_id, ok := req.(UserIdWrapperInterface); ok {
+	if user_id, ok := req.(UserIdHolder); ok {
 		user_id := user_id.GetUserId()
 		if user_id == nil {
 			return oops.
 				In(ctx.GetFnName()).
-				Code(pb.Error_ERROR_USER_INVALID.String()).
+				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
 				Errorf("user id is nil")
 		}
-		ctx.User = &pb.User{
+		ctx.User = &rbac_pb.User{
 			Id: user_id,
 		}
 		if err := state.GetState(ctx, ctx.User); err != nil {
 			return oops.
 				In(ctx.GetFnName()).
-				Code(pb.Error_ERROR_USER_INVALID.String()).
+				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
 				Wrap(err)
 		}
 
 	}
 
 	return nil
+}
+
+func (ctx *AuthTxCtx) MakeLastModified() (*rbac_pb.StateActivity, error) {
+	user, err := ctx.GetUser()
+	if err != nil {
+		return nil, oops.Errorf("failed to get user: %w", err)
+	}
+
+	timestamp, err := ctx.GetStub().GetTxTimestamp()
+	if err != nil {
+		return nil, oops.Errorf("Failed to get timestamp: %w", err)
+	}
+
+	return &rbac_pb.StateActivity{
+		UserId:    user.GetId(),
+		Note:      fmt.Sprintf("User %v modified the state", user.GetName()),
+		TxId:      ctx.GetStub().GetTxID(),
+		Timestamp: timestamp,
+	}, nil
 }

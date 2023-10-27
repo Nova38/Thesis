@@ -9,7 +9,6 @@ import (
 	fmt "fmt"
 	rbac "github.com/nova38/thesis/lib/go/fabric/rbac"
 	rbac1 "github.com/nova38/thesis/lib/go/gen/rbac"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Service SpecimenService
@@ -26,7 +25,9 @@ type SpecimenServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW
-	SpecimenGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *SpecimenGetListResponse, err error)
+	//
+	// req is empty
+	SpecimenGetList(ctx rbac.AuthTxCtx) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
 	//
@@ -103,7 +104,9 @@ type SpecimenServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW_SUGGEST
-	GetSuggestedUpdateList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *GetSuggestedUpdateListResponse, err error)
+	//
+	// req is empty
+	GetSuggestedUpdateList(ctx rbac.AuthTxCtx) (res *GetSuggestedUpdateListResponse, err error)
 
 	// SuggestedUpdateCreate
 	//

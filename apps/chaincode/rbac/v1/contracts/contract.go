@@ -4,8 +4,7 @@ import (
 	"log/slog"
 	_ "strings"
 
-	"google.golang.org/protobuf/types/known/emptypb"
-
+	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/samber/oops"
 
 	_ "google.golang.org/protobuf/types/known/timestamppb"
@@ -18,36 +17,41 @@ import (
 )
 
 // Check if AuthContractImpl implements AuthServiceInterface
-var _ cc.AuthServiceInterface = (*AuthContractImpl)(nil)
+var (
+	_ cc.AuthServiceInterface       = (*AuthContractImpl)(nil)
+	_ contractapi.ContractInterface = (*AuthContractImpl)(nil)
+)
 
 type AuthContractImpl struct {
+	contractapi.Contract
 	cc.AuthServiceBase
 }
 
-func HandelBefore(ctx rbac.AuthTxCtx) (err error) {
+func (a *AuthContractImpl) GetBeforeTransaction() interface{} {
+	return a.BeforeTransaction
+}
+
+func (a *AuthContractImpl) BeforeTransaction(ctx rbac.AuthTxCtx) (err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	if err := ctx.HandelBefore(); err != nil {
-		return oops.
-			In("HandelBefore").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
+	if err = ctx.HandelBefore(); err != nil {
+		return oops.Wrap(err)
 	}
 
 	ops, err := cc.AuthServiceGetTxOperation(ctx.GetFnName())
 	if err != nil {
 		return oops.
-			In("HandelBefore").
+			In("BeforeTransaction").
 			With("fn", ctx.GetFnName()).
 			Wrap(err)
 	}
 
-	if err := ctx.SetOperation(ops); err != nil {
+	if err = ctx.SetOperation(ops); err != nil {
 		return oops.
-			In("HandelBefore").
+			In("BeforeTransaction").
 			With("fn", ctx.GetFnName()).
 			Wrap(err)
 	}
@@ -66,7 +70,6 @@ func HandelBefore(ctx rbac.AuthTxCtx) (err error) {
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrent(
 	ctx rbac.AuthTxCtx,
-	req *emptypb.Empty,
 ) (res *cc.UserGetCurrentResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -92,7 +95,6 @@ func (a AuthContractImpl) UserGetCurrent(
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrentId(
 	ctx rbac.AuthTxCtx,
-	req *emptypb.Empty,
 ) (res *cc.UserGetCurrentIdResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -119,14 +121,12 @@ func (a AuthContractImpl) UserGetCurrentId(
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetList(
 	ctx rbac.AuthTxCtx,
-	req *emptypb.Empty,
 ) (res *cc.UserGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	// TODO implement me
 	userList, err := state.GetFullStateList(&ctx, &rbac_pb.User{})
 	if err != nil {
 		return nil, oops.
@@ -162,15 +162,14 @@ func (a AuthContractImpl) UserGet(
 		return nil, oops.Wrap(err)
 	}
 
-	if err := v.Validate(req); err != nil {
+	if err = v.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	// Get the user
 	user := &rbac_pb.User{Id: req.GetId()}
 
-	err = state.GetState(&ctx, user)
-	if err != nil {
+	if err = state.GetState(&ctx, user); err != nil {
 		return nil, err
 	}
 
@@ -194,7 +193,7 @@ func (a AuthContractImpl) UserGetHistory(
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	// TODO implement me
+	// TODO implement UserGetHistory
 	panic("implement me")
 }
 
@@ -239,7 +238,7 @@ func (a AuthContractImpl) UserRegister(
 	}
 
 	// Check if the user already exists
-	if err := state.InsertState(&ctx, user); err != nil {
+	if err = state.InsertState(&ctx, user); err != nil {
 		return nil, oops.
 			In("UserRegister").
 			Code(rbac_pb.Error_ERROR_USER_ALREADY_REGISTERED.String()).
@@ -260,7 +259,7 @@ func (a AuthContractImpl) UserUpdate(
 		}
 	}()
 	// Validate the request
-	if err := ctx.Validate(req); err != nil {
+	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -269,7 +268,7 @@ func (a AuthContractImpl) UserUpdate(
 	// TODO: Extract transaction items from the request
 
 	// Authorize the request
-	if err := ctx.IsAuthorized(); err != nil {
+	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
@@ -291,7 +290,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 	// Validate the request
 	{
 
-		if err := ctx.Validate(req); err != nil {
+		if err = ctx.Validate(req); err != nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
 				Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -328,7 +327,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 
 	// Authorize the request
 
-	if err := ctx.IsAuthorized(); err != nil {
+	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
@@ -343,7 +342,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 	userToModify := &rbac_pb.User{
 		Id: req.GetId(),
 	}
-	if err := state.GetState(&ctx, userToModify); err != nil {
+	if err = state.GetState(&ctx, userToModify); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
@@ -365,20 +364,12 @@ func (a AuthContractImpl) UserUpdateMembership(
 
 func (a AuthContractImpl) CollectionGetList(
 	ctx rbac.AuthTxCtx,
-	req *emptypb.Empty,
 ) (res *cc.CollectionGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	// Validate the request
-	if err := ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
-	}
 
 	// Get the collections
 	collectionList, err := state.GetFullStateList(&ctx, &rbac_pb.Collection{})
@@ -422,7 +413,7 @@ func (a AuthContractImpl) CollectionGet(
 			Wrap(err)
 	}
 
-	if err := ctx.IsAuthorized(); err != nil {
+	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
@@ -444,7 +435,7 @@ func (a AuthContractImpl) CollectionGetHistory(
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	if err := ctx.Validate(req); err != nil {
+	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -464,7 +455,7 @@ func (a AuthContractImpl) CollectionCreate(
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	if err := ctx.Validate(req); err != nil {
+	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -484,7 +475,7 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	if err := ctx.Validate(req); err != nil {
+	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -504,7 +495,7 @@ func (a AuthContractImpl) CollectionUpdatePermission(
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	if err := ctx.Validate(req); err != nil {
+	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).

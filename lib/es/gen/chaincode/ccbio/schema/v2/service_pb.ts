@@ -1079,7 +1079,12 @@ export class SuggestedUpdateApproveRequest extends Message<SuggestedUpdateApprov
  */
 export class SuggestedUpdateApproveResponse extends Message<SuggestedUpdateApproveResponse> {
   /**
-   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   * @generated from field: ccbio.schema.v2.SuggestedUpdate suggested_update = 1;
+   */
+  suggestedUpdate?: SuggestedUpdate;
+
+  /**
+   * @generated from field: ccbio.schema.v2.Specimen specimen = 2;
    */
   specimen?: Specimen;
 
@@ -1091,7 +1096,8 @@ export class SuggestedUpdateApproveResponse extends Message<SuggestedUpdateAppro
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ccbio.schema.v2.SuggestedUpdateApproveResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "specimen", kind: "message", T: Specimen },
+    { no: 1, name: "suggested_update", kind: "message", T: SuggestedUpdate },
+    { no: 2, name: "specimen", kind: "message", T: Specimen },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestedUpdateApproveResponse {
@@ -1161,9 +1167,9 @@ export class SuggestedUpdateRejectRequest extends Message<SuggestedUpdateRejectR
  */
 export class SuggestedUpdateRejectResponse extends Message<SuggestedUpdateRejectResponse> {
   /**
-   * @generated from field: ccbio.schema.v2.Specimen specimen = 1;
+   * @generated from field: ccbio.schema.v2.SuggestedUpdate suggested_update = 1;
    */
-  specimen?: Specimen;
+  suggestedUpdate?: SuggestedUpdate;
 
   constructor(data?: PartialMessage<SuggestedUpdateRejectResponse>) {
     super();
@@ -1173,7 +1179,7 @@ export class SuggestedUpdateRejectResponse extends Message<SuggestedUpdateReject
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ccbio.schema.v2.SuggestedUpdateRejectResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "specimen", kind: "message", T: Specimen },
+    { no: 1, name: "suggested_update", kind: "message", T: SuggestedUpdate },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestedUpdateRejectResponse {

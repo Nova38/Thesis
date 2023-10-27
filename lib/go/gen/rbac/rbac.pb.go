@@ -68,6 +68,7 @@ const (
 	Error_ERROR_OBJECT_ALREADY_REGISTERED Error = 33
 	// The object is invalid
 	Error_ERROR_OBJECT_INVALID Error = 34
+	//
 	Error_ERROR_INVALID_OBJECT_FIELD_PATH  Error = 35
 	Error_ERROR_INVALID_OBJECT_FIELD_VALUE Error = 36
 )

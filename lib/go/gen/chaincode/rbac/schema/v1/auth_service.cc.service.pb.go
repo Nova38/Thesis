@@ -9,7 +9,6 @@ import (
 	fmt "fmt"
 	rbac "github.com/nova38/thesis/lib/go/fabric/rbac"
 	rbac1 "github.com/nova38/thesis/lib/go/gen/rbac"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Service AuthService
@@ -23,7 +22,9 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_VIEW
-	UserGetCurrent(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *UserGetCurrentResponse, err error)
+	//
+	// req is empty
+	UserGetCurrent(ctx rbac.AuthTxCtx) (res *UserGetCurrentResponse, err error)
 
 	// Returns the current user id.
 	//
@@ -33,7 +34,9 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_VIEW
-	UserGetCurrentId(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *UserGetCurrentIdResponse, err error)
+	//
+	// req is empty
+	UserGetCurrentId(ctx rbac.AuthTxCtx) (res *UserGetCurrentIdResponse, err error)
 
 	// UserGetList: Returns the list of users.
 	//
@@ -43,7 +46,9 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_VIEW
-	UserGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *UserGetListResponse, err error)
+	//
+	// req is empty
+	UserGetList(ctx rbac.AuthTxCtx) (res *UserGetListResponse, err error)
 
 	// UserGet: Returns the user.
 	//
@@ -105,7 +110,9 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION
 	//   - Action: ACTION_VIEW
-	CollectionGetList(ctx rbac.AuthTxCtx, req *emptypb.Empty) (res *CollectionGetListResponse, err error)
+	//
+	// req is empty
+	CollectionGetList(ctx rbac.AuthTxCtx) (res *CollectionGetListResponse, err error)
 
 	// CollectionGet: Returns the collection.
 	//

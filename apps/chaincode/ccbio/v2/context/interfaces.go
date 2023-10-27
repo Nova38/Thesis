@@ -20,3 +20,10 @@ type SpecimenHolder interface {
 type SuggestionsIDHolder interface {
 	GetId() *pb.Specimen_Id
 }
+
+type SuggestedUpdateHolder interface {
+	GetSuggestedUpdate() *pb.SuggestedUpdate
+}
+type SuggestedUpdateIDHolder interface {
+	GetId() *pb.SuggestedUpdate_Id
+}

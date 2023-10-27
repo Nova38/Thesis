@@ -92,12 +92,21 @@ func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *proto
 			mComments += "//   - Action: " + op.Action.String() + "\n"
 		}
 
-		g.P(
-			mComments, m.GoName,
-			"(ctx ", ctx, ", req *", m.Input.GoIdent, ") ",
-			"(res *", m.Output.GoIdent, ",err error)",
-		)
-
+		if m.Input.Desc.Name() == "Empty" {
+			mComments += "// " + "\n"
+			mComments += "// req is empty\n"
+			g.P(
+				mComments, m.GoName,
+				"(ctx ", ctx, ") ",
+				"(res *", m.Output.GoIdent, ",err error)",
+			)
+		} else {
+			g.P(
+				mComments, m.GoName,
+				"(ctx ", ctx, ", req *", m.Input.GoIdent, ") ",
+				"(res *", m.Output.GoIdent, ",err error)",
+			)
+		}
 		g.P()
 	}
 }

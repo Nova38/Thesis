@@ -298,7 +298,8 @@ service SpecimenService{
           string comment = 2 [(buf.validate.field).required = true];
       }
       message SuggestedUpdateApproveResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
+          SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+          Specimen specimen = 2 [(buf.validate.field).required = true];
       }
 
 
@@ -308,5 +309,6 @@ service SpecimenService{
           string comment = 2 [(buf.validate.field).required = true];
       }
       message SuggestedUpdateRejectResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
+        SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+
       }
