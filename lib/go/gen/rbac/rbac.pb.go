@@ -156,7 +156,8 @@ func (Error) EnumDescriptor() ([]byte, []int) {
 type ACL_Domain int32
 
 const (
-	ACL_DOMAIN_UNSPECIFIED           ACL_Domain = 0
+	ACL_DOMAIN_UNSPECIFIED ACL_Domain = 0
+	// Meta create
 	ACL_DOMAIN_COLLECTION            ACL_Domain = 1
 	ACL_DOMAIN_COLLECTION_MEMBERSHIP ACL_Domain = 2
 	ACL_DOMAIN_COLLECTION_PERMISSION ACL_Domain = 3

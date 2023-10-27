@@ -65,8 +65,8 @@ func (sv *ServiceGenerator) GenerateService(
 func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *protogen.Service) {
 	ctx := g.QualifiedGoIdent(
 		protogen.GoIdent{
-			GoName:       "LoggedTxCtxInterface",
-			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/state",
+			GoName:       "AuthTxCtx",
+			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/rbac",
 		},
 	)
 

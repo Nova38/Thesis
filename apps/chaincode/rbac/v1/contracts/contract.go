@@ -6,14 +6,9 @@ import (
 
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	// "github.com/rs/zerolog/log"
-	_ "github.com/samber/lo"
 	"github.com/samber/oops"
-	_ "github.com/samber/oops"
 
 	_ "google.golang.org/protobuf/types/known/timestamppb"
-
-	// "github.com/hyperledger-labs/cckit/identity"
 
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
 	"github.com/nova38/thesis/lib/go/fabric/state"
@@ -23,7 +18,7 @@ import (
 )
 
 // Check if AuthContractImpl implements AuthServiceInterface
-// var _ cc.AuthServiceInterface = (*AuthContractImpl)(nil)
+var _ cc.AuthServiceInterface = (*AuthContractImpl)(nil)
 
 type AuthContractImpl struct {
 	cc.AuthServiceBase

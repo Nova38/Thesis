@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	pb "github.com/nova38/thesis/lib/go/gen/rbac"
+	"google.golang.org/protobuf/proto"
 )
 
 // Test Collections
@@ -94,7 +95,83 @@ func TestExtractPathPolicy(t *testing.T) {
 		want    *pb.ACL_Policy_ObjectField
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "Empty path",
+			args: args{
+				current: &pb.ACL_PathRolePermission{
+					Policy: &pb.ACL_Policy_ObjectField{
+						View:           false,
+						Edit:           false,
+						SuggestEdit:    false,
+						SuggestApprove: false,
+						SuggestReject:  false,
+					},
+				},
+				path: "",
+			},
+			want: &pb.ACL_Policy_ObjectField{
+				View:           false,
+				Edit:           false,
+				SuggestEdit:    false,
+				SuggestApprove: false,
+				SuggestReject:  false,
+			},
+			wantErr: false,
+		},
+		{
+			name: "Root path match",
+			args: args{
+				current: &pb.ACL_PathRolePermission{
+					Path: "root",
+				},
+				path: "root",
+			},
+			want: &pb.ACL_Policy_ObjectField{
+				// expected permission
+			},
+			wantErr: false,
+		},
+		{
+			name: "Root path mismatch",
+			args: args{
+				current: &pb.ACL_PathRolePermission{
+					Path: "root1",
+				},
+				path: "root2",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "Nested path match",
+			args: args{
+				current: &pb.ACL_PathRolePermission{
+					Path: "root",
+					SubPaths: map[string]*pb.ACL_PathRolePermission{
+						"child": {
+							Path: "child",
+							// child policy
+						},
+					},
+				},
+				path: "root.child",
+			},
+			want: &pb.ACL_Policy_ObjectField{
+				// expected child policy
+			},
+			wantErr: false,
+		},
+		{
+			name: "Nested path mismatch",
+			args: args{
+				current: &pb.ACL_PathRolePermission{
+					Path: "root",
+				},
+				path: "root.child",
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -103,9 +180,10 @@ func TestExtractPathPolicy(t *testing.T) {
 				t.Errorf("ExtractPathPolicy() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if proto.Equal(got, tt.want) {
 				t.Errorf("ExtractPathPolicy() = %v, want %v", got, tt.want)
 			}
+
 		})
 	}
 }

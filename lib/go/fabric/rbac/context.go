@@ -3,13 +3,22 @@ package rbac
 import (
 	"log/slog"
 
+	"github.com/bufbuild/protovalidate-go"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	"github.com/samber/oops"
 
+	// "github.com/rs/zerolog/log"
+	_ "github.com/samber/lo"
+
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	pb "github.com/nova38/thesis/lib/go/gen/rbac"
+)
+
+const (
+	// DefaultPageSize default page size
+	DefaultPageSize int32 = 10000
 )
 
 type AuthTransactionObjects struct {
@@ -18,38 +27,21 @@ type AuthTransactionObjects struct {
 	ops        *pb.ACL_Operation
 }
 
-type AuthTxCtx struct {
-	state.LoggedTxCtx
-	state.ValidateAbleTxCtx
+type ContextHelpers struct {
+	Logger    *slog.Logger
+	PageSize  int32
+	Validator *protovalidate.Validator
+}
 
+type AuthTxCtx struct {
 	contractapi.TransactionContext
 
+	ContextHelpers
 	AuthTransactionObjects
 
+	// auth values
 	authorized  bool
 	authChecked bool
-}
-
-func (ctx *AuthTxCtx) HandelBefore() error {
-	ctx.SetLogger(slog.Default().With(
-		"fn", ctx.GetFnName(),
-		slog.Group(
-			"tx info",
-			"tx_id", ctx.GetStub().GetTxID(),
-			"channel_id", ctx.GetStub().GetChannelID(),
-		),
-	))
-
-	return nil
-}
-
-func (ctx *AuthTxCtx) GetLogger() *slog.Logger {
-	return ctx.Logger
-}
-
-func (ctx *AuthTxCtx) SetLogger(logger *slog.Logger) error {
-	ctx.Logger = logger
-	return nil
 }
 
 func (ctx *AuthTxCtx) GetFnName() string {

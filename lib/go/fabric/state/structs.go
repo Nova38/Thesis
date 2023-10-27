@@ -29,7 +29,7 @@ type (
 	// }
 )
 
-func (ctx LoggedTxCtx) GetLogger() *slog.Logger {
+func (ctx *LoggedTxCtx) GetLogger() *slog.Logger {
 	return ctx.Logger
 }
 
@@ -38,7 +38,7 @@ func (ctx LoggedTxCtx) GetLogger() *slog.Logger {
 // 	return ctx.Logger, nil
 // }
 
-func (ctx ValidateAbleTxCtx) GetValidator() (*protovalidate.Validator, error) {
+func (ctx *ValidateAbleTxCtx) GetValidator() (*protovalidate.Validator, error) {
 	if ctx.Validator == nil {
 		v, err := protovalidate.New()
 		if err != nil {
@@ -50,7 +50,7 @@ func (ctx ValidateAbleTxCtx) GetValidator() (*protovalidate.Validator, error) {
 	return ctx.Validator, nil
 }
 
-func (ctx ValidateAbleTxCtx) Validate(msg proto.Message) error {
+func (ctx *ValidateAbleTxCtx) Validate(msg proto.Message) error {
 	v, err := ctx.GetValidator()
 	if err != nil {
 		return oops.Errorf("failed to get validator: %w", err)

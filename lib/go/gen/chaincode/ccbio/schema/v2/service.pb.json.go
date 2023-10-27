@@ -8,7 +8,7 @@ import (
 )
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenRequest) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -17,14 +17,14 @@ func (msg *GetSpecimenRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenRequest) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenResponse) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -33,14 +33,14 @@ func (msg *GetSpecimenResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenResponse) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenListResponse) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetListResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -49,14 +49,14 @@ func (msg *GetSpecimenListResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenListResponse) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetListResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenByCollectionRequest) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetByCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -65,14 +65,14 @@ func (msg *GetSpecimenByCollectionRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenByCollectionRequest) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetByCollectionRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenByCollectionResponse) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetByCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -81,14 +81,14 @@ func (msg *GetSpecimenByCollectionResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenByCollectionResponse) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetByCollectionResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenHistoryRequest) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetHistoryRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -97,14 +97,14 @@ func (msg *GetSpecimenHistoryRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenHistoryRequest) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetHistoryRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetSpecimenHistoryResponse) MarshalJSON() ([]byte, error) {
+func (msg *SpecimenGetHistoryResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -113,7 +113,7 @@ func (msg *GetSpecimenHistoryResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *GetSpecimenHistoryResponse) UnmarshalJSON(b []byte) error {
+func (msg *SpecimenGetHistoryResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
