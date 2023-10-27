@@ -11,6 +11,7 @@ import (
 	// "github.com/rs/zerolog/log"
 	_ "github.com/samber/lo"
 
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	pb "github.com/nova38/thesis/lib/go/gen/rbac"
@@ -42,6 +43,69 @@ type AuthTxCtx struct {
 	// auth values
 	authorized  bool
 	authChecked bool
+}
+
+func (ctx *AuthTxCtx) HandelBefore() error {
+	ctx.SetLogger(slog.Default().With(
+		"fn", ctx.GetFnName(),
+		slog.Group(
+			"tx info",
+			"tx_id", ctx.GetStub().GetTxID(),
+			"channel_id", ctx.GetStub().GetChannelID(),
+		),
+	))
+
+	return nil
+}
+
+func (ctx *AuthTxCtx) GetLogger() *slog.Logger {
+	return ctx.Logger
+}
+
+func (ctx *AuthTxCtx) SetLogger(logger *slog.Logger) error {
+	if logger == nil {
+		return oops.Errorf("logger is nil")
+	}
+	ctx.Logger = logger
+	return nil
+}
+
+// PagedTxCtxInterface functions
+func (ctx *AuthTxCtx) GetPageSize() int32 {
+	if ctx.PageSize == 0 {
+		return DefaultPageSize
+	}
+	return ctx.PageSize
+}
+
+func (ctx *AuthTxCtx) SetPageSize(pageSize int32) {
+	ctx.PageSize = pageSize
+}
+
+// ----------------------------------------------
+// ValidateAbleTxCtxInterface functions
+// ----------------------------------------------
+func (ctx *AuthTxCtx) GetValidator() (*protovalidate.Validator, error) {
+	if ctx.Validator == nil {
+		v, err := protovalidate.New()
+		if err != nil {
+			return nil, oops.Errorf("failed to create validator: %w", err)
+		}
+		ctx.Validator = v
+	}
+
+	return ctx.Validator, nil
+}
+
+func (ctx *AuthTxCtx) Validate(msg proto.Message) error {
+	v, err := ctx.GetValidator()
+	if err != nil {
+		return oops.Errorf("failed to get validator: %w", err)
+	}
+	if v == nil {
+		return oops.Errorf("validator is nil")
+	}
+	return v.Validate(msg)
 }
 
 func (ctx *AuthTxCtx) GetFnName() string {
