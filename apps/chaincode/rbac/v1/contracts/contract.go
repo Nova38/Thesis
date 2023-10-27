@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"log/slog"
 	_ "strings"
 
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -28,7 +29,19 @@ type AuthContractImpl struct {
 	cc.AuthServiceBase
 }
 
-func HandelBefore(ctx rbac.AuthTxCtx) error {
+func HandelBefore(ctx rbac.AuthTxCtx) (err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+	if err := ctx.HandelBefore(); err != nil {
+		return oops.
+			In("HandelBefore").
+			With("fn", ctx.GetFnName()).
+			Wrap(err)
+	}
+
 	ops, err := cc.AuthServiceGetTxOperation(ctx.GetFnName())
 	if err != nil {
 		return oops.
@@ -37,7 +50,13 @@ func HandelBefore(ctx rbac.AuthTxCtx) error {
 			Wrap(err)
 	}
 
-	err = ctx.SetOperation(ops)
+	if err := ctx.SetOperation(ops); err != nil {
+		return oops.
+			In("HandelBefore").
+			With("fn", ctx.GetFnName()).
+			Wrap(err)
+	}
+
 	return err
 }
 
@@ -54,6 +73,12 @@ func (a AuthContractImpl) UserGetCurrent(
 	ctx rbac.AuthTxCtx,
 	req *emptypb.Empty,
 ) (res *cc.UserGetCurrentResponse, err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+
 	user, err := ctx.GetUser()
 	if err != nil {
 		return nil, err
@@ -74,6 +99,11 @@ func (a AuthContractImpl) UserGetCurrentId(
 	ctx rbac.AuthTxCtx,
 	req *emptypb.Empty,
 ) (res *cc.UserGetCurrentIdResponse, err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	user_id, err := ctx.GetUserId()
 	if err != nil {
 		return nil, oops.
@@ -96,6 +126,11 @@ func (a AuthContractImpl) UserGetList(
 	ctx rbac.AuthTxCtx,
 	req *emptypb.Empty,
 ) (res *cc.UserGetListResponse, err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// TODO implement me
 	userList, err := state.GetFullStateList(&ctx, &rbac_pb.User{})
 	if err != nil {
@@ -120,6 +155,12 @@ func (a AuthContractImpl) UserGet(
 	ctx rbac.AuthTxCtx,
 	req *cc.UserGetRequest,
 ) (res *cc.UserGetResponse, err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+
 	// Validate the request
 	v, err := ctx.GetValidator()
 	if err != nil {
@@ -153,6 +194,11 @@ func (a AuthContractImpl) UserGetHistory(
 	ctx rbac.AuthTxCtx,
 	req *cc.UserGetHistoryRequest,
 ) (res *cc.UserGetHistoryResponse, err error) {
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// TODO implement me
 	panic("implement me")
 }
@@ -169,8 +215,11 @@ func (a AuthContractImpl) UserRegister(
 	ctx rbac.AuthTxCtx,
 	req *cc.UserRegisterRequest,
 ) (res *cc.UserRegisterResponse, err error) {
-	// TODO implement me
-
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// Validate the request
 	err = ctx.Validate(req)
 	if err != nil {
@@ -209,8 +258,12 @@ func (a AuthContractImpl) UserUpdate(
 	ctx rbac.AuthTxCtx,
 	req *cc.UserUpdateRequest,
 ) (res *cc.UserUpdateResponse, err error) {
-	// TODO implement me
-
+	// TODO implement UserUpdate
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// Validate the request
 	if err := ctx.Validate(req); err != nil {
 		return nil, oops.
@@ -235,11 +288,15 @@ func (a AuthContractImpl) UserUpdateMembership(
 	ctx rbac.AuthTxCtx,
 	req *cc.UserUpdateMembershipRequest,
 ) (res *cc.UserUpdateMembershipResponse, err error) {
-	// TODO implement me
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// Validate the request
 	{
-		err := ctx.Validate(req)
-		if err != nil {
+
+		if err := ctx.Validate(req); err != nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
 				Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -315,12 +372,13 @@ func (a AuthContractImpl) CollectionGetList(
 	ctx rbac.AuthTxCtx,
 	req *emptypb.Empty,
 ) (res *cc.CollectionGetListResponse, err error) {
-	// TODO implement me
-	// panic("implement me")
-
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 	// Validate the request
-	err = ctx.Validate(req)
-	if err != nil {
+	if err := ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
@@ -345,8 +403,11 @@ func (a AuthContractImpl) CollectionGet(
 	ctx rbac.AuthTxCtx,
 	req *cc.CollectionGetRequest,
 ) (res *cc.CollectionGetResponse, err error) {
-	// TODO implement me
-	// panic("implement me")
+	defer func() {
+		if err != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
 
 	// Validate the request
 	err = ctx.Validate(req)
@@ -366,8 +427,6 @@ func (a AuthContractImpl) CollectionGet(
 			Wrap(err)
 	}
 
-	// TODO: check if user is authorized to view the collection
-
 	if err := ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -384,7 +443,19 @@ func (a AuthContractImpl) CollectionGetHistory(
 	ctx rbac.AuthTxCtx,
 	req *cc.CollectionGetHistoryRequest,
 ) (res *cc.CollectionGetHistoryResponse, err error) {
-	// TODO implement me
+	// TODO implement CollectionGetHistory
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+	if err := ctx.Validate(req); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Wrap(err)
+	}
+
 	panic("implement me")
 }
 
@@ -392,7 +463,19 @@ func (a AuthContractImpl) CollectionCreate(
 	ctx rbac.AuthTxCtx,
 	req *cc.CollectionCreateRequest,
 ) (res *cc.CollectionCreateResponse, err error) {
-	// TODO implement me
+	// TODO implement CollectionCreate
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+	if err := ctx.Validate(req); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Wrap(err)
+	}
+
 	panic("implement me")
 }
 
@@ -400,7 +483,19 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 	ctx rbac.AuthTxCtx,
 	req *cc.CollectionUpdateRolesRequest,
 ) (res *cc.CollectionUpdateRolesResponse, err error) {
-	// TODO implement me
+	// TODO implement CollectionUpdateRoles
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+	if err := ctx.Validate(req); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Wrap(err)
+	}
+
 	panic("implement me")
 }
 
@@ -408,6 +503,18 @@ func (a AuthContractImpl) CollectionUpdatePermission(
 	ctx rbac.AuthTxCtx,
 	req *cc.CollectionUpdatePermissionRequest,
 ) (res *cc.CollectionUpdatePermissionResponse, err error) {
-	// TODO implement me
+	// TODO implement CollectionUpdatePermission
+	defer func() {
+		if err != nil && ctx.Logger != nil {
+			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+		}
+	}()
+	if err := ctx.Validate(req); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Wrap(err)
+	}
+
 	panic("implement me")
 }

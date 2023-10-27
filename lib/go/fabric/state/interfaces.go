@@ -5,7 +5,6 @@ import (
 
 	"github.com/bufbuild/protovalidate-go"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/reflect/protoregistry"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -26,10 +25,4 @@ type PagedTxCtxInterface interface {
 type ValidateAbleTxCtxInterface interface {
 	GetValidator() (*protovalidate.Validator, error)
 	Validate(msg proto.Message) error
-}
-
-type RegistryTxCtxInterface interface {
-	LoggedTxCtxInterface
-	GetRegistry() (*protoregistry.Types, error)
-	SetRegistry(registry *protoregistry.Types) error
 }

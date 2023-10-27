@@ -1,20 +1,13 @@
 package rbac
 
 import (
-	_ "strings"
+	"log/slog"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	"github.com/samber/oops"
-	"golang.org/x/exp/slog"
-
-	// "github.com/rs/zerolog/log"
-	_ "github.com/samber/lo"
 
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
-
-	// "github.com/hyperledger-labs/cckit/identity"
 
 	pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
@@ -35,6 +28,28 @@ type AuthTxCtx struct {
 
 	authorized  bool
 	authChecked bool
+}
+
+func (ctx *AuthTxCtx) HandelBefore() error {
+	ctx.SetLogger(slog.Default().With(
+		"fn", ctx.GetFnName(),
+		slog.Group(
+			"tx info",
+			"tx_id", ctx.GetStub().GetTxID(),
+			"channel_id", ctx.GetStub().GetChannelID(),
+		),
+	))
+
+	return nil
+}
+
+func (ctx *AuthTxCtx) GetLogger() *slog.Logger {
+	return ctx.Logger
+}
+
+func (ctx *AuthTxCtx) SetLogger(logger *slog.Logger) error {
+	ctx.Logger = logger
+	return nil
 }
 
 func (ctx *AuthTxCtx) GetFnName() string {
@@ -127,9 +142,6 @@ func (ctx *AuthTxCtx) authorize() (bool, error) {
 	if err != nil {
 		return false, oops.Wrap(err)
 	}
-
-	// TODO: Check if the user is authorized to perform the action on the collection
-	// user.Id
 
 	role, ok := user.Roles[ctx.Collection.Id.CollectionId]
 	if !ok {
