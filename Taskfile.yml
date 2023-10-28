@@ -7,6 +7,11 @@ tasks:
     cmds:
 #      - go install ./tools/cmd/protoc-gen-cckey
       - go install ./tools/cmd/protoc-gen-go-hlf
+  gen:cmd:
+    deps:
+      - install
+    cmds:
+      - buf generate
   gen:
     watch: true
     # sources:

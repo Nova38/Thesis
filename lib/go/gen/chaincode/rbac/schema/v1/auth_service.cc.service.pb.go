@@ -24,7 +24,7 @@ type AuthServiceInterface interface {
 	//   - Action: ACTION_VIEW
 	//
 	// req is empty
-	UserGetCurrent(ctx rbac.AuthTxCtx) (res *UserGetCurrentResponse, err error)
+	UserGetCurrent(ctx *rbac.AuthTxCtxInterface) (res *UserGetCurrentResponse, err error)
 
 	// Returns the current user id.
 	//
@@ -36,7 +36,7 @@ type AuthServiceInterface interface {
 	//   - Action: ACTION_VIEW
 	//
 	// req is empty
-	UserGetCurrentId(ctx rbac.AuthTxCtx) (res *UserGetCurrentIdResponse, err error)
+	UserGetCurrentId(ctx *rbac.AuthTxCtxInterface) (res *UserGetCurrentIdResponse, err error)
 
 	// UserGetList: Returns the list of users.
 	//
@@ -48,7 +48,7 @@ type AuthServiceInterface interface {
 	//   - Action: ACTION_VIEW
 	//
 	// req is empty
-	UserGetList(ctx rbac.AuthTxCtx) (res *UserGetListResponse, err error)
+	UserGetList(ctx *rbac.AuthTxCtxInterface) (res *UserGetListResponse, err error)
 
 	// UserGet: Returns the user.
 	//
@@ -58,7 +58,7 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_VIEW
-	UserGet(ctx rbac.AuthTxCtx, req *UserGetRequest) (res *UserGetResponse, err error)
+	UserGet(ctx *rbac.AuthTxCtxInterface, req *UserGetRequest) (res *UserGetResponse, err error)
 
 	// UserGetHistory: Returns the user history.
 	//
@@ -68,7 +68,7 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_VIEW_HISTORY
-	UserGetHistory(ctx rbac.AuthTxCtx, req *UserGetHistoryRequest) (res *UserGetHistoryResponse, err error)
+	UserGetHistory(ctx *rbac.AuthTxCtxInterface, req *UserGetHistoryRequest) (res *UserGetHistoryResponse, err error)
 
 	// UserRegister: Registers the user.
 	//
@@ -78,14 +78,14 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_CREATE
-	UserRegister(ctx rbac.AuthTxCtx, req *UserRegisterRequest) (res *UserRegisterResponse, err error)
+	UserRegister(ctx *rbac.AuthTxCtxInterface, req *UserRegisterRequest) (res *UserRegisterResponse, err error)
 
 	// UserUpdate
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_USER
 	//   - Action: ACTION_EDIT
-	UserUpdate(ctx rbac.AuthTxCtx, req *UserUpdateRequest) (res *UserUpdateResponse, err error)
+	UserUpdate(ctx *rbac.AuthTxCtxInterface, req *UserUpdateRequest) (res *UserUpdateResponse, err error)
 
 	// UserUpdateMembership: Updates the user's membership.
 	//
@@ -100,7 +100,7 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION_MEMBERSHIP
 	//   - Action: ACTION_EDIT
-	UserUpdateMembership(ctx rbac.AuthTxCtx, req *UserUpdateMembershipRequest) (res *UserUpdateMembershipResponse, err error)
+	UserUpdateMembership(ctx *rbac.AuthTxCtxInterface, req *UserUpdateMembershipRequest) (res *UserUpdateMembershipResponse, err error)
 
 	// CollectionGetList: Returns the list of collections.
 	//
@@ -112,7 +112,7 @@ type AuthServiceInterface interface {
 	//   - Action: ACTION_VIEW
 	//
 	// req is empty
-	CollectionGetList(ctx rbac.AuthTxCtx) (res *CollectionGetListResponse, err error)
+	CollectionGetList(ctx *rbac.AuthTxCtxInterface) (res *CollectionGetListResponse, err error)
 
 	// CollectionGet: Returns the collection.
 	//
@@ -122,7 +122,7 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION
 	//   - Action: ACTION_VIEW
-	CollectionGet(ctx rbac.AuthTxCtx, req *CollectionGetRequest) (res *CollectionGetResponse, err error)
+	CollectionGet(ctx *rbac.AuthTxCtxInterface, req *CollectionGetRequest) (res *CollectionGetResponse, err error)
 
 	// CollectionGetHistory: Returns the collection history.
 	//
@@ -132,7 +132,7 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION
 	//   - Action: ACTION_VIEW_HISTORY
-	CollectionGetHistory(ctx rbac.AuthTxCtx, req *CollectionGetHistoryRequest) (res *CollectionGetHistoryResponse, err error)
+	CollectionGetHistory(ctx *rbac.AuthTxCtxInterface, req *CollectionGetHistoryRequest) (res *CollectionGetHistoryResponse, err error)
 
 	// CollectionCreate: Creates the collection.
 	//
@@ -142,21 +142,21 @@ type AuthServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION
 	//   - Action: ACTION_CREATE
-	CollectionCreate(ctx rbac.AuthTxCtx, req *CollectionCreateRequest) (res *CollectionCreateResponse, err error)
+	CollectionCreate(ctx *rbac.AuthTxCtxInterface, req *CollectionCreateRequest) (res *CollectionCreateResponse, err error)
 
 	// CollectionUpdateRoles
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION_ROLES
 	//   - Action: ACTION_EDIT
-	CollectionUpdateRoles(ctx rbac.AuthTxCtx, req *CollectionUpdateRolesRequest) (res *CollectionUpdateRolesResponse, err error)
+	CollectionUpdateRoles(ctx *rbac.AuthTxCtxInterface, req *CollectionUpdateRolesRequest) (res *CollectionUpdateRolesResponse, err error)
 
 	// CollectionUpdatePermission
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_COLLECTION_PERMISSION
 	//   - Action: ACTION_EDIT
-	CollectionUpdatePermission(ctx rbac.AuthTxCtx, req *CollectionUpdatePermissionRequest) (res *CollectionUpdatePermissionResponse, err error)
+	CollectionUpdatePermission(ctx *rbac.AuthTxCtxInterface, req *CollectionUpdatePermissionRequest) (res *CollectionUpdatePermissionResponse, err error)
 }
 
 type AuthServiceBase struct {

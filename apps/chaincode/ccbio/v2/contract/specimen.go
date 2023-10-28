@@ -3,8 +3,6 @@ package contract
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	"github.com/nova38/thesis/apps/chaincode/ccbio/v2/context"
-	"github.com/nova38/thesis/lib/go/fabric/rbac"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v2"
 	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
@@ -55,7 +53,7 @@ func (s *SpecimenContractImpl) GetBeforeTransaction() interface{} {
 	return s.BeforeTransaction
 }
 
-func (s *SpecimenContractImpl) BeforeTransaction(ctx rbac.AuthTxCtx) (err error) {
+func (s *SpecimenContractImpl) BeforeTransaction(ctx CCBioTxCtx) (err error) {
 	// Check if the validate is initialized
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -89,7 +87,7 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx rbac.AuthTxCtx) (err error)
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SpecimenGet(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenGetRequest,
 ) (res *pb.SpecimenGetResponse, err error) {
 	defer func() {
@@ -103,11 +101,11 @@ func (s *SpecimenContractImpl) SpecimenGet(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -141,7 +139,7 @@ func (s *SpecimenContractImpl) SpecimenGet(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetList(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 ) (res *pb.SpecimenGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -164,7 +162,7 @@ func (s *SpecimenContractImpl) SpecimenGetList(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetByCollection(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenGetByCollectionRequest,
 ) (res *pb.SpecimenGetByCollectionResponse, err error) {
 	defer func() {
@@ -177,11 +175,11 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -211,7 +209,7 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetHistory(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenGetHistoryRequest,
 ) (res *pb.SpecimenGetHistoryResponse, err error) {
 	// TODO implement SpecimenGetHistory
@@ -226,11 +224,11 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -245,7 +243,7 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SpecimenCreate(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenCreateRequest,
 ) (res *pb.SpecimenCreateResponse, err error) {
 	defer func() {
@@ -258,11 +256,11 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -321,7 +319,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 }
 
 func (s *SpecimenContractImpl) SpecimenUpdate(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenUpdateRequest,
 ) (res *pb.SpecimenUpdateResponse, err error) {
 	// TODO implement SpecimenUpdate
@@ -342,7 +340,7 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 }
 
 func (s *SpecimenContractImpl) SpecimenDelete(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenDeleteRequest,
 ) (res *pb.SpecimenDeleteResponse, err error) {
 	// TODO implement SpecimenDelete
@@ -357,11 +355,11 @@ func (s *SpecimenContractImpl) SpecimenDelete(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -373,7 +371,7 @@ func (s *SpecimenContractImpl) SpecimenDelete(
 }
 
 func (s *SpecimenContractImpl) SpecimenHideTx(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenHideTxRequest,
 ) (res *pb.SpecimenHideTxResponse, err error) {
 	// TODO implement SpecimenHideTx
@@ -388,11 +386,11 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -403,7 +401,7 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 }
 
 func (s *SpecimenContractImpl) SpecimenUnHideTx(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SpecimenUnHideTxRequest,
 ) (res *pb.SpecimenUnHideTxResponse, err error) {
 	// TODO implement SpecimenUnHideTx
@@ -418,11 +416,11 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 	}
 
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -440,7 +438,7 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) GetSuggestedUpdate(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateRequest,
 ) (res *pb.GetSuggestedUpdateResponse, err error) {
 	defer func() {
@@ -459,11 +457,11 @@ func (s *SpecimenContractImpl) GetSuggestedUpdate(
 			Errorf("id is required")
 	}
 
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -486,7 +484,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdate(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateBySpecimenRequest,
 ) (res *pb.GetSuggestedUpdateBySpecimenResponse, err error) {
 	defer func() {
@@ -498,11 +496,11 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
 		return nil, oops.Wrap(err)
 	}
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -537,7 +535,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateByCollectionRequest,
 ) (res *pb.GetSuggestedUpdateByCollectionResponse, err error) {
 	defer func() {
@@ -549,11 +547,11 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
 		return nil, oops.Wrap(err)
 	}
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -588,7 +586,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateList(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 ) (res *pb.GetSuggestedUpdateListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -615,7 +613,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateList(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SuggestedUpdateCreate(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SuggestedUpdateCreateRequest,
 ) (res *pb.SuggestedUpdateCreateResponse, err error) {
 	// TODO implement SuggestedUpdateCreate
@@ -629,11 +627,11 @@ func (s *SpecimenContractImpl) SuggestedUpdateCreate(
 		return nil, oops.Wrap(err)
 	}
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -645,7 +643,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateCreate(
 }
 
 func (s *SpecimenContractImpl) SuggestedUpdateApprove(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SuggestedUpdateApproveRequest,
 ) (res *pb.SuggestedUpdateApproveResponse, err error) {
 	// TODO implement SuggestedUpdateApprove
@@ -659,11 +657,11 @@ func (s *SpecimenContractImpl) SuggestedUpdateApprove(
 		return nil, oops.Wrap(err)
 	}
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation
@@ -674,7 +672,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateApprove(
 }
 
 func (s *SpecimenContractImpl) SuggestedUpdateReject(
-	ctx rbac.AuthTxCtx,
+	ctx CCBioTxCtx,
 	req *pb.SuggestedUpdateRejectRequest,
 ) (res *pb.SuggestedUpdateRejectResponse, err error) {
 	// TODO implement me SuggestedUpdateReject
@@ -688,11 +686,11 @@ func (s *SpecimenContractImpl) SuggestedUpdateReject(
 		return nil, oops.Wrap(err)
 	}
 	// Extract the collection id
-	colId, err := context.ExtractCollectionId(req)
+	colId, err := extractCollectionId(req)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = ctx.SetCollection(colId); err != nil {
+	if _, err = ctx.SetCollection(colId); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	// Authorize the operation

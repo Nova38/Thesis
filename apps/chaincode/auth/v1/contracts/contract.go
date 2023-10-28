@@ -1,4 +1,4 @@
-package rbac
+package contract
 
 import (
 	"log/slog"
@@ -18,6 +18,7 @@ import (
 
 // Check if AuthContractImpl implements AuthServiceInterface
 var (
+	_ rbac.AuthTxCtxInterface       = (*AuthTxCtx)(nil)
 	_ cc.AuthServiceInterface       = (*AuthContractImpl)(nil)
 	_ contractapi.ContractInterface = (*AuthContractImpl)(nil)
 )
@@ -27,16 +28,17 @@ type AuthContractImpl struct {
 	cc.AuthServiceBase
 }
 
-func (a *AuthContractImpl) GetBeforeTransaction() interface{} {
+func (a AuthContractImpl) GetBeforeTransaction() interface{} {
 	return a.BeforeTransaction
 }
 
-func (a *AuthContractImpl) BeforeTransaction(ctx rbac.AuthTxCtx) (err error) {
+func (a AuthContractImpl) BeforeTransaction(ctx AuthTxCtx) (err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
+
 	if err = ctx.HandelBefore(); err != nil {
 		return oops.Wrap(err)
 	}
@@ -69,7 +71,7 @@ func (a *AuthContractImpl) BeforeTransaction(ctx rbac.AuthTxCtx) (err error) {
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrent(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 ) (res *cc.UserGetCurrentResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -94,7 +96,7 @@ func (a AuthContractImpl) UserGetCurrent(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrentId(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 ) (res *cc.UserGetCurrentIdResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -120,7 +122,7 @@ func (a AuthContractImpl) UserGetCurrentId(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetList(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 ) (res *cc.UserGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -147,7 +149,7 @@ func (a AuthContractImpl) UserGetList(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGet(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.UserGetRequest,
 ) (res *cc.UserGetResponse, err error) {
 	defer func() {
@@ -185,7 +187,7 @@ func (a AuthContractImpl) UserGet(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW_HISTORY
 func (a AuthContractImpl) UserGetHistory(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.UserGetHistoryRequest,
 ) (res *cc.UserGetHistoryResponse, err error) {
 	defer func() {
@@ -206,7 +208,7 @@ func (a AuthContractImpl) UserGetHistory(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_CREATE
 func (a AuthContractImpl) UserRegister(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.UserRegisterRequest,
 ) (res *cc.UserRegisterResponse, err error) {
 	defer func() {
@@ -249,7 +251,7 @@ func (a AuthContractImpl) UserRegister(
 }
 
 func (a AuthContractImpl) UserUpdate(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.UserUpdateRequest,
 ) (res *cc.UserUpdateResponse, err error) {
 	// TODO implement UserUpdate
@@ -279,7 +281,7 @@ func (a AuthContractImpl) UserUpdate(
 }
 
 func (a AuthContractImpl) UserUpdateMembership(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.UserUpdateMembershipRequest,
 ) (res *cc.UserUpdateMembershipResponse, err error) {
 	defer func() {
@@ -296,7 +298,6 @@ func (a AuthContractImpl) UserUpdateMembership(
 				Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
 				Wrap(err)
 		}
-
 		col, err := ctx.SetCollection(req.CollectionId)
 		if err != nil {
 			return nil, oops.
@@ -363,7 +364,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 }
 
 func (a AuthContractImpl) CollectionGetList(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 ) (res *cc.CollectionGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -386,7 +387,7 @@ func (a AuthContractImpl) CollectionGetList(
 }
 
 func (a AuthContractImpl) CollectionGet(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.CollectionGetRequest,
 ) (res *cc.CollectionGetResponse, err error) {
 	defer func() {
@@ -426,7 +427,7 @@ func (a AuthContractImpl) CollectionGet(
 }
 
 func (a AuthContractImpl) CollectionGetHistory(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.CollectionGetHistoryRequest,
 ) (res *cc.CollectionGetHistoryResponse, err error) {
 	// TODO implement CollectionGetHistory
@@ -446,7 +447,7 @@ func (a AuthContractImpl) CollectionGetHistory(
 }
 
 func (a AuthContractImpl) CollectionCreate(
-	ctx rbac.AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.CollectionCreateRequest,
 ) (res *cc.CollectionCreateResponse, err error) {
 	// TODO implement CollectionCreate
@@ -466,7 +467,7 @@ func (a AuthContractImpl) CollectionCreate(
 }
 
 func (a AuthContractImpl) CollectionUpdateRoles(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.CollectionUpdateRolesRequest,
 ) (res *cc.CollectionUpdateRolesResponse, err error) {
 	// TODO implement CollectionUpdateRoles
@@ -486,7 +487,7 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 }
 
 func (a AuthContractImpl) CollectionUpdatePermission(
-	ctx rbac.AuthTxCtx,
+	ctx AuthTxCtx,
 	req *cc.CollectionUpdatePermissionRequest,
 ) (res *cc.CollectionUpdatePermissionResponse, err error) {
 	// TODO implement CollectionUpdatePermission

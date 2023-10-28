@@ -52,6 +52,7 @@ func HandelBefore(ctx TxContext) error {
 
 type AuthTxContext struct {
 	contractapi.TransactionContext
+	state.LoggedTxCtx
 	Logger      *slog.Logger
 	User        *schema.User
 	Collection  *schema.Collection

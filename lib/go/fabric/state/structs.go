@@ -33,6 +33,12 @@ func (ctx *LoggedTxCtx) GetLogger() *slog.Logger {
 	return ctx.Logger
 }
 
+func (ctx *LoggedTxCtx) HandleFnError(err *error) {
+	if *err != nil && ctx.Logger != nil {
+		slog.Error((*err).Error())
+	}
+}
+
 // func (ctx LoggedTxCtx) NewLogger() (*slog.Logger, error) {
 // 	ctx.Logger = &slog.Logger{}
 // 	return ctx.Logger, nil

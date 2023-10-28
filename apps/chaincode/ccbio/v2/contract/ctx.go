@@ -1,4 +1,4 @@
-package context
+package contract
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
@@ -7,8 +7,47 @@ import (
 	"github.com/samber/oops"
 )
 
-// ExtractSpecimenId extracts the specimen ID from the given request. It supports requests that implement
-// the SpecimenHolder or SuggestionsIDHolder interfaces. Returns an error if the ID cannot be extracted.
+var _ rbac.AuthTxCtxInterface = (*CCBioTxCtx)(nil)
+
+type (
+	TransactionObjects struct {
+		Specimen *pb.Specimen
+	}
+
+	CCBioTxCtx struct {
+		*rbac.TxCtx
+
+		TransactionObjects
+	}
+)
+
+type (
+	collectionHolder interface {
+		GetCollection() *rbac_pb.Collection
+	}
+	collectionIdHolder interface {
+		GetCollectionId() *rbac_pb.Collection_Id
+	}
+	userHolder interface {
+		GetUser() *rbac_pb.User
+	}
+	userIdHolder interface {
+		GetUserId() *rbac_pb.User_Id
+	}
+	specimenHolder interface {
+		GetSpecimen() *pb.Specimen
+	}
+	specimenIdHolder interface {
+		GetId() *pb.Specimen_Id
+	}
+	suggestedUpdateHolder interface {
+		GetSuggestedUpdate() *pb.SuggestedUpdate
+	}
+	suggestedUpdateIdHolder interface {
+		GetId() *pb.SuggestedUpdate_Id
+	}
+)
+
 func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 	if req == nil {
 		return nil, oops.Errorf("Interface is a nil pointer")
@@ -18,19 +57,19 @@ func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 
 	switch v := req.(type) {
 
-	case SpecimenHolder:
+	case specimenHolder:
 		if v.GetSpecimen() == nil || v.GetSpecimen().GetId() == nil {
 			return nil, oops.Errorf("Specimen is not set")
 		}
 		id = v.GetSpecimen().GetId()
 
-	case SuggestionsIdHolder:
+	case specimenIdHolder:
 		if v.GetId() == nil {
 			return nil, oops.Errorf("Collection is not set")
 		}
 		id = v.GetId()
 
-	case SuggestedUpdateHolder:
+	case suggestedUpdateHolder:
 		s := v.GetSuggestedUpdate()
 		if s == nil || s.GetId() == nil || s.GetId().GetSpecimenId() == nil {
 			return nil, oops.Errorf("SuggestedUpdate is not set")
@@ -38,7 +77,7 @@ func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 
 		id = s.GetId().GetSpecimenId()
 
-	case SuggestedUpdateIDHolder:
+	case suggestedUpdateIdHolder:
 		if v.GetId() == nil || v.GetId().GetSpecimenId() == nil {
 			return nil, oops.Errorf("SuggestedUpdateId is not set")
 		}
@@ -61,7 +100,7 @@ func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 	return id, nil
 }
 
-func ExtractCollectionId(req interface{}) (id *rbac_pb.Collection_Id, err error) {
+func extractCollectionId(req interface{}) (id *rbac_pb.Collection_Id, err error) {
 	if req == nil {
 		return nil, oops.Errorf("Interface is a nil pointer")
 	}
@@ -69,26 +108,26 @@ func ExtractCollectionId(req interface{}) (id *rbac_pb.Collection_Id, err error)
 	//  Extract the
 
 	switch v := req.(type) {
-	case rbac.CollectionHolder:
+	case collectionHolder:
 		if v.GetCollection() == nil {
 			return nil, oops.Errorf("Collection is not set")
 		}
 		id = v.GetCollection().GetId()
-	case rbac.CollectionIdHolder:
+	case collectionIdHolder:
 		id = v.GetCollectionId()
-	case SpecimenHolder:
+	case specimenHolder:
 		if v.GetSpecimen() == nil || v.GetSpecimen().GetId() == nil {
 			return nil, oops.Errorf("Specimen is not set")
 		}
 		id = &rbac_pb.Collection_Id{CollectionId: v.GetSpecimen().GetId().CollectionId}
 
-	case SuggestionsIdHolder:
+	case specimenIdHolder:
 		if v.GetId() == nil {
 			return nil, oops.Errorf("Collection is not set")
 		}
 		id = &rbac_pb.Collection_Id{CollectionId: v.GetId().CollectionId}
 
-	case SuggestedUpdateHolder:
+	case suggestedUpdateHolder:
 		s := v.GetSuggestedUpdate()
 		if s == nil || s.GetId() == nil || s.GetId().GetSpecimenId() == nil {
 			return nil, oops.Errorf("SuggestedUpdate is not set")
@@ -96,7 +135,7 @@ func ExtractCollectionId(req interface{}) (id *rbac_pb.Collection_Id, err error)
 
 		id = &rbac_pb.Collection_Id{CollectionId: s.GetId().GetSpecimenId().CollectionId}
 
-	case SuggestedUpdateIDHolder:
+	case suggestedUpdateIdHolder:
 		if v.GetId() == nil || v.GetId().GetSpecimenId() == nil {
 			return nil, oops.Errorf("SuggestedUpdateId is not set")
 		}

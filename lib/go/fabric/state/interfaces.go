@@ -13,6 +13,8 @@ type LoggedTxCtxInterface interface {
 	contractapi.TransactionContextInterface
 	GetLogger() *slog.Logger
 	SetLogger(logger *slog.Logger) error
+
+	HandleFnError(err *error)
 }
 
 // PagedTxCtxInterface Paged Transaction Context Interface

@@ -18,7 +18,7 @@ type SpecimenServiceInterface interface {
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW
-	SpecimenGet(ctx rbac.AuthTxCtx, req *SpecimenGetRequest) (res *SpecimenGetResponse, err error)
+	SpecimenGet(ctx *rbac.AuthTxCtxInterface, req *SpecimenGetRequest) (res *SpecimenGetResponse, err error)
 
 	// SpecimenGetList
 	//
@@ -27,77 +27,77 @@ type SpecimenServiceInterface interface {
 	//   - Action: ACTION_VIEW
 	//
 	// req is empty
-	SpecimenGetList(ctx rbac.AuthTxCtx) (res *SpecimenGetListResponse, err error)
+	SpecimenGetList(ctx *rbac.AuthTxCtxInterface) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW
-	SpecimenGetByCollection(ctx rbac.AuthTxCtx, req *SpecimenGetByCollectionRequest) (res *SpecimenGetByCollectionResponse, err error)
+	SpecimenGetByCollection(ctx *rbac.AuthTxCtxInterface, req *SpecimenGetByCollectionRequest) (res *SpecimenGetByCollectionResponse, err error)
 
 	// SpecimenGetHistory
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW
-	SpecimenGetHistory(ctx rbac.AuthTxCtx, req *SpecimenGetHistoryRequest) (res *SpecimenGetHistoryResponse, err error)
+	SpecimenGetHistory(ctx *rbac.AuthTxCtxInterface, req *SpecimenGetHistoryRequest) (res *SpecimenGetHistoryResponse, err error)
 
 	// SpecimenCreate
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_CREATE
-	SpecimenCreate(ctx rbac.AuthTxCtx, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
+	SpecimenCreate(ctx *rbac.AuthTxCtxInterface, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
 
 	// SpecimenUpdate
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_EDIT
-	SpecimenUpdate(ctx rbac.AuthTxCtx, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
+	SpecimenUpdate(ctx *rbac.AuthTxCtxInterface, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
 
 	// SpecimenDelete
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_DELETE
-	SpecimenDelete(ctx rbac.AuthTxCtx, req *SpecimenDeleteRequest) (res *SpecimenDeleteResponse, err error)
+	SpecimenDelete(ctx *rbac.AuthTxCtxInterface, req *SpecimenDeleteRequest) (res *SpecimenDeleteResponse, err error)
 
 	// SpecimenHideTx
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_HIDDEN_TX
-	SpecimenHideTx(ctx rbac.AuthTxCtx, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
+	SpecimenHideTx(ctx *rbac.AuthTxCtxInterface, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
 
 	// SpecimenUnHideTx
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_HIDDEN_TX
-	SpecimenUnHideTx(ctx rbac.AuthTxCtx, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
+	SpecimenUnHideTx(ctx *rbac.AuthTxCtxInterface, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
 
 	// GetSuggestedUpdate
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW_SUGGEST
-	GetSuggestedUpdate(ctx rbac.AuthTxCtx, req *GetSuggestedUpdateRequest) (res *GetSuggestedUpdateResponse, err error)
+	GetSuggestedUpdate(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateRequest) (res *GetSuggestedUpdateResponse, err error)
 
 	// GetSuggestedUpdateBySpecimen
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW_SUGGEST
-	GetSuggestedUpdateBySpecimen(ctx rbac.AuthTxCtx, req *GetSuggestedUpdateBySpecimenRequest) (res *GetSuggestedUpdateBySpecimenResponse, err error)
+	GetSuggestedUpdateBySpecimen(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateBySpecimenRequest) (res *GetSuggestedUpdateBySpecimenResponse, err error)
 
 	// GetSuggestedUpdateByCollection
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW_SUGGEST
-	GetSuggestedUpdateByCollection(ctx rbac.AuthTxCtx, req *GetSuggestedUpdateByCollectionRequest) (res *GetSuggestedUpdateByCollectionResponse, err error)
+	GetSuggestedUpdateByCollection(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateByCollectionRequest) (res *GetSuggestedUpdateByCollectionResponse, err error)
 
 	// GetSuggestedUpdateList
 	//
@@ -106,28 +106,28 @@ type SpecimenServiceInterface interface {
 	//   - Action: ACTION_VIEW_SUGGEST
 	//
 	// req is empty
-	GetSuggestedUpdateList(ctx rbac.AuthTxCtx) (res *GetSuggestedUpdateListResponse, err error)
+	GetSuggestedUpdateList(ctx *rbac.AuthTxCtxInterface) (res *GetSuggestedUpdateListResponse, err error)
 
 	// SuggestedUpdateCreate
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_SUGGEST_EDIT
-	SuggestedUpdateCreate(ctx rbac.AuthTxCtx, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdateCreateResponse, err error)
+	SuggestedUpdateCreate(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdateCreateResponse, err error)
 
 	// SuggestedUpdateApprove
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_SUGGEST_APPROVE
-	SuggestedUpdateApprove(ctx rbac.AuthTxCtx, req *SuggestedUpdateApproveRequest) (res *SuggestedUpdateApproveResponse, err error)
+	SuggestedUpdateApprove(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateApproveRequest) (res *SuggestedUpdateApproveResponse, err error)
 
 	// SuggestedUpdateReject
 	//
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_SUGGEST_REJECT
-	SuggestedUpdateReject(ctx rbac.AuthTxCtx, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdateRejectResponse, err error)
+	SuggestedUpdateReject(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdateRejectResponse, err error)
 }
 
 type SpecimenServiceBase struct {

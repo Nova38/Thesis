@@ -65,10 +65,12 @@ func (sv *ServiceGenerator) GenerateService(
 func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *protogen.Service) {
 	ctx := g.QualifiedGoIdent(
 		protogen.GoIdent{
-			GoName:       "AuthTxCtx",
+			GoName:       "AuthTxCtxInterface",
 			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/rbac",
 		},
 	)
+	// shortName, _ := strings.CutSuffix(v.GoName, "Service")
+	// ctx := shortName + "TxCtx"
 
 	g.P("type ", v.GoName, "Interface interface{")
 	defer g.P("}")
@@ -97,13 +99,13 @@ func GenerateInterface(gen *protogen.Plugin, g *protogen.GeneratedFile, v *proto
 			mComments += "// req is empty\n"
 			g.P(
 				mComments, m.GoName,
-				"(ctx ", ctx, ") ",
+				"(ctx *", ctx, ") ",
 				"(res *", m.Output.GoIdent, ",err error)",
 			)
 		} else {
 			g.P(
 				mComments, m.GoName,
-				"(ctx ", ctx, ", req *", m.Input.GoIdent, ") ",
+				"(ctx *", ctx, ", req *", m.Input.GoIdent, ") ",
 				"(res *", m.Output.GoIdent, ",err error)",
 			)
 		}
