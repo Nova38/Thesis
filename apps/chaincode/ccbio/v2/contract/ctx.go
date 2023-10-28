@@ -28,12 +28,12 @@ type (
 	collectionIdHolder interface {
 		GetCollectionId() *rbac_pb.Collection_Id
 	}
-	userHolder interface {
-		GetUser() *rbac_pb.User
-	}
-	userIdHolder interface {
-		GetUserId() *rbac_pb.User_Id
-	}
+	// userHolder interface {
+	// 	GetUser() *rbac_pb.User
+	// }
+	// userIdHolder interface {
+	// 	GetUserId() *rbac_pb.User_Id
+	// }
 	specimenHolder interface {
 		GetSpecimen() *pb.Specimen
 	}
@@ -48,6 +48,8 @@ type (
 	}
 )
 
+// TODO: Fix the complexity
+// nolint:cyclop
 func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 	if req == nil {
 		return nil, oops.Errorf("Interface is a nil pointer")
@@ -100,6 +102,8 @@ func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {
 	return id, nil
 }
 
+// ExtractCollectionId extracts the collection id from the request.
+// nolint:cyclop
 func extractCollectionId(req interface{}) (id *rbac_pb.Collection_Id, err error) {
 	if req == nil {
 		return nil, oops.Errorf("Interface is a nil pointer")

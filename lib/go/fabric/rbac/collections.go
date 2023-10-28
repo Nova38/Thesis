@@ -113,7 +113,8 @@ func CheckPathAction(
 }
 
 // GetPermission returns the permission for the path
-
+// TODO: reduce complexity
+// nolint:cyclop
 func AuthorizeOperation(
 	op *pb.ACL_Operation,
 	role int32,

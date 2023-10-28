@@ -13,58 +13,58 @@ import (
 )
 
 // Service BiochainSpecimenService
-type BiochainSpecimenServiceInterface interface {
+type BiochainSpecimenServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	// GetSpecimen
-	GetSpecimen(ctx *rbac.AuthTxCtxInterface, req *GetSpecimenRequest) (res *Specimen, err error)
+	GetSpecimen(ctx T, req *GetSpecimenRequest) (res *Specimen, err error)
 
 	// GetSpecimenList
 	//
 	// req is empty
-	GetSpecimenList(ctx *rbac.AuthTxCtxInterface) (res *Specimen_List, err error)
+	GetSpecimenList(ctx T) (res *Specimen_List, err error)
 
 	// GetSpecimenByCollection
-	GetSpecimenByCollection(ctx *rbac.AuthTxCtxInterface, req *GetSpecimenByCollectionRequest) (res *Specimen_List, err error)
+	GetSpecimenByCollection(ctx T, req *GetSpecimenByCollectionRequest) (res *Specimen_List, err error)
 
 	// GetSpecimenHistory
-	GetSpecimenHistory(ctx *rbac.AuthTxCtxInterface, req *GetSpecimenHistoryRequest) (res *Specimen_History, err error)
+	GetSpecimenHistory(ctx T, req *GetSpecimenHistoryRequest) (res *Specimen_History, err error)
 
 	// SpecimenCreate
-	SpecimenCreate(ctx *rbac.AuthTxCtxInterface, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
+	SpecimenCreate(ctx T, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
 
 	// SpecimenUpdate
-	SpecimenUpdate(ctx *rbac.AuthTxCtxInterface, req *SpecimenUpdateRequest) (res *Specimen, err error)
+	SpecimenUpdate(ctx T, req *SpecimenUpdateRequest) (res *Specimen, err error)
 
 	// SpecimenHideTransaction
-	SpecimenHideTransaction(ctx *rbac.AuthTxCtxInterface, req *SpecimenHideTxRequest) (res *Specimen, err error)
+	SpecimenHideTransaction(ctx T, req *SpecimenHideTxRequest) (res *Specimen, err error)
 
 	// SpecimenUnHideTransaction
-	SpecimenUnHideTransaction(ctx *rbac.AuthTxCtxInterface, req *SpecimenUnHideTxRequest) (res *Specimen, err error)
+	SpecimenUnHideTransaction(ctx T, req *SpecimenUnHideTxRequest) (res *Specimen, err error)
 
 	// SpecimenDelete
-	SpecimenDelete(ctx *rbac.AuthTxCtxInterface, req *SpecimenDeleteRequest) (res *emptypb.Empty, err error)
+	SpecimenDelete(ctx T, req *SpecimenDeleteRequest) (res *emptypb.Empty, err error)
 
 	// GetSuggestedUpdate
-	GetSuggestedUpdate(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateRequest) (res *SuggestedUpdate, err error)
+	GetSuggestedUpdate(ctx T, req *GetSuggestedUpdateRequest) (res *SuggestedUpdate, err error)
 
 	// GetSuggestedUpdateBySpecimen
-	GetSuggestedUpdateBySpecimen(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateBySpecimenRequest) (res *SuggestedStateList, err error)
+	GetSuggestedUpdateBySpecimen(ctx T, req *GetSuggestedUpdateBySpecimenRequest) (res *SuggestedStateList, err error)
 
 	// GetSuggestedUpdateByCollection
-	GetSuggestedUpdateByCollection(ctx *rbac.AuthTxCtxInterface, req *GetSuggestedUpdateByCollectionRequest) (res *SuggestedStateList, err error)
+	GetSuggestedUpdateByCollection(ctx T, req *GetSuggestedUpdateByCollectionRequest) (res *SuggestedStateList, err error)
 
 	// GetSuggestedUpdateList
 	//
 	// req is empty
-	GetSuggestedUpdateList(ctx *rbac.AuthTxCtxInterface) (res *Specimen, err error)
+	GetSuggestedUpdateList(ctx T) (res *Specimen, err error)
 
 	// SuggestedUpdateCreate
-	SuggestedUpdateCreate(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdate, err error)
+	SuggestedUpdateCreate(ctx T, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdate, err error)
 
 	// SpecimenUpdateApprove
-	SpecimenUpdateApprove(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateApproveRequest) (res *Specimen, err error)
+	SpecimenUpdateApprove(ctx T, req *SuggestedUpdateApproveRequest) (res *Specimen, err error)
 
 	// SpecimenUpdateReject
-	SpecimenUpdateReject(ctx *rbac.AuthTxCtxInterface, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdate, err error)
+	SpecimenUpdateReject(ctx T, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdate, err error)
 }
 
 type BiochainSpecimenServiceBase struct {
@@ -119,7 +119,7 @@ func (s *BiochainSpecimenServiceBase) GetIgnoredFunctions() []string {
 }
 
 // Service BiochainAuthService
-type BiochainAuthServiceInterface interface {
+type BiochainAuthServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	// *
 	// GetCurrentUser: Returns the current user.
 	//
@@ -128,7 +128,7 @@ type BiochainAuthServiceInterface interface {
 	// - User submitting the transaction is a registered user.
 	//
 	// req is empty
-	GetCurrentUser(ctx *rbac.AuthTxCtxInterface) (res *User, err error)
+	GetCurrentUser(ctx T) (res *User, err error)
 
 	// *
 	// Returns the current user id.
@@ -136,36 +136,36 @@ type BiochainAuthServiceInterface interface {
 	// - User submitting the transaction is a registered user.
 	//
 	// req is empty
-	GetCurrentUserId(ctx *rbac.AuthTxCtxInterface) (res *User_Id, err error)
+	GetCurrentUserId(ctx T) (res *User_Id, err error)
 
 	// *
-	GetUserList(ctx *rbac.AuthTxCtxInterface, req *GetUserListRequest) (res *GetUserListResponse, err error)
+	GetUserList(ctx T, req *GetUserListRequest) (res *GetUserListResponse, err error)
 
 	// GetUser
-	GetUser(ctx *rbac.AuthTxCtxInterface, req *GetUserRequest) (res *User, err error)
+	GetUser(ctx T, req *GetUserRequest) (res *User, err error)
 
 	// UserRegister
-	UserRegister(ctx *rbac.AuthTxCtxInterface, req *UserRegisterRequest) (res *User, err error)
+	UserRegister(ctx T, req *UserRegisterRequest) (res *User, err error)
 
 	// UserUpdateMembership
-	UserUpdateMembership(ctx *rbac.AuthTxCtxInterface, req *UpdateMembershipRequest) (res *User, err error)
+	UserUpdateMembership(ctx T, req *UpdateMembershipRequest) (res *User, err error)
 
 	// AddTestUsers
-	AddTestUsers(ctx *rbac.AuthTxCtxInterface, req *User_Id) (res *emptypb.Empty, err error)
+	AddTestUsers(ctx T, req *User_Id) (res *emptypb.Empty, err error)
 
 	//	// Collection functions
 	//
 	// req is empty
-	GetCollectionList(ctx *rbac.AuthTxCtxInterface) (res *CollectionList, err error)
+	GetCollectionList(ctx T) (res *CollectionList, err error)
 
 	// GetCollection
-	GetCollection(ctx *rbac.AuthTxCtxInterface, req *GetCollectionRequest) (res *Collection, err error)
+	GetCollection(ctx T, req *GetCollectionRequest) (res *Collection, err error)
 
 	// rpc collectionGetUsers(CollectionId) returns (UserList);
-	CollectionCreate(ctx *rbac.AuthTxCtxInterface, req *CollectionCreateRequest) (res *Collection, err error)
+	CollectionCreate(ctx T, req *CollectionCreateRequest) (res *Collection, err error)
 
 	// CollectionUpdate
-	CollectionUpdate(ctx *rbac.AuthTxCtxInterface, req *CollectionUpdateRequest) (res *Collection, err error)
+	CollectionUpdate(ctx T, req *CollectionUpdateRequest) (res *Collection, err error)
 }
 
 type BiochainAuthServiceBase struct {

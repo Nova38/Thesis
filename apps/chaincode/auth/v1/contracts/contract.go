@@ -18,9 +18,9 @@ import (
 
 // Check if AuthContractImpl implements AuthServiceInterface
 var (
-	_ rbac.AuthTxCtxInterface       = (*AuthTxCtx)(nil)
-	_ cc.AuthServiceInterface       = (*AuthContractImpl)(nil)
-	_ contractapi.ContractInterface = (*AuthContractImpl)(nil)
+	_ rbac.AuthTxCtxInterface             = (*AuthTxCtx)(nil)
+	_ cc.AuthServiceInterface[*AuthTxCtx] = (*AuthContractImpl)(nil)
+	_ contractapi.ContractInterface       = (*AuthContractImpl)(nil)
 )
 
 type AuthContractImpl struct {
@@ -32,7 +32,7 @@ func (a AuthContractImpl) GetBeforeTransaction() interface{} {
 	return a.BeforeTransaction
 }
 
-func (a AuthContractImpl) BeforeTransaction(ctx AuthTxCtx) (err error) {
+func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
@@ -61,7 +61,7 @@ func (a AuthContractImpl) BeforeTransaction(ctx AuthTxCtx) (err error) {
 	return err
 }
 
-// UserGetCurrent: Returns the current user.
+// UserGetCurrent : Returns the current user.
 //
 // Returns the current user.
 // # Requires:
@@ -71,7 +71,7 @@ func (a AuthContractImpl) BeforeTransaction(ctx AuthTxCtx) (err error) {
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrent(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 ) (res *cc.UserGetCurrentResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -96,7 +96,7 @@ func (a AuthContractImpl) UserGetCurrent(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetCurrentId(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 ) (res *cc.UserGetCurrentIdResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -122,14 +122,14 @@ func (a AuthContractImpl) UserGetCurrentId(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGetList(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 ) (res *cc.UserGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
 			ctx.Logger.Error(err.Error(), slog.Any("error", err))
 		}
 	}()
-	userList, err := state.GetFullStateList(&ctx, &rbac_pb.User{})
+	userList, err := state.GetFullStateList(ctx, &rbac_pb.User{})
 	if err != nil {
 		return nil, oops.
 			In("UserGetList").
@@ -149,7 +149,7 @@ func (a AuthContractImpl) UserGetList(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW
 func (a AuthContractImpl) UserGet(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.UserGetRequest,
 ) (res *cc.UserGetResponse, err error) {
 	defer func() {
@@ -171,7 +171,7 @@ func (a AuthContractImpl) UserGet(
 	// Get the user
 	user := &rbac_pb.User{Id: req.GetId()}
 
-	if err = state.GetState(&ctx, user); err != nil {
+	if err = state.GetState(ctx, user); err != nil {
 		return nil, err
 	}
 
@@ -187,7 +187,7 @@ func (a AuthContractImpl) UserGet(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_VIEW_HISTORY
 func (a AuthContractImpl) UserGetHistory(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.UserGetHistoryRequest,
 ) (res *cc.UserGetHistoryResponse, err error) {
 	defer func() {
@@ -208,7 +208,7 @@ func (a AuthContractImpl) UserGetHistory(
 //   - Domain: DOMAIN_USER
 //   - Action: ACTION_CREATE
 func (a AuthContractImpl) UserRegister(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.UserRegisterRequest,
 ) (res *cc.UserRegisterResponse, err error) {
 	defer func() {
@@ -240,7 +240,7 @@ func (a AuthContractImpl) UserRegister(
 	}
 
 	// Check if the user already exists
-	if err = state.InsertState(&ctx, user); err != nil {
+	if err = state.InsertState(ctx, user); err != nil {
 		return nil, oops.
 			In("UserRegister").
 			Code(rbac_pb.Error_ERROR_USER_ALREADY_REGISTERED.String()).
@@ -251,7 +251,7 @@ func (a AuthContractImpl) UserRegister(
 }
 
 func (a AuthContractImpl) UserUpdate(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.UserUpdateRequest,
 ) (res *cc.UserUpdateResponse, err error) {
 	// TODO implement UserUpdate
@@ -281,7 +281,7 @@ func (a AuthContractImpl) UserUpdate(
 }
 
 func (a AuthContractImpl) UserUpdateMembership(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.UserUpdateMembershipRequest,
 ) (res *cc.UserUpdateMembershipResponse, err error) {
 	defer func() {
@@ -343,7 +343,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 	userToModify := &rbac_pb.User{
 		Id: req.GetId(),
 	}
-	if err = state.GetState(&ctx, userToModify); err != nil {
+	if err = state.GetState(ctx, userToModify); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
@@ -360,11 +360,11 @@ func (a AuthContractImpl) UserUpdateMembership(
 	}
 
 	return &cc.UserUpdateMembershipResponse{User: userToModify},
-		state.UpdateState(&ctx, userToModify)
+		state.UpdateState(ctx, userToModify)
 }
 
 func (a AuthContractImpl) CollectionGetList(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 ) (res *cc.CollectionGetListResponse, err error) {
 	defer func() {
 		if err != nil && ctx.Logger != nil {
@@ -373,7 +373,7 @@ func (a AuthContractImpl) CollectionGetList(
 	}()
 
 	// Get the collections
-	collectionList, err := state.GetFullStateList(&ctx, &rbac_pb.Collection{})
+	collectionList, err := state.GetFullStateList(ctx, &rbac_pb.Collection{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -387,7 +387,7 @@ func (a AuthContractImpl) CollectionGetList(
 }
 
 func (a AuthContractImpl) CollectionGet(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.CollectionGetRequest,
 ) (res *cc.CollectionGetResponse, err error) {
 	defer func() {
@@ -427,7 +427,7 @@ func (a AuthContractImpl) CollectionGet(
 }
 
 func (a AuthContractImpl) CollectionGetHistory(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.CollectionGetHistoryRequest,
 ) (res *cc.CollectionGetHistoryResponse, err error) {
 	// TODO implement CollectionGetHistory
@@ -467,7 +467,7 @@ func (a AuthContractImpl) CollectionCreate(
 }
 
 func (a AuthContractImpl) CollectionUpdateRoles(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.CollectionUpdateRolesRequest,
 ) (res *cc.CollectionUpdateRolesResponse, err error) {
 	// TODO implement CollectionUpdateRoles
@@ -487,7 +487,7 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 }
 
 func (a AuthContractImpl) CollectionUpdatePermission(
-	ctx AuthTxCtx,
+	ctx *AuthTxCtx,
 	req *cc.CollectionUpdatePermissionRequest,
 ) (res *cc.CollectionUpdatePermissionResponse, err error) {
 	// TODO implement CollectionUpdatePermission

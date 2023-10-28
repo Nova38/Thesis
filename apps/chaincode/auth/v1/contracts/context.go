@@ -24,9 +24,14 @@ type (
 		GetUserId() *rbac_pb.User_Id
 	}
 
+	AuthTxCtxInterface interface {
+		ExtractAuthTransactionItems(req interface{}) (err error)
+		rbac.AuthTxCtxInterface
+	}
+
 	// AuthTxCtx is a wrapper around the contractapi.TransactionContext
 	AuthTxCtx struct {
-		*rbac.TxCtx
+		rbac.TxCtx
 	}
 )
 

@@ -7,7 +7,6 @@ import (
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v2"
 	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 	"github.com/samber/oops"
-	"golang.org/x/exp/slog"
 )
 
 // SpecimenContract contract for handling BasicAssets
@@ -20,8 +19,8 @@ type SpecimenContractImpl struct {
 // AuthServiceInterface
 
 var (
-	_ pb.SpecimenServiceInterface   = (*SpecimenContractImpl)(nil)
-	_ contractapi.ContractInterface = (*SpecimenContractImpl)(nil)
+	_ pb.SpecimenServiceInterface[CCBioTxCtx] = (*SpecimenContractImpl)(nil)
+	_ contractapi.ContractInterface           = (*SpecimenContractImpl)(nil)
 )
 
 func BuildSpecimenContract() *SpecimenContractImpl {
@@ -55,11 +54,7 @@ func (s *SpecimenContractImpl) GetBeforeTransaction() interface{} {
 
 func (s *SpecimenContractImpl) BeforeTransaction(ctx CCBioTxCtx) (err error) {
 	// Check if the validate is initialized
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.HandelBefore(); err != nil {
 		return oops.Wrap(err)
@@ -90,11 +85,7 @@ func (s *SpecimenContractImpl) SpecimenGet(
 	ctx CCBioTxCtx,
 	req *pb.SpecimenGetRequest,
 ) (res *pb.SpecimenGetResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -141,11 +132,7 @@ func (s *SpecimenContractImpl) SpecimenGet(
 func (s *SpecimenContractImpl) SpecimenGetList(
 	ctx CCBioTxCtx,
 ) (res *pb.SpecimenGetListResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.Wrap(err)
@@ -165,11 +152,8 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 	ctx CCBioTxCtx,
 	req *pb.SpecimenGetByCollectionRequest,
 ) (res *pb.SpecimenGetByCollectionResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -214,11 +198,8 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 ) (res *pb.SpecimenGetHistoryResponse, err error) {
 	// TODO implement SpecimenGetHistory
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -246,11 +227,8 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	ctx CCBioTxCtx,
 	req *pb.SpecimenCreateRequest,
 ) (res *pb.SpecimenCreateResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -324,11 +302,8 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 ) (res *pb.SpecimenUpdateResponse, err error) {
 	// TODO implement SpecimenUpdate
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -345,11 +320,8 @@ func (s *SpecimenContractImpl) SpecimenDelete(
 ) (res *pb.SpecimenDeleteResponse, err error) {
 	// TODO implement SpecimenDelete
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -376,11 +348,8 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 ) (res *pb.SpecimenHideTxResponse, err error) {
 	// TODO implement SpecimenHideTx
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -406,11 +375,8 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 ) (res *pb.SpecimenUnHideTxResponse, err error) {
 	// TODO implement SpecimenUnHideTx
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -441,11 +407,8 @@ func (s *SpecimenContractImpl) GetSuggestedUpdate(
 	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateRequest,
 ) (res *pb.GetSuggestedUpdateResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -487,11 +450,8 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
 	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateBySpecimenRequest,
 ) (res *pb.GetSuggestedUpdateBySpecimenResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -538,11 +498,8 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
 	ctx CCBioTxCtx,
 	req *pb.GetSuggestedUpdateByCollectionRequest,
 ) (res *pb.GetSuggestedUpdateByCollectionResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -588,11 +545,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
 func (s *SpecimenContractImpl) GetSuggestedUpdateList(
 	ctx CCBioTxCtx,
 ) (res *pb.GetSuggestedUpdateListResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.Wrap(err)
@@ -618,11 +571,8 @@ func (s *SpecimenContractImpl) SuggestedUpdateCreate(
 ) (res *pb.SuggestedUpdateCreateResponse, err error) {
 	// TODO implement SuggestedUpdateCreate
 
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -647,11 +597,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateApprove(
 	req *pb.SuggestedUpdateApproveRequest,
 ) (res *pb.SuggestedUpdateApproveResponse, err error) {
 	// TODO implement SuggestedUpdateApprove
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -676,11 +622,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateReject(
 	req *pb.SuggestedUpdateRejectRequest,
 ) (res *pb.SuggestedUpdateRejectResponse, err error) {
 	// TODO implement me SuggestedUpdateReject
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)

@@ -12,6 +12,10 @@ import (
 
 // An interface for a transaction context that has a user and collection
 
+type GenericAuthTxCtxInterface interface {
+	AuthTxCtxInterface
+}
+
 type AuthTxCtxInterface interface {
 	state.LoggedTxCtxInterface
 	state.ValidateAbleTxCtxInterface

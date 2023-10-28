@@ -60,7 +60,7 @@ type (
 )
 
 func (ctx *TxCtx) HandelBefore() (err error) {
-	ctx.SetLogger(slog.Default().With(
+	err = ctx.SetLogger(slog.Default().With(
 		"fn", ctx.GetFnName(),
 		slog.Group(
 			"tx info",
@@ -68,6 +68,9 @@ func (ctx *TxCtx) HandelBefore() (err error) {
 			"channel_id", ctx.GetStub().GetChannelID(),
 		),
 	))
+	if err != nil {
+		return err
+	}
 
 	if validator == nil {
 		v, err := protovalidate.New()
