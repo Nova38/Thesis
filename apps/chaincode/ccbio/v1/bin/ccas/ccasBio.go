@@ -14,7 +14,6 @@ import (
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
-	_ "github.com/samber/lo"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"

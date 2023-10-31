@@ -9,9 +9,6 @@ import (
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	"github.com/samber/oops"
 
-	// "github.com/rs/zerolog/log"
-	_ "github.com/samber/lo"
-
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 

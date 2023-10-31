@@ -11,17 +11,11 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 
-	//"github.com/charmbracelet/log"
-	//"github.com/pkg/errors"
-
-	// "github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-
-	// "github.com/hyperledger-labs/cckit/identity"
 
 	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 )
