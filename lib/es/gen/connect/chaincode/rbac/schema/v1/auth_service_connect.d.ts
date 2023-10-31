@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { Empty, MethodKind } from "@bufbuild/protobuf";
-import { CollectionCreateRequest, CollectionCreateResponse, CollectionGetHistoryRequest, CollectionGetHistoryResponse, CollectionGetListResponse, CollectionGetRequest, CollectionGetResponse, CollectionUpdatePermissionRequest, CollectionUpdatePermissionResponse, CollectionUpdateRolesRequest, CollectionUpdateRolesResponse, UserGetCurrentIdResponse, UserGetCurrentResponse, UserGetHistoryRequest, UserGetHistoryResponse, UserGetListResponse, UserGetRequest, UserGetResponse, UserRegisterRequest, UserRegisterResponse, UserUpdateMembershipRequest, UserUpdateMembershipResponse, UserUpdateRequest, UserUpdateResponse } from "./auth_service_pb.js";
+import { CollectionCreateRequest, CollectionCreateResponse, CollectionGetHistoryRequest, CollectionGetHistoryResponse, CollectionGetListResponse, CollectionGetRequest, CollectionGetResponse, CollectionUpdatePermissionRequest, CollectionUpdatePermissionResponse, CollectionUpdateRolesRequest, CollectionUpdateRolesResponse, UserGetCurrentIdResponse, UserGetCurrentResponse, UserGetHistoryRequest, UserGetHistoryResponse, UserGetListResponse, UserGetRequest, UserGetResponse, UserRegisterRequest, UserRegisterResponse, UserUpdateMembershipRequest, UserUpdateMembershipResponse } from "./auth_service_pb.js";
 
 /**
  * buf:lint:ignore RPC_NO_DELETE
@@ -103,15 +103,6 @@ export declare const AuthService: {
       readonly name: "UserRegister",
       readonly I: typeof UserRegisterRequest,
       readonly O: typeof UserRegisterResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc rbac.schema.v1.AuthService.UserUpdate
-     */
-    readonly userUpdate: {
-      readonly name: "UserUpdate",
-      readonly I: typeof UserUpdateRequest,
-      readonly O: typeof UserUpdateResponse,
       readonly kind: MethodKind.Unary,
     },
     /**

@@ -4,7 +4,6 @@ package ccbio.schema.v2;
 
 import "buf/validate/validate.proto";
 // import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
 
 // import "key/v1/key.proto";
 import "chaincode/ccbio/schema/v2/state.proto";
@@ -27,7 +26,7 @@ service SpecimenService{
       };
     };
 
-    rpc SpecimenGetList(google.protobuf.Empty) returns (SpecimenGetListResponse){
+    rpc SpecimenGetList(SpecimenGetListRequest) returns (SpecimenGetListResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
       option (rbac.operation) = {
         action: ACTION_VIEW;
@@ -119,7 +118,7 @@ service SpecimenService{
       };
     };
 
-    rpc GetSuggestedUpdateList(google.protobuf.Empty) returns (GetSuggestedUpdateListResponse){
+    rpc GetSuggestedUpdateList(GetSuggestedUpdateListRequest) returns (GetSuggestedUpdateListResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
       option (rbac.operation) = {
         action: ACTION_VIEW_SUGGEST;
@@ -167,8 +166,13 @@ service SpecimenService{
       }
 
     // SpecimenGetList
+      message SpecimenGetListRequest {
+        string bookmark = 1;
+        int32 page_size = 2;
+      }
       message SpecimenGetListResponse {
-        repeated Specimen specimens = 1;
+        string bookmark = 1;
+        repeated Specimen specimens = 2;
       }
 
     // SpecimenGetByCollection
@@ -261,22 +265,35 @@ service SpecimenService{
     // GetSuggestedUpdateBySpecimen
       message GetSuggestedUpdateBySpecimenRequest {
         Specimen.Id id = 1 [(buf.validate.field).required = true];
+        string bookmark = 2;
+        int32 page_size = 3;
+
       }
       message GetSuggestedUpdateBySpecimenResponse {
-          repeated SuggestedUpdate suggested_updates = 1;
+        string bookmark = 1;
+        repeated SuggestedUpdate suggested_updates = 2;
       }
 
     // GetSuggestedUpdateByCollection
       message GetSuggestedUpdateByCollectionRequest {
         rbac.Collection.Id id = 1 [(buf.validate.field).required = true];
+        string bookmark = 2;
+        int32 page_size = 3;
+
       }
       message GetSuggestedUpdateByCollectionResponse {
-          repeated SuggestedUpdate suggested_updates = 1;
+        string bookmark = 1;
+        repeated SuggestedUpdate suggested_updates = 2;
       }
 
     // GetSuggestedUpdateListResponse
+      message GetSuggestedUpdateListRequest {
+        string bookmark = 1;
+        int32 page_size = 2;
+      }
       message GetSuggestedUpdateListResponse {
-          repeated SuggestedUpdate suggested_updates = 1;
+        string bookmark = 1;
+        repeated SuggestedUpdate suggested_updates = 2;
       }
 
 

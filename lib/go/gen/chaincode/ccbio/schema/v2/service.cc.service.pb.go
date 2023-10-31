@@ -25,9 +25,7 @@ type SpecimenServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW
-	//
-	// req is empty
-	SpecimenGetList(ctx T) (res *SpecimenGetListResponse, err error)
+	SpecimenGetList(ctx T, req *SpecimenGetListRequest) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
 	//
@@ -104,9 +102,7 @@ type SpecimenServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	// # Operation:
 	//   - Domain: DOMAIN_OBJECT
 	//   - Action: ACTION_VIEW_SUGGEST
-	//
-	// req is empty
-	GetSuggestedUpdateList(ctx T) (res *GetSuggestedUpdateListResponse, err error)
+	GetSuggestedUpdateList(ctx T, req *GetSuggestedUpdateListRequest) (res *GetSuggestedUpdateListResponse, err error)
 
 	// SuggestedUpdateCreate
 	//

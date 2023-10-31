@@ -80,13 +80,6 @@ type AuthServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	//   - Action: ACTION_CREATE
 	UserRegister(ctx T, req *UserRegisterRequest) (res *UserRegisterResponse, err error)
 
-	// UserUpdate
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_USER
-	//   - Action: ACTION_EDIT
-	UserUpdate(ctx T, req *UserUpdateRequest) (res *UserUpdateResponse, err error)
-
 	// UserUpdateMembership: Updates the user's membership.
 	//
 	// # Requires:
@@ -212,12 +205,6 @@ func AuthServiceGetTxOperation(txName string) (op *rbac1.ACL_Operation, err erro
 		return &rbac1.ACL_Operation{
 			Domain: 5,
 			Action: 2,
-		}, nil
-	case "UserUpdate":
-		// domain:DOMAIN_USER action:ACTION_EDIT
-		return &rbac1.ACL_Operation{
-			Domain: 5,
-			Action: 4,
 		}, nil
 	case "UserUpdateMembership":
 		// domain:DOMAIN_COLLECTION_MEMBERSHIP action:ACTION_EDIT

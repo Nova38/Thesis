@@ -89,11 +89,17 @@ export class UserGetCurrentIdResponse extends Message<UserGetCurrentIdResponse> 
 
 /**
  * UserGetList
+ * message UserGetListRequest{
+ *   string bookmark = 1;
+ *   int32 page_size = 2;
+ * }
  *
  * @generated from message rbac.schema.v1.UserGetListResponse
  */
 export class UserGetListResponse extends Message<UserGetListResponse> {
   /**
+   * string bookmark = 2;
+   *
    * @generated from field: repeated rbac.User users = 1;
    */
   users: User[] = [];
@@ -451,90 +457,20 @@ export class UserUpdateMembershipResponse extends Message<UserUpdateMembershipRe
 }
 
 /**
- * UserUpdate
- *
- * @generated from message rbac.schema.v1.UserUpdateRequest
- */
-export class UserUpdateRequest extends Message<UserUpdateRequest> {
-  /**
-   * @generated from field: rbac.User user = 1;
-   */
-  user?: User;
-
-  constructor(data?: PartialMessage<UserUpdateRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "rbac.schema.v1.UserUpdateRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "user", kind: "message", T: User },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserUpdateRequest {
-    return new UserUpdateRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserUpdateRequest {
-    return new UserUpdateRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserUpdateRequest {
-    return new UserUpdateRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: UserUpdateRequest | PlainMessage<UserUpdateRequest> | undefined, b: UserUpdateRequest | PlainMessage<UserUpdateRequest> | undefined): boolean {
-    return proto3.util.equals(UserUpdateRequest, a, b);
-  }
-}
-
-/**
- * @generated from message rbac.schema.v1.UserUpdateResponse
- */
-export class UserUpdateResponse extends Message<UserUpdateResponse> {
-  /**
-   * @generated from field: rbac.User user = 1;
-   */
-  user?: User;
-
-  constructor(data?: PartialMessage<UserUpdateResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "rbac.schema.v1.UserUpdateResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "user", kind: "message", T: User },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserUpdateResponse {
-    return new UserUpdateResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserUpdateResponse {
-    return new UserUpdateResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserUpdateResponse {
-    return new UserUpdateResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: UserUpdateResponse | PlainMessage<UserUpdateResponse> | undefined, b: UserUpdateResponse | PlainMessage<UserUpdateResponse> | undefined): boolean {
-    return proto3.util.equals(UserUpdateResponse, a, b);
-  }
-}
-
-/**
  * Collection
  * Query
  * CollectionGetList
+ * message CollectionGetListRequest{
+ *   string bookmark = 1;
+ *   int32 page_size = 2;
+ * }
  *
  * @generated from message rbac.schema.v1.CollectionGetListResponse
  */
 export class CollectionGetListResponse extends Message<CollectionGetListResponse> {
   /**
+   * string bookmark = 2;
+   *
    * @generated from field: repeated rbac.Collection collections = 1;
    */
   collections: Collection[] = [];

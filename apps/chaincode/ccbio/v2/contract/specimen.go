@@ -1,81 +1,15 @@
 package contract
 
 import (
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/hyperledger/fabric-contract-api-go/metadata"
+	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/state"
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v2"
+	"github.com/nova38/thesis/lib/go/gen/rbac"
 	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 )
-
-// SpecimenContract contract for handling BasicAssets
-type SpecimenContractImpl struct {
-	contractapi.Contract
-
-	pb.SpecimenServiceBase
-}
-
-// AuthServiceInterface
-
-var (
-	_ pb.SpecimenServiceInterface[*CCBioTxCtx] = (*SpecimenContractImpl)(nil)
-	_ contractapi.ContractInterface            = (*SpecimenContractImpl)(nil)
-)
-
-func BuildSpecimenContract() *SpecimenContractImpl {
-	return &SpecimenContractImpl{
-		Contract: contractapi.Contract{
-			Name: "ccbio.Specimen",
-			// BeforeTransaction: ,
-			Info: metadata.InfoMetadata{
-				Description: "",
-				Title:       "Biochain Chaincode",
-				Contact: &metadata.ContactMetadata{
-					Name:  "Thomas Atkins",
-					URL:   "https://biochain.iitc.ku.edu",
-					Email: "tom@ku.edu",
-				},
-				License: &metadata.LicenseMetadata{
-					Name: "MIT",
-					URL:  "https://example.com",
-				},
-				Version: "latest",
-			},
-		},
-	}
-}
-
-// ────────────────────────────────────────────────────────────
-
-func (s *SpecimenContractImpl) GetBeforeTransaction() interface{} {
-	return s.BeforeTransaction
-}
-
-func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
-	// Check if the validate is initialized
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.HandelBefore(); err != nil {
-		return oops.Wrap(err)
-	}
-	// Set the operations
-	ops, err := pb.SpecimenServiceGetTxOperation(ctx.GetFnName())
-	if err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
-	if err = ctx.SetOperation(ops); err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
-
-	return nil
-}
 
 // ────────────────────────────────────────────────────────────
 // Query Functions
@@ -87,50 +21,16 @@ func (s *SpecimenContractImpl) SpecimenGet(
 ) (res *pb.SpecimenGetResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	id := req.GetId()
-	if id == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("id is required")
-	}
-
-	specimen := &pb.Specimen{
-		Id: &pb.Specimen_Id{
-			CollectionId: id.CollectionId,
-			Id:           id.Id,
-		},
-	}
-	if err = state.Get(&ctx, specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("id", id).
-			Wrap(err)
-	}
-
-	return &pb.SpecimenGetResponse{Specimen: specimen}, nil
+	return &pb.SpecimenGetResponse{Specimen: ctx.Specimen}, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenGetList(
 	ctx *CCBioTxCtx,
+	req *pb.SpecimenGetListRequest,
 ) (res *pb.SpecimenGetListResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
@@ -138,14 +38,15 @@ func (s *SpecimenContractImpl) SpecimenGetList(
 		return nil, oops.Wrap(err)
 	}
 
-	list, err := state.GetFullList(&ctx, &pb.Specimen{})
+	req.GetPageSize()
+	list, bm, err := state.GetPagedFullList(ctx, &pb.Specimen{}, req.Bookmark)
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			Wrap(err)
 	}
 
-	return &pb.SpecimenGetListResponse{Specimens: list}, nil
+	return &pb.SpecimenGetListResponse{Specimens: list, Bookmark: bm}, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenGetByCollection(
@@ -154,38 +55,15 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 ) (res *pb.SpecimenGetByCollectionResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	collectionId := req.Id
-	if collectionId == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("collection id is required")
-	}
-
-	spec := &pb.Specimen{Id: &pb.Specimen_Id{CollectionId: collectionId.CollectionId}}
-
-	list, err := state.GetPartialKeyList(&ctx, spec, 1)
+	list, err := state.GetPartialKeyList(ctx, ctx.Specimen, 1)
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			With("collection_id", collectionId).
+			With("collection_id", req.Id).
 			Wrap(err)
 	}
 
@@ -200,23 +78,37 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
+	history, err := state.GetHistory(ctx, ctx.Specimen)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
+	res = &pb.SpecimenGetHistoryResponse{
+		History: &pb.Specimen_History{
+			Id:      ctx.Specimen.Id,
+			Entries: []*rbac.History_Entry{},
+		},
 	}
 
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
+	for _, h := range history.Entries {
+		a, err := anypb.New(h.State)
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		res.History.Entries = append(res.History.Entries, &rbac.History_Entry{
+			TxId:      h.TxId,
+			Timestamp: h.Timestamp,
+			IsDeleted: h.IsDelete,
+			IsHidden:  h.IsHidden,
+			State:     a,
+		})
 	}
-	panic("implement me")
+
+	return res, nil
 }
 
 // ────────────────────────────────────────────────────────────
@@ -229,21 +121,26 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 ) (res *pb.SpecimenCreateResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
+	{ // init
+		if err = ctx.Validate(req); err != nil {
+			return nil, oops.Wrap(err)
+		}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
+		// Extract the transaction items (collection id and specimen id)
+		if err = ctx.ExtractTransactionItems(req); err != nil {
+			return nil, oops.Wrap(err)
+		}
 
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
+		if err = state.Get(ctx, ctx.Collection); err != nil {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				With("collection_id", ctx.Collection.Id).
+				Wrap(err)
+		}
+
+		if err = ctx.IsAuthorized(); err != nil {
+			return nil, oops.Wrap(err)
+		}
 	}
 
 	madeAt, err := ctx.MakeLastModified()
@@ -286,7 +183,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	}
 
 	// Insert the new specimen
-	if err = state.Insert(&ctx, specimen); err != nil {
+	if err = state.Insert(ctx, specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("specimen", specimen).
@@ -304,367 +201,128 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
+	{
+		// panic("TODO: implement SpecimenUpdate")
+		// Apply the mask
+		// req.UpdateMask.Append(req.Specimen, "id")
+		fmutils.Filter(req.Specimen, req.UpdateMask.Paths)
+		proto.Merge(ctx.Specimen, req.Specimen)
+		mod, err := ctx.MakeLastModified()
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+		SetLastModByMask(ctx.Specimen, req.UpdateMask, mod)
 	}
-	panic("implement me")
+
+	// Update the specimen
+	if err = state.Update(ctx, ctx.Specimen); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("specimen", ctx.Specimen).
+			Wrap(err)
+	}
+
+	return &pb.SpecimenUpdateResponse{Specimen: ctx.Specimen}, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenDelete(
 	ctx *CCBioTxCtx,
 	req *pb.SpecimenDeleteRequest,
 ) (res *pb.SpecimenDeleteResponse, err error) {
-	// TODO implement SpecimenDelete
-
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
+	if err = state.Delete(ctx, ctx.Specimen); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("specimen", ctx.Specimen).
+			Wrap(err)
 	}
 
-	panic("implement me")
+	return &pb.SpecimenDeleteResponse{Specimen: ctx.Specimen}, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenHideTx(
 	ctx *CCBioTxCtx,
 	req *pb.SpecimenHideTxRequest,
 ) (res *pb.SpecimenHideTxResponse, err error) {
-	// TODO implement SpecimenHideTx
-
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
+	// Ensure it is not the last tx
+	if ctx.Specimen.LastModified.TxId == req.Tx.TxId {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("tx_id", req.Tx.TxId).
+			Errorf("cannot hide last tx")
+	}
+
+	in, err := state.TxIdInHistory(ctx, ctx.Specimen, req.Tx.TxId)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
+	if !in {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("tx_id", req.Tx.TxId).
+			Errorf("tx_id not in history")
 	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
+
+	// Add the tx to the hidden txs
+	ctx.Specimen.HiddenTxs[req.Tx.TxId] = req.Tx
+
+	// Update the specimen
+	if err = state.Update(ctx, ctx.Specimen); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("specimen", ctx.Specimen).
+			Wrap(err)
 	}
-	panic("implement me")
+
+	return &pb.SpecimenHideTxResponse{Specimen: ctx.Specimen}, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenUnHideTx(
 	ctx *CCBioTxCtx,
 	req *pb.SpecimenUnHideTxRequest,
 ) (res *pb.SpecimenUnHideTxResponse, err error) {
-	// TODO implement SpecimenUnHideTx
-	recover()
-
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.Validate(req); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
+	// check if it is in the hidden txs
+	if _, ok := ctx.Specimen.HiddenTxs[req.Tx.TxId]; !ok {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("tx_id", req.Tx.TxId).
+			Errorf("tx_id not in hidden txs")
 	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
+
+	// remove the tx from the hidden txs
+	delete(ctx.Specimen.HiddenTxs, req.Tx.TxId)
+
+	// Update the specimen
+	if err = state.Update(ctx, ctx.Specimen); err != nil {
+		return nil, oops.
+			In(ctx.GetFnName()).
+			With("specimen", ctx.Specimen).
+			Wrap(err)
 	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	panic("implement me")
+
+	return &pb.SpecimenUnHideTxResponse{Specimen: ctx.Specimen}, nil
 }
 
 // ────────────────────────────────────────────────────────────
 // ────────────────────────────────────────────────────────────
-
-// ────────────────────────────────────────────────────────────
-// Query Suggested Functions
-// ────────────────────────────────────────────────────────────
-
-func (s *SpecimenContractImpl) GetSuggestedUpdate(
-	ctx *CCBioTxCtx,
-	req *pb.GetSuggestedUpdateRequest,
-) (res *pb.GetSuggestedUpdateResponse, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	uId := req.GetId()
-	if uId == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("id is required")
-	}
-
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	// Business logic
-	update := &pb.SuggestedUpdate{Id: uId}
-
-	if err = state.Get(&ctx, update); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("id", uId).
-			Wrap(err)
-	}
-
-	return &pb.GetSuggestedUpdateResponse{SuggestedUpdate: update}, nil
-}
-
-func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
-	ctx *CCBioTxCtx,
-	req *pb.GetSuggestedUpdateBySpecimenRequest,
-) (res *pb.GetSuggestedUpdateBySpecimenResponse, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	id := req.GetId()
-	if id == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("id is required")
-	}
-
-	spec := &pb.SuggestedUpdate{Id: &pb.SuggestedUpdate_Id{
-		SpecimenId: &pb.Specimen_Id{
-			CollectionId: id.CollectionId,
-			Id:           id.Id,
-		},
-	}}
-
-	list, err := state.GetPartialKeyList(&ctx, spec, 2)
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("collection_id", id).
-			Wrap(err)
-	}
-
-	return &pb.GetSuggestedUpdateBySpecimenResponse{SuggestedUpdates: list}, nil
-}
-
-func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
-	ctx *CCBioTxCtx,
-	req *pb.GetSuggestedUpdateByCollectionRequest,
-) (res *pb.GetSuggestedUpdateByCollectionResponse, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	id := req.GetId()
-	if id == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("id is required")
-	}
-
-	spec := &pb.SuggestedUpdate{Id: &pb.SuggestedUpdate_Id{
-		SpecimenId: &pb.Specimen_Id{
-			CollectionId: id.CollectionId,
-		},
-	}}
-
-	list, err := state.GetPartialKeyList(&ctx, spec, 1)
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("collection_id", id).
-			Wrap(err)
-	}
-
-	return &pb.GetSuggestedUpdateByCollectionResponse{SuggestedUpdates: list}, nil
-}
-
-func (s *SpecimenContractImpl) GetSuggestedUpdateList(
-	ctx *CCBioTxCtx,
-) (res *pb.GetSuggestedUpdateListResponse, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	list, err := state.GetFullList(&ctx, &pb.SuggestedUpdate{})
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Wrap(err)
-	}
-
-	return &pb.GetSuggestedUpdateListResponse{SuggestedUpdates: list}, nil
-}
-
-// ────────────────────────────────────────────────────────────
-// Invoke Suggested Functions
-// ────────────────────────────────────────────────────────────
-
-func (s *SpecimenContractImpl) SuggestedUpdateCreate(
-	ctx *CCBioTxCtx,
-	req *pb.SuggestedUpdateCreateRequest,
-) (res *pb.SuggestedUpdateCreateResponse, err error) {
-	// TODO implement SuggestedUpdateCreate
-
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	panic("implement me")
-}
-
-func (s *SpecimenContractImpl) SuggestedUpdateApprove(
-	ctx *CCBioTxCtx,
-	req *pb.SuggestedUpdateApproveRequest,
-) (res *pb.SuggestedUpdateApproveResponse, err error) {
-	// TODO implement SuggestedUpdateApprove
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	panic("implement me")
-}
-
-func (s *SpecimenContractImpl) SuggestedUpdateReject(
-	ctx *CCBioTxCtx,
-	req *pb.SuggestedUpdateRejectRequest,
-) (res *pb.SuggestedUpdateRejectResponse, err error) {
-	// TODO implement me SuggestedUpdateReject
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Extract the collection id
-	colId, err := extractCollectionId(req)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if _, err = ctx.SetCollection(colId); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	// Authorize the operation
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	// Get the suggested update
-	id := req.GetId()
-	if id == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Errorf("id is required")
-	}
-
-	suggestedUpdate := &pb.SuggestedUpdate{Id: id}
-	if err = state.Get(&ctx, suggestedUpdate); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("id", id).
-			Wrap(err)
-	}
-
-	// Delete the suggested update
-	if err = state.Delete(&ctx, suggestedUpdate); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("id", id).
-			Wrap(err)
-	}
-
-	return &pb.SuggestedUpdateRejectResponse{SuggestedUpdate: suggestedUpdate}, nil
-}

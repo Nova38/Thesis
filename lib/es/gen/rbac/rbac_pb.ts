@@ -539,7 +539,7 @@ export class ACL_Policy extends Message<ACL_Policy> {
 }
 
 /**
- * Policy for altering the membership of a role or perms of a role 
+ * Policy for altering the membership of a role or perms of a role
  *
  * @generated from message rbac.ACL.Policy.Roles
  */

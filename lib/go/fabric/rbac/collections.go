@@ -138,13 +138,13 @@ func CheckPaths(c *pb.Collection) (err error) {
 	}
 
 	// Check if the paths are valid
-	for _, path := range defPaths {
-		if err := t.Fields().ByJSONName(path); err != nil {
-			return oops.
-				With("path", path).
-				Wrap(err)
-		}
-	}
+	//for _, path := range defPaths {
+	//	if err := t.Fields().ByJSONName(path); err != nil {
+	//		return oops.
+	//			With("path", path).
+	//			Wrap(err)
+	//	}
+	//}
 
 	return nil
 }

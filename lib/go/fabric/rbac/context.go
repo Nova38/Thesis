@@ -59,6 +59,10 @@ type (
 	}
 )
 
+func (ctx *TxCtx) HandelBefore() (err error) {
+	return ctx.BaseHandelBefore()
+}
+
 func (ctx *TxCtx) BaseHandelBefore() (err error) {
 	err = ctx.SetLogger(slog.Default().With(
 		"fn", ctx.GetFnName(),

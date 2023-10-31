@@ -243,6 +243,10 @@ func TxIdInHistory[T StateObject](ctx LoggedTxCtxInterface, in T, txId string) (
 	return false, nil
 }
 
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for

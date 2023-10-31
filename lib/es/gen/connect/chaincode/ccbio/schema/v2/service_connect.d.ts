@@ -3,8 +3,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetSuggestedUpdateByCollectionRequest, GetSuggestedUpdateByCollectionResponse, GetSuggestedUpdateBySpecimenRequest, GetSuggestedUpdateBySpecimenResponse, GetSuggestedUpdateListResponse, GetSuggestedUpdateRequest, GetSuggestedUpdateResponse, SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse, SuggestedUpdateApproveRequest, SuggestedUpdateApproveResponse, SuggestedUpdateCreateRequest, SuggestedUpdateCreateResponse, SuggestedUpdateRejectRequest, SuggestedUpdateRejectResponse } from "./service_pb.js";
-import { Empty, MethodKind } from "@bufbuild/protobuf";
+import { GetSuggestedUpdateByCollectionRequest, GetSuggestedUpdateByCollectionResponse, GetSuggestedUpdateBySpecimenRequest, GetSuggestedUpdateBySpecimenResponse, GetSuggestedUpdateListRequest, GetSuggestedUpdateListResponse, GetSuggestedUpdateRequest, GetSuggestedUpdateResponse, SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListRequest, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse, SuggestedUpdateApproveRequest, SuggestedUpdateApproveResponse, SuggestedUpdateCreateRequest, SuggestedUpdateCreateResponse, SuggestedUpdateRejectRequest, SuggestedUpdateRejectResponse } from "./service_pb.js";
+import { MethodKind } from "@bufbuild/protobuf";
 
 /**
  *  // Specimen functions
@@ -28,7 +28,7 @@ export declare const SpecimenService: {
      */
     readonly specimenGetList: {
       readonly name: "SpecimenGetList",
-      readonly I: typeof Empty,
+      readonly I: typeof SpecimenGetListRequest,
       readonly O: typeof SpecimenGetListResponse,
       readonly kind: MethodKind.Unary,
     },
@@ -127,7 +127,7 @@ export declare const SpecimenService: {
      */
     readonly getSuggestedUpdateList: {
       readonly name: "GetSuggestedUpdateList",
-      readonly I: typeof Empty,
+      readonly I: typeof GetSuggestedUpdateListRequest,
       readonly O: typeof GetSuggestedUpdateListResponse,
       readonly kind: MethodKind.Unary,
     },

@@ -111,13 +111,13 @@ service AuthService {
       };
     };
 
-    rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
-        action: ACTION_EDIT
-        domain: DOMAIN_USER
-      };
-    };
+    // rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
+    //   option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    //   option (rbac.operation) = {
+    //     action: ACTION_EDIT
+    //     domain: DOMAIN_USER
+    //   };
+    // };
 
 
     /*
@@ -236,11 +236,14 @@ service AuthService {
       }
 
     // UserGetList
+      // message UserGetListRequest{
+      //   string bookmark = 1;
+      //   int32 page_size = 2;
+      // }
       message UserGetListResponse {
           repeated User users = 1;
+          // string bookmark = 2;
       }
-
-
 
     // UserGet
       message UserGetRequest {
@@ -311,18 +314,23 @@ service AuthService {
       }
 
     // UserUpdate
-      message UserUpdateRequest {
-          User user = 1;
-      }
-      message UserUpdateResponse {
-          User user = 1;
-      }
+      // message UserUpdateRequest {
+      //     User user = 1;
+      // }
+      // message UserUpdateResponse {
+      //     User user = 1;
+      // }
 
 // Collection
   // Query
     // CollectionGetList
+      // message CollectionGetListRequest{
+      //   string bookmark = 1;
+      //   int32 page_size = 2;
+      // }
       message CollectionGetListResponse {
           repeated Collection collections = 1;
+          // string bookmark = 2;
       }
 
     // CollectionGet

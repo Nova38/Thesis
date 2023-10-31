@@ -297,6 +297,112 @@ var _ interface {
 	ErrorName() string
 } = SpecimenGetResponseValidationError{}
 
+// Validate checks the field values on SpecimenGetListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *SpecimenGetListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SpecimenGetListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// SpecimenGetListRequestMultiError, or nil if none found.
+func (m *SpecimenGetListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SpecimenGetListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Bookmark
+
+	// no validation rules for PageSize
+
+	if len(errors) > 0 {
+		return SpecimenGetListRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// SpecimenGetListRequestMultiError is an error wrapping multiple validation
+// errors returned by SpecimenGetListRequest.ValidateAll() if the designated
+// constraints aren't met.
+type SpecimenGetListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SpecimenGetListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SpecimenGetListRequestMultiError) AllErrors() []error { return m }
+
+// SpecimenGetListRequestValidationError is the validation error returned by
+// SpecimenGetListRequest.Validate if the designated constraints aren't met.
+type SpecimenGetListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpecimenGetListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpecimenGetListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpecimenGetListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpecimenGetListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpecimenGetListRequestValidationError) ErrorName() string {
+	return "SpecimenGetListRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e SpecimenGetListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpecimenGetListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpecimenGetListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpecimenGetListRequestValidationError{}
+
 // Validate checks the field values on SpecimenGetListResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -318,6 +424,8 @@ func (m *SpecimenGetListResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Bookmark
 
 	for idx, item := range m.GetSpecimens() {
 		_, _ = idx, item
@@ -2706,6 +2814,10 @@ func (m *GetSuggestedUpdateBySpecimenRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Bookmark
+
+	// no validation rules for PageSize
+
 	if len(errors) > 0 {
 		return GetSuggestedUpdateBySpecimenRequestMultiError(errors)
 	}
@@ -2810,6 +2922,8 @@ func (m *GetSuggestedUpdateBySpecimenResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Bookmark
 
 	for idx, item := range m.GetSuggestedUpdates() {
 		_, _ = idx, item
@@ -2979,6 +3093,10 @@ func (m *GetSuggestedUpdateByCollectionRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Bookmark
+
+	// no validation rules for PageSize
+
 	if len(errors) > 0 {
 		return GetSuggestedUpdateByCollectionRequestMultiError(errors)
 	}
@@ -3084,6 +3202,8 @@ func (m *GetSuggestedUpdateByCollectionResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Bookmark
 
 	for idx, item := range m.GetSuggestedUpdates() {
 		_, _ = idx, item
@@ -3201,6 +3321,113 @@ var _ interface {
 	ErrorName() string
 } = GetSuggestedUpdateByCollectionResponseValidationError{}
 
+// Validate checks the field values on GetSuggestedUpdateListRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetSuggestedUpdateListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetSuggestedUpdateListRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetSuggestedUpdateListRequestMultiError, or nil if none found.
+func (m *GetSuggestedUpdateListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetSuggestedUpdateListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Bookmark
+
+	// no validation rules for PageSize
+
+	if len(errors) > 0 {
+		return GetSuggestedUpdateListRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetSuggestedUpdateListRequestMultiError is an error wrapping multiple
+// validation errors returned by GetSuggestedUpdateListRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetSuggestedUpdateListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetSuggestedUpdateListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetSuggestedUpdateListRequestMultiError) AllErrors() []error { return m }
+
+// GetSuggestedUpdateListRequestValidationError is the validation error
+// returned by GetSuggestedUpdateListRequest.Validate if the designated
+// constraints aren't met.
+type GetSuggestedUpdateListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetSuggestedUpdateListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetSuggestedUpdateListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetSuggestedUpdateListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetSuggestedUpdateListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetSuggestedUpdateListRequestValidationError) ErrorName() string {
+	return "GetSuggestedUpdateListRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetSuggestedUpdateListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetSuggestedUpdateListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetSuggestedUpdateListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetSuggestedUpdateListRequestValidationError{}
+
 // Validate checks the field values on GetSuggestedUpdateListResponse with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -3222,6 +3449,8 @@ func (m *GetSuggestedUpdateListResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Bookmark
 
 	for idx, item := range m.GetSuggestedUpdates() {
 		_, _ = idx, item
