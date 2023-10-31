@@ -1,2 +1,9 @@
 syntax = "proto3";
 package example;
+
+import "rbac/example/simple.proto";
+
+message NestedMessage {
+  string name = 1;
+  SimpleMessage simple_message = 2;
+}

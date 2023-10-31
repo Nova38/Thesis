@@ -48,6 +48,10 @@ type (
 	}
 )
 
+func (ctx *CCBioTxCtx) HandelBefore() (err error) {
+	return ctx.BaseHandelBefore()
+}
+
 // TODO: Fix the complexity
 // nolint:cyclop
 func ExtractSpecimenId(req interface{}) (id *pb.Specimen_Id, err error) {

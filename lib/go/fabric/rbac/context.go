@@ -59,7 +59,7 @@ type (
 	}
 )
 
-func (ctx *TxCtx) HandelBefore() (err error) {
+func (ctx *TxCtx) BaseHandelBefore() (err error) {
 	err = ctx.SetLogger(slog.Default().With(
 		"fn", ctx.GetFnName(),
 		slog.Group(
@@ -83,8 +83,18 @@ func (ctx *TxCtx) HandelBefore() (err error) {
 	return nil
 }
 
-func (ctx *TxCtx) HandleFnError(err *error) {
-	if *err != nil && ctx.Logger != nil {
+func (ctx *TxCtx) HandleFnError(err *error, r any) {
+	if ctx.Logger == nil {
+		ctx.Logger = slog.Default()
+	}
+
+	if r != nil {
+		ctx.Logger.Error("Panic", slog.Any("panic", r))
+		e := oops.Errorf("Panic: %v", r)
+		err = &e
+	}
+
+	if *err != nil {
 		slog.Error((*err).Error())
 	}
 }
@@ -208,7 +218,7 @@ func (ctx *TxCtx) GetUser() (user *rbac_pb.User, err error) {
 
 	ctx.User = &rbac_pb.User{Id: id}
 
-	err = state.GetState(ctx, ctx.User)
+	err = state.Get(ctx, ctx.User)
 
 	if err != nil {
 		return nil, oops.With("user_id", id).Wrap(err)
@@ -247,7 +257,7 @@ func (ctx *TxCtx) SetCollection(id *rbac_pb.Collection_Id) (col *rbac_pb.Collect
 		},
 	}
 
-	if err = state.GetState(ctx, ctx.Collection); err != nil {
+	if err = state.Get(ctx, ctx.Collection); err != nil {
 		return nil, oops.
 			In("SetCollection").
 			With("collectionId", id.CollectionId).

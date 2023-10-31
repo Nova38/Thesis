@@ -150,8 +150,6 @@ export enum Error {
   OBJECT_INVALID = 34,
 
   /**
-   * 
-   *
    * @generated from enum value: ERROR_INVALID_OBJECT_FIELD_PATH = 35;
    */
   INVALID_OBJECT_FIELD_PATH = 35,
@@ -208,18 +206,18 @@ export class ACL extends Message<ACL> {
    * # Policy
    *   - Maps to the domain: DOMAIN_COLLECTION_PERMISSION
    *
-   * @generated from field: rbac.ACL.Policy.Membership role_permissions = 2;
+   * @generated from field: rbac.ACL.Policy.Roles role_permissions = 2;
    */
-  rolePermissions?: ACL_Policy_Membership;
+  rolePermissions?: ACL_Policy_Roles;
 
   /**
    * The permissions for modifications user memberships in the collection
    * # Policy
-   *   - Maps to the domain: DOMAIN_COLLECTION_MEMBERSHIP
+   *   - Maps to the domain: DOMAIN_USER
    *
-   * @generated from field: rbac.ACL.Policy.Membership memberships = 3;
+   * @generated from field: rbac.ACL.Policy.Roles memberships = 3;
    */
-  memberships?: ACL_Policy_Membership;
+  memberships?: ACL_Policy_Roles;
 
   /**
    * The permissions for modifications to the object
@@ -248,8 +246,8 @@ export class ACL extends Message<ACL> {
   static readonly typeName = "rbac.ACL";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "role_defs", kind: "message", T: ACL_Policy_Roles },
-    { no: 2, name: "role_permissions", kind: "message", T: ACL_Policy_Membership },
-    { no: 3, name: "memberships", kind: "message", T: ACL_Policy_Membership },
+    { no: 2, name: "role_permissions", kind: "message", T: ACL_Policy_Roles },
+    { no: 3, name: "memberships", kind: "message", T: ACL_Policy_Roles },
     { no: 4, name: "object", kind: "message", T: ACL_Policy_Object },
     { no: 5, name: "object_paths", kind: "message", T: ACL_PathRolePermission },
   ]);
@@ -491,9 +489,9 @@ export class ACL_Policy extends Message<ACL_Policy> {
     case: "roles";
   } | {
     /**
-     * @generated from field: rbac.ACL.Policy.Membership membership = 2;
+     * @generated from field: rbac.ACL.Policy.Roles membership = 2;
      */
-    value: ACL_Policy_Membership;
+    value: ACL_Policy_Roles;
     case: "membership";
   } | {
     /**
@@ -518,7 +516,7 @@ export class ACL_Policy extends Message<ACL_Policy> {
   static readonly typeName = "rbac.ACL.Policy";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "roles", kind: "message", T: ACL_Policy_Roles, oneof: "policy" },
-    { no: 2, name: "membership", kind: "message", T: ACL_Policy_Membership, oneof: "policy" },
+    { no: 2, name: "membership", kind: "message", T: ACL_Policy_Roles, oneof: "policy" },
     { no: 3, name: "object", kind: "message", T: ACL_Policy_Object, oneof: "policy" },
     { no: 4, name: "object_field", kind: "message", T: ACL_Policy_ObjectField, oneof: "policy" },
   ]);
@@ -541,18 +539,28 @@ export class ACL_Policy extends Message<ACL_Policy> {
 }
 
 /**
- * Policy for altering the valid roles in the collection
+ * Policy for altering the membership of a role or perms of a role 
  *
  * @generated from message rbac.ACL.Policy.Roles
  */
 export class ACL_Policy_Roles extends Message<ACL_Policy_Roles> {
   /**
-   * @generated from field: bool create = 1;
+   * @generated from field: bool view = 1;
+   */
+  view = false;
+
+  /**
+   * @generated from field: bool create = 2;
    */
   create = false;
 
   /**
-   * @generated from field: bool delete = 2;
+   * @generated from field: bool edit = 3;
+   */
+  edit = false;
+
+  /**
+   * @generated from field: bool delete = 4;
    */
   delete = false;
 
@@ -564,8 +572,10 @@ export class ACL_Policy_Roles extends Message<ACL_Policy_Roles> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.ACL.Policy.Roles";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "create", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 2, name: "create", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Roles {
@@ -582,57 +592,6 @@ export class ACL_Policy_Roles extends Message<ACL_Policy_Roles> {
 
   static equals(a: ACL_Policy_Roles | PlainMessage<ACL_Policy_Roles> | undefined, b: ACL_Policy_Roles | PlainMessage<ACL_Policy_Roles> | undefined): boolean {
     return proto3.util.equals(ACL_Policy_Roles, a, b);
-  }
-}
-
-/**
- * Policy for altering the membership of a role
- *
- * @generated from message rbac.ACL.Policy.Membership
- */
-export class ACL_Policy_Membership extends Message<ACL_Policy_Membership> {
-  /**
-   * @generated from field: bool view = 1;
-   */
-  view = false;
-
-  /**
-   * @generated from field: bool edit = 2;
-   */
-  edit = false;
-
-  /**
-   * @generated from field: bool delete = 3;
-   */
-  delete = false;
-
-  constructor(data?: PartialMessage<ACL_Policy_Membership>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "rbac.ACL.Policy.Membership";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Membership {
-    return new ACL_Policy_Membership().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Policy_Membership {
-    return new ACL_Policy_Membership().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Policy_Membership {
-    return new ACL_Policy_Membership().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL_Policy_Membership | PlainMessage<ACL_Policy_Membership> | undefined, b: ACL_Policy_Membership | PlainMessage<ACL_Policy_Membership> | undefined): boolean {
-    return proto3.util.equals(ACL_Policy_Membership, a, b);
   }
 }
 
@@ -964,9 +923,9 @@ export class User extends Message<User> {
   /**
    * Key is the collectionID
    *
-   * @generated from field: map<string, rbac.User.role> roles = 3;
+   * @generated from field: map<string, rbac.User.Role> roles = 3;
    */
-  roles: { [key: string]: User_role } = {};
+  roles: { [key: string]: User_Role } = {};
 
   /**
    * @generated from field: google.protobuf.Struct metadata = 4;
@@ -983,7 +942,7 @@ export class User extends Message<User> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: User_Id },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "roles", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: User_role} },
+    { no: 3, name: "roles", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: User_Role} },
     { no: 4, name: "metadata", kind: "message", T: Struct },
   ]);
 
@@ -1050,9 +1009,9 @@ export class User_Id extends Message<User_Id> {
 }
 
 /**
- * @generated from message rbac.User.role
+ * @generated from message rbac.User.Role
  */
-export class User_role extends Message<User_role> {
+export class User_Role extends Message<User_Role> {
   /**
    * @generated from field: rbac.Collection.Id collection_id = 1;
    */
@@ -1068,33 +1027,33 @@ export class User_role extends Message<User_role> {
    */
   grantedBy?: User_Id;
 
-  constructor(data?: PartialMessage<User_role>) {
+  constructor(data?: PartialMessage<User_Role>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "rbac.User.role";
+  static readonly typeName = "rbac.User.Role";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
     { no: 2, name: "role_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 3, name: "granted_by", kind: "message", T: User_Id },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User_role {
-    return new User_role().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User_Role {
+    return new User_Role().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User_role {
-    return new User_role().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User_Role {
+    return new User_Role().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User_role {
-    return new User_role().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User_Role {
+    return new User_Role().fromJsonString(jsonString, options);
   }
 
-  static equals(a: User_role | PlainMessage<User_role> | undefined, b: User_role | PlainMessage<User_role> | undefined): boolean {
-    return proto3.util.equals(User_role, a, b);
+  static equals(a: User_Role | PlainMessage<User_Role> | undefined, b: User_Role | PlainMessage<User_Role> | undefined): boolean {
+    return proto3.util.equals(User_Role, a, b);
   }
 }
 

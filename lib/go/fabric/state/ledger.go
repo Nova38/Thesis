@@ -28,11 +28,12 @@ type HistoryEntry[T StateObject] struct {
 	TxId      string                 `json:"txId"`
 	Timestamp *timestamppb.Timestamp `json:"timestamp"`
 	IsDelete  bool                   `json:"isDelete"`
-	T         T                      `json:"object"`
+	IsHidden  bool                   `json:"isHidden"`
+	State     T                      `json:"object"`
 }
 
 type HistoryList[T StateObject] struct {
-	Entries []HistoryEntry[T] `json:"entries"`
+	Entries []*HistoryEntry[T] `json:"entries"`
 }
 
 // UTIL Functions
@@ -75,8 +76,8 @@ func Exists(ctx LoggedTxCtxInterface, key string) bool {
 	return err == nil
 }
 
-// PutState puts the object into the ledger
-func PutState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+// Put puts the object into the ledger
+func Put[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -90,9 +91,9 @@ func PutState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	return ctx.GetStub().PutState(key, bytes)
 }
 
-// InsertState inserts the object into the ledger
+// Insert inserts the object into the ledger
 // returns error if the object already exists
-func InsertState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Insert[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -114,9 +115,9 @@ func InsertState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	return ctx.GetStub().PutState(key, bytes)
 }
 
-// UpdateState updates the object in the ledger
+// Update updates the object in the ledger
 // returns error if the object does not exist
-func UpdateState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Update[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -138,8 +139,8 @@ func UpdateState[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 	return ctx.GetStub().PutState(key, bytes)
 }
 
-// GetState returns the object from the ledger
-func GetState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
+// Get returns the object from the ledger
+func Get[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
@@ -163,8 +164,8 @@ func GetState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	return nil
 }
 
-// DeleteState deletes the object from the ledger
-func DeleteState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
+// Delete deletes the object from the ledger
+func Delete[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -173,8 +174,8 @@ func DeleteState[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 	return ctx.GetStub().DelState(key)
 }
 
-// GetStateHistory returns the history of the object from the ledger
-func GetStateHistory[T StateObject](
+// GetHistory returns the history of the object from the ledger
+func GetHistory[T StateObject](
 	ctx LoggedTxCtxInterface,
 	in T,
 ) (list HistoryList[T], err error) {
@@ -202,11 +203,11 @@ func GetStateHistory[T StateObject](
 			return HistoryList[T]{}, err
 		}
 
-		entry := HistoryEntry[T]{
+		entry := &HistoryEntry[T]{
 			TxId:      queryResponse.TxId,
 			Timestamp: queryResponse.Timestamp,
 			IsDelete:  queryResponse.IsDelete,
-			T:         *obj,
+			State:     *obj,
 		}
 
 		list.Entries = append(list.Entries, entry)
@@ -295,7 +296,7 @@ func GetPartialKeyList[T StateObject](
 	return list, nil
 }
 
-func GetFullStateList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
+func GetFullList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -398,7 +399,7 @@ func GetPagedPartialKeyList[T StateObject](
 }
 
 // ------------------------------------------------------------
-func GetPagedFullStateList[T StateObject](
+func GetPagedFullList[T StateObject](
 	ctx PagedTxCtxInterface,
 	in T,
 	bookmark string,

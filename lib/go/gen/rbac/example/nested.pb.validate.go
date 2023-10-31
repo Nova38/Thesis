@@ -34,3 +34,134 @@ var (
 	_ = anypb.Any{}
 	_ = sort.Sort
 )
+
+// Validate checks the field values on NestedMessage with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *NestedMessage) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NestedMessage with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in NestedMessageMultiError, or
+// nil if none found.
+func (m *NestedMessage) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NestedMessage) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if all {
+		switch v := interface{}(m.GetSimpleMessage()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NestedMessageValidationError{
+					field:  "SimpleMessage",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NestedMessageValidationError{
+					field:  "SimpleMessage",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSimpleMessage()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NestedMessageValidationError{
+				field:  "SimpleMessage",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return NestedMessageMultiError(errors)
+	}
+
+	return nil
+}
+
+// NestedMessageMultiError is an error wrapping multiple validation errors
+// returned by NestedMessage.ValidateAll() if the designated constraints
+// aren't met.
+type NestedMessageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NestedMessageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NestedMessageMultiError) AllErrors() []error { return m }
+
+// NestedMessageValidationError is the validation error returned by
+// NestedMessage.Validate if the designated constraints aren't met.
+type NestedMessageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NestedMessageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NestedMessageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NestedMessageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NestedMessageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NestedMessageValidationError) ErrorName() string { return "NestedMessageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NestedMessageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNestedMessage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NestedMessageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NestedMessageValidationError{}

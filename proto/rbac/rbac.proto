@@ -20,7 +20,6 @@ extend google.protobuf.MethodOptions {
 
 
 
-
 // The ACL will be defined in a map per role
 message ACL {
   enum Domain {
@@ -28,7 +27,7 @@ message ACL {
 
     // Meta create
     DOMAIN_COLLECTION = 1;
-      DOMAIN_COLLECTION_MEMBERSHIP = 2;
+        DOMAIN_COLLECTION_MEMBERSHIP = 2;
       DOMAIN_COLLECTION_PERMISSION = 3;
       DOMAIN_COLLECTION_ROLES = 4;
 
@@ -58,23 +57,68 @@ message ACL {
   message Operation {
     Domain domain = 1;
     Action action = 2;
-     google.protobuf.FieldMask paths = 3;
-  }
+    google.protobuf.FieldMask paths = 3;
 
+
+    option (buf.validate.message).cel = {
+        id: "domain.missing.action.missing"
+        message: "Domain and action must not be set to unspecified"
+        expression: "this.domain != 0 || this.action != 0"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.Collection.AllowedActions"
+      message: "Collection domain allows only create"
+      expression: "this.domain != 1 && this.action in(2,3)"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.COLLECTION_MEMBERSHIP.AllowedActions"
+      message: "Collection membership domain  not "
+      expression: "this.domain != 2 "
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.COLLECTION_PERMISSION.AllowedActions"
+      message: "Collection Permissions domain allows only view,edit,delete"
+      expression: "this.domain != 3 && this.action in(1,3,4)"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.DOMAIN_COLLECTION_ROLES.AllowedActions"
+      message: "Collection Roles domain allows only view,create,delete,edit"
+      expression: "this.domain != 4 && this.action in(1,2,3,4)"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.User.AllowedActions"
+      message: "User domain allows only view,create,delete,edit"
+      expression: "this.domain != 5 && this.action in(1,2,3,4)"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.Object.AllowedActions"
+      message: "Collection Object domain allows only view,create,delete,history,hidden"
+      expression: "this.domain != 6 && this.action in(1,2,3,9,10)"
+    };
+
+    option (buf.validate.message).cel = {
+      id: "domain.Object_Field.AllowedActions"
+      message: "Collection Object Field only allows view,edit,suggested_edit,suggested_approve,suggested_reject"
+      expression: "this.domain != 7 && this.action in(1,4,5,6,7,8)"
+    };
+
+
+  }
   // Types of Policies for the ACL
   message Policy {
 
-    // Policy for altering the valid roles in the collection
+    // Policy for altering the membership of a role or perms of a role
     message Roles {
-      bool create = 1;
-      bool delete = 2;
-    }
-
-    // Policy for altering the membership of a role
-    message Membership {
       bool view = 1;
-      bool edit = 2;
-      bool delete = 3;
+      bool create = 2;
+      bool edit = 3;
+      bool delete = 4;
     }
 
     // Policy for altering the object
@@ -97,7 +141,7 @@ message ACL {
 
     oneof policy {
       Roles roles = 1;
-      Membership membership = 2;
+      Roles membership = 2;
       Object object = 3;
       ObjectField object_field = 4;
     }
@@ -133,12 +177,12 @@ message ACL {
   // The permissions for modifications the permissions of a role
   // # Policy
   //   - Maps to the domain: DOMAIN_COLLECTION_PERMISSION
-  Policy.Membership role_permissions  = 2 [(buf.validate.field).required = true];
+  Policy.Roles role_permissions  = 2 [(buf.validate.field).required = true];
 
   // The permissions for modifications user memberships in the collection
   // # Policy
-  //   - Maps to the domain: DOMAIN_COLLECTION_MEMBERSHIP
-  Policy.Membership memberships = 3 [(buf.validate.field).required = true];
+  //   - Maps to the domain: DOMAIN_USER
+  Policy.Roles memberships = 3 [(buf.validate.field).required = true];
 
   // The permissions for modifications to the object
   // # Policy
@@ -160,7 +204,7 @@ message Collection {
   };
 
   message Id {
-    string collection_id = 1 [(buf.validate.field).string.email = true];
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   }
 
   // The key for the ledger
@@ -222,7 +266,7 @@ message User {
     string id = 2 [(buf.validate.field).string.min_len = 1];
   }
 
-  message role {
+  message Role {
     Collection.Id collection_id = 1;
     int32 role_id = 2;
     User.Id granted_by = 3;
@@ -234,7 +278,7 @@ message User {
   string name = 2 [(buf.validate.field).string.min_len = 1];
 
   // Key is the collectionID
-  map<string, role> roles = 3;
+  map<string, Role> roles = 3;
   google.protobuf.Struct metadata = 4;
 }
 

@@ -89,7 +89,7 @@ func (s *SpecimenContract) GetSpecimen(
 		},
 	}
 
-	if err := state2.GetState(ctx, specimen); err != nil {
+	if err := state2.Get(ctx, specimen); err != nil {
 		return nil, err
 	}
 
@@ -97,7 +97,7 @@ func (s *SpecimenContract) GetSpecimen(
 }
 
 func (s *SpecimenContract) GetSpecimenList(ctx context.TxContext) ([]*schema.Specimen, error) {
-	return state2.GetFullStateList(ctx, &schema.Specimen{})
+	return state2.GetFullList(ctx, &schema.Specimen{})
 }
 
 func (s *SpecimenContract) GetSpecimenByCollection(
@@ -159,7 +159,7 @@ func (s *SpecimenContract) GetSpecimenHistory(
 			Id:           id.GetId(),
 		},
 	}
-	err := state2.GetState(ctx, specimen)
+	err := state2.Get(ctx, specimen)
 	if err != nil {
 		return nil, errors.Wrap(err, "GetSpecimenHistory failed to get specimen")
 	}
@@ -171,7 +171,7 @@ func (s *SpecimenContract) GetSpecimenHistory(
 		Entries: []*schema.Specimen_History_Entry{},
 	}
 
-	rawHistory, err := state2.GetStateHistory(ctx, specimen)
+	rawHistory, err := state2.GetHistory(ctx, specimen)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (s *SpecimenContract) GetSuggestedUpdate(
 		},
 	}
 
-	if err := state2.GetState(ctx, suggestion); err != nil {
+	if err := state2.Get(ctx, suggestion); err != nil {
 		return nil, err
 	}
 
@@ -258,7 +258,7 @@ func (s *SpecimenContract) GetSuggestedUpdate(
 func (s *SpecimenContract) GetSuggestedUpdateList(
 	ctx context.TxContext,
 ) ([]*schema.SuggestedUpdate, error) {
-	return state2.GetFullStateList(ctx, &schema.SuggestedUpdate{})
+	return state2.GetFullList(ctx, &schema.SuggestedUpdate{})
 }
 
 func (s *SpecimenContract) GetSuggestedUpdateBySpecimen(
@@ -376,7 +376,7 @@ func (s *SpecimenContract) SpecimenCreate(
 		image.LastModified = madeAt
 	}
 
-	if err := state2.InsertState(ctx, specimen); err != nil {
+	if err := state2.Insert(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenCreate failed to insert")
 	}
 	return specimen, nil
@@ -412,7 +412,7 @@ func (s *SpecimenContract) SpecimenUpdate(
 	}
 
 	// Get the specimen
-	if err := state2.GetState(ctx, currentSpecimen); err != nil {
+	if err := state2.Get(ctx, currentSpecimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenUnHideTx failed to get specimen")
 	}
 
@@ -582,7 +582,7 @@ func (s *SpecimenContract) SpecimenUpdate(
 
 	currentSpecimen.LastModified = updatedAt
 
-	return currentSpecimen, state2.UpdateState(ctx, currentSpecimen)
+	return currentSpecimen, state2.Update(ctx, currentSpecimen)
 }
 
 // SpecimenDelete removes the specimen from the world state
@@ -613,7 +613,7 @@ func (s *SpecimenContract) SpecimenDelete(
 		},
 	}
 
-	if err := state2.DeleteState(ctx, specimenToDel); err != nil {
+	if err := state2.Delete(ctx, specimenToDel); err != nil {
 		return nil, errors.Wrap(err, "SpecimenDelete failed to delete")
 	}
 
@@ -655,7 +655,7 @@ func (s *SpecimenContract) SpecimenHideTx(
 		},
 	}
 	// Get the specimen
-	if err := state2.GetState(ctx, specimen); err != nil {
+	if err := state2.Get(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenHideTx failed to get specimen")
 	}
 
@@ -689,7 +689,7 @@ func (s *SpecimenContract) SpecimenHideTx(
 	}
 	specimen.LastModified = updatedAt
 
-	return specimen, state2.UpdateState(ctx, specimen)
+	return specimen, state2.Update(ctx, specimen)
 }
 
 // SpecimenUnHideTx removes the tx from the specimen's hidden txs
@@ -724,7 +724,7 @@ func (s *SpecimenContract) SpecimenUnHideTx(
 		},
 	}
 	// Get the specimen
-	if err := state2.GetState(ctx, specimen); err != nil {
+	if err := state2.Get(ctx, specimen); err != nil {
 		return nil, errors.Wrap(err, "SpecimenUnHideTx failed to get specimen")
 	}
 
@@ -743,7 +743,7 @@ func (s *SpecimenContract) SpecimenUnHideTx(
 	}
 	specimen.LastModified = updatedAt
 
-	return specimen, state2.UpdateState(ctx, specimen)
+	return specimen, state2.Update(ctx, specimen)
 }
 
 // -------------------------

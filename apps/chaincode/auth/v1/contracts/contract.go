@@ -1,4 +1,4 @@
-package contract
+package contracts
 
 import (
 	"log/slog"
@@ -7,6 +7,7 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/samber/oops"
 
+	"google.golang.org/protobuf/types/known/anypb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
@@ -33,11 +34,7 @@ func (a AuthContractImpl) GetBeforeTransaction() interface{} {
 }
 
 func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {
 		return oops.Wrap(err)
@@ -73,11 +70,7 @@ func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 func (a AuthContractImpl) UserGetCurrent(
 	ctx *AuthTxCtx,
 ) (res *cc.UserGetCurrentResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	user, err := ctx.GetUser()
 	if err != nil {
@@ -98,11 +91,8 @@ func (a AuthContractImpl) UserGetCurrent(
 func (a AuthContractImpl) UserGetCurrentId(
 	ctx *AuthTxCtx,
 ) (res *cc.UserGetCurrentIdResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	user_id, err := ctx.GetUserId()
 	if err != nil {
 		return nil, oops.
@@ -124,12 +114,9 @@ func (a AuthContractImpl) UserGetCurrentId(
 func (a AuthContractImpl) UserGetList(
 	ctx *AuthTxCtx,
 ) (res *cc.UserGetListResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
-	userList, err := state.GetFullStateList(ctx, &rbac_pb.User{})
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	userList, err := state.GetFullList(ctx, &rbac_pb.User{})
 	if err != nil {
 		return nil, oops.
 			In("UserGetList").
@@ -152,11 +139,7 @@ func (a AuthContractImpl) UserGet(
 	ctx *AuthTxCtx,
 	req *cc.UserGetRequest,
 ) (res *cc.UserGetResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Validate the request
 	v, err := ctx.GetValidator()
@@ -171,7 +154,7 @@ func (a AuthContractImpl) UserGet(
 	// Get the user
 	user := &rbac_pb.User{Id: req.GetId()}
 
-	if err = state.GetState(ctx, user); err != nil {
+	if err = state.Get(ctx, user); err != nil {
 		return nil, err
 	}
 
@@ -190,13 +173,43 @@ func (a AuthContractImpl) UserGetHistory(
 	ctx *AuthTxCtx,
 	req *cc.UserGetHistoryRequest,
 ) (res *cc.UserGetHistoryResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.
+			In("UserGetHistory").
+			With("req", req).
+			Wrap(err)
+	}
+
+	// Get the history of the users
+	userHistory, err := state.GetHistory(ctx, &rbac_pb.User{Id: req.GetId()})
+	if err != nil {
+		return nil, oops.
+			In("UserGetHistory").
+			With("req", req).
+			Wrap(err)
+	}
+
+	res = &cc.UserGetHistoryResponse{
+		UserId:  req.Id,
+		History: &rbac_pb.History{},
+	}
+	for _, v := range userHistory.Entries {
+		e, err := anypb.New(v.State)
+		if err != nil {
+			return nil, oops.Wrap(err)
 		}
-	}()
-	// TODO implement UserGetHistory
-	panic("implement me")
+		res.History.Entries = append(res.History.Entries, &rbac_pb.History_Entry{
+			TxId:      v.TxId,
+			Timestamp: v.Timestamp,
+			IsDeleted: v.IsDelete,
+			IsHidden:  v.IsHidden,
+			State:     e,
+		})
+	}
+
+	return res, nil
 }
 
 // UserRegister: Registers the user.
@@ -211,99 +224,42 @@ func (a AuthContractImpl) UserRegister(
 	ctx *AuthTxCtx,
 	req *cc.UserRegisterRequest,
 ) (res *cc.UserRegisterResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
-	// Validate the request
-	err = ctx.Validate(req)
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
-	}
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	id, err := ctx.GetUserId()
-	if err != nil {
-		return nil, err
-	}
-
-	// Create the user
-	user := &rbac_pb.User{
-		Id: &rbac_pb.User_Id{
-			MspId: id.GetMspId(),
-			Id:    id.GetId(),
-		},
-		Name: req.GetName(),
-	}
-
-	// Check if the user already exists
-	if err = state.InsertState(ctx, user); err != nil {
-		return nil, oops.
-			In("UserRegister").
-			Code(rbac_pb.Error_ERROR_USER_ALREADY_REGISTERED.String()).
-			Wrap(err)
-	}
-
-	return &cc.UserRegisterResponse{User: user}, nil
-}
-
-func (a AuthContractImpl) UserUpdate(
-	ctx *AuthTxCtx,
-	req *cc.UserUpdateRequest,
-) (res *cc.UserUpdateResponse, err error) {
-	// TODO implement UserUpdate
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
-	}
-	// TODO: Extract transaction items from the request
-
-	// Authorize the request
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
-			Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 
-	panic("implement me")
+	user := &rbac_pb.User{Name: req.Name}
+	if user.Id, err = ctx.GetUserId(); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.UserRegisterResponse{User: &rbac_pb.User{}}, state.Insert(ctx, user)
 }
 
 func (a AuthContractImpl) UserUpdateMembership(
 	ctx *AuthTxCtx,
 	req *cc.UserUpdateMembershipRequest,
 ) (res *cc.UserUpdateMembershipResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	// Validate the request
 	{
-
+		// Validate the request
 		if err = ctx.Validate(req); err != nil {
-			return nil, oops.
-				In(ctx.GetFnName()).
-				Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-				Wrap(err)
+			return nil, oops.Wrap(err)
 		}
-		col, err := ctx.SetCollection(req.CollectionId)
+
+		// Extract AuthTransactionItems
+		if err = ctx.ExtractAuthTransactionItems(req); err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		col, err := ctx.GetCollection()
 		if err != nil {
-			return nil, oops.
-				In(ctx.GetFnName()).
-				Code(rbac_pb.Error_ERROR_COLLECTION_INVALID.String()).
-				Wrap(err)
+			return nil, oops.Wrap(err)
 		}
 
 		// Check if the role is valid
@@ -326,54 +282,52 @@ func (a AuthContractImpl) UserUpdateMembership(
 
 	}
 
-	// Authorize the request
-
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
-			Wrap(err)
+	{ // Authorize the request
+		if err = ctx.IsAuthorized(); err != nil {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
+				Wrap(err)
+		}
 	}
 
 	// -------------------------
-	// Process the request
-	// -------------------------
 
-	// Get the user to modify
-	userToModify := &rbac_pb.User{
-		Id: req.GetId(),
-	}
-	if err = state.GetState(ctx, userToModify); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
-			Wrap(err)
-	}
+	{ // Process the request
+		// Get the user to modify
+		userToModify := &rbac_pb.User{
+			Id: req.GetId(),
+		}
+		if err = state.Get(ctx, userToModify); err != nil {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
+				Wrap(err)
+		}
 
-	// Update the user
-	userToModify.Roles[req.GetCollectionId().CollectionId] = &rbac_pb.UserRole{
-		CollectionId: &rbac_pb.Collection_Id{
-			CollectionId: req.CollectionId.CollectionId,
-		},
-		RoleId:    req.GetRole(),
-		GrantedBy: ctx.User.GetId(),
-	}
+		// Update the user
+		userToModify.Roles[req.GetCollectionId().CollectionId] = &rbac_pb.User_Role{
+			CollectionId: &rbac_pb.Collection_Id{
+				CollectionId: req.CollectionId.CollectionId,
+			},
+			RoleId:    req.GetRole(),
+			GrantedBy: ctx.User.GetId(),
+		}
 
-	return &cc.UserUpdateMembershipResponse{User: userToModify},
-		state.UpdateState(ctx, userToModify)
+		res = &cc.UserUpdateMembershipResponse{User: userToModify}
+
+		return res, state.Update(ctx, userToModify)
+
+	}
 }
 
 func (a AuthContractImpl) CollectionGetList(
 	ctx *AuthTxCtx,
 ) (res *cc.CollectionGetListResponse, err error) {
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Get the collections
-	collectionList, err := state.GetFullStateList(ctx, &rbac_pb.Collection{})
+	collectionList, err := state.GetFullList(ctx, &rbac_pb.Collection{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -431,11 +385,8 @@ func (a AuthContractImpl) CollectionGetHistory(
 	req *cc.CollectionGetHistoryRequest,
 ) (res *cc.CollectionGetHistoryResponse, err error) {
 	// TODO implement CollectionGetHistory
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -451,19 +402,38 @@ func (a AuthContractImpl) CollectionCreate(
 	req *cc.CollectionCreateRequest,
 ) (res *cc.CollectionCreateResponse, err error) {
 	// TODO implement CollectionCreate
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	{ // Validate
+
+		// Check req
+		if err = ctx.Validate(req); err != nil {
+			return nil, oops.Wrap(err)
 		}
-	}()
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
+
+		// Extract AuthTransactionItems
+		if err = ctx.ExtractAuthTransactionItems(req); err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		// Check if the paths are valid for the type
+		if err = rbac.ValidateCollection(req.Collection); err != nil {
+			return nil, oops.In(ctx.GetFnName()).With("req", req).Wrap(err)
+		}
+
 	}
 
-	panic("implement me")
+	{ // Authorize
+		// all users can create collections
+	}
+
+	{ // Process
+
+		// Create the collection
+		res = &cc.CollectionCreateResponse{Collection: req.Collection}
+
+		return res, state.Insert(ctx, req.Collection)
+	}
 }
 
 func (a AuthContractImpl) CollectionUpdateRoles(
@@ -471,19 +441,50 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 	req *cc.CollectionUpdateRolesRequest,
 ) (res *cc.CollectionUpdateRolesResponse, err error) {
 	// TODO implement CollectionUpdateRoles
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	{ // Validate
+		// Validate the request
+		if err = ctx.Validate(req); err != nil {
+			return nil, oops.Wrap(err)
 		}
-	}()
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
+
+		// Extract AuthTransactionItems
+		if err = ctx.ExtractAuthTransactionItems(req); err != nil {
+			return nil, oops.Wrap(err)
+		}
+		// Check if the paths are valid for the type
+
+		// todo other validations
 	}
 
-	panic("implement me")
+	{ // Authorize
+		if err = ctx.IsAuthorized(); err != nil {
+			return nil, oops.Wrap(err)
+		}
+	}
+
+	{ // Process
+		col, err := ctx.GetCollection()
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+		if col == nil {
+			return nil, oops.Errorf("collection is nil")
+		}
+
+		// todo: Change other parts???
+		col.Roles = req.Roles
+
+		// Make sure the collection is valid
+		if err = rbac.ValidateCollection(col); err != nil {
+			return nil, oops.In(ctx.GetFnName()).With("req", req).Wrap(err)
+		}
+
+		res = &cc.CollectionUpdateRolesResponse{Collection: col}
+
+		return res, state.Update(ctx, col)
+	}
 }
 
 func (a AuthContractImpl) CollectionUpdatePermission(
@@ -491,17 +492,16 @@ func (a AuthContractImpl) CollectionUpdatePermission(
 	req *cc.CollectionUpdatePermissionRequest,
 ) (res *cc.CollectionUpdatePermissionResponse, err error) {
 	// TODO implement CollectionUpdatePermission
-	defer func() {
-		if err != nil && ctx.Logger != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 
+	// Extract AuthTransactionItems
+	if err = ctx.ExtractAuthTransactionItems(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
 	panic("implement me")
 }

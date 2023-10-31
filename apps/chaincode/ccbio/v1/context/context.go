@@ -388,7 +388,7 @@ func (ctx *AuthTxContext) GetUser() (*schema.User, error) {
 		},
 	}
 
-	if err := state.GetState(ctx, ctx.User); err != nil {
+	if err := state.Get(ctx, ctx.User); err != nil {
 		return nil, fmt.Errorf("failed to get user from state: %w", err)
 	}
 
@@ -430,7 +430,7 @@ func (ctx *AuthTxContext) SetCollection(collection *schema.Collection) error {
 
 	ctx.Collection = collection
 
-	if err := state.GetState(ctx, ctx.Collection); err != nil {
+	if err := state.Get(ctx, ctx.Collection); err != nil {
 		return fmt.Errorf("Failed to get collection from state:%w", err)
 	}
 

@@ -14,7 +14,7 @@ var collection1 = &pb.Collection{
 		CollectionId: "Collection1",
 	},
 	ObjectNamespace: "some_namespace",
-	ObjectType:      "example",
+	ObjectType:      "",
 	Roles: map[int32]string{
 		0: "public",
 		1: "admin",
@@ -28,12 +28,12 @@ var collection1 = &pb.Collection{
 				Create: false,
 				Delete: false,
 			},
-			RolePermissions: &pb.ACL_Policy_Membership{
+			RolePermissions: &pb.ACL_Policy_Roles{
 				View:   false,
 				Edit:   false,
 				Delete: false,
 			},
-			Memberships: &pb.ACL_Policy_Membership{
+			Memberships: &pb.ACL_Policy_Roles{
 				View:   false,
 				Edit:   false,
 				Delete: false,
@@ -183,7 +183,6 @@ func TestExtractPathPolicy(t *testing.T) {
 			if proto.Equal(got, tt.want) {
 				t.Errorf("ExtractPathPolicy() = %v, want %v", got, tt.want)
 			}
-
 		})
 	}
 }

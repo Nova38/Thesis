@@ -14,7 +14,9 @@ type LoggedTxCtxInterface interface {
 	GetLogger() *slog.Logger
 	SetLogger(logger *slog.Logger) error
 
-	HandleFnError(err *error)
+	// HandleFnError Handles the error from a function
+	// also handles panics
+	HandleFnError(err *error, r any)
 }
 
 // PagedTxCtxInterface Paged Transaction Context Interface

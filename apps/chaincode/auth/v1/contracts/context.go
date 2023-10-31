@@ -1,4 +1,4 @@
-package contract
+package contracts
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
@@ -34,6 +34,10 @@ type (
 		rbac.TxCtx
 	}
 )
+
+func (ctx *AuthTxCtx) HandelBefore() (err error) {
+	return ctx.BaseHandelBefore()
+}
 
 func (ctx *AuthTxCtx) ExtractAuthTransactionItems(req interface{}) (err error) {
 	if col, ok := req.(CollectionHolder); ok {
@@ -76,7 +80,7 @@ func (ctx *AuthTxCtx) ExtractAuthTransactionItems(req interface{}) (err error) {
 		ctx.User = &rbac_pb.User{
 			Id: user_id,
 		}
-		if err := state.GetState(ctx, ctx.User); err != nil {
+		if err := state.Get(ctx, ctx.User); err != nil {
 			return oops.
 				In(ctx.GetFnName()).
 				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).

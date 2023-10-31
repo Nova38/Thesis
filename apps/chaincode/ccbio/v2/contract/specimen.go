@@ -19,8 +19,8 @@ type SpecimenContractImpl struct {
 // AuthServiceInterface
 
 var (
-	_ pb.SpecimenServiceInterface[CCBioTxCtx] = (*SpecimenContractImpl)(nil)
-	_ contractapi.ContractInterface           = (*SpecimenContractImpl)(nil)
+	_ pb.SpecimenServiceInterface[*CCBioTxCtx] = (*SpecimenContractImpl)(nil)
+	_ contractapi.ContractInterface            = (*SpecimenContractImpl)(nil)
 )
 
 func BuildSpecimenContract() *SpecimenContractImpl {
@@ -52,9 +52,9 @@ func (s *SpecimenContractImpl) GetBeforeTransaction() interface{} {
 	return s.BeforeTransaction
 }
 
-func (s *SpecimenContractImpl) BeforeTransaction(ctx CCBioTxCtx) (err error) {
+func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
 	// Check if the validate is initialized
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {
 		return oops.Wrap(err)
@@ -82,10 +82,10 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx CCBioTxCtx) (err error) {
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SpecimenGet(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenGetRequest,
 ) (res *pb.SpecimenGetResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -119,7 +119,7 @@ func (s *SpecimenContractImpl) SpecimenGet(
 			Id:           id.Id,
 		},
 	}
-	if err = state.GetState(&ctx, specimen); err != nil {
+	if err = state.Get(&ctx, specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("id", id).
@@ -130,15 +130,15 @@ func (s *SpecimenContractImpl) SpecimenGet(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetList(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 ) (res *pb.SpecimenGetListResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	list, err := state.GetFullStateList(&ctx, &pb.Specimen{})
+	list, err := state.GetFullList(&ctx, &pb.Specimen{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -149,10 +149,10 @@ func (s *SpecimenContractImpl) SpecimenGetList(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetByCollection(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenGetByCollectionRequest,
 ) (res *pb.SpecimenGetByCollectionResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -193,12 +193,12 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 }
 
 func (s *SpecimenContractImpl) SpecimenGetHistory(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenGetHistoryRequest,
 ) (res *pb.SpecimenGetHistoryResponse, err error) {
 	// TODO implement SpecimenGetHistory
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -224,10 +224,10 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SpecimenCreate(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenCreateRequest,
 ) (res *pb.SpecimenCreateResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -286,7 +286,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	}
 
 	// Insert the new specimen
-	if err = state.InsertState(&ctx, specimen); err != nil {
+	if err = state.Insert(&ctx, specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("specimen", specimen).
@@ -297,12 +297,12 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 }
 
 func (s *SpecimenContractImpl) SpecimenUpdate(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenUpdateRequest,
 ) (res *pb.SpecimenUpdateResponse, err error) {
 	// TODO implement SpecimenUpdate
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -315,12 +315,12 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 }
 
 func (s *SpecimenContractImpl) SpecimenDelete(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenDeleteRequest,
 ) (res *pb.SpecimenDeleteResponse, err error) {
 	// TODO implement SpecimenDelete
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -343,12 +343,12 @@ func (s *SpecimenContractImpl) SpecimenDelete(
 }
 
 func (s *SpecimenContractImpl) SpecimenHideTx(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenHideTxRequest,
 ) (res *pb.SpecimenHideTxResponse, err error) {
 	// TODO implement SpecimenHideTx
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -370,12 +370,13 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 }
 
 func (s *SpecimenContractImpl) SpecimenUnHideTx(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SpecimenUnHideTxRequest,
 ) (res *pb.SpecimenUnHideTxResponse, err error) {
 	// TODO implement SpecimenUnHideTx
+	recover()
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -404,10 +405,10 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) GetSuggestedUpdate(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.GetSuggestedUpdateRequest,
 ) (res *pb.GetSuggestedUpdateResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -436,7 +437,7 @@ func (s *SpecimenContractImpl) GetSuggestedUpdate(
 	// Business logic
 	update := &pb.SuggestedUpdate{Id: uId}
 
-	if err = state.GetState(&ctx, update); err != nil {
+	if err = state.Get(&ctx, update); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("id", uId).
@@ -447,10 +448,10 @@ func (s *SpecimenContractImpl) GetSuggestedUpdate(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.GetSuggestedUpdateBySpecimenRequest,
 ) (res *pb.GetSuggestedUpdateBySpecimenResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -495,10 +496,10 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateBySpecimen(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.GetSuggestedUpdateByCollectionRequest,
 ) (res *pb.GetSuggestedUpdateByCollectionResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -543,15 +544,15 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateByCollection(
 }
 
 func (s *SpecimenContractImpl) GetSuggestedUpdateList(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 ) (res *pb.GetSuggestedUpdateListResponse, err error) {
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	list, err := state.GetFullStateList(&ctx, &pb.SuggestedUpdate{})
+	list, err := state.GetFullList(&ctx, &pb.SuggestedUpdate{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -566,12 +567,12 @@ func (s *SpecimenContractImpl) GetSuggestedUpdateList(
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) SuggestedUpdateCreate(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SuggestedUpdateCreateRequest,
 ) (res *pb.SuggestedUpdateCreateResponse, err error) {
 	// TODO implement SuggestedUpdateCreate
 
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -593,11 +594,11 @@ func (s *SpecimenContractImpl) SuggestedUpdateCreate(
 }
 
 func (s *SpecimenContractImpl) SuggestedUpdateApprove(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SuggestedUpdateApproveRequest,
 ) (res *pb.SuggestedUpdateApproveResponse, err error) {
 	// TODO implement SuggestedUpdateApprove
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -618,11 +619,11 @@ func (s *SpecimenContractImpl) SuggestedUpdateApprove(
 }
 
 func (s *SpecimenContractImpl) SuggestedUpdateReject(
-	ctx CCBioTxCtx,
+	ctx *CCBioTxCtx,
 	req *pb.SuggestedUpdateRejectRequest,
 ) (res *pb.SuggestedUpdateRejectResponse, err error) {
 	// TODO implement me SuggestedUpdateReject
-	defer func() { ctx.HandleFnError(&err) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
@@ -650,7 +651,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateReject(
 	}
 
 	suggestedUpdate := &pb.SuggestedUpdate{Id: id}
-	if err = state.GetState(&ctx, suggestedUpdate); err != nil {
+	if err = state.Get(&ctx, suggestedUpdate); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("id", id).
@@ -658,7 +659,7 @@ func (s *SpecimenContractImpl) SuggestedUpdateReject(
 	}
 
 	// Delete the suggested update
-	if err = state.DeleteState(&ctx, suggestedUpdate); err != nil {
+	if err = state.Delete(&ctx, suggestedUpdate); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
 			With("id", id).

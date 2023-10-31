@@ -33,8 +33,18 @@ func (ctx *LoggedTxCtx) GetLogger() *slog.Logger {
 	return ctx.Logger
 }
 
-func (ctx *LoggedTxCtx) HandleFnError(err *error) {
-	if *err != nil && ctx.Logger != nil {
+func (ctx *LoggedTxCtx) HandleFnError(err *error, r any) {
+	if ctx.Logger == nil {
+		ctx.Logger = slog.Default()
+	}
+
+	if r != nil {
+		ctx.Logger.Error("Panic", slog.Any("panic", r))
+		e := oops.Errorf("Panic: %v", r)
+		err = &e
+	}
+
+	if *err != nil {
 		slog.Error((*err).Error())
 	}
 }

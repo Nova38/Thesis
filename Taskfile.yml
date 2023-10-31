@@ -33,6 +33,7 @@ tasks:
   default:
     watch: true
     sources:
-      - "lib/**/*"
+      - "proto/**/*"
+      - "tools/**/*"
     cmds:
       - buf generate

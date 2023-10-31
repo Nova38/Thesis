@@ -78,5 +78,17 @@
         "descriptorpb",
         "golines",
         "segmentio"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".task/*.*": true,
+        "**/.idea": true,
+        "**/.task": true
+    },
+    "explorerExclude.backup": {}
 }

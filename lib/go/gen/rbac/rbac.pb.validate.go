@@ -1153,7 +1153,7 @@ func (m *ACL_Policy) validate(all bool) error {
 			}
 		}
 
-	case *ACL_Policy_Membership_:
+	case *ACL_Policy_Membership:
 		if v == nil {
 			err := ACL_PolicyValidationError{
 				field:  "Policy",
@@ -1560,7 +1560,11 @@ func (m *ACL_Policy_Roles) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for View
+
 	// no validation rules for Create
+
+	// no validation rules for Edit
 
 	// no validation rules for Delete
 
@@ -1641,114 +1645,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ACL_Policy_RolesValidationError{}
-
-// Validate checks the field values on ACL_Policy_Membership with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ACL_Policy_Membership) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ACL_Policy_Membership with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ACL_Policy_MembershipMultiError, or nil if none found.
-func (m *ACL_Policy_Membership) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ACL_Policy_Membership) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for View
-
-	// no validation rules for Edit
-
-	// no validation rules for Delete
-
-	if len(errors) > 0 {
-		return ACL_Policy_MembershipMultiError(errors)
-	}
-
-	return nil
-}
-
-// ACL_Policy_MembershipMultiError is an error wrapping multiple validation
-// errors returned by ACL_Policy_Membership.ValidateAll() if the designated
-// constraints aren't met.
-type ACL_Policy_MembershipMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ACL_Policy_MembershipMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ACL_Policy_MembershipMultiError) AllErrors() []error { return m }
-
-// ACL_Policy_MembershipValidationError is the validation error returned by
-// ACL_Policy_Membership.Validate if the designated constraints aren't met.
-type ACL_Policy_MembershipValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ACL_Policy_MembershipValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ACL_Policy_MembershipValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ACL_Policy_MembershipValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ACL_Policy_MembershipValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ACL_Policy_MembershipValidationError) ErrorName() string {
-	return "ACL_Policy_MembershipValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ACL_Policy_MembershipValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sACL_Policy_Membership.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ACL_Policy_MembershipValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ACL_Policy_MembershipValidationError{}
 
 // Validate checks the field values on ACL_Policy_Object with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -2178,22 +2074,22 @@ var _ interface {
 	ErrorName() string
 } = User_IdValidationError{}
 
-// Validate checks the field values on UserRole with the rules defined in the
+// Validate checks the field values on User_Role with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *UserRole) Validate() error {
+func (m *User_Role) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UserRole with the rules defined in
+// ValidateAll checks the field values on User_Role with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UserRoleMultiError, or nil
+// result is a list of violation errors wrapped in User_RoleMultiError, or nil
 // if none found.
-func (m *UserRole) ValidateAll() error {
+func (m *User_Role) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UserRole) validate(all bool) error {
+func (m *User_Role) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -2204,7 +2100,7 @@ func (m *UserRole) validate(all bool) error {
 		switch v := interface{}(m.GetCollectionId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserRoleValidationError{
+				errors = append(errors, User_RoleValidationError{
 					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2212,7 +2108,7 @@ func (m *UserRole) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UserRoleValidationError{
+				errors = append(errors, User_RoleValidationError{
 					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2221,7 +2117,7 @@ func (m *UserRole) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return UserRoleValidationError{
+			return User_RoleValidationError{
 				field:  "CollectionId",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2235,7 +2131,7 @@ func (m *UserRole) validate(all bool) error {
 		switch v := interface{}(m.GetGrantedBy()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserRoleValidationError{
+				errors = append(errors, User_RoleValidationError{
 					field:  "GrantedBy",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2243,7 +2139,7 @@ func (m *UserRole) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UserRoleValidationError{
+				errors = append(errors, User_RoleValidationError{
 					field:  "GrantedBy",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2252,7 +2148,7 @@ func (m *UserRole) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetGrantedBy()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return UserRoleValidationError{
+			return User_RoleValidationError{
 				field:  "GrantedBy",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2261,18 +2157,18 @@ func (m *UserRole) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return UserRoleMultiError(errors)
+		return User_RoleMultiError(errors)
 	}
 
 	return nil
 }
 
-// UserRoleMultiError is an error wrapping multiple validation errors returned
-// by UserRole.ValidateAll() if the designated constraints aren't met.
-type UserRoleMultiError []error
+// User_RoleMultiError is an error wrapping multiple validation errors returned
+// by User_Role.ValidateAll() if the designated constraints aren't met.
+type User_RoleMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UserRoleMultiError) Error() string {
+func (m User_RoleMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -2281,11 +2177,11 @@ func (m UserRoleMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UserRoleMultiError) AllErrors() []error { return m }
+func (m User_RoleMultiError) AllErrors() []error { return m }
 
-// UserRoleValidationError is the validation error returned by
-// UserRole.Validate if the designated constraints aren't met.
-type UserRoleValidationError struct {
+// User_RoleValidationError is the validation error returned by
+// User_Role.Validate if the designated constraints aren't met.
+type User_RoleValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -2293,22 +2189,22 @@ type UserRoleValidationError struct {
 }
 
 // Field function returns field value.
-func (e UserRoleValidationError) Field() string { return e.field }
+func (e User_RoleValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UserRoleValidationError) Reason() string { return e.reason }
+func (e User_RoleValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UserRoleValidationError) Cause() error { return e.cause }
+func (e User_RoleValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UserRoleValidationError) Key() bool { return e.key }
+func (e User_RoleValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UserRoleValidationError) ErrorName() string { return "UserRoleValidationError" }
+func (e User_RoleValidationError) ErrorName() string { return "User_RoleValidationError" }
 
 // Error satisfies the builtin error interface
-func (e UserRoleValidationError) Error() string {
+func (e User_RoleValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2320,14 +2216,14 @@ func (e UserRoleValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUserRole.%s: %s%s",
+		"invalid %sUser_Role.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UserRoleValidationError{}
+var _ error = User_RoleValidationError{}
 
 var _ interface {
 	Field() string
@@ -2335,7 +2231,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UserRoleValidationError{}
+} = User_RoleValidationError{}
 
 // Validate checks the field values on History_Entry with the rules defined in
 // the proto definition for this message. If any rules are violated, the first

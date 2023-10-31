@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/apps/chaincode/ccbio/v1/bin/ccas/",
+            "program": "${workspaceFolder}/apps/chaincode/auth/v1/",
             "env": {
                 // CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_TLS_ENABLED=false CORE_CHAINCODE_ID_NAME=mycc:1.0 .
                 "CHAINCODE_ID": "bio:0.0.1",

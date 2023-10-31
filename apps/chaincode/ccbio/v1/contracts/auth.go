@@ -87,7 +87,7 @@ func (s *AuthContract) GetCurrentUser(ctx context.TxContext) (*schema.User, erro
 		},
 	}
 
-	if err := state.GetState(ctx, user); err != nil {
+	if err := state.Get(ctx, user); err != nil {
 		return nil, err
 	}
 	return user, nil
@@ -120,7 +120,7 @@ func (s *AuthContract) GetUser(
 
 	slog.Info("GetUser", "user", user)
 
-	if err := state.GetState(ctx, user); err != nil {
+	if err := state.Get(ctx, user); err != nil {
 		return nil, err
 	}
 	return user, nil
@@ -128,7 +128,7 @@ func (s *AuthContract) GetUser(
 
 // GetUserList returns all users
 func (s *AuthContract) GetUserList(ctx context.TxContext) (users *schema.User_List, err error) {
-	list, err := state.GetFullStateList(ctx, &schema.User{})
+	list, err := state.GetFullList(ctx, &schema.User{})
 	if err != nil {
 		return nil, err
 	}
@@ -192,7 +192,7 @@ func (s *AuthContract) GetCollection(
 		},
 	}
 
-	if err := state.GetState(ctx, collection); err != nil {
+	if err := state.Get(ctx, collection); err != nil {
 		return nil, err
 	}
 
@@ -200,7 +200,7 @@ func (s *AuthContract) GetCollection(
 }
 
 func (s *AuthContract) GetCollectionList(ctx context.TxContext) (*schema.Collection_List, error) {
-	list, err := state.GetFullStateList(ctx, &schema.Collection{})
+	list, err := state.GetFullList(ctx, &schema.Collection{})
 	if err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func (s *AuthContract) UserRegister(
 		Memberships: map[string]schema.Role{},
 	}
 
-	if err := state.InsertState(ctx, user); err != nil {
+	if err := state.Insert(ctx, user); err != nil {
 		return nil, errors.Wrap(err, "UserRegister failed")
 	}
 
@@ -260,7 +260,7 @@ func (s *AuthContract) AddTestUsers(ctx context.TxContext) (*schema.User, error)
 	}
 
 	slog.Info("AddTestUsers", "users", user.String())
-	err := state.InsertState(ctx, &user)
+	err := state.Insert(ctx, &user)
 	if err != nil {
 		return nil, err
 	}
@@ -297,14 +297,14 @@ func (s *AuthContract) UserUpdateMembership(
 			Id:    req.GetUserId().GetId(),
 		},
 	}
-	if err := state.GetState(ctx, userToModify); err != nil {
+	if err := state.Get(ctx, userToModify); err != nil {
 		return nil, errors.Wrap(err, "GetState failed")
 	}
 
 	// Update the user
 	userToModify.Memberships[req.GetCollectionId().CollectionId] = req.NewRole
 
-	return userToModify, state.UpdateState(ctx, userToModify)
+	return userToModify, state.Update(ctx, userToModify)
 }
 
 // --------------------------------------------------
@@ -347,7 +347,7 @@ func (s *AuthContract) CollectionCreate(
 	}
 
 	// Create the new collection
-	if err := state.InsertState(ctx, req.GetCollection()); err != nil {
+	if err := state.Insert(ctx, req.GetCollection()); err != nil {
 		// slog.Error("CollectionCreate failed", "err", err)
 		logger.Error("Failed to insert new state", "error", err)
 
@@ -367,7 +367,7 @@ func (s *AuthContract) CollectionCreate(
 		user.Memberships[collection_id] = schema.Role_ROLE_MANAGER
 	}
 
-	if err := state.UpdateState(ctx, user); err != nil {
+	if err := state.Update(ctx, user); err != nil {
 		slog.Error("CollectionCreate failed", "err", err)
 		return nil, oops.
 			In("CollectionCreate-UpdateMembership").
@@ -399,7 +399,7 @@ func (s *AuthContract) CollectionUpdate(
 	// -------------------------
 	// Process the request
 	// -------------------------
-	if err := state.UpdateState(ctx, req.GetCollection()); err != nil {
+	if err := state.Update(ctx, req.GetCollection()); err != nil {
 		return nil, errors.Wrap(err, "CollectionUpdate failed")
 	}
 

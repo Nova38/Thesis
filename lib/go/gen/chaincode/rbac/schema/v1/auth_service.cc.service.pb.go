@@ -264,6 +264,7 @@ func AuthServiceGetTxOperation(txName string) (op *rbac1.ACL_Operation, err erro
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}
+	return nil, nil
 }
 
 func (s *AuthServiceBase) GetIgnoredFunctions() []string {
