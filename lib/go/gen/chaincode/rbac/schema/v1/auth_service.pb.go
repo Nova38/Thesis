@@ -227,11 +227,10 @@ func (x *UserGetCurrentIdResponse) GetUserId() *rbac.User_Id {
 }
 
 // UserGetList
-//
-//	message UserGetListRequest{
-//	  string bookmark = 1;
-//	  int32 page_size = 2;
-//	}
+// message UserGetListRequest{
+//   string bookmark = 1;
+//   int32 page_size = 2;
+// }
 type UserGetListResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -688,11 +687,10 @@ func (x *UserUpdateMembershipResponse) GetUser() *rbac.User {
 // Collection
 // Query
 // CollectionGetList
-//
-//	message CollectionGetListRequest{
-//	  string bookmark = 1;
-//	  int32 page_size = 2;
-//	}
+// message CollectionGetListRequest{
+//   string bookmark = 1;
+//   int32 page_size = 2;
+// }
 type CollectionGetListResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -233,9 +233,9 @@ export class ACL extends Message<ACL> {
    * # Policy
    *   - Maps to the domain: DOMAIN_OBJECT_FIELD
    *
-   * @generated from field: rbac.ACL.PathRolePermission object_paths = 5;
+   * @generated from field: rbac.ACL.PathPermission object_paths = 5;
    */
-  objectPaths?: ACL_PathRolePermission;
+  objectPaths?: ACL_PathPermission;
 
   constructor(data?: PartialMessage<ACL>) {
     super();
@@ -249,7 +249,7 @@ export class ACL extends Message<ACL> {
     { no: 2, name: "role_permissions", kind: "message", T: ACL_Policy_Roles },
     { no: 3, name: "memberships", kind: "message", T: ACL_Policy_Roles },
     { no: 4, name: "object", kind: "message", T: ACL_Policy_Object },
-    { no: 5, name: "object_paths", kind: "message", T: ACL_PathRolePermission },
+    { no: 5, name: "object_paths", kind: "message", T: ACL_PathPermission },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL {
@@ -740,9 +740,9 @@ export class ACL_Policy_ObjectField extends Message<ACL_Policy_ObjectField> {
 /**
  * This message is the tree node for operations on the state object
  *
- * @generated from message rbac.ACL.PathRolePermission
+ * @generated from message rbac.ACL.PathPermission
  */
-export class ACL_PathRolePermission extends Message<ACL_PathRolePermission> {
+export class ACL_PathPermission extends Message<ACL_PathPermission> {
   /**
    * The path is a sub path of a field mask
    *
@@ -758,9 +758,9 @@ export class ACL_PathRolePermission extends Message<ACL_PathRolePermission> {
   /**
    * The key is a valid sub path in the type of state object
    *
-   * @generated from field: map<string, rbac.ACL.PathRolePermission> sub_paths = 3;
+   * @generated from field: map<string, rbac.ACL.PathPermission> sub_paths = 3;
    */
-  subPaths: { [key: string]: ACL_PathRolePermission } = {};
+  subPaths: { [key: string]: ACL_PathPermission } = {};
 
   /**
    * The Key must be a valid role id defined in the roles map
@@ -769,34 +769,34 @@ export class ACL_PathRolePermission extends Message<ACL_PathRolePermission> {
    */
   policy?: ACL_Policy_ObjectField;
 
-  constructor(data?: PartialMessage<ACL_PathRolePermission>) {
+  constructor(data?: PartialMessage<ACL_PathPermission>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "rbac.ACL.PathRolePermission";
+  static readonly typeName = "rbac.ACL.PathPermission";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "allow_sub_paths", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL_PathRolePermission} },
+    { no: 3, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL_PathPermission} },
     { no: 4, name: "policy", kind: "message", T: ACL_Policy_ObjectField },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_PathRolePermission {
-    return new ACL_PathRolePermission().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_PathPermission {
+    return new ACL_PathPermission().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_PathRolePermission {
-    return new ACL_PathRolePermission().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_PathPermission {
+    return new ACL_PathPermission().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_PathRolePermission {
-    return new ACL_PathRolePermission().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_PathPermission {
+    return new ACL_PathPermission().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ACL_PathRolePermission | PlainMessage<ACL_PathRolePermission> | undefined, b: ACL_PathRolePermission | PlainMessage<ACL_PathRolePermission> | undefined): boolean {
-    return proto3.util.equals(ACL_PathRolePermission, a, b);
+  static equals(a: ACL_PathPermission | PlainMessage<ACL_PathPermission> | undefined, b: ACL_PathPermission | PlainMessage<ACL_PathPermission> | undefined): boolean {
+    return proto3.util.equals(ACL_PathPermission, a, b);
   }
 }
 

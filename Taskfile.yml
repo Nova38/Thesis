@@ -12,12 +12,19 @@ tasks:
       - install
     cmds:
       - buf generate
-  gen:
+  gen:all:
     watch: true
     # sources:
     #   - "./lib/proto/rbac/rbac.proto"
     cmds:
       - buf generate
+
+  gen:clean:
+    cmds:
+      - rm -rf ./lib/go/gen/chaincode
+      - rm -rf ./lib/go/gen/rbac
+      - rm -rf ./lib/es/gen/*
+
 
   gen-lib:
     vars:
@@ -28,6 +35,8 @@ tasks:
   go:format:
     cmds:
       - golines --ignore-generated  . -w
+
+
 
 
   fabric:getMetadata:

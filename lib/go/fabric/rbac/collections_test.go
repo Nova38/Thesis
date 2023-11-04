@@ -44,10 +44,10 @@ var collection1 = &pb.Collection{
 				ViewHistory: false,
 				HiddenTx:    false,
 			},
-			ObjectPaths: &pb.ACL_PathRolePermission{
+			ObjectPaths: &pb.ACL_PathPermission{
 				Path:          "",
 				AllowSubPaths: false,
-				SubPaths:      map[string]*pb.ACL_PathRolePermission{},
+				SubPaths:      map[string]*pb.ACL_PathPermission{},
 				Policy: &pb.ACL_Policy_ObjectField{
 					View:           false,
 					Edit:           false,
@@ -85,7 +85,7 @@ func Test_splitPath(t *testing.T) {
 
 func TestExtractPathPolicy(t *testing.T) {
 	type args struct {
-		current *pb.ACL_PathRolePermission
+		current *pb.ACL_PathPermission
 		path    string
 	}
 	tests := []struct {
@@ -97,7 +97,7 @@ func TestExtractPathPolicy(t *testing.T) {
 		{
 			name: "Empty path",
 			args: args{
-				current: &pb.ACL_PathRolePermission{
+				current: &pb.ACL_PathPermission{
 					Policy: &pb.ACL_Policy_ObjectField{
 						View:           false,
 						Edit:           false,
@@ -120,7 +120,7 @@ func TestExtractPathPolicy(t *testing.T) {
 		{
 			name: "Root path match",
 			args: args{
-				current: &pb.ACL_PathRolePermission{
+				current: &pb.ACL_PathPermission{
 					Path: "root",
 				},
 				path: "root",
@@ -133,7 +133,7 @@ func TestExtractPathPolicy(t *testing.T) {
 		{
 			name: "Root path mismatch",
 			args: args{
-				current: &pb.ACL_PathRolePermission{
+				current: &pb.ACL_PathPermission{
 					Path: "root1",
 				},
 				path: "root2",
@@ -144,9 +144,9 @@ func TestExtractPathPolicy(t *testing.T) {
 		{
 			name: "Nested path match",
 			args: args{
-				current: &pb.ACL_PathRolePermission{
+				current: &pb.ACL_PathPermission{
 					Path: "root",
-					SubPaths: map[string]*pb.ACL_PathRolePermission{
+					SubPaths: map[string]*pb.ACL_PathPermission{
 						"child": {
 							Path: "child",
 							// child policy
@@ -163,7 +163,7 @@ func TestExtractPathPolicy(t *testing.T) {
 		{
 			name: "Nested path mismatch",
 			args: args{
-				current: &pb.ACL_PathRolePermission{
+				current: &pb.ACL_PathPermission{
 					Path: "root",
 				},
 				path: "root.child",
@@ -190,7 +190,7 @@ func TestCheckPathAction(t *testing.T) {
 	type args struct {
 		path     string
 		action   pb.ACL_Action
-		policies *pb.ACL_PathRolePermission
+		policies *pb.ACL_PathPermission
 	}
 	tests := []struct {
 		name    string

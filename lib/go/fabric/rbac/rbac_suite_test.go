@@ -51,7 +51,7 @@ var _ = Describe("rbac", func() {
 							ViewHistory: false,
 							HiddenTx:    false,
 						},
-						ObjectPaths: &rbac_pb.ACL_PathRolePermission{},
+						ObjectPaths: &rbac_pb.ACL_PathPermission{},
 					},
 					"1": {
 						RoleDefs: &rbac_pb.ACL_Policy_Roles{
@@ -79,10 +79,10 @@ var _ = Describe("rbac", func() {
 							ViewHistory: false,
 							HiddenTx:    false,
 						},
-						ObjectPaths: &rbac_pb.ACL_PathRolePermission{
+						ObjectPaths: &rbac_pb.ACL_PathPermission{
 							Path:          "",
 							AllowSubPaths: true,
-							SubPaths:      map[string]*rbac_pb.ACL_PathRolePermission{},
+							SubPaths:      map[string]*rbac_pb.ACL_PathPermission{},
 							Policy:        &rbac_pb.ACL_Policy_ObjectField{},
 						},
 					},

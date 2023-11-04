@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package auth;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+
+// Define method options
+extend google.protobuf.MethodOptions {
+  Operation operation = 57775;
+}
+
+
+message Operation {
+  enum Domain {
+    DOMAIN_UNSPECIFIED = 0;
+
+    // Meta create
+    DOMAIN_COLLECTION = 1;
+      DOMAIN_COLLECTION_MEMBERSHIP = 2;
+      DOMAIN_COLLECTION_PERMISSION = 3;
+      DOMAIN_COLLECTION_ROLES = 4;
+    DOMAIN_USER = 5;
+    DOMAIN_OBJECT = 6;
+    DOMAIN_OBJECT_FIELD = 7;
+    DOMAIN_TEST = 100;          // Test
+  }
+  enum Action {
+    ACTION_UNSPECIFIED = 0;   // Default
+    ACTION_VIEW = 1;          // View
+    ACTION_CREATE = 2;        // Create
+    ACTION_DELETE = 3;        // Delete
+    ACTION_EDIT = 4;          // Edit/Update
+
+    ACTION_VIEW_SUGGEST = 5;    // View the suggested update to the object
+    ACTION_SUGGEST_EDIT = 6;    // Suggest an update to the object
+    ACTION_SUGGEST_APPROVE = 7; // Approve the suggested update
+    ACTION_SUGGEST_REJECT = 8;  // Reject the suggested update
+
+    ACTION_VIEW_HISTORY = 9;    // View the history of the object
+
+    ACTION_HIDDEN_TX = 10;      // view, hide, unhide
+
+    ACTION_TEST = 100;          // Test
+  }
+
+  Domain domain = 1;
+  Action action = 2;
+  google.protobuf.FieldMask paths = 3;
+
+
+  option (buf.validate.message).cel = {
+      id: "domain.missing.action.missing"
+      message: "Domain and action must not be set to unspecified"
+      expression: "this.domain != 0 || this.action != 0"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.Collection.AllowedActions"
+    message: "Collection domain allows only create"
+    expression: "this.domain != 1 && this.action in(2,3)"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.COLLECTION_MEMBERSHIP.AllowedActions"
+    message: "Collection membership domain  not "
+    expression: "this.domain != 2 "
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.COLLECTION_PERMISSION.AllowedActions"
+    message: "Collection Permissions domain allows only view,edit,delete"
+    expression: "this.domain != 3 && this.action in(1,3,4)"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.DOMAIN_COLLECTION_ROLES.AllowedActions"
+    message: "Collection Roles domain allows only view,create,delete,edit"
+    expression: "this.domain != 4 && this.action in(1,2,3,4)"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.User.AllowedActions"
+    message: "User domain allows only view,create,delete,edit"
+    expression: "this.domain != 5 && this.action in(1,2,3,4)"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.Object.AllowedActions"
+    message: "Collection Object domain allows only view,create,delete,history,hidden"
+    expression: "this.domain != 6 && this.action in(1,2,3,9,10)"
+  };
+
+  option (buf.validate.message).cel = {
+    id: "domain.Object_Field.AllowedActions"
+    message: "Collection Object Field only allows view,edit,suggested_edit,suggested_approve,suggested_reject"
+    expression: "this.domain != 7 && this.action in(1,4,5,6,7,8)"
+  };
+
+
+}
+
+
+
+// Types of Policies for the ACL
+message Policy {
+
+  // Policy for altering the membership of a role or perms of a role
+  message Permissions {
+    bool view = 1;
+    bool create = 2;
+    bool edit = 3;
+    bool delete = 4;
+  }
+
+  // Policy for altering the object
+  message Object {
+    bool view = 1;
+    bool create = 2;
+    bool delete = 3;
+    bool view_history = 4;
+    bool hidden_tx = 5;
+  }
+
+  // Policy for altering the object
+  message ObjectField {
+    bool view = 1;
+    bool edit = 2;
+    bool suggest_edit = 3;
+    bool suggest_approve = 4;
+    bool suggest_reject = 5;
+  }
+
+  oneof policy {
+    Permissions roles = 1;
+    Permissions membership = 2;
+    Object object = 3;
+    ObjectField object_field = 4;
+  }
+}
+
+
+// This message is the tree node for operations on the state object
+message PathPermission {
+  // The path is a sub path of a field mask
+  string path = 1 [(buf.validate.field).string.min_len = 1];
+
+  bool allow_sub_paths = 2;
+  // The key is a valid sub path in the type of state object
+  map<string, PathPermission> sub_paths = 3;
+
+  // The Key must be a valid role id defined in the roles map
+  Policy.ObjectField policy = 4 [(buf.validate.field).required = true];
+
+
+  option (buf.validate.message).cel = {
+      id: "SubPathsAllowed"
+      message: "Sub Paths are not allowed"
+      expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+  };
+}
+
+
+
+
+message ACL {
+  message Entry{
+    Policy.Roles role_defs = 1 [(buf.validate.field).required = true];
+    Policy.Roles role_permissions  = 2 [(buf.validate.field).required = true];
+    Policy.Roles memberships = 3 [(buf.validate.field).required = true];
+    Policy.Object object = 4 [(buf.validate.field).required = true];
+    PathPermission object_paths = 5 [(buf.validate.field).required = true];
+  }
+  message RoleMap {
+    map<string, Role> roles = 1 [(buf.validate.field).required = true];
+  }
+
+}
+
+message RoleACLEntry {
+  auth.Policy.Roles role_defs = 1 [(buf.validate.field).required = true];
+  auth.Policy.Roles role_permissions  = 2 [(buf.validate.field).required = true];
+  auth.Policy.Roles memberships = 3 [(buf.validate.field).required = true];
+  auth.Policy.Object object = 4 [(buf.validate.field).required = true];
+  auth.PathPermission object_paths = 5 [(buf.validate.field).required = true];
+}

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package auth;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+
+import "hlf/key.proto";
+
+
+
+// message X509Identity {
+//   string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+//   bytes cert = 2 [(buf.validate.field).bytes.min_len = 1];
+// }
+
+message Attribute {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  string value = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message Role {
+  Collection.Id collection_id = 1;
+  string role_id = 2;
+  string parent_role_id = 3;
+
+  oneof role {
+    User.Id user_id = 4;
+    Attribute attribute = 5;
+  }
+}
+
+
+
+
+message Collection {
+  option (hlf.key_schema).namespace = "collection";
+  option (hlf.key_schema).key_paths = {
+    paths: ["id.collection_id"]
+  };
+
+  message Id {
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  }
+
+  // The key for the ledger
+  Id id = 1;
+
+  string object_type = 2 [(buf.validate.field).required = true];
+
+  oneof acl {
+
+  }
+
+
+
+}
+
+
+message User {
+  option (hlf.key_schema).namespace = "users";
+  option (hlf.key_schema).key_paths = {
+    paths: [
+      "id.msp_id",
+      "id.id"
+    ]
+  };
+
+  // The key for the ledger
+  message Id {
+    string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+    string id = 2 [(buf.validate.field).string.min_len = 1];
+  }
+
+  Id id = 1 [(buf.validate.field).required = true];
+  string name = 2 [(buf.validate.field).string.min_len = 1];
+
+  // The Key is for the Collection
+  // The Value is for the RoleId
+  map<string, string> roles = 3;
+
+
+}

@@ -80,7 +80,7 @@ func splitPath(path string) []string {
 }
 
 func getSubPaths(
-	current *pb.ACL_PathRolePermission,
+	current *pb.ACL_PathPermission,
 ) []string {
 	paths := []string{current.Path}
 
@@ -175,7 +175,7 @@ func ValidatePaths(c *pb.Collection) (err error) {
 // WalkACLPath walks through though the path and returns the permission for the path
 
 func ExtractPathPolicy(
-	current *pb.ACL_PathRolePermission,
+	current *pb.ACL_PathPermission,
 	path string,
 ) (*pb.ACL_Policy_ObjectField, error) {
 	paths := splitPath(path)
@@ -240,7 +240,7 @@ func ExtractPathPolicy(
 func CheckPathAction(
 	path string,
 	action pb.ACL_Action,
-	policies *pb.ACL_PathRolePermission,
+	policies *pb.ACL_PathPermission,
 ) (bool, error) {
 	policy, err := ExtractPathPolicy(policies, path)
 	if err != nil {

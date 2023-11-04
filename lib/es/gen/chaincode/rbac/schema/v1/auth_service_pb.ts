@@ -374,7 +374,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
 
 /**
  * Invoke
- *
+ * 
  * UserRegister
  *
  * @generated from message rbac.schema.v1.UserRegisterRequest

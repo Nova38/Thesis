@@ -1,0 +1,59 @@
+enum Error {
+  ERROR_UNSPECIFIED = 0;
+  ERROR_REQUEST_INVALID = 1;
+  ERROR_RUNTIME = 2;
+  ERROR_RUNTIME_BAD_OPS = 3;
+
+  /* Collection Errors */
+
+  // The collection id is invalid
+  ERROR_COLLECTION_INVALID_ID = 11;
+  // The collection is not registered
+  ERROR_COLLECTION_UNREGISTERED = 12;
+  // The collection is already registered
+  ERROR_COLLECTION_ALREADY_REGISTERED = 13;
+  // The Collection is invalid
+  ERROR_COLLECTION_INVALID = 14;
+  // The object type name is invalid
+  ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
+  // The role id is invalid
+  ERROR_COLLECTION_INVALID_ROLE_ID = 16;
+
+
+  // User Errors
+
+  // The user does not have permission to perform the operation
+  ERROR_USER_INVALID_ID = 20;
+  // The user is not registered
+  ERROR_USER_UNREGISTERED = 21;
+  // The user is already registered
+  ERROR_USER_ALREADY_REGISTERED = 22;
+  // The user is invalid
+  ERROR_USER_INVALID = 23;
+  // The user does not have a role in the collection
+  ERROR_USER_NO_ROLE = 24;
+  // The user has a deleted role in the collection
+  ERROR_USER_DELETED_ROLE = 25;
+  // The user does not have permission to perform the operation
+  ERROR_USER_PERMISSION_DENIED = 26;
+
+
+
+  // The object id is invalid
+  ERROR_OBJECT_INVALID_ID = 31;
+  // The object is not registered
+  ERROR_OBJECT_UNREGISTERED = 32;
+  // The object is already registered
+  ERROR_OBJECT_ALREADY_REGISTERED = 33;
+  // The object is invalid
+  ERROR_OBJECT_INVALID = 34;
+
+  //
+  ERROR_INVALID_OBJECT_FIELD_PATH = 35;
+  ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
+
+
+  //
+
+
+}

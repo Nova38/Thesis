@@ -8,6 +8,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
 
+// import "auth/auth.proto";
 
 import "hlf/key.proto";
 
@@ -151,13 +152,13 @@ message ACL {
   }
 
   // This message is the tree node for operations on the state object
-  message PathRolePermission {
+  message PathPermission {
     // The path is a sub path of a field mask
     string path = 1 [(buf.validate.field).string.min_len = 1];
 
     bool allow_sub_paths = 2;
     // The key is a valid sub path in the type of state object
-    map<string, PathRolePermission> sub_paths = 3;
+    map<string, PathPermission> sub_paths = 3;
 
     // The Key must be a valid role id defined in the roles map
     Policy.ObjectField policy = 4 [(buf.validate.field).required = true];
@@ -195,8 +196,17 @@ message ACL {
   // The permissions for modifications to the object's fields
   // # Policy
   //   - Maps to the domain: DOMAIN_OBJECT_FIELD
-  PathRolePermission object_paths = 5 [(buf.validate.field).required = true];
+  PathPermission object_paths = 5 [(buf.validate.field).required = true];
 }
+
+
+// message RoleACL {
+//   auth.Policy.Roles role_defs = 1 [(buf.validate.field).required = true];
+//   auth.Policy.Roles role_permissions  = 2 [(buf.validate.field).required = true];
+//   auth.Policy.Roles memberships = 3 [(buf.validate.field).required = true];
+//   auth.Policy.Object object = 4 [(buf.validate.field).required = true];
+//   auth.PathPermission object_paths = 5 [(buf.validate.field).required = true];
+// }
 
 
 

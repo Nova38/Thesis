@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package auth;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+
+import "hlf/key.proto";

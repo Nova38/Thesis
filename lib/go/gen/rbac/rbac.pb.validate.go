@@ -1330,22 +1330,22 @@ var _ interface {
 	ErrorName() string
 } = ACL_PolicyValidationError{}
 
-// Validate checks the field values on ACL_PathRolePermission with the rules
+// Validate checks the field values on ACL_PathPermission with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ACL_PathRolePermission) Validate() error {
+func (m *ACL_PathPermission) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ACL_PathRolePermission with the rules
+// ValidateAll checks the field values on ACL_PathPermission with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// ACL_PathRolePermissionMultiError, or nil if none found.
-func (m *ACL_PathRolePermission) ValidateAll() error {
+// ACL_PathPermissionMultiError, or nil if none found.
+func (m *ACL_PathPermission) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ACL_PathRolePermission) validate(all bool) error {
+func (m *ACL_PathPermission) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1374,7 +1374,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 				switch v := interface{}(val).(type) {
 				case interface{ ValidateAll() error }:
 					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, ACL_PathRolePermissionValidationError{
+						errors = append(errors, ACL_PathPermissionValidationError{
 							field:  fmt.Sprintf("SubPaths[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
@@ -1382,7 +1382,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 					}
 				case interface{ Validate() error }:
 					if err := v.Validate(); err != nil {
-						errors = append(errors, ACL_PathRolePermissionValidationError{
+						errors = append(errors, ACL_PathPermissionValidationError{
 							field:  fmt.Sprintf("SubPaths[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
@@ -1391,7 +1391,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 				}
 			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
 				if err := v.Validate(); err != nil {
-					return ACL_PathRolePermissionValidationError{
+					return ACL_PathPermissionValidationError{
 						field:  fmt.Sprintf("SubPaths[%v]", key),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1406,7 +1406,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 		switch v := interface{}(m.GetPolicy()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ACL_PathRolePermissionValidationError{
+				errors = append(errors, ACL_PathPermissionValidationError{
 					field:  "Policy",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1414,7 +1414,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ACL_PathRolePermissionValidationError{
+				errors = append(errors, ACL_PathPermissionValidationError{
 					field:  "Policy",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1423,7 +1423,7 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetPolicy()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ACL_PathRolePermissionValidationError{
+			return ACL_PathPermissionValidationError{
 				field:  "Policy",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1432,19 +1432,19 @@ func (m *ACL_PathRolePermission) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ACL_PathRolePermissionMultiError(errors)
+		return ACL_PathPermissionMultiError(errors)
 	}
 
 	return nil
 }
 
-// ACL_PathRolePermissionMultiError is an error wrapping multiple validation
-// errors returned by ACL_PathRolePermission.ValidateAll() if the designated
-// constraints aren't met.
-type ACL_PathRolePermissionMultiError []error
+// ACL_PathPermissionMultiError is an error wrapping multiple validation errors
+// returned by ACL_PathPermission.ValidateAll() if the designated constraints
+// aren't met.
+type ACL_PathPermissionMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ACL_PathRolePermissionMultiError) Error() string {
+func (m ACL_PathPermissionMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1453,11 +1453,11 @@ func (m ACL_PathRolePermissionMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ACL_PathRolePermissionMultiError) AllErrors() []error { return m }
+func (m ACL_PathPermissionMultiError) AllErrors() []error { return m }
 
-// ACL_PathRolePermissionValidationError is the validation error returned by
-// ACL_PathRolePermission.Validate if the designated constraints aren't met.
-type ACL_PathRolePermissionValidationError struct {
+// ACL_PathPermissionValidationError is the validation error returned by
+// ACL_PathPermission.Validate if the designated constraints aren't met.
+type ACL_PathPermissionValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1465,24 +1465,24 @@ type ACL_PathRolePermissionValidationError struct {
 }
 
 // Field function returns field value.
-func (e ACL_PathRolePermissionValidationError) Field() string { return e.field }
+func (e ACL_PathPermissionValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ACL_PathRolePermissionValidationError) Reason() string { return e.reason }
+func (e ACL_PathPermissionValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ACL_PathRolePermissionValidationError) Cause() error { return e.cause }
+func (e ACL_PathPermissionValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ACL_PathRolePermissionValidationError) Key() bool { return e.key }
+func (e ACL_PathPermissionValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ACL_PathRolePermissionValidationError) ErrorName() string {
-	return "ACL_PathRolePermissionValidationError"
+func (e ACL_PathPermissionValidationError) ErrorName() string {
+	return "ACL_PathPermissionValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ACL_PathRolePermissionValidationError) Error() string {
+func (e ACL_PathPermissionValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1494,14 +1494,14 @@ func (e ACL_PathRolePermissionValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sACL_PathRolePermission.%s: %s%s",
+		"invalid %sACL_PathPermission.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ACL_PathRolePermissionValidationError{}
+var _ error = ACL_PathPermissionValidationError{}
 
 var _ interface {
 	Field() string
@@ -1509,7 +1509,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ACL_PathRolePermissionValidationError{}
+} = ACL_PathPermissionValidationError{}
 
 // Validate checks the field values on ACL_Policy_Roles with the rules defined
 // in the proto definition for this message. If any rules are violated, the

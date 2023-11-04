@@ -104,7 +104,7 @@ func (msg *ACL_Policy_ObjectField) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *ACL_PathRolePermission) MarshalJSON() ([]byte, error) {
+func (msg *ACL_PathPermission) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -113,7 +113,7 @@ func (msg *ACL_PathRolePermission) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *ACL_PathRolePermission) UnmarshalJSON(b []byte) error {
+func (msg *ACL_PathPermission) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
