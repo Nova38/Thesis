@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Any, FieldMask, Message, proto3, Struct, Timestamp } from "@bufbuild/protobuf";
+import { Any, FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
 
 /**
  * @generated from enum rbac.Error
@@ -314,6 +314,13 @@ export enum ACL_Domain {
    * @generated from enum value: DOMAIN_OBJECT_FIELD = 7;
    */
   OBJECT_FIELD = 7,
+
+  /**
+   * Test
+   *
+   * @generated from enum value: DOMAIN_TEST = 100;
+   */
+  TEST = 100,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ACL_Domain)
 proto3.util.setEnumType(ACL_Domain, "rbac.ACL.Domain", [
@@ -325,6 +332,7 @@ proto3.util.setEnumType(ACL_Domain, "rbac.ACL.Domain", [
   { no: 5, name: "DOMAIN_USER" },
   { no: 6, name: "DOMAIN_OBJECT" },
   { no: 7, name: "DOMAIN_OBJECT_FIELD" },
+  { no: 100, name: "DOMAIN_TEST" },
 ]);
 
 /**
@@ -407,6 +415,13 @@ export enum ACL_Action {
    * @generated from enum value: ACTION_HIDDEN_TX = 10;
    */
   HIDDEN_TX = 10,
+
+  /**
+   * Test
+   *
+   * @generated from enum value: ACTION_TEST = 100;
+   */
+  TEST = 100,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ACL_Action)
 proto3.util.setEnumType(ACL_Action, "rbac.ACL.Action", [
@@ -421,6 +436,7 @@ proto3.util.setEnumType(ACL_Action, "rbac.ACL.Action", [
   { no: 8, name: "ACTION_SUGGEST_REJECT" },
   { no: 9, name: "ACTION_VIEW_HISTORY" },
   { no: 10, name: "ACTION_HIDDEN_TX" },
+  { no: 100, name: "ACTION_TEST" },
 ]);
 
 /**
@@ -815,21 +831,16 @@ export class Collection extends Message<Collection> {
    *   - The key is the role id
    *   - The value is the role name
    *
-   * @generated from field: map<int32, string> roles = 4;
+   * @generated from field: map<string, string> roles = 4;
    */
-  roles: { [key: number]: string } = {};
-
-  /**
-   * @generated from field: repeated int32 role_nums = 9;
-   */
-  roleNums: number[] = [];
+  roles: { [key: string]: string } = {};
 
   /**
    * Declared Permissions for the permissions of all roles in the collection
    *
-   * @generated from field: map<int32, rbac.ACL> acl = 5;
+   * @generated from field: map<string, rbac.ACL> acl = 5;
    */
-  acl: { [key: number]: ACL } = {};
+  acl: { [key: string]: ACL } = {};
 
   constructor(data?: PartialMessage<Collection>) {
     super();
@@ -842,9 +853,8 @@ export class Collection extends Message<Collection> {
     { no: 1, name: "id", kind: "message", T: Collection_Id },
     { no: 2, name: "object_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "roles", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
-    { no: 9, name: "role_nums", kind: "scalar", T: 5 /* ScalarType.INT32 */, repeated: true },
-    { no: 5, name: "acl", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: ACL} },
+    { no: 4, name: "roles", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
+    { no: 5, name: "acl", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
@@ -928,9 +938,9 @@ export class User extends Message<User> {
   roles: { [key: string]: User_Role } = {};
 
   /**
-   * @generated from field: google.protobuf.Struct metadata = 4;
+   * @generated from field: map<string, string> metadata = 4;
    */
-  metadata?: Struct;
+  metadata: { [key: string]: string } = {};
 
   constructor(data?: PartialMessage<User>) {
     super();
@@ -943,7 +953,7 @@ export class User extends Message<User> {
     { no: 1, name: "id", kind: "message", T: User_Id },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "roles", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: User_Role} },
-    { no: 4, name: "metadata", kind: "message", T: Struct },
+    { no: 4, name: "metadata", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
@@ -1018,9 +1028,9 @@ export class User_Role extends Message<User_Role> {
   collectionId?: Collection_Id;
 
   /**
-   * @generated from field: int32 role_id = 2;
+   * @generated from field: string role_id = 2;
    */
-  roleId = 0;
+  roleId = "";
 
   /**
    * @generated from field: rbac.User.Id granted_by = 3;
@@ -1036,7 +1046,7 @@ export class User_Role extends Message<User_Role> {
   static readonly typeName = "rbac.User.Role";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 2, name: "role_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "granted_by", kind: "message", T: User_Id },
   ]);
 

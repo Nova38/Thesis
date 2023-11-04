@@ -30,6 +30,11 @@ tasks:
       - golines --ignore-generated  . -w
 
 
+  fabric:getMetadata:
+    cmds:
+      - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
+
+
   default:
     watch: true
     sources:

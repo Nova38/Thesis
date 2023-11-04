@@ -218,8 +218,33 @@ service AuthService {
       };
     };
 
+
+
+    /*
+    * Test Helpers
+    */
+
+    // rpc TestOperation(TestOperationRequest) returns (TestOperationResponse){
+    //   option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
+    //   option (rbac.operation) = {
+    //     action: ACTION_TEST
+    //     domain: DOMAIN_TEST
+    //   };
+    // };
+
+
 }
 
+
+  // Test Helpers
+    message TestOperationRequest {
+      Collection.Id collection_id = 1;
+      ACL.Operation operation = 2;
+    }
+
+    message TestOperationResponse {
+      bool result = 1;
+    }
 
 // Auth
 
@@ -293,7 +318,7 @@ service AuthService {
       message UserUpdateMembershipRequest {
           User.Id id = 1;
           Collection.Id collection_id = 2;
-          int32 role = 3;
+          string role = 3;
 
           option (buf.validate.message).cel = {
             id: "UserUpdateMembershipRequest.UserId",
@@ -361,16 +386,21 @@ service AuthService {
     // CollectionRolesUpdate
       message CollectionUpdateRolesRequest {
           Collection.Id collection_id = 1;
-          map<int32, string> roles = 2;
+          map<string, string> roles_to_add = 2;
+          map<string, string> roles_to_remove = 3;
       }
       message CollectionUpdateRolesResponse {
           Collection collection = 1;
+          map<string, string> roles_added = 2
+            [(buf.validate.field).map.values = {string: {min_len: 1}}];
+          map<string, string> roles_removed = 3
+            [(buf.validate.field).map.values = {string: {min_len: 1}}];
       }
 
     // CollectionPermissionsUpdate
       message CollectionUpdatePermissionRequest {
           Collection.Id collection_id = 1;
-          map<int32, ACL> acl = 5;
+          map<string, ACL> acl = 5;
       }
       message CollectionUpdatePermissionResponse {
           Collection collection = 1;

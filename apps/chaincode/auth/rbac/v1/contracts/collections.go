@@ -3,6 +3,7 @@ package contracts
 import (
 	"log/slog"
 
+	"github.com/samber/lo"
 	"github.com/samber/oops"
 
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
@@ -79,10 +80,7 @@ func (a AuthContractImpl) CollectionGetHistory(
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.Validate(req); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
-			Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 
 	panic("implement me")
@@ -92,7 +90,6 @@ func (a AuthContractImpl) CollectionCreate(
 	ctx *AuthTxCtx,
 	req *cc.CollectionCreateRequest,
 ) (res *cc.CollectionCreateResponse, err error) {
-	// TODO implement CollectionCreate
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	{ // Validate
@@ -147,6 +144,34 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 		// Check if the paths are valid for the type
 
 		// todo other validations
+
+		// 1. a role can't be in both list
+		// 2. the roles in both list must be valid (above 1)
+		if len(req.RolesToAdd) == 0 && len(req.RolesToRemove) == 0 {
+			return nil, oops.Errorf("add and remove roles are empty")
+		}
+
+		if len(req.RolesToAdd) != len(lo.Uniq(lo.Values(req.RolesToAdd))) {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				With("roles", req.RolesToAdd).
+				Errorf("add roles contains duplicates role names")
+		}
+
+		if len(req.RolesToRemove) != len(lo.Uniq(lo.Values(req.RolesToRemove))) {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				With("roles", req.RolesToRemove).
+				Errorf("remove roles contains duplicates role names")
+		}
+
+		if len(lo.Intersect(lo.Values(req.RolesToAdd), lo.Values(req.RolesToRemove))) > 0 {
+			return nil, oops.
+				In(ctx.GetFnName()).
+				With("remove", req.RolesToRemove, "add", req.RolesToAdd).
+				Errorf("add and remove roles contains same role names")
+		}
+
 	}
 
 	{ // Authorize
@@ -165,7 +190,6 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 		}
 
 		// todo: Change other parts???
-		col.Roles = req.Roles
 
 		// Make sure the collection is valid
 		if err = rbac.ValidateCollection(col); err != nil {

@@ -336,7 +336,7 @@ func (m *Collection) validate(all bool) error {
 	// no validation rules for Roles
 
 	{
-		sorted_keys := make([]int32, len(m.GetAcl()))
+		sorted_keys := make([]string, len(m.GetAcl()))
 		i := 0
 		for key := range m.GetAcl() {
 			sorted_keys[i] = key
@@ -556,34 +556,7 @@ func (m *User) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetMetadata()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Metadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Metadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetMetadata()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UserValidationError{
-				field:  "Metadata",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Metadata
 
 	if len(errors) > 0 {
 		return UserMultiError(errors)

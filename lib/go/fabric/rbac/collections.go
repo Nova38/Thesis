@@ -8,6 +8,7 @@ import (
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/reflect/protoregistry"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // type Collection pb.Collection
@@ -16,6 +17,13 @@ import (
 //
 
 func ValidateCollection(c *pb.Collection) (err error) {
+	// Check to see if the type is valid
+	if _, err = GetType(c); err != nil {
+		return oops.
+			With("type", c.GetObjectType()).
+			Wrap(err)
+	}
+
 	// Check if the paths are valid for the type
 	if err = ValidatePaths(c); err != nil {
 		return oops.Errorf("invalid paths for collection %v", c.Id.CollectionId)
@@ -94,7 +102,7 @@ func GetAllPaths(c *pb.Collection) []string {
 
 	paths := lo.Uniq(lo.Flatten(lo.MapToSlice(
 		acl,
-		func(key int32, v *pb.ACL) []string {
+		func(key string, v *pb.ACL) []string {
 			return getSubPaths(v.ObjectPaths)
 		},
 	)))
@@ -124,7 +132,7 @@ func GetType(c *pb.Collection) (protoreflect.MessageType, error) {
 	return t, nil
 }
 
-func CheckPaths(c *pb.Collection) (err error) {
+func checkPaths(c *pb.Collection) (err error) {
 	t, err := GetType(c)
 	if err != nil {
 		return err
@@ -137,6 +145,17 @@ func CheckPaths(c *pb.Collection) (err error) {
 		return oops.Errorf("no paths defined")
 	}
 
+	mask, err := fieldmaskpb.New(t.New().Interface(), defPaths...)
+	if err != nil {
+		return oops.
+			With("paths", defPaths).
+			Wrap(err)
+	}
+	if !mask.IsValid(t.New().Interface()) {
+		return oops.
+			With("paths", defPaths).
+			Wrap(err)
+	}
 	// Check if the paths are valid
 	//for _, path := range defPaths {
 	//	if err := t.Fields().ByJSONName(path); err != nil {
@@ -150,8 +169,7 @@ func CheckPaths(c *pb.Collection) (err error) {
 }
 
 func ValidatePaths(c *pb.Collection) (err error) {
-	// TODO: #1 implement ValidatePaths
-	panic("not implemented")
+	return checkPaths(c)
 }
 
 // WalkACLPath walks through though the path and returns the permission for the path
@@ -255,7 +273,7 @@ func CheckPathAction(
 // nolint:cyclop
 func AuthorizeOperation(
 	op *pb.ACL_Operation,
-	role int32,
+	role string,
 	collection *pb.Collection,
 ) (authorized bool, err error) {
 	// Pointer Safety check

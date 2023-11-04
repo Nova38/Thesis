@@ -5,7 +5,89 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { ACL, Collection, Collection_Id, History, User, User_Id } from "../../../../rbac/rbac_pb.js";
+import { ACL, ACL_Operation, Collection, Collection_Id, History, User, User_Id } from "../../../../rbac/rbac_pb.js";
+
+/**
+ * Test Helpers
+ *
+ * @generated from message rbac.schema.v1.TestOperationRequest
+ */
+export class TestOperationRequest extends Message<TestOperationRequest> {
+  /**
+   * @generated from field: rbac.Collection.Id collection_id = 1;
+   */
+  collectionId?: Collection_Id;
+
+  /**
+   * @generated from field: rbac.ACL.Operation operation = 2;
+   */
+  operation?: ACL_Operation;
+
+  constructor(data?: PartialMessage<TestOperationRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "rbac.schema.v1.TestOperationRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
+    { no: 2, name: "operation", kind: "message", T: ACL_Operation },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TestOperationRequest {
+    return new TestOperationRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TestOperationRequest {
+    return new TestOperationRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TestOperationRequest {
+    return new TestOperationRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: TestOperationRequest | PlainMessage<TestOperationRequest> | undefined, b: TestOperationRequest | PlainMessage<TestOperationRequest> | undefined): boolean {
+    return proto3.util.equals(TestOperationRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message rbac.schema.v1.TestOperationResponse
+ */
+export class TestOperationResponse extends Message<TestOperationResponse> {
+  /**
+   * @generated from field: bool result = 1;
+   */
+  result = false;
+
+  constructor(data?: PartialMessage<TestOperationResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "rbac.schema.v1.TestOperationResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "result", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TestOperationResponse {
+    return new TestOperationResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): TestOperationResponse {
+    return new TestOperationResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): TestOperationResponse {
+    return new TestOperationResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: TestOperationResponse | PlainMessage<TestOperationResponse> | undefined, b: TestOperationResponse | PlainMessage<TestOperationResponse> | undefined): boolean {
+    return proto3.util.equals(TestOperationResponse, a, b);
+  }
+}
 
 /**
  * User
@@ -385,9 +467,9 @@ export class UserUpdateMembershipRequest extends Message<UserUpdateMembershipReq
   collectionId?: Collection_Id;
 
   /**
-   * @generated from field: int32 role = 3;
+   * @generated from field: string role = 3;
    */
-  role = 0;
+  role = "";
 
   constructor(data?: PartialMessage<UserUpdateMembershipRequest>) {
     super();
@@ -399,7 +481,7 @@ export class UserUpdateMembershipRequest extends Message<UserUpdateMembershipReq
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: User_Id },
     { no: 2, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 3, name: "role", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 3, name: "role", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserUpdateMembershipRequest {
@@ -744,9 +826,14 @@ export class CollectionUpdateRolesRequest extends Message<CollectionUpdateRolesR
   collectionId?: Collection_Id;
 
   /**
-   * @generated from field: map<int32, string> roles = 2;
+   * @generated from field: map<string, string> roles_to_add = 2;
    */
-  roles: { [key: number]: string } = {};
+  rolesToAdd: { [key: string]: string } = {};
+
+  /**
+   * @generated from field: map<string, string> roles_to_remove = 3;
+   */
+  rolesToRemove: { [key: string]: string } = {};
 
   constructor(data?: PartialMessage<CollectionUpdateRolesRequest>) {
     super();
@@ -757,7 +844,8 @@ export class CollectionUpdateRolesRequest extends Message<CollectionUpdateRolesR
   static readonly typeName = "rbac.schema.v1.CollectionUpdateRolesRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 2, name: "roles", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
+    { no: 2, name: "roles_to_add", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
+    { no: 3, name: "roles_to_remove", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionUpdateRolesRequest {
@@ -786,6 +874,16 @@ export class CollectionUpdateRolesResponse extends Message<CollectionUpdateRoles
    */
   collection?: Collection;
 
+  /**
+   * @generated from field: map<string, string> roles_added = 2;
+   */
+  rolesAdded: { [key: string]: string } = {};
+
+  /**
+   * @generated from field: map<string, string> roles_removed = 3;
+   */
+  rolesRemoved: { [key: string]: string } = {};
+
   constructor(data?: PartialMessage<CollectionUpdateRolesResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -795,6 +893,8 @@ export class CollectionUpdateRolesResponse extends Message<CollectionUpdateRoles
   static readonly typeName = "rbac.schema.v1.CollectionUpdateRolesResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection", kind: "message", T: Collection },
+    { no: 2, name: "roles_added", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
+    { no: 3, name: "roles_removed", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionUpdateRolesResponse {
@@ -826,9 +926,9 @@ export class CollectionUpdatePermissionRequest extends Message<CollectionUpdateP
   collectionId?: Collection_Id;
 
   /**
-   * @generated from field: map<int32, rbac.ACL> acl = 5;
+   * @generated from field: map<string, rbac.ACL> acl = 5;
    */
-  acl: { [key: number]: ACL } = {};
+  acl: { [key: string]: ACL } = {};
 
   constructor(data?: PartialMessage<CollectionUpdatePermissionRequest>) {
     super();
@@ -839,7 +939,7 @@ export class CollectionUpdatePermissionRequest extends Message<CollectionUpdateP
   static readonly typeName = "rbac.schema.v1.CollectionUpdatePermissionRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 5, name: "acl", kind: "map", K: 5 /* ScalarType.INT32 */, V: {kind: "message", T: ACL} },
+    { no: 5, name: "acl", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionUpdatePermissionRequest {

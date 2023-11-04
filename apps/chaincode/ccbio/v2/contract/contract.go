@@ -21,29 +21,6 @@ var (
 	_ contractapi.ContractInterface            = (*SpecimenContractImpl)(nil)
 )
 
-func BuildSpecimenContract() *SpecimenContractImpl {
-	return &SpecimenContractImpl{
-		Contract: contractapi.Contract{
-			Name: "ccbio.Specimen",
-			// BeforeTransaction: ,
-			Info: metadata.InfoMetadata{
-				Description: "",
-				Title:       "Biochain Chaincode",
-				Contact: &metadata.ContactMetadata{
-					Name:  "Thomas Atkins",
-					URL:   "https://biochain.iitc.ku.edu",
-					Email: "tom@ku.edu",
-				},
-				License: &metadata.LicenseMetadata{
-					Name: "MIT",
-					URL:  "https://example.com",
-				},
-				Version: "latest",
-			},
-		},
-	}
-}
-
 // ────────────────────────────────────────────────────────────
 
 func (s *SpecimenContractImpl) GetBeforeTransaction() interface{} {
@@ -73,4 +50,31 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
 	}
 
 	return nil
+}
+
+// -----------------------------------------------------------------------------
+// Build Contract
+// -----------------------------------------------------------------------------
+func NewSpecimenContract(baseName string) *SpecimenContractImpl {
+	contract := new(SpecimenContractImpl)
+	contract.TransactionContextHandler = &CCBioTxCtx{}
+
+	contract.Info = metadata.InfoMetadata{
+		Description: "",
+		Title:       "Biochain Chaincode",
+		Contact: &metadata.ContactMetadata{
+			Name:  "Thomas Atkins",
+			URL:   "https://biochain.iitc.ku.edu",
+			Email: "tom@ku.edu",
+		},
+		License: &metadata.LicenseMetadata{
+			Name: "MIT",
+			URL:  "https://example.com",
+		},
+		Version: "latest",
+	}
+
+	contract.Name = baseName + ".AuthContract"
+
+	return contract
 }

@@ -23,10 +23,9 @@ var _ = Describe("rbac", func() {
 				Id:              &rbac_pb.Collection_Id{},
 				ObjectNamespace: "",
 				ObjectType:      "",
-				Roles:           map[int32]string{},
-				RoleNums:        []int32{},
-				Acl: map[int32]*rbac_pb.ACL{
-					0: {
+				Roles:           map[string]string{},
+				Acl: map[string]*rbac_pb.ACL{
+					"0": {
 						RoleDefs: &rbac_pb.ACL_Policy_Roles{
 							View:   false,
 							Create: false,
@@ -54,7 +53,7 @@ var _ = Describe("rbac", func() {
 						},
 						ObjectPaths: &rbac_pb.ACL_PathRolePermission{},
 					},
-					1: {
+					"1": {
 						RoleDefs: &rbac_pb.ACL_Policy_Roles{
 							View:   false,
 							Create: false,

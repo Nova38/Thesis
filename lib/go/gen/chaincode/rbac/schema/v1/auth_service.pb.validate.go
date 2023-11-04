@@ -35,6 +35,270 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on TestOperationRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *TestOperationRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TestOperationRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TestOperationRequestMultiError, or nil if none found.
+func (m *TestOperationRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TestOperationRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCollectionId()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TestOperationRequestValidationError{
+					field:  "CollectionId",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TestOperationRequestValidationError{
+					field:  "CollectionId",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TestOperationRequestValidationError{
+				field:  "CollectionId",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetOperation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, TestOperationRequestValidationError{
+					field:  "Operation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, TestOperationRequestValidationError{
+					field:  "Operation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOperation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TestOperationRequestValidationError{
+				field:  "Operation",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return TestOperationRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// TestOperationRequestMultiError is an error wrapping multiple validation
+// errors returned by TestOperationRequest.ValidateAll() if the designated
+// constraints aren't met.
+type TestOperationRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TestOperationRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TestOperationRequestMultiError) AllErrors() []error { return m }
+
+// TestOperationRequestValidationError is the validation error returned by
+// TestOperationRequest.Validate if the designated constraints aren't met.
+type TestOperationRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TestOperationRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TestOperationRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TestOperationRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TestOperationRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TestOperationRequestValidationError) ErrorName() string {
+	return "TestOperationRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TestOperationRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTestOperationRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TestOperationRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TestOperationRequestValidationError{}
+
+// Validate checks the field values on TestOperationResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *TestOperationResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TestOperationResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TestOperationResponseMultiError, or nil if none found.
+func (m *TestOperationResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TestOperationResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Result
+
+	if len(errors) > 0 {
+		return TestOperationResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// TestOperationResponseMultiError is an error wrapping multiple validation
+// errors returned by TestOperationResponse.ValidateAll() if the designated
+// constraints aren't met.
+type TestOperationResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TestOperationResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TestOperationResponseMultiError) AllErrors() []error { return m }
+
+// TestOperationResponseValidationError is the validation error returned by
+// TestOperationResponse.Validate if the designated constraints aren't met.
+type TestOperationResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TestOperationResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TestOperationResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TestOperationResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TestOperationResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TestOperationResponseValidationError) ErrorName() string {
+	return "TestOperationResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TestOperationResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTestOperationResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TestOperationResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TestOperationResponseValidationError{}
+
 // Validate checks the field values on UserGetCurrentResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -2492,7 +2756,9 @@ func (m *CollectionUpdateRolesRequest) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Roles
+	// no validation rules for RolesToAdd
+
+	// no validation rules for RolesToRemove
 
 	if len(errors) > 0 {
 		return CollectionUpdateRolesRequestMultiError(errors)
@@ -2625,6 +2891,10 @@ func (m *CollectionUpdateRolesResponse) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for RolesAdded
+
+	// no validation rules for RolesRemoved
 
 	if len(errors) > 0 {
 		return CollectionUpdateRolesResponseMultiError(errors)
@@ -2760,7 +3030,7 @@ func (m *CollectionUpdatePermissionRequest) validate(all bool) error {
 	}
 
 	{
-		sorted_keys := make([]int32, len(m.GetAcl()))
+		sorted_keys := make([]string, len(m.GetAcl()))
 		i := 0
 		for key := range m.GetAcl() {
 			sorted_keys[i] = key

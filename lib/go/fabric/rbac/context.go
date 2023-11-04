@@ -273,7 +273,7 @@ func (ctx *TxCtx) SetCollection(id *rbac_pb.Collection_Id) (col *rbac_pb.Collect
 //  Role Functions
 // =============================================
 
-func (ctx *TxCtx) GetRole() (role int, err error) {
+func (ctx *TxCtx) GetRole() (role string, err error) {
 	// Check the requirements
 	if ctx.User != nil || ctx.Collection != nil {
 		return role, oops.
@@ -286,12 +286,12 @@ func (ctx *TxCtx) GetRole() (role int, err error) {
 
 	// Check to see if the user is a member of the collection
 	if cRole, ok := ctx.User.Roles[ctx.Collection.Id.CollectionId]; ok {
-		return int(cRole.RoleId), nil
+		return cRole.RoleId, nil
 	}
 
 	ctx.GetLogger().Info("User is not a member of the collection, assigning to public")
 
-	return 0, nil
+	return "0", nil
 }
 
 // =============================================

@@ -15,15 +15,14 @@ var collection1 = &pb.Collection{
 	},
 	ObjectNamespace: "some_namespace",
 	ObjectType:      "",
-	Roles: map[int32]string{
-		0: "public",
-		1: "admin",
-		2: "user",
-		3: "guest",
+	Roles: map[string]string{
+		"0": "public",
+		"1": "admin",
+		"2": "user",
+		"3": "guest",
 	},
-	RoleNums: []int32{0, 1, 2, 3},
-	Acl: map[int32]*pb.ACL{
-		0: {
+	Acl: map[string]*pb.ACL{
+		"0": {
 			RoleDefs: &pb.ACL_Policy_Roles{
 				Create: false,
 				Delete: false,
@@ -58,9 +57,9 @@ var collection1 = &pb.Collection{
 				},
 			},
 		},
-		1: {},
-		2: {},
-		3: {},
+		"1": {},
+		"2": {},
+		"3": {},
 	},
 }
 
@@ -218,7 +217,7 @@ func TestCheckPathAction(t *testing.T) {
 func TestAuthorizeOperation(t *testing.T) {
 	type args struct {
 		op         *pb.ACL_Operation
-		role       int32
+		role       string
 		collection *pb.Collection
 	}
 	tests := []struct {
@@ -232,7 +231,7 @@ func TestAuthorizeOperation(t *testing.T) {
 			name: "",
 			args: args{
 				op:         &pb.ACL_Operation{},
-				role:       0,
+				role:       "0",
 				collection: collection1,
 			},
 			wantAuthorized: false,

@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	"github.com/hyperledger/fabric-contract-api-go/metadata"
 	"github.com/samber/oops"
 
 	"github.com/nova38/thesis/lib/go/fabric/rbac"
@@ -47,4 +48,31 @@ func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 	}
 
 	return err
+}
+
+// -----------------------------------------------------------------------------
+// Build Contract
+// -----------------------------------------------------------------------------
+func NewAuthContract(baseName string) *AuthContractImpl {
+	contract := new(AuthContractImpl)
+	contract.TransactionContextHandler = &AuthTxCtx{}
+
+	contract.Info = metadata.InfoMetadata{
+		Description: "",
+		Title:       "Biochain Chaincode",
+		Contact: &metadata.ContactMetadata{
+			Name:  "Thomas Atkins",
+			URL:   "https://biochain.iitc.ku.edu",
+			Email: "tom@ku.edu",
+		},
+		License: &metadata.LicenseMetadata{
+			Name: "MIT",
+			URL:  "https://example.com",
+		},
+		Version: "latest",
+	}
+
+	contract.Name = baseName + ".AuthContract"
+
+	return contract
 }

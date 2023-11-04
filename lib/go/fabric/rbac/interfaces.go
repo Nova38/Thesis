@@ -70,7 +70,7 @@ type AuthTxCtxInterface interface {
 	//   - collection to be set
 	//   - user to be set
 	// if user is not a member of the collection it returns 0 for public user
-	GetRole() (role int, err error)
+	GetRole() (role string, err error)
 
 	// ----------------------------------------------
 

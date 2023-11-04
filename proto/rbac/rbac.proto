@@ -4,7 +4,6 @@ package rbac;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
-import "google/protobuf/struct.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
@@ -36,6 +35,8 @@ message ACL {
     DOMAIN_OBJECT = 6;
     DOMAIN_OBJECT_FIELD = 7;
 
+
+    DOMAIN_TEST = 100;          // Test
   }
   enum Action {
     ACTION_UNSPECIFIED = 0;   // Default
@@ -52,6 +53,8 @@ message ACL {
     ACTION_VIEW_HISTORY = 9;    // View the history of the object
 
     ACTION_HIDDEN_TX = 10;      // view, hide, unhide
+
+    ACTION_TEST = 100;          // Test
   }
 
   message Operation {
@@ -223,12 +226,11 @@ message Collection {
   // Declared Roles for the collection
   //   - The key is the role id
   //   - The value is the role name
-  map<int32, string> roles = 4 ;
+  map<string, string> roles = 4 ;
 
-  repeated int32 role_nums = 9;
 
   // Declared Permissions for the permissions of all roles in the collection
-  map<int32, ACL> acl = 5;
+  map<string, ACL> acl = 5;
 
   // --------------------------------------------------------------------------
   // Validations
@@ -268,7 +270,7 @@ message User {
 
   message Role {
     Collection.Id collection_id = 1;
-    int32 role_id = 2;
+    string role_id = 2;
     User.Id granted_by = 3;
   }
 
@@ -279,7 +281,7 @@ message User {
 
   // Key is the collectionID
   map<string, Role> roles = 3;
-  google.protobuf.Struct metadata = 4;
+  map<string, string> metadata = 4;
 }
 
 
