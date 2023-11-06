@@ -14,115 +14,51 @@ import (
 // Service SpecimenService
 type SpecimenServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
 	// SpecimenGet
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW
 	SpecimenGet(ctx T, req *SpecimenGetRequest) (res *SpecimenGetResponse, err error)
 
 	// SpecimenGetList
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW
 	SpecimenGetList(ctx T, req *SpecimenGetListRequest) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW
 	SpecimenGetByCollection(ctx T, req *SpecimenGetByCollectionRequest) (res *SpecimenGetByCollectionResponse, err error)
 
 	// SpecimenGetHistory
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW
 	SpecimenGetHistory(ctx T, req *SpecimenGetHistoryRequest) (res *SpecimenGetHistoryResponse, err error)
 
 	// SpecimenCreate
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_CREATE
 	SpecimenCreate(ctx T, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
 
 	// SpecimenUpdate
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_EDIT
 	SpecimenUpdate(ctx T, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
 
 	// SpecimenDelete
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_DELETE
 	SpecimenDelete(ctx T, req *SpecimenDeleteRequest) (res *SpecimenDeleteResponse, err error)
 
 	// SpecimenHideTx
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_HIDDEN_TX
 	SpecimenHideTx(ctx T, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
 
 	// SpecimenUnHideTx
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_HIDDEN_TX
 	SpecimenUnHideTx(ctx T, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
 
 	// GetSuggestedUpdate
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW_SUGGEST
 	GetSuggestedUpdate(ctx T, req *GetSuggestedUpdateRequest) (res *GetSuggestedUpdateResponse, err error)
 
 	// GetSuggestedUpdateBySpecimen
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW_SUGGEST
 	GetSuggestedUpdateBySpecimen(ctx T, req *GetSuggestedUpdateBySpecimenRequest) (res *GetSuggestedUpdateBySpecimenResponse, err error)
 
 	// GetSuggestedUpdateByCollection
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW_SUGGEST
 	GetSuggestedUpdateByCollection(ctx T, req *GetSuggestedUpdateByCollectionRequest) (res *GetSuggestedUpdateByCollectionResponse, err error)
 
 	// GetSuggestedUpdateList
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_VIEW_SUGGEST
 	GetSuggestedUpdateList(ctx T, req *GetSuggestedUpdateListRequest) (res *GetSuggestedUpdateListResponse, err error)
 
 	// SuggestedUpdateCreate
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_SUGGEST_EDIT
 	SuggestedUpdateCreate(ctx T, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdateCreateResponse, err error)
 
 	// SuggestedUpdateApprove
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_SUGGEST_APPROVE
 	SuggestedUpdateApprove(ctx T, req *SuggestedUpdateApproveRequest) (res *SuggestedUpdateApproveResponse, err error)
 
 	// SuggestedUpdateReject
-	//
-	// # Operation:
-	//   - Domain: DOMAIN_OBJECT
-	//   - Action: ACTION_SUGGEST_REJECT
 	SuggestedUpdateReject(ctx T, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdateRejectResponse, err error)
 }
 
@@ -145,101 +81,37 @@ func (s *SpecimenServiceBase) GetEvaluateTransactions() []string {
 func SpecimenServiceGetTxOperation(txName string) (op *rbac1.ACL_Operation, err error) {
 	switch txName {
 	case "SpecimenGet":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 1,
-		}, nil
+	// <nil>
 	case "SpecimenGetList":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 1,
-		}, nil
+	// <nil>
 	case "SpecimenGetByCollection":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 1,
-		}, nil
+	// <nil>
 	case "SpecimenGetHistory":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 1,
-		}, nil
+	// <nil>
 	case "SpecimenCreate":
-		// domain:DOMAIN_OBJECT action:ACTION_CREATE
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 2,
-		}, nil
+	// <nil>
 	case "SpecimenUpdate":
-		// domain:DOMAIN_OBJECT action:ACTION_EDIT
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 4,
-		}, nil
+	// <nil>
 	case "SpecimenDelete":
-		// domain:DOMAIN_OBJECT action:ACTION_DELETE
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 3,
-		}, nil
+	// <nil>
 	case "SpecimenHideTx":
-		// domain:DOMAIN_OBJECT action:ACTION_HIDDEN_TX
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 10,
-		}, nil
+	// <nil>
 	case "SpecimenUnHideTx":
-		// domain:DOMAIN_OBJECT action:ACTION_HIDDEN_TX
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 10,
-		}, nil
+	// <nil>
 	case "GetSuggestedUpdate":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 5,
-		}, nil
+	// <nil>
 	case "GetSuggestedUpdateBySpecimen":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 5,
-		}, nil
+	// <nil>
 	case "GetSuggestedUpdateByCollection":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 5,
-		}, nil
+	// <nil>
 	case "GetSuggestedUpdateList":
-		// domain:DOMAIN_OBJECT action:ACTION_VIEW_SUGGEST
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 5,
-		}, nil
+	// <nil>
 	case "SuggestedUpdateCreate":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_EDIT
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 6,
-		}, nil
+	// <nil>
 	case "SuggestedUpdateApprove":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_APPROVE
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 7,
-		}, nil
+	// <nil>
 	case "SuggestedUpdateReject":
-		// domain:DOMAIN_OBJECT action:ACTION_SUGGEST_REJECT
-		return &rbac1.ACL_Operation{
-			Domain: 6,
-			Action: 8,
-		}, nil
+	// <nil>
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)
 	}

@@ -14,13 +14,13 @@ import (
 	_ "google.golang.org/protobuf/types/dynamicpb"
 )
 
-type ServiceGenerator struct{}
+type TextGenerater struct{}
 
-func (sg *ServiceGenerator) GenerateFile(
+func (sg *TextGenerater) GenerateFile(
 	gen *protogen.Plugin,
 	file *protogen.File,
 ) (*protogen.GeneratedFile, error) {
-	filename := file.GeneratedFilenamePrefix + ".cc.service.pb.go"
+	filename := file.GeneratedFilenamePrefix + ".cc.service.pb.text"
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
 	// Generate the header
@@ -49,7 +49,7 @@ func (sg *ServiceGenerator) GenerateFile(
 	return g, nil
 }
 
-func (sv *ServiceGenerator) GenerateService(
+func (sv *TextGenerater) GenerateService(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
@@ -62,7 +62,7 @@ func (sv *ServiceGenerator) GenerateService(
 	sv.GenerateStruct(gen, g, v)
 }
 
-func (sv *ServiceGenerator) GenerateInterface(
+func (sv *TextGenerater) GenerateInterface(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
@@ -117,7 +117,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 	}
 }
 
-func (sv *ServiceGenerator) GenerateStruct(
+func (sv *TextGenerater) GenerateStruct(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
@@ -130,7 +130,7 @@ func (sv *ServiceGenerator) GenerateStruct(
 	GenerateOperationLookup(gen, g, v)
 }
 
-func (sv *ServiceGenerator) GenerateStructEvaluateTransactions(
+func (sv *TextGenerater) GenerateStructEvaluateTransactions(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
@@ -163,7 +163,7 @@ func (sv *ServiceGenerator) GenerateStructEvaluateTransactions(
 	g.P("}")
 }
 
-func GenerateOperationLookup(
+func (sv *TextGenerater) GenerateOperationLookup(
 	gen *protogen.Plugin,
 	g *protogen.GeneratedFile,
 	v *protogen.Service,

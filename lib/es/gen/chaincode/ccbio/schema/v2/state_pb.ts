@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
-import { History_Entry, StateActivity } from "../../../../rbac/rbac_pb.js";
+import { HiddenTx, StateActivity } from "../../../../auth/v1/utils_pb.js";
 
 /**
  * @generated from message ccbio.schema.v2.Specimen
@@ -52,12 +52,12 @@ export class Specimen extends Message<Specimen> {
   grants: { [key: string]: Specimen_Grant } = {};
 
   /**
-   * @generated from field: map<string, ccbio.schema.v2.Specimen.HiddenTx> hidden_txs = 21;
+   * @generated from field: map<string, auth.HiddenTx> hidden_txs = 21;
    */
-  hiddenTxs: { [key: string]: Specimen_HiddenTx } = {};
+  hiddenTxs: { [key: string]: HiddenTx } = {};
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 22;
+   * @generated from field: auth.StateActivity last_modified = 22;
    */
   lastModified?: StateActivity;
 
@@ -77,7 +77,7 @@ export class Specimen extends Message<Specimen> {
     { no: 7, name: "images", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_Image} },
     { no: 10, name: "loans", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_Loan} },
     { no: 11, name: "grants", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_Grant} },
-    { no: 21, name: "hidden_txs", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_HiddenTx} },
+    { no: 21, name: "hidden_txs", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: HiddenTx} },
     { no: 22, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -142,49 +142,6 @@ export class Specimen_Id extends Message<Specimen_Id> {
 }
 
 /**
- * @generated from message ccbio.schema.v2.Specimen.History
- */
-export class Specimen_History extends Message<Specimen_History> {
-  /**
-   * @generated from field: ccbio.schema.v2.Specimen.Id id = 1;
-   */
-  id?: Specimen_Id;
-
-  /**
-   * @generated from field: repeated rbac.History.Entry entries = 2;
-   */
-  entries: History_Entry[] = [];
-
-  constructor(data?: PartialMessage<Specimen_History>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.Specimen.History";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Specimen_Id },
-    { no: 2, name: "entries", kind: "message", T: History_Entry, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Specimen_History {
-    return new Specimen_History().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Specimen_History {
-    return new Specimen_History().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Specimen_History {
-    return new Specimen_History().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Specimen_History | PlainMessage<Specimen_History> | undefined, b: Specimen_History | PlainMessage<Specimen_History> | undefined): boolean {
-    return proto3.util.equals(Specimen_History, a, b);
-  }
-}
-
-/**
  * @generated from message ccbio.schema.v2.Specimen.Primary
  */
 export class Specimen_Primary extends Message<Specimen_Primary> {
@@ -244,7 +201,7 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   determinedReason = "";
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -307,7 +264,7 @@ export class Specimen_Secondary extends Message<Specimen_Secondary> {
   notes = "";
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -387,7 +344,7 @@ export class Specimen_Taxon extends Message<Specimen_Taxon> {
   subspecies = "";
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -472,7 +429,7 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
   notes: string[] = [];
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -539,7 +496,7 @@ export class Specimen_Image extends Message<Specimen_Image> {
   hash = "";
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -576,55 +533,6 @@ export class Specimen_Image extends Message<Specimen_Image> {
 }
 
 /**
- * @generated from message ccbio.schema.v2.Specimen.HiddenTx
- */
-export class Specimen_HiddenTx extends Message<Specimen_HiddenTx> {
-  /**
-   * @generated from field: string tx_id = 1;
-   */
-  txId = "";
-
-  /**
-   * @generated from field: string notes = 2;
-   */
-  notes = "";
-
-  /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
-   */
-  lastModified?: StateActivity;
-
-  constructor(data?: PartialMessage<Specimen_HiddenTx>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "ccbio.schema.v2.Specimen.HiddenTx";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 20, name: "last_modified", kind: "message", T: StateActivity },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Specimen_HiddenTx {
-    return new Specimen_HiddenTx().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Specimen_HiddenTx {
-    return new Specimen_HiddenTx().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Specimen_HiddenTx {
-    return new Specimen_HiddenTx().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Specimen_HiddenTx | PlainMessage<Specimen_HiddenTx> | undefined, b: Specimen_HiddenTx | PlainMessage<Specimen_HiddenTx> | undefined): boolean {
-    return proto3.util.equals(Specimen_HiddenTx, a, b);
-  }
-}
-
-/**
  * @generated from message ccbio.schema.v2.Specimen.Loan
  */
 export class Specimen_Loan extends Message<Specimen_Loan> {
@@ -654,7 +562,7 @@ export class Specimen_Loan extends Message<Specimen_Loan> {
   loanedDate?: Timestamp;
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -721,7 +629,7 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
   grantedDate?: Timestamp;
 
   /**
-   * @generated from field: rbac.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 20;
    */
   lastModified?: StateActivity;
 
@@ -768,7 +676,7 @@ export class SuggestedUpdate extends Message<SuggestedUpdate> {
   id?: SuggestedUpdate_Id;
 
   /**
-   * @generated from field: rbac.StateActivity update_info = 2;
+   * @generated from field: auth.StateActivity update_info = 2;
    */
   updateInfo?: StateActivity;
 

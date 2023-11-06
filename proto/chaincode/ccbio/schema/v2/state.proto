@@ -7,7 +7,8 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/field_mask.proto";
 
 import "hlf/key.proto";
-import "rbac/rbac.proto";
+// import "rbac/rbac.proto";
+import "auth/v1/utils.proto";
 
 // option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
 
@@ -28,12 +29,6 @@ message Specimen {
     string id             = 2 [(buf.validate.field).string.uuid = true];
   }
 
-
-  message History {
-    Specimen.Id id                      = 1 [(buf.validate.field).required = true];
-    repeated rbac.History.Entry entries = 2;
-  }
-
   message Primary {
     string catalog_number                     = 1;
     string accession_number                   = 2;
@@ -46,7 +41,7 @@ message Specimen {
     google.protobuf.Timestamp catalog_date    = 9;
     google.protobuf.Timestamp determined_date = 10;
     string determined_reason                  = 11;
-    rbac.StateActivity last_modified          = 20;
+    auth.StateActivity last_modified          = 20;
   }
 
   message Secondary {
@@ -54,7 +49,7 @@ message Specimen {
     string condition = 4;
     string notes = 5;
 
-    rbac.StateActivity last_modified = 20;
+    auth.StateActivity last_modified = 20;
   }
 
   message Taxon {
@@ -66,7 +61,7 @@ message Specimen {
     string genus                      = 6;
     string species                    = 7;
     string subspecies                 = 8;
-    rbac.StateActivity last_modified  = 20;
+    auth.StateActivity last_modified  = 20;
   }
   message Georeference {
     string country                    = 1;
@@ -77,7 +72,7 @@ message Specimen {
     string longitude                  = 6;
     string habitat                    = 7;
     repeated string notes             = 8;
-    rbac.StateActivity last_modified  = 20;
+    auth.StateActivity last_modified  = 20;
   }
 
   // Mapped Types
@@ -86,14 +81,10 @@ message Specimen {
     string url                        = 2;
     string notes                      = 3;
     string hash                       = 4;
-    rbac.StateActivity last_modified  = 20;
+    auth.StateActivity last_modified  = 20;
   }
 
-  message HiddenTx {
-    string tx_id                      = 1;
-    string notes                      = 2;
-    rbac.StateActivity last_modified  = 20 [(buf.validate.field).required = true];
-  }
+
 
   message Loan {
     string id                             = 1;
@@ -102,7 +93,7 @@ message Specimen {
     string loaned_to                      = 4;
     google.protobuf.Timestamp loaned_date = 5;
 
-    rbac.StateActivity last_modified      = 20;
+    auth.StateActivity last_modified      = 20;
   }
 
   message Grant {
@@ -111,7 +102,7 @@ message Specimen {
     string granted_by                      = 3;
     string granted_to                      = 4;
     google.protobuf.Timestamp granted_date = 5;
-    rbac.StateActivity last_modified       = 20;
+    auth.StateActivity last_modified       = 20;
   }
 
   Id id                             = 1  [(buf.validate.field).required = true];
@@ -122,9 +113,9 @@ message Specimen {
   map<string, Image> images         = 7  ;
   map<string, Loan> loans           = 10 ;
   map<string, Grant> grants         = 11 ;
-  map<string, HiddenTx> hidden_txs  = 21 ;
+  map<string, auth.HiddenTx> hidden_txs  = 21 ;
 
-  rbac.StateActivity last_modified  = 22 ;
+  auth.StateActivity last_modified  = 22 ;
 }
 
 // -------------
@@ -142,7 +133,7 @@ message SuggestedUpdate {
   }
 
   Id id                          = 1 [(buf.validate.field).required = true];
-  rbac.StateActivity update_info = 2 [(buf.validate.field).required = true];
+  auth.StateActivity update_info = 2 [(buf.validate.field).required = true];
   Specimen specimen              = 3 [(buf.validate.field).required = true];
   google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
 };

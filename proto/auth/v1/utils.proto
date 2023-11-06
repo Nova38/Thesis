@@ -1,3 +1,40 @@
+syntax = "proto3";
+
+package auth;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+import "auth/v1/auth.proto";
+
+message History {
+  message Entry {
+    string tx_id = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    bool is_deleted = 3;
+    bool is_hidden = 4;
+    google.protobuf.Any state = 5;
+  }
+
+  // The tx_id is the key
+  map<string, Entry> entries = 1;
+}
+
+message StateActivity{
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string note = 2;
+  google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
+  User.Id user_id = 4;
+}
+
+message HiddenTx {
+  string tx_id                      = 1;
+  string notes                      = 2;
+  StateActivity last_modified  = 20 [(buf.validate.field).required = true];
+}
+
 enum Error {
   ERROR_UNSPECIFIED = 0;
   ERROR_REQUEST_INVALID = 1;

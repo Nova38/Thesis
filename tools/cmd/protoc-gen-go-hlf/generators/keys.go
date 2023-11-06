@@ -56,9 +56,9 @@ func (kg *KeyGenerator) GenerateMessage(
 ) (notUsed bool) {
 	// notUsed = true
 	// Check for sub messages
-	// for _, subMsg := range msg.Messages {
-	// 	notUsed = notUsed && kg.GenerateMessage(gen, g, subMsg)
-	// }
+	for _, subMsg := range msg.Messages {
+		kg.GenerateMessage(gen, g, subMsg)
+	}
 
 	keySchema := KeySchemaOptions(msg)
 	if keySchema == nil {

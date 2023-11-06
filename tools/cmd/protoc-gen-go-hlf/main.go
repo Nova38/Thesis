@@ -10,6 +10,7 @@ func main() {
 		&generators.KeyGenerator{},
 		// &generators.DiffGenerator{},
 		&generators.ServiceGenerator{},
+		// &generators.TextGenerater{},
 	}
 
 	protogen.Options{}.Run(func(gen *protogen.Plugin) error {

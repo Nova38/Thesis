@@ -6,40 +6,13 @@ import (
 	"log/slog"
 	"strconv"
 
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
-
-// Generic structures
-
-//goland:noinspection GoNameStartsWithPackageName
-type StateObject interface {
-	Key() (attr []string, err error)
-	Namespace() (namespace string)
-}
-
-//goland:noinspection GoNameStartsWithPackageName
-type StateObjectList[T StateObject] struct {
-	Entries []T `json:"entries"`
-}
-
-type HistoryEntry[T StateObject] struct {
-	TxId      string                 `json:"txId"`
-	Timestamp *timestamppb.Timestamp `json:"timestamp"`
-	IsDelete  bool                   `json:"isDelete"`
-	IsHidden  bool                   `json:"isHidden"`
-	State     T                      `json:"object"`
-}
-
-type HistoryList[T StateObject] struct {
-	Entries []*HistoryEntry[T] `json:"entries"`
-}
 
 // UTIL Functions
 
 // MakeCompositeKey creates a composite key from the given attributes
-func MakeCompositeKey[T StateObject](ctx LoggedTxCtxInterface, obj T) (key string, err error) {
+func MakeCompositeKey[T Object](ctx LoggedTxCtxInterface, obj T) (key string, err error) {
 	namespace := obj.Namespace()
 	attr, err := obj.Key()
 	if err != nil {
@@ -57,7 +30,7 @@ func MakeCompositeKey[T StateObject](ctx LoggedTxCtxInterface, obj T) (key strin
 	return key, nil
 }
 
-func ObjExists[T StateObject](ctx LoggedTxCtxInterface, obj T) (bool, error) {
+func ObjExists[T Object](ctx LoggedTxCtxInterface, obj T) (bool, error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return false, err
@@ -77,7 +50,7 @@ func Exists(ctx LoggedTxCtxInterface, key string) bool {
 }
 
 // Put puts the object into the ledger
-func Put[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Put[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -93,7 +66,7 @@ func Put[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 // Insert inserts the object into the ledger
 // returns error if the object already exists
-func Insert[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Insert[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -117,7 +90,7 @@ func Insert[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 // Update updates the object in the ledger
 // returns error if the object does not exist
-func Update[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Update[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -140,7 +113,7 @@ func Update[T StateObject](ctx LoggedTxCtxInterface, obj T) (err error) {
 }
 
 // Get returns the object from the ledger
-func Get[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
+func Get[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
@@ -165,7 +138,7 @@ func Get[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 }
 
 // Delete deletes the object from the ledger
-func Delete[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
+func Delete[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -175,7 +148,7 @@ func Delete[T StateObject](ctx LoggedTxCtxInterface, in T) (err error) {
 }
 
 // GetHistory returns the history of the object from the ledger
-func GetHistory[T StateObject](
+func GetHistory[T Object](
 	ctx LoggedTxCtxInterface,
 	in T,
 ) (list HistoryList[T], err error) {
@@ -216,7 +189,7 @@ func GetHistory[T StateObject](
 	return list, nil
 }
 
-func TxIdInHistory[T StateObject](ctx LoggedTxCtxInterface, in T, txId string) (bool, error) {
+func TxIdInHistory[T Object](ctx LoggedTxCtxInterface, in T, txId string) (bool, error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return false, err
@@ -250,7 +223,7 @@ func TxIdInHistory[T StateObject](ctx LoggedTxCtxInterface, in T, txId string) (
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPartialKeyList[T StateObject](
+func GetPartialKeyList[T Object](
 	ctx LoggedTxCtxInterface,
 	in T,
 	numAttr int,
@@ -300,7 +273,7 @@ func GetPartialKeyList[T StateObject](
 	return list, nil
 }
 
-func GetFullList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
+func GetFullList[T Object](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -339,7 +312,7 @@ func GetFullList[T StateObject](ctx LoggedTxCtxInterface, in T) (list []T, err e
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPagedPartialKeyList[T StateObject](
+func GetPagedPartialKeyList[T Object](
 	ctx PagedTxCtxInterface,
 	in T,
 	numAttr int,
@@ -403,7 +376,7 @@ func GetPagedPartialKeyList[T StateObject](
 }
 
 // ------------------------------------------------------------
-func GetPagedFullList[T StateObject](
+func GetPagedFullList[T Object](
 	ctx PagedTxCtxInterface,
 	in T,
 	bookmark string,

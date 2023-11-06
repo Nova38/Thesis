@@ -5,8 +5,9 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
-import { Specimen, Specimen_HiddenTx, Specimen_History, Specimen_Id, SuggestedUpdate, SuggestedUpdate_Id } from "./state_pb.js";
-import { Collection_Id } from "../../../../rbac/rbac_pb.js";
+import { Specimen, Specimen_Id, SuggestedUpdate, SuggestedUpdate_Id } from "./state_pb.js";
+import { Collection_Id } from "../../../../auth/v1/auth_pb.js";
+import { HiddenTx, History } from "../../../../auth/v1/utils_pb.js";
 
 /**
  * Evaluate
@@ -180,7 +181,7 @@ export class SpecimenGetListResponse extends Message<SpecimenGetListResponse> {
  */
 export class SpecimenGetByCollectionRequest extends Message<SpecimenGetByCollectionRequest> {
   /**
-   * @generated from field: rbac.Collection.Id id = 1;
+   * @generated from field: auth.Collection.Id id = 1;
    */
   id?: Collection_Id;
 
@@ -299,9 +300,9 @@ export class SpecimenGetHistoryRequest extends Message<SpecimenGetHistoryRequest
  */
 export class SpecimenGetHistoryResponse extends Message<SpecimenGetHistoryResponse> {
   /**
-   * @generated from field: ccbio.schema.v2.Specimen.History history = 1;
+   * @generated from field: auth.History history = 1;
    */
-  history?: Specimen_History;
+  history?: History;
 
   constructor(data?: PartialMessage<SpecimenGetHistoryResponse>) {
     super();
@@ -311,7 +312,7 @@ export class SpecimenGetHistoryResponse extends Message<SpecimenGetHistoryRespon
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ccbio.schema.v2.SpecimenGetHistoryResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "history", kind: "message", T: Specimen_History },
+    { no: 1, name: "history", kind: "message", T: History },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenGetHistoryResponse {
@@ -583,9 +584,9 @@ export class SpecimenHideTxRequest extends Message<SpecimenHideTxRequest> {
   id?: Specimen_Id;
 
   /**
-   * @generated from field: ccbio.schema.v2.Specimen.HiddenTx tx = 2;
+   * @generated from field: auth.HiddenTx tx = 2;
    */
-  tx?: Specimen_HiddenTx;
+  tx?: HiddenTx;
 
   constructor(data?: PartialMessage<SpecimenHideTxRequest>) {
     super();
@@ -596,7 +597,7 @@ export class SpecimenHideTxRequest extends Message<SpecimenHideTxRequest> {
   static readonly typeName = "ccbio.schema.v2.SpecimenHideTxRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: Specimen_Id },
-    { no: 2, name: "tx", kind: "message", T: Specimen_HiddenTx },
+    { no: 2, name: "tx", kind: "message", T: HiddenTx },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenHideTxRequest {
@@ -665,9 +666,9 @@ export class SpecimenUnHideTxRequest extends Message<SpecimenUnHideTxRequest> {
   id?: Specimen_Id;
 
   /**
-   * @generated from field: ccbio.schema.v2.Specimen.HiddenTx tx = 2;
+   * @generated from field: auth.HiddenTx tx = 2;
    */
-  tx?: Specimen_HiddenTx;
+  tx?: HiddenTx;
 
   constructor(data?: PartialMessage<SpecimenUnHideTxRequest>) {
     super();
@@ -678,7 +679,7 @@ export class SpecimenUnHideTxRequest extends Message<SpecimenUnHideTxRequest> {
   static readonly typeName = "ccbio.schema.v2.SpecimenUnHideTxRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: Specimen_Id },
-    { no: 2, name: "tx", kind: "message", T: Specimen_HiddenTx },
+    { no: 2, name: "tx", kind: "message", T: HiddenTx },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenUnHideTxRequest {
@@ -912,7 +913,7 @@ export class GetSuggestedUpdateBySpecimenResponse extends Message<GetSuggestedUp
  */
 export class GetSuggestedUpdateByCollectionRequest extends Message<GetSuggestedUpdateByCollectionRequest> {
   /**
-   * @generated from field: rbac.Collection.Id id = 1;
+   * @generated from field: auth.Collection.Id id = 1;
    */
   id?: Collection_Id;
 

@@ -11,7 +11,8 @@ import "chaincode/ccbio/schema/v2/state.proto";
 import "google/protobuf/field_mask.proto";
 
 import "hlf/utils.proto";
-import "rbac/rbac.proto";
+import "auth/v1/auth.proto";
+import "auth/v1/utils.proto";
 
 service SpecimenService{
     //  // Specimen functions
@@ -20,7 +21,7 @@ service SpecimenService{
 
     rpc SpecimenGet(SpecimenGetRequest) returns (SpecimenGetResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW;
         domain: DOMAIN_OBJECT;
       };
@@ -28,7 +29,7 @@ service SpecimenService{
 
     rpc SpecimenGetList(SpecimenGetListRequest) returns (SpecimenGetListResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW;
         domain: DOMAIN_OBJECT;
       };
@@ -36,7 +37,7 @@ service SpecimenService{
 
     rpc SpecimenGetByCollection(SpecimenGetByCollectionRequest) returns (SpecimenGetByCollectionResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW;
         domain: DOMAIN_OBJECT;
       };
@@ -44,7 +45,7 @@ service SpecimenService{
 
     rpc SpecimenGetHistory(SpecimenGetHistoryRequest) returns (SpecimenGetHistoryResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
           action: ACTION_VIEW;
           domain: DOMAIN_OBJECT;
       };
@@ -53,7 +54,7 @@ service SpecimenService{
 
     rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_CREATE;
         domain: DOMAIN_OBJECT;
       };
@@ -61,7 +62,7 @@ service SpecimenService{
 
     rpc SpecimenUpdate(SpecimenUpdateRequest) returns (SpecimenUpdateResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_EDIT;
         domain: DOMAIN_OBJECT;
       };
@@ -69,7 +70,7 @@ service SpecimenService{
 
     rpc SpecimenDelete(SpecimenDeleteRequest) returns (SpecimenDeleteResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_DELETE;
         domain: DOMAIN_OBJECT;
       };
@@ -77,7 +78,7 @@ service SpecimenService{
 
     rpc SpecimenHideTx(SpecimenHideTxRequest) returns (SpecimenHideTxResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_HIDDEN_TX;
         domain: DOMAIN_OBJECT;
       };
@@ -85,7 +86,7 @@ service SpecimenService{
 
     rpc SpecimenUnHideTx(SpecimenUnHideTxRequest) returns (SpecimenUnHideTxResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_HIDDEN_TX;
         domain: DOMAIN_OBJECT;
       };
@@ -96,7 +97,7 @@ service SpecimenService{
 
     rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (GetSuggestedUpdateResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW_SUGGEST;
         domain: DOMAIN_OBJECT;
       };
@@ -104,7 +105,7 @@ service SpecimenService{
 
     rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (GetSuggestedUpdateBySpecimenResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW_SUGGEST;
         domain: DOMAIN_OBJECT;
       };
@@ -112,7 +113,7 @@ service SpecimenService{
 
     rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (GetSuggestedUpdateByCollectionResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW_SUGGEST;
         domain: DOMAIN_OBJECT;
       };
@@ -120,7 +121,7 @@ service SpecimenService{
 
     rpc GetSuggestedUpdateList(GetSuggestedUpdateListRequest) returns (GetSuggestedUpdateListResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_VIEW_SUGGEST;
         domain: DOMAIN_OBJECT;
       };
@@ -128,21 +129,21 @@ service SpecimenService{
 
     rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdateCreateResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_SUGGEST_EDIT;
         domain: DOMAIN_OBJECT;
       };
     };
     rpc SuggestedUpdateApprove(SuggestedUpdateApproveRequest) returns (SuggestedUpdateApproveResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_SUGGEST_APPROVE;
         domain: DOMAIN_OBJECT;
       };
     };
     rpc SuggestedUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdateRejectResponse){
       option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
+      option (auth.operation) = {
         action: ACTION_SUGGEST_REJECT;
         domain: DOMAIN_OBJECT;
       };
@@ -177,7 +178,7 @@ service SpecimenService{
 
     // SpecimenGetByCollection
       message SpecimenGetByCollectionRequest {
-        rbac.Collection.Id id = 1 [(buf.validate.field).required = true];
+        auth.Collection.Id id = 1 [(buf.validate.field).required = true];
       }
       message SpecimenGetByCollectionResponse {
         repeated Specimen specimens = 1;
@@ -189,7 +190,7 @@ service SpecimenService{
         bool include_hidden = 2 [(buf.validate.field).required = true];
       }
       message SpecimenGetHistoryResponse {
-        Specimen.History history = 1;
+        auth.History history = 1;
       }
 
 
@@ -225,7 +226,7 @@ service SpecimenService{
     // SpecimenHideTx
       message SpecimenHideTxRequest {
           Specimen.Id id = 1 [(buf.validate.field).required = true];
-          Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+          auth.HiddenTx tx = 2 [(buf.validate.field).required = true];
       }
       message SpecimenHideTxResponse {
           Specimen specimen = 1 [(buf.validate.field).required = true];
@@ -234,7 +235,7 @@ service SpecimenService{
     // SpecimenUnHideTx
       message SpecimenUnHideTxRequest {
           Specimen.Id id = 1 [(buf.validate.field).required = true];
-          Specimen.HiddenTx tx = 2 [(buf.validate.field).required = true];
+          auth.HiddenTx tx = 2 [(buf.validate.field).required = true];
       }
       message SpecimenUnHideTxResponse {
           Specimen specimen = 1 [(buf.validate.field).required = true];
@@ -276,7 +277,7 @@ service SpecimenService{
 
     // GetSuggestedUpdateByCollection
       message GetSuggestedUpdateByCollectionRequest {
-        rbac.Collection.Id id = 1 [(buf.validate.field).required = true];
+        auth.Collection.Id id = 1 [(buf.validate.field).required = true];
         string bookmark = 2;
         int32 page_size = 3;
 

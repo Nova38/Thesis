@@ -1,18 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
 	"time"
 
-	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
-
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
 
 	"github.com/samber/oops"
 
@@ -150,27 +145,6 @@ func runChaincodeCCAS() {
 
 // }
 
-func print_empty() {
-	out := &schema.LastModified{
-		UserId: &schema.User_Id{
-			MspId: "",
-			Id:    "",
-		},
-		UserName: "",
-		TxId:     "",
-		UpdatedAt: &timestamppb.Timestamp{
-			Seconds: 0,
-			Nanos:   0,
-		},
-	}
-	// encode it in json
-	json, err := json.Marshal(out)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%s\n", json)
-}
-
 func FormatTime(groups []string, a slog.Attr) slog.Attr {
 	if a.Key == slog.TimeKey && len(groups) == 0 {
 		a.Value = slog.StringValue(a.Value.Time().Format(time.Kitchen))
@@ -226,7 +200,6 @@ func main() {
 	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
 	// slog.SetDefault(logger)
 
-	print_empty()
 	// attr := &map[string]string{"time": ""}
 	opts := slog.HandlerOptions{
 		Level:       slog.LevelDebug,
