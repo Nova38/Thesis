@@ -9,8 +9,3 @@ import (
 
 	_ "github.com/mennanov/fieldmask-utils"
 )
-
-func init() {
-	// use the transofrm
-
-}

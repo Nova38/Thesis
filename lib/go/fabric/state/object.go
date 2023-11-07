@@ -20,7 +20,7 @@ type (
 )
 
 type (
-	StateObjectList[T Object] struct {
+	ObjectList[T Object] struct {
 		Entries []T `json:"entries"`
 	}
 

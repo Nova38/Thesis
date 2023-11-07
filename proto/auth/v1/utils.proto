@@ -22,7 +22,7 @@ message History {
   map<string, Entry> entries = 1;
 }
 
-message StateActivity{
+message Activity{
   string tx_id = 1 [(buf.validate.field).string.min_len = 1];
   string note = 2;
   google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
@@ -32,7 +32,7 @@ message StateActivity{
 message HiddenTx {
   string tx_id                      = 1;
   string notes                      = 2;
-  StateActivity last_modified  = 20 [(buf.validate.field).required = true];
+  Activity last_modified  = 20 [(buf.validate.field).required = true];
 }
 
 enum Error {

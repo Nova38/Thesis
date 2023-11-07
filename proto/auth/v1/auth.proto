@@ -305,6 +305,29 @@ message Collection {
 }
 
 
+message Role {
+  option (hlf.key_schema).namespace = "roles";
+  option (hlf.key_schema).key_paths = {
+    paths: ["id.collection_id", "id.id"]
+  };
+
+  message Id {
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+    string id = 2 [(buf.validate.field).string.min_len = 1];
+
+  }
+
+  Id id = 1 [(buf.validate.field).required = true];
+  string name = 2 [(buf.validate.field).string.min_len = 1];
+  string description = 3 [(buf.validate.field).string.min_len = 1];
+
+  // The key is the stringified Identifier
+  // The value is the IdentifierEntry, which contains the Identifier and the parents
+  // The parents are the attributes that this attribute is derived from
+  map<string, string> permissions = 4;
+}
+
+
 message User {
   option (hlf.key_schema).namespace = "users";
   option (hlf.key_schema).key_paths = {

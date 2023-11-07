@@ -143,7 +143,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 		}
 	}
 
-	madeAt, err := ctx.MakeLastModified()
+	// madeAt, err := ctx.MakeLastModified()
 
 	spec := req.GetSpecimen()
 	if spec == nil {
@@ -163,24 +163,24 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 		Images:       spec.GetImages(),
 		Loans:        spec.GetLoans(),
 		Grants:       spec.GetGrants(),
-		HiddenTxs:    map[string]*pb.Specimen_HiddenTx{},
-		LastModified: madeAt,
+		// HiddenTxs:    map[string]*pb.HiddenTx{},
+		// LastModified: madeAt,
 	}
 	// Update all the last modified fields
-	specimen.Primary.LastModified = madeAt
-	specimen.Secondary.LastModified = madeAt
-	specimen.Taxon.LastModified = madeAt
-	specimen.Georeference.LastModified = madeAt
+	// specimen.Primary.LastModified = madeAt
+	// specimen.Secondary.LastModified = madeAt
+	// specimen.Taxon.LastModified = madeAt
+	// specimen.Georeference.LastModified = madeAt
 
-	for _, image := range specimen.Images {
-		image.LastModified = madeAt
-	}
-	for _, loan := range specimen.Loans {
-		loan.LastModified = madeAt
-	}
-	for _, grant := range specimen.Grants {
-		grant.LastModified = madeAt
-	}
+	// for _, image := range specimen.Images {
+	// 	image.LastModified = madeAt
+	// }
+	// for _, loan := range specimen.Loans {
+	// 	loan.LastModified = madeAt
+	// }
+	// for _, grant := range specimen.Grants {
+	// 	grant.LastModified = madeAt
+	// }
 
 	// Insert the new specimen
 	if err = state.Insert(ctx, specimen); err != nil {

@@ -134,11 +134,11 @@ func print_empty() {
 		},
 	}
 	// encode it in json
-	json, err := json.Marshal(out)
+	marshaled, err := json.Marshal(out)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", json)
+	fmt.Printf("%s\n", marshaled)
 }
 
 func FormatTime(groups []string, a slog.Attr) slog.Attr {

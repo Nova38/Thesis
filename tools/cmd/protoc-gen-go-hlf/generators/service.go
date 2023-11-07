@@ -1,10 +1,8 @@
 package generators
 
 import (
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/nova38/thesis/lib/go/gen/hlf"
-	_ "github.com/nova38/thesis/lib/go/gen/hlf"
-	"github.com/nova38/thesis/lib/go/gen/rbac"
-
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
@@ -12,6 +10,11 @@ import (
 	_ "strings"
 
 	_ "google.golang.org/protobuf/types/dynamicpb"
+)
+
+const (
+	fmtPkg = protogen.GoImportPath("fmt")
+	ctxPkg = protogen.GoImportPath("context")
 )
 
 type ServiceGenerator struct{}
@@ -70,7 +73,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 	ctx := g.QualifiedGoIdent(
 		protogen.GoIdent{
 			GoName:       "GenericAuthTxCtxInterface",
-			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/rbac",
+			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/auth",
 		},
 	)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")
@@ -88,7 +91,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 			mComments += "// " + m.GoName + "\n // \n"
 		}
 
-		op, ok := proto.GetExtension(m.Desc.Options(), rbac.E_Operation).(*rbac.ACL_Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_Operation).(*auth_pb.Operation)
 
 		if !ok {
 			mComments += "// No operation defined for " + m.GoName + "\n"
@@ -170,11 +173,11 @@ func GenerateOperationLookup(
 ) {
 	opImport := g.QualifiedGoIdent(
 		protogen.GoIdent{
-			GoName:       "ACL_Operation",
-			GoImportPath: "github.com/nova38/thesis/lib/go/gen/rbac",
+			GoName:       "Operation",
+			GoImportPath: "github.com/nova38/thesis/lib/go/gen/auth/v1",
 		},
 	)
-	fmtImport := g.QualifiedGoIdent(protogen.GoIdent{GoImportPath: "fmt"})
+	//fmtImport := (protogen.GoIdent{GoImportPath: "fmt"})
 	g.P("//")
 
 	g.P("func ", v.GoName, "GetTxOperation(txName string)", "( op *", opImport, ", err error) {")
@@ -182,11 +185,17 @@ func GenerateOperationLookup(
 	g.P("switch txName {")
 	for _, m := range v.Methods {
 		g.P("case \"", m.GoName, "\":")
-		op, ok := proto.GetExtension(m.Desc.Options(), rbac.E_Operation).(*rbac.ACL_Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_Operation).(*auth_pb.Operation)
 		g.P("//", op)
 		if !ok {
 			g.P("// No operation defined for ", m.GoName)
-			g.P("return nil,", fmtImport, ".Errorf(\"No operation defined for ", m.GoName, "\")")
+			g.P(
+				"return nil,",
+				g.QualifiedGoIdent(fmtPkg.Ident(".Errorf")),
+				"(\"No operation defined for ",
+				m.GoName,
+				"\")",
+			)
 		} else if op != nil {
 			g.P("return &", opImport, "{")
 			g.P("Domain: ", op.Domain.Number(), ",")
@@ -196,7 +205,11 @@ func GenerateOperationLookup(
 		}
 	}
 	g.P("default:")
-	g.P("return nil,", fmtImport, "Errorf(\"No operation defined for \"+txName)")
+	g.P(
+		"return nil,",
+		g.QualifiedGoIdent(fmtPkg.Ident("Errorf")),
+		"(\"No operation defined for \"+txName)",
+	)
 	g.P("}")
 	g.P("return nil, nil")
 	g.P("}")

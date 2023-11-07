@@ -41,7 +41,7 @@ message Specimen {
     google.protobuf.Timestamp catalog_date    = 9;
     google.protobuf.Timestamp determined_date = 10;
     string determined_reason                  = 11;
-    auth.StateActivity last_modified          = 20;
+    auth.Activity last_modified          = 20;
   }
 
   message Secondary {
@@ -49,7 +49,7 @@ message Specimen {
     string condition = 4;
     string notes = 5;
 
-    auth.StateActivity last_modified = 20;
+    auth.Activity last_modified = 20;
   }
 
   message Taxon {
@@ -61,7 +61,7 @@ message Specimen {
     string genus                      = 6;
     string species                    = 7;
     string subspecies                 = 8;
-    auth.StateActivity last_modified  = 20;
+    auth.Activity last_modified  = 20;
   }
   message Georeference {
     string country                    = 1;
@@ -72,7 +72,7 @@ message Specimen {
     string longitude                  = 6;
     string habitat                    = 7;
     repeated string notes             = 8;
-    auth.StateActivity last_modified  = 20;
+    auth.Activity last_modified  = 20;
   }
 
   // Mapped Types
@@ -81,7 +81,7 @@ message Specimen {
     string url                        = 2;
     string notes                      = 3;
     string hash                       = 4;
-    auth.StateActivity last_modified  = 20;
+    auth.Activity last_modified  = 20;
   }
 
 
@@ -93,7 +93,7 @@ message Specimen {
     string loaned_to                      = 4;
     google.protobuf.Timestamp loaned_date = 5;
 
-    auth.StateActivity last_modified      = 20;
+    auth.Activity last_modified      = 20;
   }
 
   message Grant {
@@ -102,7 +102,7 @@ message Specimen {
     string granted_by                      = 3;
     string granted_to                      = 4;
     google.protobuf.Timestamp granted_date = 5;
-    auth.StateActivity last_modified       = 20;
+    auth.Activity last_modified       = 20;
   }
 
   Id id                             = 1  [(buf.validate.field).required = true];
@@ -115,7 +115,7 @@ message Specimen {
   map<string, Grant> grants         = 11 ;
   map<string, auth.HiddenTx> hidden_txs  = 21 ;
 
-  auth.StateActivity last_modified  = 22 ;
+  auth.Activity last_modified  = 22 ;
 }
 
 // -------------
@@ -133,7 +133,7 @@ message SuggestedUpdate {
   }
 
   Id id                          = 1 [(buf.validate.field).required = true];
-  auth.StateActivity update_info = 2 [(buf.validate.field).required = true];
+  auth.Activity update_info = 2 [(buf.validate.field).required = true];
   Specimen specimen              = 3 [(buf.validate.field).required = true];
   google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
 };

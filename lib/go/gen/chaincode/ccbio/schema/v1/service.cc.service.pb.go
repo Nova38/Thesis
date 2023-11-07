@@ -7,13 +7,13 @@ package schemav1
 
 import (
 	fmt "fmt"
-	rbac "github.com/nova38/thesis/lib/go/fabric/rbac"
-	rbac1 "github.com/nova38/thesis/lib/go/gen/rbac"
+	auth "github.com/nova38/thesis/lib/go/fabric/auth"
+	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Service BiochainSpecimenService
-type BiochainSpecimenServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
+type BiochainSpecimenServiceInterface[T auth.GenericAuthTxCtxInterface] interface {
 	// GetSpecimen
 	GetSpecimen(ctx T, req *GetSpecimenRequest) (res *Specimen, err error)
 
@@ -74,7 +74,7 @@ func (s *BiochainSpecimenServiceBase) GetEvaluateTransactions() []string {
 	return []string{}
 }
 
-func BiochainSpecimenServiceGetTxOperation(txName string) (op *rbac1.ACL_Operation, err error) {
+func BiochainSpecimenServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "GetSpecimen":
 	// <nil>
@@ -119,7 +119,7 @@ func (s *BiochainSpecimenServiceBase) GetIgnoredFunctions() []string {
 }
 
 // Service BiochainAuthService
-type BiochainAuthServiceInterface[T rbac.GenericAuthTxCtxInterface] interface {
+type BiochainAuthServiceInterface[T auth.GenericAuthTxCtxInterface] interface {
 	// *
 	// GetCurrentUser: Returns the current user.
 	//
@@ -175,7 +175,7 @@ func (s *BiochainAuthServiceBase) GetEvaluateTransactions() []string {
 	return []string{}
 }
 
-func BiochainAuthServiceGetTxOperation(txName string) (op *rbac1.ACL_Operation, err error) {
+func BiochainAuthServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "GetCurrentUser":
 	// <nil>

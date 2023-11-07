@@ -12,7 +12,8 @@ linters-settings:
 linters:
   enable:
     - cyclop
-#   staticcheck:
+    - ginkgolinter
+  staticcheck:
 
 #     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
 #     # Default: ["*"]

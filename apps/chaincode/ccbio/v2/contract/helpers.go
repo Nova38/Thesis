@@ -3,8 +3,8 @@ package contract
 import (
 	"strings"
 
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v2"
-	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 	lop "github.com/samber/lo/parallel"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
@@ -15,7 +15,7 @@ import (
 func SetLastModByMask(
 	specimen *pb.Specimen,
 	mask *fieldmaskpb.FieldMask,
-	mod *rbac_pb.StateActivity,
+	mod *auth_pb.StateActivity,
 ) error {
 	if mask == nil {
 		return nil

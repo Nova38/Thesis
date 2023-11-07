@@ -9,7 +9,7 @@ import (
 
 var _ rbac.AuthTxCtxInterface = (*AuthTxCtx)(nil)
 
-// AuthTransactionObjects Extractors
+// TxObjects Extractors
 type (
 	CollectionHolder interface {
 		GetCollection() *rbac_pb.Collection

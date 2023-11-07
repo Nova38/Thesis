@@ -20,7 +20,7 @@ type (
 	GBaseTxCtx[T Authenticater] struct {
 		contractapi.TransactionContext
 
-		AuthTransactionObjects
+		TxObjects
 
 		Logger   *slog.Logger
 		PageSize int32

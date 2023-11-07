@@ -34,12 +34,6 @@ type (
 	collectionIdHolder interface {
 		GetCollectionId() *rbac_pb.Collection_Id
 	}
-	// userHolder interface {
-	// 	GetUser() *rbac_pb.User
-	// }
-	// userIdHolder interface {
-	// 	GetUserId() *rbac_pb.User_Id
-	// }
 	specimenHolder interface {
 		GetSpecimen() *pb.Specimen
 	}
@@ -52,11 +46,9 @@ type (
 	suggestedUpdateIdHolder interface {
 		GetId() *pb.SuggestedUpdate_Id
 	}
-
 	updatedMaskHolder interface {
 		GetMask() *fieldmaskpb.FieldMask
 	}
-
 	pageHolder interface {
 		GetPageSize() int32
 	}

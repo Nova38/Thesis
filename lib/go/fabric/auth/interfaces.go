@@ -9,12 +9,15 @@ import (
 )
 
 type (
-	IAuthTxCtx interface {
+	GenericAuthTxCtxInterface interface {
+		AuthCtxInterface
+	}
+	AuthCtxInterface interface {
 		// =============================================
 		// Generic injectors
 		// =============================================
 
-		// // SetAuthenticator - Sets the authenticator for the transaction
+		// SetAuthenticator - Sets the authenticator for the transaction
 		// SetAuthenticator(auth Authenticater) (err error)
 		// GetAuthenticator() (auth Authenticater)
 
@@ -39,6 +42,7 @@ type (
 		// ==================================================
 		// Validate functions
 		// ==================================================
+
 		// Validate - Validates the message
 		Validate(msg proto.Message) error
 		// -------------------------------------------------------------------------

@@ -12,6 +12,8 @@ import (
 )
 
 type PathWalker struct {
+	// The first entry that has a policy defined, it will be the base entry
+	// entries afterwords will not be considered. Entries before it will have their
 	entry *auth_pb.ACL_PathPermission
 
 	entries        []*auth_pb.ACL_PathPermission
@@ -99,32 +101,39 @@ func (w *PathWalker) checkLeaf(action auth_pb.Operation_Action) (allowed bool, e
 // checkNode - Checks the node for the given action. If the node has subPaths
 // then it will check them as well by either calling checkLeaf or checkNode
 // recursively. Should be called on a fresh walker
-func (w *PathWalker) checkNode(
+//
+// # Precondition:
+// - The walker should be a new walker and thus be the only one that has access to the entries array
+// - The walker entries should only be the entries that have the path as a subPath
+
+type VisitFn[T, S, R any] func(t T, s S) R
+
+// fn VisitFn[*auth_pb.ACL_PathPermission, auth_pb.Operation_Action, error],
+
+func (w *PathWalker) VisitNode(
 	path string,
 	subPaths []string,
 	action auth_pb.Operation_Action,
 ) (allowed bool, err error) {
 	// Find the first entry that as a defined policy
 
-	if len(subPaths) == 0 {
-		return w.checkLeaf(action)
-	}
-
-	// Find the first entry that as a defined policy
-	for _, v := range w.entries {
-		// Extract the sub entries. Only ones that have the path in the subPaths
-		// will be considered
-		if entry, ok := v.SubPaths[path]; ok {
-			// If a policy is defined here then we can stop
-			if entry.GetPolicy() != nil {
-				w.entry = entry
-				break
+	{ // Handle the leaf node case
+		if len(subPaths) == 0 {
+			// Then we are at the leaf node
+			for _, v := range w.entries {
+				if policy := v.GetPolicy(); policy != nil {
+					return checkPolicy(policy, action), nil
+				}
 			}
+			return false, w.error().Errorf("no policy found")
 		}
 	}
 
-	if w.entry == nil {
-		return false, w.error().Errorf("no entry found for path %s", path)
+	{ // Handle the non-leaf node case
+
+		if w.entry == nil {
+			return false, w.error().Errorf("no entry found for path %s", path)
+		}
 	}
 
 	// If the entry does not allow sub paths then we just check the policy
@@ -158,18 +167,17 @@ func (w *PathWalker) Check(
 	paths []string,
 	action auth_pb.Operation_Action,
 ) (allowed bool, err error) {
+	// If no paths are give we check the root node
 	if len(paths) == 0 {
 		w.checkLeaf(action)
 	}
 
-	// Path groups
-	grouped := groupSubPaths(paths)
+	// Group the nodes into their nested paths
+	// grouped := groupSubPaths(paths)
 
-	// TODO: apply
-
-	for path, subPaths := range grouped {
-		w.checkNode(path, subPaths, action)
-	}
+	// for path, subPaths := range grouped {
+	// 	// w.checkNode(path, subPaths, action)
+	// }
 
 	return false, nil
 }

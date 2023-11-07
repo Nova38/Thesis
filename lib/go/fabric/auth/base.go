@@ -21,8 +21,8 @@ const (
 )
 
 var (
-	// Validate that AuthTxCtx implements the required interfaces
-	_ IAuthTxCtx                       = (*BaseTxCtx)(nil)
+	// Validate that AuthCtxInterface implements the required interfaces
+	_ AuthCtxInterface                 = (*BaseTxCtx)(nil)
 	_ state.LoggedTxCtxInterface       = (*BaseTxCtx)(nil)
 	_ state.ValidateAbleTxCtxInterface = (*BaseTxCtx)(nil)
 	_ state.PagedTxCtxInterface        = (*BaseTxCtx)(nil)
@@ -32,7 +32,7 @@ var (
 )
 
 type (
-	AuthTransactionObjects struct {
+	TxObjects struct {
 		User       *auth_pb.User
 		Identifier *auth_pb.Identifier
 		Collection *auth_pb.Collection
@@ -40,7 +40,7 @@ type (
 	}
 	BaseTxCtx struct {
 		contractapi.TransactionContext
-		AuthTransactionObjects
+		TxObjects
 
 		Logger   *slog.Logger
 		PageSize int32

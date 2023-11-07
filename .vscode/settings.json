@@ -62,6 +62,7 @@
         }
     ],
     "cSpell.enableFiletypes": [
+        "!json",
         "!yaml",
         "proto3"
     ],

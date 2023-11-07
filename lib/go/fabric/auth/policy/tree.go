@@ -6,3 +6,10 @@ type Node[T any] struct {
 	AllowSubPaths bool
 	Policy        *T
 }
+
+func NewTree[T any]() *Node[T] {
+	return &Node[T]{
+		SubPaths:      make(map[string]*Node[T]),
+		AllowSubPaths: true,
+	}
+}
