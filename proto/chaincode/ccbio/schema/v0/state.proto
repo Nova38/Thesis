@@ -1,0 +1,141 @@
+syntax = "proto3";
+
+package ccbio.schema.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+// import "hlf/key.proto";
+// import "rbac/rbac.proto";
+import "auth/v1/auth.proto";
+
+// option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
+
+
+
+
+
+// --------------------------------------------------
+// Specimen
+// --------------------------------------------------
+
+message Specimen {
+  // option (hlf.key_schema).namespace = "specimen";
+  // option (hlf.key_schema).key_paths = {paths: ["id.collection_id", "id.id"]};
+
+  message Id {
+    string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
+    string id             = 2 [(buf.validate.field).string.uuid = true];
+  }
+
+  message Primary {
+    string catalog_number                     = 1;
+    string accession_number                   = 2;
+    string field_number                       = 3;
+    string tissue_number                      = 4;
+    string cataloger                          = 5;
+    string collector                          = 6;
+    string determiner                         = 7;
+    google.protobuf.Timestamp field_date      = 8;
+    google.protobuf.Timestamp catalog_date    = 9;
+    google.protobuf.Timestamp determined_date = 10;
+    string determined_reason                  = 11;
+    auth.StateActivity last_modified          = 20;
+  }
+
+  message Secondary {
+    string preparation = 3;
+    string condition = 4;
+    string notes = 5;
+
+    auth.StateActivity last_modified = 20;
+  }
+
+  message Taxon {
+    string kingdom                    = 1;
+    string phylum                     = 2;
+    string class                      = 3;
+    string order                      = 4;
+    string family                     = 5;
+    string genus                      = 6;
+    string species                    = 7;
+    string subspecies                 = 8;
+    auth.StateActivity last_modified  = 20;
+  }
+  message Georeference {
+    string country                    = 1;
+    string state_province             = 2;
+    string county                     = 3;
+    string locality                   = 4;
+    string latitude                   = 5;
+    string longitude                  = 6;
+    string habitat                    = 7;
+    repeated string notes             = 8;
+    auth.StateActivity last_modified  = 20;
+  }
+
+  // Mapped Types
+  message Image {
+    string id                         = 1;
+    string url                        = 2;
+    string notes                      = 3;
+    string hash                       = 4;
+    auth.StateActivity last_modified  = 20;
+  }
+
+
+
+  message Loan {
+    string id                             = 1;
+    string description                    = 2;
+    string loaned_by                      = 3;
+    string loaned_to                      = 4;
+    google.protobuf.Timestamp loaned_date = 5;
+
+    auth.StateActivity last_modified      = 20;
+  }
+
+  message Grant {
+    string id                              = 1;
+    string description                     = 2;
+    string granted_by                      = 3;
+    string granted_to                      = 4;
+    google.protobuf.Timestamp granted_date = 5;
+    auth.StateActivity last_modified       = 20;
+  }
+
+  Id id                             = 1  [(buf.validate.field).required = true];
+  auth.ObjectMetadata metadata      = 2;
+
+
+  Primary primary                   = 3  [(buf.validate.field).required = true];
+  Secondary secondary               = 4  [(buf.validate.field).required = true];
+  Taxon taxon                       = 5  [(buf.validate.field).required = true];
+  Georeference georeference         = 6  [(buf.validate.field).required = true];
+  map<string, Image> images         = 7  ;
+  map<string, Loan> loans           = 10 ;
+  map<string, Grant> grants         = 11 ;
+
+
+}
+
+// -------------
+//-------------------------------------
+// Suggested
+// --------------------------------------------------
+
+message SuggestedUpdate {
+  // option (hlf.key_schema).namespace = "specimen_update";
+  // option (hlf.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
+
+  message Id {
+    Specimen.Id specimen_id = 1 [(buf.validate.field).required = true];
+    string id               = 2 [(buf.validate.field).string.uuid = true];
+  }
+
+  Id id                          = 1 [(buf.validate.field).required = true];
+  auth.StateActivity update_info = 2 [(buf.validate.field).required = true];
+  Specimen specimen              = 3 [(buf.validate.field).required = true];
+  google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
+};

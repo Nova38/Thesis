@@ -13,7 +13,6 @@ import (
 
 const (
 	fmtPkg = protogen.GoImportPath("fmt")
-	ctxPkg = protogen.GoImportPath("context")
 )
 
 type ServiceGenerator struct{}
@@ -140,7 +139,7 @@ func (sv *ServiceGenerator) GenerateStructEvaluateTransactions(
 	g.P("func (s *", v.GoName, "Base) GetEvaluateTransactions() []string {")
 	// g.P("return []string{")
 
-	fns := []string{}
+	var fns []string
 
 	for _, m := range v.Methods {
 		tt, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_TransactionType).(auth_pb.TransactionType)

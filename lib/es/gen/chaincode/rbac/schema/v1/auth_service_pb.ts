@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { Activity, Collection, Operation, User, User_Id } from "../../../../auth/v1/auth_pb.js";
+import { Collection, Operation, StateActivity, User, User_Id } from "../../../../auth/v1/auth_pb.js";
 
 /**
  * Test Helpers
@@ -341,7 +341,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   /**
    * @generated from field: auth.StateActivity history = 2;
    */
-  history?: Activity;
+  history?: StateActivity;
 
   constructor(data?: PartialMessage<UserGetHistoryResponse>) {
     super();
@@ -352,7 +352,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   static readonly typeName = "rbac.schema.v1.UserGetHistoryResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "user_id", kind: "message", T: User_Id },
-    { no: 2, name: "history", kind: "message", T: Activity },
+    { no: 2, name: "history", kind: "message", T: StateActivity },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserGetHistoryResponse {

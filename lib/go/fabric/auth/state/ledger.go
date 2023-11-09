@@ -12,7 +12,7 @@ import (
 // UTIL Functions
 
 // MakeCompositeKey creates a composite key from the given attributes
-func MakeCompositeKey[T Object](ctx LoggedTxCtxInterface, obj T) (key string, err error) {
+func MakeCompositeKey[T Object](ctx TxCtxInterface, obj T) (key string, err error) {
 	namespace := obj.Namespace()
 	attr, err := obj.Key()
 	if err != nil {
@@ -30,17 +30,8 @@ func MakeCompositeKey[T Object](ctx LoggedTxCtxInterface, obj T) (key string, er
 	return key, nil
 }
 
-func ObjExists[T Object](ctx LoggedTxCtxInterface, obj T) (bool, error) {
-	key, err := MakeCompositeKey(ctx, obj)
-	if err != nil {
-		return false, err
-	}
-
-	return Exists(ctx, key), nil
-}
-
 // Exists returns true if the object exists in the ledger
-func Exists(ctx LoggedTxCtxInterface, key string) bool {
+func Exists(ctx TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return false
@@ -50,7 +41,7 @@ func Exists(ctx LoggedTxCtxInterface, key string) bool {
 }
 
 // Put puts the object into the ledger
-func Put[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Put[T Object](ctx TxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -66,7 +57,7 @@ func Put[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 // Insert inserts the object into the ledger
 // returns error if the object already exists
-func Insert[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Insert[T Object](ctx TxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -90,7 +81,7 @@ func Insert[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 
 // Update updates the object in the ledger
 // returns error if the object does not exist
-func Update[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
+func Update[T Object](ctx TxCtxInterface, obj T) (err error) {
 	key, err := MakeCompositeKey(ctx, obj)
 	if err != nil {
 		return err
@@ -113,7 +104,7 @@ func Update[T Object](ctx LoggedTxCtxInterface, obj T) (err error) {
 }
 
 // Get returns the object from the ledger
-func Get[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
+func Get[T Object](ctx TxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
@@ -138,7 +129,7 @@ func Get[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
 }
 
 // Delete deletes the object from the ledger
-func Delete[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
+func Delete[T Object](ctx TxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -149,7 +140,7 @@ func Delete[T Object](ctx LoggedTxCtxInterface, in T) (err error) {
 
 // GetHistory returns the history of the object from the ledger
 func GetHistory[T Object](
-	ctx LoggedTxCtxInterface,
+	ctx TxCtxInterface,
 	in T,
 ) (list HistoryList[T], err error) {
 	key, err := MakeCompositeKey(ctx, in)
@@ -189,7 +180,7 @@ func GetHistory[T Object](
 	return list, nil
 }
 
-func TxIdInHistory[T Object](ctx LoggedTxCtxInterface, in T, txId string) (bool, error) {
+func TxIdInHistory[T Object](ctx TxCtxInterface, in T, txId string) (bool, error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return false, err
@@ -224,7 +215,7 @@ func TxIdInHistory[T Object](ctx LoggedTxCtxInterface, in T, txId string) (bool,
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
 func GetPartialKeyList[T Object](
-	ctx LoggedTxCtxInterface,
+	ctx TxCtxInterface,
 	in T,
 	numAttr int,
 ) (list []T, err error) {
@@ -273,7 +264,7 @@ func GetPartialKeyList[T Object](
 	return list, nil
 }
 
-func GetFullList[T Object](ctx LoggedTxCtxInterface, in T) (list []T, err error) {
+func GetFullList[T Object](ctx TxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -313,7 +304,7 @@ func GetFullList[T Object](ctx LoggedTxCtxInterface, in T) (list []T, err error)
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
 func GetPagedPartialKeyList[T Object](
-	ctx PagedTxCtxInterface,
+	ctx TxCtxInterface,
 	in T,
 	numAttr int,
 	bookmark string,
@@ -377,7 +368,7 @@ func GetPagedPartialKeyList[T Object](
 
 // ------------------------------------------------------------
 func GetPagedFullList[T Object](
-	ctx PagedTxCtxInterface,
+	ctx TxCtxInterface,
 	in T,
 	bookmark string,
 ) (list []T, nextBookmark string, err error) {

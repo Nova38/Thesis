@@ -10,9 +10,6 @@ import (
 	lo "github.com/samber/lo"
 )
 
-func (m *Index) Namespace() string {
-	return "auth.Index"
-}
 func (m *Collection) Namespace() string {
 	return "auth.Collection"
 }

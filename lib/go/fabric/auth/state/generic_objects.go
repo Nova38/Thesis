@@ -7,19 +7,25 @@ import (
 
 // Generic structures
 
+// TODO: These need to be changed to utilize the new authpb.Collection
+//       and authpb.CollectionObject interfaces.
+
 type (
 	Object interface {
 		Key() (attr []string, err error)
 		Namespace() (namespace string)
-	}
-	ProtoObject interface {
-		Object
 		proto.Message
-		GetHiddenTxs()
 	}
-)
+	CollectionObjectKey interface {
+		GetCollectionId() string
+	}
 
-type (
+	CollectionObject interface {
+		GetId() *CollectionObjectKey
+	}
+
+	Suggestion[T any] struct{}
+
 	ObjectList[T Object] struct {
 		Entries []T `json:"entries"`
 	}

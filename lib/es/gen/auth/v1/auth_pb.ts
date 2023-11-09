@@ -47,9 +47,9 @@ export enum ObjectDomain {
   STATE_OBJECT = 1,
 
   /**
-   * @generated from enum value: OBJECT_DOMAIN_STATE_INDEX = 2;
+   * @generated from enum value: OBJECT_DOMAIN_COLLECTION_INDEX = 2;
    */
-  STATE_INDEX = 2,
+  COLLECTION_INDEX = 2,
 
   /**
    * @generated from enum value: OBJECT_DOMAIN_COLLECTION_OBJECT = 3;
@@ -60,7 +60,7 @@ export enum ObjectDomain {
 proto3.util.setEnumType(ObjectDomain, "auth.ObjectDomain", [
   { no: 0, name: "OBJECT_DOMAIN_UNSPECIFIED" },
   { no: 1, name: "OBJECT_DOMAIN_STATE_OBJECT" },
-  { no: 2, name: "OBJECT_DOMAIN_STATE_INDEX" },
+  { no: 2, name: "OBJECT_DOMAIN_COLLECTION_INDEX" },
   { no: 3, name: "OBJECT_DOMAIN_COLLECTION_OBJECT" },
 ]);
 
@@ -72,7 +72,7 @@ proto3.util.setEnumType(ObjectDomain, "auth.ObjectDomain", [
  *   - REGISTER:    Used to register a new user or collection (always allowed)
  *   - COLLECTION:  Used to manage collections permissions
  *   - MEMBERSHIP:  Used to manage membership of a collection
- *   - OBJECT:      Used to manage objects in a collection 
+ *   - OBJECT:      Used to manage objects in a collection
  *
  * @generated from enum auth.Action
  */
@@ -83,7 +83,7 @@ export enum Action {
   UNSPECIFIED = 0,
 
   /**
-   * Used to register  
+   * Used to register
    *
    * @generated from enum value: ACTION_REGISTER_USER = 1;
    */
@@ -366,6 +366,8 @@ export class KeySchema extends Message<KeySchema> {
   keyPaths?: FieldMask;
 
   /**
+   * !TODO: Add support for indexes
+   *
    * @generated from field: google.protobuf.FieldMask suffix_paths = 3;
    */
   suffixPaths?: FieldMask;
@@ -409,20 +411,30 @@ export class KeySchema extends Message<KeySchema> {
 }
 
 /**
- * Will create two keys so that it can be looked up either way 
+ * Example is membership //!TODO
  *
  * @generated from message auth.Index
  */
 export class Index extends Message<Index> {
   /**
-   * @generated from field: repeated string key1 = 1;
+   * @generated from field: google.protobuf.FieldMask key_1 = 1;
    */
-  key1: string[] = [];
+  key1?: FieldMask;
 
   /**
-   * @generated from field: repeated string key2 = 2;
+   * @generated from field: string type_1 = 2;
    */
-  key2: string[] = [];
+  type1 = "";
+
+  /**
+   * @generated from field: google.protobuf.FieldMask key_2 = 3;
+   */
+  key2?: FieldMask;
+
+  /**
+   * @generated from field: string type_2 = 4;
+   */
+  type2 = "";
 
   constructor(data?: PartialMessage<Index>) {
     super();
@@ -432,8 +444,10 @@ export class Index extends Message<Index> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.Index";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "key1", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 2, name: "key2", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 1, name: "key_1", kind: "message", T: FieldMask },
+    { no: 2, name: "type_1", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "key_2", kind: "message", T: FieldMask },
+    { no: 4, name: "type_2", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Index {
@@ -456,7 +470,7 @@ export class Index extends Message<Index> {
 /**
  * @generated from message auth.StateActivity
  */
-export class Activity extends Message<Activity> {
+export class StateActivity extends Message<StateActivity> {
   /**
    * @generated from field: string tx_id = 1;
    */
@@ -489,7 +503,7 @@ export class Activity extends Message<Activity> {
    */
   metadata: { [key: string]: boolean } = {};
 
-  constructor(data?: PartialMessage<Activity>) {
+  constructor(data?: PartialMessage<StateActivity>) {
     super();
     proto3.util.initPartial(data, this);
   }
@@ -505,20 +519,20 @@ export class Activity extends Message<Activity> {
     { no: 6, name: "metadata", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 8 /* ScalarType.BOOL */} },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Activity {
-    return new Activity().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StateActivity {
+    return new StateActivity().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Activity {
-    return new Activity().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): StateActivity {
+    return new StateActivity().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Activity {
-    return new Activity().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): StateActivity {
+    return new StateActivity().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Activity | PlainMessage<Activity> | undefined, b: Activity | PlainMessage<Activity> | undefined): boolean {
-    return proto3.util.equals(Activity, a, b);
+  static equals(a: StateActivity | PlainMessage<StateActivity> | undefined, b: StateActivity | PlainMessage<StateActivity> | undefined): boolean {
+    return proto3.util.equals(StateActivity, a, b);
   }
 }
 
@@ -532,9 +546,9 @@ export class Operation extends Message<Operation> {
   action = Action.UNSPECIFIED;
 
   /**
-   * @generated from field: string ObjectTypeName = 2;
+   * @generated from field: string object_type = 2;
    */
-  ObjectTypeName = "";
+  objectType = "";
 
   /**
    * @generated from field: google.protobuf.FieldMask paths = 3;
@@ -550,7 +564,7 @@ export class Operation extends Message<Operation> {
   static readonly typeName = "auth.Operation";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
-    { no: 2, name: "ObjectTypeName", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "paths", kind: "message", T: FieldMask },
   ]);
 
@@ -713,7 +727,11 @@ export class ACEntry extends Message<ACEntry> {
 }
 
 /**
+ * Collection 
+ * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
  * Note that the types of objects are stored in the default ACEntry
+ *
+ * key := {COLLECTION}{COLLECTION_ID}
  *
  * @generated from message auth.Collection
  */
@@ -772,6 +790,12 @@ export class Collection extends Message<Collection> {
 }
 
 /**
+ * User
+ * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+ *
+ * key := {USER}{USER_ID.msp_id}{USER_ID.id}
+ *
+ *
  * @generated from message auth.User
  */
 export class User extends Message<User> {
@@ -786,6 +810,9 @@ export class User extends Message<User> {
   name = "";
 
   /**
+   *  !!TODO: this could be a good place to test if it is better to store object 
+   * with fewer keys split up or more key
+   *
    * Indexed to the Roles domain
    *
    * @generated from field: repeated auth.Membership memberships = 3;
@@ -872,12 +899,12 @@ export class ObjectMetadata extends Message<ObjectMetadata> {
   /**
    * @generated from field: repeated auth.StateActivity hidden_txs = 2;
    */
-  hiddenTxs: Activity[] = [];
+  hiddenTxs: StateActivity[] = [];
 
   /**
    * @generated from field: auth.StateActivity last_activity = 3;
    */
-  lastActivity?: Activity;
+  lastActivity?: StateActivity;
 
   constructor(data?: PartialMessage<ObjectMetadata>) {
     super();
@@ -887,8 +914,8 @@ export class ObjectMetadata extends Message<ObjectMetadata> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.ObjectMetadata";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 2, name: "hidden_txs", kind: "message", T: Activity, repeated: true },
-    { no: 3, name: "last_activity", kind: "message", T: Activity },
+    { no: 2, name: "hidden_txs", kind: "message", T: StateActivity, repeated: true },
+    { no: 3, name: "last_activity", kind: "message", T: StateActivity },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectMetadata {
@@ -960,6 +987,9 @@ export class Suggestions extends Message<Suggestions> {
 /**
  * Used for setting Role Permissions
  *
+ * !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
+ *
+ *
  * @generated from message auth.Role
  */
 export class Role extends Message<Role> {
@@ -967,11 +997,6 @@ export class Role extends Message<Role> {
    * @generated from field: auth.Role.Id role_id = 1;
    */
   roleId?: Role_Id;
-
-  /**
-   * @generated from field: auth.ObjectMetadata metadata = 2;
-   */
-  metadata?: ObjectMetadata;
 
   /**
    * @generated from field: auth.ACEntry ac = 3;
@@ -1002,7 +1027,6 @@ export class Role extends Message<Role> {
   static readonly typeName = "auth.Role";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "role_id", kind: "message", T: Role_Id },
-    { no: 2, name: "metadata", kind: "message", T: ObjectMetadata },
     { no: 3, name: "ac", kind: "message", T: ACEntry },
     { no: 4, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -1071,6 +1095,8 @@ export class Role_Id extends Message<Role_Id> {
 
 /**
  * Used for Assigning Roles to Users
+ * !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
+ * !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
  *
  * @generated from message auth.Membership
  */

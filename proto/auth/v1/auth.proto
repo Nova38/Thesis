@@ -87,7 +87,6 @@ message Operation {
 
 }
 
-
 // Action - The action to be performed during the operation
 //
 // # Action Groups
@@ -140,7 +139,11 @@ message ACEntry {
 // =============================================
 
 
+// Collection
+// ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 // Note that the types of objects are stored in the default ACEntry
+//
+// key := {COLLECTION}{COLLECTION_ID}
 message Collection {
   option (object_type) = OBJECT_DOMAIN_STATE_OBJECT;
   option (key_schema).key_paths = {paths: ["collection_id"]};
@@ -153,6 +156,12 @@ message Collection {
   ACEntry default = 4 [(buf.validate.field).required = true];
 }
 
+
+// User
+// ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+//
+// key := {USER}{USER_ID.msp_id}{USER_ID.id}
+//
 message User {
   option (object_type) = OBJECT_DOMAIN_STATE_OBJECT;
   option (key_schema).key_paths = {
@@ -171,8 +180,9 @@ message User {
   string name = 2 [(buf.validate.field).string.min_len = 1];
 
 
-//  !!TODO: Make this an index
-//  repeated Membership memberships = 3; // Indexed to the Roles domain
+//  !!TODO: this could be a good place to test if it is better to store object
+// with fewer keys split up or more key
+ repeated Membership memberships = 3; // Indexed to the Roles domain
 }
 
 
@@ -182,6 +192,14 @@ message User {
 // =============================================
 // Collection Object Wrapper Types
 // =============================================
+
+// Used for Transporting Objects
+message CollectionObject {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_key = 2 [(buf.validate.field).string.min_len = 1];
+  repeated StateActivity hidden_txs = 3;
+  StateActivity last_activity = 4;
+}
 
 message ObjectMetadata {
   repeated StateActivity hidden_txs = 2;
@@ -199,11 +217,15 @@ message Suggestions {
 
 
 
+
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 // Role Collection Objects
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
 // Used for setting Role Permissions
+//
+// !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
+//
 message Role {
   option (object_type)              = OBJECT_DOMAIN_COLLECTION_OBJECT;
   option (key_schema).prefix_paths  = {paths: ["collection_id"]};
@@ -215,13 +237,16 @@ message Role {
   }
 
   Id role_id = 1 [(buf.validate.field).required = true];
+  repeated StateActivity hidden_txs = 2;
+  StateActivity last_activity = 3;
 
-  ObjectMetadata metadata = 2;
-  ACEntry ac              = 3 [(buf.validate.field).required = true];
-  string name             = 4 [(buf.validate.field).string.min_len = 1];
-  string description      = 5 [(buf.validate.field).string.min_len = 1];
 
-  repeated Id parents = 6;
+
+  ACEntry ac              = 4 [(buf.validate.field).required = true];
+  string name             = 5 [(buf.validate.field).string.min_len = 1];
+  string description      = 6 [(buf.validate.field).string.min_len = 1];
+
+  repeated Id parents = 7;
 
   option (buf.validate.message).cel = {
     id: "Role.RoleID.Empty"
@@ -232,6 +257,8 @@ message Role {
 }
 
 // Used for Assigning Roles to Users
+// !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
+// !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
 message Membership {
   option (object_type)              = OBJECT_DOMAIN_COLLECTION_INDEX;
   option (key_schema).prefix_paths  = {paths: ["role_id.collection_id"]};

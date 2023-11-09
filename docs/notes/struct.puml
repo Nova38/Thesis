@@ -1,0 +1,100 @@
+@startuml State
+    left to right direction
+
+
+
+
+
+
+
+package State {
+
+    Class Namespace {
+        ObjectType
+        PrefixPaths
+        Prefix
+    }
+    class Key {
+        Paths
+    }
+
+    Interface StateObject {
+        Namespace
+        Key
+        State
+        LastModified
+    }
+
+
+    Class Collection {
+
+    }
+
+    Class User {
+
+    }
+
+
+    class Activity {
+        Name
+        Description
+        State
+        StateActiv
+    }
+
+
+
+
+
+
+
+    package "Collections" #DDDDDD {
+
+        Interface Entity {
+            State
+            HiddenTx
+            LastModified
+
+            -- Methods --
+            Update()
+            Filter()
+        }
+
+        ' Concret types
+
+
+        Class Suggested {
+
+        }
+
+
+        ' Role
+        Class Role {
+
+        }
+        map "Role Namespace" as RoleNs {
+            ObjectType => "Role"
+            PrefixPaths => "CollectionId"
+        }
+        Role::key *-- RoleNs
+
+
+        Role --|> Entity
+        Suggested --|> Entity
+
+
+
+
+
+    }
+
+    Collections.Entity --|> StateObject
+
+}
+
+
+
+
+
+
+@enduml

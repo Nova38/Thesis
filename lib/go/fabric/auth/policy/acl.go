@@ -8,7 +8,7 @@ import (
 type (
 	ACLHandler struct {
 		op      *auth_pb.Operation
-		entries []*auth_pb.ACL_Entry
+		entries []*auth_pb.State
 	}
 )
 

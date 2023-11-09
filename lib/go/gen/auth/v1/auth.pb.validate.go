@@ -271,6 +271,68 @@ func (m *Index) validate(all bool) error {
 
 	var errors []error
 
+	if all {
+		switch v := interface{}(m.GetKey_1()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IndexValidationError{
+					field:  "Key_1",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IndexValidationError{
+					field:  "Key_1",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKey_1()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IndexValidationError{
+				field:  "Key_1",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Type_1
+
+	if all {
+		switch v := interface{}(m.GetKey_2()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, IndexValidationError{
+					field:  "Key_2",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, IndexValidationError{
+					field:  "Key_2",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKey_2()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return IndexValidationError{
+				field:  "Key_2",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Type_2
+
 	if len(errors) > 0 {
 		return IndexMultiError(errors)
 	}
@@ -348,22 +410,22 @@ var _ interface {
 	ErrorName() string
 } = IndexValidationError{}
 
-// Validate checks the field values on Activity with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on StateActivity with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *Activity) Validate() error {
+func (m *StateActivity) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Activity with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ActivityMultiError, or nil
-// if none found.
-func (m *Activity) ValidateAll() error {
+// ValidateAll checks the field values on StateActivity with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in StateActivityMultiError, or
+// nil if none found.
+func (m *StateActivity) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Activity) validate(all bool) error {
+func (m *StateActivity) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -376,7 +438,7 @@ func (m *Activity) validate(all bool) error {
 		switch v := interface{}(m.GetUserId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "UserId",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -384,7 +446,7 @@ func (m *Activity) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "UserId",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -393,7 +455,7 @@ func (m *Activity) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetUserId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ActivityValidationError{
+			return StateActivityValidationError{
 				field:  "UserId",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -405,7 +467,7 @@ func (m *Activity) validate(all bool) error {
 		switch v := interface{}(m.GetTimestamp()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "Timestamp",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -413,7 +475,7 @@ func (m *Activity) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "Timestamp",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -422,7 +484,7 @@ func (m *Activity) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetTimestamp()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ActivityValidationError{
+			return StateActivityValidationError{
 				field:  "Timestamp",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -436,7 +498,7 @@ func (m *Activity) validate(all bool) error {
 		switch v := interface{}(m.GetState()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "State",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -444,7 +506,7 @@ func (m *Activity) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ActivityValidationError{
+				errors = append(errors, StateActivityValidationError{
 					field:  "State",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -453,7 +515,7 @@ func (m *Activity) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetState()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ActivityValidationError{
+			return StateActivityValidationError{
 				field:  "State",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -464,18 +526,19 @@ func (m *Activity) validate(all bool) error {
 	// no validation rules for Metadata
 
 	if len(errors) > 0 {
-		return ActivityMultiError(errors)
+		return StateActivityMultiError(errors)
 	}
 
 	return nil
 }
 
-// ActivityMultiError is an error wrapping multiple validation errors returned
-// by Activity.ValidateAll() if the designated constraints aren't met.
-type ActivityMultiError []error
+// StateActivityMultiError is an error wrapping multiple validation errors
+// returned by StateActivity.ValidateAll() if the designated constraints
+// aren't met.
+type StateActivityMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ActivityMultiError) Error() string {
+func (m StateActivityMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -484,11 +547,11 @@ func (m ActivityMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ActivityMultiError) AllErrors() []error { return m }
+func (m StateActivityMultiError) AllErrors() []error { return m }
 
-// ActivityValidationError is the validation error returned by
-// Activity.Validate if the designated constraints aren't met.
-type ActivityValidationError struct {
+// StateActivityValidationError is the validation error returned by
+// StateActivity.Validate if the designated constraints aren't met.
+type StateActivityValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -496,22 +559,22 @@ type ActivityValidationError struct {
 }
 
 // Field function returns field value.
-func (e ActivityValidationError) Field() string { return e.field }
+func (e StateActivityValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ActivityValidationError) Reason() string { return e.reason }
+func (e StateActivityValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ActivityValidationError) Cause() error { return e.cause }
+func (e StateActivityValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ActivityValidationError) Key() bool { return e.key }
+func (e StateActivityValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ActivityValidationError) ErrorName() string { return "ActivityValidationError" }
+func (e StateActivityValidationError) ErrorName() string { return "StateActivityValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ActivityValidationError) Error() string {
+func (e StateActivityValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -523,14 +586,14 @@ func (e ActivityValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sActivity.%s: %s%s",
+		"invalid %sStateActivity.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ActivityValidationError{}
+var _ error = StateActivityValidationError{}
 
 var _ interface {
 	Field() string
@@ -538,7 +601,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ActivityValidationError{}
+} = StateActivityValidationError{}
 
 // Validate checks the field values on Operation with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -564,7 +627,7 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for Action
 
-	// no validation rules for ObjectTypeName
+	// no validation rules for ObjectType
 
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
@@ -1734,35 +1797,6 @@ func (m *Role) validate(all bool) error {
 		if err := v.Validate(); err != nil {
 			return RoleValidationError{
 				field:  "RoleId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetMetadata()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, RoleValidationError{
-					field:  "Metadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, RoleValidationError{
-					field:  "Metadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetMetadata()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return RoleValidationError{
-				field:  "Metadata",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

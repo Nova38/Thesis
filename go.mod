@@ -4,8 +4,6 @@ go 1.21.1
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20231017183020-0de7443d03cf.2
-	github.com/bufbuild/protovalidate-go v0.3.4
-	github.com/charmbracelet/log v0.2.5
 	github.com/google/go-cmp v0.6.0
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20230731094759-d626e9ab09b9
 	github.com/hyperledger/fabric-contract-api-go v1.2.1
@@ -13,12 +11,10 @@ require (
 	github.com/mennanov/fmutils v0.2.1
 	github.com/onsi/ginkgo/v2 v2.13.0
 	github.com/onsi/gomega v1.29.0
-	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.38.1
 	github.com/samber/oops v1.9.0
 	golang.org/x/text v0.13.0
-	google.golang.org/genproto v0.0.0-20231016165738-49dd2c1f3d0b
-	google.golang.org/genproto/googleapis/api v0.0.0-20231016165738-49dd2c1f3d0b
+
 	google.golang.org/protobuf v1.31.0
 )
 
