@@ -4,191 +4,521 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
+import { Any, FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
 
 /**
- * @generated from message auth.Identifier
+ * @generated from enum auth.TransactionType
  */
-export class Identifier extends Message<Identifier> {
+export enum TransactionType {
   /**
-   * @generated from oneof auth.Identifier.id
+   * @generated from enum value: TRANSACTION_TYPE_UNSPECIFIED = 0;
    */
-  id: {
-    /**
-     * @generated from field: auth.Identifier.Attribute attribute = 1;
-     */
-    value: Identifier_Attribute;
-    case: "attribute";
-  } | {
-    /**
-     * @generated from field: auth.Identifier.Role role = 2;
-     */
-    value: Identifier_Role;
-    case: "role";
-  } | {
-    /**
-     * @generated from field: auth.Identifier.Identity identity = 3;
-     */
-    value: Identifier_Identity;
-    case: "identity";
-  } | { case: undefined; value?: undefined } = { case: undefined };
+  UNSPECIFIED = 0,
 
-  constructor(data?: PartialMessage<Identifier>) {
+  /**
+   * @generated from enum value: TRANSACTION_TYPE_INVOKE = 1;
+   */
+  INVOKE = 1,
+
+  /**
+   * @generated from enum value: TRANSACTION_TYPE_QUERY = 2;
+   */
+  QUERY = 2,
+}
+// Retrieve enum metadata with: proto3.getEnumType(TransactionType)
+proto3.util.setEnumType(TransactionType, "auth.TransactionType", [
+  { no: 0, name: "TRANSACTION_TYPE_UNSPECIFIED" },
+  { no: 1, name: "TRANSACTION_TYPE_INVOKE" },
+  { no: 2, name: "TRANSACTION_TYPE_QUERY" },
+]);
+
+/**
+ * @generated from enum auth.ObjectDomain
+ */
+export enum ObjectDomain {
+  /**
+   * @generated from enum value: OBJECT_DOMAIN_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: OBJECT_DOMAIN_STATE_OBJECT = 1;
+   */
+  STATE_OBJECT = 1,
+
+  /**
+   * @generated from enum value: OBJECT_DOMAIN_STATE_INDEX = 2;
+   */
+  STATE_INDEX = 2,
+
+  /**
+   * @generated from enum value: OBJECT_DOMAIN_COLLECTION_OBJECT = 3;
+   */
+  COLLECTION_OBJECT = 3,
+}
+// Retrieve enum metadata with: proto3.getEnumType(ObjectDomain)
+proto3.util.setEnumType(ObjectDomain, "auth.ObjectDomain", [
+  { no: 0, name: "OBJECT_DOMAIN_UNSPECIFIED" },
+  { no: 1, name: "OBJECT_DOMAIN_STATE_OBJECT" },
+  { no: 2, name: "OBJECT_DOMAIN_STATE_INDEX" },
+  { no: 3, name: "OBJECT_DOMAIN_COLLECTION_OBJECT" },
+]);
+
+/**
+ * Action - The action to be performed during the operation
+ *
+ * # Action Groups
+ *   - UNSPECIFIED: null or not set
+ *   - REGISTER:    Used to register a new user or collection (always allowed)
+ *   - COLLECTION:  Used to manage collections permissions
+ *   - MEMBERSHIP:  Used to manage membership of a collection
+ *   - OBJECT:      Used to manage objects in a collection 
+ *
+ * @generated from enum auth.Action
+ */
+export enum Action {
+  /**
+   * @generated from enum value: ACTION_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Used to register  
+   *
+   * @generated from enum value: ACTION_REGISTER_USER = 1;
+   */
+  REGISTER_USER = 1,
+
+  /**
+   * Used to register
+   *
+   * @generated from enum value: ACTION_REGISTER_COLLECTION = 2;
+   */
+  REGISTER_COLLECTION = 2,
+
+  /**
+   * Used to modify the default permissions of a collection
+   *
+   * @generated from enum value: ACTION_MODIFY_DEFAULT_PERMISSIONS = 3;
+   */
+  MODIFY_DEFAULT_PERMISSIONS = 3,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_VIEW = 10;
+   */
+  OBJECT_VIEW = 10,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_CREATE = 11;
+   */
+  OBJECT_CREATE = 11,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_EDIT = 12;
+   */
+  OBJECT_EDIT = 12,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_DELETE = 13;
+   */
+  OBJECT_DELETE = 13,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_SUGGEST_VIEW = 14;
+   */
+  OBJECT_SUGGEST_VIEW = 14,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_SUGGEST_CREATE = 15;
+   */
+  OBJECT_SUGGEST_CREATE = 15,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_SUGGEST_DELETE = 16;
+   */
+  OBJECT_SUGGEST_DELETE = 16,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_SUGGEST_APPROVE = 17;
+   */
+  OBJECT_SUGGEST_APPROVE = 17,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_VIEW_HISTORY = 18;
+   */
+  OBJECT_VIEW_HISTORY = 18,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_HIDE_HISTORY = 19;
+   */
+  OBJECT_HIDE_HISTORY = 19,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Action)
+proto3.util.setEnumType(Action, "auth.Action", [
+  { no: 0, name: "ACTION_UNSPECIFIED" },
+  { no: 1, name: "ACTION_REGISTER_USER" },
+  { no: 2, name: "ACTION_REGISTER_COLLECTION" },
+  { no: 3, name: "ACTION_MODIFY_DEFAULT_PERMISSIONS" },
+  { no: 10, name: "ACTION_OBJECT_VIEW" },
+  { no: 11, name: "ACTION_OBJECT_CREATE" },
+  { no: 12, name: "ACTION_OBJECT_EDIT" },
+  { no: 13, name: "ACTION_OBJECT_DELETE" },
+  { no: 14, name: "ACTION_OBJECT_SUGGEST_VIEW" },
+  { no: 15, name: "ACTION_OBJECT_SUGGEST_CREATE" },
+  { no: 16, name: "ACTION_OBJECT_SUGGEST_DELETE" },
+  { no: 17, name: "ACTION_OBJECT_SUGGEST_APPROVE" },
+  { no: 18, name: "ACTION_OBJECT_VIEW_HISTORY" },
+  { no: 19, name: "ACTION_OBJECT_HIDE_HISTORY" },
+]);
+
+/**
+ * @generated from enum auth.TxError
+ */
+export enum TxError {
+  /**
+   * @generated from enum value: TX_ERROR_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: TX_ERROR_REQUEST_INVALID = 1;
+   */
+  REQUEST_INVALID = 1,
+
+  /**
+   * @generated from enum value: TX_ERROR_RUNTIME = 2;
+   */
+  RUNTIME = 2,
+
+  /**
+   * @generated from enum value: TX_ERROR_RUNTIME_BAD_OPS = 3;
+   */
+  RUNTIME_BAD_OPS = 3,
+
+  /**
+   * The collection id is invalid
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_ID = 11;
+   */
+  COLLECTION_INVALID_ID = 11,
+
+  /**
+   * The collection is not registered
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_UNREGISTERED = 12;
+   */
+  COLLECTION_UNREGISTERED = 12,
+
+  /**
+   * The collection is already registered
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_ALREADY_REGISTERED = 13;
+   */
+  COLLECTION_ALREADY_REGISTERED = 13,
+
+  /**
+   * The Collection is invalid
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_INVALID = 14;
+   */
+  COLLECTION_INVALID = 14,
+
+  /**
+   * The object type name is invalid
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
+   */
+  COLLECTION_INVALID_OBJECT_TYPE = 15,
+
+  /**
+   * The role id is invalid
+   *
+   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_ROLE_ID = 16;
+   */
+  COLLECTION_INVALID_ROLE_ID = 16,
+
+  /**
+   * The user does not have permission to perform the operation
+   *
+   * @generated from enum value: TX_ERROR_USER_INVALID_ID = 20;
+   */
+  USER_INVALID_ID = 20,
+
+  /**
+   * The user is not registered
+   *
+   * @generated from enum value: TX_ERROR_USER_UNREGISTERED = 21;
+   */
+  USER_UNREGISTERED = 21,
+
+  /**
+   * The user is already registered
+   *
+   * @generated from enum value: TX_ERROR_USER_ALREADY_REGISTERED = 22;
+   */
+  USER_ALREADY_REGISTERED = 22,
+
+  /**
+   * The user is invalid
+   *
+   * @generated from enum value: TX_ERROR_USER_INVALID = 23;
+   */
+  USER_INVALID = 23,
+
+  /**
+   * The user does not have a role in the collection
+   *
+   * @generated from enum value: TX_ERROR_USER_NO_ROLE = 24;
+   */
+  USER_NO_ROLE = 24,
+
+  /**
+   * The user has a deleted role in the collection
+   *
+   * @generated from enum value: TX_ERROR_USER_DELETED_ROLE = 25;
+   */
+  USER_DELETED_ROLE = 25,
+
+  /**
+   * The user does not have permission to perform the operation
+   *
+   * @generated from enum value: TX_ERROR_USER_PERMISSION_DENIED = 26;
+   */
+  USER_PERMISSION_DENIED = 26,
+
+  /**
+   * The object id is invalid
+   *
+   * @generated from enum value: TX_ERROR_OBJECT_INVALID_ID = 31;
+   */
+  OBJECT_INVALID_ID = 31,
+
+  /**
+   * The object is not registered
+   *
+   * @generated from enum value: TX_ERROR_OBJECT_UNREGISTERED = 32;
+   */
+  OBJECT_UNREGISTERED = 32,
+
+  /**
+   * The object is already registered
+   *
+   * @generated from enum value: TX_ERROR_OBJECT_ALREADY_REGISTERED = 33;
+   */
+  OBJECT_ALREADY_REGISTERED = 33,
+
+  /**
+   * The object is invalid
+   *
+   * @generated from enum value: TX_ERROR_OBJECT_INVALID = 34;
+   */
+  OBJECT_INVALID = 34,
+
+  /**
+   * @generated from enum value: TX_ERROR_INVALID_OBJECT_FIELD_PATH = 35;
+   */
+  INVALID_OBJECT_FIELD_PATH = 35,
+
+  /**
+   * @generated from enum value: TX_ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
+   */
+  INVALID_OBJECT_FIELD_VALUE = 36,
+}
+// Retrieve enum metadata with: proto3.getEnumType(TxError)
+proto3.util.setEnumType(TxError, "auth.TxError", [
+  { no: 0, name: "TX_ERROR_UNSPECIFIED" },
+  { no: 1, name: "TX_ERROR_REQUEST_INVALID" },
+  { no: 2, name: "TX_ERROR_RUNTIME" },
+  { no: 3, name: "TX_ERROR_RUNTIME_BAD_OPS" },
+  { no: 11, name: "TX_ERROR_COLLECTION_INVALID_ID" },
+  { no: 12, name: "TX_ERROR_COLLECTION_UNREGISTERED" },
+  { no: 13, name: "TX_ERROR_COLLECTION_ALREADY_REGISTERED" },
+  { no: 14, name: "TX_ERROR_COLLECTION_INVALID" },
+  { no: 15, name: "TX_ERROR_COLLECTION_INVALID_OBJECT_TYPE" },
+  { no: 16, name: "TX_ERROR_COLLECTION_INVALID_ROLE_ID" },
+  { no: 20, name: "TX_ERROR_USER_INVALID_ID" },
+  { no: 21, name: "TX_ERROR_USER_UNREGISTERED" },
+  { no: 22, name: "TX_ERROR_USER_ALREADY_REGISTERED" },
+  { no: 23, name: "TX_ERROR_USER_INVALID" },
+  { no: 24, name: "TX_ERROR_USER_NO_ROLE" },
+  { no: 25, name: "TX_ERROR_USER_DELETED_ROLE" },
+  { no: 26, name: "TX_ERROR_USER_PERMISSION_DENIED" },
+  { no: 31, name: "TX_ERROR_OBJECT_INVALID_ID" },
+  { no: 32, name: "TX_ERROR_OBJECT_UNREGISTERED" },
+  { no: 33, name: "TX_ERROR_OBJECT_ALREADY_REGISTERED" },
+  { no: 34, name: "TX_ERROR_OBJECT_INVALID" },
+  { no: 35, name: "TX_ERROR_INVALID_OBJECT_FIELD_PATH" },
+  { no: 36, name: "TX_ERROR_INVALID_OBJECT_FIELD_VALUE" },
+]);
+
+/**
+ * @generated from message auth.KeySchema
+ */
+export class KeySchema extends Message<KeySchema> {
+  /**
+   * @generated from field: google.protobuf.FieldMask prefix_paths = 1;
+   */
+  prefixPaths?: FieldMask;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask key_paths = 2;
+   */
+  keyPaths?: FieldMask;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask suffix_paths = 3;
+   */
+  suffixPaths?: FieldMask;
+
+  /**
+   * The value for the real key is stored in a sub message
+   *
+   * @generated from field: google.protobuf.FieldMask sub_messages = 4;
+   */
+  subMessages?: FieldMask;
+
+  constructor(data?: PartialMessage<KeySchema>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Identifier";
+  static readonly typeName = "auth.KeySchema";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "attribute", kind: "message", T: Identifier_Attribute, oneof: "id" },
-    { no: 2, name: "role", kind: "message", T: Identifier_Role, oneof: "id" },
-    { no: 3, name: "identity", kind: "message", T: Identifier_Identity, oneof: "id" },
+    { no: 1, name: "prefix_paths", kind: "message", T: FieldMask },
+    { no: 2, name: "key_paths", kind: "message", T: FieldMask },
+    { no: 3, name: "suffix_paths", kind: "message", T: FieldMask },
+    { no: 4, name: "sub_messages", kind: "message", T: FieldMask },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Identifier {
-    return new Identifier().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {
+    return new KeySchema().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Identifier {
-    return new Identifier().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): KeySchema {
+    return new KeySchema().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Identifier {
-    return new Identifier().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): KeySchema {
+    return new KeySchema().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Identifier | PlainMessage<Identifier> | undefined, b: Identifier | PlainMessage<Identifier> | undefined): boolean {
-    return proto3.util.equals(Identifier, a, b);
+  static equals(a: KeySchema | PlainMessage<KeySchema> | undefined, b: KeySchema | PlainMessage<KeySchema> | undefined): boolean {
+    return proto3.util.equals(KeySchema, a, b);
   }
 }
 
 /**
- * @generated from message auth.Identifier.Attribute
+ * Will create two keys so that it can be looked up either way 
+ *
+ * @generated from message auth.Index
  */
-export class Identifier_Attribute extends Message<Identifier_Attribute> {
+export class Index extends Message<Index> {
   /**
-   * @generated from field: string name = 1;
+   * @generated from field: repeated string key1 = 1;
    */
-  name = "";
+  key1: string[] = [];
 
   /**
-   * @generated from field: string msp_id = 2;
+   * @generated from field: repeated string key2 = 2;
    */
-  mspId = "";
+  key2: string[] = [];
 
-  /**
-   * @generated from field: string value = 3;
-   */
-  value = "";
-
-  constructor(data?: PartialMessage<Identifier_Attribute>) {
+  constructor(data?: PartialMessage<Index>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Identifier.Attribute";
+  static readonly typeName = "auth.Index";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "key1", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 2, name: "key2", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Identifier_Attribute {
-    return new Identifier_Attribute().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Index {
+    return new Index().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Identifier_Attribute {
-    return new Identifier_Attribute().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Index {
+    return new Index().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Identifier_Attribute {
-    return new Identifier_Attribute().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Index {
+    return new Index().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Identifier_Attribute | PlainMessage<Identifier_Attribute> | undefined, b: Identifier_Attribute | PlainMessage<Identifier_Attribute> | undefined): boolean {
-    return proto3.util.equals(Identifier_Attribute, a, b);
+  static equals(a: Index | PlainMessage<Index> | undefined, b: Index | PlainMessage<Index> | undefined): boolean {
+    return proto3.util.equals(Index, a, b);
   }
 }
 
 /**
- * @generated from message auth.Identifier.Role
+ * @generated from message auth.StateActivity
  */
-export class Identifier_Role extends Message<Identifier_Role> {
+export class Activity extends Message<Activity> {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: string tx_id = 1;
    */
-  id = "";
+  txId = "";
 
-  constructor(data?: PartialMessage<Identifier_Role>) {
+  /**
+   * @generated from field: auth.User.Id user_id = 2;
+   */
+  userId?: User_Id;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 3;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * @generated from field: string note = 4;
+   */
+  note = "";
+
+  /**
+   * @generated from field: google.protobuf.Any state = 5;
+   */
+  state?: Any;
+
+  /**
+   * When it is a History Entry it can contain if the entry is deleted or hidden
+   *
+   * @generated from field: map<string, bool> metadata = 6;
+   */
+  metadata: { [key: string]: boolean } = {};
+
+  constructor(data?: PartialMessage<Activity>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Identifier.Role";
+  static readonly typeName = "auth.StateActivity";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "user_id", kind: "message", T: User_Id },
+    { no: 3, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 4, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "state", kind: "message", T: Any },
+    { no: 6, name: "metadata", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 8 /* ScalarType.BOOL */} },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Identifier_Role {
-    return new Identifier_Role().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Activity {
+    return new Activity().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Identifier_Role {
-    return new Identifier_Role().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Activity {
+    return new Activity().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Identifier_Role {
-    return new Identifier_Role().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Activity {
+    return new Activity().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Identifier_Role | PlainMessage<Identifier_Role> | undefined, b: Identifier_Role | PlainMessage<Identifier_Role> | undefined): boolean {
-    return proto3.util.equals(Identifier_Role, a, b);
-  }
-}
-
-/**
- * @generated from message auth.Identifier.Identity
- */
-export class Identifier_Identity extends Message<Identifier_Identity> {
-  /**
-   * @generated from field: string msp_id = 1;
-   */
-  mspId = "";
-
-  /**
-   * @generated from field: string id = 2;
-   */
-  id = "";
-
-  constructor(data?: PartialMessage<Identifier_Identity>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Identifier.Identity";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Identifier_Identity {
-    return new Identifier_Identity().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Identifier_Identity {
-    return new Identifier_Identity().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Identifier_Identity {
-    return new Identifier_Identity().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Identifier_Identity | PlainMessage<Identifier_Identity> | undefined, b: Identifier_Identity | PlainMessage<Identifier_Identity> | undefined): boolean {
-    return proto3.util.equals(Identifier_Identity, a, b);
+  static equals(a: Activity | PlainMessage<Activity> | undefined, b: Activity | PlainMessage<Activity> | undefined): boolean {
+    return proto3.util.equals(Activity, a, b);
   }
 }
 
@@ -197,14 +527,14 @@ export class Identifier_Identity extends Message<Identifier_Identity> {
  */
 export class Operation extends Message<Operation> {
   /**
-   * @generated from field: auth.Operation.Domain domain = 1;
+   * @generated from field: auth.Action action = 1;
    */
-  domain = Operation_Domain.UNSPECIFIED;
+  action = Action.UNSPECIFIED;
 
   /**
-   * @generated from field: auth.Operation.Action action = 2;
+   * @generated from field: string ObjectTypeName = 2;
    */
-  action = Operation_Action.UNSPECIFIED;
+  ObjectTypeName = "";
 
   /**
    * @generated from field: google.protobuf.FieldMask paths = 3;
@@ -219,8 +549,8 @@ export class Operation extends Message<Operation> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.Operation";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "domain", kind: "enum", T: proto3.getEnumType(Operation_Domain) },
-    { no: 2, name: "action", kind: "enum", T: proto3.getEnumType(Operation_Action) },
+    { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
+    { no: 2, name: "ObjectTypeName", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "paths", kind: "message", T: FieldMask },
   ]);
 
@@ -242,619 +572,173 @@ export class Operation extends Message<Operation> {
 }
 
 /**
- * @generated from enum auth.Operation.Domain
+ * @generated from message auth.PathPolicy
  */
-export enum Operation_Domain {
+export class PathPolicy extends Message<PathPolicy> {
   /**
-   * @generated from enum value: DOMAIN_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * Meta create
-   *
-   * @generated from enum value: DOMAIN_COLLECTION = 1;
-   */
-  COLLECTION = 1,
-
-  /**
-   * @generated from enum value: DOMAIN_COLLECTION_MEMBERSHIP = 2;
-   */
-  COLLECTION_MEMBERSHIP = 2,
-
-  /**
-   * @generated from enum value: DOMAIN_COLLECTION_PERMISSION = 3;
-   */
-  COLLECTION_PERMISSION = 3,
-
-  /**
-   * @generated from enum value: DOMAIN_COLLECTION_ROLES = 4;
-   */
-  COLLECTION_ROLES = 4,
-
-  /**
-   * @generated from enum value: DOMAIN_USER = 5;
-   */
-  USER = 5,
-
-  /**
-   * @generated from enum value: DOMAIN_OBJECT = 6;
-   */
-  OBJECT = 6,
-
-  /**
-   * @generated from enum value: DOMAIN_OBJECT_FIELD = 7;
-   */
-  OBJECT_FIELD = 7,
-
-  /**
-   * Test
-   *
-   * @generated from enum value: DOMAIN_TEST = 100;
-   */
-  TEST = 100,
-}
-// Retrieve enum metadata with: proto3.getEnumType(Operation_Domain)
-proto3.util.setEnumType(Operation_Domain, "auth.Operation.Domain", [
-  { no: 0, name: "DOMAIN_UNSPECIFIED" },
-  { no: 1, name: "DOMAIN_COLLECTION" },
-  { no: 2, name: "DOMAIN_COLLECTION_MEMBERSHIP" },
-  { no: 3, name: "DOMAIN_COLLECTION_PERMISSION" },
-  { no: 4, name: "DOMAIN_COLLECTION_ROLES" },
-  { no: 5, name: "DOMAIN_USER" },
-  { no: 6, name: "DOMAIN_OBJECT" },
-  { no: 7, name: "DOMAIN_OBJECT_FIELD" },
-  { no: 100, name: "DOMAIN_TEST" },
-]);
-
-/**
- * @generated from enum auth.Operation.Action
- */
-export enum Operation_Action {
-  /**
-   * Default
-   *
-   * @generated from enum value: ACTION_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * View
-   *
-   * @generated from enum value: ACTION_VIEW = 1;
-   */
-  VIEW = 1,
-
-  /**
-   * Create
-   *
-   * @generated from enum value: ACTION_CREATE = 2;
-   */
-  CREATE = 2,
-
-  /**
-   * Delete
-   *
-   * @generated from enum value: ACTION_DELETE = 3;
-   */
-  DELETE = 3,
-
-  /**
-   * Edit/Update
-   *
-   * @generated from enum value: ACTION_EDIT = 4;
-   */
-  EDIT = 4,
-
-  /**
-   * View the suggested update to the object
-   *
-   * @generated from enum value: ACTION_VIEW_SUGGEST = 5;
-   */
-  VIEW_SUGGEST = 5,
-
-  /**
-   * Suggest an update to the object
-   *
-   * @generated from enum value: ACTION_SUGGEST_EDIT = 6;
-   */
-  SUGGEST_EDIT = 6,
-
-  /**
-   * Approve the suggested update
-   *
-   * @generated from enum value: ACTION_SUGGEST_APPROVE = 7;
-   */
-  SUGGEST_APPROVE = 7,
-
-  /**
-   * Reject the suggested update
-   *
-   * @generated from enum value: ACTION_SUGGEST_REJECT = 8;
-   */
-  SUGGEST_REJECT = 8,
-
-  /**
-   * View the history of the object
-   *
-   * @generated from enum value: ACTION_VIEW_HISTORY = 9;
-   */
-  VIEW_HISTORY = 9,
-
-  /**
-   * view, hide, unhide
-   *
-   * @generated from enum value: ACTION_HIDDEN_TX = 10;
-   */
-  HIDDEN_TX = 10,
-
-  /**
-   * Test
-   *
-   * @generated from enum value: ACTION_TEST = 100;
-   */
-  TEST = 100,
-}
-// Retrieve enum metadata with: proto3.getEnumType(Operation_Action)
-proto3.util.setEnumType(Operation_Action, "auth.Operation.Action", [
-  { no: 0, name: "ACTION_UNSPECIFIED" },
-  { no: 1, name: "ACTION_VIEW" },
-  { no: 2, name: "ACTION_CREATE" },
-  { no: 3, name: "ACTION_DELETE" },
-  { no: 4, name: "ACTION_EDIT" },
-  { no: 5, name: "ACTION_VIEW_SUGGEST" },
-  { no: 6, name: "ACTION_SUGGEST_EDIT" },
-  { no: 7, name: "ACTION_SUGGEST_APPROVE" },
-  { no: 8, name: "ACTION_SUGGEST_REJECT" },
-  { no: 9, name: "ACTION_VIEW_HISTORY" },
-  { no: 10, name: "ACTION_HIDDEN_TX" },
-  { no: 100, name: "ACTION_TEST" },
-]);
-
-/**
- * @generated from message auth.ACL
- */
-export class ACL extends Message<ACL> {
-  /**
-   * The string is the stringified Identifier
-   *
-   * @generated from field: map<string, auth.ACL.Entry> entries = 1;
-   */
-  entries: { [key: string]: ACL_Entry } = {};
-
-  /**
-   * The default is the base permissions for all users
-   *
-   * @generated from field: auth.ACL.Entry default = 2;
-   */
-  default?: ACL_Entry;
-
-  /**
-   * The public is the base permissions unregistered users. Manly for viewing
-   *
-   * @generated from field: auth.ACL.Entry public = 3;
-   */
-  public?: ACL_Entry;
-
-  constructor(data?: PartialMessage<ACL>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "entries", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL_Entry} },
-    { no: 2, name: "default", kind: "message", T: ACL_Entry },
-    { no: 3, name: "public", kind: "message", T: ACL_Entry },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL {
-    return new ACL().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL {
-    return new ACL().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL {
-    return new ACL().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL | PlainMessage<ACL> | undefined, b: ACL | PlainMessage<ACL> | undefined): boolean {
-    return proto3.util.equals(ACL, a, b);
-  }
-}
-
-/**
- * Types of Policies for the ACL
- *
- * @generated from message auth.ACL.Policy
- */
-export class ACL_Policy extends Message<ACL_Policy> {
-  constructor(data?: PartialMessage<ACL_Policy>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.Policy";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy {
-    return new ACL_Policy().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Policy {
-    return new ACL_Policy().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Policy {
-    return new ACL_Policy().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL_Policy | PlainMessage<ACL_Policy> | undefined, b: ACL_Policy | PlainMessage<ACL_Policy> | undefined): boolean {
-    return proto3.util.equals(ACL_Policy, a, b);
-  }
-}
-
-/**
- * Policy for altering the membership of a role or perms of a role
- *
- * @generated from message auth.ACL.Policy.Permission
- */
-export class ACL_Policy_Permission extends Message<ACL_Policy_Permission> {
-  /**
-   * @generated from field: bool view = 1;
-   */
-  view = false;
-
-  /**
-   * @generated from field: bool create = 2;
-   */
-  create = false;
-
-  /**
-   * @generated from field: bool edit = 3;
-   */
-  edit = false;
-
-  /**
-   * @generated from field: bool delete = 4;
-   */
-  delete = false;
-
-  constructor(data?: PartialMessage<ACL_Policy_Permission>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.Policy.Permission";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "create", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 4, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Permission {
-    return new ACL_Policy_Permission().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Policy_Permission {
-    return new ACL_Policy_Permission().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Policy_Permission {
-    return new ACL_Policy_Permission().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL_Policy_Permission | PlainMessage<ACL_Policy_Permission> | undefined, b: ACL_Policy_Permission | PlainMessage<ACL_Policy_Permission> | undefined): boolean {
-    return proto3.util.equals(ACL_Policy_Permission, a, b);
-  }
-}
-
-/**
- * Policy for altering the object
- *
- * @generated from message auth.ACL.Policy.Object
- */
-export class ACL_Policy_Object extends Message<ACL_Policy_Object> {
-  /**
-   * @generated from field: bool view = 1;
-   */
-  view = false;
-
-  /**
-   * @generated from field: bool create = 2;
-   */
-  create = false;
-
-  /**
-   * @generated from field: bool delete = 3;
-   */
-  delete = false;
-
-  /**
-   * @generated from field: bool view_history = 4;
-   */
-  viewHistory = false;
-
-  /**
-   * @generated from field: bool hidden_tx = 5;
-   */
-  hiddenTx = false;
-
-  constructor(data?: PartialMessage<ACL_Policy_Object>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.Policy.Object";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "create", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 4, name: "view_history", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 5, name: "hidden_tx", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_Object {
-    return new ACL_Policy_Object().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Policy_Object {
-    return new ACL_Policy_Object().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Policy_Object {
-    return new ACL_Policy_Object().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL_Policy_Object | PlainMessage<ACL_Policy_Object> | undefined, b: ACL_Policy_Object | PlainMessage<ACL_Policy_Object> | undefined): boolean {
-    return proto3.util.equals(ACL_Policy_Object, a, b);
-  }
-}
-
-/**
- * Policy for altering the object
- *
- * @generated from message auth.ACL.Policy.ObjectField
- */
-export class ACL_Policy_ObjectField extends Message<ACL_Policy_ObjectField> {
-  /**
-   * @generated from field: bool view = 1;
-   */
-  view = false;
-
-  /**
-   * @generated from field: bool edit = 2;
-   */
-  edit = false;
-
-  /**
-   * @generated from field: bool suggest_edit = 3;
-   */
-  suggestEdit = false;
-
-  /**
-   * @generated from field: bool suggest_approve = 4;
-   */
-  suggestApprove = false;
-
-  /**
-   * @generated from field: bool suggest_reject = 5;
-   */
-  suggestReject = false;
-
-  constructor(data?: PartialMessage<ACL_Policy_ObjectField>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.Policy.ObjectField";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "view", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "suggest_edit", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 4, name: "suggest_approve", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 5, name: "suggest_reject", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Policy_ObjectField {
-    return new ACL_Policy_ObjectField().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Policy_ObjectField {
-    return new ACL_Policy_ObjectField().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Policy_ObjectField {
-    return new ACL_Policy_ObjectField().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ACL_Policy_ObjectField | PlainMessage<ACL_Policy_ObjectField> | undefined, b: ACL_Policy_ObjectField | PlainMessage<ACL_Policy_ObjectField> | undefined): boolean {
-    return proto3.util.equals(ACL_Policy_ObjectField, a, b);
-  }
-}
-
-/**
- * This message is the tree node for operations on the state object
- *
- * @generated from message auth.ACL.PathPermission
- */
-export class ACL_PathPermission extends Message<ACL_PathPermission> {
-  /**
-   * The path is a sub path of a field mask
-   *
    * @generated from field: string path = 1;
    */
   path = "";
 
   /**
-   * @generated from field: bool allow_sub_paths = 2;
+   * @generated from field: repeated auth.Action actions = 2;
    */
-  allowSubPaths = false;
+  actions: Action[] = [];
 
-  /**
-   * The key is a valid sub path in the type of state object
-   *
-   * @generated from field: map<string, auth.ACL.PathPermission> sub_paths = 3;
-   */
-  subPaths: { [key: string]: ACL_PathPermission } = {};
-
-  /**
-   * If the policy is not set than use a parent policy unless nested policy is set
-   *
-   * @generated from field: auth.ACL.Policy.ObjectField policy = 4;
-   */
-  policy?: ACL_Policy_ObjectField;
-
-  constructor(data?: PartialMessage<ACL_PathPermission>) {
+  constructor(data?: PartialMessage<PathPolicy>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.PathPermission";
+  static readonly typeName = "auth.PathPolicy";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "allow_sub_paths", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL_PathPermission} },
-    { no: 4, name: "policy", kind: "message", T: ACL_Policy_ObjectField },
+    { no: 2, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_PathPermission {
-    return new ACL_PathPermission().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): PathPolicy {
+    return new PathPolicy().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_PathPermission {
-    return new ACL_PathPermission().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): PathPolicy {
+    return new PathPolicy().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_PathPermission {
-    return new ACL_PathPermission().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): PathPolicy {
+    return new PathPolicy().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ACL_PathPermission | PlainMessage<ACL_PathPermission> | undefined, b: ACL_PathPermission | PlainMessage<ACL_PathPermission> | undefined): boolean {
-    return proto3.util.equals(ACL_PathPermission, a, b);
+  static equals(a: PathPolicy | PlainMessage<PathPolicy> | undefined, b: PathPolicy | PlainMessage<PathPolicy> | undefined): boolean {
+    return proto3.util.equals(PathPolicy, a, b);
   }
 }
 
 /**
- * @generated from message auth.ACL.Entry
+ * @generated from message auth.ObjectPolicy
  */
-export class ACL_Entry extends Message<ACL_Entry> {
+export class ObjectPolicy extends Message<ObjectPolicy> {
   /**
-   * @generated from field: auth.ACL.Policy.Permission memberships = 1;
+   * @generated from field: string object_type = 1;
    */
-  memberships?: ACL_Policy_Permission;
+  objectType = "";
 
   /**
-   * @generated from field: auth.ACL.Policy.Permission role_permissions = 2;
+   * @generated from field: string object_namespace = 2;
    */
-  rolePermissions?: ACL_Policy_Permission;
+  objectNamespace = "";
 
   /**
-   * @generated from field: auth.ACL.Policy.Permission role_defs = 3;
+   * @generated from field: repeated auth.PathPolicy policies = 3;
    */
-  roleDefs?: ACL_Policy_Permission;
+  policies: PathPolicy[] = [];
+
+  constructor(data?: PartialMessage<ObjectPolicy>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.ObjectPolicy";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "policies", kind: "message", T: PathPolicy, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectPolicy {
+    return new ObjectPolicy().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectPolicy {
+    return new ObjectPolicy().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectPolicy {
+    return new ObjectPolicy().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ObjectPolicy | PlainMessage<ObjectPolicy> | undefined, b: ObjectPolicy | PlainMessage<ObjectPolicy> | undefined): boolean {
+    return proto3.util.equals(ObjectPolicy, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.ACEntry
+ */
+export class ACEntry extends Message<ACEntry> {
+  /**
+   * @generated from field: repeated auth.Action actions = 1;
+   */
+  actions: Action[] = [];
 
   /**
-   * @generated from field: auth.ACL.Policy.Object object = 4;
+   * @generated from field: repeated auth.ObjectPolicy object = 4;
    */
-  object?: ACL_Policy_Object;
-
-  /**
-   * @generated from field: auth.ACL.PathPermission object_paths = 5;
-   */
-  objectPaths?: ACL_PathPermission;
+  object: ObjectPolicy[] = [];
 
   /**
    * @generated from field: google.protobuf.FieldMask view_mask = 6;
    */
   viewMask?: FieldMask;
 
-  constructor(data?: PartialMessage<ACL_Entry>) {
+  constructor(data?: PartialMessage<ACEntry>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACL.Entry";
+  static readonly typeName = "auth.ACEntry";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "memberships", kind: "message", T: ACL_Policy_Permission },
-    { no: 2, name: "role_permissions", kind: "message", T: ACL_Policy_Permission },
-    { no: 3, name: "role_defs", kind: "message", T: ACL_Policy_Permission },
-    { no: 4, name: "object", kind: "message", T: ACL_Policy_Object },
-    { no: 5, name: "object_paths", kind: "message", T: ACL_PathPermission },
+    { no: 1, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
+    { no: 4, name: "object", kind: "message", T: ObjectPolicy, repeated: true },
     { no: 6, name: "view_mask", kind: "message", T: FieldMask },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACL_Entry {
-    return new ACL_Entry().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntry {
+    return new ACEntry().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACL_Entry {
-    return new ACL_Entry().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACEntry {
+    return new ACEntry().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACL_Entry {
-    return new ACL_Entry().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACEntry {
+    return new ACEntry().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ACL_Entry | PlainMessage<ACL_Entry> | undefined, b: ACL_Entry | PlainMessage<ACL_Entry> | undefined): boolean {
-    return proto3.util.equals(ACL_Entry, a, b);
+  static equals(a: ACEntry | PlainMessage<ACEntry> | undefined, b: ACEntry | PlainMessage<ACEntry> | undefined): boolean {
+    return proto3.util.equals(ACEntry, a, b);
   }
 }
 
 /**
+ * Note that the types of objects are stored in the default ACEntry
+ *
  * @generated from message auth.Collection
  */
 export class Collection extends Message<Collection> {
   /**
    * The key for the ledger
    *
-   * @generated from field: auth.Collection.Id id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  id?: Collection_Id;
+  collectionId = "";
 
   /**
-   * @generated from field: auth.Collection.Settings settings = 2;
+   * @generated from field: string name = 2;
    */
-  settings?: Collection_Settings;
+  name = "";
 
   /**
-   * The full type of object that this collection will store
-   *
-   * @generated from field: string object_type = 3;
+   * @generated from field: string description = 3;
    */
-  objectType = "";
+  description = "";
 
   /**
-   * The namespace of the object that this collection will store
-   *
-   * @generated from field: string object_namespace = 4;
+   * @generated from field: auth.ACEntry default = 4;
    */
-  objectNamespace = "";
-
-  /**
-   * @generated from field: auth.ACL acl = 5;
-   */
-  acl?: ACL;
-
-  /**
-   * The key is the stringified Identifier
-   * The value is the IdentifierEntry, which contains the Identifier and the parents
-   * The parents are the attributes that this attribute is derived from
-   *
-   * @generated from field: map<string, auth.Collection.IdentifierEntry> identifiers = 6;
-   */
-  identifiers: { [key: string]: Collection_IdentifierEntry } = {};
+  default?: ACEntry;
 
   constructor(data?: PartialMessage<Collection>) {
     super();
@@ -864,12 +748,10 @@ export class Collection extends Message<Collection> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.Collection";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: Collection_Id },
-    { no: 2, name: "settings", kind: "message", T: Collection_Settings },
-    { no: 3, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "object_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "acl", kind: "message", T: ACL },
-    { no: 6, name: "identifiers", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Collection_IdentifierEntry} },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "default", kind: "message", T: ACEntry },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
@@ -890,196 +772,6 @@ export class Collection extends Message<Collection> {
 }
 
 /**
- * @generated from enum auth.Collection.AuthType
- */
-export enum Collection_AuthType {
-  /**
-   * @generated from enum value: AUTH_TYPE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * Role based access control:
-   * 1. Valid Roles are defined in the roles list
-   * 2. Roles are assigned to users in the memberships map
-   * 3. Permissions are stored in the Collections ACL with the role id as the key
-   *
-   * @generated from enum value: AUTH_TYPE_RBAC = 1;
-   */
-  RBAC = 1,
-
-  /**
-   * Attribute based access control:
-   * 1. Valid Attribute definitions are defined in the attributes list
-   * 2. Attributes are stored in the users x509 certificate
-   * 3. Permissions are stored in the Collections ACL with the user id as the key
-   *
-   * @generated from enum value: AUTH_TYPE_ABAC = 2;
-   */
-  ABAC = 2,
-
-  /**
-   * Identity based access control:
-   * 1. Valid Identities are users registered in the smart contract
-   * 2. Permissions are stored in the Collections ACL with the user id as the key
-   *
-   * @generated from enum value: AUTH_TYPE_IDENTITY = 3;
-   */
-  IDENTITY = 3,
-}
-// Retrieve enum metadata with: proto3.getEnumType(Collection_AuthType)
-proto3.util.setEnumType(Collection_AuthType, "auth.Collection.AuthType", [
-  { no: 0, name: "AUTH_TYPE_UNSPECIFIED" },
-  { no: 1, name: "AUTH_TYPE_RBAC" },
-  { no: 2, name: "AUTH_TYPE_ABAC" },
-  { no: 3, name: "AUTH_TYPE_IDENTITY" },
-]);
-
-/**
- * @generated from message auth.Collection.IdentifierEntry
- */
-export class Collection_IdentifierEntry extends Message<Collection_IdentifierEntry> {
-  /**
-   * @generated from field: auth.Identifier identifier = 1;
-   */
-  identifier?: Identifier;
-
-  /**
-   * The parent attribute that this attribute is derived from
-   * If this is set, then it means that it should look in the permissions of
-   * the parent attribute to if the user doesn't have a defined permission
-   * for this attribute. Only if a non-root permission is not defined for the
-   * the attribute will it look back to the parent attribute for a permissions.
-   * This allows for a hierarchy of attributes to be defined
-   *
-   * @generated from field: repeated string parents = 2;
-   */
-  parents: string[] = [];
-
-  constructor(data?: PartialMessage<Collection_IdentifierEntry>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Collection.IdentifierEntry";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "identifier", kind: "message", T: Identifier },
-    { no: 2, name: "parents", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection_IdentifierEntry {
-    return new Collection_IdentifierEntry().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection_IdentifierEntry {
-    return new Collection_IdentifierEntry().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection_IdentifierEntry {
-    return new Collection_IdentifierEntry().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Collection_IdentifierEntry | PlainMessage<Collection_IdentifierEntry> | undefined, b: Collection_IdentifierEntry | PlainMessage<Collection_IdentifierEntry> | undefined): boolean {
-    return proto3.util.equals(Collection_IdentifierEntry, a, b);
-  }
-}
-
-/**
- * @generated from message auth.Collection.Settings
- */
-export class Collection_Settings extends Message<Collection_Settings> {
-  /**
-   * The type of authentication to use for this collection
-   *
-   * @generated from field: auth.Collection.AuthType auth_type = 1;
-   */
-  authType = Collection_AuthType.UNSPECIFIED;
-
-  /**
-   * If true, then the ACL will be used to restrict the view of the object
-   * to only those users who have been granted access to that level of the object
-   * This means that for listing objects, a filter will have to be applied
-   * to each object. For list all objects, this will be a very expensive operation
-   * as it will require walking multiple collections paths
-   *
-   * @generated from field: bool view_restrictions_enabled = 2;
-   */
-  viewRestrictionsEnabled = false;
-
-  /**
-   * @generated from field: bool acl_inheritance_enabled = 3;
-   */
-  aclInheritanceEnabled = false;
-
-  constructor(data?: PartialMessage<Collection_Settings>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Collection.Settings";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "auth_type", kind: "enum", T: proto3.getEnumType(Collection_AuthType) },
-    { no: 2, name: "view_restrictions_enabled", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "acl_inheritance_enabled", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection_Settings {
-    return new Collection_Settings().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection_Settings {
-    return new Collection_Settings().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection_Settings {
-    return new Collection_Settings().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Collection_Settings | PlainMessage<Collection_Settings> | undefined, b: Collection_Settings | PlainMessage<Collection_Settings> | undefined): boolean {
-    return proto3.util.equals(Collection_Settings, a, b);
-  }
-}
-
-/**
- * @generated from message auth.Collection.Id
- */
-export class Collection_Id extends Message<Collection_Id> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  constructor(data?: PartialMessage<Collection_Id>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Collection.Id";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection_Id {
-    return new Collection_Id().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection_Id {
-    return new Collection_Id().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection_Id {
-    return new Collection_Id().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Collection_Id | PlainMessage<Collection_Id> | undefined, b: Collection_Id | PlainMessage<Collection_Id> | undefined): boolean {
-    return proto3.util.equals(Collection_Id, a, b);
-  }
-}
-
-/**
  * @generated from message auth.User
  */
 export class User extends Message<User> {
@@ -1094,13 +786,11 @@ export class User extends Message<User> {
   name = "";
 
   /**
-   * Memberships stores the roles that the user has in each collection
-   * Key is the collection id
-   * Value is the role id
+   * Indexed to the Roles domain
    *
-   * @generated from field: map<string, string> memberships = 3;
+   * @generated from field: repeated auth.Membership memberships = 3;
    */
-  memberships: { [key: string]: string } = {};
+  memberships: Membership[] = [];
 
   constructor(data?: PartialMessage<User>) {
     super();
@@ -1112,7 +802,7 @@ export class User extends Message<User> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: User_Id },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "memberships", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
+    { no: 3, name: "memberships", kind: "message", T: Membership, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
@@ -1133,8 +823,6 @@ export class User extends Message<User> {
 }
 
 /**
- * The key for the ledger
- *
  * @generated from message auth.User.Id
  */
 export class User_Id extends Message<User_Id> {
@@ -1174,6 +862,263 @@ export class User_Id extends Message<User_Id> {
 
   static equals(a: User_Id | PlainMessage<User_Id> | undefined, b: User_Id | PlainMessage<User_Id> | undefined): boolean {
     return proto3.util.equals(User_Id, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.ObjectMetadata
+ */
+export class ObjectMetadata extends Message<ObjectMetadata> {
+  /**
+   * @generated from field: repeated auth.StateActivity hidden_txs = 2;
+   */
+  hiddenTxs: Activity[] = [];
+
+  /**
+   * @generated from field: auth.StateActivity last_activity = 3;
+   */
+  lastActivity?: Activity;
+
+  constructor(data?: PartialMessage<ObjectMetadata>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.ObjectMetadata";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 2, name: "hidden_txs", kind: "message", T: Activity, repeated: true },
+    { no: 3, name: "last_activity", kind: "message", T: Activity },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectMetadata {
+    return new ObjectMetadata().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectMetadata {
+    return new ObjectMetadata().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectMetadata {
+    return new ObjectMetadata().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ObjectMetadata | PlainMessage<ObjectMetadata> | undefined, b: ObjectMetadata | PlainMessage<ObjectMetadata> | undefined): boolean {
+    return proto3.util.equals(ObjectMetadata, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Suggestions
+ */
+export class Suggestions extends Message<Suggestions> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: google.protobuf.FieldMask paths = 2;
+   */
+  paths?: FieldMask;
+
+  /**
+   * @generated from field: google.protobuf.Any value = 4;
+   */
+  value?: Any;
+
+  constructor(data?: PartialMessage<Suggestions>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Suggestions";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "paths", kind: "message", T: FieldMask },
+    { no: 4, name: "value", kind: "message", T: Any },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Suggestions {
+    return new Suggestions().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Suggestions {
+    return new Suggestions().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Suggestions {
+    return new Suggestions().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Suggestions | PlainMessage<Suggestions> | undefined, b: Suggestions | PlainMessage<Suggestions> | undefined): boolean {
+    return proto3.util.equals(Suggestions, a, b);
+  }
+}
+
+/**
+ * Used for setting Role Permissions
+ *
+ * @generated from message auth.Role
+ */
+export class Role extends Message<Role> {
+  /**
+   * @generated from field: auth.Role.Id role_id = 1;
+   */
+  roleId?: Role_Id;
+
+  /**
+   * @generated from field: auth.ObjectMetadata metadata = 2;
+   */
+  metadata?: ObjectMetadata;
+
+  /**
+   * @generated from field: auth.ACEntry ac = 3;
+   */
+  ac?: ACEntry;
+
+  /**
+   * @generated from field: string name = 4;
+   */
+  name = "";
+
+  /**
+   * @generated from field: string description = 5;
+   */
+  description = "";
+
+  /**
+   * @generated from field: repeated auth.Role.Id parents = 6;
+   */
+  parents: Role_Id[] = [];
+
+  constructor(data?: PartialMessage<Role>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Role";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "role_id", kind: "message", T: Role_Id },
+    { no: 2, name: "metadata", kind: "message", T: ObjectMetadata },
+    { no: 3, name: "ac", kind: "message", T: ACEntry },
+    { no: 4, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "parents", kind: "message", T: Role_Id, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role {
+    return new Role().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Role {
+    return new Role().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Role {
+    return new Role().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Role | PlainMessage<Role> | undefined, b: Role | PlainMessage<Role> | undefined): boolean {
+    return proto3.util.equals(Role, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Role.Id
+ */
+export class Role_Id extends Message<Role_Id> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string id = 2;
+   */
+  id = "";
+
+  constructor(data?: PartialMessage<Role_Id>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Role.Id";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role_Id {
+    return new Role_Id().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Role_Id {
+    return new Role_Id().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Role_Id {
+    return new Role_Id().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Role_Id | PlainMessage<Role_Id> | undefined, b: Role_Id | PlainMessage<Role_Id> | undefined): boolean {
+    return proto3.util.equals(Role_Id, a, b);
+  }
+}
+
+/**
+ * Used for Assigning Roles to Users
+ *
+ * @generated from message auth.Membership
+ */
+export class Membership extends Message<Membership> {
+  /**
+   * @generated from field: auth.Role.Id role_id = 1;
+   */
+  roleId?: Role_Id;
+
+  /**
+   * @generated from field: auth.User.Id user_id = 2;
+   */
+  userId?: User_Id;
+
+  /**
+   * For use in Collections Without Roles; role.ID must be an empty string
+   *
+   * @generated from field: auth.ACEntry fallback_ac = 3;
+   */
+  fallbackAc?: ACEntry;
+
+  constructor(data?: PartialMessage<Membership>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Membership";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "role_id", kind: "message", T: Role_Id },
+    { no: 2, name: "user_id", kind: "message", T: User_Id },
+    { no: 3, name: "fallback_ac", kind: "message", T: ACEntry },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Membership {
+    return new Membership().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Membership {
+    return new Membership().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Membership {
+    return new Membership().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Membership | PlainMessage<Membership> | undefined, b: Membership | PlainMessage<Membership> | undefined): boolean {
+    return proto3.util.equals(Membership, a, b);
   }
 }
 

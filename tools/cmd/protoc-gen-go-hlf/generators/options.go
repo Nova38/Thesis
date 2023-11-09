@@ -1,21 +1,13 @@
 package generators
 
 import (
-	"github.com/nova38/thesis/lib/go/gen/hlf"
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 )
 
-func DataFieldOptions(m *protogen.Message) *hlf.DataField {
-	v, ok := proto.GetExtension(m.Desc.Options(), hlf.E_DataField).(*hlf.DataField)
-	if !ok {
-		return nil
-	}
-	return v
-}
-
-func TransactionTypeOptions(m *protogen.Method) *hlf.TransactionType {
-	v, ok := proto.GetExtension(m.Desc.Options(), hlf.E_TransactionType).(*hlf.TransactionType)
+func TransactionTypeOptions(m *protogen.Method) *auth_pb.TransactionType {
+	v, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_TransactionType).(*auth_pb.TransactionType)
 	if !ok {
 		return nil
 	}

@@ -2,14 +2,12 @@ syntax = "proto3";
 
 package rbac.schema.v1;
 
-import "rbac/rbac.proto";
-
+import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/empty.proto";
 
 
-import "hlf/utils.proto";
 
 
 
@@ -24,11 +22,9 @@ service AuthService {
        *  - User submitting the transaction is a registered user.
    */
     rpc UserGetCurrent(google.protobuf.Empty) returns (UserGetCurrentResponse) {
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        // buf:lint:ignore RPC_NO_DELETE
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     }
   ;
@@ -40,10 +36,9 @@ service AuthService {
          *  - User submitting the transaction is a registered user.
      */
     rpc UserGetCurrentId(google.protobuf.Empty) returns (UserGetCurrentIdResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     };
 
@@ -54,16 +49,15 @@ service AuthService {
          *  - Non-register users can call this method.
      */
     rpc UserGetList(google.protobuf.Empty) returns (UserGetListResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     };
 
 //    rpc UserGetListByCollection(UserGetListByCollectionRequest) returns (UserGetListByCollectionResponse){
-//      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-//      option (rbac.operation) = {
+//      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (auth.operation) = {
 //        action: ACTION_VIEW
 //        domain: DOMAIN_USER
 //      };
@@ -76,10 +70,9 @@ service AuthService {
          *  - Non-register users can call this method.
      */
     rpc UserGet(UserGetRequest) returns (UserGetResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     };
 
@@ -90,10 +83,9 @@ service AuthService {
          *  - Non-register users can call this method.
      */
     rpc UserGetHistory(UserGetHistoryRequest) returns (UserGetHistoryResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW_HISTORY
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW_HISTORY
       };
     };
 
@@ -104,16 +96,15 @@ service AuthService {
          *  - The certificate for the user submitting this request must not be already registered as a user.
      */
     rpc UserRegister(UserRegisterRequest) returns (UserRegisterResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
-        action: ACTION_CREATE
-        domain: DOMAIN_USER
+      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (auth.operation) = {
+        action: ACTION_REGISTER_USER
       };
     };
 
     // rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
-    //   option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    //   option (rbac.operation) = {
+    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    //   option (auth.operation) = {
     //     action: ACTION_EDIT
     //     domain: DOMAIN_USER
     //   };
@@ -132,11 +123,10 @@ service AuthService {
         *     to update the membership of the specified collection.
      */
     rpc UserUpdateMembership(UserUpdateMembershipRequest) returns (UserUpdateMembershipResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
-      option (rbac.operation) = {
-        action: ACTION_EDIT
-        domain: DOMAIN_COLLECTION_MEMBERSHIP
+      option (auth.operation) = {
+        action: ACTION_OBJECT_EDIT
       };
     };
 
@@ -152,10 +142,9 @@ service AuthService {
         *  - Non-register users can call this method.
      */
     rpc CollectionGetList(google.protobuf.Empty) returns (CollectionGetListResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        domain: DOMAIN_COLLECTION
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     };
 
@@ -166,10 +155,9 @@ service AuthService {
         *  - Non-register users can call this method.
      */
     rpc CollectionGet(CollectionGetRequest) returns (CollectionGetResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW
-        domain: DOMAIN_COLLECTION
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW
       };
     };
 
@@ -180,10 +168,9 @@ service AuthService {
         *  - Non-register users can call this method.
      */
     rpc CollectionGetHistory(CollectionGetHistoryRequest) returns (CollectionGetHistoryResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (rbac.operation) = {
-        action: ACTION_VIEW_HISTORY
-        domain: DOMAIN_COLLECTION
+      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_VIEW_HISTORY
       };
     };
 
@@ -194,27 +181,24 @@ service AuthService {
         *  - User submitting the transaction is a registered user.
      */
     rpc CollectionCreate(CollectionCreateRequest) returns (CollectionCreateResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
-        action: ACTION_CREATE
-        domain: DOMAIN_COLLECTION
+      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (auth.operation) = {
+        action: ACTION_REGISTER_COLLECTION
       };
     };
 
 
     rpc CollectionUpdateRoles(CollectionUpdateRolesRequest) returns (CollectionUpdateRolesResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
-        action: ACTION_EDIT
-        domain: DOMAIN_COLLECTION_ROLES
+      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_EDIT
       };
     };
 
     rpc CollectionUpdatePermission(CollectionUpdatePermissionRequest) returns (CollectionUpdatePermissionResponse){
-      option (hlf.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (rbac.operation) = {
-        action: ACTION_EDIT
-        domain: DOMAIN_COLLECTION_PERMISSION
+      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+      option (auth.operation) = {
+        action: ACTION_OBJECT_EDIT
       };
     };
 
@@ -225,8 +209,8 @@ service AuthService {
     */
 
     // rpc TestOperation(TestOperationRequest) returns (TestOperationResponse){
-    //   option (hlf.transaction_type) = TRANSACTION_TYPE_QUERY;
-    //   option (rbac.operation) = {
+    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    //   option (auth.operation) = {
     //     action: ACTION_TEST
     //     domain: DOMAIN_TEST
     //   };
@@ -238,8 +222,8 @@ service AuthService {
 
   // Test Helpers
     message TestOperationRequest {
-      Collection.Id collection_id = 1;
-      ACL.Operation operation = 2;
+      string collection_id = 1;
+      auth.Operation operation = 2;
     }
 
     message TestOperationResponse {
@@ -252,12 +236,12 @@ service AuthService {
   // Query
     // UserGetCurrent
       message UserGetCurrentResponse {
-          User user = 1;
+          auth.User user = 1;
       }
 
     // UserGetCurrentId
       message UserGetCurrentIdResponse {
-          User.Id user_id = 1;
+        auth.User.Id user_id = 1;
       }
 
     // UserGetList
@@ -266,13 +250,13 @@ service AuthService {
       //   int32 page_size = 2;
       // }
       message UserGetListResponse {
-          repeated User users = 1;
+          repeated auth.User users = 1;
           // string bookmark = 2;
       }
 
     // UserGet
       message UserGetRequest {
-          User.Id id = 1;
+        auth.User.Id id = 1;
 
           option (buf.validate.message).cel = {
             id: "UserGetRequest.UserId",
@@ -281,13 +265,13 @@ service AuthService {
           };
       }
       message UserGetResponse {
-          User user = 1;
+        auth.User user = 1;
 
       }
 
     // UserGetHistory
       message UserGetHistoryRequest {
-          User.Id id = 1;
+        auth.User.Id id = 1;
 
           option (buf.validate.message).cel = {
             id: "UserGetHistoryRequest.UserId",
@@ -296,8 +280,8 @@ service AuthService {
           };
       }
       message UserGetHistoryResponse {
-          User.Id user_id = 1;
-          History history = 2;
+          auth.User.Id user_id = 1;
+          auth.StateActivity history = 2;
       }
 
 
@@ -311,13 +295,13 @@ service AuthService {
           ];
       }
       message UserRegisterResponse{
-          User user = 1;
+        auth.User user = 1;
       }
 
     // UserUpdateMembership
       message UserUpdateMembershipRequest {
-          User.Id id = 1;
-          Collection.Id collection_id = 2;
+          auth.User.Id id = 1;
+          string collection_id = 2;
           string role = 3;
 
           option (buf.validate.message).cel = {
@@ -335,7 +319,7 @@ service AuthService {
 
       }
       message UserUpdateMembershipResponse {
-          User user = 1;
+        auth.User user = 1;
       }
 
     // UserUpdate
@@ -354,43 +338,43 @@ service AuthService {
       //   int32 page_size = 2;
       // }
       message CollectionGetListResponse {
-          repeated Collection collections = 1;
+          repeated auth.Collection collections = 1;
           // string bookmark = 2;
       }
 
     // CollectionGet
       message CollectionGetRequest {
-          Collection.Id collection_id = 1;
+          string collection_id = 1;
       }
       message CollectionGetResponse {
-          Collection collection = 1;
+          auth.Collection collection = 1;
       }
 
     // CollectionGetHistory
       message CollectionGetHistoryRequest {
-          Collection.Id collection_id = 1;
+          string collection_id = 1;
       }
       message CollectionGetHistoryResponse {
-          repeated Collection collections = 1;
+          repeated auth.Collection collections = 1;
       }
 
   // Invoke
     // CollectionCreate
       message CollectionCreateRequest {
-          Collection collection = 1;
+        auth.Collection collection = 1;
       }
       message CollectionCreateResponse {
-          Collection collection = 1;
+        auth.Collection collection = 1;
       }
 
     // CollectionRolesUpdate
       message CollectionUpdateRolesRequest {
-          Collection.Id collection_id = 1;
+          string collection_id = 1;
           map<string, string> roles_to_add = 2;
           map<string, string> roles_to_remove = 3;
       }
       message CollectionUpdateRolesResponse {
-          Collection collection = 1;
+          auth.Collection collection = 1;
           map<string, string> roles_added = 2
             [(buf.validate.field).map.values = {string: {min_len: 1}}];
           map<string, string> roles_removed = 3
@@ -399,9 +383,9 @@ service AuthService {
 
     // CollectionPermissionsUpdate
       message CollectionUpdatePermissionRequest {
-          Collection.Id collection_id = 1;
-          map<string, ACL> acl = 5;
+          string collection_id = 1;
+          // map<string, ACL> acl = 5;
       }
       message CollectionUpdatePermissionResponse {
-          Collection collection = 1;
+        auth.Collection collection = 1;
       }

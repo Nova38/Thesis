@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/nova38/thesis/lib/go/fabric/state"
+	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 )
 
 type ProtoStateObject interface {

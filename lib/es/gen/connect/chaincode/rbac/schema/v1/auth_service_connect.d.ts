@@ -15,9 +15,9 @@ export declare const AuthService: {
   readonly typeName: "rbac.schema.v1.AuthService",
   readonly methods: {
     /**
-     * 
+     *
      * UserGetCurrent: Returns the current user.
-     * 
+     *
      * Returns the current user.
      * # Requires:
      *  - User submitting the transaction is a registered user.
@@ -31,9 +31,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * Returns the current user id.
-     * 
+     *
      * # Requires:
      *  - User submitting the transaction is a registered user.
      *
@@ -46,9 +46,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * UserGetList: Returns the list of users.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -61,9 +61,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * UserGet: Returns the user.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -76,9 +76,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * UserGetHistory: Returns the user history.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -91,9 +91,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * UserRegister: Registers the user.
-     * 
+     *
      * # Requires:
      *  - The certificate for the user submitting this request must not be already registered as a user.
      *
@@ -106,9 +106,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * UserUpdateMembership: Updates the user's membership.
-     * 
+     *
      * # Requires:
      *  - User submitting the transaction is a registered user.
      *  - The specified user id is a registered user.
@@ -126,9 +126,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * CollectionGetList: Returns the list of collections.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -141,9 +141,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * CollectionGet: Returns the collection.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -156,9 +156,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * CollectionGetHistory: Returns the collection history.
-     * 
+     *
      * # Requires:
      *  - Non-register users can call this method.
      *
@@ -171,9 +171,9 @@ export declare const AuthService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * 
+     *
      * CollectionCreate: Creates the collection.
-     * 
+     *
      * # Requires:
      *  - User submitting the transaction is a registered user.
      *

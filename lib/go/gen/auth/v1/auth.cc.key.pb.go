@@ -10,47 +10,16 @@ import (
 	lo "github.com/samber/lo"
 )
 
-// roles is the namespace for Identifier_Role
-func (m *Identifier_Role) Namespace() string {
-	return "roles"
+func (m *Index) Namespace() string {
+	return "auth.Index"
 }
-func (m *Identifier_Role) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-
-// identities is the namespace for Identifier_Identity
-func (m *Identifier_Identity) Namespace() string {
-	return "identities"
-}
-func (m *Identifier_Identity) Key() ([]string, error) {
-	attr := []string{}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetMspId())
-		attr = append(attr, m.GetId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-
-// collection is the namespace for Collection
 func (m *Collection) Namespace() string {
-	return "collection"
+	return "auth.Collection"
 }
 func (m *Collection) Key() ([]string, error) {
 	attr := []string{}
 	ok := lo.Try(func() error {
-		attr = append(attr, m.GetId().GetCollectionId())
+		attr = append(attr, m.GetCollectionId())
 		return nil
 	})
 	if !ok {
@@ -58,16 +27,56 @@ func (m *Collection) Key() ([]string, error) {
 	}
 	return attr, nil
 }
-
-// users is the namespace for User
 func (m *User) Namespace() string {
-	return "users"
+	return "auth.User"
 }
 func (m *User) Key() ([]string, error) {
 	attr := []string{}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetId().GetMspId())
 		attr = append(attr, m.GetId().GetId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}
+func (m *Suggestions) Namespace() string {
+	return "auth.Suggestions"
+}
+func (m *Suggestions) Key() ([]string, error) {
+	attr := []string{}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetCollectionId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}
+func (m *Role) Namespace() string {
+	return "auth.Role"
+}
+func (m *Role) Key() ([]string, error) {
+	attr := []string{}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetRoleId().GetId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}
+func (m *Membership) Namespace() string {
+	return "auth.Membership"
+}
+func (m *Membership) Key() ([]string, error) {
+	attr := []string{}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetRoleId().GetId())
 		return nil
 	})
 	if !ok {

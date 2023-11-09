@@ -57,34 +57,7 @@ func (m *TestOperationRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, TestOperationRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, TestOperationRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return TestOperationRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	if all {
 		switch v := interface{}(m.GetOperation()).(type) {
@@ -1532,34 +1505,7 @@ func (m *UserUpdateMembershipRequest) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserUpdateMembershipRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserUpdateMembershipRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UserUpdateMembershipRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	// no validation rules for Role
 
@@ -1934,34 +1880,7 @@ func (m *CollectionGetRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionGetRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionGetRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionGetRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	if len(errors) > 0 {
 		return CollectionGetRequestMultiError(errors)
@@ -2196,34 +2115,7 @@ func (m *CollectionGetHistoryRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionGetHistoryRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionGetHistoryRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionGetHistoryRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	if len(errors) > 0 {
 		return CollectionGetHistoryRequestMultiError(errors)
@@ -2727,34 +2619,7 @@ func (m *CollectionUpdateRolesRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionUpdateRolesRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionUpdateRolesRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionUpdateRolesRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	// no validation rules for RolesToAdd
 
@@ -3000,80 +2865,7 @@ func (m *CollectionUpdatePermissionRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetCollectionId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CollectionUpdatePermissionRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CollectionUpdatePermissionRequestValidationError{
-					field:  "CollectionId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CollectionUpdatePermissionRequestValidationError{
-				field:  "CollectionId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	{
-		sorted_keys := make([]string, len(m.GetAcl()))
-		i := 0
-		for key := range m.GetAcl() {
-			sorted_keys[i] = key
-			i++
-		}
-		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
-		for _, key := range sorted_keys {
-			val := m.GetAcl()[key]
-			_ = val
-
-			// no validation rules for Acl[key]
-
-			if all {
-				switch v := interface{}(val).(type) {
-				case interface{ ValidateAll() error }:
-					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, CollectionUpdatePermissionRequestValidationError{
-							field:  fmt.Sprintf("Acl[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				case interface{ Validate() error }:
-					if err := v.Validate(); err != nil {
-						errors = append(errors, CollectionUpdatePermissionRequestValidationError{
-							field:  fmt.Sprintf("Acl[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				}
-			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
-				if err := v.Validate(); err != nil {
-					return CollectionUpdatePermissionRequestValidationError{
-						field:  fmt.Sprintf("Acl[%v]", key),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
-				}
-			}
-
-		}
-	}
+	// no validation rules for CollectionId
 
 	if len(errors) > 0 {
 		return CollectionUpdatePermissionRequestMultiError(errors)

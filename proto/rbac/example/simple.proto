@@ -1,9 +1,0 @@
-syntax = "proto3";
-package example;
-
-
-message SimpleMessage {
-  string id = 1;
-  bool is_simple = 2;
-  repeated int32 sample_list = 3;
-}

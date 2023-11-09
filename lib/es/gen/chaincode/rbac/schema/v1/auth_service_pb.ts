@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { ACL, ACL_Operation, Collection, Collection_Id, History, User, User_Id } from "../../../../rbac/rbac_pb.js";
+import { Activity, Collection, Operation, User, User_Id } from "../../../../auth/v1/auth_pb.js";
 
 /**
  * Test Helpers
@@ -14,14 +14,14 @@ import { ACL, ACL_Operation, Collection, Collection_Id, History, User, User_Id }
  */
 export class TestOperationRequest extends Message<TestOperationRequest> {
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  collectionId?: Collection_Id;
+  collectionId = "";
 
   /**
-   * @generated from field: rbac.ACL.Operation operation = 2;
+   * @generated from field: auth.Operation operation = 2;
    */
-  operation?: ACL_Operation;
+  operation?: Operation;
 
   constructor(data?: PartialMessage<TestOperationRequest>) {
     super();
@@ -31,8 +31,8 @@ export class TestOperationRequest extends Message<TestOperationRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.TestOperationRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 2, name: "operation", kind: "message", T: ACL_Operation },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "operation", kind: "message", T: Operation },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): TestOperationRequest {
@@ -98,7 +98,7 @@ export class TestOperationResponse extends Message<TestOperationResponse> {
  */
 export class UserGetCurrentResponse extends Message<UserGetCurrentResponse> {
   /**
-   * @generated from field: rbac.User user = 1;
+   * @generated from field: auth.User user = 1;
    */
   user?: User;
 
@@ -137,7 +137,7 @@ export class UserGetCurrentResponse extends Message<UserGetCurrentResponse> {
  */
 export class UserGetCurrentIdResponse extends Message<UserGetCurrentIdResponse> {
   /**
-   * @generated from field: rbac.User.Id user_id = 1;
+   * @generated from field: auth.User.Id user_id = 1;
    */
   userId?: User_Id;
 
@@ -182,7 +182,7 @@ export class UserGetListResponse extends Message<UserGetListResponse> {
   /**
    * string bookmark = 2;
    *
-   * @generated from field: repeated rbac.User users = 1;
+   * @generated from field: repeated auth.User users = 1;
    */
   users: User[] = [];
 
@@ -221,7 +221,7 @@ export class UserGetListResponse extends Message<UserGetListResponse> {
  */
 export class UserGetRequest extends Message<UserGetRequest> {
   /**
-   * @generated from field: rbac.User.Id id = 1;
+   * @generated from field: auth.User.Id id = 1;
    */
   id?: User_Id;
 
@@ -258,7 +258,7 @@ export class UserGetRequest extends Message<UserGetRequest> {
  */
 export class UserGetResponse extends Message<UserGetResponse> {
   /**
-   * @generated from field: rbac.User user = 1;
+   * @generated from field: auth.User user = 1;
    */
   user?: User;
 
@@ -297,7 +297,7 @@ export class UserGetResponse extends Message<UserGetResponse> {
  */
 export class UserGetHistoryRequest extends Message<UserGetHistoryRequest> {
   /**
-   * @generated from field: rbac.User.Id id = 1;
+   * @generated from field: auth.User.Id id = 1;
    */
   id?: User_Id;
 
@@ -334,14 +334,14 @@ export class UserGetHistoryRequest extends Message<UserGetHistoryRequest> {
  */
 export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   /**
-   * @generated from field: rbac.User.Id user_id = 1;
+   * @generated from field: auth.User.Id user_id = 1;
    */
   userId?: User_Id;
 
   /**
-   * @generated from field: rbac.History history = 2;
+   * @generated from field: auth.StateActivity history = 2;
    */
-  history?: History;
+  history?: Activity;
 
   constructor(data?: PartialMessage<UserGetHistoryResponse>) {
     super();
@@ -352,7 +352,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   static readonly typeName = "rbac.schema.v1.UserGetHistoryResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "user_id", kind: "message", T: User_Id },
-    { no: 2, name: "history", kind: "message", T: History },
+    { no: 2, name: "history", kind: "message", T: Activity },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserGetHistoryResponse {
@@ -374,7 +374,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
 
 /**
  * Invoke
- * 
+ *
  * UserRegister
  *
  * @generated from message rbac.schema.v1.UserRegisterRequest
@@ -418,7 +418,7 @@ export class UserRegisterRequest extends Message<UserRegisterRequest> {
  */
 export class UserRegisterResponse extends Message<UserRegisterResponse> {
   /**
-   * @generated from field: rbac.User user = 1;
+   * @generated from field: auth.User user = 1;
    */
   user?: User;
 
@@ -457,14 +457,14 @@ export class UserRegisterResponse extends Message<UserRegisterResponse> {
  */
 export class UserUpdateMembershipRequest extends Message<UserUpdateMembershipRequest> {
   /**
-   * @generated from field: rbac.User.Id id = 1;
+   * @generated from field: auth.User.Id id = 1;
    */
   id?: User_Id;
 
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 2;
+   * @generated from field: string collection_id = 2;
    */
-  collectionId?: Collection_Id;
+  collectionId = "";
 
   /**
    * @generated from field: string role = 3;
@@ -480,7 +480,7 @@ export class UserUpdateMembershipRequest extends Message<UserUpdateMembershipReq
   static readonly typeName = "rbac.schema.v1.UserUpdateMembershipRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "id", kind: "message", T: User_Id },
-    { no: 2, name: "collection_id", kind: "message", T: Collection_Id },
+    { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "role", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
@@ -506,7 +506,7 @@ export class UserUpdateMembershipRequest extends Message<UserUpdateMembershipReq
  */
 export class UserUpdateMembershipResponse extends Message<UserUpdateMembershipResponse> {
   /**
-   * @generated from field: rbac.User user = 1;
+   * @generated from field: auth.User user = 1;
    */
   user?: User;
 
@@ -553,7 +553,7 @@ export class CollectionGetListResponse extends Message<CollectionGetListResponse
   /**
    * string bookmark = 2;
    *
-   * @generated from field: repeated rbac.Collection collections = 1;
+   * @generated from field: repeated auth.Collection collections = 1;
    */
   collections: Collection[] = [];
 
@@ -592,9 +592,9 @@ export class CollectionGetListResponse extends Message<CollectionGetListResponse
  */
 export class CollectionGetRequest extends Message<CollectionGetRequest> {
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  collectionId?: Collection_Id;
+  collectionId = "";
 
   constructor(data?: PartialMessage<CollectionGetRequest>) {
     super();
@@ -604,7 +604,7 @@ export class CollectionGetRequest extends Message<CollectionGetRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionGetRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionGetRequest {
@@ -629,7 +629,7 @@ export class CollectionGetRequest extends Message<CollectionGetRequest> {
  */
 export class CollectionGetResponse extends Message<CollectionGetResponse> {
   /**
-   * @generated from field: rbac.Collection collection = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
   collection?: Collection;
 
@@ -668,9 +668,9 @@ export class CollectionGetResponse extends Message<CollectionGetResponse> {
  */
 export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryRequest> {
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  collectionId?: Collection_Id;
+  collectionId = "";
 
   constructor(data?: PartialMessage<CollectionGetHistoryRequest>) {
     super();
@@ -680,7 +680,7 @@ export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryReq
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionGetHistoryRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionGetHistoryRequest {
@@ -705,7 +705,7 @@ export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryReq
  */
 export class CollectionGetHistoryResponse extends Message<CollectionGetHistoryResponse> {
   /**
-   * @generated from field: repeated rbac.Collection collections = 1;
+   * @generated from field: repeated auth.Collection collections = 1;
    */
   collections: Collection[] = [];
 
@@ -745,7 +745,7 @@ export class CollectionGetHistoryResponse extends Message<CollectionGetHistoryRe
  */
 export class CollectionCreateRequest extends Message<CollectionCreateRequest> {
   /**
-   * @generated from field: rbac.Collection collection = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
   collection?: Collection;
 
@@ -782,7 +782,7 @@ export class CollectionCreateRequest extends Message<CollectionCreateRequest> {
  */
 export class CollectionCreateResponse extends Message<CollectionCreateResponse> {
   /**
-   * @generated from field: rbac.Collection collection = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
   collection?: Collection;
 
@@ -821,9 +821,9 @@ export class CollectionCreateResponse extends Message<CollectionCreateResponse> 
  */
 export class CollectionUpdateRolesRequest extends Message<CollectionUpdateRolesRequest> {
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  collectionId?: Collection_Id;
+  collectionId = "";
 
   /**
    * @generated from field: map<string, string> roles_to_add = 2;
@@ -843,7 +843,7 @@ export class CollectionUpdateRolesRequest extends Message<CollectionUpdateRolesR
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionUpdateRolesRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "roles_to_add", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
     { no: 3, name: "roles_to_remove", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
   ]);
@@ -870,7 +870,7 @@ export class CollectionUpdateRolesRequest extends Message<CollectionUpdateRolesR
  */
 export class CollectionUpdateRolesResponse extends Message<CollectionUpdateRolesResponse> {
   /**
-   * @generated from field: rbac.Collection collection = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
   collection?: Collection;
 
@@ -921,14 +921,11 @@ export class CollectionUpdateRolesResponse extends Message<CollectionUpdateRoles
  */
 export class CollectionUpdatePermissionRequest extends Message<CollectionUpdatePermissionRequest> {
   /**
-   * @generated from field: rbac.Collection.Id collection_id = 1;
+   * map<string, ACL> acl = 5;
+   *
+   * @generated from field: string collection_id = 1;
    */
-  collectionId?: Collection_Id;
-
-  /**
-   * @generated from field: map<string, rbac.ACL> acl = 5;
-   */
-  acl: { [key: string]: ACL } = {};
+  collectionId = "";
 
   constructor(data?: PartialMessage<CollectionUpdatePermissionRequest>) {
     super();
@@ -938,8 +935,7 @@ export class CollectionUpdatePermissionRequest extends Message<CollectionUpdateP
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionUpdatePermissionRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "message", T: Collection_Id },
-    { no: 5, name: "acl", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACL} },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionUpdatePermissionRequest {
@@ -964,7 +960,7 @@ export class CollectionUpdatePermissionRequest extends Message<CollectionUpdateP
  */
 export class CollectionUpdatePermissionResponse extends Message<CollectionUpdatePermissionResponse> {
   /**
-   * @generated from field: rbac.Collection collection = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
   collection?: Collection;
 

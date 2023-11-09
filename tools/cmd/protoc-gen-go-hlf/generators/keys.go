@@ -3,7 +3,7 @@ package generators
 import (
 	"strings"
 
-	"github.com/nova38/thesis/lib/go/gen/hlf"
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -65,7 +65,8 @@ func (kg *KeyGenerator) GenerateMessage(
 		return true
 	}
 
-	ns := keySchema.GetNamespace()
+	// ns := keySchema.GetNamespace()
+
 	kp := keySchema.GetKeyPaths()
 
 	// Add the imports
@@ -73,9 +74,9 @@ func (kg *KeyGenerator) GenerateMessage(
 	g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
 	// function for namespace
-	g.P("// ", ns, " is the namespace for ", msg.GoIdent.GoName)
+	// g.P("// ", msg.Desc.FullName(), " is the namespace for ", msg.GoIdent.GoName)
 	g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
-	g.P("	return \"", ns, "\"")
+	g.P("	return \"", msg.Desc.FullName(), "\"")
 	g.P("}")
 
 	// function for key
@@ -142,8 +143,8 @@ func toSubPaths(rawPaths string) []string {
 	return p
 }
 
-func KeySchemaOptions(m *protogen.Message) *hlf.KeySchema {
-	v, ok := proto.GetExtension(m.Desc.Options(), hlf.E_KeySchema).(*hlf.KeySchema)
+func KeySchemaOptions(m *protogen.Message) *auth_pb.KeySchema {
+	v, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_KeySchema).(*auth_pb.KeySchema)
 	if !ok {
 		return nil
 	}

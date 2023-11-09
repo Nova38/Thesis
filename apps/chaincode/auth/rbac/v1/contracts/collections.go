@@ -1,16 +1,14 @@
 package contracts
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"log/slog"
 
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 
-	"github.com/nova38/thesis/lib/go/fabric/rbac"
-	"github.com/nova38/thesis/lib/go/fabric/state"
-
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
-	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 func (a AuthContractImpl) CollectionGetList(
@@ -19,11 +17,11 @@ func (a AuthContractImpl) CollectionGetList(
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Get the collections
-	collectionList, err := state.GetFullList(ctx, &rbac_pb.Collection{})
+	collectionList, err := state.GetFullList(ctx, &auth_pb.Collection{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_UNSPECIFIED.String()).
+			Code(auth_pb.TxError_TX_ERROR_UNSPECIFIED.String()).
 			Wrap(err)
 	}
 
@@ -47,7 +45,7 @@ func (a AuthContractImpl) CollectionGet(
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Code(auth_pb.TxError_TX_ERROR_REQUEST_INVALID.String()).
 			Wrap(err)
 	}
 
@@ -56,14 +54,14 @@ func (a AuthContractImpl) CollectionGet(
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_COLLECTION_INVALID.String()).
+			Code(auth_pb.TxError_TX_ERROR_COLLECTION_ALREADY_REGISTERED.String()).
 			Wrap(err)
 	}
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
+			Code(auth_pb.TxError_TX_ERROR_USER_PERMISSION_DENIED.String()).
 			Wrap(err)
 	}
 

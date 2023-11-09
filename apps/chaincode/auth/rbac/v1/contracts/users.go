@@ -1,13 +1,12 @@
 package contracts
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"github.com/samber/oops"
 
-	"github.com/nova38/thesis/lib/go/fabric/state"
 	"google.golang.org/protobuf/types/known/anypb"
 
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
-	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 )
 
 // UserGetCurrent : Returns the current user.
