@@ -1,4 +1,4 @@
-package auth
+package state
 
 import (
 	"log/slog"
@@ -9,10 +9,10 @@ import (
 )
 
 type (
-	GenericAuthTxCtxInterface interface {
-		AuthCtxInterface
+	GenericTxCtxInterface interface {
+		TxCtxInterface
 	}
-	AuthCtxInterface interface {
+	TxCtxInterface interface {
 		// =============================================
 		// Generic injectors
 		// =============================================
@@ -64,7 +64,7 @@ type (
 		HandelBefore() (err error)
 
 		// MakeLastModified - Makes the last modified activity
-		MakeLastModified() (mod *auth_pb.StateActivity, err error)
+		MakeLastModified() (mod *auth_pb.Activity, err error)
 
 		// -------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ type (
 		GetCollection() (col *auth_pb.Collection, err error)
 
 		// SetCollection - Sets the collection value in the state
-		SetCollection(id *auth_pb.Collection_Id) (col *auth_pb.Collection, err error)
+		SetCollection(collection_id string) (col *auth_pb.Collection, err error)
 		// -------------------------------------------------------------------------
 
 		// ==================================================
