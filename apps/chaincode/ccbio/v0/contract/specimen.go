@@ -3,9 +3,8 @@ package contract
 import (
 	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
-	auth "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
-	rbac_pb "github.com/nova38/thesis/lib/go/gen/rbac"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
@@ -34,7 +33,11 @@ func (s *SpecimenContractImpl) SpecimenGetList(
 ) (res *pb.SpecimenGetListResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.IsAuthorized(); err != nil {
+	if err = ctx.InitViaReq(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = ctx.Authorize(); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -89,7 +92,7 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 	res = &pb.SpecimenGetHistoryResponse{
 		History: &pb.Specimen_History{
 			Id:      ctx.Specimen.Id,
-			Entries: []*rbac.History_Entry{},
+			Entries: []*authpb.History_Entry{},
 		},
 	}
 
@@ -99,7 +102,7 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 			return nil, oops.Wrap(err)
 		}
 
-		res.History.Entries = append(res.History.Entries, &rbac.History_Entry{
+		res.History.Entries = append(res.History.Entries, &authpb.History_Entry{
 			TxId:      h.TxId,
 			Timestamp: h.Timestamp,
 			IsDeleted: h.IsDelete,
@@ -134,7 +137,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 		if err = state.Get(ctx, ctx.Collection); err != nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
-				With("collection_id", ctx.Collection.Id).
+				With("collection_id", ctx.Collection.CollectionId).
 				Wrap(err)
 		}
 
@@ -149,7 +152,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	if spec == nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(rbac_pb.Error_ERROR_REQUEST_INVALID.String()).
+			Code(rbac_pb.TxError_REQUEST_INVALID.String()).
 			Errorf("specimen is required")
 	}
 
@@ -166,7 +169,7 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 		// HiddenTxs:    map[string]*pb.HiddenTx{},
 		// LastModified: madeAt,
 	}
-	// Update all the last modified fields
+	// Edit all the last modified fields
 	// specimen.Primary.LastModified = madeAt
 	// specimen.Secondary.LastModified = madeAt
 	// specimen.Taxon.LastModified = madeAt
@@ -215,10 +218,12 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 		if err != nil {
 			return nil, oops.Wrap(err)
 		}
-		SetLastModByMask(ctx.Specimen, req.UpdateMask, mod)
+		if err = SetLastModByMask(ctx.Specimen, req.UpdateMask, mod); err != nil {
+			return nil, oops.Wrap(err)
+		}
 	}
 
-	// Update the specimen
+	// Edit the specimen
 	if err = state.Update(ctx, ctx.Specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -281,7 +286,7 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 	// Add the tx to the hidden txs
 	ctx.Specimen.HiddenTxs[req.Tx.TxId] = req.Tx
 
-	// Update the specimen
+	// Edit the specimen
 	if err = state.Update(ctx, ctx.Specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
@@ -313,7 +318,7 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 	// remove the tx from the hidden txs
 	delete(ctx.Specimen.HiddenTxs, req.Tx.TxId)
 
-	// Update the specimen
+	// Edit the specimen
 	if err = state.Update(ctx, ctx.Specimen); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).

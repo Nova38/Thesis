@@ -1,7 +1,6 @@
 package state
 
 import (
-	"github.com/golang/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -11,20 +10,13 @@ import (
 //       and authpb.CollectionObject interfaces.
 
 type (
-	Object interface {
-		Key() (attr []string, err error)
-		Namespace() (namespace string)
-		proto.Message
-	}
-	CollectionObjectKey interface {
-		GetCollectionId() string
-	}
 
-	CollectionObject interface {
-		GetId() *CollectionObjectKey
-	}
-
-	Suggestion[T any] struct{}
+	//CollectionObjectKey interface {
+	//}
+	//
+	//CollectionObject interface {
+	//	GetId() *CollectionObjectKey
+	//}
 
 	ObjectList[T Object] struct {
 		Entries []T `json:"entries"`

@@ -31,7 +31,7 @@ func (a AuthContractImpl) UserGetCurrent(
 	return &cc.UserGetCurrentResponse{User: user}, nil
 }
 
-// Returns the current user id.
+// UserGetCurrentId Returns the current user id.
 //
 // # Requires:
 //   - User submitting the transaction is a registered user.
@@ -48,7 +48,7 @@ func (a AuthContractImpl) UserGetCurrentId(
 	if err != nil {
 		return nil, oops.
 			In("UserGetCurrentId").
-			Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
+			Code(rbac_pb.TxError_USER_INVALID.String()).
 			Wrap(err)
 	}
 	return &cc.UserGetCurrentIdResponse{UserId: user_id}, nil
@@ -71,7 +71,7 @@ func (a AuthContractImpl) UserGetList(
 	if err != nil {
 		return nil, oops.
 			In("UserGetList").
-			Code(rbac_pb.Error_ERROR_UNSPECIFIED.String()).
+			Code(rbac_pb.TxError_UNSPECIFIED.String()).
 			Wrap(err)
 	}
 
@@ -207,7 +207,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 		if !ok {
 			return nil, oops.
 				In("UserUpdateMembership").
-				Code(rbac_pb.Error_ERROR_COLLECTION_INVALID_ROLE_ID.String()).
+				Code(rbac_pb.TxError_COLLECTION_INVALID_ROLE_ID.String()).
 				Errorf("Role %v is not valid for collection %v", req.Role, req.CollectionId)
 		}
 
@@ -216,7 +216,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 		if err != nil || id == nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
-				Code(rbac_pb.Error_ERROR_UNSPECIFIED.String()).
+				Code(rbac_pb.TxError_UNSPECIFIED.String()).
 				Errorf("User id is nil")
 		}
 
@@ -226,7 +226,7 @@ func (a AuthContractImpl) UserUpdateMembership(
 		if err = ctx.IsAuthorized(); err != nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
-				Code(rbac_pb.Error_ERROR_USER_PERMISSION_DENIED.String()).
+				Code(rbac_pb.TxError_USER_PERMISSION_DENIED.String()).
 				Wrap(err)
 		}
 	}
@@ -241,11 +241,11 @@ func (a AuthContractImpl) UserUpdateMembership(
 		if err = state.Get(ctx, userToModify); err != nil {
 			return nil, oops.
 				In(ctx.GetFnName()).
-				Code(rbac_pb.Error_ERROR_USER_INVALID.String()).
+				Code(rbac_pb.TxError_USER_INVALID.String()).
 				Wrap(err)
 		}
 
-		// Update the user
+		// Edit the user
 		userToModify.Roles[req.GetCollectionId().CollectionId] = &rbac_pb.User_Role{
 			CollectionId: &rbac_pb.Collection_Id{
 				CollectionId: req.CollectionId.CollectionId,

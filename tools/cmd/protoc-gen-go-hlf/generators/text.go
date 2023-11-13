@@ -31,18 +31,23 @@ func (sg *TextGenerater) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
-	//for _, msg := range file.Messages {
-	//	//sv.GenerateMessage(gen, g, msg)
-	//}
-
-	if file.Services == nil {
-		g.Skip()
+	v := &Visitor{
+		file: file,
+		gen:  gen,
+		g:    g,
 	}
 
-	for _, sv := range file.Services {
-		// g.P("type AuthContractImpl struct{}")
-		sg.GenerateService(gen, g, sv)
-	}
+	v.VisitMessages(func(m *protogen.Message) {
+		g.P(m.Desc.FullName())
+		for _, f := range m.Fields {
+			g.P("\t -", f.Desc.FullName(), " - ", f.Desc.Message())
+		}
+	})
+
+	// for _, sv := range file.Services {
+	// 	// g.P("type AuthContractImpl struct{}")
+	// 	sg.GenerateService(gen, g, sv)
+	// }
 
 	return g, nil
 }
@@ -93,7 +98,7 @@ func (sv *TextGenerater) GenerateInterface(
 		} else if op != nil {
 			mComments += "// # Operation: \n"
 			mComments += "//   - Action: " + op.Action.String() + "\n"
-			mComments += "//   - Object: " + op.ObjectTypeName + "\n"
+			// mComments += "//   - Object: " + op.ObjectTypeName + "\n"
 		}
 
 		if m.Input.Desc.Name() == "Empty" {
@@ -189,9 +194,9 @@ func (sv *TextGenerater) GenerateOperationLookup(
 			g.P("return &", opImport, "{")
 			g.P("Action: ", op.Action.Number(), ",")
 
-			if op.ObjectTypeName != "" {
-				g.P("ObjectTypeName: ", op.ObjectTypeName, ",")
-			}
+			// if op.ObjectTypeName != "" {
+			// 	g.P("ObjectTypeName: ", op.ObjectTypeName, ",")
+			// }
 
 			g.P("}, nil")
 

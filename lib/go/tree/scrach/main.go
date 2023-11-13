@@ -27,22 +27,37 @@ func main() {
 	b := new(A)
 	b.name = "b"
 
-	t.AddPath("a.b", b)
+	err := t.AddPath("a.b", b)
+	if err != nil {
+		return
+	}
 	// t.Print()
 
-	t.AddPath("a.b.c", &A{name: "cme"})
+	err = t.AddPath("a.b.c", &A{name: "cme"})
+	if err != nil {
+		return
+	}
 	fmt.Printf("a.b.c: %s \n", t.GetPath("a.b.c").Value)
 
 	// // fmt.Printf("a.b.c: %v\n", c)
-	t.AddPath("a.b", b)
-	t.AddPath("1.2.3", c)
+	err = t.AddPath("a.b", b)
+	if err != nil {
+		return
+	}
+	err = t.AddPath("1.2.3", c)
+	if err != nil {
+		return
+	}
 
 	// t.AddPath("z.z", &A{name: "zap"})
 	fmt.Printf("a.b: %s \n", t.GetPath("a.b").Value)
 	b.name = "bnew"
 	fmt.Printf("a.b: %s \n", t.GetPath("a.b").Value)
 
-	t.AddPath("a.b", b)
+	err = t.AddPath("a.b", b)
+	if err != nil {
+		return
+	}
 	fmt.Printf("a.b: %s \n", t.GetPath("a.b").Value)
 
 	t.Visit(tree.VisitorOptions{},

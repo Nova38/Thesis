@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-// Update Specimen with mask
+// Edit Specimen with mask
 
 func SetLastModByMask(
 	specimen *pb.Specimen,

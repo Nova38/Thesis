@@ -21,18 +21,19 @@ enum TransactionType{
 }
 enum ObjectDomain {
   OBJECT_DOMAIN_UNSPECIFIED  = 0;
-  OBJECT_DOMAIN_STATE_OBJECT = 1;
-  OBJECT_DOMAIN_COLLECTION_INDEX  = 2;
-  OBJECT_DOMAIN_COLLECTION_OBJECT = 3;
+
+  // Object's key := {TYPE}{COLLECTION_ID}[...key_paths]
+  OBJECT_DOMAIN_OBJECT = 1;
+  // Object's key := {TYPE}<PrimaryKey>{...key_paths}
+  OBJECT_DOMAIN_SUB_OBJECT = 2;
+  OBJECT_DOMAIN_REFERENCE  = 3;
 }
 
 message KeySchema {
-  google.protobuf.FieldMask prefix_paths = 1;
-  google.protobuf.FieldMask key_paths = 2;
-  google.protobuf.FieldMask suffix_paths = 3; //!TODO: Add support for indexes
-
-  // The value for the real key is stored in a sub message
-  google.protobuf.FieldMask sub_messages = 4;
+  string namespace = 1;
+  google.protobuf.FieldMask keys = 2;
+  google.protobuf.FieldMask secondary_keys = 3; //!TODO: Add support for indexes
+  google.protobuf.FieldMask collection_id = 4;
 }
 
 // Example is membership //!TODO
@@ -61,17 +62,32 @@ extend google.protobuf.MessageOptions {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Misc message options
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// Can be used as the history entry
 message StateActivity {
   string tx_id = 1 [(buf.validate.field).string.min_len = 1];
-  User.Id user_id = 2;
-  google.protobuf.Timestamp timestamp = 3 [(buf.validate.field).required = true];
-  string note = 4;
-
-  google.protobuf.Any state = 5;
-  // When it is a History Entry it can contain if the entry is deleted or hidden
-  map<string, bool> metadata = 6;
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  string note = 5;
 }
+
+message HistoryEntry {
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  bool is_delete = 2;
+  bool is_hidden = 3;
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  string note = 5;
+  google.protobuf.Any value = 6;
+}
+
+message History {
+  repeated HistoryEntry entries = 1;
+  HiddenTxList hidden_txs = 2;
+}
+
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -82,8 +98,9 @@ message StateActivity {
 
 message Operation {
   Action action = 1;
-  string object_type = 2;
-  google.protobuf.FieldMask paths = 3;
+  string collection_id = 2;
+  string namespace = 3;
+  google.protobuf.FieldMask paths = 4;
 
 }
 
@@ -111,7 +128,8 @@ enum Action {
   ACTION_OBJECT_SUGGEST_DELETE      = 16;
   ACTION_OBJECT_SUGGEST_APPROVE     = 17;
   ACTION_OBJECT_VIEW_HISTORY        = 18;
-  ACTION_OBJECT_HIDE_HISTORY        = 19;
+  ACTION_OBJECT_VIEW_HIDDEN_TXS     = 19;
+  ACTION_OBJECT_HIDE_TX        = 20;
 }
 
 message PathPolicy {
@@ -134,8 +152,77 @@ message ACEntry {
 
 
 
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 // =============================================
-// State Objects
+// Collection Object Wrapper Types
+// =============================================
+
+
+
+// =============================================
+// Sub Object Types
+// =============================================
+
+
+// Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+message Suggestion {
+  option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+
+  string collection_id = 1;
+  string object_type = 2;
+  string object_id = 3;
+  string suggestion_id = 4;
+
+  google.protobuf.FieldMask paths = 5;
+  google.protobuf.Any value = 6;
+}
+
+// // This is meant to be returned not stored
+// message SuggestionList{
+//   option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+
+//   string collection_id = 1;
+//   string object_type = 2;
+//   repeated string object_id_parts = 3;
+
+//   repeated Suggestion suggestions = 4;
+// }
+
+
+
+
+
+message HiddenTx {
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string msp_id = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  string note = 5;
+}
+
+// Key should be {HiddenTxList}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+message HiddenTxList{
+  option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+
+
+  string collection_id = 1;
+  string object_type = 2;
+  string object_id = 3;
+
+
+  repeated HiddenTx txs = 4;
+}
+
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+// =============================================
+// Global Objects
 // =============================================
 
 
@@ -145,15 +232,17 @@ message ACEntry {
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (object_type) = OBJECT_DOMAIN_STATE_OBJECT;
-  option (key_schema).key_paths = {paths: ["collection_id"]};
-
+  option (object_type) = OBJECT_DOMAIN_OBJECT;
+  option (key_schema).keys = {paths: ["collection_id"]};
 
   // The key for the ledger
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name = 2 [(buf.validate.field).string.min_len = 1];
   string description = 3 [(buf.validate.field).string.min_len = 1];
-  ACEntry default = 4 [(buf.validate.field).required = true];
+
+  repeated string object_types = 4;
+
+  ACEntry default = 5 [(buf.validate.field).required = true];
 }
 
 
@@ -163,59 +252,25 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (object_type) = OBJECT_DOMAIN_STATE_OBJECT;
-  option (key_schema).key_paths = {
-    paths: [
-      "id.msp_id",
-      "id.id"
-    ]
-  };
-
-  message Id {
-    string msp_id = 1 [(buf.validate.field).string.min_len = 1];
-    string id     = 2 [(buf.validate.field).string.min_len = 1];
-  }
-
-  Id id       = 1 [(buf.validate.field).required = true];
-  string name = 2 [(buf.validate.field).string.min_len = 1];
+  option (object_type) = OBJECT_DOMAIN_OBJECT;
+  option (key_schema).keys = {paths: ["msp_id","user_id"]};
 
 
-//  !!TODO: this could be a good place to test if it is better to store object
-// with fewer keys split up or more key
- repeated Membership memberships = 3; // Indexed to the Roles domain
+  string msp_id  = 1 [(buf.validate.field).string.min_len = 1];
+  string user_id = 2 [(buf.validate.field).string.min_len = 1];
+  string name    = 3 [(buf.validate.field).string.min_len = 1];
+  string collection_id = 4 [(buf.validate.field).string.const  = "users"];
+  //  !!TODO: this could be a good place to test if it is better to store object
+  // with fewer keys split up or more key
+  // repeated Membership memberships = 3; // Indexed to the Roles domain
+  // buf:lint:ignore FIELD_NO_DELETE
 }
 
-
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-// =============================================
-// Collection Object Wrapper Types
-// =============================================
-
-// Used for Transporting Objects
-message CollectionObject {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_key = 2 [(buf.validate.field).string.min_len = 1];
-  repeated StateActivity hidden_txs = 3;
-  StateActivity last_activity = 4;
+message Attribute {
+  string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+  string oid = 2 [(buf.validate.field).string.min_len = 1];
+  string value = 3 [(buf.validate.field).string.min_len = 1];
 }
-
-message ObjectMetadata {
-  repeated StateActivity hidden_txs = 2;
-  StateActivity last_activity = 3;
-}
-
-message Suggestions {
-  option (key_schema).key_paths = { paths: ["collection_id"] };
-  option (key_schema).sub_messages = { paths: ["value"] };
-
-  string collection_id = 1;
-  google.protobuf.FieldMask paths = 2;
-  google.protobuf.Any value = 4;
-}
-
-
 
 
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
@@ -227,32 +282,20 @@ message Suggestions {
 // !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
 //
 message Role {
-  option (object_type)              = OBJECT_DOMAIN_COLLECTION_OBJECT;
-  option (key_schema).prefix_paths  = {paths: ["collection_id"]};
-  option (key_schema).key_paths     = {paths: ["role_id.id"]};
-
-  message Id {
-    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-    string id = 2 [(buf.validate.field).string.min_len = 1];
-  }
-
-  Id role_id = 1 [(buf.validate.field).required = true];
-  repeated StateActivity hidden_txs = 2;
-  StateActivity last_activity = 3;
+  option (object_type)     = OBJECT_DOMAIN_OBJECT;
+  option (key_schema).keys = {paths: ["role_id"]};
 
 
+
+  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
+  string role_id        = 2 [(buf.validate.field).string.min_len = 1];
 
   ACEntry ac              = 4 [(buf.validate.field).required = true];
   string name             = 5 [(buf.validate.field).string.min_len = 1];
   string description      = 6 [(buf.validate.field).string.min_len = 1];
 
-  repeated Id parents = 7;
+  repeated string parent_role_ids = 7;
 
-  option (buf.validate.message).cel = {
-    id: "Role.RoleID.Empty"
-    message: "Role Id cannot be empty for a defined role"
-    expression: ""
-  };
 
 }
 
@@ -260,16 +303,22 @@ message Role {
 // !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
 // !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
 message Membership {
-  option (object_type)              = OBJECT_DOMAIN_COLLECTION_INDEX;
-  option (key_schema).prefix_paths  = {paths: ["role_id.collection_id"]};
-  option (key_schema).key_paths     = {paths: ["role_id.id"]};
-  option (key_schema).suffix_paths  = {paths: ["user_id.msp_id", "user_id.id"]};
+  option (object_type)              = OBJECT_DOMAIN_REFERENCE;
+  option (key_schema).keys     = {paths: ["role_id"]};
+//  option (key_schema).secondary_keys  = {paths: ["user_id"]};
 
-  Role.Id role_id = 1;
-  User.Id user_id = 2;
+  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
+  string role_id       = 2 [(buf.validate.field).string.min_len = 1];
+
+  string msp_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  oneof identifier {
+    string user_id = 4 [(buf.validate.field).required = true];
+    Attribute attribute = 5;
+  }
 
   // For use in Collections Without Roles; role.ID must be an empty string
-  ACEntry fallback_ac = 3;
+  ACEntry fallback_ac = 6;
 }
 
 
@@ -283,57 +332,47 @@ message Membership {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 enum TxError {
-  TX_ERROR_UNSPECIFIED = 0;
-  TX_ERROR_REQUEST_INVALID = 1;
-  TX_ERROR_RUNTIME = 2;
-  TX_ERROR_RUNTIME_BAD_OPS = 3;
+  UNSPECIFIED         = 0;
+  REQUEST_INVALID     = 1;
+  RUNTIME             = 2;
+  RUNTIME_BAD_OPS     = 3;
+  KEY_NOT_FOUND       = 4;
+  KEY_ALREADY_EXISTS  = 5;
+
 
   /* Collection Errors */
-
-  // The collection id is invalid
-  TX_ERROR_COLLECTION_INVALID_ID = 11;
-  // The collection is not registered
-  TX_ERROR_COLLECTION_UNREGISTERED = 12;
-  // The collection is already registered
-  TX_ERROR_COLLECTION_ALREADY_REGISTERED = 13;
-  // The Collection is invalid
-  TX_ERROR_COLLECTION_INVALID = 14;
-  // The object type name is invalid
-  TX_ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
-  // The role id is invalid
-  TX_ERROR_COLLECTION_INVALID_ROLE_ID = 16;
+  COLLECTION_INVALID_ID           = 11;
+  COLLECTION_UNREGISTERED         = 12;
+  COLLECTION_ALREADY_REGISTERED   = 13;
+  COLLECTION_INVALID              = 14;
+  COLLECTION_INVALID_OBJECT_TYPE  = 15;
+  COLLECTION_INVALID_ROLE_ID      = 16;
 
 
   // User Errors
 
   // The user does not have permission to perform the operation
-  TX_ERROR_USER_INVALID_ID = 20;
-  // The user is not registered
-  TX_ERROR_USER_UNREGISTERED = 21;
-  // The user is already registered
-  TX_ERROR_USER_ALREADY_REGISTERED = 22;
-  // The user is invalid
-  TX_ERROR_USER_INVALID = 23;
-  // The user does not have a role in the collection
-  TX_ERROR_USER_NO_ROLE = 24;
-  // The user has a deleted role in the collection
-  TX_ERROR_USER_DELETED_ROLE = 25;
-  // The user does not have permission to perform the operation
-  TX_ERROR_USER_PERMISSION_DENIED = 26;
+  USER_INVALID_ID = 20;
+  USER_UNREGISTERED = 21;
+  USER_ALREADY_REGISTERED = 22;
+  USER_INVALID = 23;
+  USER_NO_ROLE = 24;
+  USER_DELETED_ROLE = 25;
+  USER_PERMISSION_DENIED = 26;
 
 
 
   // The object id is invalid
-  TX_ERROR_OBJECT_INVALID_ID = 31;
+  OBJECT_INVALID_ID = 31;
   // The object is not registered
-  TX_ERROR_OBJECT_UNREGISTERED = 32;
+  OBJECT_UNREGISTERED = 32;
   // The object is already registered
-  TX_ERROR_OBJECT_ALREADY_REGISTERED = 33;
+  OBJECT_ALREADY_REGISTERED = 33;
   // The object is invalid
-  TX_ERROR_OBJECT_INVALID = 34;
+  OBJECT_INVALID = 34;
 
   //
-  TX_ERROR_INVALID_OBJECT_FIELD_PATH = 35;
-  TX_ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
+  INVALID_OBJECT_FIELD_PATH = 35;
+  INVALID_OBJECT_FIELD_VALUE = 36;
   //
 }

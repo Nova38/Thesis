@@ -57,12 +57,14 @@ func (m *KeySchema) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Namespace
+
 	if all {
-		switch v := interface{}(m.GetPrefixPaths()).(type) {
+		switch v := interface{}(m.GetKeys()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "PrefixPaths",
+					field:  "Keys",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -70,16 +72,16 @@ func (m *KeySchema) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "PrefixPaths",
+					field:  "Keys",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetPrefixPaths()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetKeys()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return KeySchemaValidationError{
-				field:  "PrefixPaths",
+				field:  "Keys",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -87,11 +89,11 @@ func (m *KeySchema) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetKeyPaths()).(type) {
+		switch v := interface{}(m.GetSecondaryKeys()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "KeyPaths",
+					field:  "SecondaryKeys",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -99,16 +101,16 @@ func (m *KeySchema) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "KeyPaths",
+					field:  "SecondaryKeys",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetKeyPaths()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetSecondaryKeys()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return KeySchemaValidationError{
-				field:  "KeyPaths",
+				field:  "SecondaryKeys",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -116,11 +118,11 @@ func (m *KeySchema) validate(all bool) error {
 	}
 
 	if all {
-		switch v := interface{}(m.GetSuffixPaths()).(type) {
+		switch v := interface{}(m.GetCollectionId()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "SuffixPaths",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -128,45 +130,16 @@ func (m *KeySchema) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, KeySchemaValidationError{
-					field:  "SuffixPaths",
+					field:  "CollectionId",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuffixPaths()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetCollectionId()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return KeySchemaValidationError{
-				field:  "SuffixPaths",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetSubMessages()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "SubMessages",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "SubMessages",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSubMessages()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return KeySchemaValidationError{
-				field:  "SubMessages",
+				field:  "CollectionId",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -434,34 +407,9 @@ func (m *StateActivity) validate(all bool) error {
 
 	// no validation rules for TxId
 
-	if all {
-		switch v := interface{}(m.GetUserId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUserId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return StateActivityValidationError{
-				field:  "UserId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for MspId
+
+	// no validation rules for UserId
 
 	if all {
 		switch v := interface{}(m.GetTimestamp()).(type) {
@@ -493,37 +441,6 @@ func (m *StateActivity) validate(all bool) error {
 	}
 
 	// no validation rules for Note
-
-	if all {
-		switch v := interface{}(m.GetState()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "State",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "State",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetState()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return StateActivityValidationError{
-				field:  "State",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	// no validation rules for Metadata
 
 	if len(errors) > 0 {
 		return StateActivityMultiError(errors)
@@ -603,6 +520,332 @@ var _ interface {
 	ErrorName() string
 } = StateActivityValidationError{}
 
+// Validate checks the field values on HistoryEntry with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *HistoryEntry) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on HistoryEntry with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in HistoryEntryMultiError, or
+// nil if none found.
+func (m *HistoryEntry) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *HistoryEntry) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TxId
+
+	// no validation rules for IsDelete
+
+	// no validation rules for IsHidden
+
+	if all {
+		switch v := interface{}(m.GetTimestamp()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, HistoryEntryValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, HistoryEntryValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTimestamp()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return HistoryEntryValidationError{
+				field:  "Timestamp",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Note
+
+	if all {
+		switch v := interface{}(m.GetValue()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, HistoryEntryValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, HistoryEntryValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return HistoryEntryValidationError{
+				field:  "Value",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return HistoryEntryMultiError(errors)
+	}
+
+	return nil
+}
+
+// HistoryEntryMultiError is an error wrapping multiple validation errors
+// returned by HistoryEntry.ValidateAll() if the designated constraints aren't met.
+type HistoryEntryMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m HistoryEntryMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m HistoryEntryMultiError) AllErrors() []error { return m }
+
+// HistoryEntryValidationError is the validation error returned by
+// HistoryEntry.Validate if the designated constraints aren't met.
+type HistoryEntryValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e HistoryEntryValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e HistoryEntryValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e HistoryEntryValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e HistoryEntryValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e HistoryEntryValidationError) ErrorName() string { return "HistoryEntryValidationError" }
+
+// Error satisfies the builtin error interface
+func (e HistoryEntryValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sHistoryEntry.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = HistoryEntryValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = HistoryEntryValidationError{}
+
+// Validate checks the field values on History with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *History) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on History with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in HistoryMultiError, or nil if none found.
+func (m *History) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *History) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetEntries() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, HistoryValidationError{
+						field:  fmt.Sprintf("Entries[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, HistoryValidationError{
+						field:  fmt.Sprintf("Entries[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return HistoryValidationError{
+					field:  fmt.Sprintf("Entries[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if all {
+		switch v := interface{}(m.GetHiddenTxs()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, HistoryValidationError{
+					field:  "HiddenTxs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, HistoryValidationError{
+					field:  "HiddenTxs",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHiddenTxs()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return HistoryValidationError{
+				field:  "HiddenTxs",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return HistoryMultiError(errors)
+	}
+
+	return nil
+}
+
+// HistoryMultiError is an error wrapping multiple validation errors returned
+// by History.ValidateAll() if the designated constraints aren't met.
+type HistoryMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m HistoryMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m HistoryMultiError) AllErrors() []error { return m }
+
+// HistoryValidationError is the validation error returned by History.Validate
+// if the designated constraints aren't met.
+type HistoryValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e HistoryValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e HistoryValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e HistoryValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e HistoryValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e HistoryValidationError) ErrorName() string { return "HistoryValidationError" }
+
+// Error satisfies the builtin error interface
+func (e HistoryValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sHistory.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = HistoryValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = HistoryValidationError{}
+
 // Validate checks the field values on Operation with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -627,7 +870,9 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for Action
 
-	// no validation rules for ObjectType
+	// no validation rules for CollectionId
+
+	// no validation rules for Namespace
 
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
@@ -1134,6 +1379,446 @@ var _ interface {
 	ErrorName() string
 } = ACEntryValidationError{}
 
+// Validate checks the field values on Suggestion with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Suggestion) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Suggestion with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SuggestionMultiError, or
+// nil if none found.
+func (m *Suggestion) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Suggestion) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for ObjectType
+
+	// no validation rules for ObjectId
+
+	// no validation rules for SuggestionId
+
+	if all {
+		switch v := interface{}(m.GetPaths()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SuggestionValidationError{
+					field:  "Paths",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SuggestionValidationError{
+					field:  "Paths",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPaths()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SuggestionValidationError{
+				field:  "Paths",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetValue()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SuggestionValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SuggestionValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SuggestionValidationError{
+				field:  "Value",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return SuggestionMultiError(errors)
+	}
+
+	return nil
+}
+
+// SuggestionMultiError is an error wrapping multiple validation errors
+// returned by Suggestion.ValidateAll() if the designated constraints aren't met.
+type SuggestionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SuggestionMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SuggestionMultiError) AllErrors() []error { return m }
+
+// SuggestionValidationError is the validation error returned by
+// Suggestion.Validate if the designated constraints aren't met.
+type SuggestionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SuggestionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SuggestionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SuggestionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SuggestionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SuggestionValidationError) ErrorName() string { return "SuggestionValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SuggestionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSuggestion.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SuggestionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SuggestionValidationError{}
+
+// Validate checks the field values on HiddenTx with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *HiddenTx) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on HiddenTx with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in HiddenTxMultiError, or nil
+// if none found.
+func (m *HiddenTx) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *HiddenTx) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TxId
+
+	// no validation rules for MspId
+
+	// no validation rules for UserId
+
+	if all {
+		switch v := interface{}(m.GetTimestamp()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, HiddenTxValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, HiddenTxValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTimestamp()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return HiddenTxValidationError{
+				field:  "Timestamp",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Note
+
+	if len(errors) > 0 {
+		return HiddenTxMultiError(errors)
+	}
+
+	return nil
+}
+
+// HiddenTxMultiError is an error wrapping multiple validation errors returned
+// by HiddenTx.ValidateAll() if the designated constraints aren't met.
+type HiddenTxMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m HiddenTxMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m HiddenTxMultiError) AllErrors() []error { return m }
+
+// HiddenTxValidationError is the validation error returned by
+// HiddenTx.Validate if the designated constraints aren't met.
+type HiddenTxValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e HiddenTxValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e HiddenTxValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e HiddenTxValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e HiddenTxValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e HiddenTxValidationError) ErrorName() string { return "HiddenTxValidationError" }
+
+// Error satisfies the builtin error interface
+func (e HiddenTxValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sHiddenTx.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = HiddenTxValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = HiddenTxValidationError{}
+
+// Validate checks the field values on HiddenTxList with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *HiddenTxList) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on HiddenTxList with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in HiddenTxListMultiError, or
+// nil if none found.
+func (m *HiddenTxList) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *HiddenTxList) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for ObjectType
+
+	// no validation rules for ObjectId
+
+	for idx, item := range m.GetTxs() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, HiddenTxListValidationError{
+						field:  fmt.Sprintf("Txs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, HiddenTxListValidationError{
+						field:  fmt.Sprintf("Txs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return HiddenTxListValidationError{
+					field:  fmt.Sprintf("Txs[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return HiddenTxListMultiError(errors)
+	}
+
+	return nil
+}
+
+// HiddenTxListMultiError is an error wrapping multiple validation errors
+// returned by HiddenTxList.ValidateAll() if the designated constraints aren't met.
+type HiddenTxListMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m HiddenTxListMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m HiddenTxListMultiError) AllErrors() []error { return m }
+
+// HiddenTxListValidationError is the validation error returned by
+// HiddenTxList.Validate if the designated constraints aren't met.
+type HiddenTxListValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e HiddenTxListValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e HiddenTxListValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e HiddenTxListValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e HiddenTxListValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e HiddenTxListValidationError) ErrorName() string { return "HiddenTxListValidationError" }
+
+// Error satisfies the builtin error interface
+func (e HiddenTxListValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sHiddenTxList.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = HiddenTxListValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = HiddenTxListValidationError{}
+
 // Validate checks the field values on Collection with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -1289,70 +1974,13 @@ func (m *User) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UserValidationError{
-				field:  "Id",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for MspId
+
+	// no validation rules for UserId
 
 	// no validation rules for Name
 
-	for idx, item := range m.GetMemberships() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, UserValidationError{
-						field:  fmt.Sprintf("Memberships[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, UserValidationError{
-						field:  fmt.Sprintf("Memberships[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return UserValidationError{
-					field:  fmt.Sprintf("Memberships[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
+	// no validation rules for CollectionId
 
 	if len(errors) > 0 {
 		return UserMultiError(errors)
@@ -1431,264 +2059,47 @@ var _ interface {
 	ErrorName() string
 } = UserValidationError{}
 
-// Validate checks the field values on ObjectMetadata with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
+// Validate checks the field values on Attribute with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *ObjectMetadata) Validate() error {
+func (m *Attribute) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ObjectMetadata with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ObjectMetadataMultiError,
-// or nil if none found.
-func (m *ObjectMetadata) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ObjectMetadata) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetHiddenTxs() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ObjectMetadataValidationError{
-						field:  fmt.Sprintf("HiddenTxs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ObjectMetadataValidationError{
-						field:  fmt.Sprintf("HiddenTxs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ObjectMetadataValidationError{
-					field:  fmt.Sprintf("HiddenTxs[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if all {
-		switch v := interface{}(m.GetLastActivity()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ObjectMetadataValidationError{
-					field:  "LastActivity",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, ObjectMetadataValidationError{
-					field:  "LastActivity",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetLastActivity()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ObjectMetadataValidationError{
-				field:  "LastActivity",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return ObjectMetadataMultiError(errors)
-	}
-
-	return nil
-}
-
-// ObjectMetadataMultiError is an error wrapping multiple validation errors
-// returned by ObjectMetadata.ValidateAll() if the designated constraints
-// aren't met.
-type ObjectMetadataMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ObjectMetadataMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ObjectMetadataMultiError) AllErrors() []error { return m }
-
-// ObjectMetadataValidationError is the validation error returned by
-// ObjectMetadata.Validate if the designated constraints aren't met.
-type ObjectMetadataValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ObjectMetadataValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ObjectMetadataValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ObjectMetadataValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ObjectMetadataValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ObjectMetadataValidationError) ErrorName() string { return "ObjectMetadataValidationError" }
-
-// Error satisfies the builtin error interface
-func (e ObjectMetadataValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sObjectMetadata.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ObjectMetadataValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ObjectMetadataValidationError{}
-
-// Validate checks the field values on Suggestions with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Suggestions) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Suggestions with the rules defined in
+// ValidateAll checks the field values on Attribute with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in SuggestionsMultiError, or
-// nil if none found.
-func (m *Suggestions) ValidateAll() error {
+// result is a list of violation errors wrapped in AttributeMultiError, or nil
+// if none found.
+func (m *Attribute) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Suggestions) validate(all bool) error {
+func (m *Attribute) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for CollectionId
+	// no validation rules for MspId
 
-	if all {
-		switch v := interface{}(m.GetPaths()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionsValidationError{
-					field:  "Paths",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionsValidationError{
-					field:  "Paths",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPaths()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestionsValidationError{
-				field:  "Paths",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Oid
 
-	if all {
-		switch v := interface{}(m.GetValue()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionsValidationError{
-					field:  "Value",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionsValidationError{
-					field:  "Value",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestionsValidationError{
-				field:  "Value",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for Value
 
 	if len(errors) > 0 {
-		return SuggestionsMultiError(errors)
+		return AttributeMultiError(errors)
 	}
 
 	return nil
 }
 
-// SuggestionsMultiError is an error wrapping multiple validation errors
-// returned by Suggestions.ValidateAll() if the designated constraints aren't met.
-type SuggestionsMultiError []error
+// AttributeMultiError is an error wrapping multiple validation errors returned
+// by Attribute.ValidateAll() if the designated constraints aren't met.
+type AttributeMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SuggestionsMultiError) Error() string {
+func (m AttributeMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1697,11 +2108,11 @@ func (m SuggestionsMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SuggestionsMultiError) AllErrors() []error { return m }
+func (m AttributeMultiError) AllErrors() []error { return m }
 
-// SuggestionsValidationError is the validation error returned by
-// Suggestions.Validate if the designated constraints aren't met.
-type SuggestionsValidationError struct {
+// AttributeValidationError is the validation error returned by
+// Attribute.Validate if the designated constraints aren't met.
+type AttributeValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1709,22 +2120,22 @@ type SuggestionsValidationError struct {
 }
 
 // Field function returns field value.
-func (e SuggestionsValidationError) Field() string { return e.field }
+func (e AttributeValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SuggestionsValidationError) Reason() string { return e.reason }
+func (e AttributeValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SuggestionsValidationError) Cause() error { return e.cause }
+func (e AttributeValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SuggestionsValidationError) Key() bool { return e.key }
+func (e AttributeValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SuggestionsValidationError) ErrorName() string { return "SuggestionsValidationError" }
+func (e AttributeValidationError) ErrorName() string { return "AttributeValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SuggestionsValidationError) Error() string {
+func (e AttributeValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1736,14 +2147,14 @@ func (e SuggestionsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSuggestions.%s: %s%s",
+		"invalid %sAttribute.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SuggestionsValidationError{}
+var _ error = AttributeValidationError{}
 
 var _ interface {
 	Field() string
@@ -1751,7 +2162,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SuggestionsValidationError{}
+} = AttributeValidationError{}
 
 // Validate checks the field values on Role with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -1774,34 +2185,9 @@ func (m *Role) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetRoleId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, RoleValidationError{
-					field:  "RoleId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, RoleValidationError{
-					field:  "RoleId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRoleId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return RoleValidationError{
-				field:  "RoleId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
+
+	// no validation rules for RoleId
 
 	if all {
 		switch v := interface{}(m.GetAc()).(type) {
@@ -1835,40 +2221,6 @@ func (m *Role) validate(all bool) error {
 	// no validation rules for Name
 
 	// no validation rules for Description
-
-	for idx, item := range m.GetParents() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, RoleValidationError{
-						field:  fmt.Sprintf("Parents[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, RoleValidationError{
-						field:  fmt.Sprintf("Parents[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return RoleValidationError{
-					field:  fmt.Sprintf("Parents[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
 
 	if len(errors) > 0 {
 		return RoleMultiError(errors)
@@ -1969,63 +2321,11 @@ func (m *Membership) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetRoleId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, MembershipValidationError{
-					field:  "RoleId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, MembershipValidationError{
-					field:  "RoleId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetRoleId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return MembershipValidationError{
-				field:  "RoleId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
-	if all {
-		switch v := interface{}(m.GetUserId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, MembershipValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, MembershipValidationError{
-					field:  "UserId",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUserId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return MembershipValidationError{
-				field:  "UserId",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for RoleId
+
+	// no validation rules for MspId
 
 	if all {
 		switch v := interface{}(m.GetFallbackAc()).(type) {
@@ -2054,6 +2354,64 @@ func (m *Membership) validate(all bool) error {
 				cause:  err,
 			}
 		}
+	}
+
+	switch v := m.Identifier.(type) {
+	case *Membership_UserId:
+		if v == nil {
+			err := MembershipValidationError{
+				field:  "Identifier",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for UserId
+	case *Membership_Attribute:
+		if v == nil {
+			err := MembershipValidationError{
+				field:  "Identifier",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetAttribute()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, MembershipValidationError{
+						field:  "Attribute",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, MembershipValidationError{
+						field:  "Attribute",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetAttribute()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return MembershipValidationError{
+					field:  "Attribute",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
 	}
 
 	if len(errors) > 0 {
@@ -2132,207 +2490,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = MembershipValidationError{}
-
-// Validate checks the field values on User_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *User_Id) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on User_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in User_IdMultiError, or nil if none found.
-func (m *User_Id) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *User_Id) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for MspId
-
-	// no validation rules for Id
-
-	if len(errors) > 0 {
-		return User_IdMultiError(errors)
-	}
-
-	return nil
-}
-
-// User_IdMultiError is an error wrapping multiple validation errors returned
-// by User_Id.ValidateAll() if the designated constraints aren't met.
-type User_IdMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m User_IdMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m User_IdMultiError) AllErrors() []error { return m }
-
-// User_IdValidationError is the validation error returned by User_Id.Validate
-// if the designated constraints aren't met.
-type User_IdValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e User_IdValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e User_IdValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e User_IdValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e User_IdValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e User_IdValidationError) ErrorName() string { return "User_IdValidationError" }
-
-// Error satisfies the builtin error interface
-func (e User_IdValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUser_Id.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = User_IdValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = User_IdValidationError{}
-
-// Validate checks the field values on Role_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Role_Id) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Role_Id with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in Role_IdMultiError, or nil if none found.
-func (m *Role_Id) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Role_Id) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for CollectionId
-
-	// no validation rules for Id
-
-	if len(errors) > 0 {
-		return Role_IdMultiError(errors)
-	}
-
-	return nil
-}
-
-// Role_IdMultiError is an error wrapping multiple validation errors returned
-// by Role_Id.ValidateAll() if the designated constraints aren't met.
-type Role_IdMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m Role_IdMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m Role_IdMultiError) AllErrors() []error { return m }
-
-// Role_IdValidationError is the validation error returned by Role_Id.Validate
-// if the designated constraints aren't met.
-type Role_IdValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Role_IdValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Role_IdValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Role_IdValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Role_IdValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Role_IdValidationError) ErrorName() string { return "Role_IdValidationError" }
-
-// Error satisfies the builtin error interface
-func (e Role_IdValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sRole_Id.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Role_IdValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Role_IdValidationError{}

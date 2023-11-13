@@ -1,14 +1,15 @@
 package contracts
 
 import (
-	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"log/slog"
+
+	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 
-	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )
 
 func (a AuthContractImpl) CollectionGetList(
@@ -17,11 +18,11 @@ func (a AuthContractImpl) CollectionGetList(
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Get the collections
-	collectionList, err := state.GetFullList(ctx, &auth_pb.Collection{})
+	collectionList, err := state.GetFullList(ctx, &authpb.Collection{})
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(auth_pb.TxError_TX_ERROR_UNSPECIFIED.String()).
+			Code(authpb.TxError_UNSPECIFIED.String()).
 			Wrap(err)
 	}
 
@@ -45,7 +46,7 @@ func (a AuthContractImpl) CollectionGet(
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(auth_pb.TxError_TX_ERROR_REQUEST_INVALID.String()).
+			Code(authpb.TxError_REQUEST_INVALID.String()).
 			Wrap(err)
 	}
 
@@ -54,14 +55,14 @@ func (a AuthContractImpl) CollectionGet(
 	if err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(auth_pb.TxError_TX_ERROR_COLLECTION_ALREADY_REGISTERED.String()).
+			Code(authpb.TxError_COLLECTION_ALREADY_REGISTERED.String()).
 			Wrap(err)
 	}
 
 	if err = ctx.IsAuthorized(); err != nil {
 		return nil, oops.
 			In(ctx.GetFnName()).
-			Code(auth_pb.TxError_TX_ERROR_USER_PERMISSION_DENIED.String()).
+			Code(authpb.TxError_USER_PERMISSION_DENIED.String()).
 			Wrap(err)
 	}
 
@@ -103,7 +104,7 @@ func (a AuthContractImpl) CollectionCreate(
 		}
 
 		// Check if the paths are valid for the type
-		if err = rbac.ValidateCollection(req.Collection); err != nil {
+		if err = auth.ValidateCollection(req.Collection); err != nil {
 			return nil, oops.In(ctx.GetFnName()).With("req", req).Wrap(err)
 		}
 

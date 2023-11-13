@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetSuggestedUpdateByCollectionRequest, GetSuggestedUpdateByCollectionResponse, GetSuggestedUpdateBySpecimenRequest, GetSuggestedUpdateBySpecimenResponse, GetSuggestedUpdateListRequest, GetSuggestedUpdateListResponse, GetSuggestedUpdateRequest, GetSuggestedUpdateResponse, SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListRequest, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse, SuggestedUpdateApproveRequest, SuggestedUpdateApproveResponse, SuggestedUpdateCreateRequest, SuggestedUpdateCreateResponse, SuggestedUpdateRejectRequest, SuggestedUpdateRejectResponse } from "./service_pb.js";
+import { SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListRequest, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse } from "./service_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -93,69 +93,6 @@ export declare const SpecimenService: {
       readonly name: "SpecimenUnHideTx",
       readonly I: typeof SpecimenUnHideTxRequest,
       readonly O: typeof SpecimenUnHideTxResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.GetSuggestedUpdate
-     */
-    readonly getSuggestedUpdate: {
-      readonly name: "GetSuggestedUpdate",
-      readonly I: typeof GetSuggestedUpdateRequest,
-      readonly O: typeof GetSuggestedUpdateResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.GetSuggestedUpdateBySpecimen
-     */
-    readonly getSuggestedUpdateBySpecimen: {
-      readonly name: "GetSuggestedUpdateBySpecimen",
-      readonly I: typeof GetSuggestedUpdateBySpecimenRequest,
-      readonly O: typeof GetSuggestedUpdateBySpecimenResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.GetSuggestedUpdateByCollection
-     */
-    readonly getSuggestedUpdateByCollection: {
-      readonly name: "GetSuggestedUpdateByCollection",
-      readonly I: typeof GetSuggestedUpdateByCollectionRequest,
-      readonly O: typeof GetSuggestedUpdateByCollectionResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.GetSuggestedUpdateList
-     */
-    readonly getSuggestedUpdateList: {
-      readonly name: "GetSuggestedUpdateList",
-      readonly I: typeof GetSuggestedUpdateListRequest,
-      readonly O: typeof GetSuggestedUpdateListResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.SuggestedUpdateCreate
-     */
-    readonly suggestedUpdateCreate: {
-      readonly name: "SuggestedUpdateCreate",
-      readonly I: typeof SuggestedUpdateCreateRequest,
-      readonly O: typeof SuggestedUpdateCreateResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.SuggestedUpdateApprove
-     */
-    readonly suggestedUpdateApprove: {
-      readonly name: "SuggestedUpdateApprove",
-      readonly I: typeof SuggestedUpdateApproveRequest,
-      readonly O: typeof SuggestedUpdateApproveResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc ccbio.schema.v0.SpecimenService.SuggestedUpdateReject
-     */
-    readonly suggestedUpdateReject: {
-      readonly name: "SuggestedUpdateReject",
-      readonly I: typeof SuggestedUpdateRejectRequest,
-      readonly O: typeof SuggestedUpdateRejectResponse,
       readonly kind: MethodKind.Unary,
     },
   }

@@ -3,7 +3,7 @@ package contract
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v2"
+	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
 	"github.com/samber/oops"
 )
 
@@ -35,19 +35,19 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
 		return oops.Wrap(err)
 	}
 	// Set the operations
-	ops, err := pb.SpecimenServiceGetTxOperation(ctx.GetFnName())
-	if err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
-	if err = ctx.SetOperation(ops); err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
+	//ops, err := pb.SpecimenServiceGetTxOperation(ctx.GetFnName())
+	//if err != nil {
+	//	return oops.
+	//		In("BeforeTransaction").
+	//		With("fn", ctx.GetFnName()).
+	//		Wrap(err)
+	//}
+	//if err = ctx.SetOperation(ops); err != nil {
+	//	return oops.
+	//		In("BeforeTransaction").
+	//		With("fn", ctx.GetFnName()).
+	//		Wrap(err)
+	//}
 
 	return nil
 }
@@ -55,6 +55,7 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
 // -----------------------------------------------------------------------------
 // Build Contract
 // -----------------------------------------------------------------------------
+
 func NewSpecimenContract(baseName string) *SpecimenContractImpl {
 	contract := new(SpecimenContractImpl)
 	contract.TransactionContextHandler = &CCBioTxCtx{}

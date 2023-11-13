@@ -5,13 +5,13 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
 	"github.com/samber/oops"
 
-	"github.com/nova38/thesis/lib/go/fabric/rbac"
+	auth "github.com/nova38/thesis/lib/go/fabric/auth/state"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
 )
 
 // Check if AuthContractImpl implements AuthServiceInterface
 var (
-	_ rbac.AuthTxCtxInterface             = (*AuthTxCtx)(nil)
+	_ auth.AuthTxCtxInterface             = (*AuthTxCtx)(nil)
 	_ cc.AuthServiceInterface[*AuthTxCtx] = (*AuthContractImpl)(nil)
 	_ contractapi.ContractInterface       = (*AuthContractImpl)(nil)
 )
@@ -50,6 +50,7 @@ func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 	return err
 }
 
+// NewAuthContract
 // -----------------------------------------------------------------------------
 // Build Contract
 // -----------------------------------------------------------------------------

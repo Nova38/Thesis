@@ -241,7 +241,8 @@ service AuthService {
 
     // UserGetCurrentId
       message UserGetCurrentIdResponse {
-        auth.User.Id user_id = 1;
+        string msp_id   = 1;
+        string user_id  = 2;
       }
 
     // UserGetList
@@ -256,7 +257,8 @@ service AuthService {
 
     // UserGet
       message UserGetRequest {
-        auth.User.Id id = 1;
+        string msp_id   = 1;
+        string user_id  = 2;
 
           option (buf.validate.message).cel = {
             id: "UserGetRequest.UserId",
@@ -266,22 +268,18 @@ service AuthService {
       }
       message UserGetResponse {
         auth.User user = 1;
-
       }
 
     // UserGetHistory
       message UserGetHistoryRequest {
-        auth.User.Id id = 1;
+          string msp_id   = 1;
+          string user_id  = 2;
 
-          option (buf.validate.message).cel = {
-            id: "UserGetHistoryRequest.UserId",
-            message: "The User id must have both id and msp_id defined",
-            expression: "has(id.msp_id) && has(id.id)"
-          };
       }
       message UserGetHistoryResponse {
-          auth.User.Id user_id = 1;
-          auth.StateActivity history = 2;
+        string msp_id   = 1;
+        string user_id  = 2;
+        auth.StateActivity history = 3;
       }
 
 
@@ -300,20 +298,21 @@ service AuthService {
 
     // UserUpdateMembership
       message UserUpdateMembershipRequest {
-          auth.User.Id id = 1;
-          string collection_id = 2;
-          string role = 3;
+          string msp_id   = 1;
+          string user_id  = 2;
+          string collection_id = 3;
+          string role_id = 4;
 
-          option (buf.validate.message).cel = {
-            id: "UserUpdateMembershipRequest.UserId",
-            message: "The User id must have both id and msp_id defined",
-            expression: "has(id.msp_id) && has(id.id)"
-          };
-          option (buf.validate.message).cel = {
-            id: "UserUpdateMembershipRequest.CollectionId",
-            message: "The Collection id must have be defined",
-            expression: "has(collection_id.collection_id)"
-          };
+//          option (buf.validate.message).cel = {
+//            id: "UserUpdateMembershipRequest.UserId",
+//            message: "The User id must have both id and msp_id defined",
+//            expression: "has(id.msp_id) && has(id.id)"
+//          };
+//          option (buf.validate.message).cel = {
+//            id: "UserUpdateMembershipRequest.CollectionId",
+//            message: "The Collection id must have be defined",
+//            expression: "has(collection_id.collection_id)"
+//          };
 
 
 

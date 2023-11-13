@@ -12,6 +12,12 @@ import (
 	"google.golang.org/protobuf/types/dynamicpb"
 )
 
+const (
+	errorsPackage  = protogen.GoImportPath("errors")
+	loPackage      = protogen.GoImportPath("github.com/samber/lo")
+	stringsPackage = protogen.GoImportPath("strings")
+)
+
 type KeyGenerator struct{}
 
 func (kg *KeyGenerator) GenerateFile(
@@ -41,9 +47,6 @@ func (kg *KeyGenerator) GenerateFile(
 		g.P("// No key schema found. Skipping file.")
 		g.Skip()
 	}
-	// if toSkip {
-	// 	g.Skip()
-	// }
 
 	return g, nil
 }
@@ -54,46 +57,38 @@ func (kg *KeyGenerator) GenerateMessage(
 	g *protogen.GeneratedFile,
 	msg *protogen.Message,
 ) (notUsed bool) {
-	// notUsed = true
-	// Check for sub messages
-	for _, subMsg := range msg.Messages {
-		kg.GenerateMessage(gen, g, subMsg)
-	}
-
 	keySchema := KeySchemaOptions(msg)
 	if keySchema == nil {
 		return true
 	}
 
-	// ns := keySchema.GetNamespace()
+	ns := keySchema.GetNamespace()
+	if ns == "" {
 
-	kp := keySchema.GetKeyPaths()
+		g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+		g.P("	return \"", msg.Desc.FullName(), "\"")
+		g.P("}")
+	} else {
+		g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+		g.P("	return \"", ns, "\"")
+	}
 
-	// Add the imports
-	g.QualifiedGoIdent(protogen.GoIdent{GoName: "errors", GoImportPath: "errors"})
-	g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
-
-	// function for namespace
-	// g.P("// ", msg.Desc.FullName(), " is the namespace for ", msg.GoIdent.GoName)
-	g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
-	g.P("	return \"", msg.Desc.FullName(), "\"")
-	g.P("}")
-
+	kp := keySchema.Keys
 	// function for key
-	new_msg := dynamicpb.NewMessage(msg.Desc)
+	newMsg := dynamicpb.NewMessage(msg.Desc)
 
-	if kp.IsValid(new_msg) {
-		raw_paths := kp.GetPaths()
-
-		g.QualifiedGoIdent(protogen.GoIdent{GoName: "errors", GoImportPath: "errors"})
+	if kp.IsValid(newMsg) {
+		rawPaths := kp.GetPaths()
+		g.QualifiedGoIdent(stringsPackage.Ident("strings"))
+		g.QualifiedGoIdent(errorsPackage.Ident("errors"))
 		g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
 		g.P("func (m *", msg.GoIdent.GoName, ") ", "Key()", "([]string, error) {")
-		g.P("attr := []string{}")
+		g.P("attr := []string{m.GetCollectionId()}")
 
 		g.P("ok := lo.Try(func () error {")
 
-		for _, f := range raw_paths {
+		for _, f := range rawPaths {
 			g.P("attr = append(attr, m.", PathToGetter(f), ")")
 		}
 		g.P("return nil")
@@ -104,6 +99,16 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("return attr, nil")
 		g.P("}")
 
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "FlatKey()", "(string) {")
+		g.P("attr, err := m.Key()")
+		g.P("if err != nil {")
+		g.P("return \"\"")
+		g.P("}")
+		// remove the first element which is the collection id
+		g.P("attr = attr[1:]")
+		g.P("return strings.Join(attr, \"-\")")
+		g.P("}")
+
 		return false
 	}
 	return true
@@ -112,10 +117,10 @@ func (kg *KeyGenerator) GenerateMessage(
 func PathToGetter(path string) string {
 	subPaths := toSubPaths(path)
 
-	first_time := true
+	firstTime := true
 	str := ""
 	for _, subPath := range subPaths {
-		if !first_time {
+		if !firstTime {
 			str += "."
 		}
 		str += "Get"
@@ -127,7 +132,7 @@ func PathToGetter(path string) string {
 			str += cases.Title(language.Und).String(section)
 		}
 		str += "()"
-		first_time = false
+		firstTime = false
 	}
 	return str
 }

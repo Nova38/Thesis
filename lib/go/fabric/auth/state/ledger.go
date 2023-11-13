@@ -6,32 +6,16 @@ import (
 	"log/slog"
 	"strconv"
 
+	"github.com/nova38/thesis/lib/go/fabric/auth"
+	"github.com/samber/oops"
+
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 
 // UTIL Functions
 
-// MakeCompositeKey creates a composite key from the given attributes
-func MakeCompositeKey[T Object](ctx TxCtxInterface, obj T) (key string, err error) {
-	namespace := obj.Namespace()
-	attr, err := obj.Key()
-	if err != nil {
-		return "", err
-	}
-
-	ctx.GetLogger().
-		Info("MakeCompositeKey",
-			slog.Group("Key", "Namespace", namespace, "attr", attr))
-	key, err = ctx.GetStub().CreateCompositeKey(namespace, attr)
-
-	if err != nil {
-		return "", err
-	}
-	return key, nil
-}
-
 // Exists returns true if the object exists in the ledger
-func Exists(ctx TxCtxInterface, key string) bool {
+func exists(ctx TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return false
@@ -40,71 +24,56 @@ func Exists(ctx TxCtxInterface, key string) bool {
 	return err == nil
 }
 
-// Put puts the object into the ledger
-func Put[T Object](ctx TxCtxInterface, obj T) (err error) {
-	key, err := MakeCompositeKey(ctx, obj)
-	if err != nil {
-		return err
-	}
-
-	bytes, err := json.Marshal(obj)
-	if err != nil {
-		return err
-	}
-
-	return ctx.GetStub().PutState(key, bytes)
-}
+// ════════════════════════════════════════════════════════
+// Primary Functions
+// ════════════════════════════════════════════════════════
 
 // Insert inserts the object into the ledger
 // returns error if the object already exists
-func Insert[T Object](ctx TxCtxInterface, obj T) (err error) {
-	key, err := MakeCompositeKey(ctx, obj)
-	if err != nil {
-		return err
-	}
+//func insert[T Object](ctx TxCtxInterface, obj T) (err error) {
+//	key, err := MakeCompositeKey(ctx, obj)
+//	if err != nil {
+//		return err
+//	}
+//
+//	if exists(ctx, key) {
+//		return oops.
+//			With("Key", key, "Namespace", obj.Namespace()).
+//			Wrap(auth.AlreadyExists)
+//	}
+//
+//	bytes, err := json.Marshal(obj)
+//	if err != nil {
+//		return err
+//	}
+//
+//	return ctx.GetStub().PutState(key, bytes)
+//}
 
-	if Exists(ctx, key) {
-		return &KeyAlreadyExistsError{
-			Key:       key,
-			Namespace: obj.Namespace(),
-			MSG:       "Key already exists",
-		}
-	}
-
-	bytes, err := json.Marshal(obj)
-	if err != nil {
-		return err
-	}
-
-	return ctx.GetStub().PutState(key, bytes)
-}
-
-// Update updates the object in the ledger
-// returns error if the object does not exist
-func Update[T Object](ctx TxCtxInterface, obj T) (err error) {
-	key, err := MakeCompositeKey(ctx, obj)
-	if err != nil {
-		return err
-	}
-
-	if !Exists(ctx, key) {
-		return &KeyNotFoundError{
-			Key:       key,
-			Namespace: obj.Namespace(),
-			MSG:       "Key not found",
-		}
-	}
-
-	bytes, err := json.Marshal(obj)
-	if err != nil {
-		return err
-	}
-
-	return ctx.GetStub().PutState(key, bytes)
-}
+//// Edit updates the object in the ledger
+//// returns error if the object does not exist
+//func update[T Object](ctx TxCtxInterface, obj T) (err error) {
+//	key, err := MakeCompositeKey(ctx, obj)
+//	if err != nil {
+//		return err
+//	}
+//
+//	if !exists(ctx, key) {
+//		return oops.
+//			With("Key", key, "Namespace", obj.Namespace()).
+//			Wrap(auth.KeyNotFound)
+//	}
+//
+//	bytes, err := json.Marshal(obj)
+//	if err != nil {
+//		return err
+//	}
+//
+//	return ctx.GetStub().PutState(key, bytes)
+//}
 
 // Get returns the object from the ledger
-func Get[T Object](ctx TxCtxInterface, in T) (err error) {
+func get[T Object](ctx TxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
@@ -115,11 +84,9 @@ func Get[T Object](ctx TxCtxInterface, in T) (err error) {
 
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
-		return &KeyNotFoundError{
-			Key:       key,
-			Namespace: namespace,
-			MSG:       "Key Not Found",
-		}
+		return oops.
+			With("Key", key, "Namespace", in.Namespace()).
+			Wrap(auth.AlreadyExists)
 	}
 
 	if err = json.Unmarshal(bytes, in); err != nil {
@@ -129,7 +96,7 @@ func Get[T Object](ctx TxCtxInterface, in T) (err error) {
 }
 
 // Delete deletes the object from the ledger
-func Delete[T Object](ctx TxCtxInterface, in T) (err error) {
+func sDelete[T Object](ctx TxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return err
@@ -367,6 +334,10 @@ func GetPagedPartialKeyList[T Object](
 }
 
 // ------------------------------------------------------------
+// Pagination
+// ------------------------------------------------------------
+
+// GetPartialKeyList returns a list of objects of type T
 func GetPagedFullList[T Object](
 	ctx TxCtxInterface,
 	in T,

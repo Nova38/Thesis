@@ -7,123 +7,65 @@ package v0
 
 import (
 	fmt "fmt"
-	auth "github.com/nova38/thesis/lib/go/fabric/auth"
+	state "github.com/nova38/thesis/lib/go/fabric/auth/state"
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
 // Service SpecimenService
-type SpecimenServiceInterface[T auth.GenericAuthTxCtxInterface] interface {
+type SpecimenServiceInterface[T state.GenericAuthTxCtxInterface] interface {
 	// SpecimenGet
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_VIEW
-	//   - Action:
 	SpecimenGet(ctx T, req *SpecimenGetRequest) (res *SpecimenGetResponse, err error)
 
 	// SpecimenGetList
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_VIEW
-	//   - Action:
 	SpecimenGetList(ctx T, req *SpecimenGetListRequest) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_VIEW
-	//   - Action:
 	SpecimenGetByCollection(ctx T, req *SpecimenGetByCollectionRequest) (res *SpecimenGetByCollectionResponse, err error)
 
 	// SpecimenGetHistory
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
-	//   - Action:
 	SpecimenGetHistory(ctx T, req *SpecimenGetHistoryRequest) (res *SpecimenGetHistoryResponse, err error)
 
 	// SpecimenCreate
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_CREATE
-	//   - Action:
 	SpecimenCreate(ctx T, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
 
 	// SpecimenUpdate
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_EDIT
-	//   - Action:
 	SpecimenUpdate(ctx T, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
 
 	// SpecimenDelete
 	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_DELETE
-	//   - Action:
 	SpecimenDelete(ctx T, req *SpecimenDeleteRequest) (res *SpecimenDeleteResponse, err error)
 
 	// SpecimenHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_HISTORY
-	//   - Action:
+	//   - Domain: 20
 	SpecimenHideTx(ctx T, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
 
 	// SpecimenUnHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_HISTORY
-	//   - Action:
+	//   - Domain: 20
 	SpecimenUnHideTx(ctx T, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
-
-	// GetSuggestedUpdate
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_HISTORY
-	//   - Action:
-	GetSuggestedUpdate(ctx T, req *GetSuggestedUpdateRequest) (res *GetSuggestedUpdateResponse, err error)
-
-	// GetSuggestedUpdateBySpecimen
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
-	//   - Action:
-	GetSuggestedUpdateBySpecimen(ctx T, req *GetSuggestedUpdateBySpecimenRequest) (res *GetSuggestedUpdateBySpecimenResponse, err error)
-
-	// GetSuggestedUpdateByCollection
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
-	//   - Action:
-	GetSuggestedUpdateByCollection(ctx T, req *GetSuggestedUpdateByCollectionRequest) (res *GetSuggestedUpdateByCollectionResponse, err error)
-
-	// GetSuggestedUpdateList
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
-	//   - Action:
-	GetSuggestedUpdateList(ctx T, req *GetSuggestedUpdateListRequest) (res *GetSuggestedUpdateListResponse, err error)
-
-	// SuggestedUpdateCreate
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_CREATE
-	//   - Action:
-	SuggestedUpdateCreate(ctx T, req *SuggestedUpdateCreateRequest) (res *SuggestedUpdateCreateResponse, err error)
-
-	// SuggestedUpdateApprove
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_APPROVE
-	//   - Action:
-	SuggestedUpdateApprove(ctx T, req *SuggestedUpdateApproveRequest) (res *SuggestedUpdateApproveResponse, err error)
-
-	// SuggestedUpdateReject
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_DELETE
-	//   - Action:
-	SuggestedUpdateReject(ctx T, req *SuggestedUpdateRejectRequest) (res *SuggestedUpdateRejectResponse, err error)
 }
 
 type SpecimenServiceBase struct {
@@ -135,10 +77,6 @@ func (s *SpecimenServiceBase) GetEvaluateTransactions() []string {
 		"SpecimenGetList",
 		"SpecimenGetByCollection",
 		"SpecimenGetHistory",
-		"GetSuggestedUpdate",
-		"GetSuggestedUpdateBySpecimen",
-		"GetSuggestedUpdateByCollection",
-		"GetSuggestedUpdateList",
 	}
 }
 
@@ -180,49 +118,14 @@ func SpecimenServiceGetTxOperation(txName string) (op *v1.Operation, err error) 
 			Action: 13,
 		}, nil
 	case "SpecimenHideTx":
-		// action:ACTION_OBJECT_HIDE_HISTORY
+		//action:20
 		return &v1.Operation{
-			Action: 19,
+			Action: 20,
 		}, nil
 	case "SpecimenUnHideTx":
-		// action:ACTION_OBJECT_HIDE_HISTORY
+		//action:20
 		return &v1.Operation{
-			Action: 19,
-		}, nil
-	case "GetSuggestedUpdate":
-		// action:ACTION_OBJECT_HIDE_HISTORY
-		return &v1.Operation{
-			Action: 19,
-		}, nil
-	case "GetSuggestedUpdateBySpecimen":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
-		return &v1.Operation{
-			Action: 14,
-		}, nil
-	case "GetSuggestedUpdateByCollection":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
-		return &v1.Operation{
-			Action: 14,
-		}, nil
-	case "GetSuggestedUpdateList":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
-		return &v1.Operation{
-			Action: 14,
-		}, nil
-	case "SuggestedUpdateCreate":
-		// action:ACTION_OBJECT_SUGGEST_CREATE
-		return &v1.Operation{
-			Action: 15,
-		}, nil
-	case "SuggestedUpdateApprove":
-		// action:ACTION_OBJECT_SUGGEST_APPROVE
-		return &v1.Operation{
-			Action: 17,
-		}, nil
-	case "SuggestedUpdateReject":
-		// action:ACTION_OBJECT_SUGGEST_DELETE
-		return &v1.Operation{
-			Action: 16,
+			Action: 20,
 		}, nil
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)

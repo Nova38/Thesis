@@ -83,7 +83,7 @@ func (d *DiffGenerator) handelField(
 		// Check if the field is the same
 		g.P("if m.", f.GoName, " != other.", f.GoName, " {")
 		g.P("\tupdated = append(updated, \"", f.Desc.Name(), "\")")
-		// TODO: Update the message
+		// TODO: Edit the message
 		g.P("} else { all = false }")
 
 	} else if f.Desc.Kind() == protoreflect.MessageKind {

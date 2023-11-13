@@ -42,26 +42,30 @@ export enum ObjectDomain {
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: OBJECT_DOMAIN_STATE_OBJECT = 1;
+   * Object's key := {TYPE}{COLLECTION_ID}[...key_paths]
+   *
+   * @generated from enum value: OBJECT_DOMAIN_OBJECT = 1;
    */
-  STATE_OBJECT = 1,
+  OBJECT = 1,
 
   /**
-   * @generated from enum value: OBJECT_DOMAIN_COLLECTION_INDEX = 2;
+   * Object's key := {TYPE}<PrimaryKey>{...key_paths}
+   *
+   * @generated from enum value: OBJECT_DOMAIN_SUB_OBJECT = 2;
    */
-  COLLECTION_INDEX = 2,
+  SUB_OBJECT = 2,
 
   /**
-   * @generated from enum value: OBJECT_DOMAIN_COLLECTION_OBJECT = 3;
+   * @generated from enum value: OBJECT_DOMAIN_REFERENCE = 3;
    */
-  COLLECTION_OBJECT = 3,
+  REFERENCE = 3,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ObjectDomain)
 proto3.util.setEnumType(ObjectDomain, "auth.ObjectDomain", [
   { no: 0, name: "OBJECT_DOMAIN_UNSPECIFIED" },
-  { no: 1, name: "OBJECT_DOMAIN_STATE_OBJECT" },
-  { no: 2, name: "OBJECT_DOMAIN_COLLECTION_INDEX" },
-  { no: 3, name: "OBJECT_DOMAIN_COLLECTION_OBJECT" },
+  { no: 1, name: "OBJECT_DOMAIN_OBJECT" },
+  { no: 2, name: "OBJECT_DOMAIN_SUB_OBJECT" },
+  { no: 3, name: "OBJECT_DOMAIN_REFERENCE" },
 ]);
 
 /**
@@ -149,9 +153,14 @@ export enum Action {
   OBJECT_VIEW_HISTORY = 18,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_HIDE_HISTORY = 19;
+   * @generated from enum value: ACTION_OBJECT_VIEW_HIDDEN_TXS = 19;
    */
-  OBJECT_HIDE_HISTORY = 19,
+  OBJECT_VIEW_HIDDEN_TXS = 19,
+
+  /**
+   * @generated from enum value: ACTION_OBJECT_HIDE_TX = 20;
+   */
+  OBJECT_HIDE_TX = 20,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Action)
 proto3.util.setEnumType(Action, "auth.Action", [
@@ -168,7 +177,8 @@ proto3.util.setEnumType(Action, "auth.Action", [
   { no: 16, name: "ACTION_OBJECT_SUGGEST_DELETE" },
   { no: 17, name: "ACTION_OBJECT_SUGGEST_APPROVE" },
   { no: 18, name: "ACTION_OBJECT_VIEW_HISTORY" },
-  { no: 19, name: "ACTION_OBJECT_HIDE_HISTORY" },
+  { no: 19, name: "ACTION_OBJECT_VIEW_HIDDEN_TXS" },
+  { no: 20, name: "ACTION_OBJECT_HIDE_TX" },
 ]);
 
 /**
@@ -176,179 +186,169 @@ proto3.util.setEnumType(Action, "auth.Action", [
  */
 export enum TxError {
   /**
-   * @generated from enum value: TX_ERROR_UNSPECIFIED = 0;
+   * @generated from enum value: UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: TX_ERROR_REQUEST_INVALID = 1;
+   * @generated from enum value: REQUEST_INVALID = 1;
    */
   REQUEST_INVALID = 1,
 
   /**
-   * @generated from enum value: TX_ERROR_RUNTIME = 2;
+   * @generated from enum value: RUNTIME = 2;
    */
   RUNTIME = 2,
 
   /**
-   * @generated from enum value: TX_ERROR_RUNTIME_BAD_OPS = 3;
+   * @generated from enum value: RUNTIME_BAD_OPS = 3;
    */
   RUNTIME_BAD_OPS = 3,
 
   /**
-   * The collection id is invalid
+   * @generated from enum value: KEY_NOT_FOUND = 4;
+   */
+  KEY_NOT_FOUND = 4,
+
+  /**
+   * @generated from enum value: KEY_ALREADY_EXISTS = 5;
+   */
+  KEY_ALREADY_EXISTS = 5,
+
+  /**
+   * Collection Errors 
    *
-   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_ID = 11;
+   * @generated from enum value: COLLECTION_INVALID_ID = 11;
    */
   COLLECTION_INVALID_ID = 11,
 
   /**
-   * The collection is not registered
-   *
-   * @generated from enum value: TX_ERROR_COLLECTION_UNREGISTERED = 12;
+   * @generated from enum value: COLLECTION_UNREGISTERED = 12;
    */
   COLLECTION_UNREGISTERED = 12,
 
   /**
-   * The collection is already registered
-   *
-   * @generated from enum value: TX_ERROR_COLLECTION_ALREADY_REGISTERED = 13;
+   * @generated from enum value: COLLECTION_ALREADY_REGISTERED = 13;
    */
   COLLECTION_ALREADY_REGISTERED = 13,
 
   /**
-   * The Collection is invalid
-   *
-   * @generated from enum value: TX_ERROR_COLLECTION_INVALID = 14;
+   * @generated from enum value: COLLECTION_INVALID = 14;
    */
   COLLECTION_INVALID = 14,
 
   /**
-   * The object type name is invalid
-   *
-   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_OBJECT_TYPE = 15;
+   * @generated from enum value: COLLECTION_INVALID_OBJECT_TYPE = 15;
    */
   COLLECTION_INVALID_OBJECT_TYPE = 15,
 
   /**
-   * The role id is invalid
-   *
-   * @generated from enum value: TX_ERROR_COLLECTION_INVALID_ROLE_ID = 16;
+   * @generated from enum value: COLLECTION_INVALID_ROLE_ID = 16;
    */
   COLLECTION_INVALID_ROLE_ID = 16,
 
   /**
    * The user does not have permission to perform the operation
    *
-   * @generated from enum value: TX_ERROR_USER_INVALID_ID = 20;
+   * @generated from enum value: USER_INVALID_ID = 20;
    */
   USER_INVALID_ID = 20,
 
   /**
-   * The user is not registered
-   *
-   * @generated from enum value: TX_ERROR_USER_UNREGISTERED = 21;
+   * @generated from enum value: USER_UNREGISTERED = 21;
    */
   USER_UNREGISTERED = 21,
 
   /**
-   * The user is already registered
-   *
-   * @generated from enum value: TX_ERROR_USER_ALREADY_REGISTERED = 22;
+   * @generated from enum value: USER_ALREADY_REGISTERED = 22;
    */
   USER_ALREADY_REGISTERED = 22,
 
   /**
-   * The user is invalid
-   *
-   * @generated from enum value: TX_ERROR_USER_INVALID = 23;
+   * @generated from enum value: USER_INVALID = 23;
    */
   USER_INVALID = 23,
 
   /**
-   * The user does not have a role in the collection
-   *
-   * @generated from enum value: TX_ERROR_USER_NO_ROLE = 24;
+   * @generated from enum value: USER_NO_ROLE = 24;
    */
   USER_NO_ROLE = 24,
 
   /**
-   * The user has a deleted role in the collection
-   *
-   * @generated from enum value: TX_ERROR_USER_DELETED_ROLE = 25;
+   * @generated from enum value: USER_DELETED_ROLE = 25;
    */
   USER_DELETED_ROLE = 25,
 
   /**
-   * The user does not have permission to perform the operation
-   *
-   * @generated from enum value: TX_ERROR_USER_PERMISSION_DENIED = 26;
+   * @generated from enum value: USER_PERMISSION_DENIED = 26;
    */
   USER_PERMISSION_DENIED = 26,
 
   /**
    * The object id is invalid
    *
-   * @generated from enum value: TX_ERROR_OBJECT_INVALID_ID = 31;
+   * @generated from enum value: OBJECT_INVALID_ID = 31;
    */
   OBJECT_INVALID_ID = 31,
 
   /**
    * The object is not registered
    *
-   * @generated from enum value: TX_ERROR_OBJECT_UNREGISTERED = 32;
+   * @generated from enum value: OBJECT_UNREGISTERED = 32;
    */
   OBJECT_UNREGISTERED = 32,
 
   /**
    * The object is already registered
    *
-   * @generated from enum value: TX_ERROR_OBJECT_ALREADY_REGISTERED = 33;
+   * @generated from enum value: OBJECT_ALREADY_REGISTERED = 33;
    */
   OBJECT_ALREADY_REGISTERED = 33,
 
   /**
    * The object is invalid
    *
-   * @generated from enum value: TX_ERROR_OBJECT_INVALID = 34;
+   * @generated from enum value: OBJECT_INVALID = 34;
    */
   OBJECT_INVALID = 34,
 
   /**
-   * @generated from enum value: TX_ERROR_INVALID_OBJECT_FIELD_PATH = 35;
+   * @generated from enum value: INVALID_OBJECT_FIELD_PATH = 35;
    */
   INVALID_OBJECT_FIELD_PATH = 35,
 
   /**
-   * @generated from enum value: TX_ERROR_INVALID_OBJECT_FIELD_VALUE = 36;
+   * @generated from enum value: INVALID_OBJECT_FIELD_VALUE = 36;
    */
   INVALID_OBJECT_FIELD_VALUE = 36,
 }
 // Retrieve enum metadata with: proto3.getEnumType(TxError)
 proto3.util.setEnumType(TxError, "auth.TxError", [
-  { no: 0, name: "TX_ERROR_UNSPECIFIED" },
-  { no: 1, name: "TX_ERROR_REQUEST_INVALID" },
-  { no: 2, name: "TX_ERROR_RUNTIME" },
-  { no: 3, name: "TX_ERROR_RUNTIME_BAD_OPS" },
-  { no: 11, name: "TX_ERROR_COLLECTION_INVALID_ID" },
-  { no: 12, name: "TX_ERROR_COLLECTION_UNREGISTERED" },
-  { no: 13, name: "TX_ERROR_COLLECTION_ALREADY_REGISTERED" },
-  { no: 14, name: "TX_ERROR_COLLECTION_INVALID" },
-  { no: 15, name: "TX_ERROR_COLLECTION_INVALID_OBJECT_TYPE" },
-  { no: 16, name: "TX_ERROR_COLLECTION_INVALID_ROLE_ID" },
-  { no: 20, name: "TX_ERROR_USER_INVALID_ID" },
-  { no: 21, name: "TX_ERROR_USER_UNREGISTERED" },
-  { no: 22, name: "TX_ERROR_USER_ALREADY_REGISTERED" },
-  { no: 23, name: "TX_ERROR_USER_INVALID" },
-  { no: 24, name: "TX_ERROR_USER_NO_ROLE" },
-  { no: 25, name: "TX_ERROR_USER_DELETED_ROLE" },
-  { no: 26, name: "TX_ERROR_USER_PERMISSION_DENIED" },
-  { no: 31, name: "TX_ERROR_OBJECT_INVALID_ID" },
-  { no: 32, name: "TX_ERROR_OBJECT_UNREGISTERED" },
-  { no: 33, name: "TX_ERROR_OBJECT_ALREADY_REGISTERED" },
-  { no: 34, name: "TX_ERROR_OBJECT_INVALID" },
-  { no: 35, name: "TX_ERROR_INVALID_OBJECT_FIELD_PATH" },
-  { no: 36, name: "TX_ERROR_INVALID_OBJECT_FIELD_VALUE" },
+  { no: 0, name: "UNSPECIFIED" },
+  { no: 1, name: "REQUEST_INVALID" },
+  { no: 2, name: "RUNTIME" },
+  { no: 3, name: "RUNTIME_BAD_OPS" },
+  { no: 4, name: "KEY_NOT_FOUND" },
+  { no: 5, name: "KEY_ALREADY_EXISTS" },
+  { no: 11, name: "COLLECTION_INVALID_ID" },
+  { no: 12, name: "COLLECTION_UNREGISTERED" },
+  { no: 13, name: "COLLECTION_ALREADY_REGISTERED" },
+  { no: 14, name: "COLLECTION_INVALID" },
+  { no: 15, name: "COLLECTION_INVALID_OBJECT_TYPE" },
+  { no: 16, name: "COLLECTION_INVALID_ROLE_ID" },
+  { no: 20, name: "USER_INVALID_ID" },
+  { no: 21, name: "USER_UNREGISTERED" },
+  { no: 22, name: "USER_ALREADY_REGISTERED" },
+  { no: 23, name: "USER_INVALID" },
+  { no: 24, name: "USER_NO_ROLE" },
+  { no: 25, name: "USER_DELETED_ROLE" },
+  { no: 26, name: "USER_PERMISSION_DENIED" },
+  { no: 31, name: "OBJECT_INVALID_ID" },
+  { no: 32, name: "OBJECT_UNREGISTERED" },
+  { no: 33, name: "OBJECT_ALREADY_REGISTERED" },
+  { no: 34, name: "OBJECT_INVALID" },
+  { no: 35, name: "INVALID_OBJECT_FIELD_PATH" },
+  { no: 36, name: "INVALID_OBJECT_FIELD_VALUE" },
 ]);
 
 /**
@@ -356,28 +356,26 @@ proto3.util.setEnumType(TxError, "auth.TxError", [
  */
 export class KeySchema extends Message<KeySchema> {
   /**
-   * @generated from field: google.protobuf.FieldMask prefix_paths = 1;
+   * @generated from field: string namespace = 1;
    */
-  prefixPaths?: FieldMask;
+  namespace = "";
 
   /**
-   * @generated from field: google.protobuf.FieldMask key_paths = 2;
+   * @generated from field: google.protobuf.FieldMask keys = 2;
    */
-  keyPaths?: FieldMask;
+  keys?: FieldMask;
 
   /**
    * !TODO: Add support for indexes
    *
-   * @generated from field: google.protobuf.FieldMask suffix_paths = 3;
+   * @generated from field: google.protobuf.FieldMask secondary_keys = 3;
    */
-  suffixPaths?: FieldMask;
+  secondaryKeys?: FieldMask;
 
   /**
-   * The value for the real key is stored in a sub message
-   *
-   * @generated from field: google.protobuf.FieldMask sub_messages = 4;
+   * @generated from field: google.protobuf.FieldMask collection_id = 4;
    */
-  subMessages?: FieldMask;
+  collectionId?: FieldMask;
 
   constructor(data?: PartialMessage<KeySchema>) {
     super();
@@ -387,10 +385,10 @@ export class KeySchema extends Message<KeySchema> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.KeySchema";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "prefix_paths", kind: "message", T: FieldMask },
-    { no: 2, name: "key_paths", kind: "message", T: FieldMask },
-    { no: 3, name: "suffix_paths", kind: "message", T: FieldMask },
-    { no: 4, name: "sub_messages", kind: "message", T: FieldMask },
+    { no: 1, name: "namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "keys", kind: "message", T: FieldMask },
+    { no: 3, name: "secondary_keys", kind: "message", T: FieldMask },
+    { no: 4, name: "collection_id", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {
@@ -468,6 +466,8 @@ export class Index extends Message<Index> {
 }
 
 /**
+ * Can be used as the history entry 
+ *
  * @generated from message auth.StateActivity
  */
 export class StateActivity extends Message<StateActivity> {
@@ -477,31 +477,24 @@ export class StateActivity extends Message<StateActivity> {
   txId = "";
 
   /**
-   * @generated from field: auth.User.Id user_id = 2;
+   * @generated from field: string msp_id = 2;
    */
-  userId?: User_Id;
+  mspId = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp timestamp = 3;
+   * @generated from field: string user_id = 3;
+   */
+  userId = "";
+
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 4;
    */
   timestamp?: Timestamp;
 
   /**
-   * @generated from field: string note = 4;
+   * @generated from field: string note = 5;
    */
   note = "";
-
-  /**
-   * @generated from field: google.protobuf.Any state = 5;
-   */
-  state?: Any;
-
-  /**
-   * When it is a History Entry it can contain if the entry is deleted or hidden
-   *
-   * @generated from field: map<string, bool> metadata = 6;
-   */
-  metadata: { [key: string]: boolean } = {};
 
   constructor(data?: PartialMessage<StateActivity>) {
     super();
@@ -512,11 +505,10 @@ export class StateActivity extends Message<StateActivity> {
   static readonly typeName = "auth.StateActivity";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "user_id", kind: "message", T: User_Id },
-    { no: 3, name: "timestamp", kind: "message", T: Timestamp },
-    { no: 4, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "state", kind: "message", T: Any },
-    { no: 6, name: "metadata", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 8 /* ScalarType.BOOL */} },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StateActivity {
@@ -537,6 +529,116 @@ export class StateActivity extends Message<StateActivity> {
 }
 
 /**
+ * @generated from message auth.HistoryEntry
+ */
+export class HistoryEntry extends Message<HistoryEntry> {
+  /**
+   * @generated from field: string tx_id = 1;
+   */
+  txId = "";
+
+  /**
+   * @generated from field: bool is_delete = 2;
+   */
+  isDelete = false;
+
+  /**
+   * @generated from field: bool is_hidden = 3;
+   */
+  isHidden = false;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 4;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * @generated from field: string note = 5;
+   */
+  note = "";
+
+  /**
+   * @generated from field: google.protobuf.Any value = 6;
+   */
+  value?: Any;
+
+  constructor(data?: PartialMessage<HistoryEntry>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.HistoryEntry";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "is_delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "is_hidden", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "value", kind: "message", T: Any },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryEntry {
+    return new HistoryEntry().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryEntry {
+    return new HistoryEntry().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryEntry {
+    return new HistoryEntry().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HistoryEntry | PlainMessage<HistoryEntry> | undefined, b: HistoryEntry | PlainMessage<HistoryEntry> | undefined): boolean {
+    return proto3.util.equals(HistoryEntry, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.History
+ */
+export class History extends Message<History> {
+  /**
+   * @generated from field: repeated auth.HistoryEntry entries = 1;
+   */
+  entries: HistoryEntry[] = [];
+
+  /**
+   * @generated from field: auth.HiddenTxList hidden_txs = 2;
+   */
+  hiddenTxs?: HiddenTxList;
+
+  constructor(data?: PartialMessage<History>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.History";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "entries", kind: "message", T: HistoryEntry, repeated: true },
+    { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): History {
+    return new History().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): History {
+    return new History().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): History {
+    return new History().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: History | PlainMessage<History> | undefined, b: History | PlainMessage<History> | undefined): boolean {
+    return proto3.util.equals(History, a, b);
+  }
+}
+
+/**
  * @generated from message auth.Operation
  */
 export class Operation extends Message<Operation> {
@@ -546,12 +648,17 @@ export class Operation extends Message<Operation> {
   action = Action.UNSPECIFIED;
 
   /**
-   * @generated from field: string object_type = 2;
+   * @generated from field: string collection_id = 2;
    */
-  objectType = "";
+  collectionId = "";
 
   /**
-   * @generated from field: google.protobuf.FieldMask paths = 3;
+   * @generated from field: string namespace = 3;
+   */
+  namespace = "";
+
+  /**
+   * @generated from field: google.protobuf.FieldMask paths = 4;
    */
   paths?: FieldMask;
 
@@ -564,8 +671,9 @@ export class Operation extends Message<Operation> {
   static readonly typeName = "auth.Operation";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
-    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "paths", kind: "message", T: FieldMask },
+    { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "paths", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Operation {
@@ -727,7 +835,194 @@ export class ACEntry extends Message<ACEntry> {
 }
 
 /**
- * Collection 
+ * Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+ *
+ * @generated from message auth.Suggestion
+ */
+export class Suggestion extends Message<Suggestion> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string object_type = 2;
+   */
+  objectType = "";
+
+  /**
+   * @generated from field: string object_id = 3;
+   */
+  objectId = "";
+
+  /**
+   * @generated from field: string suggestion_id = 4;
+   */
+  suggestionId = "";
+
+  /**
+   * @generated from field: google.protobuf.FieldMask paths = 5;
+   */
+  paths?: FieldMask;
+
+  /**
+   * @generated from field: google.protobuf.Any value = 6;
+   */
+  value?: Any;
+
+  constructor(data?: PartialMessage<Suggestion>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Suggestion";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "paths", kind: "message", T: FieldMask },
+    { no: 6, name: "value", kind: "message", T: Any },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Suggestion {
+    return new Suggestion().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Suggestion {
+    return new Suggestion().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Suggestion {
+    return new Suggestion().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Suggestion | PlainMessage<Suggestion> | undefined, b: Suggestion | PlainMessage<Suggestion> | undefined): boolean {
+    return proto3.util.equals(Suggestion, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.HiddenTx
+ */
+export class HiddenTx extends Message<HiddenTx> {
+  /**
+   * @generated from field: string tx_id = 1;
+   */
+  txId = "";
+
+  /**
+   * @generated from field: string msp_id = 2;
+   */
+  mspId = "";
+
+  /**
+   * @generated from field: string user_id = 3;
+   */
+  userId = "";
+
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 4;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * @generated from field: string note = 5;
+   */
+  note = "";
+
+  constructor(data?: PartialMessage<HiddenTx>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.HiddenTx";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTx {
+    return new HiddenTx().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTx {
+    return new HiddenTx().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTx {
+    return new HiddenTx().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HiddenTx | PlainMessage<HiddenTx> | undefined, b: HiddenTx | PlainMessage<HiddenTx> | undefined): boolean {
+    return proto3.util.equals(HiddenTx, a, b);
+  }
+}
+
+/**
+ * Key should be {HiddenTxList}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+ *
+ * @generated from message auth.HiddenTxList
+ */
+export class HiddenTxList extends Message<HiddenTxList> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string object_type = 2;
+   */
+  objectType = "";
+
+  /**
+   * @generated from field: string object_id = 3;
+   */
+  objectId = "";
+
+  /**
+   * @generated from field: repeated auth.HiddenTx txs = 4;
+   */
+  txs: HiddenTx[] = [];
+
+  constructor(data?: PartialMessage<HiddenTxList>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.HiddenTxList";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "txs", kind: "message", T: HiddenTx, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTxList {
+    return new HiddenTxList().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTxList {
+    return new HiddenTxList().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTxList {
+    return new HiddenTxList().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HiddenTxList | PlainMessage<HiddenTxList> | undefined, b: HiddenTxList | PlainMessage<HiddenTxList> | undefined): boolean {
+    return proto3.util.equals(HiddenTxList, a, b);
+  }
+}
+
+/**
+ * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
  * Note that the types of objects are stored in the default ACEntry
  *
@@ -754,7 +1049,12 @@ export class Collection extends Message<Collection> {
   description = "";
 
   /**
-   * @generated from field: auth.ACEntry default = 4;
+   * @generated from field: repeated string object_types = 4;
+   */
+  objectTypes: string[] = [];
+
+  /**
+   * @generated from field: auth.ACEntry default = 5;
    */
   default?: ACEntry;
 
@@ -769,7 +1069,8 @@ export class Collection extends Message<Collection> {
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "default", kind: "message", T: ACEntry },
+    { no: 4, name: "object_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "default", kind: "message", T: ACEntry },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
@@ -800,24 +1101,29 @@ export class Collection extends Message<Collection> {
  */
 export class User extends Message<User> {
   /**
-   * @generated from field: auth.User.Id id = 1;
+   * @generated from field: string msp_id = 1;
    */
-  id?: User_Id;
+  mspId = "";
 
   /**
-   * @generated from field: string name = 2;
+   * @generated from field: string user_id = 2;
+   */
+  userId = "";
+
+  /**
+   * @generated from field: string name = 3;
    */
   name = "";
 
   /**
-   *  !!TODO: this could be a good place to test if it is better to store object 
+   *  !!TODO: this could be a good place to test if it is better to store object
    * with fewer keys split up or more key
+   * repeated Membership memberships = 3; // Indexed to the Roles domain
+   * buf:lint:ignore FIELD_NO_DELETE
    *
-   * Indexed to the Roles domain
-   *
-   * @generated from field: repeated auth.Membership memberships = 3;
+   * @generated from field: string collection_id = 4;
    */
-  memberships: Membership[] = [];
+  collectionId = "";
 
   constructor(data?: PartialMessage<User>) {
     super();
@@ -827,9 +1133,10 @@ export class User extends Message<User> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.User";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "message", T: User_Id },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "memberships", kind: "message", T: Membership, repeated: true },
+    { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
@@ -850,137 +1157,51 @@ export class User extends Message<User> {
 }
 
 /**
- * @generated from message auth.User.Id
+ * @generated from message auth.Attribute
  */
-export class User_Id extends Message<User_Id> {
+export class Attribute extends Message<Attribute> {
   /**
    * @generated from field: string msp_id = 1;
    */
   mspId = "";
 
   /**
-   * @generated from field: string id = 2;
+   * @generated from field: string oid = 2;
    */
-  id = "";
+  oid = "";
 
-  constructor(data?: PartialMessage<User_Id>) {
+  /**
+   * @generated from field: string value = 3;
+   */
+  value = "";
+
+  constructor(data?: PartialMessage<Attribute>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.User.Id";
+  static readonly typeName = "auth.Attribute";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User_Id {
-    return new User_Id().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Attribute {
+    return new Attribute().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User_Id {
-    return new User_Id().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Attribute {
+    return new Attribute().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User_Id {
-    return new User_Id().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Attribute {
+    return new Attribute().fromJsonString(jsonString, options);
   }
 
-  static equals(a: User_Id | PlainMessage<User_Id> | undefined, b: User_Id | PlainMessage<User_Id> | undefined): boolean {
-    return proto3.util.equals(User_Id, a, b);
-  }
-}
-
-/**
- * @generated from message auth.ObjectMetadata
- */
-export class ObjectMetadata extends Message<ObjectMetadata> {
-  /**
-   * @generated from field: repeated auth.StateActivity hidden_txs = 2;
-   */
-  hiddenTxs: StateActivity[] = [];
-
-  /**
-   * @generated from field: auth.StateActivity last_activity = 3;
-   */
-  lastActivity?: StateActivity;
-
-  constructor(data?: PartialMessage<ObjectMetadata>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ObjectMetadata";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 2, name: "hidden_txs", kind: "message", T: StateActivity, repeated: true },
-    { no: 3, name: "last_activity", kind: "message", T: StateActivity },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectMetadata {
-    return new ObjectMetadata().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectMetadata {
-    return new ObjectMetadata().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectMetadata {
-    return new ObjectMetadata().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ObjectMetadata | PlainMessage<ObjectMetadata> | undefined, b: ObjectMetadata | PlainMessage<ObjectMetadata> | undefined): boolean {
-    return proto3.util.equals(ObjectMetadata, a, b);
-  }
-}
-
-/**
- * @generated from message auth.Suggestions
- */
-export class Suggestions extends Message<Suggestions> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: google.protobuf.FieldMask paths = 2;
-   */
-  paths?: FieldMask;
-
-  /**
-   * @generated from field: google.protobuf.Any value = 4;
-   */
-  value?: Any;
-
-  constructor(data?: PartialMessage<Suggestions>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Suggestions";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "paths", kind: "message", T: FieldMask },
-    { no: 4, name: "value", kind: "message", T: Any },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Suggestions {
-    return new Suggestions().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Suggestions {
-    return new Suggestions().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Suggestions {
-    return new Suggestions().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Suggestions | PlainMessage<Suggestions> | undefined, b: Suggestions | PlainMessage<Suggestions> | undefined): boolean {
-    return proto3.util.equals(Suggestions, a, b);
+  static equals(a: Attribute | PlainMessage<Attribute> | undefined, b: Attribute | PlainMessage<Attribute> | undefined): boolean {
+    return proto3.util.equals(Attribute, a, b);
   }
 }
 
@@ -994,29 +1215,34 @@ export class Suggestions extends Message<Suggestions> {
  */
 export class Role extends Message<Role> {
   /**
-   * @generated from field: auth.Role.Id role_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  roleId?: Role_Id;
+  collectionId = "";
 
   /**
-   * @generated from field: auth.ACEntry ac = 3;
+   * @generated from field: string role_id = 2;
+   */
+  roleId = "";
+
+  /**
+   * @generated from field: auth.ACEntry ac = 4;
    */
   ac?: ACEntry;
 
   /**
-   * @generated from field: string name = 4;
+   * @generated from field: string name = 5;
    */
   name = "";
 
   /**
-   * @generated from field: string description = 5;
+   * @generated from field: string description = 6;
    */
   description = "";
 
   /**
-   * @generated from field: repeated auth.Role.Id parents = 6;
+   * @generated from field: repeated string parent_role_ids = 7;
    */
-  parents: Role_Id[] = [];
+  parentRoleIds: string[] = [];
 
   constructor(data?: PartialMessage<Role>) {
     super();
@@ -1026,11 +1252,12 @@ export class Role extends Message<Role> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.Role";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "role_id", kind: "message", T: Role_Id },
-    { no: 3, name: "ac", kind: "message", T: ACEntry },
-    { no: 4, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "parents", kind: "message", T: Role_Id, repeated: true },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "ac", kind: "message", T: ACEntry },
+    { no: 5, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role {
@@ -1051,49 +1278,6 @@ export class Role extends Message<Role> {
 }
 
 /**
- * @generated from message auth.Role.Id
- */
-export class Role_Id extends Message<Role_Id> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string id = 2;
-   */
-  id = "";
-
-  constructor(data?: PartialMessage<Role_Id>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Role.Id";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role_Id {
-    return new Role_Id().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Role_Id {
-    return new Role_Id().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Role_Id {
-    return new Role_Id().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Role_Id | PlainMessage<Role_Id> | undefined, b: Role_Id | PlainMessage<Role_Id> | undefined): boolean {
-    return proto3.util.equals(Role_Id, a, b);
-  }
-}
-
-/**
  * Used for Assigning Roles to Users
  * !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
  * !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
@@ -1102,19 +1286,41 @@ export class Role_Id extends Message<Role_Id> {
  */
 export class Membership extends Message<Membership> {
   /**
-   * @generated from field: auth.Role.Id role_id = 1;
+   * @generated from field: string collection_id = 1;
    */
-  roleId?: Role_Id;
+  collectionId = "";
 
   /**
-   * @generated from field: auth.User.Id user_id = 2;
+   * @generated from field: string role_id = 2;
    */
-  userId?: User_Id;
+  roleId = "";
+
+  /**
+   * @generated from field: string msp_id = 3;
+   */
+  mspId = "";
+
+  /**
+   * @generated from oneof auth.Membership.identifier
+   */
+  identifier: {
+    /**
+     * @generated from field: string user_id = 4;
+     */
+    value: string;
+    case: "userId";
+  } | {
+    /**
+     * @generated from field: auth.Attribute attribute = 5;
+     */
+    value: Attribute;
+    case: "attribute";
+  } | { case: undefined; value?: undefined } = { case: undefined };
 
   /**
    * For use in Collections Without Roles; role.ID must be an empty string
    *
-   * @generated from field: auth.ACEntry fallback_ac = 3;
+   * @generated from field: auth.ACEntry fallback_ac = 6;
    */
   fallbackAc?: ACEntry;
 
@@ -1126,9 +1332,12 @@ export class Membership extends Message<Membership> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.Membership";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "role_id", kind: "message", T: Role_Id },
-    { no: 2, name: "user_id", kind: "message", T: User_Id },
-    { no: 3, name: "fallback_ac", kind: "message", T: ACEntry },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */, oneof: "identifier" },
+    { no: 5, name: "attribute", kind: "message", T: Attribute, oneof: "identifier" },
+    { no: 6, name: "fallback_ac", kind: "message", T: ACEntry },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Membership {

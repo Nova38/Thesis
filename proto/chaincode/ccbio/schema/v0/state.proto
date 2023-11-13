@@ -22,12 +22,7 @@ import "auth/v1/auth.proto";
 
 message Specimen {
   // option (hlf.key_schema).namespace = "specimen";
-  // option (hlf.key_schema).key_paths = {paths: ["id.collection_id", "id.id"]};
-
-  message Id {
-    string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-    string id             = 2 [(buf.validate.field).string.uuid = true];
-  }
+  option (auth.key_schema).keys = {paths: ["id.collection_id", "id.id"]};
 
   message Primary {
     string catalog_number                     = 1;
@@ -105,10 +100,8 @@ message Specimen {
     auth.StateActivity last_modified       = 20;
   }
 
-  Id id                             = 1  [(buf.validate.field).required = true];
-  auth.ObjectMetadata metadata      = 2;
-
-
+  string collection_id              = 1 [(buf.validate.field).string.min_len = 1];
+  string specimen_id                = 2 [(buf.validate.field).string.uuid = true];
   Primary primary                   = 3  [(buf.validate.field).required = true];
   Secondary secondary               = 4  [(buf.validate.field).required = true];
   Taxon taxon                       = 5  [(buf.validate.field).required = true];
@@ -120,22 +113,18 @@ message Specimen {
 
 }
 
-// -------------
-//-------------------------------------
-// Suggested
-// --------------------------------------------------
 
-message SuggestedUpdate {
-  // option (hlf.key_schema).namespace = "specimen_update";
-  // option (hlf.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
+// message SuggestedUpdate {
+//   // option (hlf.key_schema).namespace = "specimen_update";
+//   // option (hlf.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
 
-  message Id {
-    Specimen.Id specimen_id = 1 [(buf.validate.field).required = true];
-    string id               = 2 [(buf.validate.field).string.uuid = true];
-  }
+//   message Id {
+//     Specimen.Id specimen_id = 1 [(buf.validate.field).required = true];
+//     string id               = 2 [(buf.validate.field).string.uuid = true];
+//   }
 
-  Id id                          = 1 [(buf.validate.field).required = true];
-  auth.StateActivity update_info = 2 [(buf.validate.field).required = true];
-  Specimen specimen              = 3 [(buf.validate.field).required = true];
-  google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
-};
+//   Id id                          = 1 [(buf.validate.field).required = true];
+//   auth.StateActivity update_info = 2 [(buf.validate.field).required = true];
+//   Specimen specimen              = 3 [(buf.validate.field).required = true];
+//   google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
+// };
