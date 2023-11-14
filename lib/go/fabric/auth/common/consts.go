@@ -1,4 +1,4 @@
-package auth
+package common
 
 const (
 	HiddenNamespace           = "Hidden"

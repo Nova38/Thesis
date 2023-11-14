@@ -89,6 +89,7 @@ message History {
 
 
 
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
@@ -121,7 +122,7 @@ enum Action {
 
   ACTION_OBJECT_VIEW                = 10;
   ACTION_OBJECT_CREATE              = 11;
-  ACTION_OBJECT_EDIT                = 12;
+  ACTION_OBJECT_UPDATE                = 12;
   ACTION_OBJECT_DELETE              = 13;
   ACTION_OBJECT_SUGGEST_VIEW        = 14;
   ACTION_OBJECT_SUGGEST_CREATE      = 15;

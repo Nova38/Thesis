@@ -3,10 +3,10 @@ package state
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"log/slog"
 	"strconv"
 
-	"github.com/nova38/thesis/lib/go/fabric/auth"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
@@ -86,7 +86,7 @@ func get[T Object](ctx TxCtxInterface, in T) (err error) {
 	if bytes == nil && err == nil {
 		return oops.
 			With("Key", key, "Namespace", in.Namespace()).
-			Wrap(auth.AlreadyExists)
+			Wrap(common.AlreadyExists)
 	}
 
 	if err = json.Unmarshal(bytes, in); err != nil {
@@ -106,7 +106,7 @@ func sDelete[T Object](ctx TxCtxInterface, in T) (err error) {
 }
 
 // GetHistory returns the history of the object from the ledger
-func GetHistory[T Object](
+func getHistory[T Object](
 	ctx TxCtxInterface,
 	in T,
 ) (list HistoryList[T], err error) {
@@ -147,7 +147,7 @@ func GetHistory[T Object](
 	return list, nil
 }
 
-func TxIdInHistory[T Object](ctx TxCtxInterface, in T, txId string) (bool, error) {
+func txIdInHistory[T Object](ctx TxCtxInterface, in T, txId string) (bool, error) {
 	key, err := MakeCompositeKey(ctx, in)
 	if err != nil {
 		return false, err
@@ -181,7 +181,7 @@ func TxIdInHistory[T Object](ctx TxCtxInterface, in T, txId string) (bool, error
 // GetPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPartialKeyList[T Object](
+func getPartialKeyList[T Object](
 	ctx TxCtxInterface,
 	in T,
 	numAttr int,
@@ -231,7 +231,7 @@ func GetPartialKeyList[T Object](
 	return list, nil
 }
 
-func GetFullList[T Object](ctx TxCtxInterface, in T) (list []T, err error) {
+func getFullList[T Object](ctx TxCtxInterface, in T) (list []T, err error) {
 	// obj = []*T{}
 
 	namespace := in.Namespace()
@@ -267,10 +267,10 @@ func GetFullList[T Object](ctx TxCtxInterface, in T) (list []T, err error) {
 // Pagination
 // ------------------------------------------------------------
 
-// GetPartialKeyList returns a list of objects of type T
+// getPartialKeyList returns a list of objects of type T
 // T must implement StateObject interface
 // numAttr is the number of attributes in the key to search for
-func GetPagedPartialKeyList[T Object](
+func getPagedPartialKeyList[T Object](
 	ctx TxCtxInterface,
 	in T,
 	numAttr int,
@@ -338,7 +338,7 @@ func GetPagedPartialKeyList[T Object](
 // ------------------------------------------------------------
 
 // GetPartialKeyList returns a list of objects of type T
-func GetPagedFullList[T Object](
+func getPagedFullList[T Object](
 	ctx TxCtxInterface,
 	in T,
 	bookmark string,

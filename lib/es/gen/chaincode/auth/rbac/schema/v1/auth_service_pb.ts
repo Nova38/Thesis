@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { Collection, Operation, StateActivity, User } from "../../../../../auth/v1/auth_pb.js";
+import { Collection, History, Operation, User } from "../../../../../auth/v1/auth_pb.js";
 
 /**
  * Test Helpers
@@ -362,9 +362,11 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   userId = "";
 
   /**
-   * @generated from field: auth.StateActivity history = 3;
+   * auth.StateActivity history = 3;
+   *
+   * @generated from field: auth.History history = 3;
    */
-  history?: StateActivity;
+  history?: History;
 
   constructor(data?: PartialMessage<UserGetHistoryResponse>) {
     super();
@@ -376,7 +378,7 @@ export class UserGetHistoryResponse extends Message<UserGetHistoryResponse> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "history", kind: "message", T: StateActivity },
+    { no: 3, name: "history", kind: "message", T: History },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserGetHistoryResponse {
@@ -735,9 +737,11 @@ export class CollectionGetHistoryRequest extends Message<CollectionGetHistoryReq
  */
 export class CollectionGetHistoryResponse extends Message<CollectionGetHistoryResponse> {
   /**
-   * @generated from field: repeated auth.Collection collections = 1;
+   * repeated auth.Collection collections = 1;
+   *
+   * @generated from field: auth.History history = 3;
    */
-  collections: Collection[] = [];
+  history?: History;
 
   constructor(data?: PartialMessage<CollectionGetHistoryResponse>) {
     super();
@@ -747,7 +751,7 @@ export class CollectionGetHistoryResponse extends Message<CollectionGetHistoryRe
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "rbac.schema.v1.CollectionGetHistoryResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collections", kind: "message", T: Collection, repeated: true },
+    { no: 3, name: "history", kind: "message", T: History },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionGetHistoryResponse {

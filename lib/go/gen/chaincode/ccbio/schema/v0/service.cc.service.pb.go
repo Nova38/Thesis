@@ -12,7 +12,7 @@ import (
 )
 
 // Service SpecimenService
-type SpecimenServiceInterface[T state.GenericAuthTxCtxInterface] interface {
+type SpecimenServiceInterface[T state.GenericTxCtxInterface] interface {
 	// SpecimenGet
 	//
 	// # Operation:
@@ -58,13 +58,13 @@ type SpecimenServiceInterface[T state.GenericAuthTxCtxInterface] interface {
 	// SpecimenHideTx
 	//
 	// # Operation:
-	//   - Domain: 20
+	//   - Domain: ACTION_OBJECT_HIDE_TX
 	SpecimenHideTx(ctx T, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
 
 	// SpecimenUnHideTx
 	//
 	// # Operation:
-	//   - Domain: 20
+	//   - Domain: ACTION_OBJECT_HIDE_TX
 	SpecimenUnHideTx(ctx T, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
 }
 
@@ -118,12 +118,12 @@ func SpecimenServiceGetTxOperation(txName string) (op *v1.Operation, err error) 
 			Action: 13,
 		}, nil
 	case "SpecimenHideTx":
-		//action:20
+		// action:ACTION_OBJECT_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil
 	case "SpecimenUnHideTx":
-		//action:20
+		// action:ACTION_OBJECT_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil

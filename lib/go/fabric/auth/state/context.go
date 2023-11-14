@@ -3,7 +3,7 @@ package state
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nova38/thesis/lib/go/fabric/auth"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"log/slog"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
@@ -14,6 +14,7 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 var (
@@ -105,7 +106,7 @@ func (ctx *BaseTxCtx) GetLogger() *slog.Logger {
 
 func (ctx *BaseTxCtx) GetPageSize() int32 {
 	if ctx.PageSize == 0 {
-		return auth.DefaultPageSize
+		return common.DefaultPageSize
 	}
 	return ctx.PageSize
 }
@@ -325,14 +326,30 @@ func (ctx *BaseTxCtx) GetAuthenticator() (fn string) {
 	return ctx.authFn
 }
 
-func (ctx *BaseTxCtx) Authorize(ops *authpb.Operation) (auth bool, err error) {
+func (ctx *BaseTxCtx) GetViewMask() (mask *fieldmaskpb.FieldMask) {
+	// TODO implement me
+
+	if ctx.ops == nil {
+		ctx.ops = &authpb.Operation{}
+	}
+	if ctx.ops.Paths == nil {
+		ctx.ops.Paths = &fieldmaskpb.FieldMask{}
+	}
+	return ctx.ops.Paths
+}
+
+func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) {
 	// if the user is already authorized, return the value
 	if ctx.authChecked {
 		return ctx.authorized, nil
 	}
 	ctx.authChecked = true
 
-	ctx.ops = ops
+	if len(ops) == 0 {
+		return false, oops.Errorf("operations is empty")
+	}
+
+	ctx.ops = ops[0]
 
 	fn := ctx.GetAuthenticator()
 
@@ -356,40 +373,10 @@ func (ctx *BaseTxCtx) Authorize(ops *authpb.Operation) (auth bool, err error) {
 		newOps := &authpb.Operation{}
 
 		if err = proto.Unmarshal(res.Payload, newOps); err == nil {
-			ops.Paths = newOps.Paths
+			ctx.ops.Paths = newOps.Paths
 		}
 
 		return true, nil
 	}
-	// user, err := ctx.GetUser()
-	// if err != nil {
-	// 	return false, oops.Wrap(err)
-	// }
-
-	// role, ok := user.Memberships[ctx.Collection.Id.CollectionId]
-	// if !ok {
-	// 	return false, oops.
-	// 		In("AuthorizeOperation").
-	// 		Code(auth_pb.TxError_COLLECTION_INVALID_ROLE_ID.String()).
-	// 		Errorf("Role %v is not valid for collection %v", role, ctx.Collection.Id.CollectionId)
-	// }
-
-	// return AuthorizeOperation(ctx.ops, role.RoleId, ctx.Collection)
 	return false, oops.With("operation", ops).Errorf("failed to authorize operation")
 }
-
-// func (ctx *BaseTxCtx) IsAuthorized() (err error) {
-// 	if !ctx.authChecked {
-
-// 		auth, err := ctx.Authorize()
-// 		if err != nil {
-// 			slog.Error(err.Error(), slog.Any("error", err))
-// 			return oops.
-// 				In(ctx.GetFnName()).
-// 				Code(auth_pb.TxError_USER_PERMISSION_DENIED.String()).
-// 				Wrap(err)
-// 		}
-// 		ctx.authorized = auth
-// 	}
-// 	return nil
-// }

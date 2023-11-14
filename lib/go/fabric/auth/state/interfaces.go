@@ -1,18 +1,18 @@
 package state
 
 import (
-	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"log/slog"
+
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
-
-	//AuthFunc func(op *authpb.Operation) (bool, error)
 
 	Object interface {
 		Key() (attr []string, err error)
@@ -80,7 +80,7 @@ type (
 		// ════════════════════════════════════════════════════════
 
 		// AddExtractorFunc - Adds an extractor function to the transaction
-		//AddExtractorFunc(name string, fn ExtractorFunc)
+		// AddExtractorFunc(name string, fn ExtractorFunc)
 
 		// HandelBefore - Handles the before function for the transaction
 		HandelBefore() (err error)
@@ -168,11 +168,7 @@ type (
 		//  ACL Functions
 		// ════════════════════════════════════════════════════════
 
-		//// GetACLEntryKey - Gets the Key for the entry in the ACL
-		//GetACLEntryKey() (key string, err error)
-
-		//// GetViewMask - Gets the view mask for the collection and the role
-		//GetViewMask() (mask fieldmaskpb.FieldMask, err error)
+		GetViewMask() (mask *fieldmaskpb.FieldMask)
 
 		// Authorize - Checks if the user is authorized to perform the action on
 		// the collection
@@ -181,9 +177,8 @@ type (
 		//  - collection to be set
 		//  - action to be set
 		//  - domain to be set
-		Authorize(ops *authpb.Operation) (bool, error)
+		Authorize(ops []*authpb.Operation) (bool, error)
 
 		// GetMask - Request the mask for the operation from the auth service
-
 	}
 )

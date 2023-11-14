@@ -118,9 +118,9 @@ export enum Action {
   OBJECT_CREATE = 11,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_EDIT = 12;
+   * @generated from enum value: ACTION_OBJECT_UPDATE = 12;
    */
-  OBJECT_EDIT = 12,
+  OBJECT_UPDATE = 12,
 
   /**
    * @generated from enum value: ACTION_OBJECT_DELETE = 13;
@@ -170,7 +170,7 @@ proto3.util.setEnumType(Action, "auth.Action", [
   { no: 3, name: "ACTION_MODIFY_DEFAULT_PERMISSIONS" },
   { no: 10, name: "ACTION_OBJECT_VIEW" },
   { no: 11, name: "ACTION_OBJECT_CREATE" },
-  { no: 12, name: "ACTION_OBJECT_EDIT" },
+  { no: 12, name: "ACTION_OBJECT_UPDATE" },
   { no: 13, name: "ACTION_OBJECT_DELETE" },
   { no: 14, name: "ACTION_OBJECT_SUGGEST_VIEW" },
   { no: 15, name: "ACTION_OBJECT_SUGGEST_CREATE" },
@@ -466,7 +466,7 @@ export class Index extends Message<Index> {
 }
 
 /**
- * Can be used as the history entry 
+ * Can be used as the history entry
  *
  * @generated from message auth.StateActivity
  */

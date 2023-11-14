@@ -12,7 +12,7 @@ import (
 )
 
 // Service AuthService
-type AuthServiceInterface[T state.GenericAuthTxCtxInterface] interface {
+type AuthServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserGetCurrent: Returns the current user.
 	//
 	// Returns the current user.

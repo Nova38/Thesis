@@ -105,7 +105,7 @@ service AuthService {
     // rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
     //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     //   option (auth.operation) = {
-    //     action: ACTION_EDIT
+    //     action: ACTION_OBJECT_UPDATE
     //     domain: DOMAIN_USER
     //   };
     // };
@@ -126,7 +126,7 @@ service AuthService {
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
       option (auth.operation) = {
-        action: ACTION_OBJECT_EDIT
+        action: ACTION_OBJECT_UPDATE
       };
     };
 
@@ -191,14 +191,14 @@ service AuthService {
     rpc CollectionUpdateRoles(CollectionUpdateRolesRequest) returns (CollectionUpdateRolesResponse){
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
       option (auth.operation) = {
-        action: ACTION_OBJECT_EDIT
+        action: ACTION_OBJECT_UPDATE
       };
     };
 
     rpc CollectionUpdatePermission(CollectionUpdatePermissionRequest) returns (CollectionUpdatePermissionResponse){
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
       option (auth.operation) = {
-        action: ACTION_OBJECT_EDIT
+        action: ACTION_OBJECT_UPDATE
       };
     };
 
@@ -279,7 +279,8 @@ service AuthService {
       message UserGetHistoryResponse {
         string msp_id   = 1;
         string user_id  = 2;
-        auth.StateActivity history = 3;
+        // auth.StateActivity history = 3;
+        auth.History history = 3;
       }
 
 
@@ -354,7 +355,8 @@ service AuthService {
           string collection_id = 1;
       }
       message CollectionGetHistoryResponse {
-          repeated auth.Collection collections = 1;
+          // repeated auth.Collection collections = 1;
+        auth.History history = 3;
       }
 
   // Invoke

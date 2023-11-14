@@ -3,15 +3,16 @@ package contracts
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
 
 	auth "github.com/nova38/thesis/lib/go/fabric/auth/state"
-	cc "github.com/nova38/thesis/lib/go/gen/chaincode/rbac/schema/v1"
+	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )
 
 // Check if AuthContractImpl implements AuthServiceInterface
 var (
-	_ auth.AuthTxCtxInterface             = (*AuthTxCtx)(nil)
+	_ auth.TxCtxInterface                 = (*AuthTxCtx)(nil)
 	_ cc.AuthServiceInterface[*AuthTxCtx] = (*AuthContractImpl)(nil)
 	_ contractapi.ContractInterface       = (*AuthContractImpl)(nil)
 )
@@ -32,22 +33,18 @@ func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 		return oops.Wrap(err)
 	}
 
-	ops, err := cc.AuthServiceGetTxOperation(ctx.GetFnName())
-	if err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
+	// Set the authenticator handler
+	ctx.SetAuthenticator("rbac.Authenticate")
 
-	if err = ctx.SetOperation(ops); err != nil {
-		return oops.
-			In("BeforeTransaction").
-			With("fn", ctx.GetFnName()).
-			Wrap(err)
-	}
+	return nil
+}
 
-	return err
+func (a AuthContractImpl) Authenticate(
+	ctx *AuthTxCtx,
+	ops *authpb.Operation,
+) (new_ops authpb.Operation, err error) {
+	// TODO implement Authenticate
+	panic("implement me")
 }
 
 // NewAuthContract

@@ -2,6 +2,8 @@ package contract
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
+	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
@@ -13,7 +15,7 @@ var _ state.TxCtxInterface = (*CCBioTxCtx)(nil)
 type (
 	TransactionObjects struct {
 		Specimen *pb.Specimen
-		//Suggested *pb.SuggestedUpdate
+		// Suggested *pb.SuggestedUpdate
 		Mask *fieldmaskpb.FieldMask
 	}
 
@@ -49,25 +51,25 @@ type (
 	}
 )
 
-//func (ctx *CCBioTxCtx) InitViaReq(req proto.Message) (err error) {
-//	if err = ctx.Validate(req); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	// Extract the transaction items (collection id and specimen id)
-//	if err = ctx.ExtractTransactionItems(req); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	if err = ctx.FetchTransactionItems(); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	if err = ctx.IsAuthorized(); err != nil {
-//		return oops.Wrap(err)
-//	}
-//	return nil
-//}
+func (ctx *CCBioTxCtx) InitViaReq(req proto.Message) (err error) {
+	if err = ctx.Validate(req); err != nil {
+		return oops.Wrap(err)
+	}
+
+	// Extract the transaction items (collection id and specimen id)
+	//if err = ctx.ExtractTransactionItems(req); err != nil {
+	//	return oops.Wrap(err)
+	//}
+
+	//if err = ctx.FetchTransactionItems(); err != nil {
+	//	return oops.Wrap(err)
+	//}
+
+	//if err = ctx.IsAuthorized(); err != nil {
+	//	return oops.Wrap(err)
+	//}
+	return nil
+}
 
 //func (ctx *CCBioTxCtx) FetchTransactionItems() (err error) {
 //	//if ctx.Suggested.Id != nil {

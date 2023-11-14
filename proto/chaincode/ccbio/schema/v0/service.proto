@@ -47,7 +47,7 @@ service SpecimenService{
 
     rpc SpecimenUpdate(SpecimenUpdateRequest) returns (SpecimenUpdateResponse){
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_OBJECT_EDIT};
+      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
     };
 
     rpc SpecimenDelete(SpecimenDeleteRequest) returns (SpecimenDeleteResponse){

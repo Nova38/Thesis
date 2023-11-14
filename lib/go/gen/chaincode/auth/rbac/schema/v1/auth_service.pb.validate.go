@@ -2095,38 +2095,33 @@ func (m *CollectionGetHistoryResponse) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetCollections() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, CollectionGetHistoryResponseValidationError{
-						field:  fmt.Sprintf("Collections[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, CollectionGetHistoryResponseValidationError{
-						field:  fmt.Sprintf("Collections[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return CollectionGetHistoryResponseValidationError{
-					field:  fmt.Sprintf("Collections[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetHistory()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CollectionGetHistoryResponseValidationError{
+					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CollectionGetHistoryResponseValidationError{
+					field:  "History",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
 			}
 		}
-
+	} else if v, ok := interface{}(m.GetHistory()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CollectionGetHistoryResponseValidationError{
+				field:  "History",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {

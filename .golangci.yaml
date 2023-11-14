@@ -11,7 +11,8 @@ linters-settings:
 
 linters:
   enable:
-    - cyclop
+    # - cyclop
+    - revive
     - ginkgolinter
   staticcheck:
 

@@ -1,6 +1,70 @@
 package state
 
-type SuggestHandler struct{}
+import authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+
+// ════════════════════════════════════════════════════════
+// Suggestion Functions
+// ════════════════════════════════════════════════════════
+
+func Suggestion[T Object](
+	ctx TxCtxInterface,
+	suggestionId string,
+) (suggestion *authpb.Suggestion, err error) {
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	// TODO implement me
+	panic("implement me")
+}
+
+func CreateSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	// TODO implement me
+	panic("implement me")
+}
+
+func DeleteSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
+
+func ApproveSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
+
+func SuggestionList[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	bookmark string,
+) (list []authpb.Suggestion, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
+
+func SuggestionByCollection[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	bookmark string,
+) (list []authpb.Suggestion, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
+
+func GetSuggestionListByPartialKey[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	numAttr int,
+	bookmark string,
+) (list []authpb.Suggestion, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
 
 //────────────────────────────────────────────────────────────
 //Query Suggested Functions

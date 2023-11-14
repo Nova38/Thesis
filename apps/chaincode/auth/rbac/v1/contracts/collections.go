@@ -1,8 +1,6 @@
 package contracts
 
 import (
-	"log/slog"
-
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 
 	"github.com/samber/lo"
@@ -17,29 +15,22 @@ func (a AuthContractImpl) CollectionGetList(
 ) (res *cc.CollectionGetListResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	// Get the collections
-	collectionList, err := state.GetFullList(ctx, &authpb.Collection{})
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(authpb.TxError_UNSPECIFIED.String()).
-			Wrap(err)
-	}
+	list, _, err := state.List(
+		ctx,
+		&authpb.Collection{},
+		"",
+	)
 
 	return &cc.CollectionGetListResponse{
-		Collections: collectionList,
-	}, nil
+		Collections: list,
+	}, err
 }
 
 func (a AuthContractImpl) CollectionGet(
 	ctx *AuthTxCtx,
 	req *cc.CollectionGetRequest,
 ) (res *cc.CollectionGetResponse, err error) {
-	defer func() {
-		if err != nil {
-			ctx.Logger.Error(err.Error(), slog.Any("error", err))
-		}
-	}()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Validate the request
 	err = ctx.Validate(req)
@@ -50,25 +41,13 @@ func (a AuthContractImpl) CollectionGet(
 			Wrap(err)
 	}
 
-	// Get the collection
-	col, err := ctx.SetCollection(req.GetCollectionId())
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(authpb.TxError_COLLECTION_ALREADY_REGISTERED.String()).
-			Wrap(err)
-	}
+	col := &authpb.Collection{CollectionId: req.CollectionId}
 
-	if err = ctx.IsAuthorized(); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(authpb.TxError_USER_PERMISSION_DENIED.String()).
-			Wrap(err)
-	}
+	err = state.Get(ctx, col)
 
 	return &cc.CollectionGetResponse{
 		Collection: col,
-	}, nil
+	}, err
 }
 
 func (a AuthContractImpl) CollectionGetHistory(
@@ -82,7 +61,11 @@ func (a AuthContractImpl) CollectionGetHistory(
 		return nil, oops.Wrap(err)
 	}
 
-	panic("implement me")
+	h, err := state.History(ctx, &authpb.Collection{CollectionId: req.CollectionId})
+
+	return &cc.CollectionGetHistoryResponse{
+		History: h,
+	}, err
 }
 
 func (a AuthContractImpl) CollectionCreate(
@@ -91,36 +74,14 @@ func (a AuthContractImpl) CollectionCreate(
 ) (res *cc.CollectionCreateResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	{ // Validate
-
-		// Check req
-		if err = ctx.Validate(req); err != nil {
-			return nil, oops.Wrap(err)
-		}
-
-		// Extract AuthTransactionItems
-		if err = ctx.ExtractAuthTransactionItems(req); err != nil {
-			return nil, oops.Wrap(err)
-		}
-
-		// Check if the paths are valid for the type
-		if err = auth.ValidateCollection(req.Collection); err != nil {
-			return nil, oops.In(ctx.GetFnName()).With("req", req).Wrap(err)
-		}
-
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
 	}
 
-	{ // Authorize
-		// all users can create collections
-	}
+	// Create the collection
+	res = &cc.CollectionCreateResponse{Collection: req.Collection}
 
-	{ // Process
-
-		// Create the collection
-		res = &cc.CollectionCreateResponse{Collection: req.Collection}
-
-		return res, state.Insert(ctx, req.Collection)
-	}
+	return res, state.Create(ctx, req.Collection)
 }
 
 func (a AuthContractImpl) CollectionUpdateRoles(
@@ -136,10 +97,6 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 			return nil, oops.Wrap(err)
 		}
 
-		// Extract AuthTransactionItems
-		if err = ctx.ExtractAuthTransactionItems(req); err != nil {
-			return nil, oops.Wrap(err)
-		}
 		// Check if the paths are valid for the type
 
 		// todo other validations
@@ -172,33 +129,23 @@ func (a AuthContractImpl) CollectionUpdateRoles(
 		}
 
 	}
+	panic("implement me")
 
-	{ // Authorize
-		if err = ctx.IsAuthorized(); err != nil {
-			return nil, oops.Wrap(err)
-		}
-	}
+	// { // Process
+	// 	col, err := ctx.GetCollection()
+	// 	if err != nil {
+	// 		return nil, oops.Wrap(err)
+	// 	}
+	// 	if col == nil {
+	// 		return nil, oops.Errorf("collection is nil")
+	// 	}
 
-	{ // Process
-		col, err := ctx.GetCollection()
-		if err != nil {
-			return nil, oops.Wrap(err)
-		}
-		if col == nil {
-			return nil, oops.Errorf("collection is nil")
-		}
+	// 	// todo: Change other parts???
 
-		// todo: Change other parts???
+	// 	res = &cc.CollectionUpdateRolesResponse{Collection: col}
 
-		// Make sure the collection is valid
-		if err = rbac.ValidateCollection(col); err != nil {
-			return nil, oops.In(ctx.GetFnName()).With("req", req).Wrap(err)
-		}
-
-		res = &cc.CollectionUpdateRolesResponse{Collection: col}
-
-		return res, state.Update(ctx, col)
-	}
+	// 	return res, state.Edit(ctx, col, nil)
+	// }
 }
 
 func (a AuthContractImpl) CollectionUpdatePermission(
@@ -213,9 +160,5 @@ func (a AuthContractImpl) CollectionUpdatePermission(
 		return nil, oops.Wrap(err)
 	}
 
-	// Extract AuthTransactionItems
-	if err = ctx.ExtractAuthTransactionItems(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
 	panic("implement me")
 }

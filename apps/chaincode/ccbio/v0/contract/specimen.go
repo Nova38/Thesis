@@ -2,12 +2,9 @@ package contract
 
 import (
 	"github.com/mennanov/fmutils"
-	"github.com/nova38/thesis/lib/go/fabric/auth/state"
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/anypb"
 )
 
 // ────────────────────────────────────────────────────────────
@@ -37,19 +34,21 @@ func (s *SpecimenContractImpl) SpecimenGetList(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = ctx.Authorize(); err != nil {
-		return nil, oops.Wrap(err)
-	}
+	// if err = ctx.Authorize(ops); err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
 
-	req.GetPageSize()
-	list, bm, err := state.GetPagedFullList(ctx, &pb.Specimen{}, req.Bookmark)
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Wrap(err)
-	}
+	// req.GetPageSize()
+	// list, bm, err := state.GetPagedFullList(ctx, &pb.Specimen{}, req.Bookmark)
+	// if err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		Wrap(err)
+	// }
 
-	return &pb.SpecimenGetListResponse{Specimens: list, Bookmark: bm}, nil
+	// return &pb.SpecimenGetListResponse{Specimens: list, Bookmark: bm}, nil
+
+	return nil, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenGetByCollection(
@@ -58,19 +57,21 @@ func (s *SpecimenContractImpl) SpecimenGetByCollection(
 ) (res *pb.SpecimenGetByCollectionResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.InitViaReq(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
+	// if err = ctx.InitViaReq(req); err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
 
-	list, err := state.GetPartialKeyList(ctx, ctx.Specimen, 1)
-	if err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("collection_id", req.Id).
-			Wrap(err)
-	}
+	// list, err := state.GetPartialKeyList(ctx, ctx.Specimen, 1)
+	// if err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("collection_id", req.Id).
+	// 		Wrap(err)
+	// }
 
-	return &pb.SpecimenGetByCollectionResponse{Specimens: list}, nil
+	// return &pb.SpecimenGetByCollectionResponse{Specimens: list}, nil
+
+	return nil, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenGetHistory(
@@ -79,39 +80,39 @@ func (s *SpecimenContractImpl) SpecimenGetHistory(
 ) (res *pb.SpecimenGetHistoryResponse, err error) {
 	// TODO implement SpecimenGetHistory
 
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.InitViaReq(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
+	// if err = ctx.InitViaReq(req); err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
 
-	history, err := state.GetHistory(ctx, ctx.Specimen)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	res = &pb.SpecimenGetHistoryResponse{
-		History: &pb.Specimen_History{
-			Id:      ctx.Specimen.Id,
-			Entries: []*authpb.History_Entry{},
-		},
-	}
+	// history, err := state.GetHistory(ctx, ctx.Specimen)
+	// if err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
+	// res = &pb.SpecimenGetHistoryResponse{
+	// 	History: &pb.Specimen_History{
+	// 		Id:      ctx.Specimen.Id,
+	// 		Entries: []*authpb.History_Entry{},
+	// 	},
+	// }
 
-	for _, h := range history.Entries {
-		a, err := anypb.New(h.State)
-		if err != nil {
-			return nil, oops.Wrap(err)
-		}
+	// for _, h := range history.Entries {
+	// 	a, err := anypb.New(h.State)
+	// 	if err != nil {
+	// 		return nil, oops.Wrap(err)
+	// 	}
 
-		res.History.Entries = append(res.History.Entries, &authpb.History_Entry{
-			TxId:      h.TxId,
-			Timestamp: h.Timestamp,
-			IsDeleted: h.IsDelete,
-			IsHidden:  h.IsHidden,
-			State:     a,
-		})
-	}
+	// 	res.History.Entries = append(res.History.Entries, &authpb.History_Entry{
+	// 		TxId:      h.TxId,
+	// 		Timestamp: h.Timestamp,
+	// 		IsDeleted: h.IsDelete,
+	// 		IsHidden:  h.IsHidden,
+	// 		State:     a,
+	// 	})
+	// }
 
-	return res, nil
+	return nil, nil
 }
 
 // ────────────────────────────────────────────────────────────
@@ -124,51 +125,51 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 ) (res *pb.SpecimenCreateResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	{ // init
-		if err = ctx.Validate(req); err != nil {
-			return nil, oops.Wrap(err)
-		}
+	// { // init
+	// 	if err = ctx.Validate(req); err != nil {
+	// 		return nil, oops.Wrap(err)
+	// 	}
 
-		// Extract the transaction items (collection id and specimen id)
-		if err = ctx.ExtractTransactionItems(req); err != nil {
-			return nil, oops.Wrap(err)
-		}
+	// 	// Extract the transaction items (collection id and specimen id)
+	// 	if err = ctx.ExtractTransactionItems(req); err != nil {
+	// 		return nil, oops.Wrap(err)
+	// 	}
 
-		if err = state.Get(ctx, ctx.Collection); err != nil {
-			return nil, oops.
-				In(ctx.GetFnName()).
-				With("collection_id", ctx.Collection.CollectionId).
-				Wrap(err)
-		}
+	// 	if err = state.Get(ctx, ctx.Collection); err != nil {
+	// 		return nil, oops.
+	// 			In(ctx.GetFnName()).
+	// 			With("collection_id", ctx.Collection.CollectionId).
+	// 			Wrap(err)
+	// 	}
 
-		if err = ctx.IsAuthorized(); err != nil {
-			return nil, oops.Wrap(err)
-		}
-	}
+	// 	if err = ctx.IsAuthorized(); err != nil {
+	// 		return nil, oops.Wrap(err)
+	// 	}
+	// }
 
 	// madeAt, err := ctx.MakeLastModified()
 
-	spec := req.GetSpecimen()
-	if spec == nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			Code(rbac_pb.TxError_REQUEST_INVALID.String()).
-			Errorf("specimen is required")
-	}
+	// spec := req.GetSpecimen()
+	// if spec == nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		Code(rbac_pb.TxError_REQUEST_INVALID.String()).
+	// 		Errorf("specimen is required")
+	// }
 
 	// Create the new specimen
-	specimen := &pb.Specimen{
-		Id:           spec.GetId(),
-		Primary:      spec.GetPrimary(),
-		Secondary:    spec.GetSecondary(),
-		Taxon:        spec.GetTaxon(),
-		Georeference: spec.GetGeoreference(),
-		Images:       spec.GetImages(),
-		Loans:        spec.GetLoans(),
-		Grants:       spec.GetGrants(),
-		// HiddenTxs:    map[string]*pb.HiddenTx{},
-		// LastModified: madeAt,
-	}
+	// specimen := &pb.Specimen{
+	// 	Id:           spec.GetId(),
+	// 	Primary:      spec.GetPrimary(),
+	// 	Secondary:    spec.GetSecondary(),
+	// 	Taxon:        spec.GetTaxon(),
+	// 	Georeference: spec.GetGeoreference(),
+	// 	Images:       spec.GetImages(),
+	// 	Loans:        spec.GetLoans(),
+	// 	Grants:       spec.GetGrants(),
+	// 	// HiddenTxs:    map[string]*pb.HiddenTx{},
+	// 	// LastModified: madeAt,
+	// }
 	// Edit all the last modified fields
 	// specimen.Primary.LastModified = madeAt
 	// specimen.Secondary.LastModified = madeAt
@@ -186,14 +187,15 @@ func (s *SpecimenContractImpl) SpecimenCreate(
 	// }
 
 	// Insert the new specimen
-	if err = state.Insert(ctx, specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("specimen", specimen).
-			Wrap(err)
-	}
+	// if err = state.Insert(ctx, specimen); err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("specimen", specimen).
+	// 		Wrap(err)
+	// }
 
-	return &pb.SpecimenCreateResponse{Specimen: specimen}, nil
+	// return &pb.SpecimenCreateResponse{Specimen: specimen}, nil
+	return nil, nil
 }
 
 func (s *SpecimenContractImpl) SpecimenUpdate(
@@ -223,13 +225,13 @@ func (s *SpecimenContractImpl) SpecimenUpdate(
 		}
 	}
 
-	// Edit the specimen
-	if err = state.Update(ctx, ctx.Specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("specimen", ctx.Specimen).
-			Wrap(err)
-	}
+	// // Edit the specimen
+	// if err = state.Update(ctx, ctx.Specimen); err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("specimen", ctx.Specimen).
+	// 		Wrap(err)
+	// }
 
 	return &pb.SpecimenUpdateResponse{Specimen: ctx.Specimen}, nil
 }
@@ -240,16 +242,16 @@ func (s *SpecimenContractImpl) SpecimenDelete(
 ) (res *pb.SpecimenDeleteResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err = ctx.InitViaReq(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
+	// if err = ctx.InitViaReq(req); err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
 
-	if err = state.Delete(ctx, ctx.Specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("specimen", ctx.Specimen).
-			Wrap(err)
-	}
+	// if err = state.Delete(ctx, ctx.Specimen); err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("specimen", ctx.Specimen).
+	// 		Wrap(err)
+	// }
 
 	return &pb.SpecimenDeleteResponse{Specimen: ctx.Specimen}, nil
 }
@@ -264,35 +266,35 @@ func (s *SpecimenContractImpl) SpecimenHideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	// Ensure it is not the last tx
-	if ctx.Specimen.LastModified.TxId == req.Tx.TxId {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("tx_id", req.Tx.TxId).
-			Errorf("cannot hide last tx")
-	}
+	// // Ensure it is not the last tx
+	// if ctx.Specimen.LastModified.TxId == req.Tx.TxId {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("tx_id", req.Tx.TxId).
+	// 		Errorf("cannot hide last tx")
+	// }
 
-	in, err := state.TxIdInHistory(ctx, ctx.Specimen, req.Tx.TxId)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if !in {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("tx_id", req.Tx.TxId).
-			Errorf("tx_id not in history")
-	}
+	// in, err := state.TxIdInHistory(ctx, ctx.Specimen, req.Tx.TxId)
+	// if err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
+	// if !in {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("tx_id", req.Tx.TxId).
+	// 		Errorf("tx_id not in history")
+	// }
 
-	// Add the tx to the hidden txs
-	ctx.Specimen.HiddenTxs[req.Tx.TxId] = req.Tx
+	// // Add the tx to the hidden txs
+	// ctx.Specimen.HiddenTxs[req.Tx.TxId] = req.Tx
 
-	// Edit the specimen
-	if err = state.Update(ctx, ctx.Specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("specimen", ctx.Specimen).
-			Wrap(err)
-	}
+	// // Edit the specimen
+	// if err = state.Update(ctx, ctx.Specimen); err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("specimen", ctx.Specimen).
+	// 		Wrap(err)
+	// }
 
 	return &pb.SpecimenHideTxResponse{Specimen: ctx.Specimen}, nil
 }
@@ -307,24 +309,24 @@ func (s *SpecimenContractImpl) SpecimenUnHideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	// check if it is in the hidden txs
-	if _, ok := ctx.Specimen.HiddenTxs[req.Tx.TxId]; !ok {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("tx_id", req.Tx.TxId).
-			Errorf("tx_id not in hidden txs")
-	}
+	// // check if it is in the hidden txs
+	// if _, ok := ctx.Specimen.HiddenTxs[req.Tx.TxId]; !ok {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("tx_id", req.Tx.TxId).
+	// 		Errorf("tx_id not in hidden txs")
+	// }
 
-	// remove the tx from the hidden txs
-	delete(ctx.Specimen.HiddenTxs, req.Tx.TxId)
+	// // remove the tx from the hidden txs
+	// delete(ctx.Specimen.HiddenTxs, req.Tx.TxId)
 
-	// Edit the specimen
-	if err = state.Update(ctx, ctx.Specimen); err != nil {
-		return nil, oops.
-			In(ctx.GetFnName()).
-			With("specimen", ctx.Specimen).
-			Wrap(err)
-	}
+	// // Edit the specimen
+	// if err = state.Update(ctx, ctx.Specimen); err != nil {
+	// 	return nil, oops.
+	// 		In(ctx.GetFnName()).
+	// 		With("specimen", ctx.Specimen).
+	// 		Wrap(err)
+	// }
 
 	return &pb.SpecimenUnHideTxResponse{Specimen: ctx.Specimen}, nil
 }

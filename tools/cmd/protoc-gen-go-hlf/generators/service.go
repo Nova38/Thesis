@@ -70,7 +70,8 @@ func (sv *ServiceGenerator) GenerateInterface(
 ) {
 	ctx := g.QualifiedGoIdent(
 		protogen.GoIdent{
-			GoName:       "GenericAuthTxCtxInterface",
+			GoName: "GenericTxCtxInterface",
+
 			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/auth/state",
 		},
 	)

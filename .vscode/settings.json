@@ -76,6 +76,8 @@
     "todo-tree.tree.scanMode": "workspace only",
     "cSpell.words": [
         "ABAC",
+        "anypb",
+        "authpb",
         "cckey",
         "contractapi",
         "descriptorpb",
