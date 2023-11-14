@@ -15,6 +15,9 @@ func (m *Collection) Namespace() string {
 	return "auth.Collection"
 }
 func (m *Collection) Key() ([]string, error) {
+	if m.GetCollectionId() == "" {
+		m.CollectionId = "collections"
+	}
 	attr := []string{m.GetCollectionId()}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetCollectionId())
@@ -37,6 +40,9 @@ func (m *User) Namespace() string {
 	return "auth.User"
 }
 func (m *User) Key() ([]string, error) {
+	if m.GetCollectionId() == "" {
+		m.CollectionId = "users"
+	}
 	attr := []string{m.GetCollectionId()}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetMspId())

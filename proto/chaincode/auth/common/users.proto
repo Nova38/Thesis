@@ -74,6 +74,8 @@ service UserService {
     };
   };
 
+
+
 }
 
 
@@ -131,7 +133,7 @@ service UserService {
   message UserGetHiddenTxResponse {
     string msp_id = 1;
     string user_id = 2;
-    repeated auth.HiddenTx hidden_tx = 3;
+    auth.HiddenTxList hidden_txs = 3;
   }
 
 // -------------------- Invoke ---------------------

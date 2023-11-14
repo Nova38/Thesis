@@ -15,6 +15,9 @@ func (m *Role) Namespace() string {
 	return "rbac.schema.v1.Role"
 }
 func (m *Role) Key() ([]string, error) {
+	if m.GetCollectionId() == "" {
+		m.CollectionId = ""
+	}
 	attr := []string{m.GetCollectionId()}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetRoleId())
@@ -37,6 +40,9 @@ func (m *Membership) Namespace() string {
 	return "rbac.schema.v1.Membership"
 }
 func (m *Membership) Key() ([]string, error) {
+	if m.GetCollectionId() == "" {
+		m.CollectionId = ""
+	}
 	attr := []string{m.GetCollectionId()}
 	ok := lo.Try(func() error {
 		attr = append(attr, m.GetMspId())

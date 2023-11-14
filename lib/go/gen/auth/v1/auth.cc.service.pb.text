@@ -10,6 +10,7 @@ auth.KeySchema
 	 -auth.KeySchema.keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.KeySchema.secondary_keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.KeySchema.collection_id - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.KeySchema.default_collection_id - <nil>
 auth.Index
 	 -auth.Index.key_1 - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.Index.type_1 - <nil>

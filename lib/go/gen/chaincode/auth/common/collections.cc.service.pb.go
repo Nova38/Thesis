@@ -42,7 +42,7 @@ type CollectionServiceInterface[T state.GenericTxCtxInterface] interface {
 	// CollectionUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	CollectionUpdate(ctx T, req *CollectionUpdateRequest) (res *CollectionUpdateResponse, err error)
 
 	// CollectionHideTx
@@ -86,7 +86,7 @@ func CollectionServiceGetTxOperation(txName string) (op *v1.Operation, err error
 			Action: 2,
 		}, nil
 	case "CollectionUpdate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil

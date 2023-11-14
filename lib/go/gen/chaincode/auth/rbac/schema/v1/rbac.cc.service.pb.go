@@ -46,13 +46,13 @@ type RBACServiceInterface[T state.GenericTxCtxInterface] interface {
 	// MembershipCreate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	MembershipCreate(ctx T, req *MembershipCreateRequest) (res *MembershipCreateResponse, err error)
 
 	// MembershipDelete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	MembershipDelete(ctx T, req *MembershipDeleteRequest) (res *MembershipDeleteResponse, err error)
 
 	// RoleGetList
@@ -82,19 +82,19 @@ type RBACServiceInterface[T state.GenericTxCtxInterface] interface {
 	// RoleCreate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	RoleCreate(ctx T, req *RoleCreateRequest) (res *RoleCreateResponse, err error)
 
 	// RoleDelete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	RoleDelete(ctx T, req *RoleDeleteRequest) (res *RoleDeleteResponse, err error)
 
 	// RoleUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	RoleUpdate(ctx T, req *RoleUpdateRequest) (res *RoleUpdateResponse, err error)
 }
 
@@ -143,12 +143,12 @@ func RBACServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 18,
 		}, nil
 	case "MembershipCreate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "MembershipDelete":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
@@ -173,17 +173,17 @@ func RBACServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 18,
 		}, nil
 	case "RoleCreate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "RoleDelete":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "RoleUpdate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil

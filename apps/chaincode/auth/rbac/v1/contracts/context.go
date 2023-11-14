@@ -1,4 +1,4 @@
-package contracts
+package rbac
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"

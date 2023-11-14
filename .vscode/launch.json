@@ -53,7 +53,7 @@
             "type": "hlf-go",
             "request": "launch",
             "isCaas": true,
-            "program": "${workspaceFolder}/apps/chaincode/bin/rbac",
+            "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
             "console": "integratedTerminal",
             "env": {
                 "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG"

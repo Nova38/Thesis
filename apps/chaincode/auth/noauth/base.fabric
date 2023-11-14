@@ -1,0 +1,47 @@
+[
+    {
+        "query": "org.hyperledger.fabric:GetMetadata",
+        "args": [""]
+    },
+    {
+        "query" :"auth.collections:CollectionGetList",
+        "args": [{
+            "bookmark": "",
+            "limit": 0
+        }]
+
+    },
+    {
+        "invoke" : "auth.users:UserCreate",
+        "args":
+        [
+            {
+                "name": "admin"
+            }
+        ],
+        "identity": "earl",
+    },
+    {
+        "query" : "auth.users:UserGetCurrentId"  ,
+        "identity": "earl",
+
+    },
+    {
+        "invoke" : "auth.users:UserCreate",
+        "args":
+        [
+            {
+                "name": "admin"
+            }
+        ],
+        "identity": "earl",
+    },
+    {
+        "query" : "auth.users:UserGetList",
+        "args":
+        [{
+            "bookmark": "",
+            "limit": 100
+        }]
+    }
+]

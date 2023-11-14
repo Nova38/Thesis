@@ -1,4 +1,4 @@
-package contracts
+package rbac
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -8,6 +8,7 @@ import (
 
 	// base "github.com/nova38/thesis/lib/go/"
 
+	contracts "github.com/nova38/thesis/lib/go/fabric/auth/common/contracts"
 	auth "github.com/nova38/thesis/lib/go/fabric/auth/state"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )
@@ -15,21 +16,21 @@ import (
 // Check if AuthContractImpl implements AuthServiceInterface
 var (
 	_ auth.TxCtxInterface                 = (*AuthTxCtx)(nil)
-	_ cc.AuthServiceInterface[*AuthTxCtx] = (*AuthContractImpl)(nil)
-	_ contractapi.ContractInterface       = (*AuthContractImpl)(nil)
+	_ cc.RBACServiceInterface[*AuthTxCtx] = (*RbacContractImpl)(nil)
+	_ contractapi.ContractInterface       = (*RbacContractImpl)(nil)
 )
 
-type AuthContractImpl struct {
+type RbacContractImpl struct {
 	contractapi.Contract
 	cc.RBACServiceBase
-	base.CollectionImpl
+	contracts.CollectionImpl
 }
 
-func (a AuthContractImpl) GetBeforeTransaction() interface{} {
+func (a RbacContractImpl) GetBeforeTransaction() interface{} {
 	return a.BeforeTransaction
 }
 
-func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
+func (a RbacContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {
@@ -37,12 +38,12 @@ func (a AuthContractImpl) BeforeTransaction(ctx *AuthTxCtx) (err error) {
 	}
 
 	// Set the authenticator handler
-	ctx.SetAuthenticator("rbac.Authenticate")
+	// ctx.SetAuthenticator("rbac.Authenticate")
 
 	return nil
 }
 
-func (a AuthContractImpl) Authenticate(
+func (a RbacContractImpl) Authenticate(
 	ctx *AuthTxCtx,
 	ops *authpb.Operation,
 ) (new_ops authpb.Operation, err error) {
@@ -54,8 +55,8 @@ func (a AuthContractImpl) Authenticate(
 // -----------------------------------------------------------------------------
 // Build Contract
 // -----------------------------------------------------------------------------
-func NewAuthContract(baseName string) *AuthContractImpl {
-	contract := new(AuthContractImpl)
+func NewAuthContract(baseName string) *RbacContractImpl {
+	contract := new(RbacContractImpl)
 	contract.TransactionContextHandler = &AuthTxCtx{}
 
 	contract.Info = metadata.InfoMetadata{

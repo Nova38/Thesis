@@ -46,7 +46,7 @@ type SpecimenServiceInterface[T state.GenericTxCtxInterface] interface {
 	// SpecimenUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	SpecimenUpdate(ctx T, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
 
 	// SpecimenDelete
@@ -108,7 +108,7 @@ func SpecimenServiceGetTxOperation(txName string) (op *v1.Operation, err error) 
 			Action: 11,
 		}, nil
 	case "SpecimenUpdate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil

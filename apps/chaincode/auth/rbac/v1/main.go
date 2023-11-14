@@ -28,7 +28,7 @@ func runChaincode() {
 
 	// contracts.SpecimenContract
 
-	authContract := new(contracts.AuthContractImpl)
+	authContract := new(contracts.RbacContractImpl)
 	authContract.TransactionContextHandler = &contracts.AuthTxCtx{}
 
 	sm, err := contractapi.NewChaincode(authContract)

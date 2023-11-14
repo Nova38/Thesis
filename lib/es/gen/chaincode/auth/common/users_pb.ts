@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { HiddenTx, History, User } from "../../../auth/v1/auth_pb.js";
+import { HiddenTx, HiddenTxList, History, User } from "../../../auth/v1/auth_pb.js";
 
 /**
  * -------------------- Query ---------------------
@@ -409,9 +409,9 @@ export class UserGetHiddenTxResponse extends Message<UserGetHiddenTxResponse> {
   userId = "";
 
   /**
-   * @generated from field: repeated auth.HiddenTx hidden_tx = 3;
+   * @generated from field: auth.HiddenTxList hidden_txs = 3;
    */
-  hiddenTx: HiddenTx[] = [];
+  hiddenTxs?: HiddenTxList;
 
   constructor(data?: PartialMessage<UserGetHiddenTxResponse>) {
     super();
@@ -423,7 +423,7 @@ export class UserGetHiddenTxResponse extends Message<UserGetHiddenTxResponse> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "hidden_tx", kind: "message", T: HiddenTx, repeated: true },
+    { no: 3, name: "hidden_txs", kind: "message", T: HiddenTxList },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserGetHiddenTxResponse {

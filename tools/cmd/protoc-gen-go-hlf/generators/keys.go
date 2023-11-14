@@ -73,7 +73,8 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("	return \"", ns, "\"")
 	}
 
-	kp := keySchema.Keys
+	kp := keySchema.GetKeys()
+	dCol := keySchema.GetDefaultCollectionId()
 	// function for key
 	newMsg := dynamicpb.NewMessage(msg.Desc)
 
@@ -84,6 +85,10 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
 		g.P("func (m *", msg.GoIdent.GoName, ") ", "Key()", "([]string, error) {")
+		g.P("if m.GetCollectionId() == \"\" {")
+		g.P("m.CollectionId = \"", dCol, "\"")
+		g.P("}")
+
 		g.P("attr := []string{m.GetCollectionId()}")
 
 		g.P("ok := lo.Try(func () error {")

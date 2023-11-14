@@ -15,7 +15,7 @@ linters-settings:
 linters:
   enable:
     # - cyclop
-    - revive
+    # - revive
     - ginkgolinter
     - gocritic
     - protogetter

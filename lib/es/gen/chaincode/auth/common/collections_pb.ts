@@ -462,11 +462,6 @@ export class CollectionHideTxResponse extends Message<CollectionHideTxResponse> 
    */
   collectionId = "";
 
-  /**
-   * @generated from field: string reason = 4;
-   */
-  reason = "";
-
   constructor(data?: PartialMessage<CollectionHideTxResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -476,7 +471,6 @@ export class CollectionHideTxResponse extends Message<CollectionHideTxResponse> 
   static readonly typeName = "auth.common.CollectionHideTxResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CollectionHideTxResponse {

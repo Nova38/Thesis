@@ -33,45 +33,71 @@ func PrimaryExists[T Object](ctx TxCtxInterface, obj T) bool {
 	return KeyExists(ctx, key)
 }
 
-func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-	var (
-		mask  = ctx.GetViewMask()
-		key   = lo.Must(MakeCompositeKey(ctx, obj))
-		bytes = lo.Must(ctx.GetStub().GetState(key))
-		op    = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        mask,
-		}
-		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	)
+func Get[T Object](ctx TxCtxInterface, in T) (err error) {
+	namespace := in.Namespace()
+	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace, "Object", in)
 
-	if !authorized {
-		return oops.Wrap(common.UserPermissionDenied)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
+	key, err := MakeCompositeKey(ctx, in)
+	if err != nil {
 		return err
 	}
-	if mask != nil && len(mask.Paths) > 0 {
-		if !mask.IsValid(obj) {
-			return fmt.Errorf("mask is not valid")
-		}
-		fmutils.Filter(obj, mask.Paths)
+
+	bytes, err := ctx.GetStub().GetState(key)
+	if bytes == nil && err == nil {
+		return oops.
+			With("Key", key, "Namespace", in.Namespace()).
+			Wrap(common.KeyNotFound)
 	}
 
+	if err = json.Unmarshal(bytes, in); err != nil {
+		return err
+	}
 	return nil
 }
+
+// func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
+// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
+
+// 	key = lo.Must(MakeCompositeKey(ctx, obj))
+
+// 	bytes = lo.Must(ctx.GetStub().GetState(key))
+// 	op = &authpb.Operation{
+// 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+// 		CollectionId: obj.GetCollectionId(),
+// 		Namespace:    obj.Namespace(),
+// 		Paths:        mask,
+// 	}
+// 	authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
+
+// 	if !authorized {
+// 		return oops.Wrap(common.UserPermissionDenied)
+// 	}
+
+// 	if err = json.Unmarshal(bytes, obj); err != nil {
+// 		return err
+// 	}
+
+// 	// mask  = ctx.GetViewMask()
+
+// 	// if mask != nil && len(mask.Paths) > 0 {
+// 	// 	if !mask.IsValid(obj) {
+// 	// 		return fmt.Errorf("mask is not valid")
+// 	// 	}
+// 	// 	fmutils.Filter(obj, mask.Paths)
+// 	// }
+
+// 	return nil
+// }
 
 func List[T Object](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-	return ByPartialKey(ctx, obj, 0, bookmark)
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	attr := lo.Must(obj.Key())
+
+	return ByPartialKey(ctx, obj, len(attr), bookmark)
 }
 
 func ByCollection[T Object](
@@ -79,7 +105,7 @@ func ByCollection[T Object](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	return ByPartialKey(ctx, obj, 1, bookmark)
 }
 
@@ -112,7 +138,7 @@ func ByPartialKey[T Object](
 		return nil, "", common.ObjectInvalid
 	}
 
-	if mask != nil && len(mask.Paths) > 0 {
+	if mask != nil && len(mask.GetPaths()) > 0 {
 		if !mask.IsValid(obj) {
 			return nil, "", fmt.Errorf("mask is not valid")
 		}

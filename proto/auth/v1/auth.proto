@@ -34,6 +34,7 @@ message KeySchema {
   google.protobuf.FieldMask keys = 2;
   google.protobuf.FieldMask secondary_keys = 3; //!TODO: Add support for indexes
   google.protobuf.FieldMask collection_id = 4;
+  string default_collection_id = 5;
 }
 
 // Example is membership //!TODO
@@ -235,6 +236,7 @@ message HiddenTxList{
 message Collection {
   option (object_type) = OBJECT_DOMAIN_OBJECT;
   option (key_schema).keys = {paths: ["collection_id"]};
+  option (key_schema).default_collection_id = "collections";
 
   // The key for the ledger
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
@@ -254,12 +256,14 @@ message Collection {
 //
 message User {
   option (object_type) = OBJECT_DOMAIN_OBJECT;
+  option (key_schema).default_collection_id = "users";
+
   option (key_schema).keys = {paths: ["msp_id","user_id"]};
 
 
   string msp_id  = 1 [(buf.validate.field).string.min_len = 1];
   string user_id = 2 [(buf.validate.field).string.min_len = 1];
-  string name    = 3 [(buf.validate.field).string.min_len = 1];
+  string name    = 3 ;
   string collection_id = 4 [(buf.validate.field).string.const  = "users"];
   //  !!TODO: this could be a good place to test if it is better to store object
   // with fewer keys split up or more key

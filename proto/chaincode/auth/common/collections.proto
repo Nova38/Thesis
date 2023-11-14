@@ -72,7 +72,7 @@ service CollectionService {
 
   // CollectionGet
   message CollectionGetRequest {
-    string collection_id = 1 ;
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   }
   message CollectionGetResponse {
     auth.Collection collection = 1;
@@ -80,7 +80,7 @@ service CollectionService {
 
   // CollectionGetHistory
   message CollectionGetHistoryRequest {
-    string collection_id = 1;
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
     bool show_hidden = 2;
   }
   message CollectionGetHistoryResponse {
@@ -113,10 +113,9 @@ service CollectionService {
   // }
 
   message CollectionHideTxRequest {
-    string collection_id = 1;
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
     auth.HiddenTx hidden_tx = 2;
   }
   message CollectionHideTxResponse {
-    string collection_id = 1;
-    string reason = 4;
+    string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   }

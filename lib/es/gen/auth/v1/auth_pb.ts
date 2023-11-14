@@ -377,6 +377,11 @@ export class KeySchema extends Message<KeySchema> {
    */
   collectionId?: FieldMask;
 
+  /**
+   * @generated from field: string default_collection_id = 5;
+   */
+  defaultCollectionId = "";
+
   constructor(data?: PartialMessage<KeySchema>) {
     super();
     proto3.util.initPartial(data, this);
@@ -389,6 +394,7 @@ export class KeySchema extends Message<KeySchema> {
     { no: 2, name: "keys", kind: "message", T: FieldMask },
     { no: 3, name: "secondary_keys", kind: "message", T: FieldMask },
     { no: 4, name: "collection_id", kind: "message", T: FieldMask },
+    { no: 5, name: "default_collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {

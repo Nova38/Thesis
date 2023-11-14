@@ -1,10 +1,9 @@
 package state
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"log/slog"
+
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
@@ -39,7 +38,7 @@ type (
 		PageSize int32
 
 		// This is the chaincode function name to call for authorization
-		authFn      string
+		authFn      AuthFunc
 		authorized  bool
 		authChecked bool
 	}
@@ -147,7 +146,7 @@ func (ctx *BaseTxCtx) GetFnName() (name string) {
 }
 
 func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) {
-	user, err := ctx.GetUser()
+	userId, mspId, err := ctx.GetUserId()
 	if err != nil {
 		return nil, oops.Errorf("failed to get user: %w", err)
 	}
@@ -158,9 +157,9 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 	}
 
 	return &authpb.StateActivity{
-		UserId:    user.UserId,
-		MspId:     user.MspId,
-		Note:      fmt.Sprintf("User %v modified the state", user.GetName()),
+		UserId: userId,
+		MspId:  mspId,
+		// Note:      fmt.Sprintf("User %v modified the state", user.GetName()),
 		TxId:      ctx.GetStub().GetTxID(),
 		Timestamp: timestamp,
 	}, nil
@@ -187,71 +186,66 @@ func (ctx *BaseTxCtx) GetUserId() (mspId string, userId string, err error) {
 	return mspId, userId, nil
 }
 
-func (ctx *BaseTxCtx) GetUser() (user *authpb.User, err error) {
-	if ctx.User != nil {
-		return ctx.User, nil
-	}
+// func (ctx *BaseTxCtx) GetUser() (user *authpb.User, err error) {
+// 	if ctx.User != nil {
+// 		return ctx.User, nil
+// 	}
 
-	mspId, userId, err := ctx.GetUserId()
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
+// 	mspId, userId, err := ctx.GetUserId()
+// 	if err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
 
-	ctx.User = &authpb.User{
-		MspId:  mspId,
-		UserId: userId,
-	}
+// 	ctx.User = &authpb.User{
+// 		MspId:  mspId,
+// 		UserId: userId,
+// 	}
 
-	// err = state.Get()
+// 	// err = state.Get()
 
-	err = get(ctx, ctx.User)
-	if err != nil {
-		return nil, oops.With("user_id", userId).Wrap(err)
-	}
-
-	return ctx.User, nil
-}
+// 	return ctx.User, nil
+// }
 
 // ════════════════════════════════════════════════════════
 //  Collection Functions
 // ════════════════════════════════════════════════════════
 
-func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
-	if ctx.Collection != nil {
-		return ctx.Collection, nil
-	}
+// func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
+// 	if ctx.Collection != nil {
+// 		return ctx.Collection, nil
+// 	}
 
-	return nil, oops.Errorf("collection not set")
-}
+// 	return nil, oops.Errorf("collection not set")
+// }
 
-func (ctx *BaseTxCtx) SetCollection(
-	collectionId string,
-) (col *authpb.Collection, err error) {
-	// TODO:
-	// FIXME: Need to check in fns before calling is Authorized
+// func (ctx *BaseTxCtx) SetCollection(
+// 	collectionId string,
+// ) (col *authpb.Collection, err error) {
+// 	// TODO:
+// 	// FIXME: Need to check in fns before calling is Authorized
 
-	// See if the collection pointer has an ID and is not nil
-	if collectionId == "" {
-		return nil, oops.
-			In("SetCollection").
-			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
-			Errorf("collection is nil or has no ID")
-	}
+// 	// See if the collection pointer has an ID and is not nil
+// 	if collectionId == "" {
+// 		return nil, oops.
+// 			In("SetCollection").
+// 			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
+// 			Errorf("collection is nil or has no ID")
+// 	}
 
-	ctx.Collection = &authpb.Collection{
-		CollectionId: collectionId,
-	}
+// 	ctx.Collection = &authpb.Collection{
+// 		CollectionId: collectionId,
+// 	}
 
-	if err = get(ctx, ctx.Collection); err != nil {
-		return nil, oops.
-			In("SetCollection").
-			With("collectionId", collectionId).
-			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
-			Wrap(err)
-	}
+// 	if err = get(ctx, ctx.Collection); err != nil {
+// 		return nil, oops.
+// 			In("SetCollection").
+// 			With("collectionId", collectionId).
+// 			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
+// 			Wrap(err)
+// 	}
 
-	return ctx.Collection, nil
-}
+// 	return ctx.Collection, nil
+// }
 
 // ════════════════════════════════════════════════════════
 // Role Functions
@@ -318,11 +312,11 @@ func (ctx *BaseTxCtx) SetCollection(
 //	panic("implement me")
 //}
 
-func (ctx *BaseTxCtx) SetAuthenticator(fn string) {
+func (ctx *BaseTxCtx) SetAuthenticator(fn AuthFunc) {
 	ctx.authFn = fn
 }
 
-func (ctx *BaseTxCtx) GetAuthenticator() (fn string) {
+func (ctx *BaseTxCtx) GetAuthenticator() AuthFunc {
 	return ctx.authFn
 }
 
@@ -354,29 +348,23 @@ func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) 
 	fn := ctx.GetAuthenticator()
 
 	// Check if all the objects are set
-	if fn == "" {
+	if fn == nil {
 		return false, oops.Errorf("authenticator function is not set")
 	}
 
-	arg, err := json.Marshal(ops)
-	if err != nil {
-		return false, oops.Errorf("failed to marshal args: %w", err)
-	}
+	// Call the authenticator function
+	auth, err = fn(ctx, ops)
 
-	args := [][]byte{arg}
+	ctx.Logger.Info("Authorize", slog.Any("auth", auth), slog.Any("err", err))
 
-	res := ctx.GetStub().InvokeChaincode(fn, args, ctx.GetStub().GetChannelID())
+	if auth {
+		// newOps := &authpb.Operation{}
 
-	ctx.Logger.Info("Authorize", slog.Any("res", res))
-
-	if res.Status == shim.OK {
-		newOps := &authpb.Operation{}
-
-		if err = proto.Unmarshal(res.Payload, newOps); err == nil {
-			ctx.ops.Paths = newOps.Paths
-		}
+		// if err = proto.Unmarshal(res.Payload, newOps); err == nil {
+		// 	ctx.ops.Paths = newOps.Paths
+		// }
 
 		return true, nil
 	}
-	return false, oops.With("operation", ops).Errorf("failed to authorize operation")
+	return false, oops.With("operation", ops).Wrapf(err, "failed to authorize operation")
 }

@@ -1,4 +1,4 @@
-package contracts
+package rbac
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
@@ -11,9 +11,9 @@ import (
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )
 
-func (a AuthContractImpl) GetMembershipByUser(
+func (a RbacContractImpl) GetMembershipByUser(
 	ctx *AuthTxCtx,
-	req *cc.GetMembershipsByUserRequest,
+	req *cc.MembershipsGetByUserRequest,
 ) (res *cc.GetMembershipsByUserResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
@@ -52,7 +52,7 @@ func (a AuthContractImpl) GetMembershipByUser(
 	return res, nil
 }
 
-func (a AuthContractImpl) GetMembershipByCollection(
+func (a RbacContractImpl) GetMembershipByCollection(
 	ctx *AuthTxCtx,
 	req *cc.GetMembershipsByCollectionRequest,
 ) (res *cc.GetMembershipsByCollectionResponse, err error) {
@@ -80,7 +80,7 @@ func (a AuthContractImpl) GetMembershipByCollection(
 // ================================================================================
 // Invoke Functions
 // ================================================================================
-func (a AuthContractImpl) CreateMembership(
+func (a RbacContractImpl) CreateMembership(
 	ctx *AuthTxCtx,
 	req *cc.UpdateMembershipRequest,
 ) (res *cc.UpdateMembershipResponse, err error) {
@@ -102,7 +102,7 @@ func (a AuthContractImpl) CreateMembership(
 	return res, state.Create(ctx, &mem)
 }
 
-func (a AuthContractImpl) UpdateMembership(
+func (a RbacContractImpl) UpdateMembership(
 	ctx *AuthTxCtx,
 	req *cc.UpdateMembershipRequest,
 ) (res *cc.UpdateMembershipResponse, err error) {
@@ -124,7 +124,7 @@ func (a AuthContractImpl) UpdateMembership(
 	return res, state.Update(ctx, &mem, &fieldmaskpb.FieldMask{})
 }
 
-func (a AuthContractImpl) DeleteMembership(
+func (a RbacContractImpl) DeleteMembership(
 	ctx *AuthTxCtx,
 	req *cc.DeleteMembershipRequest,
 ) (res *cc.DeleteMembershipResponse, err error) {

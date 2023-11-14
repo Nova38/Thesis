@@ -1463,8 +1463,6 @@ func (m *CollectionHideTxResponse) validate(all bool) error {
 
 	// no validation rules for CollectionId
 
-	// no validation rules for Reason
-
 	if len(errors) > 0 {
 		return CollectionHideTxResponseMultiError(errors)
 	}

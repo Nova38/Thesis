@@ -146,6 +146,8 @@ func (m *KeySchema) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for DefaultCollectionId
+
 	if len(errors) > 0 {
 		return KeySchemaMultiError(errors)
 	}

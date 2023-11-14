@@ -13,8 +13,8 @@ import (
 
 type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
-
-	Object interface {
+	AuthFunc      func(ctx TxCtxInterface, ops []*authpb.Operation) (auth bool, err error)
+	Object        interface {
 		Key() (attr []string, err error)
 		// FlatKey() string
 		Namespace() string
@@ -125,8 +125,8 @@ type (
 		// ════════════════════════════════════════════════════════
 
 		// SetAuthenticator - Sets the authenticator for the transaction
-		SetAuthenticator(fn string)
-		GetAuthenticator() (fn string)
+		SetAuthenticator(AuthFunc)
+		GetAuthenticator() AuthFunc
 
 		// ════════════════════════════════════════════════════════
 		//  Operations Functions
@@ -150,7 +150,7 @@ type (
 		//
 		// # Requirements:
 		//   - User to be registered
-		GetUser() (user *authpb.User, err error)
+		// GetUser() (user *authpb.User, err error)
 
 		// ---------------------------------------------------------------------
 
@@ -158,10 +158,10 @@ type (
 		//
 		// # Requirements:
 		//  - collection to be set
-		GetCollection() (col *authpb.Collection, err error)
+		// GetCollection() (col *authpb.Collection, err error)
 
-		// SetCollection - Sets the collection value in the state
-		SetCollection(collectionId string) (col *authpb.Collection, err error)
+		// // SetCollection - Sets the collection value in the state
+		// SetCollection(collectionId string) (col *authpb.Collection, err error)
 		// ---------------------------------------------------------------------
 
 		// ════════════════════════════════════════════════════════

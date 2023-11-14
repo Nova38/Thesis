@@ -34,4 +34,3 @@ auth.common.CollectionHideTxRequest
 	 -auth.common.CollectionHideTxRequest.hidden_tx - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
 auth.common.CollectionHideTxResponse
 	 -auth.common.CollectionHideTxResponse.collection_id - <nil>
-	 -auth.common.CollectionHideTxResponse.reason - <nil>

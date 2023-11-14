@@ -70,7 +70,7 @@ type UserServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_EDIT
+	//   - Domain: ACTION_OBJECT_UPDATE
 	UserUpdate(ctx T, req *UserUpdateRequest) (res *UserUpdateResponse, err error)
 
 	// UserHideTx
@@ -137,7 +137,7 @@ func UserServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 13,
 		}, nil
 	case "UserUpdate":
-		// action:ACTION_OBJECT_EDIT
+		// action:ACTION_OBJECT_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
