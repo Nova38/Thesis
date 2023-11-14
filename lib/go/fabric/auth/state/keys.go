@@ -1,8 +1,9 @@
 package state
 
 import (
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"log/slog"
+
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 )
 
 // -
@@ -33,12 +34,17 @@ func MakeHiddenKey[T Object](ctx TxCtxInterface, obj T) (hiddenKey string, err e
 	return ctx.GetStub().CreateCompositeKey(common.HiddenNamespace, attr)
 }
 
-func MakeSuggestionKey[T Object](ctx TxCtxInterface, obj T) (suggestionKey string, err error) {
+func MakeSuggestionKey[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	suggestionId string,
+) (suggestionKey string, err error) {
 	attr, err := obj.Key()
 	if err != nil {
 		return "", err
 	}
 	attr = append([]string{obj.Namespace()}, attr...)
+	attr = append(attr, suggestionId)
 
 	return ctx.GetStub().CreateCompositeKey(common.SuggestionNamespace, attr)
 }

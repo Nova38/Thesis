@@ -1,38 +1,53 @@
 package state
 
-import authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	"github.com/samber/lo"
+	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
+)
 
 // ════════════════════════════════════════════════════════
 // Suggestion Functions
 // ════════════════════════════════════════════════════════
 
+// ──────────────────────────────────────────────────
+// Query Suggested Functions
+// ──────────────────────────────────────────────────
+
+// Suggestion returns the suggestion object
 func Suggestion[T Object](
 	ctx TxCtxInterface,
+	obj T,
 	suggestionId string,
 ) (suggestion *authpb.Suggestion, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	// TODO implement me
-	panic("implement me")
-}
+	key := lo.Must(MakeSuggestionKey(ctx, obj, suggestionId))
+	if KeyExists(ctx, key) == false {
+		return nil, oops.Wrap(common.KeyNotFound)
+	}
 
-func CreateSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        nil,
+	}
 
-	// TODO implement me
-	panic("implement me")
-}
+	if authorized, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
+		return nil, oops.Wrap(common.UserPermissionDenied)
+	} else if !authorized {
+		return nil, oops.Wrap(common.UserPermissionDenied)
+	}
 
-func DeleteSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-	// TODO implement me
-	panic("implement me")
-}
+	bytes := lo.Must(ctx.GetStub().GetState(key))
+	if err = proto.Unmarshal(bytes, suggestion); err != nil {
+		return nil, err
+	}
 
-func ApproveSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-	// TODO implement me
-	panic("implement me")
+	return suggestion, nil
 }
 
 func SuggestionList[T Object](
@@ -66,9 +81,28 @@ func GetSuggestionListByPartialKey[T Object](
 	panic("implement me")
 }
 
-//────────────────────────────────────────────────────────────
-//Query Suggested Functions
-//────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// Invoke Suggested Functions
+// ──────────────────────────────────────────────────
+
+func CreateSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	// TODO implement me
+	panic("implement me")
+}
+
+func DeleteSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
+
+func ApproveSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// TODO implement me
+	panic("implement me")
+}
 
 //func GetSuggestion[T Object](
 //	ctx TxCtxInterface,

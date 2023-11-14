@@ -8,12 +8,18 @@ linters-settings:
     # Such cases aren't reported by default.
     # Default: false
     check-blank: true
-
+  cyclop:
+      # The maximal code complexity to report.
+      # Default: 10
+      max-complexity: 12
 linters:
   enable:
     # - cyclop
     - revive
     - ginkgolinter
+    - gocritic
+    - protogetter
+    - decorder
   staticcheck:
 
 #     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks

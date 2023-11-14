@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"github.com/samber/oops"
 
@@ -176,14 +177,6 @@ func (a AuthContractImpl) UserRegister(
 	res = &cc.UserRegisterResponse{User: user}
 
 	return res, state.Create(ctx, user)
-}
-
-func (a AuthContractImpl) UserUpdateMembership(
-	ctx *AuthTxCtx,
-	req *cc.UserUpdateMembershipRequest,
-) (res *cc.UserUpdateMembershipResponse, err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-	return
 }
 
 // func (a AuthContractImpl) UserUpdateMembership(

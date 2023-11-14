@@ -6,6 +6,8 @@ import (
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
 
+	// base "github.com/nova38/thesis/lib/go/"
+
 	auth "github.com/nova38/thesis/lib/go/fabric/auth/state"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )
@@ -19,7 +21,8 @@ var (
 
 type AuthContractImpl struct {
 	contractapi.Contract
-	cc.AuthServiceBase
+	cc.RBACServiceBase
+	base.CollectionImpl
 }
 
 func (a AuthContractImpl) GetBeforeTransaction() interface{} {

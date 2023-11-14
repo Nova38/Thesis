@@ -16,7 +16,7 @@ type (
 
 	Object interface {
 		Key() (attr []string, err error)
-		FlatKey() string
+		// FlatKey() string
 		Namespace() string
 		GetCollectionId() string
 

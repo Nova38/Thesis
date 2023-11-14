@@ -278,49 +278,10 @@ message Attribute {
 // Role Collection Objects
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
-// Used for setting Role Permissions
-//
-// !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
-//
-message Role {
-  option (object_type)     = OBJECT_DOMAIN_OBJECT;
-  option (key_schema).keys = {paths: ["role_id"]};
 
 
 
-  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string role_id        = 2 [(buf.validate.field).string.min_len = 1];
 
-  ACEntry ac              = 4 [(buf.validate.field).required = true];
-  string name             = 5 [(buf.validate.field).string.min_len = 1];
-  string description      = 6 [(buf.validate.field).string.min_len = 1];
-
-  repeated string parent_role_ids = 7;
-
-
-}
-
-// Used for Assigning Roles to Users
-// !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
-// !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
-message Membership {
-  option (object_type)              = OBJECT_DOMAIN_REFERENCE;
-  option (key_schema).keys     = {paths: ["role_id"]};
-//  option (key_schema).secondary_keys  = {paths: ["user_id"]};
-
-  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string role_id       = 2 [(buf.validate.field).string.min_len = 1];
-
-  string msp_id = 3 [(buf.validate.field).string.min_len = 1];
-
-  oneof identifier {
-    string user_id = 4 [(buf.validate.field).required = true];
-    Attribute attribute = 5;
-  }
-
-  // For use in Collections Without Roles; role.ID must be an empty string
-  ACEntry fallback_ac = 6;
-}
 
 
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
