@@ -1,11 +1,12 @@
 syntax = "proto3";
 
-package chaincode.object.v0;
+package auth.common;
 
 import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/any.proto";
 
 service GenericService {
   // ================================== Object =================================
@@ -86,7 +87,7 @@ service GenericService {
     option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
   }
 
-  rpc SuggestionListByAttrs(SuggestionListByAttrsRequest) returns (SuggestionListByAttrsResponse) {
+  rpc SuggestionByPartialKey(SuggestionByPartialKeyRequest) returns (SuggestionByPartialKeyResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
   }
@@ -113,10 +114,9 @@ service GenericService {
 
 // Get
 message GetRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
+  auth.Object object = 3;
 }
+
 message GetResponse {
   auth.Object object = 1;
 }
@@ -124,36 +124,42 @@ message GetResponse {
 message ListRequest {
   string bookmark = 1;
   uint32 limit = 2;
+  auth.Object object = 3;
+
 }
 message ListResponse {
   string bookmark = 1;
+  repeated auth.Object objects = 2;
 }
 
 message ListByCollectionRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  auth.Object object = 3;
+
 }
 message ListByCollectionResponse {
   string bookmark = 1;
   repeated auth.Object objects = 2;
+
 }
 
 message ListByAttrsRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
+  string bookmark = 1;
+  uint32 limit = 2;
+  auth.Object object = 3;
   int32 num_attrs = 4;
 }
 message ListByAttrsResponse {
-  repeated auth.Object objects = 1;
+  string bookmark = 1;
+  repeated auth.Object objects = 2;
+
 }
 
 // History
 message HistoryRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
+  auth.Object object = 1;
+
 }
 message HistoryResponse {
   // repeated auth. s = 1;
@@ -162,7 +168,8 @@ message HistoryResponse {
 
 // HiddenTx
 message HiddenTxRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.Object object = 1;
+
 }
 message HiddenTxResponse {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
@@ -187,9 +194,8 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
+  auth.Object object = 1;
+
   string reason = 4;
 }
 message DeleteResponse {
@@ -197,28 +203,28 @@ message DeleteResponse {
 }
 
 message HideTxRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.Object object =1 ;
   auth.HiddenTx hidden_tx = 2;
 }
 message HideTxResponse {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  auth.HiddenTx hidden_tx = 2;
+  auth.Object object = 1 ;
+  auth.HiddenTxList hidden_txs = 2;
 }
 
 message UnHideTxRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.Object object = 1;
   string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message UnHideTxResponse {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  auth.HiddenTx hidden_tx = 2;
+  auth.Object object = 1;
+  auth.HiddenTxList hidden_txs = 2;
 }
 
 // ================================ Suggestions ================================
 // -------------------------------- Query --------------------------------------
 
 message SuggestionRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.Suggestion suggestion = 1;
 }
 message SuggestionResponse {
   auth.Suggestion suggestion = 1;
@@ -227,6 +233,7 @@ message SuggestionResponse {
 message SuggestionListRequest {
   string bookmark = 1;
   uint32 limit = 2;
+  auth.Object object =3 ;
 }
 message SuggestionListResponse {
   string bookmark = 1;
@@ -236,7 +243,7 @@ message SuggestionListResponse {
 message SuggestionListByCollectionRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  auth.Object object =3 ;
 }
 message SuggestionListByCollectionResponse {
   string bookmark = 1;
@@ -244,30 +251,26 @@ message SuggestionListByCollectionResponse {
 }
 
 message SuggestionListByObjectRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
+  auth.Object object = 1 ;
 }
 message SuggestionListByObjectResponse {
   repeated auth.Suggestion suggestions = 1;
 }
 
-message SuggestionListByAttrsRequest {
+message SuggestionByPartialKeyRequest {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string object_type = 2 [(buf.validate.field).string.min_len = 1];
   repeated string object_id_parts = 3;
   int32 num_attrs = 4;
 }
-message SuggestionListByAttrsResponse {
+message SuggestionByPartialKeyResponse {
   repeated auth.Suggestion suggestions = 1;
 }
 
 // -------------------------------- Invoke -------------------------------------
 // GetSuggestions
 message GetSuggestionsRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_id = 2 [(buf.validate.field).string.min_len = 1];
-  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+  auth.Suggestion suggestion = 1;
 }
 message GetSuggestionsResponse {
   auth.Suggestion suggestion = 1;
@@ -281,11 +284,8 @@ message SuggestionCreateResponse {
 }
 
 message SuggestionDeleteRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_id = 2 [(buf.validate.field).string.min_len = 1];
-  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
-
-  string reason = 4;
+  auth.Suggestion suggestion = 1;
+  string reason = 2;
 }
 message SuggestionDeleteResponse {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
@@ -296,9 +296,7 @@ message SuggestionDeleteResponse {
 }
 
 message SuggestionApproveRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_id = 2 [(buf.validate.field).string.min_len = 1];
-  string suggestion = 3 [(buf.validate.field).string.min_len = 1];
+  auth.Suggestion suggestion = 1;
 }
 
 message SuggestionApproveResponse {

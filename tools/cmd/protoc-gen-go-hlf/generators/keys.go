@@ -8,6 +8,7 @@ import (
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protoreflect"
 
 	"google.golang.org/protobuf/types/dynamicpb"
 )
@@ -75,6 +76,8 @@ func (kg *KeyGenerator) GenerateMessage(
 
 	kp := keySchema.GetKeys()
 	dCol := keySchema.GetDefaultCollectionId()
+
+	// sub := keySchema.GetSubObject()
 	// function for key
 	newMsg := dynamicpb.NewMessage(msg.Desc)
 
@@ -94,7 +97,18 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("ok := lo.Try(func () error {")
 
 		for _, f := range rawPaths {
-			g.P("attr = append(attr, m.", PathToGetter(f), ")")
+			feild := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+			if feild == nil {
+				continue
+			}
+			if feild.IsList() {
+				g.P("//", f, "is a list")
+				g.P("attr = append(attr, m.", PathToGetter(f), "...)")
+			} else {
+				g.P("attr = append(attr, m.", PathToGetter(f), ")")
+			}
+
 		}
 		g.P("return nil")
 		g.P("})")

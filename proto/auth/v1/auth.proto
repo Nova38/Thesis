@@ -19,7 +19,6 @@ enum TransactionType {
 }
 enum ObjectDomain {
   OBJECT_DOMAIN_UNSPECIFIED = 0;
-
   // Object's key := {TYPE}{COLLECTION_ID}[...key_paths]
   OBJECT_DOMAIN_OBJECT = 1;
   // Object's key := {TYPE}<PrimaryKey>{...key_paths}
@@ -32,11 +31,13 @@ message KeySchema {
   google.protobuf.FieldMask secondary_keys = 3;
   google.protobuf.FieldMask collection_id = 4;
   string default_collection_id            = 5;
+  google.protobuf.FieldMask sub_object = 6;
 }
 //! TODO: Add support for indexes
 
 // Example is membership //!TODO
 message Index {
+
   google.protobuf.FieldMask key_1 = 1;
   string type_1                   = 2;
 
@@ -58,9 +59,6 @@ extend google.protobuf.MessageOptions {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Misc message options
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-
-
 
 // Can be used as the history entry
 message StateActivity {
@@ -130,7 +128,7 @@ enum Action {
 
 message PathPolicy {
   string path             = 1 [(buf.validate.field).required = true];
-  repeated Action actions = 2;
+  repeated Action actions = 2 [(buf.validate.field).required = true];
 }
 
 message ObjectPolicy {
@@ -140,10 +138,15 @@ message ObjectPolicy {
 }
 
 message ACEntry {
-  repeated Action actions      = 1;
-  repeated ObjectPolicy object = 4 [(buf.validate.field).required = true];
-  google.protobuf.FieldMask view_mask = 6
+  repeated ObjectPolicy object = 1 [(buf.validate.field).required = true];
+  google.protobuf.FieldMask view_mask = 2
       [(buf.validate.field).required = true];
+}
+
+message ACEntryTree {
+  ObjectPolicy root = 1 [(buf.validate.field).required = true];
+  bool is_leaf = 3;
+  map<string, ACEntryTree> children = 2;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -170,10 +173,13 @@ message Object {
 // {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
 message Suggestion {
   option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+  option (key_schema).keys = {
+    paths: ["object_type", "object_id_parts", "suggestion_id"]
+  };
 
   string collection_id = 1;
   string object_type   = 2;
-  string object_id     = 3;
+  repeated string object_id_parts = 3;
   string suggestion_id = 4;
 
   google.protobuf.FieldMask paths = 5;

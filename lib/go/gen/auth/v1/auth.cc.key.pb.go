@@ -11,6 +11,34 @@ import (
 	strings "strings"
 )
 
+func (m *Suggestion) Namespace() string {
+	return "auth.Suggestion"
+}
+func (m *Suggestion) Key() ([]string, error) {
+	if m.GetCollectionId() == "" {
+		m.CollectionId = ""
+	}
+	attr := []string{m.GetCollectionId()}
+	ok := lo.Try(func() error {
+		attr = append(attr, m.GetObjectType())
+		// object_id_partsis a list
+		attr = append(attr, m.GetObjectIdParts()...)
+		attr = append(attr, m.GetSuggestionId())
+		return nil
+	})
+	if !ok {
+		return nil, errors.New("Key is nil")
+	}
+	return attr, nil
+}
+func (m *Suggestion) FlatKey() string {
+	attr, err := m.Key()
+	if err != nil {
+		return ""
+	}
+	attr = attr[1:]
+	return strings.Join(attr, "-")
+}
 func (m *Collection) Namespace() string {
 	return "auth.Collection"
 }

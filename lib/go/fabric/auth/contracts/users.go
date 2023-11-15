@@ -1,4 +1,4 @@
-package common
+package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -237,7 +237,7 @@ func (a UserImpl) UserHideTx(
 		MspId:  req.GetMspId(),
 	}
 
-	err = state.HideTransaction(ctx, user, req.GetHiddenTx())
+	_, err = state.UnHideTransaction(ctx, user, req.GetHiddenTx().GetTxId())
 
 	return &cc.UserHideTxResponse{User: user}, err
 }

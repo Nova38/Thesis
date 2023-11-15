@@ -34,7 +34,9 @@ func MakeSuggestionKey[T Object](
 		return "", err
 	}
 	attr = append([]string{obj.Namespace()}, attr...)
-	attr = append(attr, suggestionId)
+	if suggestionId != "" {
+		attr = append(attr, suggestionId)
+	}
 
 	return shim.CreateCompositeKey(common.SuggestionNamespace, attr)
 }

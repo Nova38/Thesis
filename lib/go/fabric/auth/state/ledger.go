@@ -97,7 +97,7 @@ func get[T Object](ctx TxCtxInterface, in T) (err error) {
 }
 
 // Delete deletes the object from the ledger
-func sDelete[T Object](ctx TxCtxInterface, in T) (err error) {
+func delete[T Object](ctx TxCtxInterface, in T) (err error) {
 	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return err

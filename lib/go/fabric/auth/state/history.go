@@ -19,7 +19,7 @@ import (
 func hiddenTxs[T Object](ctx TxCtxInterface, obj T) (list *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakeHiddenKey(ctx, obj))
+		key    = lo.Must(MakeHiddenKey(obj))
 		exists = KeyExists(ctx, key)
 	)
 	if !exists {
@@ -150,11 +150,15 @@ func HiddenTx[T Object](ctx TxCtxInterface, obj T) (l *authpb.HiddenTxList, err 
 	return hiddenTxs(ctx, obj)
 }
 
-func HideTransaction[T Object](ctx TxCtxInterface, obj T, tx *authpb.HiddenTx) (err error) {
+func HideTransaction[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	tx *authpb.HiddenTx,
+) (hiddenList *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
-		key    = lo.Must(MakeHiddenKey(ctx, obj))
+		key    = lo.Must(MakeHiddenKey(obj))
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_OBJECT_HIDE_TX,
@@ -165,7 +169,7 @@ func HideTransaction[T Object](ctx TxCtxInterface, obj T, tx *authpb.HiddenTx) (
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
 	)
 	if !authorized {
-		return oops.Wrap(common.UserPermissionDenied)
+		return nil, oops.Wrap(common.UserPermissionDenied)
 	}
 
 	if hidden.Txs == nil {
@@ -174,12 +178,53 @@ func HideTransaction[T Object](ctx TxCtxInterface, obj T, tx *authpb.HiddenTx) (
 
 	if slices.ContainsFunc(hidden.Txs,
 		func(e *authpb.HiddenTx) bool { return e.TxId == tx.TxId }) {
-		return oops.Wrap(common.AlreadyExists)
+		return nil, oops.Wrap(common.AlreadyExists)
 	}
 
 	hidden.Txs = append(hidden.Txs, tx)
 
 	bytes := lo.Must(json.Marshal(hidden))
 
-	return ctx.GetStub().PutState(key, bytes)
+	return hidden, ctx.GetStub().PutState(key, bytes)
+}
+
+func UnHideTransaction[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	txId string,
+) (hiddenList *authpb.HiddenTxList, err error) {
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	var (
+		key    = lo.Must(MakeHiddenKey(obj))
+		hidden = lo.Must(hiddenTxs(ctx, obj))
+		op     = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_HIDE_TX,
+			CollectionId: obj.GetCollectionId(),
+			Namespace:    obj.Namespace(),
+			Paths:        nil,
+		}
+		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
+	)
+
+	if !authorized {
+		return nil, oops.Wrap(common.UserPermissionDenied)
+	}
+
+	found := false
+	for i, tx := range hidden.Txs {
+		if tx.TxId == txId {
+			hidden.Txs = append(hidden.Txs[:i], hidden.Txs[i+1:]...)
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		return nil, oops.Wrap(common.KeyNotFound)
+	}
+
+	bytes := lo.Must(json.Marshal(hidden))
+
+	return hidden, ctx.GetStub().PutState(key, bytes)
 }

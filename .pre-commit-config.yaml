@@ -10,10 +10,10 @@ repos:
       - id: trailing-whitespace
         exclude: "lib/es/gen/"
 
-  - repo: https://github.com/segmentio/golines
-    rev: v0.11.0
-    hooks:
-      - id: golines
+  # - repo: https://github.com/segmentio/golines
+  #   rev: v0.11.0
+  #   hooks:
+  #     - id: golines
 
   # - repo: https://github.com/golangci/golangci-lint
   #   rev: v1.55.1

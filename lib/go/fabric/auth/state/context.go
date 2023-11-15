@@ -205,42 +205,42 @@ func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 //  Collection Functions
 // ════════════════════════════════════════════════════════
 
-// func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
-// 	if ctx.Collection != nil {
-// 		return ctx.Collection, nil
-// 	}
+func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
+	if ctx.Collection != nil {
+		return ctx.Collection, nil
+	}
 
-// 	return nil, oops.Errorf("collection not set")
-// }
+	return nil, oops.Errorf("collection not set")
+}
 
-// func (ctx *BaseTxCtx) SetCollection(
-// 	collectionId string,
-// ) (col *authpb.Collection, err error) {
-// 	// TODO:
-// 	// FIXME: Need to check in fns before calling is Authorized
-
-// 	// See if the collection pointer has an ID and is not nil
-// 	if collectionId == "" {
-// 		return nil, oops.
-// 			In("SetCollection").
-// 			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
-// 			Errorf("collection is nil or has no ID")
-// 	}
-
-// 	ctx.Collection = &authpb.Collection{
-// 		CollectionId: collectionId,
-// 	}
-
-// 	if err = get(ctx, ctx.Collection); err != nil {
-// 		return nil, oops.
-// 			In("SetCollection").
-// 			With("collectionId", collectionId).
-// 			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
-// 			Wrap(err)
-// 	}
-
-// 	return ctx.Collection, nil
-// }
+//func (ctx *BaseTxCtx) SetCollection(
+//	collectionId string,
+//) (col *authpb.Collection, err error) {
+//	// TODO:
+//	// FIXME: Need to check in fns before calling is Authorized
+//
+//	// See if the collection pointer has an ID and is not nil
+//	if collectionId == "" {
+//		return nil, oops.
+//			In("SetCollection").
+//			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
+//			Errorf("collection is nil or has no ID")
+//	}
+//
+//	ctx.Collection = &authpb.Collection{
+//		CollectionId: collectionId,
+//	}
+//
+//	if err = get(ctx, ctx.Collection); err != nil {
+//		return nil, oops.
+//			In("SetCollection").
+//			With("collectionId", collectionId).
+//			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
+//			Wrap(err)
+//	}
+//
+//	return ctx.Collection, nil
+//}
 
 // ════════════════════════════════════════════════════════
 // Role Functions

@@ -8,7 +8,7 @@ package schemav1
 rbac.schema.v1.Role
 	 -rbac.schema.v1.Role.collection_id - <nil>
 	 -rbac.schema.v1.Role.role_id - <nil>
-	 -rbac.schema.v1.Role.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: actions, Number: 1, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}, {Name: object, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 6, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
+	 -rbac.schema.v1.Role.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
 	 -rbac.schema.v1.Role.name - <nil>
 	 -rbac.schema.v1.Role.description - <nil>
 	 -rbac.schema.v1.Role.parent_role_ids - <nil>

@@ -285,29 +285,21 @@ export enum TxError {
   USER_PERMISSION_DENIED = 26,
 
   /**
-   * The object id is invalid
-   *
    * @generated from enum value: OBJECT_INVALID_ID = 31;
    */
   OBJECT_INVALID_ID = 31,
 
   /**
-   * The object is not registered
-   *
    * @generated from enum value: OBJECT_UNREGISTERED = 32;
    */
   OBJECT_UNREGISTERED = 32,
 
   /**
-   * The object is already registered
-   *
    * @generated from enum value: OBJECT_ALREADY_REGISTERED = 33;
    */
   OBJECT_ALREADY_REGISTERED = 33,
 
   /**
-   * The object is invalid
-   *
    * @generated from enum value: OBJECT_INVALID = 34;
    */
   OBJECT_INVALID = 34,
@@ -366,8 +358,6 @@ export class KeySchema extends Message<KeySchema> {
   keys?: FieldMask;
 
   /**
-   * !TODO: Add support for indexes
-   *
    * @generated from field: google.protobuf.FieldMask secondary_keys = 3;
    */
   secondaryKeys?: FieldMask;
@@ -382,6 +372,11 @@ export class KeySchema extends Message<KeySchema> {
    */
   defaultCollectionId = "";
 
+  /**
+   * @generated from field: google.protobuf.FieldMask sub_object = 6;
+   */
+  subObject?: FieldMask;
+
   constructor(data?: PartialMessage<KeySchema>) {
     super();
     proto3.util.initPartial(data, this);
@@ -395,6 +390,7 @@ export class KeySchema extends Message<KeySchema> {
     { no: 3, name: "secondary_keys", kind: "message", T: FieldMask },
     { no: 4, name: "collection_id", kind: "message", T: FieldMask },
     { no: 5, name: "default_collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "sub_object", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {
@@ -796,17 +792,12 @@ export class ObjectPolicy extends Message<ObjectPolicy> {
  */
 export class ACEntry extends Message<ACEntry> {
   /**
-   * @generated from field: repeated auth.Action actions = 1;
-   */
-  actions: Action[] = [];
-
-  /**
-   * @generated from field: repeated auth.ObjectPolicy object = 4;
+   * @generated from field: repeated auth.ObjectPolicy object = 1;
    */
   object: ObjectPolicy[] = [];
 
   /**
-   * @generated from field: google.protobuf.FieldMask view_mask = 6;
+   * @generated from field: google.protobuf.FieldMask view_mask = 2;
    */
   viewMask?: FieldMask;
 
@@ -818,9 +809,8 @@ export class ACEntry extends Message<ACEntry> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.ACEntry";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
-    { no: 4, name: "object", kind: "message", T: ObjectPolicy, repeated: true },
-    { no: 6, name: "view_mask", kind: "message", T: FieldMask },
+    { no: 1, name: "object", kind: "message", T: ObjectPolicy, repeated: true },
+    { no: 2, name: "view_mask", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntry {
@@ -841,9 +831,58 @@ export class ACEntry extends Message<ACEntry> {
 }
 
 /**
- * @generated from message auth.StateObject
+ * @generated from message auth.ACEntryTree
  */
-export class StateObject extends Message<StateObject> {
+export class ACEntryTree extends Message<ACEntryTree> {
+  /**
+   * @generated from field: auth.ObjectPolicy root = 1;
+   */
+  root?: ObjectPolicy;
+
+  /**
+   * @generated from field: bool is_leaf = 3;
+   */
+  isLeaf = false;
+
+  /**
+   * @generated from field: map<string, auth.ACEntryTree> children = 2;
+   */
+  children: { [key: string]: ACEntryTree } = {};
+
+  constructor(data?: PartialMessage<ACEntryTree>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.ACEntryTree";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "root", kind: "message", T: ObjectPolicy },
+    { no: 3, name: "is_leaf", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 2, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACEntryTree} },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntryTree {
+    return new ACEntryTree().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACEntryTree {
+    return new ACEntryTree().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACEntryTree {
+    return new ACEntryTree().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ACEntryTree | PlainMessage<ACEntryTree> | undefined, b: ACEntryTree | PlainMessage<ACEntryTree> | undefined): boolean {
+    return proto3.util.equals(ACEntryTree, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Object
+ */
+export class Object$ extends Message<Object$> {
   /**
    * @generated from field: string collection_id = 1;
    */
@@ -855,48 +894,49 @@ export class StateObject extends Message<StateObject> {
   objectType = "";
 
   /**
-   * @generated from field: repeated string object_id_parts = 3;
+   * @generated from field: repeated string object_id_parts = 4;
    */
   objectIdParts: string[] = [];
 
   /**
-   * @generated from field: google.protobuf.Any value = 4;
+   * @generated from field: google.protobuf.Any value = 5;
    */
   value?: Any;
 
-  constructor(data?: PartialMessage<StateObject>) {
+  constructor(data?: PartialMessage<Object$>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.StateObject";
+  static readonly typeName = "auth.Object";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 4, name: "value", kind: "message", T: Any },
+    { no: 4, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "value", kind: "message", T: Any },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StateObject {
-    return new StateObject().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Object$ {
+    return new Object$().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): StateObject {
-    return new StateObject().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Object$ {
+    return new Object$().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): StateObject {
-    return new StateObject().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Object$ {
+    return new Object$().fromJsonString(jsonString, options);
   }
 
-  static equals(a: StateObject | PlainMessage<StateObject> | undefined, b: StateObject | PlainMessage<StateObject> | undefined): boolean {
-    return proto3.util.equals(StateObject, a, b);
+  static equals(a: Object$ | PlainMessage<Object$> | undefined, b: Object$ | PlainMessage<Object$> | undefined): boolean {
+    return proto3.util.equals(Object$, a, b);
   }
 }
 
 /**
- * Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+ * Key should be
+ * {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
  */
@@ -912,9 +952,9 @@ export class Suggestion extends Message<Suggestion> {
   objectType = "";
 
   /**
-   * @generated from field: string object_id = 3;
+   * @generated from field: repeated string object_id_parts = 3;
    */
-  objectId = "";
+  objectIdParts: string[] = [];
 
   /**
    * @generated from field: string suggestion_id = 4;
@@ -941,7 +981,7 @@ export class Suggestion extends Message<Suggestion> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 4, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "paths", kind: "message", T: FieldMask },
     { no: 6, name: "value", kind: "message", T: Any },
@@ -1177,7 +1217,8 @@ export class User extends Message<User> {
   name = "";
 
   /**
-   *  !!TODO: this could be a good place to test if it is better to store object
+   *  !!TODO: this could be a good place to test if it is better to store
+   *  object
    * with fewer keys split up or more key
    * repeated Membership memberships = 3; // Indexed to the Roles domain
    * buf:lint:ignore FIELD_NO_DELETE

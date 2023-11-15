@@ -32,6 +32,8 @@ require (
 	github.com/dave/dst v0.27.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
+	github.com/hashicorp/go-immutable-radix/v2 v2.0.0 // indirect
+	github.com/hashicorp/golang-lru/v2 v2.0.0 // indirect
 	github.com/hpcloud/tail v1.0.0 // indirect
 	github.com/hyperledger/fabric-protos-go-apiv2 v0.2.1 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect

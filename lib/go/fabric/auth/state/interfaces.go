@@ -132,8 +132,8 @@ type (
 		//  Operations Functions
 		// ════════════════════════════════════════════════════════
 		//
-		//SetOperation(operation *auth_pb.Operation)
-		//GetOperations() (ops *auth_pb.Operation, err error)
+		//SetOperation(operation *authpb.Operation)
+		//GetOperations() (ops *authpb.Operation, err error)
 		//SetOperationsPaths(paths *fieldmaskpb.FieldMask) (err error)
 
 		// ---------------------------------------------------------------------
@@ -154,14 +154,14 @@ type (
 
 		// ---------------------------------------------------------------------
 
-		// GetCollection - Gets the collection value from the state
+		//GetCollection - Gets the collection value from the state
 		//
-		// # Requirements:
-		//  - collection to be set
-		// GetCollection() (col *authpb.Collection, err error)
-
-		// // SetCollection - Sets the collection value in the state
-		// SetCollection(collectionId string) (col *authpb.Collection, err error)
+		//# Requirements:
+		// - collection to be set
+		//GetCollection() (col *authpb.Collection, err error)
+		//
+		//// SetCollection - Sets the collection value in the state
+		//SetCollection(collectionId string) (col *authpb.Collection, err error)
 		// ---------------------------------------------------------------------
 
 		// ════════════════════════════════════════════════════════

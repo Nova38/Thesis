@@ -33,49 +33,66 @@ func PrimaryExists[T Object](ctx TxCtxInterface, obj T) bool {
 	return KeyExists(ctx, key)
 }
 
-func Get[T Object](ctx TxCtxInterface, in T) (err error) {
-	namespace := in.Namespace()
-	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace, "Object", in)
+// func Get[T Object](ctx TxCtxInterface, in T) (err error) {
+// 	namespace := in.Namespace()
+// 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace, "Object", in)
 
-	key, err := MakeCompositeKey(in)
-	if err != nil {
-		return err
+// 	key, err := MakeCompositeKey(in)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	bytes, err := ctx.GetStub().GetState(key)
+// 	if bytes == nil && err == nil {
+// 		return oops.
+// 			With("Key", key, "Namespace", in.Namespace()).
+// 			Wrap(common.KeyNotFound)
+// 	}
+
+// 	if err = json.Unmarshal(bytes, in); err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
+
+func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	var (
+		key = lo.Must(MakeCompositeKey(obj))
+
+		bytes = lo.Must(ctx.GetStub().GetState(key))
+		op    = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_VIEW,
+			CollectionId: obj.GetCollectionId(),
+			Namespace:    obj.Namespace(),
+			Paths:        nil,
+		}
+	)
+
+	sug := &authpb.Suggestion{}
+
+	if obj.Namespace() == sug.Namespace() {
+		op.Action = authpb.Action_ACTION_OBJECT_SUGGEST_VIEW
 	}
 
-	bytes, err := ctx.GetStub().GetState(key)
+	authorized := lo.Must(ctx.Authorize([]*authpb.Operation{op}))
+
+	if !authorized {
+		return oops.Wrap(common.UserPermissionDenied)
+	}
+
 	if bytes == nil && err == nil {
 		return oops.
-			With("Key", key, "Namespace", in.Namespace()).
+			With("Key", key, "Namespace", obj.Namespace()).
 			Wrap(common.KeyNotFound)
 	}
 
-	if err = json.Unmarshal(bytes, in); err != nil {
+	if err = json.Unmarshal(bytes, obj); err != nil {
 		return err
 	}
+
 	return nil
 }
-
-// func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
-// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
-
-// 	key = lo.Must(MakeCompositeKey( obj))
-
-// 	bytes = lo.Must(ctx.GetStub().GetState(key))
-// 	op = &authpb.Operation{
-// 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
-// 		CollectionId: obj.GetCollectionId(),
-// 		Namespace:    obj.Namespace(),
-// 		Paths:        mask,
-// 	}
-// 	authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-
-// 	if !authorized {
-// 		return oops.Wrap(common.UserPermissionDenied)
-// 	}
-
-// 	if err = json.Unmarshal(bytes, obj); err != nil {
-// 		return err
-// 	}
 
 // 	// mask  = ctx.GetViewMask()
 
@@ -104,7 +121,9 @@ func ByCollection[T Object](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	return ByPartialKey(ctx, obj, 1, bookmark)
+	attr := lo.Must(obj.Key())
+
+	return ByPartialKey(ctx, obj, len(attr)-1, bookmark)
 }
 
 func ByPartialKey[T Object](
@@ -123,10 +142,15 @@ func ByPartialKey[T Object](
 			Namespace:    obj.Namespace(),
 			Paths:        mask,
 		}
-		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
 	)
 
-	if !authorized {
+	sug := &authpb.Suggestion{}
+
+	if obj.Namespace() == sug.Namespace() {
+		op.Action = authpb.Action_ACTION_OBJECT_SUGGEST_VIEW
+	}
+
+	if !lo.Must(ctx.Authorize([]*authpb.Operation{op})) {
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 

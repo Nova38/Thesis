@@ -1,4 +1,4 @@
-package common
+package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
