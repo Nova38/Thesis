@@ -2,7 +2,7 @@ package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
@@ -32,7 +32,7 @@ func (o ObjectContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = common.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -40,7 +40,7 @@ func (o ObjectContractImpl) Get(
 		return nil, err
 	}
 
-	if msg, err = common.ObjectToAuthObj(obj); err != nil {
+	if msg, err = state.ObjectToAuthObj(obj); err != nil {
 		return nil, err
 	} else {
 		return &cc.GetResponse{
@@ -58,7 +58,7 @@ func (o ObjectContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -78,7 +78,7 @@ func (o ObjectContractImpl) List(
 	//	}
 	//	res.Objects = append(res.Objects, msg)
 	//}
-	if res.Objects, err = common.ListObjectToAuthObjs(list); err != nil {
+	if res.Objects, err = state.ListObjectToAuthObjs(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -126,7 +126,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -141,7 +141,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		Objects:  []*authpb.Object{},
 	}
 
-	if res.Objects, err = common.ListObjectToAuthObjs(list); err != nil {
+	if res.Objects, err = state.ListObjectToAuthObjs(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -161,7 +161,7 @@ func (o ObjectContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = common.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -187,7 +187,7 @@ func (o ObjectContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = common.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -213,7 +213,7 @@ func (o ObjectContractImpl) Create(
 	}
 
 	// Get the object from the request
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -235,7 +235,7 @@ func (o ObjectContractImpl) Update(
 	}
 
 	// Get the object from the request
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -257,7 +257,7 @@ func (o ObjectContractImpl) Delete(
 	}
 
 	// Get the object from the request
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -279,7 +279,7 @@ func (o ObjectContractImpl) HideTx(
 	}
 
 	// Get the object from the request
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -305,7 +305,7 @@ func (o ObjectContractImpl) UnHideTx(
 	}
 
 	// Get the object from the request
-	obj, err := common.AuthObjToObject(req.GetObject())
+	obj, err := state.AuthObjToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -321,8 +321,8 @@ func (o ObjectContractImpl) UnHideTx(
 	}, err
 }
 
-// ================================ Suggestions ==============================
-// -------------------------------- Query ------------------------------------
+// ================================ Suggestions ================================
+// -------------------------------- Query --------------------------------------
 
 func (o ObjectContractImpl) Suggestion(
 	ctx state.TxCtxInterface,
@@ -355,6 +355,8 @@ func (o ObjectContractImpl) SuggestionByPartialKey(
 	// TODO implement me
 	panic("implement me")
 }
+
+// ---------------------------------- Invoke -----------------------------------
 
 func (o ObjectContractImpl) SuggestionCreate(
 	ctx state.TxCtxInterface,
