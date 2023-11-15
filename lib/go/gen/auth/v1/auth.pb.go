@@ -967,6 +967,77 @@ func (x *ACEntry) GetViewMask() *fieldmaskpb.FieldMask {
 	return nil
 }
 
+type StateObject struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CollectionId  string     `protobuf:"bytes,1,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
+	ObjectType    string     `protobuf:"bytes,2,opt,name=object_type,json=objectType,proto3" json:"object_type,omitempty"`
+	ObjectIdParts []string   `protobuf:"bytes,3,rep,name=object_id_parts,json=objectIdParts,proto3" json:"object_id_parts,omitempty"`
+	Value         *anypb.Any `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *StateObject) Reset() {
+	*x = StateObject{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_auth_v1_auth_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StateObject) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StateObject) ProtoMessage() {}
+
+func (x *StateObject) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_v1_auth_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StateObject.ProtoReflect.Descriptor instead.
+func (*StateObject) Descriptor() ([]byte, []int) {
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *StateObject) GetCollectionId() string {
+	if x != nil {
+		return x.CollectionId
+	}
+	return ""
+}
+
+func (x *StateObject) GetObjectType() string {
+	if x != nil {
+		return x.ObjectType
+	}
+	return ""
+}
+
+func (x *StateObject) GetObjectIdParts() []string {
+	if x != nil {
+		return x.ObjectIdParts
+	}
+	return nil
+}
+
+func (x *StateObject) GetValue() *anypb.Any {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
 // Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
 type Suggestion struct {
 	state         protoimpl.MessageState
@@ -984,7 +1055,7 @@ type Suggestion struct {
 func (x *Suggestion) Reset() {
 	*x = Suggestion{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[9]
+		mi := &file_auth_v1_auth_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -997,7 +1068,7 @@ func (x *Suggestion) String() string {
 func (*Suggestion) ProtoMessage() {}
 
 func (x *Suggestion) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[9]
+	mi := &file_auth_v1_auth_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1010,7 +1081,7 @@ func (x *Suggestion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Suggestion.ProtoReflect.Descriptor instead.
 func (*Suggestion) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{9}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Suggestion) GetCollectionId() string {
@@ -1070,7 +1141,7 @@ type HiddenTx struct {
 func (x *HiddenTx) Reset() {
 	*x = HiddenTx{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[10]
+		mi := &file_auth_v1_auth_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1083,7 +1154,7 @@ func (x *HiddenTx) String() string {
 func (*HiddenTx) ProtoMessage() {}
 
 func (x *HiddenTx) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[10]
+	mi := &file_auth_v1_auth_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1096,7 +1167,7 @@ func (x *HiddenTx) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HiddenTx.ProtoReflect.Descriptor instead.
 func (*HiddenTx) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{10}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *HiddenTx) GetTxId() string {
@@ -1149,7 +1220,7 @@ type HiddenTxList struct {
 func (x *HiddenTxList) Reset() {
 	*x = HiddenTxList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[11]
+		mi := &file_auth_v1_auth_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1162,7 +1233,7 @@ func (x *HiddenTxList) String() string {
 func (*HiddenTxList) ProtoMessage() {}
 
 func (x *HiddenTxList) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[11]
+	mi := &file_auth_v1_auth_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1175,7 +1246,7 @@ func (x *HiddenTxList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HiddenTxList.ProtoReflect.Descriptor instead.
 func (*HiddenTxList) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{11}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *HiddenTxList) GetCollectionId() string {
@@ -1227,7 +1298,7 @@ type Collection struct {
 func (x *Collection) Reset() {
 	*x = Collection{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[12]
+		mi := &file_auth_v1_auth_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1240,7 +1311,7 @@ func (x *Collection) String() string {
 func (*Collection) ProtoMessage() {}
 
 func (x *Collection) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[12]
+	mi := &file_auth_v1_auth_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1253,7 +1324,7 @@ func (x *Collection) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Collection.ProtoReflect.Descriptor instead.
 func (*Collection) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{12}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *Collection) GetCollectionId() string {
@@ -1309,7 +1380,7 @@ type User struct {
 func (x *User) Reset() {
 	*x = User{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[13]
+		mi := &file_auth_v1_auth_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1322,7 +1393,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[13]
+	mi := &file_auth_v1_auth_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1335,7 +1406,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{13}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *User) GetMspId() string {
@@ -1379,7 +1450,7 @@ type Attribute struct {
 func (x *Attribute) Reset() {
 	*x = Attribute{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_v1_auth_proto_msgTypes[14]
+		mi := &file_auth_v1_auth_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1392,7 +1463,7 @@ func (x *Attribute) String() string {
 func (*Attribute) ProtoMessage() {}
 
 func (x *Attribute) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_v1_auth_proto_msgTypes[14]
+	mi := &file_auth_v1_auth_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1405,7 +1476,7 @@ func (x *Attribute) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Attribute.ProtoReflect.Descriptor instead.
 func (*Attribute) Descriptor() ([]byte, []int) {
-	return file_auth_v1_auth_proto_rawDescGZIP(), []int{14}
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *Attribute) GetMspId() string {
@@ -1600,7 +1671,18 @@ var file_auth_v1_auth_proto_rawDesc = []byte{
 	0x65, 0x77, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
 	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x06, 0xba, 0x48, 0x03, 0xc8, 0x01,
-	0x01, 0x52, 0x08, 0x76, 0x69, 0x65, 0x77, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0xf8, 0x01, 0x0a, 0x0a,
+	0x01, 0x52, 0x08, 0x76, 0x69, 0x65, 0x77, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0xad, 0x01, 0x0a, 0x0b,
+	0x53, 0x74, 0x61, 0x74, 0x65, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x23, 0x0a, 0x0d, 0x63,
+	0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64,
+	0x12, 0x1f, 0x0a, 0x0b, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x5f, 0x70,
+	0x61, 0x72, 0x74, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0d, 0x6f, 0x62, 0x6a, 0x65,
+	0x63, 0x74, 0x49, 0x64, 0x50, 0x61, 0x72, 0x74, 0x73, 0x12, 0x2a, 0x0a, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x04, 0xc0, 0xd4, 0x1a, 0x01, 0x22, 0xf8, 0x01, 0x0a, 0x0a,
 	0x53, 0x75, 0x67, 0x67, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x63, 0x6f,
 	0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x0c, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12,
@@ -1804,7 +1886,7 @@ func file_auth_v1_auth_proto_rawDescGZIP() []byte {
 }
 
 var file_auth_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_auth_v1_auth_proto_goTypes = []interface{}{
 	(TransactionType)(0),                // 0: auth.TransactionType
 	(ObjectDomain)(0),                   // 1: auth.ObjectDomain
@@ -1819,56 +1901,58 @@ var file_auth_v1_auth_proto_goTypes = []interface{}{
 	(*PathPolicy)(nil),                  // 10: auth.PathPolicy
 	(*ObjectPolicy)(nil),                // 11: auth.ObjectPolicy
 	(*ACEntry)(nil),                     // 12: auth.ACEntry
-	(*Suggestion)(nil),                  // 13: auth.Suggestion
-	(*HiddenTx)(nil),                    // 14: auth.HiddenTx
-	(*HiddenTxList)(nil),                // 15: auth.HiddenTxList
-	(*Collection)(nil),                  // 16: auth.Collection
-	(*User)(nil),                        // 17: auth.User
-	(*Attribute)(nil),                   // 18: auth.Attribute
-	(*fieldmaskpb.FieldMask)(nil),       // 19: google.protobuf.FieldMask
-	(*timestamppb.Timestamp)(nil),       // 20: google.protobuf.Timestamp
-	(*anypb.Any)(nil),                   // 21: google.protobuf.Any
-	(*descriptorpb.MethodOptions)(nil),  // 22: google.protobuf.MethodOptions
-	(*descriptorpb.MessageOptions)(nil), // 23: google.protobuf.MessageOptions
+	(*StateObject)(nil),                 // 13: auth.StateObject
+	(*Suggestion)(nil),                  // 14: auth.Suggestion
+	(*HiddenTx)(nil),                    // 15: auth.HiddenTx
+	(*HiddenTxList)(nil),                // 16: auth.HiddenTxList
+	(*Collection)(nil),                  // 17: auth.Collection
+	(*User)(nil),                        // 18: auth.User
+	(*Attribute)(nil),                   // 19: auth.Attribute
+	(*fieldmaskpb.FieldMask)(nil),       // 20: google.protobuf.FieldMask
+	(*timestamppb.Timestamp)(nil),       // 21: google.protobuf.Timestamp
+	(*anypb.Any)(nil),                   // 22: google.protobuf.Any
+	(*descriptorpb.MethodOptions)(nil),  // 23: google.protobuf.MethodOptions
+	(*descriptorpb.MessageOptions)(nil), // 24: google.protobuf.MessageOptions
 }
 var file_auth_v1_auth_proto_depIdxs = []int32{
-	19, // 0: auth.KeySchema.keys:type_name -> google.protobuf.FieldMask
-	19, // 1: auth.KeySchema.secondary_keys:type_name -> google.protobuf.FieldMask
-	19, // 2: auth.KeySchema.collection_id:type_name -> google.protobuf.FieldMask
-	19, // 3: auth.Index.key_1:type_name -> google.protobuf.FieldMask
-	19, // 4: auth.Index.key_2:type_name -> google.protobuf.FieldMask
-	20, // 5: auth.StateActivity.timestamp:type_name -> google.protobuf.Timestamp
-	20, // 6: auth.HistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
-	21, // 7: auth.HistoryEntry.value:type_name -> google.protobuf.Any
+	20, // 0: auth.KeySchema.keys:type_name -> google.protobuf.FieldMask
+	20, // 1: auth.KeySchema.secondary_keys:type_name -> google.protobuf.FieldMask
+	20, // 2: auth.KeySchema.collection_id:type_name -> google.protobuf.FieldMask
+	20, // 3: auth.Index.key_1:type_name -> google.protobuf.FieldMask
+	20, // 4: auth.Index.key_2:type_name -> google.protobuf.FieldMask
+	21, // 5: auth.StateActivity.timestamp:type_name -> google.protobuf.Timestamp
+	21, // 6: auth.HistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
+	22, // 7: auth.HistoryEntry.value:type_name -> google.protobuf.Any
 	7,  // 8: auth.History.entries:type_name -> auth.HistoryEntry
-	15, // 9: auth.History.hidden_txs:type_name -> auth.HiddenTxList
+	16, // 9: auth.History.hidden_txs:type_name -> auth.HiddenTxList
 	2,  // 10: auth.Operation.action:type_name -> auth.Action
-	19, // 11: auth.Operation.paths:type_name -> google.protobuf.FieldMask
+	20, // 11: auth.Operation.paths:type_name -> google.protobuf.FieldMask
 	2,  // 12: auth.PathPolicy.actions:type_name -> auth.Action
 	10, // 13: auth.ObjectPolicy.policies:type_name -> auth.PathPolicy
 	2,  // 14: auth.ACEntry.actions:type_name -> auth.Action
 	11, // 15: auth.ACEntry.object:type_name -> auth.ObjectPolicy
-	19, // 16: auth.ACEntry.view_mask:type_name -> google.protobuf.FieldMask
-	19, // 17: auth.Suggestion.paths:type_name -> google.protobuf.FieldMask
-	21, // 18: auth.Suggestion.value:type_name -> google.protobuf.Any
-	20, // 19: auth.HiddenTx.timestamp:type_name -> google.protobuf.Timestamp
-	14, // 20: auth.HiddenTxList.txs:type_name -> auth.HiddenTx
-	12, // 21: auth.Collection.default:type_name -> auth.ACEntry
-	22, // 22: auth.operation:extendee -> google.protobuf.MethodOptions
-	22, // 23: auth.transaction_type:extendee -> google.protobuf.MethodOptions
-	23, // 24: auth.key_schema:extendee -> google.protobuf.MessageOptions
-	23, // 25: auth.object_type:extendee -> google.protobuf.MessageOptions
-	23, // 26: auth.index:extendee -> google.protobuf.MessageOptions
-	9,  // 27: auth.operation:type_name -> auth.Operation
-	0,  // 28: auth.transaction_type:type_name -> auth.TransactionType
-	4,  // 29: auth.key_schema:type_name -> auth.KeySchema
-	1,  // 30: auth.object_type:type_name -> auth.ObjectDomain
-	5,  // 31: auth.index:type_name -> auth.Index
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	27, // [27:32] is the sub-list for extension type_name
-	22, // [22:27] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	20, // 16: auth.ACEntry.view_mask:type_name -> google.protobuf.FieldMask
+	22, // 17: auth.StateObject.value:type_name -> google.protobuf.Any
+	20, // 18: auth.Suggestion.paths:type_name -> google.protobuf.FieldMask
+	22, // 19: auth.Suggestion.value:type_name -> google.protobuf.Any
+	21, // 20: auth.HiddenTx.timestamp:type_name -> google.protobuf.Timestamp
+	15, // 21: auth.HiddenTxList.txs:type_name -> auth.HiddenTx
+	12, // 22: auth.Collection.default:type_name -> auth.ACEntry
+	23, // 23: auth.operation:extendee -> google.protobuf.MethodOptions
+	23, // 24: auth.transaction_type:extendee -> google.protobuf.MethodOptions
+	24, // 25: auth.key_schema:extendee -> google.protobuf.MessageOptions
+	24, // 26: auth.object_type:extendee -> google.protobuf.MessageOptions
+	24, // 27: auth.index:extendee -> google.protobuf.MessageOptions
+	9,  // 28: auth.operation:type_name -> auth.Operation
+	0,  // 29: auth.transaction_type:type_name -> auth.TransactionType
+	4,  // 30: auth.key_schema:type_name -> auth.KeySchema
+	1,  // 31: auth.object_type:type_name -> auth.ObjectDomain
+	5,  // 32: auth.index:type_name -> auth.Index
+	33, // [33:33] is the sub-list for method output_type
+	33, // [33:33] is the sub-list for method input_type
+	28, // [28:33] is the sub-list for extension type_name
+	23, // [23:28] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_auth_v1_auth_proto_init() }
@@ -1986,7 +2070,7 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Suggestion); i {
+			switch v := v.(*StateObject); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1998,7 +2082,7 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HiddenTx); i {
+			switch v := v.(*Suggestion); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2010,7 +2094,7 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HiddenTxList); i {
+			switch v := v.(*HiddenTx); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2022,7 +2106,7 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Collection); i {
+			switch v := v.(*HiddenTxList); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2034,7 +2118,7 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*User); i {
+			switch v := v.(*Collection); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2046,6 +2130,18 @@ func file_auth_v1_auth_proto_init() {
 			}
 		}
 		file_auth_v1_auth_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*User); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_auth_v1_auth_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Attribute); i {
 			case 0:
 				return &v.state
@@ -2064,7 +2160,7 @@ func file_auth_v1_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_auth_v1_auth_proto_rawDesc,
 			NumEnums:      4,
-			NumMessages:   15,
+			NumMessages:   16,
 			NumExtensions: 5,
 			NumServices:   0,
 		},

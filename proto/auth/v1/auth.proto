@@ -3,24 +3,22 @@ syntax = "proto3";
 package auth;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/field_mask.proto";
-import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
-
 
 // =============================================
 // Message Options
 // =============================================
 
-
-enum TransactionType{
+enum TransactionType {
   TRANSACTION_TYPE_UNSPECIFIED = 0;
-  TRANSACTION_TYPE_INVOKE = 1;
-  TRANSACTION_TYPE_QUERY = 2;
+  TRANSACTION_TYPE_INVOKE      = 1;
+  TRANSACTION_TYPE_QUERY       = 2;
 }
 enum ObjectDomain {
-  OBJECT_DOMAIN_UNSPECIFIED  = 0;
+  OBJECT_DOMAIN_UNSPECIFIED = 0;
 
   // Object's key := {TYPE}{COLLECTION_ID}[...key_paths]
   OBJECT_DOMAIN_OBJECT = 1;
@@ -28,82 +26,78 @@ enum ObjectDomain {
   OBJECT_DOMAIN_SUB_OBJECT = 2;
   OBJECT_DOMAIN_REFERENCE  = 3;
 }
-
 message KeySchema {
-  string namespace = 1;
+  string namespace               = 1;
   google.protobuf.FieldMask keys = 2;
-  google.protobuf.FieldMask secondary_keys = 3; //!TODO: Add support for indexes
+  google.protobuf.FieldMask secondary_keys = 3;
   google.protobuf.FieldMask collection_id = 4;
-  string default_collection_id = 5;
+  string default_collection_id            = 5;
 }
+//! TODO: Add support for indexes
 
 // Example is membership //!TODO
 message Index {
   google.protobuf.FieldMask key_1 = 1;
-  string type_1 = 2;
+  string type_1                   = 2;
 
   google.protobuf.FieldMask key_2 = 3;
-  string type_2 = 4;
+  string type_2                   = 4;
 }
-
 
 // Define method options
 extend google.protobuf.MethodOptions {
-  Operation operation = 57775;
-  TransactionType transaction_type  = 50556;
+  Operation operation              = 57775;
+  TransactionType transaction_type = 50556;
 }
 extend google.protobuf.MessageOptions {
-  KeySchema key_schema = 54599;
+  KeySchema key_schema     = 54599;
   ObjectDomain object_type = 54600;
-  Index index = 54601;
+  Index index              = 54601;
 }
-
-
-
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Misc message options
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+
+
+
 // Can be used as the history entry
 message StateActivity {
-  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
+  string msp_id  = 2 [(buf.validate.field).string.min_len = 1];
   string user_id = 3 [(buf.validate.field).string.min_len = 1];
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp timestamp = 4
+      [(buf.validate.field).required = true];
   string note = 5;
 }
 
 message HistoryEntry {
-  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
   bool is_delete = 2;
   bool is_hidden = 3;
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
-  string note = 5;
+  google.protobuf.Timestamp timestamp = 4
+      [(buf.validate.field).required = true];
+  string note               = 5;
   google.protobuf.Any value = 6;
 }
 
 message History {
   repeated HistoryEntry entries = 1;
-  HiddenTxList hidden_txs = 2;
+  HiddenTxList hidden_txs       = 2;
 }
 
-
-
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 
 // =============================================
 // Access Control
 // =============================================
 
 message Operation {
-  Action action = 1;
-  string collection_id = 2;
-  string namespace = 3;
+  Action action                   = 1;
+  string collection_id            = 2;
+  string namespace                = 3;
   google.protobuf.FieldMask paths = 4;
-
 }
 
 // Action - The action to be performed during the operation
@@ -116,117 +110,103 @@ message Operation {
 //   - OBJECT:      Used to manage objects in a collection
 enum Action {
   ACTION_UNSPECIFIED                = 0;
-  ACTION_REGISTER_USER              = 1; // Used to register
-  ACTION_REGISTER_COLLECTION        = 2; // Used to register
-  ACTION_MODIFY_DEFAULT_PERMISSIONS = 3; // Used to modify the default permissions of a collection
+  ACTION_REGISTER_USER              = 1;  // Used to register
+  ACTION_REGISTER_COLLECTION        = 2;  // Used to register
+  ACTION_MODIFY_DEFAULT_PERMISSIONS = 3;
+  // Used to modify the default permissions of a collection
 
-
-  ACTION_OBJECT_VIEW                = 10;
-  ACTION_OBJECT_CREATE              = 11;
-  ACTION_OBJECT_UPDATE                = 12;
-  ACTION_OBJECT_DELETE              = 13;
-  ACTION_OBJECT_SUGGEST_VIEW        = 14;
-  ACTION_OBJECT_SUGGEST_CREATE      = 15;
-  ACTION_OBJECT_SUGGEST_DELETE      = 16;
-  ACTION_OBJECT_SUGGEST_APPROVE     = 17;
-  ACTION_OBJECT_VIEW_HISTORY        = 18;
-  ACTION_OBJECT_VIEW_HIDDEN_TXS     = 19;
-  ACTION_OBJECT_HIDE_TX        = 20;
+  ACTION_OBJECT_VIEW            = 10;
+  ACTION_OBJECT_CREATE          = 11;
+  ACTION_OBJECT_UPDATE          = 12;
+  ACTION_OBJECT_DELETE          = 13;
+  ACTION_OBJECT_SUGGEST_VIEW    = 14;
+  ACTION_OBJECT_SUGGEST_CREATE  = 15;
+  ACTION_OBJECT_SUGGEST_DELETE  = 16;
+  ACTION_OBJECT_SUGGEST_APPROVE = 17;
+  ACTION_OBJECT_VIEW_HISTORY    = 18;
+  ACTION_OBJECT_VIEW_HIDDEN_TXS = 19;
+  ACTION_OBJECT_HIDE_TX         = 20;
 }
 
 message PathPolicy {
-  string path = 1 [(buf.validate.field).required = true];
+  string path             = 1 [(buf.validate.field).required = true];
   repeated Action actions = 2;
 }
 
 message ObjectPolicy {
-  string object_type = 1 [(buf.validate.field).required = true];
-  string object_namespace = 2;
+  string object_type           = 1 [(buf.validate.field).required = true];
+  string object_namespace      = 2;
   repeated PathPolicy policies = 3;
 }
 
 message ACEntry {
-  repeated Action actions = 1;
+  repeated Action actions      = 1;
   repeated ObjectPolicy object = 4 [(buf.validate.field).required = true];
-  google.protobuf.FieldMask view_mask = 6 [(buf.validate.field).required = true];
+  google.protobuf.FieldMask view_mask = 6
+      [(buf.validate.field).required = true];
 }
-
-
-
-
-
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// =============================================
+// ═════════════════════════════════════════════════════════════════════════════
 // Collection Object Wrapper Types
-// =============================================
+// ═════════════════════════════════════════════════════════════════════════════
 
+message Object {
+  option (object_type) = OBJECT_DOMAIN_OBJECT;
 
+  string collection_id            = 1;
+  string object_type              = 2;
+  repeated string object_id_parts = 4;
 
-// =============================================
+  google.protobuf.Any value = 5;
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
 // Sub Object Types
-// =============================================
+// ═════════════════════════════════════════════════════════════════════════════
 
-
-// Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+// Key should be
+// {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
 message Suggestion {
   option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
 
   string collection_id = 1;
-  string object_type = 2;
-  string object_id = 3;
+  string object_type   = 2;
+  string object_id     = 3;
   string suggestion_id = 4;
 
   google.protobuf.FieldMask paths = 5;
-  google.protobuf.Any value = 6;
+  google.protobuf.Any value       = 6;
 }
-
-// // This is meant to be returned not stored
-// message SuggestionList{
-//   option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
-
-//   string collection_id = 1;
-//   string object_type = 2;
-//   repeated string object_id_parts = 3;
-
-//   repeated Suggestion suggestions = 4;
-// }
-
-
 
 
 
 message HiddenTx {
-  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
-  string msp_id = 2;
+  string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
+  string msp_id  = 2;
   string user_id = 3;
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp timestamp = 4
+      [(buf.validate.field).required = true];
   string note = 5;
 }
 
 // Key should be {HiddenTxList}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
-message HiddenTxList{
+message HiddenTxList {
   option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
 
-
   string collection_id = 1;
-  string object_type = 2;
-  string object_id = 3;
-
+  string object_type   = 2;
+  string object_id     = 3;
 
   repeated HiddenTx txs = 4;
 }
 
-
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 
 // =============================================
 // Global Objects
 // =============================================
-
 
 // Collection
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
@@ -234,20 +214,19 @@ message HiddenTxList{
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (object_type) = OBJECT_DOMAIN_OBJECT;
-  option (key_schema).keys = {paths: ["collection_id"]};
+  option (object_type)     = OBJECT_DOMAIN_OBJECT;
+  option (key_schema).keys = {
+    paths: [ "collection_id" ]
+  };
   option (key_schema).default_collection_id = "collections";
 
   // The key for the ledger
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string name = 2 [(buf.validate.field).string.min_len = 1];
-  string description = 3 [(buf.validate.field).string.min_len = 1];
-
+  string collection_id         = 1 [(buf.validate.field).string.min_len = 1];
+  string name                  = 2 [(buf.validate.field).string.min_len = 1];
+  string description           = 3 [(buf.validate.field).string.min_len = 1];
   repeated string object_types = 4;
-
-  ACEntry default = 5 [(buf.validate.field).required = true];
+  ACEntry default              = 5 [(buf.validate.field).required = true];
 }
-
 
 // User
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
@@ -255,17 +234,19 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (object_type) = OBJECT_DOMAIN_OBJECT;
+  option (object_type)                      = OBJECT_DOMAIN_OBJECT;
   option (key_schema).default_collection_id = "users";
 
-  option (key_schema).keys = {paths: ["msp_id","user_id"]};
+  option (key_schema).keys = {
+    paths: [ "msp_id", "user_id" ]
+  };
 
-
-  string msp_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string user_id = 2 [(buf.validate.field).string.min_len = 1];
-  string name    = 3 ;
-  string collection_id = 4 [(buf.validate.field).string.const  = "users"];
-  //  !!TODO: this could be a good place to test if it is better to store object
+  string msp_id        = 1 [(buf.validate.field).string.min_len = 1];
+  string user_id       = 2 [(buf.validate.field).string.min_len = 1];
+  string name          = 3;
+  string collection_id = 4 [(buf.validate.field).string.const = "users"];
+  //  !!TODO: this could be a good place to test if it is better to store
+  //  object
   // with fewer keys split up or more key
   // repeated Membership memberships = 3; // Indexed to the Roles domain
   // buf:lint:ignore FIELD_NO_DELETE
@@ -273,72 +254,49 @@ message User {
 
 message Attribute {
   string msp_id = 1 [(buf.validate.field).string.min_len = 1];
-  string oid = 2 [(buf.validate.field).string.min_len = 1];
-  string value = 3 [(buf.validate.field).string.min_len = 1];
+  string oid    = 2 [(buf.validate.field).string.min_len = 1];
+  string value  = 3 [(buf.validate.field).string.min_len = 1];
 }
-
 
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 // Role Collection Objects
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
-
-
-
-
-
-
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-
-
-
-
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 enum TxError {
-  UNSPECIFIED         = 0;
-  REQUEST_INVALID     = 1;
-  RUNTIME             = 2;
-  RUNTIME_BAD_OPS     = 3;
-  KEY_NOT_FOUND       = 4;
-  KEY_ALREADY_EXISTS  = 5;
-
+  UNSPECIFIED        = 0;
+  REQUEST_INVALID    = 1;
+  RUNTIME            = 2;
+  RUNTIME_BAD_OPS    = 3;
+  KEY_NOT_FOUND      = 4;
+  KEY_ALREADY_EXISTS = 5;
 
   /* Collection Errors */
-  COLLECTION_INVALID_ID           = 11;
-  COLLECTION_UNREGISTERED         = 12;
-  COLLECTION_ALREADY_REGISTERED   = 13;
-  COLLECTION_INVALID              = 14;
-  COLLECTION_INVALID_OBJECT_TYPE  = 15;
-  COLLECTION_INVALID_ROLE_ID      = 16;
-
+  COLLECTION_INVALID_ID          = 11;
+  COLLECTION_UNREGISTERED        = 12;
+  COLLECTION_ALREADY_REGISTERED  = 13;
+  COLLECTION_INVALID             = 14;
+  COLLECTION_INVALID_OBJECT_TYPE = 15;
+  COLLECTION_INVALID_ROLE_ID     = 16;
 
   // User Errors
 
   // The user does not have permission to perform the operation
-  USER_INVALID_ID = 20;
-  USER_UNREGISTERED = 21;
-  USER_ALREADY_REGISTERED = 22;
-  USER_INVALID = 23;
-  USER_NO_ROLE = 24;
-  USER_DELETED_ROLE = 25;
-  USER_PERMISSION_DENIED = 26;
-
-
-
-  // The object id is invalid
-  OBJECT_INVALID_ID = 31;
-  // The object is not registered
-  OBJECT_UNREGISTERED = 32;
-  // The object is already registered
-  OBJECT_ALREADY_REGISTERED = 33;
-  // The object is invalid
-  OBJECT_INVALID = 34;
-
-  //
-  INVALID_OBJECT_FIELD_PATH = 35;
+  USER_INVALID_ID            = 20;
+  USER_UNREGISTERED          = 21;
+  USER_ALREADY_REGISTERED    = 22;
+  USER_INVALID               = 23;
+  USER_NO_ROLE               = 24;
+  USER_DELETED_ROLE          = 25;
+  USER_PERMISSION_DENIED     = 26;
+  OBJECT_INVALID_ID          = 31;
+  OBJECT_UNREGISTERED        = 32;
+  OBJECT_ALREADY_REGISTERED  = 33;
+  OBJECT_INVALID             = 34;
+  INVALID_OBJECT_FIELD_PATH  = 35;
   INVALID_OBJECT_FIELD_VALUE = 36;
-  //
 }

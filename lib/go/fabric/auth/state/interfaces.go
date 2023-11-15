@@ -144,7 +144,7 @@ type (
 
 		// GetUserId Uses the ctx stub to get the user id from transaction
 		// context
-		GetUserId() (mspId string, userId string, err error)
+		GetUserId() (user *authpb.User, err error)
 
 		// GetUser Uses the ctx stub to get the user from the state
 		//

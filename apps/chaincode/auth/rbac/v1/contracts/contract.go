@@ -8,7 +8,7 @@ import (
 
 	// base "github.com/nova38/thesis/lib/go/"
 
-	contracts "github.com/nova38/thesis/lib/go/fabric/auth/common/contracts"
+	contracts "github.com/nova38/thesis/lib/go/fabric/auth/contracts"
 	auth "github.com/nova38/thesis/lib/go/fabric/auth/state"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
 )

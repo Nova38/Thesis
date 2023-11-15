@@ -5,10 +5,11 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
-	base "github.com/nova38/thesis/lib/go/fabric/auth/common/base"
+	contracts "github.com/nova38/thesis/lib/go/fabric/auth/contracts"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
@@ -73,14 +74,19 @@ func BeforeTransaction(ctx state.TxCtxInterface) (err error) {
 func main() {
 	fmt.Println("Starting BioChain")
 
+	handler := log.New(os.Stderr)
+	logger := slog.New(handler)
+
+	slog.SetDefault(logger)
+
 	config := common.ServerConfig{
 		CCID:    os.Getenv("CHAINCODE_ID"),
 		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
 	}
 
 	auth := new(NoAuthContract)
-	users := new(base.UserImpl)
-	collections := new(base.CollectionImpl)
+	users := new(contracts.UserImpl)
+	collections := new(contracts.CollectionImpl)
 
 	auth.Name = "auth.none"
 	users.Name = "auth.users"

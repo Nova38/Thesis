@@ -1,0 +1,308 @@
+syntax = "proto3";
+
+package chaincode.object.v0;
+
+import "auth/v1/auth.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+
+service GenericService {
+  // ================================== Object =================================
+
+  // -------------------------------- Query ------------------------------------
+
+  rpc Get(GetRequest) returns (GetResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+  }
+
+  rpc List(ListRequest) returns (ListResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+  }
+
+  rpc ListByCollection(ListByCollectionRequest) returns (ListByCollectionResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+  }
+
+  rpc ListByAttrs(ListByAttrsRequest) returns (ListByAttrsResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+  }
+
+  rpc History(HistoryRequest) returns (HistoryResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
+  }
+
+  rpc HiddenTx(HiddenTxRequest) returns (HiddenTxResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_VIEW_HIDDEN_TXS};
+  }
+
+  // ------------------------------- Invoke ------------------------------------
+
+  rpc Create(CreateRequest) returns (CreateResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_CREATE};
+  }
+
+  rpc Update(UpdateRequest) returns (UpdateResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
+  }
+
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_DELETE};
+  }
+
+  rpc HideTx(HideTxRequest) returns (HideTxResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_HIDE_TX};
+  }
+
+  rpc UnHideTx(UnHideTxRequest) returns (UnHideTxResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_HIDE_TX};
+  }
+
+  // ================================ Suggestions ==============================
+  // -------------------------------- Query ------------------------------------
+  rpc Suggestion(SuggestionRequest) returns (SuggestionResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
+  }
+
+  rpc SuggestionList(SuggestionListRequest) returns (SuggestionListResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
+  }
+
+  rpc SuggestionListByCollection(SuggestionListByCollectionRequest) returns (SuggestionListByCollectionResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
+  }
+
+  rpc SuggestionListByAttrs(SuggestionListByAttrsRequest) returns (SuggestionListByAttrsResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_VIEW};
+  }
+
+  // -------------------------------- Invoke -----------------------------------
+  rpc SuggestionCreate(SuggestionCreateRequest) returns (SuggestionCreateResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_CREATE};
+  }
+
+  rpc SuggestionDelete(SuggestionDeleteRequest) returns (SuggestionDeleteResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_DELETE};
+  }
+
+  rpc SuggestionApprove(SuggestionApproveRequest) returns (SuggestionApproveResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_OBJECT_SUGGEST_APPROVE};
+  }
+}
+
+// ============================== Generic Object ===============================
+// ------------------------------ Query ----------------------------------------
+
+// Get
+message GetRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+}
+message GetResponse {
+  auth.Object object = 1;
+}
+
+message ListRequest {
+  string bookmark = 1;
+  uint32 limit = 2;
+}
+message ListResponse {
+  string bookmark = 1;
+}
+
+message ListByCollectionRequest {
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+}
+message ListByCollectionResponse {
+  string bookmark = 1;
+  repeated auth.Object objects = 2;
+}
+
+message ListByAttrsRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+  int32 num_attrs = 4;
+}
+message ListByAttrsResponse {
+  repeated auth.Object objects = 1;
+}
+
+// History
+message HistoryRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+}
+message HistoryResponse {
+  // repeated auth. s = 1;
+  auth.History history = 2;
+}
+
+// HiddenTx
+message HiddenTxRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+message HiddenTxResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  repeated auth.HiddenTx hidden_txs = 2;
+}
+
+// -------------------------------- Invoke -------------------------------------
+// Create
+message CreateRequest {
+  auth.Object object = 2;
+}
+message CreateResponse {
+  auth.Object object = 2;
+}
+
+message UpdateRequest {
+  auth.Object object = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+message UpdateResponse {
+  auth.Object object = 2;
+}
+
+message DeleteRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+  string reason = 4;
+}
+message DeleteResponse {
+  auth.Object object = 2;
+}
+
+message HideTxRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.HiddenTx hidden_tx = 2;
+}
+message HideTxResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.HiddenTx hidden_tx = 2;
+}
+
+message UnHideTxRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string tx_id = 2 [(buf.validate.field).string.min_len = 1];
+}
+message UnHideTxResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  auth.HiddenTx hidden_tx = 2;
+}
+
+// ================================ Suggestions ================================
+// -------------------------------- Query --------------------------------------
+
+message SuggestionRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+message SuggestionResponse {
+  auth.Suggestion suggestion = 1;
+}
+
+message SuggestionListRequest {
+  string bookmark = 1;
+  uint32 limit = 2;
+}
+message SuggestionListResponse {
+  string bookmark = 1;
+  repeated auth.Suggestion suggestions = 2;
+}
+
+message SuggestionListByCollectionRequest {
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+}
+message SuggestionListByCollectionResponse {
+  string bookmark = 1;
+  repeated auth.Suggestion suggestions = 2;
+}
+
+message SuggestionListByObjectRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+}
+message SuggestionListByObjectResponse {
+  repeated auth.Suggestion suggestions = 1;
+}
+
+message SuggestionListByAttrsRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 3;
+  int32 num_attrs = 4;
+}
+message SuggestionListByAttrsResponse {
+  repeated auth.Suggestion suggestions = 1;
+}
+
+// -------------------------------- Invoke -------------------------------------
+// GetSuggestions
+message GetSuggestionsRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+}
+message GetSuggestionsResponse {
+  auth.Suggestion suggestion = 1;
+}
+
+message SuggestionCreateRequest {
+  auth.Suggestion suggestion = 1;
+}
+message SuggestionCreateResponse {
+  auth.Suggestion suggestion = 1;
+}
+
+message SuggestionDeleteRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  string reason = 4;
+}
+message SuggestionDeleteResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  auth.Suggestion suggestion = 4;
+}
+
+message SuggestionApproveRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion = 3 [(buf.validate.field).string.min_len = 1];
+}
+
+message SuggestionApproveResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion = 3 [(buf.validate.field).string.min_len = 1];
+}

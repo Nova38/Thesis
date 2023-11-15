@@ -44,11 +44,6 @@ type (
 	}
 )
 
-//func (ctx *BaseTxCtx) AddExtractorFunc(name string, fn ExtractorFunc) {
-//	// TODO implement me
-//	panic("implement me")
-//}
-
 // =============================================
 
 func (ctx *BaseTxCtx) HandelBefore() (err error) {
@@ -146,7 +141,7 @@ func (ctx *BaseTxCtx) GetFnName() (name string) {
 }
 
 func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) {
-	userId, mspId, err := ctx.GetUserId()
+	user, err := ctx.GetUserId()
 	if err != nil {
 		return nil, oops.Errorf("failed to get user: %w", err)
 	}
@@ -157,8 +152,8 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 	}
 
 	return &authpb.StateActivity{
-		UserId: userId,
-		MspId:  mspId,
+		UserId: user.GetUserId(),
+		MspId:  user.GetMspId(),
 		// Note:      fmt.Sprintf("User %v modified the state", user.GetName()),
 		TxId:      ctx.GetStub().GetTxID(),
 		Timestamp: timestamp,
@@ -169,21 +164,21 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 //  User Functions
 // =============================================
 
-func (ctx *BaseTxCtx) GetUserId() (mspId string, userId string, err error) {
+func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 	// Extract The info from the Client ID
 	id := ctx.GetClientIdentity()
 
-	userId, err = id.GetID()
+	userId, err := id.GetID()
 	if err != nil {
-		return "", "", oops.Errorf("failed to get user certificate from CID: %s", err)
+		return nil, oops.Errorf("failed to get user certificate from CID: %s", err)
 	}
 
-	mspId, err = id.GetMSPID()
+	mspId, err := id.GetMSPID()
 	if err != nil {
-		return "", "", oops.Errorf("failed to get user ID from CID: %s", err)
+		return nil, oops.Errorf("failed to get user ID from CID: %s", err)
 	}
 
-	return mspId, userId, nil
+	return &authpb.User{MspId: mspId, UserId: userId}, nil
 }
 
 // func (ctx *BaseTxCtx) GetUser() (user *authpb.User, err error) {

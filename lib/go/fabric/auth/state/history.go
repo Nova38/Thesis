@@ -44,7 +44,7 @@ func history[T Object](
 ) (history *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakeCompositeKey(ctx, obj))
+		key    = lo.Must(MakeCompositeKey(obj))
 		exists = KeyExists(ctx, key)
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 	)
@@ -64,16 +64,16 @@ func history[T Object](
 	for resultIterator.HasNext() {
 		queryResponse := lo.Must(resultIterator.Next())
 		entry := &authpb.HistoryEntry{
-			TxId:      queryResponse.TxId,
-			IsDelete:  queryResponse.IsDelete,
-			Timestamp: queryResponse.Timestamp,
+			TxId:      queryResponse.GetTxId(),
+			IsDelete:  queryResponse.GetIsDelete(),
+			Timestamp: queryResponse.GetTimestamp(),
 			Note:      "",
 		}
 
 		if hidden.Txs != nil {
-			for _, tx := range hidden.Txs {
-				if tx.TxId == entry.TxId {
-					entry.Note = tx.Note
+			for _, tx := range hidden.GetTxs() {
+				if tx.GetTxId() == entry.GetTxId() {
+					entry.Note = tx.GetNote()
 					entry.IsHidden = true
 				}
 			}

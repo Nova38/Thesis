@@ -1381,6 +1381,138 @@ var _ interface {
 	ErrorName() string
 } = ACEntryValidationError{}
 
+// Validate checks the field values on StateObject with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *StateObject) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on StateObject with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in StateObjectMultiError, or
+// nil if none found.
+func (m *StateObject) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *StateObject) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for ObjectType
+
+	if all {
+		switch v := interface{}(m.GetValue()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, StateObjectValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, StateObjectValidationError{
+					field:  "Value",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StateObjectValidationError{
+				field:  "Value",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return StateObjectMultiError(errors)
+	}
+
+	return nil
+}
+
+// StateObjectMultiError is an error wrapping multiple validation errors
+// returned by StateObject.ValidateAll() if the designated constraints aren't met.
+type StateObjectMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m StateObjectMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m StateObjectMultiError) AllErrors() []error { return m }
+
+// StateObjectValidationError is the validation error returned by
+// StateObject.Validate if the designated constraints aren't met.
+type StateObjectValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e StateObjectValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e StateObjectValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e StateObjectValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e StateObjectValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e StateObjectValidationError) ErrorName() string { return "StateObjectValidationError" }
+
+// Error satisfies the builtin error interface
+func (e StateObjectValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sStateObject.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = StateObjectValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = StateObjectValidationError{}
+
 // Validate checks the field values on Suggestion with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.

@@ -3,9 +3,10 @@ package state
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"log/slog"
 	"strconv"
+
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 
 	"github.com/samber/oops"
 
@@ -31,7 +32,7 @@ func exists(ctx TxCtxInterface, key string) bool {
 // Insert inserts the object into the ledger
 // returns error if the object already exists
 //func insert[T Object](ctx TxCtxInterface, obj T) (err error) {
-//	key, err := MakeCompositeKey(ctx, obj)
+//	key, err := MakeCompositeKey( obj)
 //	if err != nil {
 //		return err
 //	}
@@ -53,7 +54,7 @@ func exists(ctx TxCtxInterface, key string) bool {
 //// Edit updates the object in the ledger
 //// returns error if the object does not exist
 //func update[T Object](ctx TxCtxInterface, obj T) (err error) {
-//	key, err := MakeCompositeKey(ctx, obj)
+//	key, err := MakeCompositeKey( obj)
 //	if err != nil {
 //		return err
 //	}
@@ -77,7 +78,7 @@ func get[T Object](ctx TxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace)
 
-	key, err := MakeCompositeKey(ctx, in)
+	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return err
 	}
@@ -97,7 +98,7 @@ func get[T Object](ctx TxCtxInterface, in T) (err error) {
 
 // Delete deletes the object from the ledger
 func sDelete[T Object](ctx TxCtxInterface, in T) (err error) {
-	key, err := MakeCompositeKey(ctx, in)
+	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return err
 	}
@@ -110,7 +111,7 @@ func getHistory[T Object](
 	ctx TxCtxInterface,
 	in T,
 ) (list HistoryList[T], err error) {
-	key, err := MakeCompositeKey(ctx, in)
+	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return HistoryList[T]{}, err
 	}
@@ -148,7 +149,7 @@ func getHistory[T Object](
 }
 
 func txIdInHistory[T Object](ctx TxCtxInterface, in T, txId string) (bool, error) {
-	key, err := MakeCompositeKey(ctx, in)
+	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return false, err
 	}

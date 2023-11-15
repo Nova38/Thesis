@@ -86,20 +86,20 @@ func GetSuggestionListByPartialKey[T Object](
 // ──────────────────────────────────────────────────
 
 func CreateSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// TODO implement me
 	panic("implement me")
 }
 
 func DeleteSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	// TODO implement me
 	panic("implement me")
 }
 
 func ApproveSuggestion[T Object](ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	// TODO implement me
 	panic("implement me")
 }

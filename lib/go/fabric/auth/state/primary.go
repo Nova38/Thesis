@@ -29,7 +29,7 @@ func KeyExists(ctx TxCtxInterface, key string) bool {
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
 func PrimaryExists[T Object](ctx TxCtxInterface, obj T) bool {
-	key := lo.Must(MakeCompositeKey(ctx, obj))
+	key := lo.Must(MakeCompositeKey(obj))
 	return KeyExists(ctx, key)
 }
 
@@ -37,7 +37,7 @@ func Get[T Object](ctx TxCtxInterface, in T) (err error) {
 	namespace := in.Namespace()
 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace, "Object", in)
 
-	key, err := MakeCompositeKey(ctx, in)
+	key, err := MakeCompositeKey(in)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func Get[T Object](ctx TxCtxInterface, in T) (err error) {
 // func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
 // 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
-// 	key = lo.Must(MakeCompositeKey(ctx, obj))
+// 	key = lo.Must(MakeCompositeKey( obj))
 
 // 	bytes = lo.Must(ctx.GetStub().GetState(key))
 // 	op = &authpb.Operation{
@@ -94,7 +94,6 @@ func List[T Object](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	attr := lo.Must(obj.Key())
 
 	return ByPartialKey(ctx, obj, len(attr), bookmark)
@@ -105,7 +104,6 @@ func ByCollection[T Object](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	return ByPartialKey(ctx, obj, 1, bookmark)
 }
 
@@ -115,8 +113,6 @@ func ByPartialKey[T Object](
 	numAttr int,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-
 	var (
 		mask     = ctx.GetViewMask()
 		attr     = lo.Must(obj.Key())
@@ -142,7 +138,7 @@ func ByPartialKey[T Object](
 		if !mask.IsValid(obj) {
 			return nil, "", fmt.Errorf("mask is not valid")
 		}
-		viewMask = fmutils.NestedMaskFromPaths(mask.Paths)
+		viewMask = fmutils.NestedMaskFromPaths(mask.GetPaths())
 	}
 
 	attr = attr[:len(attr)-numAttr]
@@ -184,9 +180,8 @@ func ByPartialKey[T Object](
 //   - the object cannot be marshalled
 //   - Authorization errors
 func Create[T Object](ctx TxCtxInterface, obj T) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakeCompositeKey(ctx, obj))
+		key    = lo.Must(MakeCompositeKey(obj))
 		exists = KeyExists(ctx, key)
 		bytes  = lo.Must(json.Marshal(obj))
 		op     = &authpb.Operation{
@@ -211,9 +206,8 @@ func Create[T Object](ctx TxCtxInterface, obj T) (err error) {
 }
 
 func Update[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldMask) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key   = lo.Must(MakeCompositeKey(ctx, obj))
+		key   = lo.Must(MakeCompositeKey(obj))
 		bytes = lo.Must(ctx.GetStub().GetState(key))
 		op    = &authpb.Operation{
 			Action:       authpb.Action_ACTION_OBJECT_UPDATE,
@@ -243,9 +237,8 @@ func Update[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldMask) (e
 }
 
 func Delete[T Object](ctx TxCtxInterface, obj T) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakeCompositeKey(ctx, obj))
+		key    = lo.Must(MakeCompositeKey(obj))
 		exists = KeyExists(ctx, key)
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_OBJECT_DELETE,

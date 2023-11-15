@@ -42,10 +42,7 @@ service CollectionService {
     option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
   }
 
-  // rpc CollectionDelete(CollectionDeleteRequest) returns (CollectionDeleteResponse) {
-  //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-  //   option (auth.operation) = {action: ACTION_OBJECT_DELETE};
-  // }
+
 
 
   rpc CollectionHideTx(CollectionHideTxRequest) returns (CollectionHideTxResponse) {

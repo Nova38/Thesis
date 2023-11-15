@@ -841,6 +841,61 @@ export class ACEntry extends Message<ACEntry> {
 }
 
 /**
+ * @generated from message auth.StateObject
+ */
+export class StateObject extends Message<StateObject> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string object_type = 2;
+   */
+  objectType = "";
+
+  /**
+   * @generated from field: repeated string object_id_parts = 3;
+   */
+  objectIdParts: string[] = [];
+
+  /**
+   * @generated from field: google.protobuf.Any value = 4;
+   */
+  value?: Any;
+
+  constructor(data?: PartialMessage<StateObject>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.StateObject";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 4, name: "value", kind: "message", T: Any },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StateObject {
+    return new StateObject().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): StateObject {
+    return new StateObject().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): StateObject {
+    return new StateObject().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: StateObject | PlainMessage<StateObject> | undefined, b: StateObject | PlainMessage<StateObject> | undefined): boolean {
+    return proto3.util.equals(StateObject, a, b);
+  }
+}
+
+/**
  * Key should be {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
