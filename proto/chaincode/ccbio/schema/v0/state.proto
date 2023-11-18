@@ -22,6 +22,7 @@ import "auth/v1/auth.proto";
 
 message Specimen {
   // option (hlf.key_schema).namespace = "specimen";
+
   option (auth.key_schema).keys = {paths: ["id.collection_id", "id.id"]};
 
   message Primary {

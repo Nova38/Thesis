@@ -11,15 +11,15 @@ import (
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 	"github.com/hyperledger/fabric-gateway/pkg/identity"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
+	// "google.golang.org/grpc/credentials"
 )
 
 const (
 	mspID        = "Org1MSP"
 	basePath     = "C:/Users/devcs/.vscode/extensions/spydra.hyperledger-fabric-debugger-0.1.3/"
 	cryptoPath   = basePath + "fabric/local/organizations/peerOrganizations/org1.debugger.com"
-	certPath     = cryptoPath + "/users/earl/msp/signcerts/cert.pem"
-	keyPath      = cryptoPath + "/users/earl/msp/keystore/"
+	certPath     = cryptoPath + "/users/User1/msp/signcerts/cert.pem"
+	keyPath      = cryptoPath + "/users/User1/msp/keystore/"
 	tlsCertPath  = cryptoPath + "/peers/peer0.org1.debugger.com/tls/ca.crt"
 	peerEndpoint = "localhost:5051"
 	gatewayPeer  = "peer0.org1.debugger.com"
@@ -52,7 +52,7 @@ func main() {
 	fmt.Printf("gw: %+v\n", gw)
 
 	// Override default values for chaincode and channel name as they may differ in testing contexts.
-	chaincodeName := "auth"
+	chaincodeName := "Thesis-caas"
 	if ccname := os.Getenv("CHAINCODE_NAME"); ccname != "" {
 		chaincodeName = ccname
 	}
@@ -84,9 +84,9 @@ func newGrpcConnection() *grpc.ClientConn {
 
 	certPool := x509.NewCertPool()
 	certPool.AddCert(certificate)
-	transportCredentials := credentials.NewClientTLSFromCert(certPool, gatewayPeer)
+	// transportCredentials := credentials.NewClientTLSFromCert(certPool, gatewayPeer)
 
-	connection, err := grpc.Dial(peerEndpoint, grpc.WithTransportCredentials(transportCredentials))
+	connection, err := grpc.Dial(peerEndpoint, grpc.WithInsecure())
 	if err != nil {
 		panic(fmt.Errorf("failed to create gRPC connection: %w", err))
 	}
@@ -146,18 +146,29 @@ func UserGetCurrentId(contract *client.Contract) (string, error) {
 		"\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger",
 	)
 
-	evaluateResult, err := contract.EvaluateTransaction("")
+	evaluateResult, err := contract.EvaluateTransaction("auth.users:UserGetCurrentId")
 	if err != nil {
 		fmt.Printf("Error, failed to evaluate transaction: %v", err)
-
 		return "", fmt.Errorf("failed to evaluate transaction: %w", err)
 	}
+	x := map[string]string{}
+	// v := &struct {
+	// 	msp_id  string
+	// 	user_id string
+	// }{}
+	json.Unmarshal(evaluateResult, &x)
 
-	s, err := json.MarshalIndent(evaluateResult, "", "    ")
+	fmt.Println(x)
 
-	fmt.Println(s)
-	fmt.Println(evaluateResult)
+	s, err := json.MarshalIndent(string(evaluateResult), "", "    ")
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal result: %w", err)
+	}
+
+	fmt.Printf("Result: %s\n", s)
+	// fmt.Println(s)
+	// fmt.Println(evaluateResult)
 
 	fmt.Println("End of UserGetCurrentId")
-	return string(s), nil
+	return string(evaluateResult), nil
 }

@@ -119,7 +119,7 @@ service RBACService {
 // Used for setting Role Permissions
 // !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
 message Role {
-  option (auth.object_type)     = OBJECT_DOMAIN_OBJECT;
+  option (auth.object_domain)     = OBJECT_DOMAIN_OBJECT;
   option (auth.key_schema).keys = {paths: ["role_id"]};
 
   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
@@ -211,7 +211,7 @@ message Role {
 // !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
 // !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
 message Membership {
-  option (auth.object_type)              = OBJECT_DOMAIN_OBJECT;
+  option (auth.object_domain)              = OBJECT_DOMAIN_OBJECT;
   option (auth.key_schema).keys     = {paths: [ "msp_id","user_id" ,"role_id"]};
 
   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];

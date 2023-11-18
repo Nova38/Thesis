@@ -5,88 +5,31 @@
 
 package v1
 
-import (
-	errors "errors"
-	lo "github.com/samber/lo"
-	strings "strings"
-)
-
 func (m *Suggestion) Namespace() string {
 	return "auth.Suggestion"
 }
-func (m *Suggestion) Key() ([]string, error) {
-	if m.GetCollectionId() == "" {
-		m.CollectionId = ""
-	}
-	attr := []string{m.GetCollectionId()}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetObjectType())
-		// object_id_partsis a list
-		attr = append(attr, m.GetObjectIdParts()...)
-		attr = append(attr, m.GetSuggestionId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-func (m *Suggestion) FlatKey() string {
-	attr, err := m.Key()
-	if err != nil {
-		return ""
-	}
-	attr = attr[1:]
-	return strings.Join(attr, "-")
+func (m *Suggestion) Key() []string {
+	attr := []string{m.Namespace()}
+	attr = append(attr, m.GetObjectType())
+	// object_id_partsis a list
+	attr = append(attr, m.GetObjectIdParts()...)
+	attr = append(attr, m.GetSuggestionId())
+	return attr
 }
 func (m *Collection) Namespace() string {
 	return "auth.Collection"
 }
-func (m *Collection) Key() ([]string, error) {
-	if m.GetCollectionId() == "" {
-		m.CollectionId = "collections"
-	}
-	attr := []string{m.GetCollectionId()}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetCollectionId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-func (m *Collection) FlatKey() string {
-	attr, err := m.Key()
-	if err != nil {
-		return ""
-	}
-	attr = attr[1:]
-	return strings.Join(attr, "-")
+func (m *Collection) Key() []string {
+	attr := []string{m.Namespace()}
+	attr = append(attr, m.GetCollectionId())
+	return attr
 }
 func (m *User) Namespace() string {
 	return "auth.User"
 }
-func (m *User) Key() ([]string, error) {
-	if m.GetCollectionId() == "" {
-		m.CollectionId = "users"
-	}
-	attr := []string{m.GetCollectionId()}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetMspId())
-		attr = append(attr, m.GetUserId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-func (m *User) FlatKey() string {
-	attr, err := m.Key()
-	if err != nil {
-		return ""
-	}
-	attr = attr[1:]
-	return strings.Join(attr, "-")
+func (m *User) Key() []string {
+	attr := []string{m.Namespace()}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetUserId())
+	return attr
 }

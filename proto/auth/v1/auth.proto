@@ -52,7 +52,7 @@ extend google.protobuf.MethodOptions {
 }
 extend google.protobuf.MessageOptions {
   KeySchema key_schema     = 54599;
-  ObjectDomain object_type = 54600;
+  ObjectDomain object_domain = 54600;
   Index index              = 54601;
 }
 
@@ -156,7 +156,7 @@ message ACEntryTree {
 // ═════════════════════════════════════════════════════════════════════════════
 
 message Object {
-  option (object_type) = OBJECT_DOMAIN_OBJECT;
+  option (object_domain) = OBJECT_DOMAIN_OBJECT;
 
   string collection_id            = 1;
   string object_type              = 2;
@@ -170,9 +170,9 @@ message Object {
 // ═════════════════════════════════════════════════════════════════════════════
 
 // Key should be
-// {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+// {COLLECTION_ID}{auth.Suggestion}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
 message Suggestion {
-  option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+  option (object_domain) = OBJECT_DOMAIN_SUB_OBJECT;
   option (key_schema).keys = {
     paths: ["object_type", "object_id_parts", "suggestion_id"]
   };
@@ -197,9 +197,9 @@ message HiddenTx {
   string note = 5;
 }
 
-// Key should be {HiddenTxList}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+// Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
 message HiddenTxList {
-  option (object_type) = OBJECT_DOMAIN_SUB_OBJECT;
+  option (object_domain) = OBJECT_DOMAIN_SUB_OBJECT;
 
   string collection_id = 1;
   string object_type   = 2;
@@ -220,7 +220,7 @@ message HiddenTxList {
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (object_type)     = OBJECT_DOMAIN_OBJECT;
+  option (object_domain)     = OBJECT_DOMAIN_OBJECT;
   option (key_schema).keys = {
     paths: [ "collection_id" ]
   };
@@ -240,7 +240,7 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (object_type)                      = OBJECT_DOMAIN_OBJECT;
+  option (object_domain)                      = OBJECT_DOMAIN_OBJECT;
   option (key_schema).default_collection_id = "users";
 
   option (key_schema).keys = {

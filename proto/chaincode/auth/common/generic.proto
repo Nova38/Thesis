@@ -258,17 +258,21 @@ message SuggestionListByObjectResponse {
 }
 
 message SuggestionByPartialKeyRequest {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string object_id_parts = 3;
-  int32 num_attrs = 4;
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  string object_type = 4 [(buf.validate.field).string.min_len = 1];
+  repeated string object_id_parts = 5;
+  int32 num_attrs = 6;
 }
 message SuggestionByPartialKeyResponse {
-  repeated auth.Suggestion suggestions = 1;
+  string bookmark = 1;
+  repeated auth.Suggestion suggestions = 2;
 }
 
 // -------------------------------- Invoke -------------------------------------
 // GetSuggestions
+
 message GetSuggestionsRequest {
   auth.Suggestion suggestion = 1;
 }
@@ -288,9 +292,9 @@ message SuggestionDeleteRequest {
   string reason = 2;
 }
 message SuggestionDeleteResponse {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_id = 2 [(buf.validate.field).string.min_len = 1];
-  string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+  // string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  // string object_id = 2 [(buf.validate.field).string.min_len = 1];
+  // string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
 
   auth.Suggestion suggestion = 4;
 }
@@ -300,7 +304,6 @@ message SuggestionApproveRequest {
 }
 
 message SuggestionApproveResponse {
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string object_id = 2 [(buf.validate.field).string.min_len = 1];
-  string suggestion = 3 [(buf.validate.field).string.min_len = 1];
+  auth.Suggestion suggestion = 1;
+  auth.Object object = 2;
 }

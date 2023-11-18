@@ -8,6 +8,8 @@ import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
 import { StateActivity } from "../../../../auth/v1/auth_pb.js";
 
 /**
+ * option (hlf.key_schema).namespace = "specimen";
+ *
  * @generated from message ccbio.schema.v0.Specimen
  */
 export class Specimen extends Message<Specimen> {

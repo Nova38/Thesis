@@ -1,8 +1,8 @@
 package generators
 
 import (
-	"google.golang.org/protobuf/compiler/protogen"
-	"google.golang.org/protobuf/reflect/protoreflect"
+    "google.golang.org/protobuf/compiler/protogen"
+    "google.golang.org/protobuf/reflect/protoreflect"
 )
 
 type DiffGenerator struct{}
@@ -24,9 +24,9 @@ func (d *DiffGenerator) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
-	for _, msg := range file.Messages {
-		d.GenerateMessage(g, msg)
-	}
+	//for _, msg := range file.Messages {
+	//	d.GenerateMessage(g, msg)
+	//}
 
 	return g, nil
 }

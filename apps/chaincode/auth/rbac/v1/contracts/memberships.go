@@ -39,7 +39,7 @@ func (a RbacContractImpl) GetMembershipByUser(
 
 	// res = &cc.UserGetMembershipResponse{Membership: &mem}
 
-	list, _, err := state.ByPartialKey(ctx, &mem, 3, "")
+	list, _, err := state.PrimaryByPartialKey(ctx, &mem, 3, "")
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -67,7 +67,7 @@ func (a RbacContractImpl) GetMembershipByCollection(
 		CollectionId: req.CollectionId,
 	}
 
-	list, _, err := state.ByPartialKey(ctx, &mem, 3, "")
+	list, _, err := state.PrimaryByPartialKey(ctx, &mem, 3, "")
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -99,7 +99,7 @@ func (a RbacContractImpl) CreateMembership(
 	}
 	res = &cc.UpdateMembershipResponse{Membership: &mem}
 
-	return res, state.Create(ctx, &mem)
+	return res, state.PrimaryCreate(ctx, &mem)
 }
 
 func (a RbacContractImpl) UpdateMembership(
@@ -121,7 +121,7 @@ func (a RbacContractImpl) UpdateMembership(
 	}
 	res = &cc.UpdateMembershipResponse{Membership: &mem}
 
-	return res, state.Update(ctx, &mem, &fieldmaskpb.FieldMask{})
+	return res, state.PrimaryUpdate(ctx, &mem, &fieldmaskpb.FieldMask{})
 }
 
 func (a RbacContractImpl) DeleteMembership(
@@ -143,5 +143,5 @@ func (a RbacContractImpl) DeleteMembership(
 
 	res = &cc.DeleteMembershipResponse{Membership: &mem}
 
-	return res, state.Delete(ctx, &mem)
+	return res, state.PrimaryDelete(ctx, &mem)
 }

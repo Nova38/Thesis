@@ -1271,22 +1271,32 @@ export class SuggestionListByObjectResponse extends Message<SuggestionListByObje
  */
 export class SuggestionByPartialKeyRequest extends Message<SuggestionByPartialKeyRequest> {
   /**
-   * @generated from field: string collection_id = 1;
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: uint32 limit = 2;
+   */
+  limit = 0;
+
+  /**
+   * @generated from field: string collection_id = 3;
    */
   collectionId = "";
 
   /**
-   * @generated from field: string object_type = 2;
+   * @generated from field: string object_type = 4;
    */
   objectType = "";
 
   /**
-   * @generated from field: repeated string object_id_parts = 3;
+   * @generated from field: repeated string object_id_parts = 5;
    */
   objectIdParts: string[] = [];
 
   /**
-   * @generated from field: int32 num_attrs = 4;
+   * @generated from field: int32 num_attrs = 6;
    */
   numAttrs = 0;
 
@@ -1298,10 +1308,12 @@ export class SuggestionByPartialKeyRequest extends Message<SuggestionByPartialKe
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.SuggestionByPartialKeyRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 4, name: "num_attrs", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 3, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 6, name: "num_attrs", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionByPartialKeyRequest {
@@ -1326,7 +1338,12 @@ export class SuggestionByPartialKeyRequest extends Message<SuggestionByPartialKe
  */
 export class SuggestionByPartialKeyResponse extends Message<SuggestionByPartialKeyResponse> {
   /**
-   * @generated from field: repeated auth.Suggestion suggestions = 1;
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: repeated auth.Suggestion suggestions = 2;
    */
   suggestions: Suggestion[] = [];
 
@@ -1338,7 +1355,8 @@ export class SuggestionByPartialKeyResponse extends Message<SuggestionByPartialK
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.SuggestionByPartialKeyResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionByPartialKeyResponse {
@@ -1359,9 +1377,6 @@ export class SuggestionByPartialKeyResponse extends Message<SuggestionByPartialK
 }
 
 /**
- * -------------------------------- Invoke -------------------------------------
- * GetSuggestions
- *
  * @generated from message auth.common.GetSuggestionsRequest
  */
 export class GetSuggestionsRequest extends Message<GetSuggestionsRequest> {
@@ -1553,24 +1568,13 @@ export class SuggestionDeleteRequest extends Message<SuggestionDeleteRequest> {
 }
 
 /**
+ * string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+ * string object_id = 2 [(buf.validate.field).string.min_len = 1];
+ * string suggestion_id = 3 [(buf.validate.field).string.min_len = 1];
+ *
  * @generated from message auth.common.SuggestionDeleteResponse
  */
 export class SuggestionDeleteResponse extends Message<SuggestionDeleteResponse> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string object_id = 2;
-   */
-  objectId = "";
-
-  /**
-   * @generated from field: string suggestion_id = 3;
-   */
-  suggestionId = "";
-
   /**
    * @generated from field: auth.Suggestion suggestion = 4;
    */
@@ -1584,9 +1588,6 @@ export class SuggestionDeleteResponse extends Message<SuggestionDeleteResponse> 
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.SuggestionDeleteResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "suggestion", kind: "message", T: Suggestion },
   ]);
 
@@ -1649,19 +1650,14 @@ export class SuggestionApproveRequest extends Message<SuggestionApproveRequest> 
  */
 export class SuggestionApproveResponse extends Message<SuggestionApproveResponse> {
   /**
-   * @generated from field: string collection_id = 1;
+   * @generated from field: auth.Suggestion suggestion = 1;
    */
-  collectionId = "";
+  suggestion?: Suggestion;
 
   /**
-   * @generated from field: string object_id = 2;
+   * @generated from field: auth.Object object = 2;
    */
-  objectId = "";
-
-  /**
-   * @generated from field: string suggestion = 3;
-   */
-  suggestion = "";
+  object?: Object$;
 
   constructor(data?: PartialMessage<SuggestionApproveResponse>) {
     super();
@@ -1671,9 +1667,8 @@ export class SuggestionApproveResponse extends Message<SuggestionApproveResponse
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.SuggestionApproveResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "suggestion", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "suggestion", kind: "message", T: Suggestion },
+    { no: 2, name: "object", kind: "message", T: Object$ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionApproveResponse {

@@ -936,7 +936,7 @@ export class Object$ extends Message<Object$> {
 
 /**
  * Key should be
- * {Suggestion}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}{SUGGESTION_ID}
+ * {COLLECTION_ID}{auth.Suggestion}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
  */
@@ -1066,7 +1066,7 @@ export class HiddenTx extends Message<HiddenTx> {
 }
 
 /**
- * Key should be {HiddenTxList}{OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+ * Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
  *
  * @generated from message auth.HiddenTxList
  */

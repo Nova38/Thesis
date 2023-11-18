@@ -7,83 +7,83 @@ package v1
 
 auth.KeySchema
 	 -auth.KeySchema.namespace - <nil>
-	 -auth.KeySchema.keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-	 -auth.KeySchema.secondary_keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-	 -auth.KeySchema.collection_id - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.KeySchema.keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.KeySchema.secondary_keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.KeySchema.collection_id - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.KeySchema.default_collection_id - <nil>
-	 -auth.KeySchema.sub_object - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.KeySchema.sub_object - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.Index
-	 -auth.Index.key_1 - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.Index.key_1 - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.Index.type_1 - <nil>
-	 -auth.Index.key_2 - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.Index.key_2 - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 	 -auth.Index.type_2 - <nil>
 auth.StateActivity
 	 -auth.StateActivity.tx_id - <nil>
 	 -auth.StateActivity.msp_id - <nil>
 	 -auth.StateActivity.user_id - <nil>
-	 -auth.StateActivity.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
+	 -auth.StateActivity.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
 	 -auth.StateActivity.note - <nil>
 auth.HistoryEntry
 	 -auth.HistoryEntry.tx_id - <nil>
 	 -auth.HistoryEntry.is_delete - <nil>
 	 -auth.HistoryEntry.is_hidden - <nil>
-	 -auth.HistoryEntry.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
+	 -auth.HistoryEntry.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
 	 -auth.HistoryEntry.note - <nil>
-	 -auth.HistoryEntry.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
+	 -auth.HistoryEntry.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
 auth.History
-	 -auth.History.entries - MessageDescriptor{Syntax: proto3, FullName: auth.HistoryEntry, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: is_delete, Number: 2, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isDelete"}, {Name: is_hidden, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isHidden"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}, {Name: value, Number: 6, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
-	 -auth.History.hidden_txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTxList, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: object_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectId"}, {Name: txs, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "txs", IsList: true, Message: auth.HiddenTx}]}
+	 -auth.History.entries - MessageDescriptor{Syntax: proto3, FullName: auth.HistoryEntry, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: is_delete, Number: 2, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isDelete"}, {Name: is_hidden, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isHidden"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}, {Name: value, Number: 6, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
+	 -auth.History.hidden_txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTxList, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: object_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectId"}, {Name: txs, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "txs", IsList: true, Message: auth.HiddenTx}]}
 auth.Operation
 	 -auth.Operation.action - <nil>
 	 -auth.Operation.collection_id - <nil>
 	 -auth.Operation.namespace - <nil>
-	 -auth.Operation.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.Operation.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.PathPolicy
 	 -auth.PathPolicy.path - <nil>
 	 -auth.PathPolicy.actions - <nil>
 auth.ObjectPolicy
 	 -auth.ObjectPolicy.object_type - <nil>
 	 -auth.ObjectPolicy.object_namespace - <nil>
-	 -auth.ObjectPolicy.policies - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: actions, Number: 2, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}]}
+	 -auth.ObjectPolicy.policies - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: actions, Number: 2, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}]}
 auth.ACEntry
-	 -auth.ACEntry.object - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_namespace, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectNamespace"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
-	 -auth.ACEntry.view_mask - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.ACEntry.object - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_namespace, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectNamespace"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
+	 -auth.ACEntry.view_mask - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.ACEntryTree
-	 -auth.ACEntryTree.root - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_namespace, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectNamespace"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
+	 -auth.ACEntryTree.root - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_namespace, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectNamespace"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
 	 -auth.ACEntryTree.is_leaf - <nil>
-	 -auth.ACEntryTree.children - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntryTree.ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.ACEntryTree}]}
+	 -auth.ACEntryTree.children - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntryTree.ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.ACEntryTree}]}
 auth.ACEntryTree.ChildrenEntry
 	 -auth.ACEntryTree.ChildrenEntry.key - <nil>
-	 -auth.ACEntryTree.ChildrenEntry.value - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntryTree, Fields: [{Name: root, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "root", HasPresence: true, Message: auth.ObjectPolicy}, {Name: is_leaf, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isLeaf"}, {Name: children, Number: 2, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.ACEntryTree}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.ACEntryTree}]}]}
+	 -auth.ACEntryTree.ChildrenEntry.value - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntryTree, Fields: [{Name: root, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "root", HasPresence: true, Message: auth.ObjectPolicy}, {Name: is_leaf, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isLeaf"}, {Name: children, Number: 2, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.ACEntryTree}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.ACEntryTree}]}]}
 auth.Object
 	 -auth.Object.collection_id - <nil>
 	 -auth.Object.object_type - <nil>
 	 -auth.Object.object_id_parts - <nil>
-	 -auth.Object.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
+	 -auth.Object.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
 auth.Suggestion
 	 -auth.Suggestion.collection_id - <nil>
 	 -auth.Suggestion.object_type - <nil>
 	 -auth.Suggestion.object_id_parts - <nil>
 	 -auth.Suggestion.suggestion_id - <nil>
-	 -auth.Suggestion.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-	 -auth.Suggestion.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
+	 -auth.Suggestion.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
+	 -auth.Suggestion.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
 auth.HiddenTx
 	 -auth.HiddenTx.tx_id - <nil>
 	 -auth.HiddenTx.msp_id - <nil>
 	 -auth.HiddenTx.user_id - <nil>
-	 -auth.HiddenTx.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
+	 -auth.HiddenTx.timestamp - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
 	 -auth.HiddenTx.note - <nil>
 auth.HiddenTxList
 	 -auth.HiddenTxList.collection_id - <nil>
 	 -auth.HiddenTxList.object_type - <nil>
 	 -auth.HiddenTxList.object_id - <nil>
-	 -auth.HiddenTxList.txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
+	 -auth.HiddenTxList.txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
 auth.Collection
 	 -auth.Collection.collection_id - <nil>
 	 -auth.Collection.name - <nil>
 	 -auth.Collection.description - <nil>
 	 -auth.Collection.object_types - <nil>
-	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
+	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
 auth.User
 	 -auth.User.msp_id - <nil>
 	 -auth.User.user_id - <nil>

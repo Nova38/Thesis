@@ -5,61 +5,21 @@
 
 package schemav1
 
-import (
-	errors "errors"
-	lo "github.com/samber/lo"
-	strings "strings"
-)
-
 func (m *Role) Namespace() string {
 	return "rbac.schema.v1.Role"
 }
-func (m *Role) Key() ([]string, error) {
-	if m.GetCollectionId() == "" {
-		m.CollectionId = ""
-	}
-	attr := []string{m.GetCollectionId()}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetRoleId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-func (m *Role) FlatKey() string {
-	attr, err := m.Key()
-	if err != nil {
-		return ""
-	}
-	attr = attr[1:]
-	return strings.Join(attr, "-")
+func (m *Role) Key() []string {
+	attr := []string{m.Namespace()}
+	attr = append(attr, m.GetRoleId())
+	return attr
 }
 func (m *Membership) Namespace() string {
 	return "rbac.schema.v1.Membership"
 }
-func (m *Membership) Key() ([]string, error) {
-	if m.GetCollectionId() == "" {
-		m.CollectionId = ""
-	}
-	attr := []string{m.GetCollectionId()}
-	ok := lo.Try(func() error {
-		attr = append(attr, m.GetMspId())
-		attr = append(attr, m.GetUserId())
-		attr = append(attr, m.GetRoleId())
-		return nil
-	})
-	if !ok {
-		return nil, errors.New("Key is nil")
-	}
-	return attr, nil
-}
-func (m *Membership) FlatKey() string {
-	attr, err := m.Key()
-	if err != nil {
-		return ""
-	}
-	attr = attr[1:]
-	return strings.Join(attr, "-")
+func (m *Membership) Key() []string {
+	attr := []string{m.Namespace()}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetUserId())
+	attr = append(attr, m.GetRoleId())
+	return attr
 }

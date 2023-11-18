@@ -1,27 +1,13 @@
 package state
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 
-	"github.com/mennanov/fmutils"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
-
-func KeyExists(ctx TxCtxInterface, key string) bool {
-	bytes, err := ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return false
-	}
-
-	return err == nil
-}
 
 // Primary Objects
 
@@ -33,87 +19,51 @@ func PrimaryExists[T Object](ctx TxCtxInterface, obj T) bool {
 	return KeyExists(ctx, key)
 }
 
-// func Get[T Object](ctx TxCtxInterface, in T) (err error) {
-// 	namespace := in.Namespace()
-// 	ctx.GetLogger().Info("fn: GetState", "Namespace", namespace, "Object", in)
-
-// 	key, err := MakeCompositeKey(in)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	bytes, err := ctx.GetStub().GetState(key)
-// 	if bytes == nil && err == nil {
-// 		return oops.
-// 			With("Key", key, "Namespace", in.Namespace()).
-// 			Wrap(common.KeyNotFound)
-// 	}
-
-// 	if err = json.Unmarshal(bytes, in); err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
-func Get[T Object](ctx TxCtxInterface, obj T) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-	var (
-		key = lo.Must(MakeCompositeKey(obj))
-
-		bytes = lo.Must(ctx.GetStub().GetState(key))
-		op    = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        nil,
-		}
-	)
-
-	sug := &authpb.Suggestion{}
-
-	if obj.Namespace() == sug.Namespace() {
-		op.Action = authpb.Action_ACTION_OBJECT_SUGGEST_VIEW
+func PrimaryGet[T Object](ctx TxCtxInterface, obj T) (err error) {
+	l := &Ledger[T]{ctx: ctx}
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        nil,
 	}
-
-	authorized := lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-
-	if !authorized {
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if bytes == nil && err == nil {
-		return oops.
-			With("Key", key, "Namespace", obj.Namespace()).
-			Wrap(common.KeyNotFound)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
-		return err
-	}
-
-	return nil
+	return l.Get(obj)
 }
 
-// 	// mask  = ctx.GetViewMask()
+func PrimaryByPartialKey[T Object](
+	ctx TxCtxInterface,
+	obj T,
+	numAttr int,
+	bookmark string,
+) (list []T, mk string, err error) {
+    l := &Ledger[T]{ctx: ctx}
 
-// 	// if mask != nil && len(mask.Paths) > 0 {
-// 	// 	if !mask.IsValid(obj) {
-// 	// 		return fmt.Errorf("mask is not valid")
-// 	// 	}
-// 	// 	fmutils.Filter(obj, mask.Paths)
-// 	// }
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        nil,
+	}
 
-// 	return nil
-// }
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+		return nil, "", oops.Wrap(common.UserPermissionDenied)
+	}
 
-func List[T Object](
+
+
+	return l.GetPartialKeyList(obj, numAttr, bookmark)
+}
+
+func PrimaryList[T Object](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	attr := lo.Must(obj.Key())
-
-	return ByPartialKey(ctx, obj, len(attr), bookmark)
+	return PrimaryByPartialKey(ctx, obj, len(obj.Key()), bookmark)
 }
 
 func ByCollection[T Object](
@@ -121,168 +71,75 @@ func ByCollection[T Object](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	attr := lo.Must(obj.Key())
-
-	return ByPartialKey(ctx, obj, len(attr)-1, bookmark)
-}
-
-func ByPartialKey[T Object](
-	ctx TxCtxInterface,
-	obj T,
-	numAttr int,
-	bookmark string,
-) (list []T, mk string, err error) {
-	var (
-		mask     = ctx.GetViewMask()
-		attr     = lo.Must(obj.Key())
-		viewMask = fmutils.NestedMask{}
-		op       = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        mask,
-		}
-	)
-
-	sug := &authpb.Suggestion{}
-
-	if obj.Namespace() == sug.Namespace() {
-		op.Action = authpb.Action_ACTION_OBJECT_SUGGEST_VIEW
-	}
-
-	if !lo.Must(ctx.Authorize([]*authpb.Operation{op})) {
-		return nil, "", oops.Wrap(common.UserPermissionDenied)
-	}
-
-	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ObjectInvalid
-	}
-
-	if mask != nil && len(mask.GetPaths()) > 0 {
-		if !mask.IsValid(obj) {
-			return nil, "", fmt.Errorf("mask is not valid")
-		}
-		viewMask = fmutils.NestedMaskFromPaths(mask.GetPaths())
-	}
-
-	attr = attr[:len(attr)-numAttr]
-	results, metadata, err := ctx.GetStub().
-		GetStateByPartialCompositeKeyWithPagination(obj.Namespace(), attr, ctx.GetPageSize(), bookmark)
-	if err != nil {
-		return nil, "", err
-	}
-	defer ctx.CloseQueryIterator(results)
-
-	for results.HasNext() {
-		queryResponse := lo.Must(results.Next())
-		tmp := new(T)
-
-		lo.Must0(json.Unmarshal(queryResponse.Value, tmp))
-
-		if mask != nil {
-			viewMask.Filter(*tmp)
-		}
-
-		list = append(list, *tmp)
-	}
-
-	if metadata == nil {
-		return nil, "", fmt.Errorf("metadata is nil")
-	}
-
-	return list, metadata.GetBookmark(), nil
+	return PrimaryByPartialKey(ctx, obj, len(obj.Key())-1, bookmark)
 }
 
 // ──────────────────────────────────────────────────
 // Invoke Suggested Functions
 // ──────────────────────────────────────────────────
 
-// Create creates the object in the ledger
+// PrimaryCreate creates the object in the ledger
 // returns error if the object already exists
 // will panic if
 //   - the key cannot be created,
 //   - the object cannot be marshalled
 //   - Authorization errors
-func Create[T Object](ctx TxCtxInterface, obj T) (err error) {
-	var (
-		key    = lo.Must(MakeCompositeKey(obj))
-		exists = KeyExists(ctx, key)
-		bytes  = lo.Must(json.Marshal(obj))
-		op     = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_CREATE,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        nil,
-		}
-		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	)
+func PrimaryCreate[T Object](ctx TxCtxInterface, obj T) (err error) {
+	l := &Ledger[T]{
+		ctx: ctx,
+	}
 
-	if !authorized {
+	// Authorize the operation
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_CREATE,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        nil,
+	}
+
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
-	if exists {
-		return oops.
-			With("Key", key, "Namespace", obj.Namespace()).
-			Wrap(common.AlreadyExists)
-	}
 
-	return ctx.GetStub().PutState(key, bytes)
+	return l.Create(obj)
 }
 
-func Update[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldMask) (err error) {
-	var (
-		key   = lo.Must(MakeCompositeKey(obj))
-		bytes = lo.Must(ctx.GetStub().GetState(key))
-		op    = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_UPDATE,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        mask,
-		}
-		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	)
-	if !authorized {
+func PrimaryUpdate[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldMask) (err error) {
+	l := &Ledger[T]{
+		ctx: ctx,
+	}
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_UPDATE,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        mask,
+	}
+
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	cur := new(T)
-	lo.Must0(json.Unmarshal(bytes, cur))
-	bytes = []byte{}
-
-	// TODO: change last modified
-
-	fmutils.Filter(obj, mask.Paths)
-	proto.Merge(*cur, obj)
-
-	bytes = lo.Must(json.Marshal(cur))
-	lo.Must0(json.Unmarshal(bytes, obj))
-
-	return ctx.GetStub().PutState(key, bytes)
+	return l.Update(obj, mask)
 }
 
-func Delete[T Object](ctx TxCtxInterface, obj T) (err error) {
-	var (
-		key    = lo.Must(MakeCompositeKey(obj))
-		exists = KeyExists(ctx, key)
-		op     = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_DELETE,
-			CollectionId: obj.GetCollectionId(),
-			Namespace:    obj.Namespace(),
-			Paths:        nil,
-		}
-		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	)
+func PrimaryDelete[T Object](ctx TxCtxInterface, obj T) (err error) {
+	l := &Ledger[T]{
+		ctx: ctx,
+	}
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_DELETE,
+		CollectionId: obj.GetCollectionId(),
+		Namespace:    obj.Namespace(),
+		Paths:        nil,
+	}
 
-	// TODO: check if the object is referenced by other objects
-
-	if !authorized {
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
-	if !exists {
-		return oops.
-			With("Key", key, "Namespace", obj.Namespace()).
-			Wrap(common.KeyNotFound)
-	}
 
-	return ctx.GetStub().DelState(key)
+	err = l.Delete(obj)
+
+	// TODO: Handle deleting refs/sub objects here
+
+	return err
 }

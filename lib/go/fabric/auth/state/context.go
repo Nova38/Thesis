@@ -3,17 +3,19 @@ package state
 import (
 	"log/slog"
 
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
 	"github.com/bufbuild/protovalidate-go"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
+
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
 var (

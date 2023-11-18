@@ -45,7 +45,7 @@ func (a UserImpl) UserGetCurrent(
 		return nil, err
 	}
 
-	err = state.Get(ctx, user)
+	err = state.PrimaryGet(ctx, user)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -70,7 +70,7 @@ func (a UserImpl) UserGet(
 		UserId: req.GetUserId(),
 	}
 
-	if err = state.Get(ctx, user); err != nil {
+	if err = state.PrimaryGet(ctx, user); err != nil {
 		return nil, err
 	}
 
@@ -88,7 +88,7 @@ func (a UserImpl) UserGetList(
 		return nil, oops.Wrap(err)
 	}
 
-	userList, _, err := state.List(ctx, &authpb.User{}, "")
+	userList, _, err := state.PrimaryList(ctx, &authpb.User{}, "")
 	if err != nil {
 		return nil, oops.
 			In("UserGetList").
@@ -170,7 +170,7 @@ func (a UserImpl) UserCreate(
 
 	res = &cc.UserCreateResponse{User: user}
 
-	return res, state.Create(ctx, user)
+	return res, state.PrimaryCreate(ctx, user)
 }
 
 func (a UserImpl) UserUpdate(
@@ -189,7 +189,7 @@ func (a UserImpl) UserUpdate(
 		MspId:  req.GetMspId(),
 	}
 
-	err = state.Get(ctx, user)
+	err = state.PrimaryGet(ctx, user)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -197,7 +197,7 @@ func (a UserImpl) UserUpdate(
 	// Update the user
 	user.Name = req.GetName()
 
-	return &cc.UserUpdateResponse{User: user}, state.Update(ctx, user, nil)
+	return &cc.UserUpdateResponse{User: user}, state.PrimaryUpdate(ctx, user, nil)
 }
 
 func (a UserImpl) UserDelete(
@@ -216,7 +216,7 @@ func (a UserImpl) UserDelete(
 		MspId:  req.GetMspId(),
 	}
 
-	err = state.Delete(ctx, user)
+	err = state.PrimaryDelete(ctx, user)
 
 	return &cc.UserDeleteResponse{User: user}, err
 }

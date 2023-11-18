@@ -4144,6 +4144,10 @@ func (m *SuggestionByPartialKeyRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Bookmark
+
+	// no validation rules for Limit
+
 	// no validation rules for CollectionId
 
 	// no validation rules for ObjectType
@@ -4252,6 +4256,8 @@ func (m *SuggestionByPartialKeyResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Bookmark
 
 	for idx, item := range m.GetSuggestions() {
 		_, _ = idx, item
@@ -5047,12 +5053,6 @@ func (m *SuggestionDeleteResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for CollectionId
-
-	// no validation rules for ObjectId
-
-	// no validation rules for SuggestionId
-
 	if all {
 		switch v := interface{}(m.GetSuggestion()).(type) {
 		case interface{ ValidateAll() error }:
@@ -5315,11 +5315,63 @@ func (m *SuggestionApproveResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for CollectionId
+	if all {
+		switch v := interface{}(m.GetSuggestion()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SuggestionApproveResponseValidationError{
+					field:  "Suggestion",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SuggestionApproveResponseValidationError{
+					field:  "Suggestion",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SuggestionApproveResponseValidationError{
+				field:  "Suggestion",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
-	// no validation rules for ObjectId
-
-	// no validation rules for Suggestion
+	if all {
+		switch v := interface{}(m.GetObject()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SuggestionApproveResponseValidationError{
+					field:  "Object",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SuggestionApproveResponseValidationError{
+					field:  "Object",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SuggestionApproveResponseValidationError{
+				field:  "Object",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return SuggestionApproveResponseMultiError(errors)

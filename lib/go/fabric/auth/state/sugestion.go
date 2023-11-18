@@ -2,13 +2,12 @@ package state
 
 import (
 	"encoding/json"
+	"fmt"
+	"log/slog"
+	"strconv"
 
-	"google.golang.org/protobuf/proto"
-
-	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
 
@@ -17,244 +16,312 @@ import (
 // ════════════════════════════════════════════════════════
 
 // ──────────────────────────────────────────────────
-// Query Suggested Functions
+// Helpers
 // ──────────────────────────────────────────────────
+type SuggestionHandler struct {
+	suggestionKey string
+	objKey        string
+	obj           Object
+	current       Object
+	suggestion    *authpb.Suggestion
+	bytes         []byte
+}
 
-// Suggestion returns the suggestion object
-// func Suggestion[T Object](
-// 	ctx TxCtxInterface,
-// 	obj T,
-// 	suggestionId string,
-// ) (suggestion *authpb.Suggestion, err error) {
-// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
+// SuggestionToObject converts a suggestion to an object
 
-// 	key := lo.Must(MakeSuggestionKey(obj, suggestionId))
-// 	if KeyExists(ctx, key) == false {
-// 		return nil, oops.Wrap(common.KeyNotFound)
-// 	}
+func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
+	if sug == nil {
+		return oops.In("Extract").Errorf("Suggestion is nil")
+	}
+	s.suggestion = sug
 
-// 	op := &authpb.Operation{
-// 		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
-// 		CollectionId: obj.GetCollectionId(),
-// 		Namespace:    obj.Namespace(),
-// 		Paths:        nil,
-// 	}
+	if s.obj, err = SuggestionToObject(s.suggestion); err != nil {
+		return oops.Wrap(err)
+	}
 
-// 	if authorized, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
-// 		return nil, oops.Wrap(common.UserPermissionDenied)
-// 	} else if !authorized {
-// 		return nil, oops.Wrap(common.UserPermissionDenied)
-// 	}
+	if s.objKey, err = MakeCompositeKey(s.obj); err != nil {
+		return oops.Wrap(err)
+	}
 
-// 	bytes := lo.Must(ctx.GetStub().GetState(key))
-// 	if err = proto.Unmarshal(bytes, suggestion); err != nil {
-// 		return nil, err
-// 	}
+	if s.suggestionKey, err = MakeSuggestionKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
+		return oops.Wrap(err)
+	}
 
-// 	return suggestion, nil
-// }
+	if s.bytes, err = json.Marshal(s.obj); err != nil {
+		return oops.Wrap(err)
+	}
 
-// func SuggestionList[T Object](
-// 	ctx TxCtxInterface,
-// 	bookmark string,
-// ) (list []*authpb.Suggestion, mk string, err error) {
-// 	sug := &authpb.Suggestion{}
-
-// 	if list, mk, err = List(ctx, sug, bookmark); err != nil {
-// 		return nil, "", oops.Wrap(err)
-// 	}
-
-// 	return list, mk, nil
-// }
-
-// func SuggestionByCollection[T Object](
-// 	ctx TxCtxInterface,
-// 	obj T,
-// 	bookmark string,
-// ) (list []authpb.Suggestion, err error) {
-// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
-// }
-
-// func SuggestionListByPartialKey[T Object](
-// 	ctx TxCtxInterface,
-// 	obj T,
-// 	numAttr int,
-// 	bookmark string,
-// ) (list []*authpb.Suggestion, mk string, err error) {
-// 	var (
-// 		attr = lo.Must(obj.Key())
-// 		op   = &authpb.Operation{
-// 			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
-// 			CollectionId: obj.GetCollectionId(),
-// 			Namespace:    obj.Namespace(),
-// 		}
-// 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-// 	)
-
-// 	if !authorized {
-// 		return nil, "", oops.Wrap(common.UserPermissionDenied)
-// 	}
-
-// 	if len(attr) == 0 || len(attr) < numAttr {
-// 		return nil, "", common.ObjectInvalid
-// 	}
-
-// 	attr = attr[:len(attr)-numAttr]
-// 	results, metadata, err := ctx.GetStub().
-// 		GetStateByPartialCompositeKeyWithPagination(obj.Namespace(), attr, ctx.GetPageSize(), bookmark)
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
-// 	defer ctx.CloseQueryIterator(results)
-
-// 	for results.HasNext() {
-// 		queryResponse := lo.Must(results.Next())
-// 		tmp := new(authpb.Suggestion)
-
-// 		lo.Must0(json.Unmarshal(queryResponse.Value, tmp))
-
-// 		list = append(list, tmp)
-// 	}
-
-// 	if metadata == nil {
-// 		return nil, "", fmt.Errorf("metadata is nil")
-// 	}
-
-// 	return list, metadata.GetBookmark(), nil
-// }
+	return nil
+}
 
 // ──────────────────────────────────────────────────
 // Invoke Suggested Functions
 // ──────────────────────────────────────────────────
 
-func CreateSuggestion[T Object](ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	ctx.GetLogger().Debug("CreateSuggestion", "suggestion:", s)
 
-	sKey := lo.Must(MakeCompositeKey(s))
-	if KeyExists(ctx, sKey) {
-		return oops.
-			With("Key", sKey, "Namespace", s.Namespace()).
-			Wrap(common.AlreadyExists)
-	}
+	var (
+		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
+		handler = SuggestionHandler{suggestion: s}
+		op      = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
+			CollectionId: s.GetCollectionId(),
+			Namespace:    s.GetObjectType(),
+			Paths:        s.GetPaths(),
+		}
+	)
 
-	obj, err := SuggestionToObject(s)
-	if err != nil {
-		return oops.Wrap(err)
-	}
+	// Authorize the operation
 
-	objKey := lo.Must(MakeCompositeKey(obj))
-	if !KeyExists(ctx, objKey) {
-		return oops.
-			With("suggestion Key", sKey, "Key", objKey, "Namespace", obj.Namespace()).
-			Wrap(common.KeyNotFound)
-	}
-
-	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
-		CollectionId: s.GetCollectionId(),
-		Namespace:    s.GetObjectType(),
-		Paths:        nil,
-	}
-	authorized := lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	if !authorized {
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	bytes := lo.Must(json.Marshal(s))
-
-	return ctx.GetStub().PutState(sKey, bytes)
-}
-
-func DeleteSuggestion[T Object](ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-	sKey := lo.Must(MakeCompositeKey(s))
-	if !KeyExists(ctx, sKey) {
-		return oops.
-			In("DeleteSuggestion").
-			With("Key", sKey, "Namespace", s.Namespace()).
-			Wrap(common.KeyNotFound)
-	}
-
-	obj, err := SuggestionToObject(s)
-	if err != nil {
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
 		return oops.Wrap(err)
 	}
 
-	objKey := lo.Must(MakeCompositeKey(obj))
-	if !KeyExists(ctx, objKey) {
+	// Check if the object exists, if it does not, return error
+	if !KeyExists(ctx, handler.objKey) {
 		return oops.
-			With("suggestion Key", sKey, "Key", objKey, "Namespace", obj.Namespace()).
+			With("suggestion ID",
+				s.GetSuggestionId(), "Key", handler.objKey,
+				"Namespace", handler.obj.Namespace()).
 			Wrap(common.KeyNotFound)
 	}
 
-	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_DELETE,
-		CollectionId: s.GetCollectionId(),
-		Namespace:    s.GetObjectType(),
-		Paths:        nil,
-	}
-
-	authorized := lo.Must(ctx.Authorize([]*authpb.Operation{op}))
-	if !authorized {
-		return oops.Wrap(common.UserPermissionDenied)
-	}
-
-	return ctx.GetStub().DelState(sKey)
+	return l.Create(handler.suggestion)
 }
 
-func ApproveSuggestion[T Object](ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+	ctx.GetLogger().Debug("DeleteSuggestion", "suggestion:", s)
 
-	if err = get(ctx, s); err != nil {
-		// ctx.GetLogger().Error("ApproveSuggestion", err.Error())
+	var (
+		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
+		handler = SuggestionHandler{suggestion: s}
+		op      = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_DELETE,
+			CollectionId: s.GetCollectionId(),
+			Namespace:    s.GetObjectType(),
+			Paths:        nil,
+		}
+	)
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
+		return oops.Wrap(err)
+	}
 
+	if err = l.Get(handler.suggestion); err != nil {
 		return oops.
 			In("DeleteSuggestion").
 			With("Key", s, "Namespace", s.Namespace()).
 			Wrap(common.KeyNotFound)
 	}
 
-	update, err := SuggestionToObject(s)
-	if err != nil {
-		return oops.Wrap(err)
-	}
+	// Set The paths
+	op.Paths = handler.suggestion.GetPaths()
 
-	c := proto.Clone(update)
-
-	cur, ok := c.(Object)
-	if !ok {
-		return oops.In("ApproveSuggestion").Errorf("Object is not an Object")
-	}
-
-	if err = get(ctx, cur); err != nil {
-		// ctx.GetLogger().Error("ApproveSuggestion", err.Error())
-		return oops.
-			In("DeleteSuggestion").
-			With("Key", s, "Namespace", s.Namespace()).
-			Wrap(err)
-	}
-
-	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_APPROVE,
-		CollectionId: s.GetCollectionId(),
-		Namespace:    s.GetObjectType(),
-		Paths:        s.GetPaths(),
-	}
-
-	if !lo.Must(ctx.Authorize([]*authpb.Operation{op})) {
+	// Authorize the operation
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	// Fetch the suggestion object
+	return l.Delete(handler.suggestion)
+}
 
-	fmutils.Overwrite(update, cur, s.GetPaths().GetPaths())
-	ctx.GetStub().PutState(lo.Must(MakeCompositeKey(update)), lo.Must(json.Marshal(update)))
+func SuggestionApprove(ctx TxCtxInterface, s *authpb.Suggestion) (updated *Object, err error) {
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	ctx.GetLogger().Debug("ApproveSuggestion", "suggestion:", s)
+	var (
+		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
+		ol      = &Ledger[Object]{ctx: ctx}
+		handler = SuggestionHandler{suggestion: s}
+		op      = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_APPROVE,
+			CollectionId: s.GetCollectionId(),
+			Namespace:    s.GetObjectType(),
+			Paths:        nil,
+		}
+	)
 
-	// todo Add LastUpdate to the object
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-	sKey := lo.Must(MakeCompositeKey(s))
+	// Get the suggestion from the ledger
+	if err = l.Get(handler.suggestion); err != nil {
+		return nil, oops.
+			In("ApproveSuggestion").
+			With("Key", s, "Namespace", s.Namespace()).
+			Wrap(common.KeyNotFound)
+	}
 
-	return ctx.GetStub().DelState(sKey)
+	// Set The paths
+	op.Paths = handler.suggestion.GetPaths()
+
+	// Authorize the operation
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+		return nil, oops.Wrap(common.UserPermissionDenied)
+	}
+
+	// Process the Update
+	if err = ol.Update(handler.obj, s.GetPaths()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = l.Delete(handler.suggestion); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &handler.obj, nil
+}
+
+// ──────────────────────────────────────────────────
+// Query Suggested Functions
+// ──────────────────────────────────────────────────
+
+// Get Suggestion by its ID
+func Suggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+	ctx.GetLogger().Debug("GetSuggestion", "suggestion:", s)
+
+	var (
+		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
+		handler = SuggestionHandler{suggestion: s}
+		op      = &authpb.Operation{
+			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+			CollectionId: s.GetCollectionId(),
+			Namespace:    s.GetObjectType(),
+			Paths:        nil,
+		}
+	)
+
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
+		return oops.Wrap(err)
+	}
+
+	// Authorize the operation
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+		return oops.Wrap(common.UserPermissionDenied)
+	}
+
+	return l.Get(handler.suggestion)
+}
+
+// partialSuggestedKeyList returns a list of suggestions based on the partial key
+func PartialSuggestionList(
+	ctx TxCtxInterface,
+	s *authpb.Suggestion,
+	numAttr int,
+	bookmark string,
+) (list []*authpb.Suggestion, mk string, err error) {
+	ctx.GetLogger().Debug("GetPartialSuggestionList", "suggestion:", s)
+
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+		CollectionId: s.GetCollectionId(),
+		Namespace:    s.GetObjectType(),
+		Paths:        nil,
+	}
+	// Authorize the operation
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+		return nil, "", oops.Wrap(common.UserPermissionDenied)
+	}
+
+	handler := SuggestionHandler{suggestion: s}
+	if err = handler.Extract(s); err != nil {
+		return nil, "", oops.Wrap(err)
+	}
+
+	attr := handler.obj.Key()
+	if len(attr) == 0 || len(attr) < numAttr {
+		return nil, "", common.ObjectInvalid
+	}
+
+	attr = append([]string{common.SuggestionNamespace}, attr...)
+	// Extract the attributes to search for
+	attr = attr[:len(attr)-numAttr]
+
+	ctx.GetLogger().
+		Info("GetPartialSuggestedKeyList",
+			slog.Group(
+				"Key", "Namespace", common.SuggestionNamespace,
+				slog.Int("numAttr", numAttr),
+				slog.Any("attr", attr),
+				slog.Group(
+					"Paged",
+					"Bookmark", bookmark,
+					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
+				),
+			),
+		)
+
+	results, metadata, err := ctx.GetStub().
+		GetStateByPartialCompositeKeyWithPagination(
+			s.GetCollectionId(),
+			attr,
+			ctx.GetPageSize(),
+			bookmark,
+		)
+	if err != nil {
+		return nil, "", err
+	}
+	defer results.Close()
+
+	for results.HasNext() {
+		queryResponse, err := results.Next()
+		if err != nil {
+			return nil, "", err
+		}
+		sug := new(authpb.Suggestion)
+
+		if err := json.Unmarshal(queryResponse.Value, sug); err != nil {
+			return nil, "", err
+		}
+
+		list = append(list, sug)
+	}
+
+	if metadata == nil {
+		return nil, "", fmt.Errorf("metadata is nil")
+	}
+
+	return list, metadata.GetBookmark(), nil
+}
+
+// Get Full Suggestion List, for the collection
+func SuggestionListByCollection(ctx TxCtxInterface, s *authpb.Suggestion, bookmark string) (list []*authpb.Suggestion, mk string, err error) {
+	ctx.GetLogger().Debug("GetSuggestionList", "suggestion:", s)
+
+	handler := SuggestionHandler{suggestion: s}
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
+		return nil, "", oops.Wrap(err)
+	}
+
+	num := len(handler.obj.Key()) + 2
+
+	return PartialSuggestionList(ctx, s, num, "")
+}
+
+// Get Suggestion List, for the object
+func SuggestionList(ctx TxCtxInterface, s *authpb.Suggestion, bookmark string) (list []*authpb.Suggestion, mk string, err error) {
+	ctx.GetLogger().Debug("GetSuggestionList", "suggestion:", s)
+
+	handler := SuggestionHandler{suggestion: s}
+	// Extract the object from the suggestion
+	if err = handler.Extract(s); err != nil {
+		return nil, "", oops.Wrap(err)
+	}
+
+	// TODO: check if this is correct
+	num := len(handler.obj.Key()) + 1
+
+	return PartialSuggestionList(ctx, s, num, "")
 }
 
 //func GetSuggestion[T Object](
@@ -440,3 +507,110 @@ func ApproveSuggestion[T Object](ctx TxCtxInterface, s *authpb.Suggestion) (err 
 //
 //	return &pb.SuggestedUpdateRejectResponse{SuggestedUpdate: ctx.Suggested}, nil
 //}
+
+// ──────────────────────────────────────────────────
+// Query Suggested Functions
+// ──────────────────────────────────────────────────
+
+// Suggestion returns the suggestion object
+// func Suggestion[T Object](
+// 	ctx TxCtxInterface,
+// 	obj T,
+// 	suggestionId string,
+// ) (suggestion *authpb.Suggestion, err error) {
+// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
+
+// 	key := lo.Must(MakeSuggestionKey(obj, suggestionId))
+// 	if KeyExists(ctx, key) == false {
+// 		return nil, oops.Wrap(common.KeyNotFound)
+// 	}
+
+// 	op := &authpb.Operation{
+// 		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
+// 		CollectionId: obj.GetCollectionId(),
+// 		Namespace:    obj.Namespace(),
+// 		Paths:        nil,
+// 	}
+
+// 	if authorized, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
+// 		return nil, oops.Wrap(common.UserPermissionDenied)
+// 	} else if !authorized {
+// 		return nil, oops.Wrap(common.UserPermissionDenied)
+// 	}
+
+// 	bytes := lo.Must(ctx.GetStub().GetState(key))
+// 	if err = proto.Unmarshal(bytes, suggestion); err != nil {
+// 		return nil, err
+// 	}
+
+// 	return suggestion, nil
+// }
+
+// func SuggestionList[T Object](
+// 	ctx TxCtxInterface,
+// 	bookmark string,
+// ) (list []*authpb.Suggestion, mk string, err error) {
+// 	sug := &authpb.Suggestion{}
+
+// 	if list, mk, err = List(ctx, sug, bookmark); err != nil {
+// 		return nil, "", oops.Wrap(err)
+// 	}
+
+// 	return list, mk, nil
+// }
+
+// func SuggestionByCollection[T Object](
+// 	ctx TxCtxInterface,
+// 	obj T,
+// 	bookmark string,
+// ) (list []authpb.Suggestion, err error) {
+// 	// defer func() { ctx.HandleFnError(&err, recover()) }()
+// }
+
+// func SuggestionListByPartialKey[T Object](
+// 	ctx TxCtxInterface,
+// 	obj T,
+// 	numAttr int,
+// 	bookmark string,
+// ) (list []*authpb.Suggestion, mk string, err error) {
+// 	var (
+// 		attr = lo.Must(obj.Key())
+// 		op   = &authpb.Operation{
+// 			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+// 			CollectionId: obj.GetCollectionId(),
+// 			Namespace:    obj.Namespace(),
+// 		}
+// 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
+// 	)
+
+// 	if !authorized {
+// 		return nil, "", oops.Wrap(common.UserPermissionDenied)
+// 	}
+
+// 	if len(attr) == 0 || len(attr) < numAttr {
+// 		return nil, "", common.ObjectInvalid
+// 	}
+
+// 	attr = attr[:len(attr)-numAttr]
+// 	results, metadata, err := ctx.GetStub().
+// 		GetStateByPartialCompositeKeyWithPagination(obj.Namespace(), attr, ctx.GetPageSize(), bookmark)
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
+// 	defer ctx.CloseQueryIterator(results)
+
+// 	for results.HasNext() {
+// 		queryResponse := lo.Must(results.Next())
+// 		tmp := new(authpb.Suggestion)
+
+// 		lo.Must0(json.Unmarshal(queryResponse.Value, tmp))
+
+// 		list = append(list, tmp)
+// 	}
+
+// 	if metadata == nil {
+// 		return nil, "", fmt.Errorf("metadata is nil")
+// 	}
+
+// 	return list, metadata.GetBookmark(), nil
+// }

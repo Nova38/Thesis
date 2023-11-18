@@ -2,7 +2,6 @@ package state
 
 import (
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/types/known/anypb"
 )
@@ -38,7 +37,7 @@ func ObjectToAuthObj(object Object) (obj *authpb.Object, err error) {
 	obj = &authpb.Object{
 		CollectionId:  object.GetCollectionId(),
 		ObjectType:    string(object.ProtoReflect().Type().Descriptor().FullName()),
-		ObjectIdParts: lo.Must(object.Key()),
+		ObjectIdParts: object.Key(),
 		Value:         msg,
 	}
 
@@ -73,7 +72,7 @@ func ObjectToSuggestion(obj Object) (suggestion *authpb.Suggestion, err error) {
 	suggestion = &authpb.Suggestion{
 		CollectionId:  obj.GetCollectionId(),
 		ObjectType:    string(obj.ProtoReflect().Type().Descriptor().FullName()),
-		ObjectIdParts: lo.Must(obj.Key()),
+		ObjectIdParts: obj.Key(),
 		Value:         msg,
 	}
 

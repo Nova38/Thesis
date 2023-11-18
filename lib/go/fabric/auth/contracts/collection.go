@@ -33,7 +33,7 @@ func (a CollectionImpl) CollectionGet(
 
 	col := &authpb.Collection{CollectionId: req.GetCollectionId()}
 
-	err = state.Get(ctx, col)
+	err = state.PrimaryGet(ctx, col)
 
 	return &cc.CollectionGetResponse{
 		Collection: col,
@@ -50,7 +50,7 @@ func (a CollectionImpl) CollectionGetList(
 		return nil, oops.Wrap(err)
 	}
 
-	list, mk, err := state.List(
+	list, mk, err := state.PrimaryList(
 		ctx,
 		&authpb.Collection{},
 		req.GetBookmark(),
@@ -74,7 +74,7 @@ func (a CollectionImpl) CollectionGetHistory(
 
 	col := &authpb.Collection{CollectionId: req.GetCollectionId()}
 
-	if err := state.Get(ctx, col); err != nil {
+	if err := state.PrimaryGet(ctx, col); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -102,7 +102,7 @@ func (a CollectionImpl) CollectionCreate(
 	}
 
 	// Create the collection
-	err = state.Create(ctx, req.GetCollection())
+	err = state.PrimaryCreate(ctx, req.GetCollection())
 
 	return &cc.CollectionCreateResponse{Collection: req.GetCollection()}, err
 }
@@ -118,7 +118,7 @@ func (a CollectionImpl) CollectionUpdate(
 	}
 	col := req.GetCollection()
 
-	err = state.Update(ctx, col, nil)
+	err = state.PrimaryUpdate(ctx, col, nil)
 
 	return &cc.CollectionUpdateResponse{
 		Collection: col,
@@ -153,5 +153,10 @@ func (a CollectionImpl) CollectionHideTx(
 		CollectionId: req.GetCollectionId(),
 	}
 
-	return res, state.HideTransaction(ctx, col, hidden)
+	_, err = state.HideTransaction(ctx, col, hidden)
+	if err != nil {
+		return nil, err''
+	}
+
+	return res, nil
 }

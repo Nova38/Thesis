@@ -1,15 +1,13 @@
 package generators
 
 import (
-	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+    auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+    "google.golang.org/protobuf/compiler/protogen"
+    "google.golang.org/protobuf/proto"
+    _ "google.golang.org/protobuf/proto"
+    _ "strings"
 
-	"google.golang.org/protobuf/compiler/protogen"
-	"google.golang.org/protobuf/proto"
-	_ "google.golang.org/protobuf/proto"
-
-	_ "strings"
-
-	_ "google.golang.org/protobuf/types/dynamicpb"
+    _ "google.golang.org/protobuf/types/dynamicpb"
 )
 
 type TextGenerater struct{}
@@ -39,6 +37,7 @@ func (sg *TextGenerater) GenerateFile(
 
 	v.VisitMessages(func(m *protogen.Message) {
 		g.P(m.Desc.FullName())
+
 		for _, f := range m.Fields {
 			g.P("\t -", f.Desc.FullName(), " - ", f.Desc.Message())
 		}

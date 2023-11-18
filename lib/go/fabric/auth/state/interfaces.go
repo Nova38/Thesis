@@ -15,7 +15,7 @@ type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
 	AuthFunc      func(ctx TxCtxInterface, ops []*authpb.Operation) (auth bool, err error)
 	Object        interface {
-		Key() (attr []string, err error)
+		Key() (attr []string)
 		// FlatKey() string
 		Namespace() string
 		GetCollectionId() string

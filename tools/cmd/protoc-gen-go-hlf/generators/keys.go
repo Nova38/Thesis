@@ -3,7 +3,7 @@ package generators
 import (
 	"strings"
 
-	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -75,7 +75,8 @@ func (kg *KeyGenerator) GenerateMessage(
 	}
 
 	kp := keySchema.GetKeys()
-	dCol := keySchema.GetDefaultCollectionId()
+	// dCol := keySchema.GetDefaultCollectionId()
+	// ObjectDomain := GetObjectDomain()
 
 	// sub := keySchema.GetSubObject()
 	// function for key
@@ -83,26 +84,23 @@ func (kg *KeyGenerator) GenerateMessage(
 
 	if kp.IsValid(newMsg) {
 		rawPaths := kp.GetPaths()
-		g.QualifiedGoIdent(stringsPackage.Ident("strings"))
-		g.QualifiedGoIdent(errorsPackage.Ident("errors"))
-		g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
+		// g.QualifiedGoIdent(stringsPackage.Ident("strings"))
+		// g.QualifiedGoIdent(errorsPackage.Ident("errors"))
+		// g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
-		g.P("func (m *", msg.GoIdent.GoName, ") ", "Key()", "([]string, error) {")
-		g.P("if m.GetCollectionId() == \"\" {")
-		g.P("m.CollectionId = \"", dCol, "\"")
-		g.P("}")
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "Key()", "[]string {")
 
-		g.P("attr := []string{m.GetCollectionId()}")
+		g.P("attr := []string{m.Namespace()}")
 
-		g.P("ok := lo.Try(func () error {")
+		// g.P("ok := lo.Try(func () error {")
 
 		for _, f := range rawPaths {
-			feild := msg.Desc.Fields().ByName(protoreflect.Name(f))
+			field := msg.Desc.Fields().ByName(protoreflect.Name(f))
 
-			if feild == nil {
+			if field == nil {
 				continue
 			}
-			if feild.IsList() {
+			if field.IsList() {
 				g.P("//", f, "is a list")
 				g.P("attr = append(attr, m.", PathToGetter(f), "...)")
 			} else {
@@ -110,23 +108,19 @@ func (kg *KeyGenerator) GenerateMessage(
 			}
 
 		}
-		g.P("return nil")
-		g.P("})")
 
-		g.P("if !ok {")
-		g.P("return nil, errors.New(\"Key is nil\")}")
-		g.P("return attr, nil")
+		g.P("return attr")
 		g.P("}")
 
-		g.P("func (m *", msg.GoIdent.GoName, ") ", "FlatKey()", "(string) {")
-		g.P("attr, err := m.Key()")
-		g.P("if err != nil {")
-		g.P("return \"\"")
-		g.P("}")
-		// remove the first element which is the collection id
-		g.P("attr = attr[1:]")
-		g.P("return strings.Join(attr, \"-\")")
-		g.P("}")
+		//g.P("func (m *", msg.GoIdent.GoName, ") ", "FlatKey()", "(string) {")
+		//g.P("attr, err := m.Key()")
+		//g.P("if err != nil {")
+		//g.P("return \"\"")
+		//g.P("}")
+		//// remove the first element which is the collection id
+		//g.P("attr = attr[1:]")
+		//g.P("return strings.Join(attr, \"-\")")
+		//g.P("}")
 
 		return false
 	}
@@ -167,10 +161,16 @@ func toSubPaths(rawPaths string) []string {
 	return p
 }
 
-func KeySchemaOptions(m *protogen.Message) *auth_pb.KeySchema {
-	v, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_KeySchema).(*auth_pb.KeySchema)
+func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
+	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_KeySchema).(*authpb.KeySchema)
 	if !ok {
 		return nil
 	}
 	return v
 }
+
+//func GetObjectDomain(m *protogen.Message) *authpb.ObjectDomain {
+//	v, ok := proto.GetExtension(authpb.E_ObjectType, authpb.E_ObjectDomain).(*authpb.ObjectDomain)
+//
+//    return v
+//}

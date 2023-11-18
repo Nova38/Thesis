@@ -36,7 +36,7 @@ func (o ObjectContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = state.Get(ctx, obj); err != nil {
+	if err = state.PrimaryGet(ctx, obj); err != nil {
 		return nil, err
 	}
 
@@ -62,9 +62,10 @@ func (o ObjectContractImpl) List(
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	proto.Reset(obj) // reset the object to its default state, so that we can get the full list
+	proto.Reset(obj)
+	// reset the object to its default state, so that we can get the full list
 
-	list, mk, err := state.List(ctx, obj, req.GetBookmark())
+	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 
 	res = &cc.ListResponse{
 		Bookmark: mk,
@@ -100,7 +101,7 @@ func (o ObjectContractImpl) ListByCollection(
 	}
 	// proto.Reset(obj) // reset the object to its default state, so that we can get the full list
 
-	list, mk, err := state.List(ctx, obj, req.GetBookmark())
+	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -131,7 +132,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	list, mk, err := state.List(ctx, obj, req.GetBookmark())
+	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -218,7 +219,9 @@ func (o ObjectContractImpl) Create(
 		return nil, oops.Wrap(err)
 	}
 
-	err = state.Create(ctx, obj)
+	// Check if the object is a valid object for the collection??
+
+	err = state.PrimaryCreate(ctx, obj)
 
 	return &cc.CreateResponse{
 		Object: req.GetObject(),
@@ -240,7 +243,7 @@ func (o ObjectContractImpl) Update(
 		return nil, oops.Wrap(err)
 	}
 
-	err = state.Update(ctx, obj, req.GetUpdateMask())
+	err = state.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
 
 	return &cc.UpdateResponse{
 		Object: req.GetObject(),
@@ -262,7 +265,7 @@ func (o ObjectContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	err = state.Delete(ctx, obj)
+	err = state.PrimaryDelete(ctx, obj)
 
 	return &cc.DeleteResponse{
 		Object: req.GetObject(),
@@ -328,32 +331,71 @@ func (o ObjectContractImpl) Suggestion(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionRequest,
 ) (res *cc.SuggestionResponse, err error) {
-	// TODO implement me
-	panic("implement me")
-}
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-func (o ObjectContractImpl) SuggestionList(
-	ctx state.TxCtxInterface,
-	req *cc.SuggestionListRequest,
-) (res *cc.SuggestionListResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	if err = state.Suggestion(ctx, req.GetSuggestion()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.SuggestionResponse{
+		Suggestion: req.Suggestion,
+	}, nil
 }
 
 func (o ObjectContractImpl) SuggestionListByCollection(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionListByCollectionRequest,
 ) (res *cc.SuggestionListByCollectionResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	sug := &authpb.Suggestion{
+		CollectionId: req.GetObject().GetCollectionId(),
+	}
+
+	list, mk, err := state.SuggestionListByCollection(ctx, sug, req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.SuggestionListByCollectionResponse{
+		Bookmark:    mk,
+		Suggestions: list,
+	}
+
+	return res, nil
 }
 
 func (o ObjectContractImpl) SuggestionByPartialKey(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionByPartialKeyRequest,
 ) (res *cc.SuggestionByPartialKeyResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	sug := &authpb.Suggestion{
+		CollectionId:  req.GetCollectionId(),
+		ObjectType:    req.GetObjectType(),
+		ObjectIdParts: req.GetObjectIdParts(),
+	}
+
+	list, mk, err := state.PartialSuggestionList(ctx, sug, int(req.GetNumAttrs()), req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.SuggestionByPartialKeyResponse{
+		Bookmark:    mk,
+		Suggestions: list,
+	}
+
+	return res, nil
 }
 
 // ---------------------------------- Invoke -----------------------------------
@@ -362,22 +404,61 @@ func (o ObjectContractImpl) SuggestionCreate(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionCreateRequest,
 ) (res *cc.SuggestionCreateResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = state.SuggestionCreate(ctx, req.GetSuggestion()); err != nil {
+		ctx.GetLogger().Warn("SuggestionCreate", "err", err)
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.SuggestionCreateResponse{
+		Suggestion: req.GetSuggestion(),
+	}, nil
 }
 
 func (o ObjectContractImpl) SuggestionDelete(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionDeleteRequest,
 ) (res *cc.SuggestionDeleteResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = state.SuggestionDelete(ctx, req.GetSuggestion()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.SuggestionDeleteResponse{
+		Suggestion: req.GetSuggestion(),
+	}, nil
 }
 
 func (o ObjectContractImpl) SuggestionApprove(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionApproveRequest,
 ) (res *cc.SuggestionApproveResponse, err error) {
-	// TODO implement me
-	panic("implement me")
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	u, err := state.SuggestionApprove(ctx, req.GetSuggestion())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	updated := &authpb.Object{}
+
+	if updated, err = state.ObjectToAuthObj(*u); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.SuggestionApproveResponse{
+		Object:     updated,
+		Suggestion: req.GetSuggestion(),
+	}, nil
 }
