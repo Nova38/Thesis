@@ -12,9 +12,9 @@ service RBACService {
 
 
 
-  // ==================== Membership ====================
+  // ══════════════════== Membership ══════════════════==
 
-  // -------------------- Query -------------------------
+  // ──────────────────-- Query ────────────────────────-
 
     rpc MembershipGetList(MembershipGetListRequest) returns (MembershipGetListResponse) {
       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -46,7 +46,7 @@ service RBACService {
       option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
     }
 
-  // -------------------- Invoke ------------------------
+  // ──────────────────-- Invoke ────────────────────────
 
     rpc MembershipCreate(MembershipCreateRequest) returns (MembershipCreateResponse) {
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -61,8 +61,8 @@ service RBACService {
     }
 
 
-  // ==================== Roles =========================
-  // -------------------- Query -------------------------
+  // ══════════════════== Roles ════════════════════════=
+  // ──────────────────-- Query ────────────────────────-
 
     rpc RoleGetList(RoleGetListRequest) returns (RoleGetListResponse) {
       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -89,7 +89,7 @@ service RBACService {
       option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
     }
 
-  // -------------------- Invoke ------------------------
+  // ──────────────────-- Invoke ────────────────────────
 
     rpc RoleCreate(RoleCreateRequest) returns (RoleCreateResponse) {
       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -115,11 +115,11 @@ service RBACService {
 
 
 
-// ==================== Roles =========================
+// ══════════════════== Roles ════════════════════════=
 // Used for setting Role Permissions
 // !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
 message Role {
-  option (auth.object_domain)     = OBJECT_DOMAIN_OBJECT;
+  option (auth.key_schema).object_domain    = OBJECT_DOMAIN_PRIMARY_OBJECT;
   option (auth.key_schema).keys = {paths: ["role_id"]};
 
   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
@@ -130,7 +130,7 @@ message Role {
   repeated string parent_role_ids = 7;
 }
 
-// -------------------- Query -------------------------
+// ──────────────────-- Query ────────────────────────-
 
   message RoleGetRequest {
     string collection_id = 1;
@@ -169,7 +169,7 @@ message Role {
     auth.History history = 1;
   }
 
-  // -------------------- Invoke ------------------------
+  // ──────────────────-- Invoke ────────────────────────
   message RoleCreateRequest {
     string msp_id = 1;
     string user_id = 2;
@@ -206,12 +206,12 @@ message Role {
 
 
 
-// ==================== Membership ====================
+// ══════════════════== Membership ══════════════════==
 // Used for Assigning Roles to Users
 // !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
 // !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
 message Membership {
-  option (auth.object_domain)              = OBJECT_DOMAIN_OBJECT;
+  option (auth.key_schema).object_domain              = OBJECT_DOMAIN_PRIMARY_OBJECT;
   option (auth.key_schema).keys     = {paths: [ "msp_id","user_id" ,"role_id"]};
 
   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
@@ -220,7 +220,7 @@ message Membership {
   string role_id = 4 [(buf.validate.field).string.min_len = 1];
 }
 
-// -------------------- Query -------------------------
+// ──────────────────-- Query ────────────────────────-
 
   message MembershipGetRequest {
     string msp_id = 1;
@@ -275,7 +275,7 @@ message Membership {
     auth.History history = 1;
   }
 
-// -------------------- Invoke ------------------------
+// ──────────────────-- Invoke ────────────────────────
   message MembershipCreateRequest {
     string msp_id = 1;
     string user_id = 2;

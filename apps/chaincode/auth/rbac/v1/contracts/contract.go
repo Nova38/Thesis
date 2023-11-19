@@ -52,9 +52,9 @@ func (a RbacContractImpl) Authenticate(
 }
 
 // NewAuthContract
-// -----------------------------------------------------------------------------
+// ───────────────────────────────────────────────────────────────────────────--
 // Build Contract
-// -----------------------------------------------------------------------------
+// ───────────────────────────────────────────────────────────────────────────--
 func NewAuthContract(baseName string) *RbacContractImpl {
 	contract := new(RbacContractImpl)
 	contract.TransactionContextHandler = &AuthTxCtx{}

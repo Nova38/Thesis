@@ -16,14 +16,14 @@ import "auth/v1/auth.proto";
 
 
 
-// --------------------------------------------------
+// ────────────────────────────────────────────────--
 // Specimen
-// --------------------------------------------------
+// ────────────────────────────────────────────────--
 
 message Specimen {
-  // option (hlf.key_schema).namespace = "specimen";
 
-  option (auth.key_schema).keys = {paths: ["id.collection_id", "id.id"]};
+  option (auth.key_schema).keys = {paths: ["specimen_id"]};
+  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
 
   message Primary {
     string catalog_number                     = 1;

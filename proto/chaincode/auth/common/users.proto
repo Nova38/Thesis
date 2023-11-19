@@ -13,8 +13,8 @@ import "google/protobuf/empty.proto";
 
 service UserService {
 
-  // ==================== User ======================
-  // -------------------- Query ---------------------
+  // ══════════════════== User ═════════════════════=
+  // ──────────────────-- Query ─────────────────────
 
   rpc UserGetCurrentId(google.protobuf.Empty) returns (UserGetCurrentIdResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -46,7 +46,7 @@ service UserService {
     option (auth.operation) = {action: ACTION_OBJECT_VIEW_HIDDEN_TXS};
   }
 
-  // -------------------- Invoke ------------------------
+  // ──────────────────-- Invoke ────────────────────────
 
   rpc UserCreate(UserCreateRequest) returns (UserCreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -80,9 +80,9 @@ service UserService {
 
 
 
-// ==================== User ======================
+// ══════════════════== User ═════════════════════=
 
-// -------------------- Query ---------------------
+// ──────────────────-- Query ─────────────────────
   message UserGetCurrentResponse {
     auth.User user = 1;
   }
@@ -136,7 +136,7 @@ service UserService {
     auth.HiddenTxList hidden_txs = 3;
   }
 
-// -------------------- Invoke ---------------------
+// ──────────────────-- Invoke ─────────────────────
 
   // UserCreate
   message UserCreateRequest {

@@ -14,16 +14,16 @@ import (
 // ──────────────────────────────────────────────────
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
-func PrimaryExists[T Object](ctx TxCtxInterface, obj T) bool {
-	key := lo.Must(MakeCompositeKey(obj))
+func PrimaryExists[T common.ObjectInterface](ctx TxCtxInterface, obj T) bool {
+	key := lo.Must(MakePrimaryKey(obj))
 	return KeyExists(ctx, key)
 }
 
-func PrimaryGet[T Object](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryGet[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{ctx: ctx}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
 	}
@@ -34,17 +34,69 @@ func PrimaryGet[T Object](ctx TxCtxInterface, obj T) (err error) {
 	return l.Get(obj)
 }
 
-func PrimaryByPartialKey[T Object](
+func PrimaryGetFull[T common.ObjectInterface](
+	ctx TxCtxInterface,
+	obj T,
+) (object *FullObject[T], err error) {
+	l := &Ledger[T]{ctx: ctx}
+	object = &FullObject[T]{}
+
+	ops := []*authpb.Operation{
+		{
+			Action:       authpb.Action_ACTION_OBJECT_VIEW,
+			CollectionId: obj.ObjectKey().GetCollectionId(),
+			Namespace:    obj.Namespace(),
+			Paths:        nil,
+		},
+		{
+			Action:       authpb.Action_ACTION_OBJECT_VIEW_HIDDEN_TXS,
+			CollectionId: obj.ObjectKey().GetCollectionId(),
+			Namespace:    obj.Namespace(),
+			Paths:        nil,
+		},
+		{
+			Action:       authpb.Action_ACTION_OBJECT_VIEW_HIDDEN_TXS,
+			CollectionId: obj.ObjectKey().GetCollectionId(),
+			Namespace:    obj.Namespace(),
+			Paths:        nil,
+		},
+	}
+	if auth, err := ctx.Authorize(ops); !auth || err != nil {
+		return nil, oops.Wrap(common.UserPermissionDenied)
+	}
+	// Get the object
+	if err = l.Get(obj); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	object.Object = obj
+
+	object.Suggestions, _, err = SuggestionListByObject(ctx, obj.ObjectKey(), "")
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	// Get the history
+	object.History, err = history(ctx, obj, true)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	// state.ObjectToAuthObj(obj, object.Value)
+
+	return object, nil
+}
+
+func PrimaryByPartialKey[T common.ObjectInterface](
 	ctx TxCtxInterface,
 	obj T,
 	numAttr int,
 	bookmark string,
 ) (list []T, mk string, err error) {
-    l := &Ledger[T]{ctx: ctx}
+	l := &Ledger[T]{ctx: ctx}
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
 	}
@@ -53,25 +105,23 @@ func PrimaryByPartialKey[T Object](
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 
-
-
 	return l.GetPartialKeyList(obj, numAttr, bookmark)
 }
 
-func PrimaryList[T Object](
+func PrimaryList[T common.ObjectInterface](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	return PrimaryByPartialKey(ctx, obj, len(obj.Key()), bookmark)
+	return PrimaryByPartialKey(ctx, obj, 1, bookmark)
 }
 
-func ByCollection[T Object](
+func ByCollection[T common.ObjectInterface](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	return PrimaryByPartialKey(ctx, obj, len(obj.Key())-1, bookmark)
+	return PrimaryByPartialKey(ctx, obj, 1, bookmark)
 }
 
 // ──────────────────────────────────────────────────
@@ -84,7 +134,7 @@ func ByCollection[T Object](
 //   - the key cannot be created,
 //   - the object cannot be marshalled
 //   - Authorization errors
-func PrimaryCreate[T Object](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
@@ -92,7 +142,7 @@ func PrimaryCreate[T Object](ctx TxCtxInterface, obj T) (err error) {
 	// Authorize the operation
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_OBJECT_CREATE,
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
 	}
@@ -104,13 +154,17 @@ func PrimaryCreate[T Object](ctx TxCtxInterface, obj T) (err error) {
 	return l.Create(obj)
 }
 
-func PrimaryUpdate[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldMask) (err error) {
+func PrimaryUpdate[T common.ObjectInterface](
+	ctx TxCtxInterface,
+	obj T,
+	mask *fieldmaskpb.FieldMask,
+) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_OBJECT_UPDATE,
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        mask,
 	}
@@ -122,13 +176,13 @@ func PrimaryUpdate[T Object](ctx TxCtxInterface, obj T, mask *fieldmaskpb.FieldM
 	return l.Update(obj, mask)
 }
 
-func PrimaryDelete[T Object](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_OBJECT_DELETE,
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
 	}
@@ -141,5 +195,67 @@ func PrimaryDelete[T Object](ctx TxCtxInterface, obj T) (err error) {
 
 	// TODO: Handle deleting refs/sub objects here
 
+	// TODO: Handle deleting suggestions here
+	// TODO: Handle deleting hiddenTx objects here
+
 	return err
 }
+
+// func PrimaryDeleteFromKey(ctx TxCtxInterface, key *authpb.ObjectKey) (obj *authpb.Object, err error) {
+// 	k, err := MakeObjectKeyPrimary(key)
+// 	if err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
+
+// 	bytes, err := ctx.GetStub().GetState(k)
+
+// 	if bytes == nil && err == nil {
+// 		return nil, oops.Wrap(common.KeyNotFound)
+// 	}
+
+// 	if err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
+
+// 	obj = &authpb.Object{}
+// 	if err = json.Unmarshal(bytes, obj); err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
+
+// 	// obj, err = l.GetFromKey(k)
+// 	// if err != nil {
+// 	// 	return obj, oops.Wrap(err)
+// 	// }
+
+// 	// err = PrimaryDelete(ctx, obj)
+// 	// if err != nil {
+// 	// 	return obj, oops.Wrap(err)
+// 	// }
+
+// 	return obj, nil
+// }
+
+// func PrimaryGetFromKey[T common.ObjectInterface](ctx TxCtxInterface, key *authpb.ObjectKey) (obj T, err error) {
+// 	l := &Ledger[T]{ctx: ctx}
+// 	op := &authpb.Operation{
+// 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+// 		CollectionId: key.GetCollectionId(),
+// 		Namespace:    key.GetObjectType(),
+// 		Paths:        nil,
+// 	}
+// 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+// 		return obj, oops.Wrap(common.UserPermissionDenied)
+// 	}
+
+// 	k, err := MakeObjectKeyPrimary(key)
+// 	if err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
+
+// 	obj, err = l.GetFromKey(k)
+// 	if err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
+
+// 	return obj, l.Get(obj)
+// }

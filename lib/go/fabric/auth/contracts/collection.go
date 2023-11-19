@@ -155,7 +155,7 @@ func (a CollectionImpl) CollectionHideTx(
 
 	_, err = state.HideTransaction(ctx, col, hidden)
 	if err != nil {
-		return nil, err''
+		return nil, err
 	}
 
 	return res, nil

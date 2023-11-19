@@ -52,9 +52,9 @@ func (s *SpecimenContractImpl) BeforeTransaction(ctx *CCBioTxCtx) (err error) {
 	return nil
 }
 
-// -----------------------------------------------------------------------------
+// ───────────────────────────────────────────────────────────────────────────--
 // Build Contract
-// -----------------------------------------------------------------------------
+// ───────────────────────────────────────────────────────────────────────────--
 
 func NewSpecimenContract(baseName string) *SpecimenContractImpl {
 	contract := new(SpecimenContractImpl)

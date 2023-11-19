@@ -12,18 +12,29 @@
 
     },
     {
-        "invoke" : "auth.users:UserCreate",
+        "query" :"auth.generic:List",
+        "args": [{
+            "Bookmark": "",
+            "Limit": 0,
+            "Object": {
+                "name": "collection1"
+            }
+        }]
+
+    },
+    {
+        "invoke" : "auth.users:List",
         "args":
         [
             {
                 "name": "admin"
             }
-        ],
-        "identity": "earl",
+        ]
+        // "identity": "earl",
     },
     {
         "query" : "auth.users:UserGetCurrentId"  ,
-        "identity": "earl",
+        "identity": "earl"
 
     },
     {
@@ -33,8 +44,8 @@
             {
                 "name": "admin"
             }
-        ],
-        "identity": "earl",
+        ]
+        // "identity": "earl",
     },
     {
         "query" : "auth.users:UserGetList",

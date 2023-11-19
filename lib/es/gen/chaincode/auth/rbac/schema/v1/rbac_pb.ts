@@ -8,7 +8,7 @@ import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
 import { ACEntry, Collection, History, User } from "../../../../../auth/v1/auth_pb.js";
 
 /**
- * ==================== Roles =========================
+ * ══════════════════== Roles ════════════════════════=
  * Used for setting Role Permissions
  * !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
  *
@@ -429,7 +429,7 @@ export class RoleGetHistoryResponse extends Message<RoleGetHistoryResponse> {
 }
 
 /**
- * -------------------- Invoke ------------------------
+ * ──────────────────-- Invoke ────────────────────────
  *
  * @generated from message rbac.schema.v1.RoleCreateRequest
  */
@@ -695,7 +695,7 @@ export class RoleDeleteResponse extends Message<RoleDeleteResponse> {
 }
 
 /**
- * ==================== Membership ====================
+ * ══════════════════== Membership ══════════════════==
  * Used for Assigning Roles to Users
  * !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
  * !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
@@ -1239,7 +1239,7 @@ export class MembershipGetHistoryResponse extends Message<MembershipGetHistoryRe
 }
 
 /**
- * -------------------- Invoke ------------------------
+ * ──────────────────-- Invoke ────────────────────────
  *
  * @generated from message rbac.schema.v1.MembershipCreateRequest
  */

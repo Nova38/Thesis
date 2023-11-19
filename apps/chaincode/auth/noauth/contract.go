@@ -15,9 +15,9 @@ import (
 	"github.com/samber/oops"
 )
 
-// =============================================
+// ═════════════════════════════════════════════
 // Transaction Context
-// =============================================
+// ═════════════════════════════════════════════
 var _ state.TxCtxInterface = (*NoAuthTxCtx)(nil)
 
 type NoAuthTxCtx struct {
@@ -34,9 +34,9 @@ func Authenticate(ctx state.TxCtxInterface, ops []*authpb.Operation) (bool, erro
 	return true, nil
 }
 
-// =============================================
+// ═════════════════════════════════════════════
 // Contract
-// =============================================
+// ═════════════════════════════════════════════
 
 // NoAuthContract is the contract for the NoAuth chaincode
 
@@ -63,13 +63,13 @@ func BeforeTransaction(ctx state.TxCtxInterface) (err error) {
 	return nil
 }
 
-// =============================================
+// ═════════════════════════════════════════════
 // Before Transaction
-// =============================================
+// ═════════════════════════════════════════════
 
-// =============================================
+// ═════════════════════════════════════════════
 // Main
-// =============================================
+// ═════════════════════════════════════════════
 
 func main() {
 	fmt.Println("Starting BioChain")
@@ -87,20 +87,24 @@ func main() {
 	auth := new(NoAuthContract)
 	users := new(contracts.UserImpl)
 	collections := new(contracts.CollectionImpl)
+	generic := new(contracts.ObjectContractImpl)
 
 	auth.Name = "auth.none"
 	users.Name = "auth.users"
 	collections.Name = "auth.collections"
+	generic.Name = "auth.generic"
 
 	auth.TransactionContextHandler = &NoAuthTxCtx{}
 	users.TransactionContextHandler = &NoAuthTxCtx{}
 	collections.TransactionContextHandler = &NoAuthTxCtx{}
+	generic.TransactionContextHandler = &NoAuthTxCtx{}
 
 	auth.BeforeTransaction = BeforeTransaction
 	users.BeforeTransaction = BeforeTransaction
 	collections.BeforeTransaction = BeforeTransaction
+	generic.BeforeTransaction = BeforeTransaction
 
-	sm, err := contractapi.NewChaincode(auth, users, collections)
+	sm, err := contractapi.NewChaincode(auth, users, collections, generic)
 	if err != nil {
 		fmt.Printf("Error creating No Auth contract: %s", err)
 		panic(err)

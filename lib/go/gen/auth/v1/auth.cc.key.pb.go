@@ -5,31 +5,68 @@
 
 package v1
 
-func (m *Suggestion) Namespace() string {
-	return "auth.Suggestion"
-}
-func (m *Suggestion) Key() []string {
-	attr := []string{m.Namespace()}
-	attr = append(attr, m.GetObjectType())
-	// object_id_partsis a list
-	attr = append(attr, m.GetObjectIdParts()...)
-	attr = append(attr, m.GetSuggestionId())
-	return attr
+func (m *Reference) Namespace() string {
+	return "auth.Reference"
 }
 func (m *Collection) Namespace() string {
 	return "auth.Collection"
 }
-func (m *Collection) Key() []string {
-	attr := []string{m.Namespace()}
+func (m *Collection) KeyAttr() []string {
+	attr := []string{}
 	attr = append(attr, m.GetCollectionId())
 	return attr
+}
+
+// Global Object
+func (m *Collection) IsGlobal() bool {
+	return true
+}
+func (m *Collection) ObjectKey() *ObjectKey {
+	key := &ObjectKey{
+		CollectionId:  "global",
+		ObjectType:    "auth.Collection",
+		ObjectIdParts: m.KeyAttr(),
+	}
+	return key
 }
 func (m *User) Namespace() string {
 	return "auth.User"
 }
-func (m *User) Key() []string {
-	attr := []string{m.Namespace()}
+func (m *User) KeyAttr() []string {
+	attr := []string{}
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
+}
+
+// Global Object
+func (m *User) IsGlobal() bool {
+	return true
+}
+func (m *User) ObjectKey() *ObjectKey {
+	key := &ObjectKey{
+		CollectionId:  "global",
+		ObjectType:    "auth.User",
+		ObjectIdParts: m.KeyAttr(),
+	}
+	return key
+}
+func (m *Suggestion) Namespace() string {
+	return "auth.Suggestion"
+}
+func (m *Suggestion) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetSuggestionId())
+	return attr
+}
+
+// Domain Object
+func (m *Suggestion) IsSecondary() bool {
+	return true
+}
+func (m *Suggestion) ObjectKey() *ObjectKey {
+	return m.GetPrimaryKey()
+}
+func (m *HiddenTxList) Namespace() string {
+	return "auth.HiddenTxList"
 }

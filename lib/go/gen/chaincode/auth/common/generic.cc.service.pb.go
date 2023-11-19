@@ -79,8 +79,8 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_HIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
-	// ================================ Suggestions ==============================
-	// -------------------------------- Query ------------------------------------
+	// ══════════════════════════════== Suggestions ══════════════════════════════
+	// ──────────────────────────────-- Query ────────────────────────────────────
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
 	Suggestion(ctx T, req *SuggestionRequest) (res *SuggestionResponse, err error)
@@ -103,7 +103,7 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
 	SuggestionByPartialKey(ctx T, req *SuggestionByPartialKeyRequest) (res *SuggestionByPartialKeyResponse, err error)
 
-	// -------------------------------- Invoke -----------------------------------
+	// ──────────────────────────────-- Invoke ─────────────────────────────────--
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_SUGGEST_CREATE
 	SuggestionCreate(ctx T, req *SuggestionCreateRequest) (res *SuggestionCreateResponse, err error)

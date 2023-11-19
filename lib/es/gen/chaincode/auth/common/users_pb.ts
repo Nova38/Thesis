@@ -8,7 +8,7 @@ import { Message, proto3 } from "@bufbuild/protobuf";
 import { HiddenTx, HiddenTxList, History, User } from "../../../auth/v1/auth_pb.js";
 
 /**
- * -------------------- Query ---------------------
+ * ──────────────────-- Query ─────────────────────
  *
  * @generated from message auth.common.UserGetCurrentResponse
  */

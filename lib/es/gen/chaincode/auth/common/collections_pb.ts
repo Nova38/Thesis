@@ -260,7 +260,7 @@ export class CollectionGetHistoryResponse extends Message<CollectionGetHistoryRe
 }
 
 /**
- * -------------------- Invoke ------------------------
+ * ──────────────────-- Invoke ────────────────────────
  * CollectionCreate
  *
  * @generated from message auth.common.CollectionCreateRequest

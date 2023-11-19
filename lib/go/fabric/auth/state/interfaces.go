@@ -6,7 +6,9 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
@@ -14,16 +16,8 @@ import (
 type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
 	AuthFunc      func(ctx TxCtxInterface, ops []*authpb.Operation) (auth bool, err error)
-	Object        interface {
-		Key() (attr []string)
-		// FlatKey() string
-		Namespace() string
-		GetCollectionId() string
 
-		proto.Message
-	}
-
-	StubInterface[T Object] interface {
+	StubInterface[T common.ObjectInterface] interface {
 		Exists(ctx TxCtxInterface, key string) bool
 		Create(ctx TxCtxInterface, obj T) (err error)
 		Update(ctx TxCtxInterface, obj T) (err error)
@@ -35,14 +29,14 @@ type (
 		ByPartialKey(ctx TxCtxInterface, obj T, numAttr int, bookmark string) (list []T, err error)
 	}
 
-	HistoryStubInterface[T Object] interface {
+	HistoryStubInterface[T common.ObjectInterface] interface {
 		History(ctx TxCtxInterface, obj T) (err error)
 		FullHistory(ctx TxCtxInterface, obj T) (err error)
 		Transaction(ctx TxCtxInterface, obj T) (err error)
 		HideTransaction(ctx TxCtxInterface, obj T) (err error)
 	}
 
-	SuggestStubInterface[T Object] interface {
+	SuggestStubInterface[T common.ObjectInterface] interface {
 		Suggestion(
 			ctx TxCtxInterface,
 			suggestionId string,
@@ -92,7 +86,7 @@ type (
 
 		GetPageSize() int32
 		SetPageSize(pageSize int32)
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		// Validate functions
@@ -100,7 +94,7 @@ type (
 
 		// Validate - Validates the message
 		Validate(msg proto.Message) error
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		// Info functions
@@ -109,7 +103,7 @@ type (
 		// GetFnName - Gets the function name for the transaction
 		GetFnName() (name string)
 
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		// Lifecycle functions
@@ -118,7 +112,7 @@ type (
 		// MakeLastModified - Makes the last modified activity
 		MakeLastModified() (mod *authpb.StateActivity, err error)
 
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		// Auth Functions
@@ -136,7 +130,7 @@ type (
 		//GetOperations() (ops *authpb.Operation, err error)
 		//SetOperationsPaths(paths *fieldmaskpb.FieldMask) (err error)
 
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		//  User Functions
@@ -152,7 +146,7 @@ type (
 		//   - User to be registered
 		// GetUser() (user *authpb.User, err error)
 
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		//GetCollection - Gets the collection value from the state
 		//
@@ -162,7 +156,7 @@ type (
 		//
 		//// SetCollection - Sets the collection value in the state
 		//SetCollection(collectionId string) (col *authpb.Collection, err error)
-		// ---------------------------------------------------------------------
+		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
 		//  ACL Functions

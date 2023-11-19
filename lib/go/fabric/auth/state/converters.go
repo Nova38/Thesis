@@ -1,12 +1,16 @@
 package state
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 	"google.golang.org/protobuf/types/known/anypb"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-func AuthObjToObject(obj *authpb.Object) (object Object, err error) {
+func ProtoToObject(obj *authpb.Object) (object common.ObjectInterface, err error) {
 	if obj == nil || obj.GetValue() == nil {
 		return nil, oops.In("GetObject").Errorf("Object is nil")
 	}
@@ -15,7 +19,7 @@ func AuthObjToObject(obj *authpb.Object) (object Object, err error) {
 	if err != nil {
 		return nil, err
 	}
-	object, ok := m.(Object)
+	object, ok := m.(common.ObjectInterface)
 
 	if !ok {
 		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")
@@ -24,7 +28,29 @@ func AuthObjToObject(obj *authpb.Object) (object Object, err error) {
 	return object, nil
 }
 
-func ObjectToAuthObj(object Object) (obj *authpb.Object, err error) {
+// Does not populate the object's key
+func ObjectKeyToObjectType(key *authpb.ObjectKey) (object common.ObjectInterface, err error) {
+	if key == nil {
+		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+	}
+
+	name := protoreflect.FullName(key.GetObjectType())
+
+	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
+	if err != nil {
+		return nil, err
+	}
+
+	object, ok := t.New().Interface().(common.ObjectInterface)
+
+	if !ok {
+		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")
+	}
+
+	return object, nil
+}
+
+func ObjectToProto(object common.ObjectInterface) (obj *authpb.Object, err error) {
 	if obj == nil {
 		return nil, oops.In("GetObject").Errorf("Object is nil")
 	}
@@ -34,21 +60,24 @@ func ObjectToAuthObj(object Object) (obj *authpb.Object, err error) {
 		return nil, err
 	}
 
+	key := object.ObjectKey()
+	if key == nil {
+		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+	}
+
 	obj = &authpb.Object{
-		CollectionId:  object.GetCollectionId(),
-		ObjectType:    string(object.ProtoReflect().Type().Descriptor().FullName()),
-		ObjectIdParts: object.Key(),
-		Value:         msg,
+		Key:   key,
+		Value: msg,
 	}
 
 	return obj, nil
 }
 
-func ListObjectToAuthObjs(list []Object) (objs []*authpb.Object, err error) {
+func ListObjectToProtos(list []common.ObjectInterface) (objs []*authpb.Object, err error) {
 	for _, o := range list {
 		var msg *authpb.Object
 
-		if msg, err = ObjectToAuthObj(o); err != nil {
+		if msg, err = ObjectToProto(o); err != nil {
 			return nil, err
 		}
 		objs = append(objs, msg)
@@ -59,7 +88,7 @@ func ListObjectToAuthObjs(list []Object) (objs []*authpb.Object, err error) {
 
 // ──────────────────────────────────────────────────
 
-func ObjectToSuggestion(obj Object) (suggestion *authpb.Suggestion, err error) {
+func ObjectToSuggestion(obj common.ObjectInterface) (suggestion *authpb.Suggestion, err error) {
 	if suggestion == nil {
 		return nil, oops.In("GetObject").Errorf("Object is nil")
 	}
@@ -69,17 +98,21 @@ func ObjectToSuggestion(obj Object) (suggestion *authpb.Suggestion, err error) {
 		return nil, err
 	}
 
+	primaryKey := obj.ObjectKey()
+	if primaryKey == nil {
+		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+	}
+
 	suggestion = &authpb.Suggestion{
-		CollectionId:  obj.GetCollectionId(),
-		ObjectType:    string(obj.ProtoReflect().Type().Descriptor().FullName()),
-		ObjectIdParts: obj.Key(),
-		Value:         msg,
+		PrimaryKey: primaryKey,
+		Paths:      &fieldmaskpb.FieldMask{},
+		Value:      msg,
 	}
 
 	return suggestion, nil
 }
 
-func SuggestionToObject(s *authpb.Suggestion) (obj Object, err error) {
+func SuggestionToObject(s *authpb.Suggestion) (obj common.ObjectInterface, err error) {
 	if s == nil {
 		return nil, oops.In("GetObject").Errorf("Object is nil")
 	}
@@ -88,7 +121,7 @@ func SuggestionToObject(s *authpb.Suggestion) (obj Object, err error) {
 	if err != nil {
 		return nil, err
 	}
-	object, ok := m.(Object)
+	object, ok := m.(common.ObjectInterface)
 
 	if !ok {
 		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")

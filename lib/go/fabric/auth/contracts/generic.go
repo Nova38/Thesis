@@ -3,6 +3,7 @@ package contracts
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
@@ -15,15 +16,15 @@ type ObjectContractImpl struct {
 	cc.GenericServiceBase
 }
 
-// ================================== Object =================================
-// ---------------------------------- Query ----------------------------------
+// ════════════════════════════════════ Object ═════════════════════════════════════
+// ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ObjectContractImpl) Get(
 	ctx state.TxCtxInterface,
 	req *cc.GetRequest,
 ) (res *cc.GetResponse, err error) {
 	var (
-		obj state.Object
+		obj common.ObjectInterface
 		msg *authpb.Object
 	)
 
@@ -32,7 +33,7 @@ func (o ObjectContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -40,7 +41,7 @@ func (o ObjectContractImpl) Get(
 		return nil, err
 	}
 
-	if msg, err = state.ObjectToAuthObj(obj); err != nil {
+	if msg, err = state.ObjectToProto(obj); err != nil {
 		return nil, err
 	} else {
 		return &cc.GetResponse{
@@ -58,7 +59,7 @@ func (o ObjectContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -72,14 +73,7 @@ func (o ObjectContractImpl) List(
 		Objects:  []*authpb.Object{},
 	}
 
-	//for _, o := range list {
-	//	var msg *authpb.Object
-	//	if msg, err = common.ObjectToAuthObj(o); err != nil {
-	//		return nil, err
-	//	}
-	//	res.Objects = append(res.Objects, msg)
-	//}
-	if res.Objects, err = state.ListObjectToAuthObjs(list); err != nil {
+	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -95,7 +89,7 @@ func (o ObjectContractImpl) ListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -111,7 +105,7 @@ func (o ObjectContractImpl) ListByCollection(
 		Objects:  []*authpb.Object{},
 	}
 
-	if res.Objects, err = state.ListObjectToAuthObjs(list); err != nil {
+	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -127,7 +121,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -142,7 +136,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		Objects:  []*authpb.Object{},
 	}
 
-	if res.Objects, err = state.ListObjectToAuthObjs(list); err != nil {
+	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -154,7 +148,7 @@ func (o ObjectContractImpl) History(
 	req *cc.HistoryRequest,
 ) (res *cc.HistoryResponse, err error) {
 	var (
-		obj state.Object
+		obj common.ObjectInterface
 		h   *authpb.History
 	)
 
@@ -162,7 +156,7 @@ func (o ObjectContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -180,7 +174,7 @@ func (o ObjectContractImpl) HiddenTx(
 	req *cc.HiddenTxRequest,
 ) (res *cc.HiddenTxResponse, err error) {
 	var (
-		obj  state.Object
+		obj  common.ObjectInterface
 		hTxs *authpb.HiddenTxList
 	)
 
@@ -188,7 +182,7 @@ func (o ObjectContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.AuthObjToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -197,12 +191,12 @@ func (o ObjectContractImpl) HiddenTx(
 	}
 
 	return &cc.HiddenTxResponse{
-		CollectionId: obj.GetCollectionId(),
+		CollectionId: obj.ObjectKey().CollectionId,
 		HiddenTxs:    hTxs.Txs,
 	}, nil
 }
 
-// ------------------------------- Invoke ------------------------------------
+// ──────────────────────────────────── Invoke ─────────────────────────────────────
 
 func (o ObjectContractImpl) Create(
 	ctx state.TxCtxInterface,
@@ -214,7 +208,7 @@ func (o ObjectContractImpl) Create(
 	}
 
 	// Get the object from the request
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -238,7 +232,7 @@ func (o ObjectContractImpl) Update(
 	}
 
 	// Get the object from the request
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -260,15 +254,22 @@ func (o ObjectContractImpl) Delete(
 	}
 
 	// Get the object from the request
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	err = state.PrimaryDelete(ctx, obj)
+	if err = state.PrimaryDelete(ctx, obj); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	object, err := state.ObjectToProto(obj)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	return &cc.DeleteResponse{
-		Object: req.GetObject(),
+		Object: object,
 	}, err
 }
 
@@ -282,7 +283,7 @@ func (o ObjectContractImpl) HideTx(
 	}
 
 	// Get the object from the request
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -308,7 +309,7 @@ func (o ObjectContractImpl) UnHideTx(
 	}
 
 	// Get the object from the request
-	obj, err := state.AuthObjToObject(req.GetObject())
+	obj, err := state.ProtoToObject(req.GetObject())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -324,8 +325,8 @@ func (o ObjectContractImpl) UnHideTx(
 	}, err
 }
 
-// ================================ Suggestions ================================
-// -------------------------------- Query --------------------------------------
+// ════════════════════════════════════ Suggestions ════════════════════════════════
+// ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ObjectContractImpl) Suggestion(
 	ctx state.TxCtxInterface,
@@ -336,12 +337,17 @@ func (o ObjectContractImpl) Suggestion(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = state.Suggestion(ctx, req.GetSuggestion()); err != nil {
+	sug := &authpb.Suggestion{
+		PrimaryKey:   req.GetObjectKey(),
+		SuggestionId: req.GetSuggestionId(),
+	}
+
+	if err = state.Suggestion(ctx, sug); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.SuggestionResponse{
-		Suggestion: req.Suggestion,
+		Suggestion: sug,
 	}, nil
 }
 
@@ -354,11 +360,7 @@ func (o ObjectContractImpl) SuggestionListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	sug := &authpb.Suggestion{
-		CollectionId: req.GetObject().GetCollectionId(),
-	}
-
-	list, mk, err := state.SuggestionListByCollection(ctx, sug, req.GetBookmark())
+	list, mk, err := state.SuggestionListByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -380,12 +382,15 @@ func (o ObjectContractImpl) SuggestionByPartialKey(
 		return nil, oops.Wrap(err)
 	}
 	sug := &authpb.Suggestion{
-		CollectionId:  req.GetCollectionId(),
-		ObjectType:    req.GetObjectType(),
-		ObjectIdParts: req.GetObjectIdParts(),
+		PrimaryKey: req.GetObjectKey(),
 	}
 
-	list, mk, err := state.PartialSuggestionList(ctx, sug, int(req.GetNumAttrs()), req.GetBookmark())
+	list, mk, err := state.PartialSuggestionList(
+		ctx,
+		sug,
+		int(req.GetNumAttrs()),
+		req.GetBookmark(),
+	)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -428,12 +433,17 @@ func (o ObjectContractImpl) SuggestionDelete(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = state.SuggestionDelete(ctx, req.GetSuggestion()); err != nil {
+	sug := &authpb.Suggestion{
+		PrimaryKey:   req.GetObjectKey(),
+		SuggestionId: req.GetSuggestionId(),
+	}
+
+	if err = state.SuggestionDelete(ctx, sug); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.SuggestionDeleteResponse{
-		Suggestion: req.GetSuggestion(),
+		Suggestion: sug,
 	}, nil
 }
 
@@ -446,19 +456,24 @@ func (o ObjectContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	u, err := state.SuggestionApprove(ctx, req.GetSuggestion())
+	sug := &authpb.Suggestion{
+		PrimaryKey:   req.GetObjectKey(),
+		SuggestionId: req.GetSuggestionId(),
+	}
+
+	u, err := state.SuggestionApprove(ctx, sug)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	updated := &authpb.Object{}
 
-	if updated, err = state.ObjectToAuthObj(*u); err != nil {
+	if updated, err = state.ObjectToProto(*u); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.SuggestionApproveResponse{
 		Object:     updated,
-		Suggestion: req.GetSuggestion(),
+		Suggestion: sug,
 	}, nil
 }

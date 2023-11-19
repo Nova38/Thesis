@@ -7,7 +7,7 @@ import { CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetReques
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
- * ================================== Object =================================
+ * ═════════════════════════════════= Object ═════════════════════════════════
  *
  * @generated from service auth.common.GenericService
  */
@@ -114,8 +114,8 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * ================================ Suggestions ==============================
-     * -------------------------------- Query ------------------------------------
+     * ══════════════════════════════== Suggestions ══════════════════════════════
+     * ──────────────────────────────-- Query ────────────────────────────────────
      *
      * @generated from rpc auth.common.GenericService.Suggestion
      */
@@ -153,7 +153,7 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * -------------------------------- Invoke -----------------------------------
+     * ──────────────────────────────-- Invoke ─────────────────────────────────--
      *
      * @generated from rpc auth.common.GenericService.SuggestionCreate
      */

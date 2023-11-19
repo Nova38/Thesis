@@ -17,6 +17,8 @@ const (
 	errorsPackage  = protogen.GoImportPath("errors")
 	loPackage      = protogen.GoImportPath("github.com/samber/lo")
 	stringsPackage = protogen.GoImportPath("strings")
+
+	authPackage = protogen.GoImportPath("github.com/nova38/thesis/lib/go/gen/auth/v1")
 )
 
 type KeyGenerator struct{}
@@ -59,19 +61,25 @@ func (kg *KeyGenerator) GenerateMessage(
 	msg *protogen.Message,
 ) (notUsed bool) {
 	keySchema := KeySchemaOptions(msg)
+	ObjectKey := g.QualifiedGoIdent(authPackage.Ident("ObjectKey"))
+	// SubObject := g.QualifiedGoIdent(authPackage.Ident("SubObject"))
+
+	// objectDomain := GetObjectDomain(msg)
 	if keySchema == nil {
 		return true
 	}
+	// // g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
-	ns := keySchema.GetNamespace()
-	if ns == "" {
-
-		g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
-		g.P("	return \"", msg.Desc.FullName(), "\"")
-		g.P("}")
-	} else {
-		g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
-		g.P("	return \"", ns, "\"")
+	{
+		ns := keySchema.GetNamespace()
+		if ns == "" {
+			g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+			g.P("	return \"", msg.Desc.FullName(), "\"")
+			g.P("}")
+		} else {
+			g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+			g.P("	return \"", ns, "\"")
+		}
 	}
 
 	kp := keySchema.GetKeys()
@@ -86,11 +94,34 @@ func (kg *KeyGenerator) GenerateMessage(
 		rawPaths := kp.GetPaths()
 		// g.QualifiedGoIdent(stringsPackage.Ident("strings"))
 		// g.QualifiedGoIdent(errorsPackage.Ident("errors"))
-		// g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
-		g.P("func (m *", msg.GoIdent.GoName, ") ", "Key()", "[]string {")
+		// g.P("func (m *", msg.GoIdent.GoName, ") KeyAttr() (map[string]string) {")
+		// g.P("attr := make(map[string]string)")
+		// for _, f := range rawPaths {
+		// 	field := msg.Desc.Fields().ByName(protoreflect.Name(f))
 
-		g.P("attr := []string{m.Namespace()}")
+		// 	if field == nil {
+		// 		continue
+		// 	}
+		// 	if field.IsList() {
+		// 		g.P("//", f, "is a list")
+		// 		// g.P("attr[\"", f, "\"] = strings.Join(m.", PathToGetter(f), ", \",\")")
+		// 		// Put the list entries in the map with feild of f and the index as the key
+		// 		g.P("for i, v := range m.", PathToGetter(f), " {")
+		// 		g.P("attr[\"", f, "\" + string(i)] = v")
+		// 		g.P("}")
+
+		// 	} else {
+		// 		g.P("attr[\"", f, "\"] = m.", PathToGetter(f))
+		// 	}
+
+		// }
+		// g.P("return attr")
+		// g.P("}")
+
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "KeyAttr()", "[]string {")
+
+		g.P("attr := []string{}")
 
 		// g.P("ok := lo.Try(func () error {")
 
@@ -111,6 +142,58 @@ func (kg *KeyGenerator) GenerateMessage(
 
 		g.P("return attr")
 		g.P("}")
+
+		{
+			od := keySchema.GetObjectDomain()
+
+			if authpb.ObjectDomain(od.Number()) == authpb.ObjectDomain_OBJECT_GLOBAL_OBJECT {
+				g.P("// Global Object")
+				g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
+				g.P("	return true")
+				g.P("}")
+
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
+				g.P("key := &", ObjectKey, "{")
+				g.P("CollectionId: \"global\",")
+				g.P("ObjectType: \"", string(msg.Desc.FullName()), "\",")
+				g.P("ObjectIdParts: m.KeyAttr(),")
+				g.P("}")
+				g.P("return key")
+				g.P("}")
+
+			}
+			if authpb.ObjectDomain(
+				od.Number(),
+			) == authpb.ObjectDomain_OBJECT_DOMAIN_PRIMARY_OBJECT {
+				g.P("// Domain Object")
+				g.P("func (m *", msg.GoIdent.GoName, ") IsPrimary() (bool) {")
+				g.P("	return true")
+				g.P("}")
+
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
+				g.P("key := &", ObjectKey, "{")
+				g.P("CollectionId: m.GetCollectionId(),")
+				g.P("ObjectType: \"", string(msg.Desc.FullName()), "\",")
+				g.P("ObjectIdParts: m.KeyAttr(),")
+				g.P("}")
+				g.P("return key")
+				g.P("}")
+
+			}
+
+			if authpb.ObjectDomain(od.Number()) == authpb.ObjectDomain_OBJECT_DOMAIN_SUB_OBJECT {
+				g.P("// Domain Object")
+				g.P("func (m *", msg.GoIdent.GoName, ") IsSecondary() (bool) {")
+				g.P("	return true")
+				g.P("}")
+
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
+				g.P("return m.GetPrimaryKey()")
+				g.P("}")
+
+			}
+
+		}
 
 		//g.P("func (m *", msg.GoIdent.GoName, ") ", "FlatKey()", "(string) {")
 		//g.P("attr, err := m.Key()")
@@ -169,8 +252,12 @@ func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
 	return v
 }
 
-//func GetObjectDomain(m *protogen.Message) *authpb.ObjectDomain {
-//	v, ok := proto.GetExtension(authpb.E_ObjectType, authpb.E_ObjectDomain).(*authpb.ObjectDomain)
-//
-//    return v
-//}
+// func GetObjectDomain(m *protogen.Message) *authpb.ObjectDomain {
+// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ObjectDomain).(*authpb.ObjectDomain)
+
+// 	if !ok {
+// 		return nil
+// 	}
+
+// 	return v
+// }

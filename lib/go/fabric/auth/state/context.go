@@ -46,7 +46,7 @@ type (
 	}
 )
 
-// =============================================
+// ═════════════════════════════════════════════
 
 func (ctx *BaseTxCtx) HandelBefore() (err error) {
 	ctx.Logger = slog.Default().With(
@@ -90,9 +90,9 @@ func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInter
 	_ = resultIterator.Close()
 }
 
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 // LoggedTxCtxInterface
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 
 func (ctx *BaseTxCtx) GetLogger() *slog.Logger {
 	return ctx.Logger
@@ -111,9 +111,9 @@ func (ctx *BaseTxCtx) SetPageSize(pageSize int32) {
 	ctx.PageSize = pageSize
 }
 
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 // ValidateAbleTxCtxInterface functions
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 
 func (ctx *BaseTxCtx) Validate(msg proto.Message) (err error) {
 	if validator == nil {
@@ -133,9 +133,9 @@ func (ctx *BaseTxCtx) Validate(msg proto.Message) (err error) {
 		Wrap(validator.Validate(msg))
 }
 
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 // AuthTxCtxInterface functions
-// ----------------------------------------------
+// ─────────────────────────────────────────────-
 
 func (ctx *BaseTxCtx) GetFnName() (name string) {
 	name, _ = ctx.GetStub().GetFunctionAndParameters()
@@ -162,9 +162,9 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 	}, nil
 }
 
-// =============================================
+// ═════════════════════════════════════════════
 //  User Functions
-// =============================================
+// ═════════════════════════════════════════════
 
 func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 	// Extract The info from the Client ID
@@ -269,9 +269,9 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //	return "", nil
 //}
 
-// =============================================
+// ═════════════════════════════════════════════
 //  Operations Functions
-// =============================================
+// ═════════════════════════════════════════════
 
 //func (ctx *BaseTxCtx) SetOperation(op *authpb.Operation) {
 //	// See if the operation pointer has an ID and is not nil
@@ -298,11 +298,11 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //	return nil
 //}
 
-// =============================================
+// ═════════════════════════════════════════════
 //
 //	ACL Functions
 //
-// =============================================
+// ═════════════════════════════════════════════
 
 //func (ctx *BaseTxCtx) ExtractAuthTransactionItems(req any) (err error) {
 //	// TODO implement me

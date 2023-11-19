@@ -13,7 +13,7 @@ import (
 	"github.com/samber/oops"
 )
 
-type Ledger[T Object] struct {
+type Ledger[T common.ObjectInterface] struct {
 	ctx TxCtxInterface
 }
 
@@ -41,7 +41,7 @@ func (l *Ledger[T]) Create(obj T) (err error) {
 		bytes []byte
 	)
 
-	if key, err = MakeCompositeKey(obj); err != nil {
+	if key, err = MakePrimaryKey(obj); err != nil {
 		return err
 	}
 
@@ -68,7 +68,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 	)
 
 	// Get the current object from the ledger
-	if key, err = MakeCompositeKey(update); err != nil {
+	if key, err = MakePrimaryKey(update); err != nil {
 		return err
 	}
 
@@ -92,7 +92,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 
 // Delete deletes the object from the ledger
 func (l *Ledger[T]) Delete(in T) (err error) {
-	key, err := MakeCompositeKey(in)
+	key, err := MakePrimaryKey(in)
 	if err != nil {
 		return err
 	}
@@ -135,7 +135,7 @@ func (l *Ledger[T]) Get(in T) (err error) {
 	namespace := in.Namespace()
 	l.ctx.GetLogger().Debug("fn: GetState", "Namespace", namespace)
 
-	if key, err = MakeCompositeKey(in); err != nil {
+	if key, err = MakePrimaryKey(in); err != nil {
 		return err
 	}
 
@@ -161,9 +161,12 @@ func (l *Ledger[T]) GetPartialKeyList(
 ) (list []T, mk string, err error) {
 	// obj = []*T{}
 	l.ctx.GetLogger().Info("GetPartialKeyList")
-	namespace := obj.Namespace()
 
-	attr := obj.Key()
+	var (
+		namespace = obj.Namespace()
+		attr      = append([]string{namespace}, obj.KeyAttr()...)
+	)
+
 	if len(attr) == 0 || len(attr) < numAttr {
 		return nil, "", common.ObjectInvalid
 	}
@@ -187,7 +190,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 
 	results, meta, err := l.ctx.GetStub().
 		GetStateByPartialCompositeKeyWithPagination(
-			obj.GetCollectionId(),
+			obj.ObjectKey().GetObjectType(),
 			attr,
 			l.ctx.GetPageSize(),
 			bookmark,

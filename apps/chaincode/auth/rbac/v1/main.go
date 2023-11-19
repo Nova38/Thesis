@@ -2,11 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log/slog"
-	"os"
-
-	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	// "github.com/hyperledger/fabric-chaincode-go/shim"
+	// "github.com/hyperledger/fabric-contract-api-go/contractapi"
 	// "github.com/nova38/thesis/apps/chaincode/auth/rbac/v1/contracts"
 )
 
@@ -18,10 +15,10 @@ type ServerConfig struct {
 func runChaincode() {
 	fmt.Println("Starting BioChain")
 
-	config := ServerConfig{
-		CCID:    os.Getenv("CHAINCODE_ID"),
-		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
-	}
+	// config := ServerConfig{
+	// 	CCID:    os.Getenv("CHAINCODE_ID"),
+	// 	Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
+	// }
 
 	// bioContract := makeBioContract()
 	// authContract := makeAuthContract()

@@ -341,7 +341,7 @@ func (x *CollectionGetHistoryResponse) GetHistory() *v1.History {
 	return nil
 }
 
-// -------------------- Invoke ------------------------
+// ──────────────────-- Invoke ────────────────────────
 // CollectionCreate
 type CollectionCreateRequest struct {
 	state         protoimpl.MessageState

@@ -1,13 +1,13 @@
 package generators
 
 import (
-    auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-    "google.golang.org/protobuf/compiler/protogen"
-    "google.golang.org/protobuf/proto"
-    _ "google.golang.org/protobuf/proto"
-    _ "strings"
+	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/proto"
+	_ "google.golang.org/protobuf/proto"
+	_ "strings"
 
-    _ "google.golang.org/protobuf/types/dynamicpb"
+	_ "google.golang.org/protobuf/types/dynamicpb"
 )
 
 type TextGenerater struct{}

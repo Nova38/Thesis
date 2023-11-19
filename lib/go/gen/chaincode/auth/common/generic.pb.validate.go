@@ -3062,11 +3062,11 @@ func (m *SuggestionRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetSuggestion()).(type) {
+		switch v := interface{}(m.GetObjectKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestionRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -3074,21 +3074,23 @@ func (m *SuggestionRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestionRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetObjectKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestionRequestValidationError{
-				field:  "Suggestion",
+				field:  "ObjectKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
+
+	// no validation rules for SuggestionId
 
 	if len(errors) > 0 {
 		return SuggestionRequestMultiError(errors)
@@ -3326,35 +3328,6 @@ func (m *SuggestionListRequest) validate(all bool) error {
 	// no validation rules for Bookmark
 
 	// no validation rules for Limit
-
-	if all {
-		switch v := interface{}(m.GetObject()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionListRequestValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionListRequestValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestionListRequestValidationError{
-				field:  "Object",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
 
 	if len(errors) > 0 {
 		return SuggestionListRequestMultiError(errors)
@@ -3601,34 +3574,7 @@ func (m *SuggestionListByCollectionRequest) validate(all bool) error {
 
 	// no validation rules for Limit
 
-	if all {
-		switch v := interface{}(m.GetObject()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionListByCollectionRequestValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionListByCollectionRequestValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return SuggestionListByCollectionRequestValidationError{
-				field:  "Object",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
+	// no validation rules for CollectionId
 
 	if len(errors) > 0 {
 		return SuggestionListByCollectionRequestMultiError(errors)
@@ -3876,11 +3822,11 @@ func (m *SuggestionListByObjectRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetObject()).(type) {
+		switch v := interface{}(m.GetObjectKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestionListByObjectRequestValidationError{
-					field:  "Object",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -3888,16 +3834,16 @@ func (m *SuggestionListByObjectRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestionListByObjectRequestValidationError{
-					field:  "Object",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetObjectKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestionListByObjectRequestValidationError{
-				field:  "Object",
+				field:  "ObjectKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -4148,11 +4094,38 @@ func (m *SuggestionByPartialKeyRequest) validate(all bool) error {
 
 	// no validation rules for Limit
 
-	// no validation rules for CollectionId
-
-	// no validation rules for ObjectType
-
 	// no validation rules for NumAttrs
+
+	if all {
+		switch v := interface{}(m.GetObjectKey()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SuggestionByPartialKeyRequestValidationError{
+					field:  "ObjectKey",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SuggestionByPartialKeyRequestValidationError{
+					field:  "ObjectKey",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetObjectKey()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SuggestionByPartialKeyRequestValidationError{
+				field:  "ObjectKey",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for SuggestionId
 
 	if len(errors) > 0 {
 		return SuggestionByPartialKeyRequestMultiError(errors)
@@ -4373,268 +4346,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SuggestionByPartialKeyResponseValidationError{}
-
-// Validate checks the field values on GetSuggestionsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSuggestionsRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetSuggestionsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetSuggestionsRequestMultiError, or nil if none found.
-func (m *GetSuggestionsRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetSuggestionsRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetSuggestion()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSuggestionsRequestValidationError{
-					field:  "Suggestion",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSuggestionsRequestValidationError{
-					field:  "Suggestion",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return GetSuggestionsRequestValidationError{
-				field:  "Suggestion",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return GetSuggestionsRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// GetSuggestionsRequestMultiError is an error wrapping multiple validation
-// errors returned by GetSuggestionsRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetSuggestionsRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetSuggestionsRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetSuggestionsRequestMultiError) AllErrors() []error { return m }
-
-// GetSuggestionsRequestValidationError is the validation error returned by
-// GetSuggestionsRequest.Validate if the designated constraints aren't met.
-type GetSuggestionsRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetSuggestionsRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetSuggestionsRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetSuggestionsRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetSuggestionsRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetSuggestionsRequestValidationError) ErrorName() string {
-	return "GetSuggestionsRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetSuggestionsRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetSuggestionsRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetSuggestionsRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetSuggestionsRequestValidationError{}
-
-// Validate checks the field values on GetSuggestionsResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetSuggestionsResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetSuggestionsResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetSuggestionsResponseMultiError, or nil if none found.
-func (m *GetSuggestionsResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetSuggestionsResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetSuggestion()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetSuggestionsResponseValidationError{
-					field:  "Suggestion",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, GetSuggestionsResponseValidationError{
-					field:  "Suggestion",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return GetSuggestionsResponseValidationError{
-				field:  "Suggestion",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return GetSuggestionsResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// GetSuggestionsResponseMultiError is an error wrapping multiple validation
-// errors returned by GetSuggestionsResponse.ValidateAll() if the designated
-// constraints aren't met.
-type GetSuggestionsResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetSuggestionsResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetSuggestionsResponseMultiError) AllErrors() []error { return m }
-
-// GetSuggestionsResponseValidationError is the validation error returned by
-// GetSuggestionsResponse.Validate if the designated constraints aren't met.
-type GetSuggestionsResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetSuggestionsResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetSuggestionsResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetSuggestionsResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetSuggestionsResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetSuggestionsResponseValidationError) ErrorName() string {
-	return "GetSuggestionsResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetSuggestionsResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetSuggestionsResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetSuggestionsResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetSuggestionsResponseValidationError{}
 
 // Validate checks the field values on SuggestionCreateRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -4921,11 +4632,11 @@ func (m *SuggestionDeleteRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetSuggestion()).(type) {
+		switch v := interface{}(m.GetObjectKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestionDeleteRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -4933,21 +4644,23 @@ func (m *SuggestionDeleteRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestionDeleteRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetObjectKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestionDeleteRequestValidationError{
-				field:  "Suggestion",
+				field:  "ObjectKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
+
+	// no validation rules for SuggestionId
 
 	// no validation rules for Reason
 
@@ -5185,11 +4898,11 @@ func (m *SuggestionApproveRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetSuggestion()).(type) {
+		switch v := interface{}(m.GetObjectKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, SuggestionApproveRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -5197,21 +4910,25 @@ func (m *SuggestionApproveRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, SuggestionApproveRequestValidationError{
-					field:  "Suggestion",
+					field:  "ObjectKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetObjectKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return SuggestionApproveRequestValidationError{
-				field:  "Suggestion",
+				field:  "ObjectKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
 		}
 	}
+
+	// no validation rules for SuggestionId
+
+	// no validation rules for Reason
 
 	if len(errors) > 0 {
 		return SuggestionApproveRequestMultiError(errors)

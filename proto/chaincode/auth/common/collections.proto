@@ -7,13 +7,13 @@ import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/empty.proto";
 
-// ==================== Collection ====================
+// ══════════════════== Collection ══════════════════==
 
 
 service CollectionService {
   // buf:lint:ignore RPC_NO_DELETE
 
-  // -------------------- Query ---------------------
+  // ──────────────────-- Query ─────────────────────
 
   rpc CollectionGet(CollectionGetRequest) returns (CollectionGetResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -30,7 +30,7 @@ service CollectionService {
     option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
   }
 
-  // -------------------- Invoke ------------------------
+  // ──────────────────-- Invoke ────────────────────────
 
   rpc CollectionCreate(CollectionCreateRequest) returns (CollectionCreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -55,8 +55,8 @@ service CollectionService {
 }
 
 
-// ==================== Collection ====================
-// -------------------- Query -------------------------
+// ══════════════════== Collection ══════════════════==
+// ──────────────────-- Query ────────────────────────-
 
   message CollectionGetListRequest {
     string bookmark = 1;
@@ -85,7 +85,7 @@ service CollectionService {
     auth.Collection collection = 1;
     auth.History history = 2;
   }
-// -------------------- Invoke ------------------------
+// ──────────────────-- Invoke ────────────────────────
 // CollectionCreate
   message CollectionCreateRequest {
     auth.Collection collection = 1;

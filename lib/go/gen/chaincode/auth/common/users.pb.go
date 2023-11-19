@@ -24,7 +24,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// -------------------- Query ---------------------
+// ──────────────────-- Query ─────────────────────
 type UserGetCurrentResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

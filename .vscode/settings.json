@@ -83,7 +83,8 @@
         "descriptorpb",
         "golines",
         "oneof",
-        "segmentio"
+        "segmentio",
+        "spydra"
     ],
     "files.exclude": {
         "**/.git": true,
