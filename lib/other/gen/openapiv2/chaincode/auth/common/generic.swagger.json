@@ -99,23 +99,29 @@
       "type": "object",
       "properties": {
         "txId": {
-          "type": "string"
+          "type": "string",
+          "title": "The transaction id that caused the change"
         },
         "isDelete": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether the object was deleted"
         },
         "isHidden": {
-          "type": "boolean"
+          "type": "boolean",
+          "title": "Whether the transaction was hidden"
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "title": "The timestamp of the change"
         },
         "note": {
-          "type": "string"
+          "type": "string",
+          "title": "A note about the change"
         },
         "value": {
-          "$ref": "#/definitions/protobufAny"
+          "$ref": "#/definitions/protobufAny",
+          "title": "The value of the object"
         }
       }
     },
@@ -146,8 +152,8 @@
           }
         }
       },
-      "description": "Reference Keys\nUsed to store references to objects for case like a user having a role\nWhen converted to its string form it will be: \n{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]\n\n\nSubKeys\nWhen converted to its string form it will be: \n{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}\nExamples\n- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}\n- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}",
-      "title": "Keys\n─────────────────────────────────────────────────────────────────────────────────────\nObject Keys\nWhen converted to its string form it will be: \n- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}"
+      "description": "Reference Keys\nUsed to store references to objects for case like a user having a role\nWhen converted to its string form it will be:\n{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]\n\n\nSubKeys\nWhen converted to its string form it will be:\n{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}\nExamples\n- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}\n- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}",
+      "title": "Keys\n─────────────────────────────────────────────────────────────────────────────────────\nObject Keys\nWhen converted to its string form it will be:\n- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}"
     },
     "authOperation": {
       "type": "object",
@@ -158,10 +164,10 @@
         "collectionId": {
           "type": "string"
         },
-        "namespace": {
+        "objectType": {
           "type": "string"
         },
-        "secondaryNamespace": {
+        "secondaryObjectType": {
           "type": "string"
         },
         "paths": {

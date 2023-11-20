@@ -14,7 +14,7 @@ type (
 	ObjectInterface interface {
 		KeyAttr() (attr []string)
 		ObjectKey() *authpb.ObjectKey
-		Namespace() string
+		ObjectType() string
 		proto.Message
 	}
 

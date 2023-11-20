@@ -73,12 +73,12 @@ func MakeSubObjectKeyAtter(key *authpb.ObjectKey) (attr []string) {
 // ─────────────────────────────────────────────────────────────────────────────────
 
 // func MakeHiddenKeyAtter[T common.ObjectInterface](obj T) (attr []string) {
-// 	return append([]string{common.HiddenNamespace}, ...)
+// 	return append([]string{common.HiddenObjectType}, ...)
 // }
 
 func MakeHiddenKey[T common.ObjectInterface](obj T) (hiddenKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.HiddenNamespace,
+		common.HiddenObjectType,
 		MakeSubKeyAtter(obj),
 	)
 }
@@ -98,7 +98,7 @@ func MakeSuggestionKey[T common.ObjectInterface](
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionNamespace,
+		common.SuggestionObjectType,
 		MakeSuggestionKeyAtter(obj, suggestionId),
 	)
 }
@@ -108,7 +108,7 @@ func MakeObjectKeySuggestion(
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionNamespace,
+		common.SuggestionObjectType,
 		append(MakeSubObjectKeyAtter(objKey), suggestionId),
 	)
 }
@@ -128,7 +128,7 @@ func MakeRefKeys(
 	var a, b, k1, k2 []string
 
 	refBase := []string{
-		common.ReferenceNamespace,
+		common.ReferenceObjectType,
 		ref.GetReferenceType(),
 	}
 
@@ -145,22 +145,22 @@ func MakeRefKeys(
 		k1 = append(a, b...)
 		k2 = append(b, a...)
 
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceNamespace, append(refBase, k1...))
+		refKey_1, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, k1...))
 		if err != nil {
 			return "", "", err
 		}
 
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceNamespace, append(refBase, k2...))
+		refKey_2, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, k2...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_1() != nil {
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceNamespace, append(refBase, a...))
+		refKey_1, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, a...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_2() != nil {
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceNamespace, append(refBase, b...))
+		refKey_2, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, b...))
 		if err != nil {
 			return "", "", err
 		}

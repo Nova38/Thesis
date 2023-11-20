@@ -102,7 +102,7 @@ func History[T common.ObjectInterface](ctx TxCtxInterface, obj T) (h *authpb.His
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW_HISTORY,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
-		Namespace:    obj.Namespace(),
+		ObjectType:   obj.ObjectType(),
 		Paths:        nil,
 	}
 
@@ -124,7 +124,7 @@ func FullHistory[T common.ObjectInterface](
 		op = &authpb.Operation{
 			Action:       authpb.Action_ACTION_VIEW_HISTORY,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
-			Namespace:    obj.Namespace(),
+			ObjectType:   obj.ObjectType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -146,7 +146,7 @@ func HiddenTx[T common.ObjectInterface](
 		op = &authpb.Operation{
 			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
-			Namespace:    obj.Namespace(),
+			ObjectType:   obj.ObjectType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -172,7 +172,7 @@ func HideTransaction[T common.ObjectInterface](
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
-			Namespace:    obj.Namespace(),
+			ObjectType:   obj.ObjectType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -210,7 +210,7 @@ func UnHideTransaction[T common.ObjectInterface](
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
-			Namespace:    obj.Namespace(),
+			ObjectType:   obj.ObjectType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))

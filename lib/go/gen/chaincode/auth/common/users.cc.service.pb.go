@@ -16,7 +16,7 @@ type UserServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserGetCurrent
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	//
 	// req is empty
 	UserGetCurrent(ctx T) (res *UserGetCurrentResponse, err error)
@@ -24,13 +24,13 @@ type UserServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserGet
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	UserGet(ctx T, req *UserGetRequest) (res *UserGetResponse, err error)
 
 	// UserGetList
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	//
 	// req is empty
 	UserGetList(ctx T) (res *UserGetListResponse, err error)
@@ -38,37 +38,37 @@ type UserServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserGetHistory
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
+	//   - Domain: ACTION_VIEW_HISTORY
 	UserGetHistory(ctx T, req *UserGetHistoryRequest) (res *UserGetHistoryResponse, err error)
 
 	// UserGetHiddenTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HIDDEN_TXS
+	//   - Domain: ACTION_VIEW_HIDDEN_TXS
 	UserGetHiddenTx(ctx T, req *UserGetHiddenTxRequest) (res *UserGetHiddenTxResponse, err error)
 
 	// UserCreate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_CREATE
+	//   - Domain: ACTION_CREATE
 	UserCreate(ctx T, req *UserCreateRequest) (res *UserCreateResponse, err error)
 
 	// UserDelete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_DELETE
+	//   - Domain: ACTION_DELETE
 	UserDelete(ctx T, req *UserDeleteRequest) (res *UserDeleteResponse, err error)
 
 	// UserUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_UPDATE
+	//   - Domain: ACTION_UPDATE
 	UserUpdate(ctx T, req *UserUpdateRequest) (res *UserUpdateResponse, err error)
 
 	// UserHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_TX
+	//   - Domain: ACTION_HIDE_TX
 	UserHideTx(ctx T, req *UserHideTxRequest) (res *UserHideTxResponse, err error)
 }
 
@@ -88,47 +88,47 @@ func (s *UserServiceBase) GetEvaluateTransactions() []string {
 func UserServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "UserGetCurrent":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "UserGet":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "UserGetList":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "UserGetHistory":
-		// action:ACTION_OBJECT_VIEW_HISTORY
+		// action:ACTION_VIEW_HISTORY
 		return &v1.Operation{
 			Action: 18,
 		}, nil
 	case "UserGetHiddenTx":
-		// action:ACTION_OBJECT_VIEW_HIDDEN_TXS
+		// action:ACTION_VIEW_HIDDEN_TXS
 		return &v1.Operation{
 			Action: 19,
 		}, nil
 	case "UserCreate":
-		// action:ACTION_OBJECT_CREATE
+		// action:ACTION_CREATE
 		return &v1.Operation{
 			Action: 11,
 		}, nil
 	case "UserDelete":
-		// action:ACTION_OBJECT_DELETE
+		// action:ACTION_DELETE
 		return &v1.Operation{
 			Action: 13,
 		}, nil
 	case "UserUpdate":
-		// action:ACTION_OBJECT_UPDATE
+		// action:ACTION_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "UserHideTx":
-		// action:ACTION_OBJECT_HIDE_TX
+		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil

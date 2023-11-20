@@ -47,7 +47,7 @@ func (l *Ledger[T]) Create(obj T) (err error) {
 
 	if l.Exists(key) {
 		return oops.
-			With("Key", key, "Namespace", obj.Namespace()).
+			With("Key", key, "ObjectType", obj.ObjectType()).
 			Wrap(common.AlreadyExists)
 	}
 
@@ -112,7 +112,7 @@ func (l *Ledger[T]) GetFromKey(key string) (obj T, err error) {
 	bytes, err := l.ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return obj, oops.
-			With("Key", key, "Namespace", obj.Namespace()).
+			With("Key", key, "ObjectType", obj.ObjectType()).
 			Wrap(common.KeyNotFound)
 	} else if err != nil {
 		return obj, oops.Wrap(err)
@@ -132,8 +132,8 @@ func (l *Ledger[T]) Get(in T) (err error) {
 		bytes []byte
 	)
 
-	namespace := in.Namespace()
-	l.ctx.GetLogger().Debug("fn: GetState", "Namespace", namespace)
+	objecttype := in.ObjectType()
+	l.ctx.GetLogger().Debug("fn: GetState", "ObjectType", objecttype)
 
 	if key, err = MakePrimaryKey(in); err != nil {
 		return err
@@ -141,7 +141,7 @@ func (l *Ledger[T]) Get(in T) (err error) {
 
 	if bytes, err = l.ctx.GetStub().GetState(key); err == nil {
 		return oops.
-			With("Key", key, "Namespace", in.Namespace()).
+			With("Key", key, "ObjectType", in.ObjectType()).
 			Wrap(common.AlreadyExists)
 	}
 
@@ -163,8 +163,8 @@ func (l *Ledger[T]) GetPartialKeyList(
 	l.ctx.GetLogger().Info("GetPartialKeyList")
 
 	var (
-		namespace = obj.Namespace()
-		attr      = append([]string{namespace}, obj.KeyAttr()...)
+		objecttype = obj.ObjectType()
+		attr       = append([]string{objecttype}, obj.KeyAttr()...)
 	)
 
 	if len(attr) == 0 || len(attr) < numAttr {
@@ -177,7 +177,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 	l.ctx.GetLogger().
 		Info("GetPartialKeyList",
 			slog.Group(
-				"Key", "Namespace", namespace,
+				"Key", "ObjectType", objecttype,
 				slog.Int("numAttr", numAttr),
 				slog.Any("attr", attr),
 				slog.Group(

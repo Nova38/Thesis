@@ -9,7 +9,7 @@ import (
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-func (m *Specimen) Namespace() string {
+func (m *Specimen) ObjectType() string {
 	return "ccbio.schema.v0.Specimen"
 }
 func (m *Specimen) KeyAttr() []string {

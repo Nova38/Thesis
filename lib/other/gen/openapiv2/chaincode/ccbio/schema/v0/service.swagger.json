@@ -218,20 +218,25 @@
       "type": "object",
       "properties": {
         "txId": {
-          "type": "string"
+          "type": "string",
+          "title": "The transaction id that caused the change"
         },
         "mspId": {
-          "type": "string"
+          "type": "string",
+          "title": "The msp of the user that caused the change"
         },
         "userId": {
-          "type": "string"
+          "type": "string",
+          "title": "The id of the user that caused the change"
         },
         "timestamp": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "title": "The timestamp of the change"
         },
         "note": {
-          "type": "string"
+          "type": "string",
+          "title": "A note about the change"
         }
       },
       "title": "Can be used as the history entry"

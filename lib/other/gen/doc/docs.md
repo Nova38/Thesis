@@ -32,7 +32,7 @@
     - [User](#auth-User)
 
     - [Action](#auth-Action)
-    - [ObjectDomain](#auth-ObjectDomain)
+    - [ObjectKind](#auth-ObjectKind)
     - [TransactionType](#auth-TransactionType)
     - [TxError](#auth-TxError)
 
@@ -406,7 +406,7 @@ Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | namespace | [string](#string) |  |  |
-| object_domain | [ObjectDomain](#auth-ObjectDomain) |  |  |
+| object_kind | [ObjectKind](#auth-ObjectKind) |  |  |
 | keys | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
 | primary_key | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
 | secondary_keys | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
@@ -706,18 +706,18 @@ Action - The action to be performed during the operation
 
 
 
-<a name="auth-ObjectDomain"></a>
+<a name="auth-ObjectKind"></a>
 
-### ObjectDomain
+### ObjectKind
 
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| OBJECT_DOMAIN_UNSPECIFIED | 0 |  |
-| OBJECT_GLOBAL_OBJECT | 1 |  |
-| OBJECT_DOMAIN_PRIMARY_OBJECT | 2 | Object&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
-| OBJECT_DOMAIN_SUB_OBJECT | 3 | Object&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths} |
-| OBJECT_DOMAIN_REFERENCE | 4 |  |
+| OBJECT_KIND_UNSPECIFIED | 0 |  |
+| OBJECT_KIND_GLOBAL_OBJECT | 1 |  |
+| OBJECT_KIND_PRIMARY_OBJECT | 2 | Object&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
+| OBJECT_KIND_SUB_OBJECT | 3 | Object&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths} |
+| OBJECT_KIND_REFERENCE | 4 |  |
 
 
 

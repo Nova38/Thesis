@@ -57,9 +57,9 @@ func (m *KeySchema) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Namespace
+	// no validation rules for ObjectType
 
-	// no validation rules for ObjectDomain
+	// no validation rules for ObjectKind
 
 	if all {
 		switch v := interface{}(m.GetKeys()).(type) {
@@ -84,64 +84,6 @@ func (m *KeySchema) validate(all bool) error {
 		if err := v.Validate(); err != nil {
 			return KeySchemaValidationError{
 				field:  "Keys",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetPrimaryKey()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "PrimaryKey",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "PrimaryKey",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetPrimaryKey()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return KeySchemaValidationError{
-				field:  "PrimaryKey",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetSecondaryKeys()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "SecondaryKeys",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, KeySchemaValidationError{
-					field:  "SecondaryKeys",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetSecondaryKeys()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return KeySchemaValidationError{
-				field:  "SecondaryKeys",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -714,9 +656,9 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for CollectionId
 
-	// no validation rules for Namespace
+	// no validation rules for ObjectType
 
-	// no validation rules for SecondaryNamespace
+	// no validation rules for SecondaryObjectType
 
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
@@ -3229,7 +3171,34 @@ func (m *Attribute) validate(all bool) error {
 
 	// no validation rules for Value
 
-	// no validation rules for RoleId
+	if all {
+		switch v := interface{}(m.GetAc()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, AttributeValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, AttributeValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAc()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return AttributeValidationError{
+				field:  "Ac",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return AttributeMultiError(errors)

@@ -6,11 +6,9 @@
 package v1
 
 auth.KeySchema
-	 -auth.KeySchema.namespace - <nil>
-	 -auth.KeySchema.object_domain - <nil>
+	 -auth.KeySchema.object_type - <nil>
+	 -auth.KeySchema.object_kind - <nil>
 	 -auth.KeySchema.keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-	 -auth.KeySchema.primary_key - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-	 -auth.KeySchema.secondary_keys - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.StateActivity
 	 -auth.StateActivity.tx_id - <nil>
 	 -auth.StateActivity.msp_id - <nil>
@@ -30,8 +28,8 @@ auth.History
 auth.Operation
 	 -auth.Operation.action - <nil>
 	 -auth.Operation.collection_id - <nil>
-	 -auth.Operation.namespace - <nil>
-	 -auth.Operation.secondary_namespace - <nil>
+	 -auth.Operation.object_type - <nil>
+	 -auth.Operation.secondary_object_type - <nil>
 	 -auth.Operation.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.PathPolicy
 	 -auth.PathPolicy.path - <nil>
@@ -112,7 +110,7 @@ auth.Attribute
 	 -auth.Attribute.msp_id - <nil>
 	 -auth.Attribute.oid - <nil>
 	 -auth.Attribute.value - <nil>
-	 -auth.Attribute.role_id - <nil>
+	 -auth.Attribute.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
 auth.Membership
 	 -auth.Membership.collection_id - <nil>
 	 -auth.Membership.msp_id - <nil>

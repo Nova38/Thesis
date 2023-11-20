@@ -6,10 +6,6 @@ import (
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-//type InvalidStateObjectError struct {
-//	MSG string
-//}
-
 var (
 	Unspecified            = errors.New(authpb.TxError_UNSPECIFIED.String())
 	RequestInvalid         = errors.New(authpb.TxError_REQUEST_INVALID.String())
@@ -34,7 +30,6 @@ var (
 	UserAlreadyRegistered   = errors.New(authpb.TxError_USER_ALREADY_REGISTERED.String())
 	UserInvalid             = errors.New(authpb.TxError_USER_INVALID.String())
 	UserNoRole              = errors.New(authpb.TxError_USER_NO_ROLE.String())
-	UserDeletedRole         = errors.New(authpb.TxError_USER_DELETED_ROLE.String())
 	UserPermissionDenied    = errors.New(authpb.TxError_USER_PERMISSION_DENIED.String())
 	ObjectInvalidId         = errors.New(authpb.TxError_OBJECT_INVALID_ID.String())
 	ObjectUnregistered      = errors.New(authpb.TxError_OBJECT_UNREGISTERED.String())

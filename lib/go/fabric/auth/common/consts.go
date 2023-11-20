@@ -1,11 +1,11 @@
 package common
 
 const (
-	// Namespaces
+	// ObjectTypes
 
-	HiddenNamespace     = "auth.HiddenTxList"
-	SuggestionNamespace = "auth.Suggestion"
-	ReferenceNamespace  = "auth.Reference"
+	HiddenObjectType     = "auth.HiddenTxList"
+	SuggestionObjectType = "auth.Suggestion"
+	ReferenceObjectType  = "auth.Reference"
 
 	// ─────────────────────────────
 

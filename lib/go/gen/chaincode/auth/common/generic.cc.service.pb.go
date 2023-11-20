@@ -16,7 +16,7 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	// ══════════════════════════════════ Helper ═════════════════════════════════════
 	// ────────────────────────────────── Query ──────────────────────────────────────
 	// # Operation:
-	//   - Domain: ACTION_REGISTER_USER
+	//   - Domain: ACTION_UTILITY
 	//
 	// req is empty
 	GetAllTypes(ctx T) (res *GetAllTypesResponse, err error)
@@ -24,163 +24,163 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	// GetCurrentUser
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	//
 	// req is empty
 	GetCurrentUser(ctx T) (res *GetCurrentUserResponse, err error)
 
 	// ──────────────────────────────── Invoke ───────────────────────────────────────
 	// # Operation:
-	//   - Domain: ACTION_REGISTER_USER
+	//   - Domain: ACTION_UTILITY
 	Bootstrap(ctx T, req *BootstrapRequest) (res *BootstrapResponse, err error)
 
 	// AuthorizeOperation
 	//
 	// # Operation:
-	//   - Domain: ACTION_REGISTER_USER
+	//   - Domain: ACTION_UTILITY
 	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
 
 	// Get
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	Get(ctx T, req *GetRequest) (res *GetResponse, err error)
 
 	// List
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	List(ctx T, req *ListRequest) (res *ListResponse, err error)
 
 	// ListByCollection
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	ListByCollection(ctx T, req *ListByCollectionRequest) (res *ListByCollectionResponse, err error)
 
 	// ListByAttrs
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	ListByAttrs(ctx T, req *ListByAttrsRequest) (res *ListByAttrsResponse, err error)
 
 	// Create
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_CREATE
+	//   - Domain: ACTION_CREATE
 	Create(ctx T, req *CreateRequest) (res *CreateResponse, err error)
 
 	// Update
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_UPDATE
+	//   - Domain: ACTION_UPDATE
 	Update(ctx T, req *UpdateRequest) (res *UpdateResponse, err error)
 
 	// Delete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_DELETE
+	//   - Domain: ACTION_DELETE
 	Delete(ctx T, req *DeleteRequest) (res *DeleteResponse, err error)
 
 	// History
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
+	//   - Domain: ACTION_VIEW_HISTORY
 	History(ctx T, req *HistoryRequest) (res *HistoryResponse, err error)
 
 	// HiddenTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HIDDEN_TXS
+	//   - Domain: ACTION_VIEW_HIDDEN_TXS
 	HiddenTx(ctx T, req *HiddenTxRequest) (res *HiddenTxResponse, err error)
 
 	// HideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_TX
+	//   - Domain: ACTION_HIDE_TX
 	HideTx(ctx T, req *HideTxRequest) (res *HideTxResponse, err error)
 
 	// UnHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_TX
+	//   - Domain: ACTION_HIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
 	// Reference
 	//
 	// # Operation:
-	//   - Domain: 23
+	//   - Domain: ACTION_REFERENCE_VIEW
 	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
 
 	// ReferenceListByType
 	//
 	// # Operation:
-	//   - Domain: 23
+	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceListByType(ctx T, req *ReferenceListByTypeRequest) (res *ReferenceListByTypeResponse, err error)
 
 	// ReferenceByCollection
 	//
 	// # Operation:
-	//   - Domain: 23
+	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceByCollection(ctx T, req *ReferenceByCollectionRequest) (res *ReferenceByCollectionResponse, err error)
 
 	// ReferenceByObject
 	//
 	// # Operation:
-	//   - Domain: 23
+	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceByObject(ctx T, req *ReferenceByObjectRequest) (res *ReferenceByObjectResponse, err error)
 
 	// ReferenceCreate
 	//
 	// # Operation:
-	//   - Domain: 21
+	//   - Domain: ACTION_REFERENCE_CREATE
 	ReferenceCreate(ctx T, req *ReferenceCreateRequest) (res *ReferenceCreateResponse, err error)
 
 	// ReferenceDelete
 	//
 	// # Operation:
-	//   - Domain: 22
+	//   - Domain: ACTION_REFERENCE_DELETE
 	ReferenceDelete(ctx T, req *ReferenceDeleteRequest) (res *ReferenceDeleteResponse, err error)
 
 	// Suggestion
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
+	//   - Domain: ACTION_SUGGEST_VIEW
 	Suggestion(ctx T, req *SuggestionRequest) (res *SuggestionResponse, err error)
 
 	// SuggestionList
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
+	//   - Domain: ACTION_SUGGEST_VIEW
 	SuggestionList(ctx T, req *SuggestionListRequest) (res *SuggestionListResponse, err error)
 
 	// SuggestionListByCollection
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
+	//   - Domain: ACTION_SUGGEST_VIEW
 	SuggestionListByCollection(ctx T, req *SuggestionListByCollectionRequest) (res *SuggestionListByCollectionResponse, err error)
 
 	// SuggestionByPartialKey
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
+	//   - Domain: ACTION_SUGGEST_VIEW
 	SuggestionByPartialKey(ctx T, req *SuggestionByPartialKeyRequest) (res *SuggestionByPartialKeyResponse, err error)
 
 	// ──────────────────────────────── Invoke ───────────────────────────────────────
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_CREATE
+	//   - Domain: ACTION_SUGGEST_CREATE
 	SuggestionCreate(ctx T, req *SuggestionCreateRequest) (res *SuggestionCreateResponse, err error)
 
 	// SuggestionDelete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_DELETE
+	//   - Domain: ACTION_SUGGEST_DELETE
 	SuggestionDelete(ctx T, req *SuggestionDeleteRequest) (res *SuggestionDeleteResponse, err error)
 
 	// SuggestionApprove
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_SUGGEST_APPROVE
+	//   - Domain: ACTION_SUGGEST_APPROVE
 	SuggestionApprove(ctx T, req *SuggestionApproveRequest) (res *SuggestionApproveResponse, err error)
 }
 
@@ -211,142 +211,142 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "GetAllTypes":
-		// action:ACTION_REGISTER_USER
+		// action:ACTION_UTILITY
 		return &v1.Operation{
 			Action: 1,
 		}, nil
 	case "GetCurrentUser":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "Bootstrap":
-		// action:ACTION_REGISTER_USER
+		// action:ACTION_UTILITY
 		return &v1.Operation{
 			Action: 1,
 		}, nil
 	case "AuthorizeOperation":
-		// action:ACTION_REGISTER_USER
+		// action:ACTION_UTILITY
 		return &v1.Operation{
 			Action: 1,
 		}, nil
 	case "Get":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "List":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "ListByCollection":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "ListByAttrs":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "Create":
-		// action:ACTION_OBJECT_CREATE
+		// action:ACTION_CREATE
 		return &v1.Operation{
 			Action: 11,
 		}, nil
 	case "Update":
-		// action:ACTION_OBJECT_UPDATE
+		// action:ACTION_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "Delete":
-		// action:ACTION_OBJECT_DELETE
+		// action:ACTION_DELETE
 		return &v1.Operation{
 			Action: 13,
 		}, nil
 	case "History":
-		// action:ACTION_OBJECT_VIEW_HISTORY
+		// action:ACTION_VIEW_HISTORY
 		return &v1.Operation{
 			Action: 18,
 		}, nil
 	case "HiddenTx":
-		// action:ACTION_OBJECT_VIEW_HIDDEN_TXS
+		// action:ACTION_VIEW_HIDDEN_TXS
 		return &v1.Operation{
 			Action: 19,
 		}, nil
 	case "HideTx":
-		// action:ACTION_OBJECT_HIDE_TX
+		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil
 	case "UnHideTx":
-		// action:ACTION_OBJECT_HIDE_TX
+		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil
 	case "Reference":
-		//action:23
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,
 		}, nil
 	case "ReferenceListByType":
-		//action:23
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,
 		}, nil
 	case "ReferenceByCollection":
-		//action:23
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,
 		}, nil
 	case "ReferenceByObject":
-		//action:23
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,
 		}, nil
 	case "ReferenceCreate":
-		//action:21
+		// action:ACTION_REFERENCE_CREATE
 		return &v1.Operation{
 			Action: 21,
 		}, nil
 	case "ReferenceDelete":
-		//action:22
+		// action:ACTION_REFERENCE_DELETE
 		return &v1.Operation{
 			Action: 22,
 		}, nil
 	case "Suggestion":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
+		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,
 		}, nil
 	case "SuggestionList":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
+		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,
 		}, nil
 	case "SuggestionListByCollection":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
+		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,
 		}, nil
 	case "SuggestionByPartialKey":
-		// action:ACTION_OBJECT_SUGGEST_VIEW
+		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,
 		}, nil
 	case "SuggestionCreate":
-		// action:ACTION_OBJECT_SUGGEST_CREATE
+		// action:ACTION_SUGGEST_CREATE
 		return &v1.Operation{
 			Action: 15,
 		}, nil
 	case "SuggestionDelete":
-		// action:ACTION_OBJECT_SUGGEST_DELETE
+		// action:ACTION_SUGGEST_DELETE
 		return &v1.Operation{
 			Action: 16,
 		}, nil
 	case "SuggestionApprove":
-		// action:ACTION_OBJECT_SUGGEST_APPROVE
+		// action:ACTION_SUGGEST_APPROVE
 		return &v1.Operation{
 			Action: 17,
 		}, nil

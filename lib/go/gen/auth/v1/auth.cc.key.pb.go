@@ -5,10 +5,10 @@
 
 package v1
 
-func (m *Reference) Namespace() string {
+func (m *Reference) ObjectType() string {
 	return "auth.Reference"
 }
-func (m *Collection) Namespace() string {
+func (m *Collection) ObjectType() string {
 	return "auth.Collection"
 }
 func (m *Collection) KeyAttr() []string {
@@ -29,7 +29,7 @@ func (m *Collection) ObjectKey() *ObjectKey {
 	}
 	return key
 }
-func (m *User) Namespace() string {
+func (m *User) ObjectType() string {
 	return "auth.User"
 }
 func (m *User) KeyAttr() []string {
@@ -51,7 +51,7 @@ func (m *User) ObjectKey() *ObjectKey {
 	}
 	return key
 }
-func (m *Suggestion) Namespace() string {
+func (m *Suggestion) ObjectType() string {
 	return "auth.Suggestion"
 }
 func (m *Suggestion) KeyAttr() []string {
@@ -67,10 +67,10 @@ func (m *Suggestion) IsSecondary() bool {
 func (m *Suggestion) ObjectKey() *ObjectKey {
 	return m.GetPrimaryKey()
 }
-func (m *HiddenTxList) Namespace() string {
+func (m *HiddenTxList) ObjectType() string {
 	return "auth.HiddenTxList"
 }
-func (m *Role) Namespace() string {
+func (m *Role) ObjectType() string {
 	return "auth.Role"
 }
 func (m *Role) KeyAttr() []string {
@@ -91,30 +91,10 @@ func (m *Role) ObjectKey() *ObjectKey {
 	}
 	return key
 }
-func (m *Attribute) Namespace() string {
+func (m *Attribute) ObjectType() string {
 	return "auth.Attribute"
 }
-func (m *Attribute) KeyAttr() []string {
-	attr := []string{}
-	attr = append(attr, m.GetMspId())
-	attr = append(attr, m.GetOid())
-	attr = append(attr, m.GetRoleId())
-	return attr
-}
-
-// Domain Object
-func (m *Attribute) IsPrimary() bool {
-	return true
-}
-func (m *Attribute) ObjectKey() *ObjectKey {
-	key := &ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "auth.Attribute",
-		ObjectIdParts: m.KeyAttr(),
-	}
-	return key
-}
-func (m *Membership) Namespace() string {
+func (m *Membership) ObjectType() string {
 	return "auth.Membership"
 }
 func (m *Membership) KeyAttr() []string {

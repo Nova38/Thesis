@@ -85,26 +85,22 @@ func main() {
 	}
 
 	auth := new(NoAuthContract)
-	users := new(contracts.UserImpl)
-	collections := new(contracts.CollectionImpl)
+
 	generic := new(contracts.ObjectContractImpl)
 
 	auth.Name = "auth.none"
-	users.Name = "auth.users"
-	collections.Name = "auth.collections"
+
 	generic.Name = "auth.generic"
 
 	auth.TransactionContextHandler = &NoAuthTxCtx{}
-	users.TransactionContextHandler = &NoAuthTxCtx{}
-	collections.TransactionContextHandler = &NoAuthTxCtx{}
+
 	generic.TransactionContextHandler = &NoAuthTxCtx{}
 
 	auth.BeforeTransaction = BeforeTransaction
-	users.BeforeTransaction = BeforeTransaction
-	collections.BeforeTransaction = BeforeTransaction
+
 	generic.BeforeTransaction = BeforeTransaction
 
-	sm, err := contractapi.NewChaincode(auth, users, collections, generic)
+	sm, err := contractapi.NewChaincode(auth, generic)
 	if err != nil {
 		fmt.Printf("Error creating No Auth contract: %s", err)
 		panic(err)

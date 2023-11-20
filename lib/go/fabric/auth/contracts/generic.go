@@ -362,7 +362,7 @@ func (o ObjectContractImpl) Reference(
 }
 
 // todo: ReferenceListByType
-func (o ObjectContractImpl) ReferenceListByType(
+func (o ObjectContractImpl) ReferenceByType(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceListByTypeRequest,
 ) (res *cc.ReferenceListByTypeResponse, err error) {
@@ -370,7 +370,7 @@ func (o ObjectContractImpl) ReferenceListByType(
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	list, mk, err := state.ReferenceListByType(ctx, req.GetReferenceType(), req.GetBookmark())
+	list, mk, err := state.ReferenceByType(ctx, req.GetReferenceType(), req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}

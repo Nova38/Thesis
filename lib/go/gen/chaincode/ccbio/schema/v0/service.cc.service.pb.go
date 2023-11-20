@@ -16,55 +16,55 @@ type SpecimenServiceInterface[T state.GenericTxCtxInterface] interface {
 	// SpecimenGet
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	SpecimenGet(ctx T, req *SpecimenGetRequest) (res *SpecimenGetResponse, err error)
 
 	// SpecimenGetList
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	SpecimenGetList(ctx T, req *SpecimenGetListRequest) (res *SpecimenGetListResponse, err error)
 
 	// SpecimenGetByCollection
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
+	//   - Domain: ACTION_VIEW
 	SpecimenGetByCollection(ctx T, req *SpecimenGetByCollectionRequest) (res *SpecimenGetByCollectionResponse, err error)
 
 	// SpecimenGetHistory
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
+	//   - Domain: ACTION_VIEW_HISTORY
 	SpecimenGetHistory(ctx T, req *SpecimenGetHistoryRequest) (res *SpecimenGetHistoryResponse, err error)
 
 	// SpecimenCreate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_CREATE
+	//   - Domain: ACTION_CREATE
 	SpecimenCreate(ctx T, req *SpecimenCreateRequest) (res *SpecimenCreateResponse, err error)
 
 	// SpecimenUpdate
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_UPDATE
+	//   - Domain: ACTION_UPDATE
 	SpecimenUpdate(ctx T, req *SpecimenUpdateRequest) (res *SpecimenUpdateResponse, err error)
 
 	// SpecimenDelete
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_DELETE
+	//   - Domain: ACTION_DELETE
 	SpecimenDelete(ctx T, req *SpecimenDeleteRequest) (res *SpecimenDeleteResponse, err error)
 
 	// SpecimenHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_TX
+	//   - Domain: ACTION_HIDE_TX
 	SpecimenHideTx(ctx T, req *SpecimenHideTxRequest) (res *SpecimenHideTxResponse, err error)
 
 	// SpecimenUnHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_OBJECT_HIDE_TX
+	//   - Domain: ACTION_HIDE_TX
 	SpecimenUnHideTx(ctx T, req *SpecimenUnHideTxRequest) (res *SpecimenUnHideTxResponse, err error)
 }
 
@@ -83,47 +83,47 @@ func (s *SpecimenServiceBase) GetEvaluateTransactions() []string {
 func SpecimenServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "SpecimenGet":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "SpecimenGetList":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "SpecimenGetByCollection":
-		// action:ACTION_OBJECT_VIEW
+		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
 		}, nil
 	case "SpecimenGetHistory":
-		// action:ACTION_OBJECT_VIEW_HISTORY
+		// action:ACTION_VIEW_HISTORY
 		return &v1.Operation{
 			Action: 18,
 		}, nil
 	case "SpecimenCreate":
-		// action:ACTION_OBJECT_CREATE
+		// action:ACTION_CREATE
 		return &v1.Operation{
 			Action: 11,
 		}, nil
 	case "SpecimenUpdate":
-		// action:ACTION_OBJECT_UPDATE
+		// action:ACTION_UPDATE
 		return &v1.Operation{
 			Action: 12,
 		}, nil
 	case "SpecimenDelete":
-		// action:ACTION_OBJECT_DELETE
+		// action:ACTION_DELETE
 		return &v1.Operation{
 			Action: 13,
 		}, nil
 	case "SpecimenHideTx":
-		// action:ACTION_OBJECT_HIDE_TX
+		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil
 	case "SpecimenUnHideTx":
-		// action:ACTION_OBJECT_HIDE_TX
+		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
 		}, nil

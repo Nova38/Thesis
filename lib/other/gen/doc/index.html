@@ -280,7 +280,7 @@
                 </li>
 
                 <li>
-                  <a href="#auth.ObjectDomain"><span class="badge">E</span>ObjectDomain</a>
+                  <a href="#auth.ObjectKind"><span class="badge">E</span>ObjectKind</a>
                 </li>
 
                 <li>
@@ -842,7 +842,7 @@
 
 
         <h3 id="auth.Attribute">Attribute</h3>
-        <p></p>
+        <p>An attribute is used to define permissions via the value of the attribute in the </p><p>users certificate for a given msp</p>
 
 
           <table class="field-table">
@@ -881,10 +881,10 @@ role </p></td>
                 </tr>
 
                 <tr>
-                  <td>role_id</td>
-                  <td><a href="#string">string</a></td>
+                  <td>ac</td>
+                  <td><a href="#auth.ACEntry">ACEntry</a></td>
                   <td></td>
-                  <td><p>The role that the user must have to satisfy the attribute </p></td>
+                  <td><p>The Permission that the user will have if they have the attribute </p></td>
                 </tr>
 
             </tbody>
@@ -1126,42 +1126,42 @@ role </p></td>
                   <td>tx_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The transaction id that caused the change </p></td>
                 </tr>
 
                 <tr>
                   <td>is_delete</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Whether the object was deleted </p></td>
                 </tr>
 
                 <tr>
                   <td>is_hidden</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>Whether the transaction was hidden </p></td>
                 </tr>
 
                 <tr>
                   <td>timestamp</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The timestamp of the change </p></td>
                 </tr>
 
                 <tr>
                   <td>note</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A note about the change </p></td>
                 </tr>
 
                 <tr>
                   <td>value</td>
                   <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The value of the object </p></td>
                 </tr>
 
             </tbody>
@@ -1182,38 +1182,24 @@ role </p></td>
             <tbody>
 
                 <tr>
-                  <td>namespace</td>
+                  <td>object_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The object type of the key </p></td>
                 </tr>
 
                 <tr>
-                  <td>object_domain</td>
-                  <td><a href="#auth.ObjectDomain">ObjectDomain</a></td>
+                  <td>object_kind</td>
+                  <td><a href="#auth.ObjectKind">ObjectKind</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The kind of object that the key is for </p></td>
                 </tr>
 
                 <tr>
                   <td>keys</td>
                   <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
                   <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>primary_key</td>
-                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>secondary_keys</td>
-                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
-                  <td></td>
-                  <td><p> </p></td>
+                  <td><p>The paths that make up the key </p></td>
                 </tr>
 
             </tbody>
@@ -1224,7 +1210,7 @@ role </p></td>
 
 
         <h3 id="auth.Membership">Membership</h3>
-        <p></p>
+        <p>Membership is used to store permissions for a user in a collection</p>
 
 
           <table class="field-table">
@@ -1237,28 +1223,28 @@ role </p></td>
                   <td>collection_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The collection that the user is a member of </p></td>
                 </tr>
 
                 <tr>
                   <td>msp_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
                 </tr>
 
                 <tr>
                   <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The id of the user from the certificate </p></td>
                 </tr>
 
                 <tr>
                   <td>ac</td>
                   <td><a href="#auth.ACEntry">ACEntry</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The Permissions that the user will have </p></td>
                 </tr>
 
             </tbody>
@@ -1445,7 +1431,7 @@ role </p></td>
 
 
         <h3 id="auth.ObjectKey">ObjectKey</h3>
-        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Object Keys</p><p>When converted to its string form it will be: </p><p>- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}</p><p>Reference Keys</p><p>Used to store references to objects for case like a user having a role</p><p>When converted to its string form it will be: </p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be: </p><p>{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}</p>
+        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Object Keys</p><p>When converted to its string form it will be:</p><p>- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}</p><p>Reference Keys</p><p>Used to store references to objects for case like a user having a role</p><p>When converted to its string form it will be:</p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be:</p><p>{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}</p>
 
 
           <table class="field-table">
@@ -1538,14 +1524,14 @@ role </p></td>
                 </tr>
 
                 <tr>
-                  <td>namespace</td>
+                  <td>object_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
 
                 <tr>
-                  <td>secondary_namespace</td>
+                  <td>secondary_object_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
@@ -1714,35 +1700,35 @@ role </p></td>
                   <td>tx_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The transaction id that caused the change </p></td>
                 </tr>
 
                 <tr>
                   <td>msp_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The msp of the user that caused the change </p></td>
                 </tr>
 
                 <tr>
                   <td>user_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The id of the user that caused the change </p></td>
                 </tr>
 
                 <tr>
                   <td>timestamp</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>The timestamp of the change </p></td>
                 </tr>
 
                 <tr>
                   <td>note</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>A note about the change </p></td>
                 </tr>
 
             </tbody>
@@ -1953,7 +1939,7 @@ role </p></td>
           </tbody>
         </table>
 
-        <h3 id="auth.ObjectDomain">ObjectDomain</h3>
+        <h3 id="auth.ObjectKind">ObjectKind</h3>
         <p></p>
         <table class="enum-table">
           <thead>
@@ -1962,31 +1948,31 @@ role </p></td>
           <tbody>
 
               <tr>
-                <td>OBJECT_DOMAIN_UNSPECIFIED</td>
+                <td>OBJECT_KIND_UNSPECIFIED</td>
                 <td>0</td>
                 <td><p></p></td>
               </tr>
 
               <tr>
-                <td>OBJECT_GLOBAL_OBJECT</td>
+                <td>OBJECT_KIND_GLOBAL_OBJECT</td>
                 <td>1</td>
                 <td><p></p></td>
               </tr>
 
               <tr>
-                <td>OBJECT_DOMAIN_PRIMARY_OBJECT</td>
+                <td>OBJECT_KIND_PRIMARY_OBJECT</td>
                 <td>2</td>
                 <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
               </tr>
 
               <tr>
-                <td>OBJECT_DOMAIN_SUB_OBJECT</td>
+                <td>OBJECT_KIND_SUB_OBJECT</td>
                 <td>3</td>
                 <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}</p></td>
               </tr>
 
               <tr>
-                <td>OBJECT_DOMAIN_REFERENCE</td>
+                <td>OBJECT_KIND_REFERENCE</td>
                 <td>4</td>
                 <td><p></p></td>
               </tr>
@@ -2058,49 +2044,49 @@ role </p></td>
               <tr>
                 <td>KEY_NOT_FOUND</td>
                 <td>4</td>
-                <td><p></p></td>
+                <td><p>The provided key is not in the world state</p></td>
               </tr>
 
               <tr>
                 <td>KEY_ALREADY_EXISTS</td>
                 <td>5</td>
-                <td><p></p></td>
+                <td><p>The provided key is already in the world state</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_INVALID_ID</td>
                 <td>11</td>
-                <td><p>Collection Errors</p></td>
+                <td><p>The collection id is invalid</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_UNREGISTERED</td>
                 <td>12</td>
-                <td><p></p></td>
+                <td><p>The collection is not registered and thus cannot be accessed</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_ALREADY_REGISTERED</td>
                 <td>13</td>
-                <td><p></p></td>
+                <td><p>The collection is already registered and thus cannot be registered again</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_INVALID</td>
                 <td>14</td>
-                <td><p></p></td>
+                <td><p>The collection is invalid (e.g. the collection does not have a default ACEntry)</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_INVALID_OBJECT_TYPE</td>
                 <td>15</td>
-                <td><p></p></td>
+                <td><p>The object type in the collection is invalid</p></td>
               </tr>
 
               <tr>
                 <td>COLLECTION_INVALID_ROLE_ID</td>
                 <td>16</td>
-                <td><p></p></td>
+                <td><p>The role id in the collection is invalid</p></td>
               </tr>
 
               <tr>
@@ -2112,73 +2098,68 @@ role </p></td>
               <tr>
                 <td>USER_UNREGISTERED</td>
                 <td>21</td>
-                <td><p></p></td>
+                <td><p>The certificate is not registered as a user and thus cannot be used</p></td>
               </tr>
 
               <tr>
                 <td>USER_ALREADY_REGISTERED</td>
                 <td>22</td>
-                <td><p></p></td>
+                <td><p>The certificate is already registered as a user and thus cannot be registered again</p></td>
               </tr>
 
               <tr>
                 <td>USER_INVALID</td>
                 <td>23</td>
-                <td><p></p></td>
+                <td><p>The user is invalid</p></td>
               </tr>
 
               <tr>
                 <td>USER_NO_ROLE</td>
                 <td>24</td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>USER_DELETED_ROLE</td>
-                <td>25</td>
-                <td><p></p></td>
+                <td><p>The user does not have a role</p></td>
               </tr>
 
               <tr>
                 <td>USER_PERMISSION_DENIED</td>
                 <td>26</td>
-                <td><p></p></td>
+                <td><p>USER_DELETED_ROLE          = 25;
+The user does not have permission to perform the operation</p></td>
               </tr>
 
               <tr>
                 <td>OBJECT_INVALID_ID</td>
                 <td>31</td>
-                <td><p></p></td>
+                <td><p>The Object&#39;s key is invalid</p></td>
               </tr>
 
               <tr>
                 <td>OBJECT_UNREGISTERED</td>
                 <td>32</td>
-                <td><p></p></td>
+                <td><p>The Object is not registered and thus cannot be accessed</p></td>
               </tr>
 
               <tr>
                 <td>OBJECT_ALREADY_REGISTERED</td>
                 <td>33</td>
-                <td><p></p></td>
+                <td><p>The Object is already registered and thus cannot be registered again</p></td>
               </tr>
 
               <tr>
                 <td>OBJECT_INVALID</td>
                 <td>34</td>
-                <td><p></p></td>
+                <td><p>The Object is invalid</p></td>
               </tr>
 
               <tr>
                 <td>INVALID_OBJECT_FIELD_PATH</td>
                 <td>35</td>
-                <td><p></p></td>
+                <td><p>The object field path is invalid for the object type</p></td>
               </tr>
 
               <tr>
                 <td>INVALID_OBJECT_FIELD_VALUE</td>
                 <td>36</td>
-                <td><p></p></td>
+                <td><p>The value at the object field path is invalid for the object type</p></td>
               </tr>
 
           </tbody>

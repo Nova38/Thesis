@@ -64,27 +64,27 @@ func (kg *KeyGenerator) GenerateMessage(
 	ObjectKey := g.QualifiedGoIdent(authPackage.Ident("ObjectKey"))
 	// SubObject := g.QualifiedGoIdent(authPackage.Ident("SubObject"))
 
-	// objectDomain := GetObjectDomain(msg)
+	// ObjectKind := GetObjectKind(msg)
 	if keySchema == nil {
 		return true
 	}
 	// // g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
 	{
-		ns := keySchema.GetNamespace()
+		ns := keySchema.GetObjectType()
 		if ns == "" {
-			g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+			g.P("func (m *", msg.GoIdent.GoName, ") ObjectType() string {")
 			g.P("	return \"", msg.Desc.FullName(), "\"")
 			g.P("}")
 		} else {
-			g.P("func (m *", msg.GoIdent.GoName, ") Namespace() string {")
+			g.P("func (m *", msg.GoIdent.GoName, ") ObjectType() string {")
 			g.P("	return \"", ns, "\"")
 		}
 	}
 
 	kp := keySchema.GetKeys()
 	// dCol := keySchema.GetDefaultCollectionId()
-	// ObjectDomain := GetObjectDomain()
+	// ObjectKind := GetObjectKind()
 
 	// sub := keySchema.GetSubObject()
 	// function for key
@@ -144,9 +144,9 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("}")
 
 		{
-			od := keySchema.GetObjectDomain()
+			od := keySchema.GetObjectKind()
 
-			if authpb.ObjectDomain(od.Number()) == authpb.ObjectDomain_OBJECT_GLOBAL_OBJECT {
+			if authpb.ObjectKind(od.Number()) == authpb.ObjectKind_OBJECT_KIND_GLOBAL_OBJECT {
 				g.P("// Global Object")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
 				g.P("	return true")
@@ -162,9 +162,9 @@ func (kg *KeyGenerator) GenerateMessage(
 				g.P("}")
 
 			}
-			if authpb.ObjectDomain(
+			if authpb.ObjectKind(
 				od.Number(),
-			) == authpb.ObjectDomain_OBJECT_DOMAIN_PRIMARY_OBJECT {
+			) == authpb.ObjectKind_OBJECT_KIND_PRIMARY_OBJECT {
 				g.P("// Domain Object")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsPrimary() (bool) {")
 				g.P("	return true")
@@ -181,7 +181,7 @@ func (kg *KeyGenerator) GenerateMessage(
 
 			}
 
-			if authpb.ObjectDomain(od.Number()) == authpb.ObjectDomain_OBJECT_DOMAIN_SUB_OBJECT {
+			if authpb.ObjectKind(od.Number()) == authpb.ObjectKind_OBJECT_KIND_SUB_OBJECT {
 				g.P("// Domain Object")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsSecondary() (bool) {")
 				g.P("	return true")
@@ -252,8 +252,8 @@ func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
 	return v
 }
 
-// func GetObjectDomain(m *protogen.Message) *authpb.ObjectDomain {
-// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ObjectDomain).(*authpb.ObjectDomain)
+// func GetObjectKind(m *protogen.Message) *authpb.ObjectKind {
+// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ObjectKind).(*authpb.ObjectKind)
 
 // 	if !ok {
 // 		return nil

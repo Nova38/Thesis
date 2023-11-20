@@ -33,45 +33,45 @@ proto3.util.setEnumType(TransactionType, "auth.TransactionType", [
 ]);
 
 /**
- * @generated from enum auth.ObjectDomain
+ * @generated from enum auth.ObjectKind
  */
-export enum ObjectDomain {
+export enum ObjectKind {
   /**
-   * @generated from enum value: OBJECT_DOMAIN_UNSPECIFIED = 0;
+   * @generated from enum value: OBJECT_KIND_UNSPECIFIED = 0;
    */
-  OBJECT_DOMAIN_UNSPECIFIED = 0,
+  UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: OBJECT_GLOBAL_OBJECT = 1;
+   * @generated from enum value: OBJECT_KIND_GLOBAL_OBJECT = 1;
    */
-  OBJECT_GLOBAL_OBJECT = 1,
+  GLOBAL_OBJECT = 1,
 
   /**
    * Object's key := {COLLECTION_ID}{TYPE}[...key_paths]
    *
-   * @generated from enum value: OBJECT_DOMAIN_PRIMARY_OBJECT = 2;
+   * @generated from enum value: OBJECT_KIND_PRIMARY_OBJECT = 2;
    */
-  OBJECT_DOMAIN_PRIMARY_OBJECT = 2,
+  PRIMARY_OBJECT = 2,
 
   /**
    * Object's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
    *
-   * @generated from enum value: OBJECT_DOMAIN_SUB_OBJECT = 3;
+   * @generated from enum value: OBJECT_KIND_SUB_OBJECT = 3;
    */
-  OBJECT_DOMAIN_SUB_OBJECT = 3,
+  SUB_OBJECT = 3,
 
   /**
-   * @generated from enum value: OBJECT_DOMAIN_REFERENCE = 4;
+   * @generated from enum value: OBJECT_KIND_REFERENCE = 4;
    */
-  OBJECT_DOMAIN_REFERENCE = 4,
+  REFERENCE = 4,
 }
-// Retrieve enum metadata with: proto3.getEnumType(ObjectDomain)
-proto3.util.setEnumType(ObjectDomain, "auth.ObjectDomain", [
-  { no: 0, name: "OBJECT_DOMAIN_UNSPECIFIED" },
-  { no: 1, name: "OBJECT_GLOBAL_OBJECT" },
-  { no: 2, name: "OBJECT_DOMAIN_PRIMARY_OBJECT" },
-  { no: 3, name: "OBJECT_DOMAIN_SUB_OBJECT" },
-  { no: 4, name: "OBJECT_DOMAIN_REFERENCE" },
+// Retrieve enum metadata with: proto3.getEnumType(ObjectKind)
+proto3.util.setEnumType(ObjectKind, "auth.ObjectKind", [
+  { no: 0, name: "OBJECT_KIND_UNSPECIFIED" },
+  { no: 1, name: "OBJECT_KIND_GLOBAL_OBJECT" },
+  { no: 2, name: "OBJECT_KIND_PRIMARY_OBJECT" },
+  { no: 3, name: "OBJECT_KIND_SUB_OBJECT" },
+  { no: 4, name: "OBJECT_KIND_REFERENCE" },
 ]);
 
 /**
@@ -230,43 +230,57 @@ export enum TxError {
   RUNTIME_BAD_OPS = 3,
 
   /**
+   * The provided key is not in the world state
+   *
    * @generated from enum value: KEY_NOT_FOUND = 4;
    */
   KEY_NOT_FOUND = 4,
 
   /**
+   * The provided key is already in the world state
+   *
    * @generated from enum value: KEY_ALREADY_EXISTS = 5;
    */
   KEY_ALREADY_EXISTS = 5,
 
   /**
-   * Collection Errors 
+   * The collection id is invalid
    *
    * @generated from enum value: COLLECTION_INVALID_ID = 11;
    */
   COLLECTION_INVALID_ID = 11,
 
   /**
+   * The collection is not registered and thus cannot be accessed
+   *
    * @generated from enum value: COLLECTION_UNREGISTERED = 12;
    */
   COLLECTION_UNREGISTERED = 12,
 
   /**
+   * The collection is already registered and thus cannot be registered again
+   *
    * @generated from enum value: COLLECTION_ALREADY_REGISTERED = 13;
    */
   COLLECTION_ALREADY_REGISTERED = 13,
 
   /**
+   * The collection is invalid (e.g. the collection does not have a default ACEntry)
+   *
    * @generated from enum value: COLLECTION_INVALID = 14;
    */
   COLLECTION_INVALID = 14,
 
   /**
+   * The object type in the collection is invalid
+   *
    * @generated from enum value: COLLECTION_INVALID_OBJECT_TYPE = 15;
    */
   COLLECTION_INVALID_OBJECT_TYPE = 15,
 
   /**
+   * The role id in the collection is invalid
+   *
    * @generated from enum value: COLLECTION_INVALID_ROLE_ID = 16;
    */
   COLLECTION_INVALID_ROLE_ID = 16,
@@ -279,61 +293,79 @@ export enum TxError {
   USER_INVALID_ID = 20,
 
   /**
+   * The certificate is not registered as a user and thus cannot be used 
+   *
    * @generated from enum value: USER_UNREGISTERED = 21;
    */
   USER_UNREGISTERED = 21,
 
   /**
+   * The certificate is already registered as a user and thus cannot be registered again
+   *
    * @generated from enum value: USER_ALREADY_REGISTERED = 22;
    */
   USER_ALREADY_REGISTERED = 22,
 
   /**
+   * The user is invalid
+   *
    * @generated from enum value: USER_INVALID = 23;
    */
   USER_INVALID = 23,
 
   /**
+   * The user does not have a role
+   *
    * @generated from enum value: USER_NO_ROLE = 24;
    */
   USER_NO_ROLE = 24,
 
   /**
-   * @generated from enum value: USER_DELETED_ROLE = 25;
-   */
-  USER_DELETED_ROLE = 25,
-
-  /**
+   * USER_DELETED_ROLE          = 25;
+   * The user does not have permission to perform the operation
+   *
    * @generated from enum value: USER_PERMISSION_DENIED = 26;
    */
   USER_PERMISSION_DENIED = 26,
 
   /**
+   * The Object's key is invalid
+   *
    * @generated from enum value: OBJECT_INVALID_ID = 31;
    */
   OBJECT_INVALID_ID = 31,
 
   /**
+   * The Object is not registered and thus cannot be accessed
+   *
    * @generated from enum value: OBJECT_UNREGISTERED = 32;
    */
   OBJECT_UNREGISTERED = 32,
 
   /**
+   * The Object is already registered and thus cannot be registered again
+   *
    * @generated from enum value: OBJECT_ALREADY_REGISTERED = 33;
    */
   OBJECT_ALREADY_REGISTERED = 33,
 
   /**
+   * The Object is invalid
+   *
    * @generated from enum value: OBJECT_INVALID = 34;
    */
   OBJECT_INVALID = 34,
 
   /**
+   * The object field path is invalid for the object type
+   *
    * @generated from enum value: INVALID_OBJECT_FIELD_PATH = 35;
    */
   INVALID_OBJECT_FIELD_PATH = 35,
 
   /**
+   * The value at the object field path is invalid for the object type
+   *
    * @generated from enum value: INVALID_OBJECT_FIELD_VALUE = 36;
    */
   INVALID_OBJECT_FIELD_VALUE = 36,
@@ -357,7 +389,6 @@ proto3.util.setEnumType(TxError, "auth.TxError", [
   { no: 22, name: "USER_ALREADY_REGISTERED" },
   { no: 23, name: "USER_INVALID" },
   { no: 24, name: "USER_NO_ROLE" },
-  { no: 25, name: "USER_DELETED_ROLE" },
   { no: 26, name: "USER_PERMISSION_DENIED" },
   { no: 31, name: "OBJECT_INVALID_ID" },
   { no: 32, name: "OBJECT_UNREGISTERED" },
@@ -372,29 +403,25 @@ proto3.util.setEnumType(TxError, "auth.TxError", [
  */
 export class KeySchema extends Message<KeySchema> {
   /**
-   * @generated from field: string namespace = 1;
+   * The object type of the key
+   *
+   * @generated from field: string object_type = 1;
    */
-  namespace = "";
+  objectType = "";
 
   /**
-   * @generated from field: auth.ObjectDomain object_domain = 2;
+   * The kind of object that the key is for
+   *
+   * @generated from field: auth.ObjectKind object_kind = 2;
    */
-  objectDomain = ObjectDomain.OBJECT_DOMAIN_UNSPECIFIED;
+  objectKind = ObjectKind.UNSPECIFIED;
 
   /**
+   * The paths that make up the key
+   *
    * @generated from field: google.protobuf.FieldMask keys = 3;
    */
   keys?: FieldMask;
-
-  /**
-   * @generated from field: google.protobuf.FieldMask primary_key = 4;
-   */
-  primaryKey?: FieldMask;
-
-  /**
-   * @generated from field: google.protobuf.FieldMask secondary_keys = 5;
-   */
-  secondaryKeys?: FieldMask;
 
   constructor(data?: PartialMessage<KeySchema>) {
     super();
@@ -404,11 +431,9 @@ export class KeySchema extends Message<KeySchema> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.KeySchema";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_domain", kind: "enum", T: proto3.getEnumType(ObjectDomain) },
+    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "object_kind", kind: "enum", T: proto3.getEnumType(ObjectKind) },
     { no: 3, name: "keys", kind: "message", T: FieldMask },
-    { no: 4, name: "primary_key", kind: "message", T: FieldMask },
-    { no: 5, name: "secondary_keys", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {
@@ -435,26 +460,36 @@ export class KeySchema extends Message<KeySchema> {
  */
 export class StateActivity extends Message<StateActivity> {
   /**
+   * The transaction id that caused the change
+   *
    * @generated from field: string tx_id = 1;
    */
   txId = "";
 
   /**
+   * The msp of the user that caused the change
+   *
    * @generated from field: string msp_id = 2;
    */
   mspId = "";
 
   /**
+   * The id of the user that caused the change
+   *
    * @generated from field: string user_id = 3;
    */
   userId = "";
 
   /**
+   * The timestamp of the change
+   *
    * @generated from field: google.protobuf.Timestamp timestamp = 4;
    */
   timestamp?: Timestamp;
 
   /**
+   * A note about the change
+   *
    * @generated from field: string note = 5;
    */
   note = "";
@@ -496,31 +531,43 @@ export class StateActivity extends Message<StateActivity> {
  */
 export class HistoryEntry extends Message<HistoryEntry> {
   /**
+   * The transaction id that caused the change
+   *
    * @generated from field: string tx_id = 1;
    */
   txId = "";
 
   /**
+   * Whether the object was deleted
+   *
    * @generated from field: bool is_delete = 2;
    */
   isDelete = false;
 
   /**
+   * Whether the transaction was hidden
+   *
    * @generated from field: bool is_hidden = 3;
    */
   isHidden = false;
 
   /**
+   * The timestamp of the change
+   *
    * @generated from field: google.protobuf.Timestamp timestamp = 4;
    */
   timestamp?: Timestamp;
 
   /**
+   * A note about the change
+   *
    * @generated from field: string note = 5;
    */
   note = "";
 
   /**
+   * The value of the object
+   *
    * @generated from field: google.protobuf.Any value = 6;
    */
   value?: Any;
@@ -616,14 +663,14 @@ export class Operation extends Message<Operation> {
   collectionId = "";
 
   /**
-   * @generated from field: string namespace = 3;
+   * @generated from field: string object_type = 3;
    */
-  namespace = "";
+  objectType = "";
 
   /**
-   * @generated from field: string secondary_namespace = 4;
+   * @generated from field: string secondary_object_type = 4;
    */
-  secondaryNamespace = "";
+  secondaryObjectType = "";
 
   /**
    * @generated from field: google.protobuf.FieldMask paths = 5;
@@ -640,8 +687,8 @@ export class Operation extends Message<Operation> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
     { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "secondary_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "secondary_object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "paths", kind: "message", T: FieldMask },
   ]);
 
@@ -1050,17 +1097,17 @@ export class FullObject extends Message<FullObject> {
  * Keys
  * ─────────────────────────────────────────────────────────────────────────────────────
  * Object Keys
- * When converted to its string form it will be: 
+ * When converted to its string form it will be:
  * - Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
  *
  * Reference Keys
  * Used to store references to objects for case like a user having a role
- * When converted to its string form it will be: 
+ * When converted to its string form it will be:
  * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
  *
  *
  * SubKeys
- * When converted to its string form it will be: 
+ * When converted to its string form it will be:
  * {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
  * Examples
  * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
@@ -1538,6 +1585,9 @@ export class Role extends Message<Role> {
 }
 
 /**
+ * An attribute is used to define permissions via the value of the attribute in the 
+ * users certificate for a given msp
+ *
  * @generated from message auth.Attribute
  */
 export class Attribute extends Message<Attribute> {
@@ -1569,11 +1619,11 @@ export class Attribute extends Message<Attribute> {
   value = "";
 
   /**
-   * The role that the user must have to satisfy the attribute
+   * The Permission that the user will have if they have the attribute
    *
-   * @generated from field: string role_id = 5;
+   * @generated from field: auth.ACEntry ac = 5;
    */
-  roleId = "";
+  ac?: ACEntry;
 
   constructor(data?: PartialMessage<Attribute>) {
     super();
@@ -1587,7 +1637,7 @@ export class Attribute extends Message<Attribute> {
     { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "ac", kind: "message", T: ACEntry },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Attribute {
@@ -1608,25 +1658,35 @@ export class Attribute extends Message<Attribute> {
 }
 
 /**
+ * Membership is used to store permissions for a user in a collection
+ *
  * @generated from message auth.Membership
  */
 export class Membership extends Message<Membership> {
   /**
+   * The collection that the user is a member of
+   *
    * @generated from field: string collection_id = 1;
    */
   collectionId = "";
 
   /**
+   * The msp of the organization that the user's certificate is from
+   *
    * @generated from field: string msp_id = 2;
    */
   mspId = "";
 
   /**
+   * The id of the user from the certificate
+   *
    * @generated from field: string user_id = 3;
    */
   userId = "";
 
   /**
+   * The Permissions that the user will have
+   *
    * @generated from field: auth.ACEntry ac = 4;
    */
   ac?: ACEntry;

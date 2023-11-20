@@ -19,22 +19,23 @@ enum TransactionType {
   TRANSACTION_TYPE_INVOKE      = 1;
   TRANSACTION_TYPE_QUERY       = 2;
 }
-enum ObjectDomain {
-  OBJECT_DOMAIN_UNSPECIFIED = 0;
-  OBJECT_GLOBAL_OBJECT      = 1;
+enum ObjectKind {
+  OBJECT_KIND_UNSPECIFIED = 0;
+  OBJECT_KIND_GLOBAL_OBJECT      = 1;
   // Object's key := {COLLECTION_ID}{TYPE}[...key_paths]
-  OBJECT_DOMAIN_PRIMARY_OBJECT = 2;
+  OBJECT_KIND_PRIMARY_OBJECT = 2;
   // Object's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
-  OBJECT_DOMAIN_SUB_OBJECT = 3;
-  OBJECT_DOMAIN_REFERENCE  = 4;
+  OBJECT_KIND_SUB_OBJECT = 3;
+  OBJECT_KIND_REFERENCE  = 4;
 }
 
 message KeySchema {
-  string namespace                         = 1;
-  ObjectDomain object_domain               = 2;
+  // The object type of the key
+  string object_type                       = 1;
+  // The kind of object that the key is for
+  ObjectKind object_kind               = 2;
+  // The paths that make up the key
   google.protobuf.FieldMask keys           = 3;
-  google.protobuf.FieldMask primary_key    = 4;
-  google.protobuf.FieldMask secondary_keys = 5;
 }
 
 // Define method options
@@ -52,21 +53,32 @@ extend google.protobuf.MessageOptions {
 
 // Can be used as the history entry
 message StateActivity {
+  // The transaction id that caused the change
   string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
+  // The msp of the user that caused the change
   string msp_id  = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user that caused the change
   string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  // The timestamp of the change
   google.protobuf.Timestamp timestamp = 4
       [(buf.validate.field).required = true];
+  // A note about the change
   string note = 5;
 }
 
 message HistoryEntry {
+  // The transaction id that caused the change
   string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
+  // Whether the object was deleted
   bool is_delete = 2;
+  // Whether the transaction was hidden
   bool is_hidden = 3;
+  // The timestamp of the change
   google.protobuf.Timestamp timestamp = 4
       [(buf.validate.field).required = true];
+  // A note about the change
   string note               = 5;
+  // The value of the object
   google.protobuf.Any value = 6;
 }
 
@@ -82,11 +94,11 @@ message History {
 // ═════════════════════════════════════════════
 
 message Operation {
-  Action action                   = 1;
-  string collection_id            = 2;
-  string namespace                = 3;
-  string secondary_namespace      = 4;
-  google.protobuf.FieldMask paths = 5;
+  Action action                     = 1;
+  string collection_id              = 2;
+  string object_type                = 3;
+  string secondary_object_type      = 4;
+  google.protobuf.FieldMask paths   = 5;
 }
 
 // Action - The action to be performed during the operation
@@ -133,6 +145,8 @@ enum Action {
   ACTION_REFERENCE_VIEW   = 23;
 
 }
+
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -234,7 +248,7 @@ message ObjectKey {
 // Reference Keys
 // {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
 message Reference {
-  option (key_schema).object_domain = OBJECT_DOMAIN_REFERENCE;
+  option (key_schema).object_kind = OBJECT_KIND_REFERENCE;
 
   string collection_id  = 1;
   string reference_type = 2;
@@ -256,7 +270,7 @@ message Reference {
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (key_schema).object_domain = OBJECT_GLOBAL_OBJECT;
+  option (key_schema).object_kind = OBJECT_KIND_GLOBAL_OBJECT;
   option (key_schema).keys          = {
     paths: [ "collection_id" ]
   };
@@ -275,7 +289,7 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (key_schema).object_domain = OBJECT_GLOBAL_OBJECT;
+  option (key_schema).object_kind = OBJECT_KIND_GLOBAL_OBJECT;
   option (key_schema).keys          = {
     paths: [ "msp_id", "user_id" ]
   };
@@ -297,7 +311,7 @@ message User {
 // Key should be
 // {auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
 message Suggestion {
-  option (key_schema).object_domain = OBJECT_DOMAIN_SUB_OBJECT;
+  option (key_schema).object_kind = OBJECT_KIND_SUB_OBJECT;
   option (key_schema).keys = {paths: [ "suggestion_id" ]};
 
   ObjectKey primary_key           = 1;
@@ -319,7 +333,7 @@ message HiddenTx {
 
 // Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
 message HiddenTxList {
-  option (key_schema).object_domain = OBJECT_DOMAIN_SUB_OBJECT;
+  option (key_schema).object_kind = OBJECT_KIND_SUB_OBJECT;
 
   ObjectKey primary_key = 1;  // The key that is used to store the object
   repeated HiddenTx txs = 4;  // The list of hidden txs by tx_id
@@ -335,7 +349,7 @@ message HiddenTxList {
 // ─────────────────────────────────────────────────────────────────────────────────
 
 message Role {
-  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
   option (auth.key_schema).keys          = {
     paths: [ "role_id" ]
   };
@@ -348,13 +362,14 @@ message Role {
   repeated string parent_role_ids = 7;
 }
 
+// An attribute is used to define permissions via the value of the attribute in the
+// users certificate for a given msp
 message Attribute {
-  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
   option (auth.key_schema).keys          = {
     paths: [ "msp_id", "oid", "role_id" ]
   };
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-
 
   // The msp of the organization that this attribute applies to
   string msp_id = 2 [(buf.validate.field).string.min_len = 1];
@@ -363,22 +378,28 @@ message Attribute {
   // The value of the attribute required to be satisfied by the user to have the
   // role
   string value = 4 [(buf.validate.field).string.min_len = 1];
-  // The role that the user must have to satisfy the attribute
-  string role_id = 5 [(buf.validate.field).string.min_len = 1];
+
+  // The Permission that the user will have if they have the attribute
+  auth.ACEntry ac = 5 [(buf.validate.field).required = true];
+
+
 }
 
+// Membership is used to store permissions for a user in a collection
 message Membership {
-  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
   option (auth.key_schema).keys          = {
     paths: [ "msp_id", "user_id" ]
   };
 
+  // The collection that the user is a member of
   string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  // The msp of the organization that the user's certificate is from
   string msp_id        = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user from the certificate
   string user_id       = 3 [(buf.validate.field).required = true];
+  // The Permissions that the user will have
   auth.ACEntry ac      = 4 [(buf.validate.field).required = true];
-
-
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -388,31 +409,54 @@ enum TxError {
   REQUEST_INVALID    = 1;
   RUNTIME            = 2;
   RUNTIME_BAD_OPS    = 3;
+  // The provided key is not in the world state
   KEY_NOT_FOUND      = 4;
+  // The provided key is already in the world state
   KEY_ALREADY_EXISTS = 5;
 
   /* Collection Errors */
+
+
+  // The collection id is invalid
   COLLECTION_INVALID_ID          = 11;
+  // The collection is not registered and thus cannot be accessed
   COLLECTION_UNREGISTERED        = 12;
+  // The collection is already registered and thus cannot be registered again
   COLLECTION_ALREADY_REGISTERED  = 13;
+  // The collection is invalid (e.g. the collection does not have a default ACEntry)
   COLLECTION_INVALID             = 14;
+
+  // The object type in the collection is invalid
   COLLECTION_INVALID_OBJECT_TYPE = 15;
+  // The role id in the collection is invalid
   COLLECTION_INVALID_ROLE_ID     = 16;
 
-  // User Errors
+  /* User Errors */
 
   // The user does not have permission to perform the operation
   USER_INVALID_ID            = 20;
+  // The certificate is not registered as a user and thus cannot be used
   USER_UNREGISTERED          = 21;
+  // The certificate is already registered as a user and thus cannot be registered again
   USER_ALREADY_REGISTERED    = 22;
+  // The user is invalid
   USER_INVALID               = 23;
+  // The user does not have a role
   USER_NO_ROLE               = 24;
-  USER_DELETED_ROLE          = 25;
+  // USER_DELETED_ROLE          = 25;
+  // The user does not have permission to perform the operation
   USER_PERMISSION_DENIED     = 26;
+  // The Object's key is invalid
   OBJECT_INVALID_ID          = 31;
+  // The Object is not registered and thus cannot be accessed
   OBJECT_UNREGISTERED        = 32;
+  // The Object is already registered and thus cannot be registered again
   OBJECT_ALREADY_REGISTERED  = 33;
+  // The Object is invalid
   OBJECT_INVALID             = 34;
+
+  // The object field path is invalid for the object type
   INVALID_OBJECT_FIELD_PATH  = 35;
+  // The value at the object field path is invalid for the object type
   INVALID_OBJECT_FIELD_VALUE = 36;
 }

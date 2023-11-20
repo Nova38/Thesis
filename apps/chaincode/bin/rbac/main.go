@@ -2,12 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log/slog"
 	"os"
-
-	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	rbac "github.com/nova38/thesis/apps/chaincode/auth/rbac/v1/contracts"
 )
 
 type ServerConfig struct {
@@ -21,30 +16,30 @@ var config = ServerConfig{
 }
 
 func main() {
-	auth := rbac.NewAuthContract("ccbio")
+	// auth := rbac.NewAuthContract("ccbio")
 
-	cc, err := contractapi.NewChaincode(
-		auth,
-	)
-	if err != nil {
-		fmt.Printf("Error creating BioChain contract: %s", err)
-		panic(err)
-	}
+	// cc, err := contractapi.NewChaincode(
+	// 	auth,
+	// )
+	// if err != nil {
+	// 	fmt.Printf("Error creating BioChain contract: %s", err)
+	// 	panic(err)
+	// }
 
-	server := &shim.ChaincodeServer{
-		CCID:    config.CCID,
-		Address: config.Address,
-		CC:      cc,
-		TLSProps: shim.TLSProperties{
-			Disabled: true,
-		},
-	}
+	// server := &shim.ChaincodeServer{
+	// 	CCID:    config.CCID,
+	// 	Address: config.Address,
+	// 	CC:      cc,
+	// 	TLSProps: shim.TLSProperties{
+	// 		Disabled: true,
+	// 	},
+	// }
 
 	fmt.Print("Starting BioChain Chaincode Server")
-	fmt.Printf("config: %+v\n", config)
-	fmt.Printf("server: %+v\n", server)
+	// fmt.Printf("config: %+v\n", config)
+	// fmt.Printf("server: %+v\n", server)
 
-	if err := server.Start(); err != nil {
-		slog.Error("Failed to start", err)
-	}
+	// if err := server.Start(); err != nil {
+	// 	slog.Error("Failed to start", err)
+	// }
 }

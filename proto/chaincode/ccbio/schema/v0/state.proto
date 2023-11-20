@@ -23,7 +23,7 @@ import "auth/v1/auth.proto";
 message Specimen {
 
   option (auth.key_schema).keys = {paths: ["specimen_id"]};
-  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
 
   message Primary {
     string catalog_number                     = 1;

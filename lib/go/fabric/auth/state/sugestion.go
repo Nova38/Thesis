@@ -69,7 +69,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_CREATE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			Namespace:    s.GetPrimaryKey().GetObjectType(),
+			ObjectType:   s.GetPrimaryKey().GetObjectType(),
 			Paths:        s.GetPaths(),
 		}
 	)
@@ -90,7 +90,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		return oops.
 			With("suggestion ID",
 				s.GetSuggestionId(), "Key", handler.objKey,
-				"Namespace", handler.obj.Namespace()).
+				"ObjectType", handler.obj.ObjectType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -106,7 +106,7 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_DELETE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			Namespace:    s.GetPrimaryKey().GetObjectType(),
+			ObjectType:   s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
 		}
 	)
@@ -118,7 +118,7 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	if err = l.Get(handler.suggestion); err != nil {
 		return oops.
 			In("DeleteSuggestion").
-			With("Key", s, "Namespace", s.Namespace()).
+			With("Key", s, "ObjectType", s.ObjectType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -146,7 +146,7 @@ func SuggestionApprove(
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_APPROVE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			Namespace:    s.GetPrimaryKey().GetObjectType(),
+			ObjectType:   s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
 		}
 	)
@@ -160,7 +160,7 @@ func SuggestionApprove(
 	if err = l.Get(handler.suggestion); err != nil {
 		return nil, oops.
 			In("ApproveSuggestion").
-			With("Key", s, "Namespace", s.Namespace()).
+			With("Key", s, "ObjectType", s.ObjectType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -199,7 +199,7 @@ func GetSuggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			Namespace:    s.GetPrimaryKey().GetObjectType(),
+			ObjectType:   s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
 		}
 	)
@@ -229,7 +229,7 @@ func PartialSuggestionList(
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 		CollectionId: s.GetPrimaryKey().GetCollectionId(),
-		Namespace:    s.GetPrimaryKey().GetObjectType(),
+		ObjectType:   s.GetPrimaryKey().GetObjectType(),
 		Paths:        nil,
 	}
 
@@ -248,7 +248,7 @@ func PartialSuggestionList(
 		return nil, "", common.ObjectInvalid
 	}
 
-	// attr = append([]string{common.SuggestionNamespace}, attr...)
+	// attr = append([]string{common.SuggestionObjectType}, attr...)
 	// Extract the attributes to search for
 	// attr = attr[:len(attr)-numAttr]
 
@@ -257,7 +257,7 @@ func PartialSuggestionList(
 	ctx.GetLogger().
 		Info("GetPartialSuggestedKeyList",
 			slog.Group(
-				"Key", "Namespace", common.SuggestionNamespace,
+				"Key", "ObjectType", common.SuggestionObjectType,
 				slog.Int("numAttr", numAttr),
 				slog.Any("attr", attr),
 				slog.Group(
@@ -270,7 +270,7 @@ func PartialSuggestionList(
 
 	results, metadata, err := ctx.GetStub().
 		GetStateByPartialCompositeKeyWithPagination(
-			common.SuggestionNamespace,
+			common.SuggestionObjectType,
 			attr,
 			ctx.GetPageSize(),
 			bookmark,
@@ -344,7 +344,7 @@ func SuggestionListByObject(
 //		&authpb.Operation{
 //			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 //			CollectionId: o.GetCollectionId(),
-//			Namespace:    o.Namespace(),
+//			ObjectType:    o.ObjectType(),
 //			Paths:        nil,
 //		})
 //
@@ -356,7 +356,7 @@ func SuggestionListByObject(
 //
 //	suggestion = &authpb.Suggestion{
 //		CollectionId: o.GetCollectionId(),
-//		ObjectType:   o.Namespace(),
+//		ObjectType:   o.ObjectType(),
 //		ObjectId:     o.FlatKey(),
 //		SuggestionId: suggestionId,
 //		Paths:        nil,
@@ -537,7 +537,7 @@ func SuggestionListByObject(
 // 	op := &authpb.Operation{
 // 		Action:       authpb.Action_ACTION_SUGGEST_CREATE,
 // 		CollectionId: obj.GetCollectionId(),
-// 		Namespace:    obj.Namespace(),
+// 		ObjectType:    obj.ObjectType(),
 // 		Paths:        nil,
 // 	}
 
@@ -587,7 +587,7 @@ func SuggestionListByObject(
 // 		op   = &authpb.Operation{
 // 			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 // 			CollectionId: obj.GetCollectionId(),
-// 			Namespace:    obj.Namespace(),
+// 			ObjectType:    obj.ObjectType(),
 // 		}
 // 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
 // 	)
@@ -602,7 +602,7 @@ func SuggestionListByObject(
 
 // 	attr = attr[:len(attr)-numAttr]
 // 	results, metadata, err := ctx.GetStub().
-// 		GetStateByPartialCompositeKeyWithPagination(obj.Namespace(), attr, ctx.GetPageSize(), bookmark)
+// 		GetStateByPartialCompositeKeyWithPagination(obj.ObjectType(), attr, ctx.GetPageSize(), bookmark)
 // 	if err != nil {
 // 		return nil, "", err
 // 	}
