@@ -249,6 +249,14 @@
         }
       }
     },
+    "commonCreateUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/authUser"
+        }
+      }
+    },
     "commonDeleteResponse": {
       "type": "object",
       "properties": {

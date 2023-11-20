@@ -33,7 +33,10 @@ service GenericService {
   }
 
 
-
+  rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_CREATE, object_type: "User"};
+  }
 
 
   // ══════════════════════════════════ Object ═════════════════════════════════════
@@ -193,10 +196,11 @@ message GetCurrentUserResponse {
   auth.User user = 1;
 }
 
+
+
   // ──────────────────────────────── Invoke ───────────────────────────────────────
 message BootstrapRequest {
   repeated string default_types = 1;
-
   bool add_default_setup = 2;
 }
 
@@ -212,7 +216,9 @@ message AuthorizeOperationResponse {
   bool authorized = 1;
 }
 
-
+message CreateUserResponse {
+  auth.User user = 1;
+}
 
 
 

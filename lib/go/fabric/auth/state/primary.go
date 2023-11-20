@@ -151,6 +151,9 @@ func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
+	// TODO: Handle Creating suggestions Domain
+	// TODO: Handle Creating hiddenTx Domain
+
 	return l.Create(obj)
 }
 

@@ -326,6 +326,10 @@
                 </li>
 
                 <li>
+                  <a href="#auth.common.CreateUserResponse"><span class="badge">M</span>CreateUserResponse</a>
+                </li>
+
+                <li>
                   <a href="#auth.common.DeleteRequest"><span class="badge">M</span>DeleteRequest</a>
                 </li>
 
@@ -692,6 +696,38 @@
           <li>
             <a href="#chaincode%2fsample%2fv0%2fitems.proto">chaincode/sample/v0/items.proto</a>
             <ul>
+
+                <li>
+                  <a href="#sample.Author"><span class="badge">M</span>Author</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Author.DegreesEntry"><span class="badge">M</span>Author.DegreesEntry</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Awards"><span class="badge">M</span>Awards</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Book"><span class="badge">M</span>Book</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Degree"><span class="badge">M</span>Degree</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Group"><span class="badge">M</span>Group</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Item"><span class="badge">M</span>Item</a>
+                </li>
+
+                <li>
+                  <a href="#sample.Person"><span class="badge">M</span>Person</a>
+                </li>
 
 
 
@@ -2128,6 +2164,30 @@ The user does not have permission to perform the operation</p></td>
                 <tr>
                   <td>object</td>
                   <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.CreateUserResponse">CreateUserResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3688,6 +3748,13 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               </tr>
 
               <tr>
+                <td>CreateUser</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#auth.common.CreateUserResponse">CreateUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
                 <td>Get</td>
                 <td><a href="#auth.common.GetRequest">GetRequest</a></td>
                 <td><a href="#auth.common.GetResponse">GetResponse</a></td>
@@ -5147,6 +5214,345 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
         <h2 id="chaincode/sample/v0/items.proto">chaincode/sample/v0/items.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
+
+
+        <h3 id="sample.Author">Author</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>author_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>author_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>books</td>
+                  <td><a href="#sample.Book">Book</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>degrees</td>
+                  <td><a href="#sample.Author.DegreesEntry">Author.DegreesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>Key: degree_name </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Author.DegreesEntry">Author.DegreesEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#sample.Degree">Degree</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Awards">Awards</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>award_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>award_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>award_description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Book">Book</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>isbn</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>book_title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>author</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>publisher</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>language</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Degree">Degree</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>degree_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>institute</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>degree_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Group">Group</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>items</td>
+                  <td><a href="#sample.Item">Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Item">Item</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>quantity</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="sample.Person">Person</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>age</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>friends</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>groups</td>
+                  <td><a href="#sample.Group">Group</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
 
 
 

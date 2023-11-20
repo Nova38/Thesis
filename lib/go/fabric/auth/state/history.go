@@ -73,7 +73,7 @@ func history[T common.ObjectInterface](
 			Note:      "",
 		}
 
-		if hidden.Txs != nil {
+		if hidden.GetTxs() != nil {
 			for _, tx := range hidden.GetTxs() {
 				if tx.GetTxId() == entry.GetTxId() {
 					entry.Note = tx.GetNote()
@@ -82,15 +82,15 @@ func history[T common.ObjectInterface](
 			}
 		}
 
-		if !showHidden && entry.IsHidden {
+		if !showHidden && entry.GetIsHidden() {
 			continue
 		}
 
 		tmp := new(T)
-		lo.Must0(json.Unmarshal(queryResponse.Value, tmp))
+		lo.Must0(json.Unmarshal(queryResponse.GetValue(), tmp))
 		entry.Value = lo.Must(anypb.New(*tmp))
 
-		history.Entries = append(history.Entries, entry)
+		history.Entries = append(history.GetEntries(), entry)
 	}
 
 	return history, err

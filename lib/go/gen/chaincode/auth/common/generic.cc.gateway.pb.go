@@ -57,6 +57,17 @@ func (s *GenericServiceHandler) AuthorizeOperation(in *AuthorizeOperationRequest
 	}
 	return out
 }
+func (s *GenericServiceHandler) CreateUser() (out *CreateUserResponse) {
+	evaluateResult, err := s.contract.SubmitTransaction(s.ChaincodeName + ":CreateUser")
+	if err != nil {
+		return nil
+	}
+	err = json.Unmarshal(evaluateResult, &out)
+	if err != nil {
+		return nil
+	}
+	return out
+}
 func (s *GenericServiceHandler) Get(in *GetRequest) (out *GetResponse) {
 	inBytes, err := json.Marshal(in)
 	if err != nil {

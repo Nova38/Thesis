@@ -38,6 +38,14 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_UTILITY
 	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
 
+	// CreateUser
+	//
+	// # Operation:
+	//   - Domain: ACTION_CREATE
+	//
+	// req is empty
+	CreateUser(ctx T) (res *CreateUserResponse, err error)
+
 	// Get
 	//
 	// # Operation:
@@ -221,6 +229,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_UTILITY
 		return &v1.Operation{
 			Action: 1,
+		}, nil
+	case "CreateUser":
+		// action:ACTION_CREATE object_type:"User"
+		return &v1.Operation{
+			Action: 11,
 		}, nil
 	case "Get":
 		// action:ACTION_VIEW

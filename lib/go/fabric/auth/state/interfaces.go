@@ -6,62 +6,14 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
 	AuthFunc      func(ctx TxCtxInterface, ops []*authpb.Operation) (auth bool, err error)
-
-	StubInterface[T common.ObjectInterface] interface {
-		Exists(ctx TxCtxInterface, key string) bool
-		Create(ctx TxCtxInterface, obj T) (err error)
-		Update(ctx TxCtxInterface, obj T) (err error)
-		Delete(ctx TxCtxInterface, obj T) (err error)
-
-		Get(ctx TxCtxInterface, obj T) (err error)
-		List(ctx TxCtxInterface, obj T, bookmark string) (list []T, err error)
-		ByCollection(ctx TxCtxInterface, obj T, bookmark string) (list []T, err error)
-		ByPartialKey(ctx TxCtxInterface, obj T, numAttr int, bookmark string) (list []T, err error)
-	}
-
-	HistoryStubInterface[T common.ObjectInterface] interface {
-		History(ctx TxCtxInterface, obj T) (err error)
-		FullHistory(ctx TxCtxInterface, obj T) (err error)
-		Transaction(ctx TxCtxInterface, obj T) (err error)
-		HideTransaction(ctx TxCtxInterface, obj T) (err error)
-	}
-
-	SuggestStubInterface[T common.ObjectInterface] interface {
-		Suggestion(
-			ctx TxCtxInterface,
-			suggestionId string,
-		) (suggestion *authpb.Suggestion, err error)
-		CreateSuggestion(ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error)
-		DeleteSuggestion(ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error)
-		ApproveSuggestion(ctx TxCtxInterface, suggestion *authpb.Suggestion) (err error)
-
-		SuggestionList(
-			ctx TxCtxInterface,
-			obj T,
-			bookmark string,
-		) (list []authpb.Suggestion, err error)
-		SuggestionByCollection(
-			ctx TxCtxInterface,
-			obj T,
-			bookmark string,
-		) (list []authpb.Suggestion, err error)
-		SuggestionByPartialKey(
-			ctx TxCtxInterface,
-			obj T,
-			numAttr int,
-			bookmark string,
-		) (list []authpb.Suggestion, err error)
-	}
 
 	GenericTxCtxInterface interface {
 		TxCtxInterface
@@ -162,7 +114,7 @@ type (
 		//  ACL Functions
 		// ════════════════════════════════════════════════════════
 
-		GetViewMask() (mask *fieldmaskpb.FieldMask)
+		// GetViewMask() (mask *fieldmaskpb.FieldMask)
 
 		// Authorize - Checks if the user is authorized to perform the action on
 		// the collection
