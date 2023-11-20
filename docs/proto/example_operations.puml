@@ -1,0 +1,32 @@
+@startuml ExampleOperations
+allowmixing
+start
+
+if (Graphviz installed?) then (yes)
+  :process all\ndiagrams;
+else (no)
+  :process only
+  __sequence__ and __activity__ diagrams;
+endif
+
+stop
+
+object o1
+object o2
+diamond dia
+object o3
+
+o1  --> dia
+o2  --> dia
+dia --> o3
+
+
+
+json "<b>Create Collection" as J {
+  "Action": "ACTION_CREATE",
+"CollectionId": "collection_id",
+"ObjectType":   "auth.Collection"
+
+}
+
+@enduml

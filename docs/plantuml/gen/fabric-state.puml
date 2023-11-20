@@ -1,0 +1,185 @@
+@startuml
+namespace common {
+    interface GlobalObjectInterface  {
+        + IsGlobal() bool
+
+    }
+    interface ObjectInterface  {
+        + KeyAttr() []string
+        + ObjectKey() *v1.ObjectKey
+        + ObjectType() string
+
+    }
+    interface PrimaryObjectInterface  {
+        + IsPrimary() bool
+
+    }
+    class ServerConfig << (S,Aquamarine) >> {
+        + CCID string
+        + Address string
+
+    }
+    interface SubObjectInterface  {
+        + IsSecondary() bool
+
+    }
+}
+"common.ObjectInterface" *-- "common.GlobalObjectInterface"
+"common.ObjectInterface" *-- "common.PrimaryObjectInterface"
+"common.ObjectInterface" *-- "common.SubObjectInterface"
+
+
+namespace contracts {
+    class ObjectContractImpl << (S,Aquamarine) >> {
+        + Get(ctx state.TxCtxInterface, req *common.GetRequest) (*common.GetResponse, error)
+        + List(ctx state.TxCtxInterface, req *common.ListRequest) (*common.ListResponse, error)
+        + ListByCollection(ctx state.TxCtxInterface, req *common.ListByCollectionRequest) (*common.ListByCollectionResponse, error)
+        + ListByAttrs(ctx state.TxCtxInterface, req *common.ListByAttrsRequest) (*common.ListByAttrsResponse, error)
+        + Create(ctx state.TxCtxInterface, req *common.CreateRequest) (*common.CreateResponse, error)
+        + Update(ctx state.TxCtxInterface, req *common.UpdateRequest) (*common.UpdateResponse, error)
+        + Delete(ctx state.TxCtxInterface, req *common.DeleteRequest) (*common.DeleteResponse, error)
+        + History(ctx state.TxCtxInterface, req *common.HistoryRequest) (*common.HistoryResponse, error)
+        + HiddenTx(ctx state.TxCtxInterface, req *common.HiddenTxRequest) (*common.HiddenTxResponse, error)
+        + HideTx(ctx state.TxCtxInterface, req *common.HideTxRequest) (*common.HideTxResponse, error)
+        + UnHideTx(ctx state.TxCtxInterface, req *common.UnHideTxRequest) (*common.UnHideTxResponse, error)
+        + Reference(ctx state.TxCtxInterface, req *common.ReferenceRequest) (*common.ReferenceResponse, error)
+        + ReferenceByType(ctx state.TxCtxInterface, req *common.ReferenceListByTypeRequest) (*common.ReferenceListByTypeResponse, error)
+        + ReferenceByCollection(ctx state.TxCtxInterface, req *common.ReferenceByCollectionRequest) (*common.ReferenceByCollectionResponse, error)
+        + ReferenceByObject(ctx state.TxCtxInterface, req *common.ReferenceByObjectRequest) (*common.ReferenceByObjectResponse, error)
+        + ReferenceCreate(ctx state.TxCtxInterface, req *common.ReferenceCreateRequest) (*common.ReferenceCreateResponse, error)
+        + ReferenceDelete(ctx state.TxCtxInterface, req *common.ReferenceDeleteRequest) (*common.ReferenceDeleteResponse, error)
+        + Suggestion(ctx state.TxCtxInterface, req *common.SuggestionRequest) (*common.SuggestionResponse, error)
+        + SuggestionListByCollection(ctx state.TxCtxInterface, req *common.SuggestionListByCollectionRequest) (*common.SuggestionListByCollectionResponse, error)
+        + SuggestionByPartialKey(ctx state.TxCtxInterface, req *common.SuggestionByPartialKeyRequest) (*common.SuggestionByPartialKeyResponse, error)
+        + SuggestionCreate(ctx state.TxCtxInterface, req *common.SuggestionCreateRequest) (*common.SuggestionCreateResponse, error)
+        + SuggestionDelete(ctx state.TxCtxInterface, req *common.SuggestionDeleteRequest) (*common.SuggestionDeleteResponse, error)
+        + SuggestionApprove(ctx state.TxCtxInterface, req *common.SuggestionApproveRequest) (*common.SuggestionApproveResponse, error)
+
+    }
+}
+"common.GenericServiceBase" *-- "contracts.ObjectContractImpl"
+"contractapi.Contract" *-- "contracts.ObjectContractImpl"
+
+
+namespace policy {
+    class Node << (S,Aquamarine) >> {
+        + Path string
+        + SubPaths <font color=blue>map</font>[string]*
+        + AllowSubPaths bool
+        + Policy *T
+
+    }
+}
+
+
+namespace state {
+    class Ledger << (S,Aquamarine) >> {
+        + Exists(key string) bool
+        + Create(obj T) error
+        + Update(update T, mask *fieldmaskpb.FieldMask) error
+        + Delete(in T) error
+        + GetFromKey(key string) (T, error)
+        + Get(in T) error
+        + GetPartialKeyList(obj T, numAttr int, bookmark string) ([]T, string, error)
+
+    }
+    class BaseTxCtx << (S,Aquamarine) >> {
+        - authFn AuthFunc
+        - authorized bool
+        - authChecked bool
+
+        + Logger *slog.Logger
+        + PageSize int32
+
+        + HandelBefore() error
+        + HandleFnError(err *error, r any)
+        + CloseQueryIterator(resultIterator shim.CommonIteratorInterface)
+        + GetLogger() *slog.Logger
+        + GetPageSize() int32
+        + SetPageSize(pageSize int32)
+        + Validate(msg proto.Message) error
+        + GetFnName() string
+        + MakeLastModified() (*v1.StateActivity, error)
+        + GetUserId() (*v1.User, error)
+        + GetCollection() (*v1.Collection, error)
+        + SetAuthenticator(fn AuthFunc)
+        + GetAuthenticator() AuthFunc
+        + GetViewMask() *fieldmaskpb.FieldMask
+        + Authorize(ops []*v1.Operation) (bool, error)
+
+    }
+    class FullObject << (S,Aquamarine) >> {
+        + Object T
+        + Suggestions []*v1.Suggestion
+        + History *v1.History
+
+    }
+    interface GenericTxCtxInterface  {
+    }
+    class HistoryEntry << (S,Aquamarine) >> {
+        + TxId string
+        + Timestamp *timestamppb.Timestamp
+        + IsDelete bool
+        + IsHidden bool
+        + State T
+
+    }
+    class HistoryList << (S,Aquamarine) >> {
+        + Entries []*
+
+    }
+    class Ledger << (S,Aquamarine) >> {
+        - ctx TxCtxInterface
+
+    }
+    class ObjectList << (S,Aquamarine) >> {
+        + Entries []T
+
+    }
+    class SuggestionHandler << (S,Aquamarine) >> {
+        - suggestionKey string
+        - objKey string
+        - obj common.ObjectInterface
+        - current common.ObjectInterface
+        - suggestion *v1.Suggestion
+        - bytes []byte
+
+        + Extract(sug *v1.Suggestion) error
+
+    }
+    interface TxCtxInterface  {
+        + HandelBefore() error
+        + HandleFnError(err *error, r any)
+        + CloseQueryIterator(resultIterator shim.CommonIteratorInterface)
+        + GetLogger() *slog.Logger
+        + GetPageSize() int32
+        + SetPageSize(pageSize int32)
+        + Validate(msg proto.Message) error
+        + GetFnName() string
+        + MakeLastModified() (*v1.StateActivity, error)
+        + SetAuthenticator( AuthFunc)
+        + GetAuthenticator() AuthFunc
+        + GetUserId() (*v1.User, error)
+        + Authorize(ops []*v1.Operation) (bool, error)
+
+    }
+    class TxObjects << (S,Aquamarine) >> {
+        - ops *v1.Operation
+
+        + User *v1.User
+        + Collection *v1.Collection
+
+    }
+
+    class "<font color=blue>func</font>(TxCtxInterface, []*v1.Operation) (bool, error)" as fontcolorbluefuncfontTxCtxInterfacev1Operationboolerror {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+"contractapi.TransactionContext" *-- "state.BaseTxCtx"
+"state.TxObjects" *-- "state.BaseTxCtx"
+"state.TxCtxInterface" *-- "state.GenericTxCtxInterface"
+
+"state.TxCtxInterface" <|-- "state.BaseTxCtx"
+
+
+@enduml
