@@ -16,61 +16,58 @@ service UserService {
   // ══════════════════== User ═════════════════════=
   // ──────────────────-- Query ─────────────────────
 
-  rpc UserGetCurrentId(google.protobuf.Empty) returns (UserGetCurrentIdResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-  }
+
 
   rpc UserGetCurrent(google.protobuf.Empty) returns (UserGetCurrentResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
   rpc UserGet(UserGetRequest) returns (UserGetResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
   rpc UserGetList(google.protobuf.Empty) returns (UserGetListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW};
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
   rpc UserGetHistory(UserGetHistoryRequest) returns (UserGetHistoryResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
+    option (auth.operation) = {action: ACTION_VIEW_HISTORY};
   }
 
   rpc UserGetHiddenTx(UserGetHiddenTxRequest) returns (UserGetHiddenTxResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_OBJECT_VIEW_HIDDEN_TXS};
+    option (auth.operation) = {action: ACTION_VIEW_HIDDEN_TXS};
   }
 
   // ──────────────────-- Invoke ────────────────────────
 
   rpc UserCreate(UserCreateRequest) returns (UserCreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_REGISTER_USER};
+    option (auth.operation) = {action: ACTION_CREATE};
   }
 
   rpc UserDelete(UserDeleteRequest) returns (UserDeleteResponse){
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {
-      action: ACTION_OBJECT_DELETE,
+      action: ACTION_DELETE,
     };
   };
 
   rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse){
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {
-      action: ACTION_OBJECT_UPDATE
+      action: ACTION_UPDATE
     };
   };
 
   rpc UserHideTx(UserHideTxRequest) returns (UserHideTxResponse){
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {
-      action: ACTION_OBJECT_HIDE_TX
+      action: ACTION_HIDE_TX
     };
   };
 

@@ -13,6 +13,33 @@ import (
 
 // Service GenericService
 type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
+	// ══════════════════════════════════ Helper ═════════════════════════════════════
+	// ────────────────────────────────── Query ──────────────────────────────────────
+	// # Operation:
+	//   - Domain: ACTION_REGISTER_USER
+	//
+	// req is empty
+	GetAllTypes(ctx T) (res *GetAllTypesResponse, err error)
+
+	// GetCurrentUser
+	//
+	// # Operation:
+	//   - Domain: ACTION_OBJECT_VIEW
+	//
+	// req is empty
+	GetCurrentUser(ctx T) (res *GetCurrentUserResponse, err error)
+
+	// ──────────────────────────────── Invoke ───────────────────────────────────────
+	// # Operation:
+	//   - Domain: ACTION_REGISTER_USER
+	Bootstrap(ctx T, req *BootstrapRequest) (res *BootstrapResponse, err error)
+
+	// AuthorizeOperation
+	//
+	// # Operation:
+	//   - Domain: ACTION_REGISTER_USER
+	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
+
 	// Get
 	//
 	// # Operation:
@@ -37,18 +64,6 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_VIEW
 	ListByAttrs(ctx T, req *ListByAttrsRequest) (res *ListByAttrsResponse, err error)
 
-	// History
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
-	History(ctx T, req *HistoryRequest) (res *HistoryResponse, err error)
-
-	// HiddenTx
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW_HIDDEN_TXS
-	HiddenTx(ctx T, req *HiddenTxRequest) (res *HiddenTxResponse, err error)
-
 	// Create
 	//
 	// # Operation:
@@ -67,6 +82,18 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_DELETE
 	Delete(ctx T, req *DeleteRequest) (res *DeleteResponse, err error)
 
+	// History
+	//
+	// # Operation:
+	//   - Domain: ACTION_OBJECT_VIEW_HISTORY
+	History(ctx T, req *HistoryRequest) (res *HistoryResponse, err error)
+
+	// HiddenTx
+	//
+	// # Operation:
+	//   - Domain: ACTION_OBJECT_VIEW_HIDDEN_TXS
+	HiddenTx(ctx T, req *HiddenTxRequest) (res *HiddenTxResponse, err error)
+
 	// HideTx
 	//
 	// # Operation:
@@ -79,8 +106,44 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_HIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
-	// ══════════════════════════════== Suggestions ══════════════════════════════
-	// ──────────────────────────────-- Query ────────────────────────────────────
+	// Reference
+	//
+	// # Operation:
+	//   - Domain: 23
+	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
+
+	// ReferenceListByType
+	//
+	// # Operation:
+	//   - Domain: 23
+	ReferenceListByType(ctx T, req *ReferenceListByTypeRequest) (res *ReferenceListByTypeResponse, err error)
+
+	// ReferenceByCollection
+	//
+	// # Operation:
+	//   - Domain: 23
+	ReferenceByCollection(ctx T, req *ReferenceByCollectionRequest) (res *ReferenceByCollectionResponse, err error)
+
+	// ReferenceByObject
+	//
+	// # Operation:
+	//   - Domain: 23
+	ReferenceByObject(ctx T, req *ReferenceByObjectRequest) (res *ReferenceByObjectResponse, err error)
+
+	// ReferenceCreate
+	//
+	// # Operation:
+	//   - Domain: 21
+	ReferenceCreate(ctx T, req *ReferenceCreateRequest) (res *ReferenceCreateResponse, err error)
+
+	// ReferenceDelete
+	//
+	// # Operation:
+	//   - Domain: 22
+	ReferenceDelete(ctx T, req *ReferenceDeleteRequest) (res *ReferenceDeleteResponse, err error)
+
+	// Suggestion
+	//
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
 	Suggestion(ctx T, req *SuggestionRequest) (res *SuggestionResponse, err error)
@@ -103,7 +166,7 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_OBJECT_SUGGEST_VIEW
 	SuggestionByPartialKey(ctx T, req *SuggestionByPartialKeyRequest) (res *SuggestionByPartialKeyResponse, err error)
 
-	// ──────────────────────────────-- Invoke ─────────────────────────────────--
+	// ──────────────────────────────── Invoke ───────────────────────────────────────
 	// # Operation:
 	//   - Domain: ACTION_OBJECT_SUGGEST_CREATE
 	SuggestionCreate(ctx T, req *SuggestionCreateRequest) (res *SuggestionCreateResponse, err error)
@@ -126,12 +189,18 @@ type GenericServiceBase struct {
 
 func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 	return []string{
+		"GetAllTypes",
+		"GetCurrentUser",
 		"Get",
 		"List",
 		"ListByCollection",
 		"ListByAttrs",
 		"History",
 		"HiddenTx",
+		"Reference",
+		"ReferenceListByType",
+		"ReferenceByCollection",
+		"ReferenceByObject",
 		"Suggestion",
 		"SuggestionList",
 		"SuggestionListByCollection",
@@ -141,6 +210,26 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 
 func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
+	case "GetAllTypes":
+		// action:ACTION_REGISTER_USER
+		return &v1.Operation{
+			Action: 1,
+		}, nil
+	case "GetCurrentUser":
+		// action:ACTION_OBJECT_VIEW
+		return &v1.Operation{
+			Action: 10,
+		}, nil
+	case "Bootstrap":
+		// action:ACTION_REGISTER_USER
+		return &v1.Operation{
+			Action: 1,
+		}, nil
+	case "AuthorizeOperation":
+		// action:ACTION_REGISTER_USER
+		return &v1.Operation{
+			Action: 1,
+		}, nil
 	case "Get":
 		// action:ACTION_OBJECT_VIEW
 		return &v1.Operation{
@@ -161,16 +250,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 10,
 		}, nil
-	case "History":
-		// action:ACTION_OBJECT_VIEW_HISTORY
-		return &v1.Operation{
-			Action: 18,
-		}, nil
-	case "HiddenTx":
-		// action:ACTION_OBJECT_VIEW_HIDDEN_TXS
-		return &v1.Operation{
-			Action: 19,
-		}, nil
 	case "Create":
 		// action:ACTION_OBJECT_CREATE
 		return &v1.Operation{
@@ -186,6 +265,16 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 13,
 		}, nil
+	case "History":
+		// action:ACTION_OBJECT_VIEW_HISTORY
+		return &v1.Operation{
+			Action: 18,
+		}, nil
+	case "HiddenTx":
+		// action:ACTION_OBJECT_VIEW_HIDDEN_TXS
+		return &v1.Operation{
+			Action: 19,
+		}, nil
 	case "HideTx":
 		// action:ACTION_OBJECT_HIDE_TX
 		return &v1.Operation{
@@ -195,6 +284,36 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_OBJECT_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
+		}, nil
+	case "Reference":
+		//action:23
+		return &v1.Operation{
+			Action: 23,
+		}, nil
+	case "ReferenceListByType":
+		//action:23
+		return &v1.Operation{
+			Action: 23,
+		}, nil
+	case "ReferenceByCollection":
+		//action:23
+		return &v1.Operation{
+			Action: 23,
+		}, nil
+	case "ReferenceByObject":
+		//action:23
+		return &v1.Operation{
+			Action: 23,
+		}, nil
+	case "ReferenceCreate":
+		//action:21
+		return &v1.Operation{
+			Action: 21,
+		}, nil
+	case "ReferenceDelete":
+		//action:22
+		return &v1.Operation{
+			Action: 22,
 		}, nil
 	case "Suggestion":
 		// action:ACTION_OBJECT_SUGGEST_VIEW

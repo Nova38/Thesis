@@ -716,6 +716,8 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for Namespace
 
+	// no validation rules for SecondaryNamespace
+
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
 		case interface{ ValidateAll() error }:
@@ -946,8 +948,6 @@ func (m *ObjectPolicy) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for ObjectType
-
-	// no validation rules for ObjectNamespace
 
 	for idx, item := range m.GetPolicies() {
 		_, _ = idx, item
@@ -1221,22 +1221,288 @@ var _ interface {
 	ErrorName() string
 } = ACEntryValidationError{}
 
-// Validate checks the field values on ACEntryTree with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *ACEntryTree) Validate() error {
+// Validate checks the field values on NestedPathPolicy with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *NestedPathPolicy) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ACEntryTree with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ACEntryTreeMultiError, or
-// nil if none found.
-func (m *ACEntryTree) ValidateAll() error {
+// ValidateAll checks the field values on NestedPathPolicy with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// NestedPathPolicyMultiError, or nil if none found.
+func (m *NestedPathPolicy) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ACEntryTree) validate(all bool) error {
+func (m *NestedPathPolicy) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Path
+
+	// no validation rules for IsLeaf
+
+	if all {
+		switch v := interface{}(m.GetChildren()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NestedPathPolicyValidationError{
+					field:  "Children",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NestedPathPolicyValidationError{
+					field:  "Children",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetChildren()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NestedPathPolicyValidationError{
+				field:  "Children",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return NestedPathPolicyMultiError(errors)
+	}
+
+	return nil
+}
+
+// NestedPathPolicyMultiError is an error wrapping multiple validation errors
+// returned by NestedPathPolicy.ValidateAll() if the designated constraints
+// aren't met.
+type NestedPathPolicyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NestedPathPolicyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NestedPathPolicyMultiError) AllErrors() []error { return m }
+
+// NestedPathPolicyValidationError is the validation error returned by
+// NestedPathPolicy.Validate if the designated constraints aren't met.
+type NestedPathPolicyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NestedPathPolicyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NestedPathPolicyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NestedPathPolicyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NestedPathPolicyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NestedPathPolicyValidationError) ErrorName() string { return "NestedPathPolicyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NestedPathPolicyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNestedPathPolicy.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NestedPathPolicyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NestedPathPolicyValidationError{}
+
+// Validate checks the field values on NestedObjectPolicy with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *NestedObjectPolicy) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NestedObjectPolicy with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// NestedObjectPolicyMultiError, or nil if none found.
+func (m *NestedObjectPolicy) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NestedObjectPolicy) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ObjectType
+
+	if all {
+		switch v := interface{}(m.GetPolicies()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, NestedObjectPolicyValidationError{
+					field:  "Policies",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, NestedObjectPolicyValidationError{
+					field:  "Policies",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPolicies()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return NestedObjectPolicyValidationError{
+				field:  "Policies",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return NestedObjectPolicyMultiError(errors)
+	}
+
+	return nil
+}
+
+// NestedObjectPolicyMultiError is an error wrapping multiple validation errors
+// returned by NestedObjectPolicy.ValidateAll() if the designated constraints
+// aren't met.
+type NestedObjectPolicyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NestedObjectPolicyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NestedObjectPolicyMultiError) AllErrors() []error { return m }
+
+// NestedObjectPolicyValidationError is the validation error returned by
+// NestedObjectPolicy.Validate if the designated constraints aren't met.
+type NestedObjectPolicyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NestedObjectPolicyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NestedObjectPolicyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NestedObjectPolicyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NestedObjectPolicyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NestedObjectPolicyValidationError) ErrorName() string {
+	return "NestedObjectPolicyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e NestedObjectPolicyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNestedObjectPolicy.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NestedObjectPolicyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NestedObjectPolicyValidationError{}
+
+// Validate checks the field values on NestedACEntry with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *NestedACEntry) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on NestedACEntry with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in NestedACEntryMultiError, or
+// nil if none found.
+func (m *NestedACEntry) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *NestedACEntry) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1247,7 +1513,7 @@ func (m *ACEntryTree) validate(all bool) error {
 		switch v := interface{}(m.GetRoot()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ACEntryTreeValidationError{
+				errors = append(errors, NestedACEntryValidationError{
 					field:  "Root",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1255,7 +1521,7 @@ func (m *ACEntryTree) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ACEntryTreeValidationError{
+				errors = append(errors, NestedACEntryValidationError{
 					field:  "Root",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1264,7 +1530,7 @@ func (m *ACEntryTree) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetRoot()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ACEntryTreeValidationError{
+			return NestedACEntryValidationError{
 				field:  "Root",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1292,7 +1558,7 @@ func (m *ACEntryTree) validate(all bool) error {
 				switch v := interface{}(val).(type) {
 				case interface{ ValidateAll() error }:
 					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, ACEntryTreeValidationError{
+						errors = append(errors, NestedACEntryValidationError{
 							field:  fmt.Sprintf("Children[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
@@ -1300,7 +1566,7 @@ func (m *ACEntryTree) validate(all bool) error {
 					}
 				case interface{ Validate() error }:
 					if err := v.Validate(); err != nil {
-						errors = append(errors, ACEntryTreeValidationError{
+						errors = append(errors, NestedACEntryValidationError{
 							field:  fmt.Sprintf("Children[%v]", key),
 							reason: "embedded message failed validation",
 							cause:  err,
@@ -1309,7 +1575,7 @@ func (m *ACEntryTree) validate(all bool) error {
 				}
 			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
 				if err := v.Validate(); err != nil {
-					return ACEntryTreeValidationError{
+					return NestedACEntryValidationError{
 						field:  fmt.Sprintf("Children[%v]", key),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1321,18 +1587,19 @@ func (m *ACEntryTree) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ACEntryTreeMultiError(errors)
+		return NestedACEntryMultiError(errors)
 	}
 
 	return nil
 }
 
-// ACEntryTreeMultiError is an error wrapping multiple validation errors
-// returned by ACEntryTree.ValidateAll() if the designated constraints aren't met.
-type ACEntryTreeMultiError []error
+// NestedACEntryMultiError is an error wrapping multiple validation errors
+// returned by NestedACEntry.ValidateAll() if the designated constraints
+// aren't met.
+type NestedACEntryMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ACEntryTreeMultiError) Error() string {
+func (m NestedACEntryMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1341,11 +1608,11 @@ func (m ACEntryTreeMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ACEntryTreeMultiError) AllErrors() []error { return m }
+func (m NestedACEntryMultiError) AllErrors() []error { return m }
 
-// ACEntryTreeValidationError is the validation error returned by
-// ACEntryTree.Validate if the designated constraints aren't met.
-type ACEntryTreeValidationError struct {
+// NestedACEntryValidationError is the validation error returned by
+// NestedACEntry.Validate if the designated constraints aren't met.
+type NestedACEntryValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1353,22 +1620,22 @@ type ACEntryTreeValidationError struct {
 }
 
 // Field function returns field value.
-func (e ACEntryTreeValidationError) Field() string { return e.field }
+func (e NestedACEntryValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ACEntryTreeValidationError) Reason() string { return e.reason }
+func (e NestedACEntryValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ACEntryTreeValidationError) Cause() error { return e.cause }
+func (e NestedACEntryValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ACEntryTreeValidationError) Key() bool { return e.key }
+func (e NestedACEntryValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ACEntryTreeValidationError) ErrorName() string { return "ACEntryTreeValidationError" }
+func (e NestedACEntryValidationError) ErrorName() string { return "NestedACEntryValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ACEntryTreeValidationError) Error() string {
+func (e NestedACEntryValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1380,14 +1647,14 @@ func (e ACEntryTreeValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sACEntryTree.%s: %s%s",
+		"invalid %sNestedACEntry.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ACEntryTreeValidationError{}
+var _ error = NestedACEntryValidationError{}
 
 var _ interface {
 	Field() string
@@ -1395,7 +1662,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ACEntryTreeValidationError{}
+} = NestedACEntryValidationError{}
 
 // Validate checks the field values on Object with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -1553,22 +1820,22 @@ var _ interface {
 	ErrorName() string
 } = ObjectValidationError{}
 
-// Validate checks the field values on SubObject with the rules defined in the
+// Validate checks the field values on FullObject with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *SubObject) Validate() error {
+func (m *FullObject) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SubObject with the rules defined in
+// ValidateAll checks the field values on FullObject with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in SubObjectMultiError, or nil
-// if none found.
-func (m *SubObject) ValidateAll() error {
+// result is a list of violation errors wrapped in FullObjectMultiError, or
+// nil if none found.
+func (m *FullObject) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SubObject) validate(all bool) error {
+func (m *FullObject) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1579,7 +1846,7 @@ func (m *SubObject) validate(all bool) error {
 		switch v := interface{}(m.GetKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SubObjectValidationError{
+				errors = append(errors, FullObjectValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1587,7 +1854,7 @@ func (m *SubObject) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, SubObjectValidationError{
+				errors = append(errors, FullObjectValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1596,7 +1863,7 @@ func (m *SubObject) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return SubObjectValidationError{
+			return FullObjectValidationError{
 				field:  "Key",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1608,7 +1875,7 @@ func (m *SubObject) validate(all bool) error {
 		switch v := interface{}(m.GetValue()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SubObjectValidationError{
+				errors = append(errors, FullObjectValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1616,7 +1883,7 @@ func (m *SubObject) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, SubObjectValidationError{
+				errors = append(errors, FullObjectValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1625,7 +1892,7 @@ func (m *SubObject) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return SubObjectValidationError{
+			return FullObjectValidationError{
 				field:  "Value",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1633,19 +1900,116 @@ func (m *SubObject) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetHistory()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, FullObjectValidationError{
+					field:  "History",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, FullObjectValidationError{
+					field:  "History",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetHistory()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return FullObjectValidationError{
+				field:  "History",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	for idx, item := range m.GetSuggestions() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FullObjectValidationError{
+						field:  fmt.Sprintf("Suggestions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FullObjectValidationError{
+						field:  fmt.Sprintf("Suggestions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FullObjectValidationError{
+					field:  fmt.Sprintf("Suggestions[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetReferences() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FullObjectValidationError{
+						field:  fmt.Sprintf("References[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FullObjectValidationError{
+						field:  fmt.Sprintf("References[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FullObjectValidationError{
+					field:  fmt.Sprintf("References[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
-		return SubObjectMultiError(errors)
+		return FullObjectMultiError(errors)
 	}
 
 	return nil
 }
 
-// SubObjectMultiError is an error wrapping multiple validation errors returned
-// by SubObject.ValidateAll() if the designated constraints aren't met.
-type SubObjectMultiError []error
+// FullObjectMultiError is an error wrapping multiple validation errors
+// returned by FullObject.ValidateAll() if the designated constraints aren't met.
+type FullObjectMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SubObjectMultiError) Error() string {
+func (m FullObjectMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1654,11 +2018,11 @@ func (m SubObjectMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SubObjectMultiError) AllErrors() []error { return m }
+func (m FullObjectMultiError) AllErrors() []error { return m }
 
-// SubObjectValidationError is the validation error returned by
-// SubObject.Validate if the designated constraints aren't met.
-type SubObjectValidationError struct {
+// FullObjectValidationError is the validation error returned by
+// FullObject.Validate if the designated constraints aren't met.
+type FullObjectValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1666,22 +2030,22 @@ type SubObjectValidationError struct {
 }
 
 // Field function returns field value.
-func (e SubObjectValidationError) Field() string { return e.field }
+func (e FullObjectValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SubObjectValidationError) Reason() string { return e.reason }
+func (e FullObjectValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SubObjectValidationError) Cause() error { return e.cause }
+func (e FullObjectValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SubObjectValidationError) Key() bool { return e.key }
+func (e FullObjectValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SubObjectValidationError) ErrorName() string { return "SubObjectValidationError" }
+func (e FullObjectValidationError) ErrorName() string { return "FullObjectValidationError" }
 
 // Error satisfies the builtin error interface
-func (e SubObjectValidationError) Error() string {
+func (e FullObjectValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1693,14 +2057,14 @@ func (e SubObjectValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSubObject.%s: %s%s",
+		"invalid %sFullObject.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SubObjectValidationError{}
+var _ error = FullObjectValidationError{}
 
 var _ interface {
 	Field() string
@@ -1708,7 +2072,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SubObjectValidationError{}
+} = FullObjectValidationError{}
 
 // Validate checks the field values on ObjectKey with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -1812,113 +2176,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ObjectKeyValidationError{}
-
-// Validate checks the field values on SubObjectKey with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *SubObjectKey) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on SubObjectKey with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in SubObjectKeyMultiError, or
-// nil if none found.
-func (m *SubObjectKey) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *SubObjectKey) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for CollectionId
-
-	// no validation rules for SubObjectType
-
-	// no validation rules for ObjectType
-
-	// no validation rules for SubObjectId
-
-	if len(errors) > 0 {
-		return SubObjectKeyMultiError(errors)
-	}
-
-	return nil
-}
-
-// SubObjectKeyMultiError is an error wrapping multiple validation errors
-// returned by SubObjectKey.ValidateAll() if the designated constraints aren't met.
-type SubObjectKeyMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m SubObjectKeyMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m SubObjectKeyMultiError) AllErrors() []error { return m }
-
-// SubObjectKeyValidationError is the validation error returned by
-// SubObjectKey.Validate if the designated constraints aren't met.
-type SubObjectKeyValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e SubObjectKeyValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e SubObjectKeyValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e SubObjectKeyValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e SubObjectKeyValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e SubObjectKeyValidationError) ErrorName() string { return "SubObjectKeyValidationError" }
-
-// Error satisfies the builtin error interface
-func (e SubObjectKeyValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sSubObjectKey.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = SubObjectKeyValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = SubObjectKeyValidationError{}
 
 // Validate checks the field values on Reference with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
@@ -2806,3 +3063,381 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = HiddenTxListValidationError{}
+
+// Validate checks the field values on Role with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Role) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Role with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in RoleMultiError, or nil if none found.
+func (m *Role) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Role) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for RoleId
+
+	if all {
+		switch v := interface{}(m.GetAc()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, RoleValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, RoleValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAc()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return RoleValidationError{
+				field:  "Ac",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Name
+
+	// no validation rules for Description
+
+	if len(errors) > 0 {
+		return RoleMultiError(errors)
+	}
+
+	return nil
+}
+
+// RoleMultiError is an error wrapping multiple validation errors returned by
+// Role.ValidateAll() if the designated constraints aren't met.
+type RoleMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RoleMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RoleMultiError) AllErrors() []error { return m }
+
+// RoleValidationError is the validation error returned by Role.Validate if the
+// designated constraints aren't met.
+type RoleValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RoleValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RoleValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RoleValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RoleValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RoleValidationError) ErrorName() string { return "RoleValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RoleValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRole.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RoleValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RoleValidationError{}
+
+// Validate checks the field values on Attribute with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Attribute) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Attribute with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AttributeMultiError, or nil
+// if none found.
+func (m *Attribute) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Attribute) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for MspId
+
+	// no validation rules for Oid
+
+	// no validation rules for Value
+
+	// no validation rules for RoleId
+
+	if len(errors) > 0 {
+		return AttributeMultiError(errors)
+	}
+
+	return nil
+}
+
+// AttributeMultiError is an error wrapping multiple validation errors returned
+// by Attribute.ValidateAll() if the designated constraints aren't met.
+type AttributeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AttributeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AttributeMultiError) AllErrors() []error { return m }
+
+// AttributeValidationError is the validation error returned by
+// Attribute.Validate if the designated constraints aren't met.
+type AttributeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AttributeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AttributeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AttributeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AttributeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AttributeValidationError) ErrorName() string { return "AttributeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AttributeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAttribute.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AttributeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AttributeValidationError{}
+
+// Validate checks the field values on Membership with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Membership) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Membership with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in MembershipMultiError, or
+// nil if none found.
+func (m *Membership) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Membership) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for MspId
+
+	// no validation rules for UserId
+
+	if all {
+		switch v := interface{}(m.GetAc()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, MembershipValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, MembershipValidationError{
+					field:  "Ac",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAc()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return MembershipValidationError{
+				field:  "Ac",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return MembershipMultiError(errors)
+	}
+
+	return nil
+}
+
+// MembershipMultiError is an error wrapping multiple validation errors
+// returned by Membership.ValidateAll() if the designated constraints aren't met.
+type MembershipMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m MembershipMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m MembershipMultiError) AllErrors() []error { return m }
+
+// MembershipValidationError is the validation error returned by
+// Membership.Validate if the designated constraints aren't met.
+type MembershipValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e MembershipValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e MembershipValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e MembershipValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e MembershipValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e MembershipValidationError) ErrorName() string { return "MembershipValidationError" }
+
+// Error satisfies the builtin error interface
+func (e MembershipValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sMembership.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = MembershipValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = MembershipValidationError{}

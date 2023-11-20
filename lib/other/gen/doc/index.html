@@ -1,0 +1,6211 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Protocol Documentation</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic"/>
+    <style>
+      body {
+        width: 60em;
+        margin: 1em auto;
+        color: #222;
+        font-family: "Ubuntu", sans-serif;
+        padding-bottom: 4em;
+      }
+
+      h1 {
+        font-weight: normal;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+      }
+
+      h2 {
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+        margin: 1.5em 0;
+      }
+
+      h3 {
+        font-weight: normal;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+      }
+
+      a {
+        text-decoration: none;
+        color: #567e25;
+      }
+
+      table {
+        width: 100%;
+        font-size: 80%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        font-weight: 700;
+        background-color: #dcdcdc;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #fbfbfb;
+      }
+
+      td {
+        border: 1px solid #ccc;
+        padding: 0.5ex 2ex;
+      }
+
+      td p {
+        text-indent: 1em;
+        margin: 0;
+      }
+
+      td p:nth-child(1) {
+        text-indent: 0;
+      }
+
+
+      .field-table td:nth-child(1) {
+        width: 10em;
+      }
+      .field-table td:nth-child(2) {
+        width: 10em;
+      }
+      .field-table td:nth-child(3) {
+        width: 6em;
+      }
+      .field-table td:nth-child(4) {
+        width: auto;
+      }
+
+
+      .extension-table td:nth-child(1) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(2) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(3) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(4) {
+        width: 5em;
+      }
+      .extension-table td:nth-child(5) {
+        width: auto;
+      }
+
+
+      .enum-table td:nth-child(1) {
+        width: 10em;
+      }
+      .enum-table td:nth-child(2) {
+        width: 10em;
+      }
+      .enum-table td:nth-child(3) {
+        width: auto;
+      }
+
+
+      .scalar-value-types-table tr {
+        height: 3em;
+      }
+
+
+      #toc-container ul {
+        list-style-type: none;
+        padding-left: 1em;
+        line-height: 180%;
+        margin: 0;
+      }
+      #toc > li > a {
+        font-weight: bold;
+      }
+
+
+      .file-heading {
+        width: 100%;
+        display: table;
+        border-bottom: 1px solid #aaa;
+        margin: 4em 0 1.5em 0;
+      }
+      .file-heading h2 {
+        border: none;
+        display: table-cell;
+      }
+      .file-heading a {
+        text-align: right;
+        display: table-cell;
+      }
+
+
+      .badge {
+        width: 1.6em;
+        height: 1.6em;
+        display: inline-block;
+
+        line-height: 1.6em;
+        text-align: center;
+        font-weight: bold;
+        font-size: 60%;
+
+        color: #89ba48;
+        background-color: #dff0c8;
+
+        margin: 0.5ex 1em 0.5ex -1em;
+        border: 1px solid #fbfbfb;
+        border-radius: 1ex;
+      }
+    </style>
+
+
+    <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+  </head>
+
+  <body>
+
+    <h1 id="title">Protocol Documentation</h1>
+
+    <h2>Table of Contents</h2>
+
+    <div id="toc-container">
+      <ul id="toc">
+
+
+          <li>
+            <a href="#auth%2fv1%2fauth.proto">auth/v1/auth.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#auth.ACEntry"><span class="badge">M</span>ACEntry</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Attribute"><span class="badge">M</span>Attribute</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Collection"><span class="badge">M</span>Collection</a>
+                </li>
+
+                <li>
+                  <a href="#auth.FullObject"><span class="badge">M</span>FullObject</a>
+                </li>
+
+                <li>
+                  <a href="#auth.HiddenTx"><span class="badge">M</span>HiddenTx</a>
+                </li>
+
+                <li>
+                  <a href="#auth.HiddenTxList"><span class="badge">M</span>HiddenTxList</a>
+                </li>
+
+                <li>
+                  <a href="#auth.History"><span class="badge">M</span>History</a>
+                </li>
+
+                <li>
+                  <a href="#auth.HistoryEntry"><span class="badge">M</span>HistoryEntry</a>
+                </li>
+
+                <li>
+                  <a href="#auth.KeySchema"><span class="badge">M</span>KeySchema</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Membership"><span class="badge">M</span>Membership</a>
+                </li>
+
+                <li>
+                  <a href="#auth.NestedACEntry"><span class="badge">M</span>NestedACEntry</a>
+                </li>
+
+                <li>
+                  <a href="#auth.NestedACEntry.ChildrenEntry"><span class="badge">M</span>NestedACEntry.ChildrenEntry</a>
+                </li>
+
+                <li>
+                  <a href="#auth.NestedObjectPolicy"><span class="badge">M</span>NestedObjectPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#auth.NestedPathPolicy"><span class="badge">M</span>NestedPathPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Object"><span class="badge">M</span>Object</a>
+                </li>
+
+                <li>
+                  <a href="#auth.ObjectKey"><span class="badge">M</span>ObjectKey</a>
+                </li>
+
+                <li>
+                  <a href="#auth.ObjectPolicy"><span class="badge">M</span>ObjectPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Operation"><span class="badge">M</span>Operation</a>
+                </li>
+
+                <li>
+                  <a href="#auth.PathPolicy"><span class="badge">M</span>PathPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Reference"><span class="badge">M</span>Reference</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Role"><span class="badge">M</span>Role</a>
+                </li>
+
+                <li>
+                  <a href="#auth.StateActivity"><span class="badge">M</span>StateActivity</a>
+                </li>
+
+                <li>
+                  <a href="#auth.Suggestion"><span class="badge">M</span>Suggestion</a>
+                </li>
+
+                <li>
+                  <a href="#auth.User"><span class="badge">M</span>User</a>
+                </li>
+
+
+                <li>
+                  <a href="#auth.Action"><span class="badge">E</span>Action</a>
+                </li>
+
+                <li>
+                  <a href="#auth.ObjectDomain"><span class="badge">E</span>ObjectDomain</a>
+                </li>
+
+                <li>
+                  <a href="#auth.TransactionType"><span class="badge">E</span>TransactionType</a>
+                </li>
+
+                <li>
+                  <a href="#auth.TxError"><span class="badge">E</span>TxError</a>
+                </li>
+
+
+                <li>
+                  <a href="#auth%2fv1%2fauth.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+                <li>
+                  <a href="#auth%2fv1%2fauth.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+                <li>
+                  <a href="#auth%2fv1%2fauth.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fauth%2fcommon%2fgeneric.proto">chaincode/auth/common/generic.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#auth.common.AuthorizeOperationRequest"><span class="badge">M</span>AuthorizeOperationRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.AuthorizeOperationResponse"><span class="badge">M</span>AuthorizeOperationResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.BootstrapRequest"><span class="badge">M</span>BootstrapRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.BootstrapResponse"><span class="badge">M</span>BootstrapResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.CreateRequest"><span class="badge">M</span>CreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.CreateResponse"><span class="badge">M</span>CreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.DeleteRequest"><span class="badge">M</span>DeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.GetAllTypesResponse"><span class="badge">M</span>GetAllTypesResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.GetCurrentUserResponse"><span class="badge">M</span>GetCurrentUserResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.GetRequest"><span class="badge">M</span>GetRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.GetResponse"><span class="badge">M</span>GetResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HiddenTxRequest"><span class="badge">M</span>HiddenTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HiddenTxResponse"><span class="badge">M</span>HiddenTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HideTxRequest"><span class="badge">M</span>HideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HideTxResponse"><span class="badge">M</span>HideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HistoryRequest"><span class="badge">M</span>HistoryRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.HistoryResponse"><span class="badge">M</span>HistoryResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListByAttrsRequest"><span class="badge">M</span>ListByAttrsRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListByAttrsResponse"><span class="badge">M</span>ListByAttrsResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListByCollectionRequest"><span class="badge">M</span>ListByCollectionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListByCollectionResponse"><span class="badge">M</span>ListByCollectionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListRequest"><span class="badge">M</span>ListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ListResponse"><span class="badge">M</span>ListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceByCollectionRequest"><span class="badge">M</span>ReferenceByCollectionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceByCollectionResponse"><span class="badge">M</span>ReferenceByCollectionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceByObjectRequest"><span class="badge">M</span>ReferenceByObjectRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceByObjectResponse"><span class="badge">M</span>ReferenceByObjectResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceCreateRequest"><span class="badge">M</span>ReferenceCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceCreateResponse"><span class="badge">M</span>ReferenceCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceDeleteRequest"><span class="badge">M</span>ReferenceDeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceDeleteResponse"><span class="badge">M</span>ReferenceDeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceListByTypeRequest"><span class="badge">M</span>ReferenceListByTypeRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceListByTypeResponse"><span class="badge">M</span>ReferenceListByTypeResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceRequest"><span class="badge">M</span>ReferenceRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.ReferenceResponse"><span class="badge">M</span>ReferenceResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionApproveRequest"><span class="badge">M</span>SuggestionApproveRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionApproveResponse"><span class="badge">M</span>SuggestionApproveResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionByPartialKeyRequest"><span class="badge">M</span>SuggestionByPartialKeyRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionByPartialKeyResponse"><span class="badge">M</span>SuggestionByPartialKeyResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionCreateRequest"><span class="badge">M</span>SuggestionCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionCreateResponse"><span class="badge">M</span>SuggestionCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionDeleteRequest"><span class="badge">M</span>SuggestionDeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionDeleteResponse"><span class="badge">M</span>SuggestionDeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListByCollectionRequest"><span class="badge">M</span>SuggestionListByCollectionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListByCollectionResponse"><span class="badge">M</span>SuggestionListByCollectionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListByObjectRequest"><span class="badge">M</span>SuggestionListByObjectRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListByObjectResponse"><span class="badge">M</span>SuggestionListByObjectResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListRequest"><span class="badge">M</span>SuggestionListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionListResponse"><span class="badge">M</span>SuggestionListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionRequest"><span class="badge">M</span>SuggestionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.SuggestionResponse"><span class="badge">M</span>SuggestionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UnHideTxRequest"><span class="badge">M</span>UnHideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UnHideTxResponse"><span class="badge">M</span>UnHideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UpdateRequest"><span class="badge">M</span>UpdateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UpdateResponse"><span class="badge">M</span>UpdateResponse</a>
+                </li>
+
+
+
+
+                <li>
+                  <a href="#auth.common.GenericService"><span class="badge">S</span>GenericService</a>
+                </li>
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fauth%2fcommon%2fusers.proto">chaincode/auth/common/users.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#auth.common.UserCreateRequest"><span class="badge">M</span>UserCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserCreateResponse"><span class="badge">M</span>UserCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserDeleteRequest"><span class="badge">M</span>UserDeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserDeleteResponse"><span class="badge">M</span>UserDeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetCurrentIdResponse"><span class="badge">M</span>UserGetCurrentIdResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetCurrentResponse"><span class="badge">M</span>UserGetCurrentResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetHiddenTxRequest"><span class="badge">M</span>UserGetHiddenTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetHiddenTxResponse"><span class="badge">M</span>UserGetHiddenTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetHistoryRequest"><span class="badge">M</span>UserGetHistoryRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetHistoryResponse"><span class="badge">M</span>UserGetHistoryResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetListRequest"><span class="badge">M</span>UserGetListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetListResponse"><span class="badge">M</span>UserGetListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetRequest"><span class="badge">M</span>UserGetRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserGetResponse"><span class="badge">M</span>UserGetResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserHideTxRequest"><span class="badge">M</span>UserHideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserHideTxResponse"><span class="badge">M</span>UserHideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserUpdateRequest"><span class="badge">M</span>UserUpdateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#auth.common.UserUpdateResponse"><span class="badge">M</span>UserUpdateResponse</a>
+                </li>
+
+
+
+
+                <li>
+                  <a href="#auth.common.UserService"><span class="badge">S</span>UserService</a>
+                </li>
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fauth%2frbac%2fschema%2fv1%2frbac.proto">chaincode/auth/rbac/schema/v1/rbac.proto</a>
+            <ul>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fccbio%2fschema%2fv0%2fstate.proto">chaincode/ccbio/schema/v0/state.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen"><span class="badge">M</span>Specimen</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Georeference"><span class="badge">M</span>Specimen.Georeference</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Grant"><span class="badge">M</span>Specimen.Grant</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.GrantsEntry"><span class="badge">M</span>Specimen.GrantsEntry</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Image"><span class="badge">M</span>Specimen.Image</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.ImagesEntry"><span class="badge">M</span>Specimen.ImagesEntry</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Loan"><span class="badge">M</span>Specimen.Loan</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.LoansEntry"><span class="badge">M</span>Specimen.LoansEntry</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Primary"><span class="badge">M</span>Specimen.Primary</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Secondary"><span class="badge">M</span>Specimen.Secondary</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.Specimen.Taxon"><span class="badge">M</span>Specimen.Taxon</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fccbio%2fschema%2fv0%2fservice.proto">chaincode/ccbio/schema/v0/service.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenCreateRequest"><span class="badge">M</span>SpecimenCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenCreateResponse"><span class="badge">M</span>SpecimenCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenDeleteRequest"><span class="badge">M</span>SpecimenDeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenDeleteResponse"><span class="badge">M</span>SpecimenDeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetByCollectionRequest"><span class="badge">M</span>SpecimenGetByCollectionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetByCollectionResponse"><span class="badge">M</span>SpecimenGetByCollectionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetHistoryRequest"><span class="badge">M</span>SpecimenGetHistoryRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetHistoryResponse"><span class="badge">M</span>SpecimenGetHistoryResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetListRequest"><span class="badge">M</span>SpecimenGetListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetListResponse"><span class="badge">M</span>SpecimenGetListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetRequest"><span class="badge">M</span>SpecimenGetRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenGetResponse"><span class="badge">M</span>SpecimenGetResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenHideTxRequest"><span class="badge">M</span>SpecimenHideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenHideTxResponse"><span class="badge">M</span>SpecimenHideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenUnHideTxRequest"><span class="badge">M</span>SpecimenUnHideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenUnHideTxResponse"><span class="badge">M</span>SpecimenUnHideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenUpdateRequest"><span class="badge">M</span>SpecimenUpdateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenUpdateResponse"><span class="badge">M</span>SpecimenUpdateResponse</a>
+                </li>
+
+
+
+
+                <li>
+                  <a href="#ccbio.schema.v0.SpecimenService"><span class="badge">S</span>SpecimenService</a>
+                </li>
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#chaincode%2fsample%2fv0%2fitems.proto">chaincode/sample/v0/items.proto</a>
+            <ul>
+
+
+
+
+            </ul>
+          </li>
+
+        <li><a href="#scalar-value-types">Scalar Value Types</a></li>
+      </ul>
+    </div>
+
+
+
+      <div class="file-heading">
+        <h2 id="auth/v1/auth.proto">auth/v1/auth.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="auth.ACEntry">ACEntry</h3>
+        <p>Access Control Entry for use in Radix Tree</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.ObjectPolicy">ObjectPolicy</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>view_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Attribute">Attribute</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that this attribute applies to </p></td>
+                </tr>
+
+                <tr>
+                  <td>oid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The oid of the attribute </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The value of the attribute required to be satisfied by the user to have the
+role </p></td>
+                </tr>
+
+                <tr>
+                  <td>role_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The role that the user must have to satisfy the attribute </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Collection">Collection</h3>
+        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of objects are stored in the default ACEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The key for the ledger </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_types</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>default</td>
+                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.FullObject">FullObject</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#auth.History">History</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#auth.Suggestion">Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>references</td>
+                  <td><a href="#auth.Reference">Reference</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.HiddenTx">HiddenTx</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.HiddenTxList">HiddenTxList</h3>
+        <p>Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>primary_key</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p>The key that is used to store the object </p></td>
+                </tr>
+
+                <tr>
+                  <td>txs</td>
+                  <td><a href="#auth.HiddenTx">HiddenTx</a></td>
+                  <td>repeated</td>
+                  <td><p>The list of hidden txs by tx_id </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.History">History</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>entries</td>
+                  <td><a href="#auth.HistoryEntry">HistoryEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#auth.HiddenTxList">HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.HistoryEntry">HistoryEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_delete</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_hidden</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.KeySchema">KeySchema</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>namespace</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_domain</td>
+                  <td><a href="#auth.ObjectDomain">ObjectDomain</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>keys</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>primary_key</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>secondary_keys</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Membership">Membership</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>ac</td>
+                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.NestedACEntry">NestedACEntry</h3>
+        <p>Access Control Entry for use in Hash Tree</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>root</td>
+                  <td><a href="#auth.ObjectPolicy">ObjectPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_leaf</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>children</td>
+                  <td><a href="#auth.NestedACEntry.ChildrenEntry">NestedACEntry.ChildrenEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.NestedACEntry.ChildrenEntry">NestedACEntry.ChildrenEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#auth.NestedACEntry">NestedACEntry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.NestedObjectPolicy">NestedObjectPolicy</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>policies</td>
+                  <td><a href="#auth.NestedPathPolicy">NestedPathPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.NestedPathPolicy">NestedPathPolicy</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_leaf</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#auth.Action">Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>children</td>
+                  <td><a href="#auth.NestedPathPolicy">NestedPathPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Object">Object</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.ObjectKey">ObjectKey</h3>
+        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Object Keys</p><p>When converted to its string form it will be: </p><p>- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}</p><p>Reference Keys</p><p>Used to store references to objects for case like a user having a role</p><p>When converted to its string form it will be: </p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be: </p><p>{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_id_parts</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.ObjectPolicy">ObjectPolicy</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>policies</td>
+                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Operation">Operation</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>action</td>
+                  <td><a href="#auth.Action">Action</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>namespace</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>secondary_namespace</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>paths</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.PathPolicy">PathPolicy</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#auth.Action">Action</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Reference">Reference</h3>
+        <p>Reference Keys</p><p>{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reference_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>key_1</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>key_2</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Role">Role</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>role_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>ac</td>
+                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>parent_role_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.StateActivity">StateActivity</h3>
+        <p>Can be used as the history entry</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.Suggestion">Suggestion</h3>
+        <p>Key should be</p><p>{auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>primary_key</td>
+                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>paths</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.User">User</h3>
+        <p>User</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>key := {USER}{USER_ID.msp_id}{USER_ID.id}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+        <h3 id="auth.Action">Action</h3>
+        <p>Action - The action to be performed during the operation</p><p># Action Groups</p><p>- UNSPECIFIED: null or not set</p><p>- REGISTER:    Used to register a new user or collection (always allowed)</p><p>- COLLECTION:  Used to manage collections permissions</p><p>- MEMBERSHIP:  Used to manage membership of a collection</p><p>- OBJECT:      Used to manage objects in a collection</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>ACTION_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UTILITY</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW</td>
+                <td>10</td>
+                <td><p>View the contents of an object</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_CREATE</td>
+                <td>11</td>
+                <td><p>Create a new object
+ - key must not already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UPDATE</td>
+                <td>12</td>
+                <td><p>Update an existing object
+  - key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_DELETE</td>
+                <td>13</td>
+                <td><p>Delete an existing object, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_VIEW</td>
+                <td>14</td>
+                <td><p>Suggest a change to an object, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_CREATE</td>
+                <td>15</td>
+                <td><p>Suggest a change to an object, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_DELETE</td>
+                <td>16</td>
+                <td><p>Delete a suggestion, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_APPROVE</td>
+                <td>17</td>
+                <td><p>Approve a suggestion and apply it to the object, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW_HISTORY</td>
+                <td>18</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW_HIDDEN_TXS</td>
+                <td>19</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_HIDE_TX</td>
+                <td>20</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_REFERENCE_CREATE</td>
+                <td>21</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_REFERENCE_DELETE</td>
+                <td>22</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_REFERENCE_VIEW</td>
+                <td>23</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="auth.ObjectDomain">ObjectDomain</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>OBJECT_DOMAIN_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_GLOBAL_OBJECT</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_DOMAIN_PRIMARY_OBJECT</td>
+                <td>2</td>
+                <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_DOMAIN_SUB_OBJECT</td>
+                <td>3</td>
+                <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}</p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_DOMAIN_REFERENCE</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="auth.TransactionType">TransactionType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>TRANSACTION_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>TRANSACTION_TYPE_INVOKE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>TRANSACTION_TYPE_QUERY</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="auth.TxError">TxError</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>REQUEST_INVALID</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>RUNTIME</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>RUNTIME_BAD_OPS</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>KEY_NOT_FOUND</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>KEY_ALREADY_EXISTS</td>
+                <td>5</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_ID</td>
+                <td>11</td>
+                <td><p>Collection Errors</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_UNREGISTERED</td>
+                <td>12</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_ALREADY_REGISTERED</td>
+                <td>13</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID</td>
+                <td>14</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_OBJECT_TYPE</td>
+                <td>15</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_ROLE_ID</td>
+                <td>16</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_INVALID_ID</td>
+                <td>20</td>
+                <td><p>The user does not have permission to perform the operation</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_UNREGISTERED</td>
+                <td>21</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_ALREADY_REGISTERED</td>
+                <td>22</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_INVALID</td>
+                <td>23</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_NO_ROLE</td>
+                <td>24</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_DELETED_ROLE</td>
+                <td>25</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>USER_PERMISSION_DENIED</td>
+                <td>26</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_INVALID_ID</td>
+                <td>31</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_UNREGISTERED</td>
+                <td>32</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_ALREADY_REGISTERED</td>
+                <td>33</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>OBJECT_INVALID</td>
+                <td>34</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>INVALID_OBJECT_FIELD_PATH</td>
+                <td>35</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>INVALID_OBJECT_FIELD_VALUE</td>
+                <td>36</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+        <h3 id="auth/v1/auth.proto-extensions">File-level Extensions</h3>
+        <table class="extension-table">
+          <thead>
+            <tr><td>Extension</td><td>Type</td><td>Base</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>key_schema</td>
+                <td><a href="#auth.KeySchema">KeySchema</a></td>
+                <td><a href="#google.protobuf.MessageOptions">.google.protobuf.MessageOptions</a></td>
+                <td>54599</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>operation</td>
+                <td><a href="#auth.Operation">Operation</a></td>
+                <td><a href="#google.protobuf.MethodOptions">.google.protobuf.MethodOptions</a></td>
+                <td>57775</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>transaction_type</td>
+                <td><a href="#auth.TransactionType">TransactionType</a></td>
+                <td><a href="#google.protobuf.MethodOptions">.google.protobuf.MethodOptions</a></td>
+                <td>50556</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/auth/common/generic.proto">chaincode/auth/common/generic.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="auth.common.AuthorizeOperationRequest">AuthorizeOperationRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>operation</td>
+                  <td><a href="#auth.Operation">auth.Operation</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.AuthorizeOperationResponse">AuthorizeOperationResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>authorized</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.BootstrapRequest">BootstrapRequest</h3>
+        <p>──────────────────────────────── Invoke ───────────────────────────────────────</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>default_types</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>add_default_setup</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.BootstrapResponse">BootstrapResponse</h3>
+        <p></p>
+
+
+
+
+
+        <h3 id="auth.common.CreateRequest">CreateRequest</h3>
+        <p>──────────────────────────────── Invoke ───────────────────────────────────────</p><p>Create</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.CreateResponse">CreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.DeleteRequest">DeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.DeleteResponse">DeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.GetAllTypesResponse">GetAllTypesResponse</h3>
+        <p>══════════════════════════════════ Helper ═════════════════════════════════════</p><p>────────────────────────────────── Query ──────────────────────────────────────</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>types</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.GetCurrentUserResponse">GetCurrentUserResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.GetRequest">GetRequest</h3>
+        <p>Get</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.GetResponse">GetResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HiddenTxRequest">HiddenTxRequest</h3>
+        <p>HiddenTx</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HiddenTxResponse">HiddenTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#auth.HiddenTx">auth.HiddenTx</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HideTxRequest">HideTxRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_tx</td>
+                  <td><a href="#auth.HiddenTx">auth.HiddenTx</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HideTxResponse">HideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#auth.HiddenTxList">auth.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HistoryRequest">HistoryRequest</h3>
+        <p>History</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.HistoryResponse">HistoryResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#auth.History">auth.History</a></td>
+                  <td></td>
+                  <td><p>repeated auth. s = 1; </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListByAttrsRequest">ListByAttrsRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>num_attrs</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListByAttrsResponse">ListByAttrsResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>objects</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListByCollectionRequest">ListByCollectionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListByCollectionResponse">ListByCollectionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>objects</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListRequest">ListRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ListResponse">ListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>objects</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceByCollectionRequest">ReferenceByCollectionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reference_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceByCollectionResponse">ReferenceByCollectionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>references</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceByObjectRequest">ReferenceByObjectRequest</h3>
+        <p>Get all of the collections</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reference_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceByObjectResponse">ReferenceByObjectResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>references</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceCreateRequest">ReferenceCreateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceCreateResponse">ReferenceCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceDeleteRequest">ReferenceDeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceDeleteResponse">ReferenceDeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceListByTypeRequest">ReferenceListByTypeRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reference_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceListByTypeResponse">ReferenceListByTypeResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>references</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceRequest">ReferenceRequest</h3>
+        <p>════════════════════════════════ References ═════════════════════════════════════</p><p>──────────────────────────────── Query ──────────────────────────────────────────</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.ReferenceResponse">ReferenceResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>exists</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionApproveRequest">SuggestionApproveRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionApproveResponse">SuggestionApproveResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionByPartialKeyRequest">SuggestionByPartialKeyRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>num_attrs</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionByPartialKeyResponse">SuggestionByPartialKeyResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionCreateRequest">SuggestionCreateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionCreateResponse">SuggestionCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionDeleteRequest">SuggestionDeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionDeleteResponse">SuggestionDeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListByCollectionRequest">SuggestionListByCollectionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListByCollectionResponse">SuggestionListByCollectionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListByObjectRequest">SuggestionListByObjectRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListByObjectResponse">SuggestionListByObjectResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListRequest">SuggestionListRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p>auth.Object object = 3; </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionListResponse">SuggestionListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionRequest">SuggestionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object_key</td>
+                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.SuggestionResponse">SuggestionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#auth.Suggestion">auth.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UnHideTxRequest">UnHideTxRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UnHideTxResponse">UnHideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#auth.HiddenTxList">auth.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UpdateRequest">UpdateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>update_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UpdateResponse">UpdateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+        <h3 id="auth.common.GenericService">GenericService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>GetAllTypes</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#auth.common.GetAllTypesResponse">GetAllTypesResponse</a></td>
+                <td><p>══════════════════════════════════ Helper ═════════════════════════════════════
+────────────────────────────────── Query ──────────────────────────────────────</p></td>
+              </tr>
+
+              <tr>
+                <td>GetCurrentUser</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#auth.common.GetCurrentUserResponse">GetCurrentUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Bootstrap</td>
+                <td><a href="#auth.common.BootstrapRequest">BootstrapRequest</a></td>
+                <td><a href="#auth.common.BootstrapResponse">BootstrapResponse</a></td>
+                <td><p>──────────────────────────────── Invoke ───────────────────────────────────────</p></td>
+              </tr>
+
+              <tr>
+                <td>AuthorizeOperation</td>
+                <td><a href="#auth.common.AuthorizeOperationRequest">AuthorizeOperationRequest</a></td>
+                <td><a href="#auth.common.AuthorizeOperationResponse">AuthorizeOperationResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Get</td>
+                <td><a href="#auth.common.GetRequest">GetRequest</a></td>
+                <td><a href="#auth.common.GetResponse">GetResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>List</td>
+                <td><a href="#auth.common.ListRequest">ListRequest</a></td>
+                <td><a href="#auth.common.ListResponse">ListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ListByCollection</td>
+                <td><a href="#auth.common.ListByCollectionRequest">ListByCollectionRequest</a></td>
+                <td><a href="#auth.common.ListByCollectionResponse">ListByCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ListByAttrs</td>
+                <td><a href="#auth.common.ListByAttrsRequest">ListByAttrsRequest</a></td>
+                <td><a href="#auth.common.ListByAttrsResponse">ListByAttrsResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Create</td>
+                <td><a href="#auth.common.CreateRequest">CreateRequest</a></td>
+                <td><a href="#auth.common.CreateResponse">CreateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Update</td>
+                <td><a href="#auth.common.UpdateRequest">UpdateRequest</a></td>
+                <td><a href="#auth.common.UpdateResponse">UpdateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Delete</td>
+                <td><a href="#auth.common.DeleteRequest">DeleteRequest</a></td>
+                <td><a href="#auth.common.DeleteResponse">DeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>History</td>
+                <td><a href="#auth.common.HistoryRequest">HistoryRequest</a></td>
+                <td><a href="#auth.common.HistoryResponse">HistoryResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>HiddenTx</td>
+                <td><a href="#auth.common.HiddenTxRequest">HiddenTxRequest</a></td>
+                <td><a href="#auth.common.HiddenTxResponse">HiddenTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>HideTx</td>
+                <td><a href="#auth.common.HideTxRequest">HideTxRequest</a></td>
+                <td><a href="#auth.common.HideTxResponse">HideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UnHideTx</td>
+                <td><a href="#auth.common.UnHideTxRequest">UnHideTxRequest</a></td>
+                <td><a href="#auth.common.UnHideTxResponse">UnHideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Reference</td>
+                <td><a href="#auth.common.ReferenceRequest">ReferenceRequest</a></td>
+                <td><a href="#auth.common.ReferenceResponse">ReferenceResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ReferenceListByType</td>
+                <td><a href="#auth.common.ReferenceListByTypeRequest">ReferenceListByTypeRequest</a></td>
+                <td><a href="#auth.common.ReferenceListByTypeResponse">ReferenceListByTypeResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ReferenceByCollection</td>
+                <td><a href="#auth.common.ReferenceByCollectionRequest">ReferenceByCollectionRequest</a></td>
+                <td><a href="#auth.common.ReferenceByCollectionResponse">ReferenceByCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ReferenceByObject</td>
+                <td><a href="#auth.common.ReferenceByObjectRequest">ReferenceByObjectRequest</a></td>
+                <td><a href="#auth.common.ReferenceByObjectResponse">ReferenceByObjectResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ReferenceCreate</td>
+                <td><a href="#auth.common.ReferenceCreateRequest">ReferenceCreateRequest</a></td>
+                <td><a href="#auth.common.ReferenceCreateResponse">ReferenceCreateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ReferenceDelete</td>
+                <td><a href="#auth.common.ReferenceDeleteRequest">ReferenceDeleteRequest</a></td>
+                <td><a href="#auth.common.ReferenceDeleteResponse">ReferenceDeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Suggestion</td>
+                <td><a href="#auth.common.SuggestionRequest">SuggestionRequest</a></td>
+                <td><a href="#auth.common.SuggestionResponse">SuggestionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionList</td>
+                <td><a href="#auth.common.SuggestionListRequest">SuggestionListRequest</a></td>
+                <td><a href="#auth.common.SuggestionListResponse">SuggestionListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionListByCollection</td>
+                <td><a href="#auth.common.SuggestionListByCollectionRequest">SuggestionListByCollectionRequest</a></td>
+                <td><a href="#auth.common.SuggestionListByCollectionResponse">SuggestionListByCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionByPartialKey</td>
+                <td><a href="#auth.common.SuggestionByPartialKeyRequest">SuggestionByPartialKeyRequest</a></td>
+                <td><a href="#auth.common.SuggestionByPartialKeyResponse">SuggestionByPartialKeyResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionCreate</td>
+                <td><a href="#auth.common.SuggestionCreateRequest">SuggestionCreateRequest</a></td>
+                <td><a href="#auth.common.SuggestionCreateResponse">SuggestionCreateResponse</a></td>
+                <td><p>──────────────────────────────── Invoke ───────────────────────────────────────</p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionDelete</td>
+                <td><a href="#auth.common.SuggestionDeleteRequest">SuggestionDeleteRequest</a></td>
+                <td><a href="#auth.common.SuggestionDeleteResponse">SuggestionDeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionApprove</td>
+                <td><a href="#auth.common.SuggestionApproveRequest">SuggestionApproveRequest</a></td>
+                <td><a href="#auth.common.SuggestionApproveResponse">SuggestionApproveResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/auth/common/users.proto">chaincode/auth/common/users.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="auth.common.UserCreateRequest">UserCreateRequest</h3>
+        <p>UserCreate</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserCreateResponse">UserCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserDeleteRequest">UserDeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserDeleteResponse">UserDeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetCurrentIdResponse">UserGetCurrentIdResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetCurrentResponse">UserGetCurrentResponse</h3>
+        <p>──────────────────-- Query ─────────────────────</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetHiddenTxRequest">UserGetHiddenTxRequest</h3>
+        <p>UserGetHiddenTx</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetHiddenTxResponse">UserGetHiddenTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#auth.HiddenTxList">auth.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetHistoryRequest">UserGetHistoryRequest</h3>
+        <p>UserGetHistory</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>show_hidden</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetHistoryResponse">UserGetHistoryResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#auth.History">auth.History</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetListRequest">UserGetListRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetListResponse">UserGetListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>users</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetRequest">UserGetRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserGetResponse">UserGetResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserHideTxRequest">UserHideTxRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_tx</td>
+                  <td><a href="#auth.HiddenTx">auth.HiddenTx</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserHideTxResponse">UserHideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserUpdateRequest">UserUpdateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.common.UserUpdateResponse">UserUpdateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+        <h3 id="auth.common.UserService">UserService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>UserGetCurrent</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#auth.common.UserGetCurrentResponse">UserGetCurrentResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserGet</td>
+                <td><a href="#auth.common.UserGetRequest">UserGetRequest</a></td>
+                <td><a href="#auth.common.UserGetResponse">UserGetResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserGetList</td>
+                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
+                <td><a href="#auth.common.UserGetListResponse">UserGetListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserGetHistory</td>
+                <td><a href="#auth.common.UserGetHistoryRequest">UserGetHistoryRequest</a></td>
+                <td><a href="#auth.common.UserGetHistoryResponse">UserGetHistoryResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserGetHiddenTx</td>
+                <td><a href="#auth.common.UserGetHiddenTxRequest">UserGetHiddenTxRequest</a></td>
+                <td><a href="#auth.common.UserGetHiddenTxResponse">UserGetHiddenTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserCreate</td>
+                <td><a href="#auth.common.UserCreateRequest">UserCreateRequest</a></td>
+                <td><a href="#auth.common.UserCreateResponse">UserCreateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserDelete</td>
+                <td><a href="#auth.common.UserDeleteRequest">UserDeleteRequest</a></td>
+                <td><a href="#auth.common.UserDeleteResponse">UserDeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserUpdate</td>
+                <td><a href="#auth.common.UserUpdateRequest">UserUpdateRequest</a></td>
+                <td><a href="#auth.common.UserUpdateResponse">UserUpdateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UserHideTx</td>
+                <td><a href="#auth.common.UserHideTxRequest">UserHideTxRequest</a></td>
+                <td><a href="#auth.common.UserHideTxResponse">UserHideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/auth/rbac/schema/v1/rbac.proto">chaincode/auth/rbac/schema/v1/rbac.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/ccbio/schema/v0/state.proto">chaincode/ccbio/schema/v0/state.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="ccbio.schema.v0.Specimen">Specimen</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>primary</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Primary">Specimen.Primary</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>secondary</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Secondary">Specimen.Secondary</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>taxon</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Taxon">Specimen.Taxon</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>georeference</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Georeference">Specimen.Georeference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>images</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.ImagesEntry">Specimen.ImagesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loans</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.LoansEntry">Specimen.LoansEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>grants</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.GrantsEntry">Specimen.GrantsEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Georeference">Specimen.Georeference</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>country</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>state_province</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>county</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>locality</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>latitude</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>longitude</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>habitat</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Grant">Specimen.Grant</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_to</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.GrantsEntry">Specimen.GrantsEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Grant">Specimen.Grant</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Image">Specimen.Image</h3>
+        <p>Mapped Types</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>url</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.ImagesEntry">Specimen.ImagesEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Image">Specimen.Image</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Loan">Specimen.Loan</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_to</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.LoansEntry">Specimen.LoansEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#ccbio.schema.v0.Specimen.Loan">Specimen.Loan</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Primary">Specimen.Primary</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>catalog_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>accession_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>field_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tissue_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>cataloger</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collector</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determiner</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>field_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>catalog_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determined_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determined_reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Secondary">Specimen.Secondary</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>preparation</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>condition</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.Specimen.Taxon">Specimen.Taxon</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>kingdom</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>phylum</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>class</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>order</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>family</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>genus</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>species</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>subspecies</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/ccbio/schema/v0/service.proto">chaincode/ccbio/schema/v0/service.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="ccbio.schema.v0.SpecimenCreateRequest">SpecimenCreateRequest</h3>
+        <p>SpecimenCreate</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenCreateResponse">SpecimenCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenDeleteRequest">SpecimenDeleteRequest</h3>
+        <p>SpecimenDelete</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenDeleteResponse">SpecimenDeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetByCollectionRequest">SpecimenGetByCollectionRequest</h3>
+        <p>SpecimenGetByCollection</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetByCollectionResponse">SpecimenGetByCollectionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimens</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetHistoryRequest">SpecimenGetHistoryRequest</h3>
+        <p>SpecimenGetHistory</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>include_hidden</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetHistoryResponse">SpecimenGetHistoryResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetListRequest">SpecimenGetListRequest</h3>
+        <p>SpecimenGetList</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>page_size</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetListResponse">SpecimenGetListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimens</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetRequest">SpecimenGetRequest</h3>
+        <p>Evaluate</p><p>SpecimenGet</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Specimen.Id id = 1 [(buf.validate.field).required = true]; </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenGetResponse">SpecimenGetResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenHideTxRequest">SpecimenHideTxRequest</h3>
+        <p>SpecimenHideTx</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tx</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenHideTxResponse">SpecimenHideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenUnHideTxRequest">SpecimenUnHideTxRequest</h3>
+        <p>SpecimenUnHideTx</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tx</td>
+                  <td><a href="#auth.StateActivity">auth.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenUnHideTxResponse">SpecimenUnHideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenUpdateRequest">SpecimenUpdateRequest</h3>
+        <p>SpecimenUpdate</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>update_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenUpdateResponse">SpecimenUpdateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#ccbio.schema.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>update_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+        <h3 id="ccbio.schema.v0.SpecimenService">SpecimenService</h3>
+        <p>Specimen functions</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>SpecimenGet</td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetRequest">SpecimenGetRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetResponse">SpecimenGetResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenGetList</td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetListRequest">SpecimenGetListRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetListResponse">SpecimenGetListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenGetByCollection</td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetByCollectionRequest">SpecimenGetByCollectionRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetByCollectionResponse">SpecimenGetByCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenGetHistory</td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetHistoryRequest">SpecimenGetHistoryRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenGetHistoryResponse">SpecimenGetHistoryResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenCreate</td>
+                <td><a href="#ccbio.schema.v0.SpecimenCreateRequest">SpecimenCreateRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenCreateResponse">SpecimenCreateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenUpdate</td>
+                <td><a href="#ccbio.schema.v0.SpecimenUpdateRequest">SpecimenUpdateRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenUpdateResponse">SpecimenUpdateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenDelete</td>
+                <td><a href="#ccbio.schema.v0.SpecimenDeleteRequest">SpecimenDeleteRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenDeleteResponse">SpecimenDeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenHideTx</td>
+                <td><a href="#ccbio.schema.v0.SpecimenHideTxRequest">SpecimenHideTxRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenHideTxResponse">SpecimenHideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SpecimenUnHideTx</td>
+                <td><a href="#ccbio.schema.v0.SpecimenUnHideTxRequest">SpecimenUnHideTxRequest</a></td>
+                <td><a href="#ccbio.schema.v0.SpecimenUnHideTxResponse">SpecimenUnHideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+      <div class="file-heading">
+        <h2 id="chaincode/sample/v0/items.proto">chaincode/sample/v0/items.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+
+
+
+
+
+
+
+
+    <h2 id="scalar-value-types">Scalar Value Types</h2>
+    <table class="scalar-value-types-table">
+      <thead>
+        <tr><td>.proto Type</td><td>Notes</td><td>C++</td><td>Java</td><td>Python</td><td>Go</td><td>C#</td><td>PHP</td><td>Ruby</td></tr>
+      </thead>
+      <tbody>
+
+          <tr id="double">
+            <td>double</td>
+            <td></td>
+            <td>double</td>
+            <td>double</td>
+            <td>float</td>
+            <td>float64</td>
+            <td>double</td>
+            <td>float</td>
+            <td>Float</td>
+          </tr>
+
+          <tr id="float">
+            <td>float</td>
+            <td></td>
+            <td>float</td>
+            <td>float</td>
+            <td>float</td>
+            <td>float32</td>
+            <td>float</td>
+            <td>float</td>
+            <td>Float</td>
+          </tr>
+
+          <tr id="int32">
+            <td>int32</td>
+            <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="int64">
+            <td>int64</td>
+            <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="uint32">
+            <td>uint32</td>
+            <td>Uses variable-length encoding.</td>
+            <td>uint32</td>
+            <td>int</td>
+            <td>int/long</td>
+            <td>uint32</td>
+            <td>uint</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="uint64">
+            <td>uint64</td>
+            <td>Uses variable-length encoding.</td>
+            <td>uint64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>uint64</td>
+            <td>ulong</td>
+            <td>integer/string</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sint32">
+            <td>sint32</td>
+            <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sint64">
+            <td>sint64</td>
+            <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="fixed32">
+            <td>fixed32</td>
+            <td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+            <td>uint32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>uint32</td>
+            <td>uint</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="fixed64">
+            <td>fixed64</td>
+            <td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+            <td>uint64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>uint64</td>
+            <td>ulong</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="sfixed32">
+            <td>sfixed32</td>
+            <td>Always four bytes.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sfixed64">
+            <td>sfixed64</td>
+            <td>Always eight bytes.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="bool">
+            <td>bool</td>
+            <td></td>
+            <td>bool</td>
+            <td>boolean</td>
+            <td>boolean</td>
+            <td>bool</td>
+            <td>bool</td>
+            <td>boolean</td>
+            <td>TrueClass/FalseClass</td>
+          </tr>
+
+          <tr id="string">
+            <td>string</td>
+            <td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+            <td>string</td>
+            <td>String</td>
+            <td>str/unicode</td>
+            <td>string</td>
+            <td>string</td>
+            <td>string</td>
+            <td>String (UTF-8)</td>
+          </tr>
+
+          <tr id="bytes">
+            <td>bytes</td>
+            <td>May contain any arbitrary sequence of bytes.</td>
+            <td>string</td>
+            <td>ByteString</td>
+            <td>str</td>
+            <td>[]byte</td>
+            <td>ByteString</td>
+            <td>string</td>
+            <td>String (ASCII-8BIT)</td>
+          </tr>
+
+      </tbody>
+    </table>
+  </body>
+</html>

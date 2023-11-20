@@ -70,3 +70,69 @@ func (m *Suggestion) ObjectKey() *ObjectKey {
 func (m *HiddenTxList) Namespace() string {
 	return "auth.HiddenTxList"
 }
+func (m *Role) Namespace() string {
+	return "auth.Role"
+}
+func (m *Role) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetRoleId())
+	return attr
+}
+
+// Domain Object
+func (m *Role) IsPrimary() bool {
+	return true
+}
+func (m *Role) ObjectKey() *ObjectKey {
+	key := &ObjectKey{
+		CollectionId:  m.GetCollectionId(),
+		ObjectType:    "auth.Role",
+		ObjectIdParts: m.KeyAttr(),
+	}
+	return key
+}
+func (m *Attribute) Namespace() string {
+	return "auth.Attribute"
+}
+func (m *Attribute) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetOid())
+	attr = append(attr, m.GetRoleId())
+	return attr
+}
+
+// Domain Object
+func (m *Attribute) IsPrimary() bool {
+	return true
+}
+func (m *Attribute) ObjectKey() *ObjectKey {
+	key := &ObjectKey{
+		CollectionId:  m.GetCollectionId(),
+		ObjectType:    "auth.Attribute",
+		ObjectIdParts: m.KeyAttr(),
+	}
+	return key
+}
+func (m *Membership) Namespace() string {
+	return "auth.Membership"
+}
+func (m *Membership) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetUserId())
+	return attr
+}
+
+// Domain Object
+func (m *Membership) IsPrimary() bool {
+	return true
+}
+func (m *Membership) ObjectKey() *ObjectKey {
+	key := &ObjectKey{
+		CollectionId:  m.GetCollectionId(),
+		ObjectType:    "auth.Membership",
+		ObjectIdParts: m.KeyAttr(),
+	}
+	return key
+}

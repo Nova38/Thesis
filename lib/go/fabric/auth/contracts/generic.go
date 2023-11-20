@@ -16,6 +16,8 @@ type ObjectContractImpl struct {
 	cc.GenericServiceBase
 }
 
+// ════════════════════════════════════ Init ═══════════════════════════════════════
+
 // ════════════════════════════════════ Object ═════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
@@ -67,6 +69,9 @@ func (o ObjectContractImpl) List(
 	// reset the object to its default state, so that we can get the full list
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	res = &cc.ListResponse{
 		Bookmark: mk,
@@ -141,59 +146,6 @@ func (o ObjectContractImpl) ListByAttrs(
 	}
 
 	return res, err
-}
-
-func (o ObjectContractImpl) History(
-	ctx state.TxCtxInterface,
-	req *cc.HistoryRequest,
-) (res *cc.HistoryResponse, err error) {
-	var (
-		obj common.ObjectInterface
-		h   *authpb.History
-	)
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if h, err = state.History(ctx, obj); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	return &cc.HistoryResponse{
-		History: h,
-	}, nil
-}
-
-func (o ObjectContractImpl) HiddenTx(
-	ctx state.TxCtxInterface,
-	req *cc.HiddenTxRequest,
-) (res *cc.HiddenTxResponse, err error) {
-	var (
-		obj  common.ObjectInterface
-		hTxs *authpb.HiddenTxList
-	)
-
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if hTxs, err = state.HiddenTx(ctx, obj); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	return &cc.HiddenTxResponse{
-		CollectionId: obj.ObjectKey().CollectionId,
-		HiddenTxs:    hTxs.Txs,
-	}, nil
 }
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
@@ -273,6 +225,64 @@ func (o ObjectContractImpl) Delete(
 	}, err
 }
 
+// ════════════════════════════════════ History ════════════════════════════════════
+// ──────────────────────────────────── Query ──────────────────────────────────────
+
+func (o ObjectContractImpl) History(
+	ctx state.TxCtxInterface,
+	req *cc.HistoryRequest,
+) (res *cc.HistoryResponse, err error) {
+	var (
+		obj common.ObjectInterface
+		h   *authpb.History
+	)
+
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if h, err = state.History(ctx, obj); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.HistoryResponse{
+		History: h,
+	}, nil
+}
+
+func (o ObjectContractImpl) HiddenTx(
+	ctx state.TxCtxInterface,
+	req *cc.HiddenTxRequest,
+) (res *cc.HiddenTxResponse, err error) {
+	var (
+		obj  common.ObjectInterface
+		hTxs *authpb.HiddenTxList
+	)
+
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if hTxs, err = state.HiddenTx(ctx, obj); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.HiddenTxResponse{
+		CollectionId: obj.ObjectKey().GetCollectionId(),
+		HiddenTxs:    hTxs.GetTxs(),
+	}, nil
+}
+
+// ──────────────────────────────────── Invoke ─────────────────────────────────────
+
 func (o ObjectContractImpl) HideTx(
 	ctx state.TxCtxInterface,
 	req *cc.HideTxRequest,
@@ -325,6 +335,136 @@ func (o ObjectContractImpl) UnHideTx(
 	}, err
 }
 
+// ════════════════════════════════════ References ═════════════════════════════════
+// ──────────────────────────────────── Query ──────────────────────────────────────
+
+// todo: Reference
+func (o ObjectContractImpl) Reference(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceRequest,
+) (res *cc.ReferenceResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if v, err := state.GetReference(ctx, req.GetReference()); err != nil {
+		return nil, oops.Wrap(err)
+	} else if v == nil && err == nil {
+		return &cc.ReferenceResponse{
+			Exists: false,
+		}, nil
+	}
+
+	return &cc.ReferenceResponse{
+		Exists: true,
+	}, nil
+}
+
+// todo: ReferenceListByType
+func (o ObjectContractImpl) ReferenceListByType(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceListByTypeRequest,
+) (res *cc.ReferenceListByTypeResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	list, mk, err := state.ReferenceListByType(ctx, req.GetReferenceType(), req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.ReferenceListByTypeResponse{
+		Bookmark:   mk,
+		References: list,
+	}
+
+	return res, nil
+}
+
+// todo: ReferenceByCollection
+func (o ObjectContractImpl) ReferenceByCollection(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceByCollectionRequest,
+) (res *cc.ReferenceByCollectionResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	list, mk, err := state.ReferenceByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.ReferenceByCollectionResponse{
+		Bookmark:   mk,
+		References: list,
+	}
+
+	return res, nil
+}
+
+// todo: ReferenceByObject
+func (o ObjectContractImpl) ReferenceByObject(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceByObjectRequest,
+) (res *cc.ReferenceByObjectResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	list, mk, err := state.ReferenceListByObject(ctx, req.GetObjectKey(), req.GetBookmark())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.ReferenceByObjectResponse{
+		Bookmark:   mk,
+		References: list,
+	}
+
+	return res, nil
+}
+
+// ──────────────────────────────────── Invoke ─────────────────────────────────────
+// todo: ReferenceCreate
+func (o ObjectContractImpl) ReferenceCreate(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceCreateRequest,
+) (res *cc.ReferenceCreateResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = state.ReferenceCreate(ctx, req.GetReference()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.ReferenceCreateResponse{
+		Reference: req.GetReference(),
+	}, nil
+}
+
+// todo: ReferenceDelete
+func (o ObjectContractImpl) ReferenceDelete(
+	ctx state.TxCtxInterface,
+	req *cc.ReferenceDeleteRequest,
+) (res *cc.ReferenceDeleteResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if err = state.ReferenceDelete(ctx, req.GetReference()); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.ReferenceDeleteResponse{
+		Reference: req.GetReference(),
+	}, nil
+}
+
 // ════════════════════════════════════ Suggestions ════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
@@ -342,7 +482,7 @@ func (o ObjectContractImpl) Suggestion(
 		SuggestionId: req.GetSuggestionId(),
 	}
 
-	if err = state.Suggestion(ctx, sug); err != nil {
+	if err = state.GetSuggestion(ctx, sug); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -403,7 +543,7 @@ func (o ObjectContractImpl) SuggestionByPartialKey(
 	return res, nil
 }
 
-// ---------------------------------- Invoke -----------------------------------
+// ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 func (o ObjectContractImpl) SuggestionCreate(
 	ctx state.TxCtxInterface,
@@ -466,14 +606,14 @@ func (o ObjectContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	updated := &authpb.Object{}
-
-	if updated, err = state.ObjectToProto(*u); err != nil {
+	if updated, err := state.ObjectToProto(*u); err != nil {
 		return nil, oops.Wrap(err)
+	} else {
+		res = &cc.SuggestionApproveResponse{
+			Object:     updated,
+			Suggestion: sug,
+		}
 	}
 
-	return &cc.SuggestionApproveResponse{
-		Object:     updated,
-		Suggestion: sug,
-	}, nil
+	return res, nil
 }

@@ -13,14 +13,6 @@ import (
 
 // Service UserService
 type UserServiceInterface[T state.GenericTxCtxInterface] interface {
-	// UserGetCurrentId
-	//
-	// # Operation:
-	//   - Domain: ACTION_OBJECT_VIEW
-	//
-	// req is empty
-	UserGetCurrentId(ctx T) (res *UserGetCurrentIdResponse, err error)
-
 	// UserGetCurrent
 	//
 	// # Operation:
@@ -58,7 +50,7 @@ type UserServiceInterface[T state.GenericTxCtxInterface] interface {
 	// UserCreate
 	//
 	// # Operation:
-	//   - Domain: ACTION_REGISTER_USER
+	//   - Domain: ACTION_OBJECT_CREATE
 	UserCreate(ctx T, req *UserCreateRequest) (res *UserCreateResponse, err error)
 
 	// UserDelete
@@ -85,7 +77,6 @@ type UserServiceBase struct {
 
 func (s *UserServiceBase) GetEvaluateTransactions() []string {
 	return []string{
-		"UserGetCurrentId",
 		"UserGetCurrent",
 		"UserGet",
 		"UserGetList",
@@ -96,11 +87,6 @@ func (s *UserServiceBase) GetEvaluateTransactions() []string {
 
 func UserServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
-	case "UserGetCurrentId":
-		// action:ACTION_OBJECT_VIEW
-		return &v1.Operation{
-			Action: 10,
-		}, nil
 	case "UserGetCurrent":
 		// action:ACTION_OBJECT_VIEW
 		return &v1.Operation{
@@ -127,9 +113,9 @@ func UserServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 19,
 		}, nil
 	case "UserCreate":
-		// action:ACTION_REGISTER_USER
+		// action:ACTION_OBJECT_CREATE
 		return &v1.Operation{
-			Action: 1,
+			Action: 11,
 		}, nil
 	case "UserDelete":
 		// action:ACTION_OBJECT_DELETE

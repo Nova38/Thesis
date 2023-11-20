@@ -2,296 +2,283 @@ syntax = "proto3";
 
 package rbac.schema.v1;
 
-import "auth/v1/auth.proto";
-import "buf/validate/validate.proto";
-import "google/protobuf/descriptor.proto";
-import "google/protobuf/field_mask.proto";
+// import "auth/v1/auth.proto";
+// import "buf/validate/validate.proto";
+// import "google/protobuf/descriptor.proto";
+// import "google/protobuf/field_mask.proto";
 
-service RBACService {
-  // buf:lint:ignore RPC_NO_DELETE
+// service RBACService {
+//   // buf:lint:ignore RPC_NO_DELETE
 
 
 
-  // ══════════════════== Membership ══════════════════==
+//   // ══════════════════== Membership ══════════════════==
 
-  // ──────────────────-- Query ────────────────────────-
+//   // ──────────────────-- Query ────────────────────────-
 
-    rpc MembershipGetList(MembershipGetListRequest) returns (MembershipGetListResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc MembershipGetList(MembershipGetListRequest) returns (MembershipGetListResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc MembershipGet(MembershipGetRequest) returns (MembershipGetResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc MembershipGet(MembershipGetRequest) returns (MembershipGetResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc MembershipGetByCollection(MembershipGetByCollectionRequest) returns (MembershipGetByCollectionResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc MembershipGetByCollection(MembershipGetByCollectionRequest) returns (MembershipGetByCollectionResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc MembershipGetByUser(MembershipGetByUserRequest) returns (MembershipGetByUserResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc MembershipGetByUser(MembershipGetByUserRequest) returns (MembershipGetByUserResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc MembershipGetHistory(MembershipGetHistoryRequest) returns (MembershipGetHistoryResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc MembershipGetHistory(MembershipGetHistoryRequest) returns (MembershipGetHistoryResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW_HISTORY};
+//     }
 
-  // ──────────────────-- Invoke ────────────────────────
+//   // ──────────────────-- Invoke ────────────────────────
 
-    rpc MembershipCreate(MembershipCreateRequest) returns (MembershipCreateResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//     rpc MembershipCreate(MembershipCreateRequest) returns (MembershipCreateResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
-      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
-    }
+//       option (auth.operation) = {action: ACTION_UPDATE};
+//     }
 
-    rpc MembershipDelete(MembershipDeleteRequest) returns (MembershipDeleteResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//     rpc MembershipDelete(MembershipDeleteRequest) returns (MembershipDeleteResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
-      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
-    }
+//       option (auth.operation) = {action: ACTION_UPDATE};
+//     }
 
 
-  // ══════════════════== Roles ════════════════════════=
-  // ──────────────────-- Query ────────────────────────-
+//   // ═══════════════════== Roles ════════════════════════=
+//   // ──────────────────-- Query ────────────────────────-
 
-    rpc RoleGetList(RoleGetListRequest) returns (RoleGetListResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc RoleGetList(RoleGetListRequest) returns (RoleGetListResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc RoleGet(RoleGetRequest) returns (RoleGetResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc RoleGet(RoleGetRequest) returns (RoleGetResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
-    rpc RoleGetByCollection(RoleGetByCollectionRequest) returns (RoleGetByCollectionResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc RoleGetByCollection(RoleGetByCollectionRequest) returns (RoleGetByCollectionResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW};
+//     }
 
 
-    rpc RoleGetHistory(RoleGetHistoryRequest) returns (RoleGetHistoryResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//     rpc RoleGetHistory(RoleGetHistoryRequest) returns (RoleGetHistoryResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
 
-      option (auth.operation) = {action: ACTION_OBJECT_VIEW_HISTORY};
-    }
+//       option (auth.operation) = {action: ACTION_VIEW_HISTORY};
+//     }
 
-  // ──────────────────-- Invoke ────────────────────────
+//   // ──────────────────-- Invoke ────────────────────────
 
-    rpc RoleCreate(RoleCreateRequest) returns (RoleCreateResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//     rpc RoleCreate(RoleCreateRequest) returns (RoleCreateResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
-      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
-    }
+//       option (auth.operation) = {action: ACTION_UPDATE};
+//     }
 
-    rpc RoleDelete(RoleDeleteRequest) returns (RoleDeleteResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//     rpc RoleDelete(RoleDeleteRequest) returns (RoleDeleteResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
 
-      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
-    }
+//       option (auth.operation) = {action: ACTION_UPDATE};
+//     }
 
 
-    rpc RoleUpdate(RoleUpdateRequest) returns (RoleUpdateResponse) {
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_OBJECT_UPDATE};
-    }
-
-
-}
-
-
-
-
-// ══════════════════== Roles ════════════════════════=
-// Used for setting Role Permissions
-// !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
-message Role {
-  option (auth.key_schema).object_domain    = OBJECT_DOMAIN_PRIMARY_OBJECT;
-  option (auth.key_schema).keys = {paths: ["role_id"]};
-
-  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string role_id        = 2 [(buf.validate.field).string.min_len = 1];
-  auth.ACEntry ac              = 4 [(buf.validate.field).required = true];
-  string name             = 5 [(buf.validate.field).string.min_len = 1];
-  string description      = 6 [(buf.validate.field).string.min_len = 1];
-  repeated string parent_role_ids = 7;
-}
-
-// ──────────────────-- Query ────────────────────────-
-
-  message RoleGetRequest {
-    string collection_id = 1;
-    string role_id = 2;
-  }
-  message RoleGetResponse {
-    Role role = 1;
-  }
-
-  message RoleGetListRequest {
-    string bookmark = 1;
-    uint32 page_size = 2;
-  }
-  message RoleGetListResponse {
-    repeated Role roles = 1;
-    string bookmark = 2;
-  }
-
-  message RoleGetByCollectionRequest {
-    string collection_id = 1;
-    string bookmark = 2;
-    uint32 page_size = 3;
-  }
-  message RoleGetByCollectionResponse {
-    auth.Collection collection = 1;
-    repeated Role roles = 2;
-    string bookmark = 3;
-  }
-
-  message RoleGetHistoryRequest {
-    string collection_id = 1 ;
-    string role_id = 4;
-    bool show_hidden = 5;
-  }
-  message RoleGetHistoryResponse {
-    auth.History history = 1;
-  }
-
-  // ──────────────────-- Invoke ────────────────────────
-  message RoleCreateRequest {
-    string msp_id = 1;
-    string user_id = 2;
-    string collection_id = 3;
-    string role_id = 4;
-  }
-  message RoleCreateResponse {
-    Role role = 1;
-  }
-
-  message RoleUpdateRequest {
-    string collection_id = 1;
-    string role_id = 2;
-    Role update = 3;
-    google.protobuf.FieldMask mask = 4;
-  }
-  message RoleUpdateResponse {
-    Role role = 1;
-  }
-
-  message RoleDeleteRequest {
-    string collection_id = 1;
-    string role_id = 2;
-  }
-  message RoleDeleteResponse {
-    Role role = 1;
-  }
-
-
-
-
-
-
-
-
-
-// ══════════════════== Membership ══════════════════==
-// Used for Assigning Roles to Users
-// !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
-// !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
-message Membership {
-  option (auth.key_schema).object_domain              = OBJECT_DOMAIN_PRIMARY_OBJECT;
-  option (auth.key_schema).keys     = {paths: [ "msp_id","user_id" ,"role_id"]};
-
-  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string msp_id  = 2 [(buf.validate.field).string.min_len = 1];
-  string user_id = 3 [(buf.validate.field).required = true];
-  string role_id = 4 [(buf.validate.field).string.min_len = 1];
-}
-
-// ──────────────────-- Query ────────────────────────-
-
-  message MembershipGetRequest {
-    string msp_id = 1;
-    string user_id = 2;
-    string collection_id = 3;
-    string role_id = 4;
-  }
-  message MembershipGetResponse {
-    Membership membership = 1;
-  }
-
-  message MembershipGetListRequest {
-    string bookmark = 1;
-    uint32 page_size = 2;
-  }
-  message MembershipGetListResponse {
-    repeated Membership memberships = 1;
-    string bookmark = 2;
-  }
-
-  message MembershipGetByCollectionRequest {
-    string collection_id = 1;
-    string bookmark = 2;
-    uint32 page_size = 3;
-  }
-  message MembershipGetByCollectionResponse {
-    auth.Collection collection = 1;
-    repeated Membership memberships = 2;
-    string bookmark = 3;
-  }
-
-  message MembershipGetByUserRequest {
-    string collection_id = 1;
-    string msp_id = 2;
-    string user_id = 3;
-    string bookmark = 4;
-    uint32 page_size = 5;
-  }
-  message MembershipGetByUserResponse {
-    string collection_id = 1;
-    auth.User user = 2;
-    repeated Membership memberships = 3;
-    string bookmark = 4;
-  }
-  message MembershipGetHistoryRequest {
-    string collection_id = 1 ;
-    string msp_id = 2;
-    string user_id = 3;
-    string role_id = 4;
-  }
-  message MembershipGetHistoryResponse {
-    auth.History history = 1;
-  }
-
-// ──────────────────-- Invoke ────────────────────────
-  message MembershipCreateRequest {
-    string msp_id = 1;
-    string user_id = 2;
-    string collection_id = 3;
-    string role_id = 4;
-  }
-  message MembershipCreateResponse {
-    Membership membership = 1;
-  }
-
-  message MembershipDeleteRequest {
-    string msp_id = 1;
-    string user_id = 2;
-    string collection_id = 3;
-    string role_id = 4;
-  }
-  message MembershipDeleteResponse {
-    Membership membership = 1;
-  }
+//     rpc RoleUpdate(RoleUpdateRequest) returns (RoleUpdateResponse) {
+//       option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//       option (auth.operation) = {action: ACTION_UPDATE};
+//     }
+
+
+// }
+
+
+
+
+// // ══════════════════== Roles ════════════════════════=
+// // Used for setting Role Permissions
+// // !! key := {ROLE}{COLLECTION_ID}{ROLE_ID.Id}
+
+
+// // ──────────────────-- Query ────────────────────────-
+
+//   message RoleGetRequest {
+//     string collection_id = 1;
+//     string role_id = 2;
+//   }
+//   message RoleGetResponse {
+//     auth.Role role = 1;
+//   }
+
+//   message RoleGetListRequest {
+//     string bookmark = 1;
+//     uint32 page_size = 2;
+//   }
+//   message RoleGetListResponse {
+//     repeated auth.Role roles = 1;
+//     string bookmark = 2;
+//   }
+
+//   message RoleGetByCollectionRequest {
+//     string collection_id = 1;
+//     string bookmark = 2;
+//     uint32 page_size = 3;
+//   }
+//   message RoleGetByCollectionResponse {
+//     auth.Collection collection = 1;
+//     repeated auth.Role roles = 2;
+//     string bookmark = 3;
+//   }
+
+//   message RoleGetHistoryRequest {
+//     string collection_id = 1 ;
+//     string role_id = 4;
+//     bool show_hidden = 5;
+//   }
+//   message RoleGetHistoryResponse {
+//     auth.History history = 1;
+//   }
+
+//   // ──────────────────-- Invoke ────────────────────────
+//   message RoleCreateRequest {
+//     string msp_id = 1;
+//     string user_id = 2;
+//     string collection_id = 3;
+//     string role_id = 4;
+//   }
+//   message RoleCreateResponse {
+//     auth.Role role = 1;
+//   }
+
+//   message RoleUpdateRequest {
+//     string collection_id = 1;
+//     string role_id = 2;
+//     auth.Role update = 3;
+//     google.protobuf.FieldMask mask = 4;
+//   }
+//   message RoleUpdateResponse {
+//     auth.Role role = 1;
+//   }
+
+//   message RoleDeleteRequest {
+//     string collection_id = 1;
+//     string role_id = 2;
+//   }
+//   message RoleDeleteResponse {
+//     auth.Role role = 1;
+//   }
+
+
+
+
+
+
+
+
+
+// // ══════════════════== Membership ══════════════════==
+// // Used for Assigning Roles to Users
+// // !! key := {MEMBERSHIP}{COLLECTION_ID}{ROLE_ID.Id}<{USER_ID.msp_id}{USER_ID.id}>
+// // !! SecondaryKey := {MEMBERSHIP}<{USER_ID.msp_id}{USER_ID.id}>{COLLECTION_ID}{ROLE_ID.Id}
+// message Membership {
+//   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
+//   string msp_id  = 2 [(buf.validate.field).string.min_len = 1];
+//   string user_id = 3 [(buf.validate.field).required = true];
+//   string role_id = 4 [(buf.validate.field).string.min_len = 1];
+// }
+
+// // ──────────────────-- Query ────────────────────────-
+
+//   message MembershipGetRequest {
+//     string msp_id = 1;
+//     string user_id = 2;
+//     string collection_id = 3;
+//     string role_id = 4;
+//   }
+//   message MembershipGetResponse {
+//     Membership membership = 1;
+//   }
+
+//   message MembershipGetListRequest {
+//     string bookmark = 1;
+//     uint32 page_size = 2;
+//   }
+//   message MembershipGetListResponse {
+//     repeated Membership memberships = 1;
+//     string bookmark = 2;
+//   }
+
+//   message MembershipGetByCollectionRequest {
+//     string collection_id = 1;
+//     string bookmark = 2;
+//     uint32 page_size = 3;
+//   }
+//   message MembershipGetByCollectionResponse {
+//     auth.Collection collection = 1;
+//     repeated Membership memberships = 2;
+//     string bookmark = 3;
+//   }
+
+//   message MembershipGetByUserRequest {
+//     string collection_id = 1;
+//     string msp_id = 2;
+//     string user_id = 3;
+//     string bookmark = 4;
+//     uint32 page_size = 5;
+//   }
+//   message MembershipGetByUserResponse {
+//     string collection_id = 1;
+//     auth.User user = 2;
+//     repeated Membership memberships = 3;
+//     string bookmark = 4;
+//   }
+//   message MembershipGetHistoryRequest {
+//     string collection_id = 1 ;
+//     string msp_id = 2;
+//     string user_id = 3;
+//     string role_id = 4;
+//   }
+//   message MembershipGetHistoryResponse {
+//     auth.History history = 1;
+//   }
+
+// // ──────────────────-- Invoke ────────────────────────
+//   message MembershipCreateRequest {
+//     string msp_id = 1;
+//     string user_id = 2;
+//     string collection_id = 3;
+//     string role_id = 4;
+//   }
+//   message MembershipCreateResponse {
+//     Membership membership = 1;
+//   }
+
+//   message MembershipDeleteRequest {
+//     string msp_id = 1;
+//     string user_id = 2;
+//     string collection_id = 3;
+//     string role_id = 4;
+//   }
+//   message MembershipDeleteResponse {
+//     Membership membership = 1;
+//   }

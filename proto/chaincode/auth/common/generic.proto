@@ -6,150 +6,216 @@ import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
 // import "google/protobuf/any.proto";
 
 service GenericService {
-  // ═════════════════════════════════= Object ═════════════════════════════════
+  // ══════════════════════════════════ Helper ═════════════════════════════════════
+  // ────────────────────────────────── Query ──────────────────────────────────────
+  rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_UTILITY};
+  }
+  rpc GetCurrentUser(google.protobuf.Empty) returns (GetCurrentUserResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_VIEW};
+  }
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+  rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_UTILITY};
+  }
 
-  // ──────────────────────────────-- Query ────────────────────────────────────
+  rpc AuthorizeOperation(AuthorizeOperationRequest) returns (AuthorizeOperationResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_UTILITY};
+  }
+
+
+
+
+
+  // ══════════════════════════════════ Object ═════════════════════════════════════
+
+  // ────────────────────────────────── Query ──────────────────────────────────────
 
   rpc Get(GetRequest) returns (GetResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW
-    };
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
   rpc List(ListRequest) returns (ListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW
-    };
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
-  rpc ListByCollection(ListByCollectionRequest)
-      returns (ListByCollectionResponse) {
+  rpc ListByCollection(ListByCollectionRequest) returns (ListByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW
-    };
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
   rpc ListByAttrs(ListByAttrsRequest) returns (ListByAttrsResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW
-    };
+    option (auth.operation) = {action: ACTION_VIEW};
   }
 
-  rpc History(HistoryRequest) returns (HistoryResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW_HISTORY
-    };
-  }
 
-  rpc HiddenTx(HiddenTxRequest) returns (HiddenTxResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_VIEW_HIDDEN_TXS
-    };
-  }
-
-  // ──────────────────────────────- Invoke ────────────────────────────────────
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
 
   rpc Create(CreateRequest) returns (CreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_CREATE
-    };
+    option (auth.operation) = {action: ACTION_CREATE};
   }
 
   rpc Update(UpdateRequest) returns (UpdateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_UPDATE
-    };
+    option (auth.operation) = {action: ACTION_UPDATE};
   }
 
   rpc Delete(DeleteRequest) returns (DeleteResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_DELETE
-    };
+    option (auth.operation) = {action: ACTION_DELETE};
   }
+
+  // ════════════════════════════════ History ══════════════════════════════════════
+  // ──────────────────────────────── Query ────────────────────────────────────────
+
+  rpc History(HistoryRequest) returns (HistoryResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_VIEW_HISTORY};
+  }
+
+  rpc HiddenTx(HiddenTxRequest) returns (HiddenTxResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_VIEW_HIDDEN_TXS};
+  }
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
 
   rpc HideTx(HideTxRequest) returns (HideTxResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_HIDE_TX
-    };
+    option (auth.operation) = {action: ACTION_HIDE_TX};
   }
 
   rpc UnHideTx(UnHideTxRequest) returns (UnHideTxResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_HIDE_TX
-    };
+    option (auth.operation) = {action: ACTION_HIDE_TX};
   }
 
-  // ══════════════════════════════== Suggestions ══════════════════════════════
-  // ──────────────────────────────-- Query ────────────────────────────────────
+
+  // ════════════════════════════════ References ══════════════════════════════════
+  // ──────────────────────────────── Query ────────────────────────────────────────
+
+  rpc Reference(ReferenceRequest) returns (ReferenceResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+  rpc ReferenceListByType(ReferenceListByTypeRequest) returns (ReferenceListByTypeResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+  rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+  rpc ReferenceByObject(ReferenceByObjectRequest) returns (ReferenceByObjectResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+
+  rpc ReferenceCreate(ReferenceCreateRequest) returns (ReferenceCreateResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_REFERENCE_CREATE};
+  }
+
+  rpc ReferenceDelete(ReferenceDeleteRequest) returns (ReferenceDeleteResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_REFERENCE_DELETE};
+  }
+
+
+  // ════════════════════════════════ Suggestions ══════════════════════════════════
+  // ──────────────────────────────── Query ────────────────────────────────────────
+
+
   rpc Suggestion(SuggestionRequest) returns (SuggestionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_VIEW
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
   }
 
   rpc SuggestionList(SuggestionListRequest) returns (SuggestionListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_VIEW
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
   }
 
-  rpc SuggestionListByCollection(SuggestionListByCollectionRequest)
-      returns (SuggestionListByCollectionResponse) {
+  rpc SuggestionListByCollection(SuggestionListByCollectionRequest) returns (SuggestionListByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_VIEW
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
   }
 
-  rpc SuggestionByPartialKey(SuggestionByPartialKeyRequest)
-      returns (SuggestionByPartialKeyResponse) {
+  rpc SuggestionByPartialKey(SuggestionByPartialKeyRequest) returns (SuggestionByPartialKeyResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_VIEW
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
   }
 
-  // ──────────────────────────────-- Invoke ─────────────────────────────────--
-  rpc SuggestionCreate(SuggestionCreateRequest)
-      returns (SuggestionCreateResponse) {
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+  rpc SuggestionCreate(SuggestionCreateRequest) returns (SuggestionCreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_CREATE
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_CREATE};
   }
 
-  rpc SuggestionDelete(SuggestionDeleteRequest)
-      returns (SuggestionDeleteResponse) {
+  rpc SuggestionDelete(SuggestionDeleteRequest) returns (SuggestionDeleteResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_DELETE
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_DELETE};
   }
 
-  rpc SuggestionApprove(SuggestionApproveRequest)
-      returns (SuggestionApproveResponse) {
+  rpc SuggestionApprove(SuggestionApproveRequest) returns (SuggestionApproveResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation)        = {
-      action: ACTION_OBJECT_SUGGEST_APPROVE
-    };
+    option (auth.operation) = {action: ACTION_SUGGEST_APPROVE};
   }
 }
+
+
+  // ══════════════════════════════════ Helper ═════════════════════════════════════
+  // ────────────────────────────────── Query ──────────────────────────────────────
+message GetAllTypesResponse{
+  repeated string types = 1;
+}
+message GetCurrentUserResponse {
+  auth.User user = 1;
+}
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+message BootstrapRequest {
+  repeated string default_types = 1;
+
+  bool add_default_setup = 2;
+}
+
+message BootstrapResponse {
+}
+
+message AuthorizeOperationRequest {
+  auth.Operation operation = 2;
+}
+
+
+message AuthorizeOperationResponse {
+  bool authorized = 1;
+}
+
+
+
+
+
 
 // ══════════════════════════════ Generic Object ══════════════════════════════=
 // ────────────────────────────── Query ───────────────────────────────────────-
@@ -164,35 +230,66 @@ message GetResponse {
 }
 
 message ListRequest {
-  string bookmark    = 1;
-  uint32 limit       = 2;
+  string bookmark = 1;
+  uint32 limit = 2;
   auth.Object object = 3;
 }
 message ListResponse {
-  string bookmark              = 1;
+  string bookmark = 1;
   repeated auth.Object objects = 2;
 }
 
 message ListByCollectionRequest {
-  string bookmark    = 1;
-  uint32 limit       = 2;
+  string bookmark = 1;
+  uint32 limit = 2;
   auth.Object object = 3;
 }
 message ListByCollectionResponse {
-  string bookmark              = 1;
+  string bookmark = 1;
   repeated auth.Object objects = 2;
 }
 
 message ListByAttrsRequest {
-  string bookmark    = 1;
-  uint32 limit       = 2;
+  string bookmark = 1;
+  uint32 limit = 2;
   auth.Object object = 3;
-  int32 num_attrs    = 4;
+  int32 num_attrs = 4;
 }
 message ListByAttrsResponse {
-  string bookmark              = 1;
+  string bookmark = 1;
   repeated auth.Object objects = 2;
 }
+
+
+
+// ──────────────────────────────── Invoke ───────────────────────────────────────
+// Create
+message CreateRequest {
+  auth.Object object = 2;
+}
+message CreateResponse {
+  auth.Object object = 2;
+}
+
+message UpdateRequest {
+  auth.Object object = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+message UpdateResponse {
+  auth.Object object = 2;
+}
+
+message DeleteRequest {
+  auth.Object object = 1;
+
+  string reason = 4;
+}
+message DeleteResponse {
+  auth.Object object = 2;
+}
+
+// ══════════════════════════════ History ══════════════════════════════════════════
+// ──────────────────────────────── Query ──────────────────────────────────────────
 
 // History
 message HistoryRequest {
@@ -212,78 +309,114 @@ message HiddenTxResponse {
   repeated auth.HiddenTx hidden_txs = 2;
 }
 
-// ──────────────────────────────-- Invoke ────────────────────────────────────-
-// Create
-message CreateRequest {
-  auth.Object object = 2;
-}
-message CreateResponse {
-  auth.Object object = 2;
-}
-
-message UpdateRequest {
-  auth.Object object                    = 2;
-  google.protobuf.FieldMask update_mask = 3;
-}
-message UpdateResponse {
-  auth.Object object = 2;
-}
-
-message DeleteRequest {
-  auth.Object object                    = 1;
-
-  string reason = 4;
-}
-message DeleteResponse {
-  auth.Object object = 2;
-}
+// ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 message HideTxRequest {
   auth.Object object = 1;
   auth.HiddenTx hidden_tx = 2;
 }
 message HideTxResponse {
-  auth.Object object           = 1;
+  auth.Object object = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
 
 message UnHideTxRequest {
   auth.Object object = 1;
-  string tx_id       = 2 [(buf.validate.field).string.min_len = 1];
+  string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message UnHideTxResponse {
-  auth.Object object           = 1;
+  auth.Object object = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
+
+// ════════════════════════════════ References ═════════════════════════════════════
+// ──────────────────────────────── Query ──────────────────────────────────────────
+message ReferenceRequest {
+  auth.Reference reference = 1;
+}
+message ReferenceResponse{
+  bool exists = 1;
+}
+message ReferenceListByTypeRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  string reference_type = 3 [(buf.validate.field).string.min_len = 1];
+}
+message ReferenceListByTypeResponse{
+  string bookmark = 1;
+  repeated auth.Reference references = 2;
+}
+
+message ReferenceByCollectionRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
+}
+
+message ReferenceByCollectionResponse{
+  string bookmark = 1;
+  repeated auth.Reference references = 2;
+}
+
+// Get all of the collections
+message ReferenceByObjectRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  auth.ObjectKey object_key = 3;
+  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
+}
+message ReferenceByObjectResponse{
+  string bookmark = 1;
+  repeated auth.Reference references = 2;
+}
+
+// ──────────────────────────────── Invoke ───────────────────────────────────────
+
+
+
+message ReferenceCreateRequest{
+  auth.Reference reference = 1;
+}
+message ReferenceCreateResponse{
+  auth.Reference reference = 1;
+}
+message ReferenceDeleteRequest{
+  auth.Reference reference = 1;
+}
+message ReferenceDeleteResponse{
+  auth.Reference reference = 1;
+}
+
 
 // ════════════════════════════════ Suggestions ════════════════════════════════════
 // ──────────────────────────────── Query ──────────────────────────────────────────
 
 message SuggestionRequest {
   auth.ObjectKey object_key = 1;
-  string suggestion_id      = 2 [(buf.validate.field).string.min_len = 1];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message SuggestionResponse {
   auth.Suggestion suggestion = 1;
 }
 
 message SuggestionListRequest {
-  string bookmark    = 1;
-  uint32 limit       = 2;
+  string bookmark = 1;
+  uint32 limit = 2;
   // auth.Object object = 3;
 }
 message SuggestionListResponse {
-  string bookmark                      = 1;
+  string bookmark = 1;
   repeated auth.Suggestion suggestions = 2;
 }
 
 message SuggestionListByCollectionRequest {
-  string bookmark      = 1;
-  uint32 limit         = 2;
+  string bookmark = 1;
+  uint32 limit = 2;
   string collection_id = 3 [(buf.validate.field).string.min_len = 1];
 }
 message SuggestionListByCollectionResponse {
-  string bookmark                      = 1;
+  string bookmark = 1;
   repeated auth.Suggestion suggestions = 2;
 }
 
@@ -296,18 +429,18 @@ message SuggestionListByObjectResponse {
 
 message SuggestionByPartialKeyRequest {
   string bookmark = 1;
-  uint32 limit    = 2;
+  uint32 limit = 2;
   int32 num_attrs = 3;
 
   auth.ObjectKey object_key = 4;
-  string suggestion_id      = 5;
+  string suggestion_id = 5;
 }
 message SuggestionByPartialKeyResponse {
-  string bookmark                      = 1;
+  string bookmark = 1;
   repeated auth.Suggestion suggestions = 2;
 }
 
-// ──────────────────────────────-- Invoke ────────────────────────────────────-
+// ───────────────────────────────── Invoke ────────────────────────────────────────
 // GetSuggestions
 
 message SuggestionCreateRequest {
@@ -319,8 +452,8 @@ message SuggestionCreateResponse {
 
 message SuggestionDeleteRequest {
   auth.ObjectKey object_key = 1;
-  string suggestion_id      = 2 [(buf.validate.field).string.min_len = 1];
-  string reason             = 3;
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  string reason = 3;
 }
 message SuggestionDeleteResponse {
   auth.Suggestion suggestion = 4;
@@ -328,11 +461,11 @@ message SuggestionDeleteResponse {
 
 message SuggestionApproveRequest {
   auth.ObjectKey object_key = 1;
-  string suggestion_id      = 2 [(buf.validate.field).string.min_len = 1];
-  string reason             = 3;
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  string reason = 3;
 }
 
 message SuggestionApproveResponse {
   auth.Suggestion suggestion = 1;
-  auth.Object object         = 2;
+  auth.Object object = 2;
 }

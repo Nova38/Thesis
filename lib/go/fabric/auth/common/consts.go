@@ -1,8 +1,16 @@
 package common
 
 const (
-	HiddenNamespace           = "auth.HiddenTxList"
-	SuggestionNamespace       = "auth.Suggestion"
-	ReferenceNamespace        = "auth.Reference"
-	DefaultPageSize     int32 = 10000
+	// Namespaces
+
+	HiddenNamespace     = "auth.HiddenTxList"
+	SuggestionNamespace = "auth.Suggestion"
+	ReferenceNamespace  = "auth.Reference"
+
+	// ─────────────────────────────
+
+	// ─────────────────────────────
+
+	// DefaultPageSize is the default page size for paginated queries
+	DefaultPageSize int32 = 10000
 )

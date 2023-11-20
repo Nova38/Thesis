@@ -5,6 +5,18 @@
 
 package common
 
+auth.common.GetAllTypesResponse
+	 -auth.common.GetAllTypesResponse.types - <nil>
+auth.common.GetCurrentUserResponse
+	 -auth.common.GetCurrentUserResponse.user - MessageDescriptor{Syntax: proto3, FullName: auth.User, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: name, Number: 4, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}]}
+auth.common.BootstrapRequest
+	 -auth.common.BootstrapRequest.default_types - <nil>
+	 -auth.common.BootstrapRequest.add_default_setup - <nil>
+auth.common.BootstrapResponse
+auth.common.AuthorizeOperationRequest
+	 -auth.common.AuthorizeOperationRequest.operation - MessageDescriptor{Syntax: proto3, FullName: auth.Operation, Fields: [{Name: action, Number: 1, Cardinality: optional, Kind: enum, HasJSONName: true, JSONName: "action", Enum: auth.Action}, {Name: collection_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: namespace, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "namespace"}, {Name: secondary_namespace, Number: 4, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "secondaryNamespace"}, {Name: paths, Number: 5, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "paths", HasPresence: true, Message: google.protobuf.FieldMask}]}
+auth.common.AuthorizeOperationResponse
+	 -auth.common.AuthorizeOperationResponse.authorized - <nil>
 auth.common.GetRequest
 	 -auth.common.GetRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
 auth.common.GetResponse
@@ -31,15 +43,6 @@ auth.common.ListByAttrsRequest
 auth.common.ListByAttrsResponse
 	 -auth.common.ListByAttrsResponse.bookmark - <nil>
 	 -auth.common.ListByAttrsResponse.objects - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
-auth.common.HistoryRequest
-	 -auth.common.HistoryRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
-auth.common.HistoryResponse
-	 -auth.common.HistoryResponse.history - MessageDescriptor{Syntax: proto3, FullName: auth.History, Fields: [{Name: entries, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "entries", IsList: true, Message: auth.HistoryEntry}, {Name: hidden_txs, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "hiddenTxs", HasPresence: true, Message: auth.HiddenTxList}]}
-auth.common.HiddenTxRequest
-	 -auth.common.HiddenTxRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
-auth.common.HiddenTxResponse
-	 -auth.common.HiddenTxResponse.collection_id - <nil>
-	 -auth.common.HiddenTxResponse.hidden_txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
 auth.common.CreateRequest
 	 -auth.common.CreateRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
 auth.common.CreateResponse
@@ -54,6 +57,15 @@ auth.common.DeleteRequest
 	 -auth.common.DeleteRequest.reason - <nil>
 auth.common.DeleteResponse
 	 -auth.common.DeleteResponse.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
+auth.common.HistoryRequest
+	 -auth.common.HistoryRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
+auth.common.HistoryResponse
+	 -auth.common.HistoryResponse.history - MessageDescriptor{Syntax: proto3, FullName: auth.History, Fields: [{Name: entries, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "entries", IsList: true, Message: auth.HistoryEntry}, {Name: hidden_txs, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "hiddenTxs", HasPresence: true, Message: auth.HiddenTxList}]}
+auth.common.HiddenTxRequest
+	 -auth.common.HiddenTxRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
+auth.common.HiddenTxResponse
+	 -auth.common.HiddenTxResponse.collection_id - <nil>
+	 -auth.common.HiddenTxResponse.hidden_txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
 auth.common.HideTxRequest
 	 -auth.common.HideTxRequest.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
 	 -auth.common.HideTxRequest.hidden_tx - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTx, Fields: [{Name: tx_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "txId"}, {Name: msp_id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "mspId"}, {Name: user_id, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "userId"}, {Name: timestamp, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timestamp", HasPresence: true, Message: google.protobuf.Timestamp}, {Name: note, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "note"}]}
@@ -66,6 +78,41 @@ auth.common.UnHideTxRequest
 auth.common.UnHideTxResponse
 	 -auth.common.UnHideTxResponse.object - MessageDescriptor{Syntax: proto3, FullName: auth.Object, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key", HasPresence: true, Message: auth.ObjectKey}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: google.protobuf.Any}]}
 	 -auth.common.UnHideTxResponse.hidden_txs - MessageDescriptor{Syntax: proto3, FullName: auth.HiddenTxList, Fields: [{Name: primary_key, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "primaryKey", HasPresence: true, Message: auth.ObjectKey}, {Name: txs, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "txs", IsList: true, Message: auth.HiddenTx}]}
+auth.common.ReferenceRequest
+	 -auth.common.ReferenceRequest.reference - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceResponse
+	 -auth.common.ReferenceResponse.exists - <nil>
+auth.common.ReferenceListByTypeRequest
+	 -auth.common.ReferenceListByTypeRequest.bookmark - <nil>
+	 -auth.common.ReferenceListByTypeRequest.limit - <nil>
+	 -auth.common.ReferenceListByTypeRequest.reference_type - <nil>
+auth.common.ReferenceListByTypeResponse
+	 -auth.common.ReferenceListByTypeResponse.bookmark - <nil>
+	 -auth.common.ReferenceListByTypeResponse.references - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceByCollectionRequest
+	 -auth.common.ReferenceByCollectionRequest.bookmark - <nil>
+	 -auth.common.ReferenceByCollectionRequest.limit - <nil>
+	 -auth.common.ReferenceByCollectionRequest.collection_id - <nil>
+	 -auth.common.ReferenceByCollectionRequest.reference_type - <nil>
+auth.common.ReferenceByCollectionResponse
+	 -auth.common.ReferenceByCollectionResponse.bookmark - <nil>
+	 -auth.common.ReferenceByCollectionResponse.references - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceByObjectRequest
+	 -auth.common.ReferenceByObjectRequest.bookmark - <nil>
+	 -auth.common.ReferenceByObjectRequest.limit - <nil>
+	 -auth.common.ReferenceByObjectRequest.object_key - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectKey, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: object_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_id_parts, Number: 3, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "objectIdParts", IsList: true}]}
+	 -auth.common.ReferenceByObjectRequest.reference_type - <nil>
+auth.common.ReferenceByObjectResponse
+	 -auth.common.ReferenceByObjectResponse.bookmark - <nil>
+	 -auth.common.ReferenceByObjectResponse.references - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceCreateRequest
+	 -auth.common.ReferenceCreateRequest.reference - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceCreateResponse
+	 -auth.common.ReferenceCreateResponse.reference - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceDeleteRequest
+	 -auth.common.ReferenceDeleteRequest.reference - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
+auth.common.ReferenceDeleteResponse
+	 -auth.common.ReferenceDeleteResponse.reference - MessageDescriptor{Syntax: proto3, FullName: auth.Reference, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: reference_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "referenceType"}, {Name: key_1, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key1", HasPresence: true, Message: auth.ObjectKey}, {Name: key_2, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "key2", HasPresence: true, Message: auth.ObjectKey}]}
 auth.common.SuggestionRequest
 	 -auth.common.SuggestionRequest.object_key - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectKey, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: object_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_id_parts, Number: 3, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "objectIdParts", IsList: true}]}
 	 -auth.common.SuggestionRequest.suggestion_id - <nil>

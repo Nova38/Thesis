@@ -93,90 +93,116 @@ export enum Action {
   UNSPECIFIED = 0,
 
   /**
-   * Used to register
+   * @generated from enum value: ACTION_UTILITY = 1;
+   */
+  UTILITY = 1,
+
+  /**
+   * View the contents of an object
    *
-   * @generated from enum value: ACTION_REGISTER_USER = 1;
+   * @generated from enum value: ACTION_VIEW = 10;
    */
-  REGISTER_USER = 1,
+  VIEW = 10,
 
   /**
-   * Used to register
+   * Create a new object
+   *  - key must not already exist
    *
-   * @generated from enum value: ACTION_REGISTER_COLLECTION = 2;
+   * @generated from enum value: ACTION_CREATE = 11;
    */
-  REGISTER_COLLECTION = 2,
+  CREATE = 11,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_VIEW = 10;
+   * Update an existing object
+   *   - key must already exist
+   *
+   * @generated from enum value: ACTION_UPDATE = 12;
    */
-  OBJECT_VIEW = 10,
+  UPDATE = 12,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_CREATE = 11;
+   * Delete an existing object, key must already exist
+   *
+   * @generated from enum value: ACTION_DELETE = 13;
    */
-  OBJECT_CREATE = 11,
+  DELETE = 13,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_UPDATE = 12;
+   * Suggest a change to an object, key must already exist
+   *
+   * @generated from enum value: ACTION_SUGGEST_VIEW = 14;
    */
-  OBJECT_UPDATE = 12,
+  SUGGEST_VIEW = 14,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_DELETE = 13;
+   * Suggest a change to an object, key must already exist
+   *
+   * @generated from enum value: ACTION_SUGGEST_CREATE = 15;
    */
-  OBJECT_DELETE = 13,
+  SUGGEST_CREATE = 15,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_SUGGEST_VIEW = 14;
+   * Delete a suggestion, key must already exist
+   *
+   * @generated from enum value: ACTION_SUGGEST_DELETE = 16;
    */
-  OBJECT_SUGGEST_VIEW = 14,
+  SUGGEST_DELETE = 16,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_SUGGEST_CREATE = 15;
+   * Approve a suggestion and apply it to the object, key must already exist
+   *
+   * @generated from enum value: ACTION_SUGGEST_APPROVE = 17;
    */
-  OBJECT_SUGGEST_CREATE = 15,
+  SUGGEST_APPROVE = 17,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_SUGGEST_DELETE = 16;
+   * @generated from enum value: ACTION_VIEW_HISTORY = 18;
    */
-  OBJECT_SUGGEST_DELETE = 16,
+  VIEW_HISTORY = 18,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_SUGGEST_APPROVE = 17;
+   * @generated from enum value: ACTION_VIEW_HIDDEN_TXS = 19;
    */
-  OBJECT_SUGGEST_APPROVE = 17,
+  VIEW_HIDDEN_TXS = 19,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_VIEW_HISTORY = 18;
+   * @generated from enum value: ACTION_HIDE_TX = 20;
    */
-  OBJECT_VIEW_HISTORY = 18,
+  HIDE_TX = 20,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_VIEW_HIDDEN_TXS = 19;
+   * @generated from enum value: ACTION_REFERENCE_CREATE = 21;
    */
-  OBJECT_VIEW_HIDDEN_TXS = 19,
+  REFERENCE_CREATE = 21,
 
   /**
-   * @generated from enum value: ACTION_OBJECT_HIDE_TX = 20;
+   * @generated from enum value: ACTION_REFERENCE_DELETE = 22;
    */
-  OBJECT_HIDE_TX = 20,
+  REFERENCE_DELETE = 22,
+
+  /**
+   * @generated from enum value: ACTION_REFERENCE_VIEW = 23;
+   */
+  REFERENCE_VIEW = 23,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Action)
 proto3.util.setEnumType(Action, "auth.Action", [
   { no: 0, name: "ACTION_UNSPECIFIED" },
-  { no: 1, name: "ACTION_REGISTER_USER" },
-  { no: 2, name: "ACTION_REGISTER_COLLECTION" },
-  { no: 10, name: "ACTION_OBJECT_VIEW" },
-  { no: 11, name: "ACTION_OBJECT_CREATE" },
-  { no: 12, name: "ACTION_OBJECT_UPDATE" },
-  { no: 13, name: "ACTION_OBJECT_DELETE" },
-  { no: 14, name: "ACTION_OBJECT_SUGGEST_VIEW" },
-  { no: 15, name: "ACTION_OBJECT_SUGGEST_CREATE" },
-  { no: 16, name: "ACTION_OBJECT_SUGGEST_DELETE" },
-  { no: 17, name: "ACTION_OBJECT_SUGGEST_APPROVE" },
-  { no: 18, name: "ACTION_OBJECT_VIEW_HISTORY" },
-  { no: 19, name: "ACTION_OBJECT_VIEW_HIDDEN_TXS" },
-  { no: 20, name: "ACTION_OBJECT_HIDE_TX" },
+  { no: 1, name: "ACTION_UTILITY" },
+  { no: 10, name: "ACTION_VIEW" },
+  { no: 11, name: "ACTION_CREATE" },
+  { no: 12, name: "ACTION_UPDATE" },
+  { no: 13, name: "ACTION_DELETE" },
+  { no: 14, name: "ACTION_SUGGEST_VIEW" },
+  { no: 15, name: "ACTION_SUGGEST_CREATE" },
+  { no: 16, name: "ACTION_SUGGEST_DELETE" },
+  { no: 17, name: "ACTION_SUGGEST_APPROVE" },
+  { no: 18, name: "ACTION_VIEW_HISTORY" },
+  { no: 19, name: "ACTION_VIEW_HIDDEN_TXS" },
+  { no: 20, name: "ACTION_HIDE_TX" },
+  { no: 21, name: "ACTION_REFERENCE_CREATE" },
+  { no: 22, name: "ACTION_REFERENCE_DELETE" },
+  { no: 23, name: "ACTION_REFERENCE_VIEW" },
 ]);
 
 /**
@@ -595,7 +621,12 @@ export class Operation extends Message<Operation> {
   namespace = "";
 
   /**
-   * @generated from field: google.protobuf.FieldMask paths = 4;
+   * @generated from field: string secondary_namespace = 4;
+   */
+  secondaryNamespace = "";
+
+  /**
+   * @generated from field: google.protobuf.FieldMask paths = 5;
    */
   paths?: FieldMask;
 
@@ -610,7 +641,8 @@ export class Operation extends Message<Operation> {
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
     { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "paths", kind: "message", T: FieldMask },
+    { no: 4, name: "secondary_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "paths", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Operation {
@@ -683,11 +715,6 @@ export class ObjectPolicy extends Message<ObjectPolicy> {
   objectType = "";
 
   /**
-   * @generated from field: string object_namespace = 2;
-   */
-  objectNamespace = "";
-
-  /**
    * @generated from field: repeated auth.PathPolicy policies = 3;
    */
   policies: PathPolicy[] = [];
@@ -701,7 +728,6 @@ export class ObjectPolicy extends Message<ObjectPolicy> {
   static readonly typeName = "auth.ObjectPolicy";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_namespace", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "policies", kind: "message", T: PathPolicy, repeated: true },
   ]);
 
@@ -768,11 +794,109 @@ export class ACEntry extends Message<ACEntry> {
 }
 
 /**
+ * @generated from message auth.NestedPathPolicy
+ */
+export class NestedPathPolicy extends Message<NestedPathPolicy> {
+  /**
+   * @generated from field: string path = 1;
+   */
+  path = "";
+
+  /**
+   * @generated from field: bool is_leaf = 2;
+   */
+  isLeaf = false;
+
+  /**
+   * @generated from field: repeated auth.Action actions = 3;
+   */
+  actions: Action[] = [];
+
+  /**
+   * @generated from field: auth.NestedPathPolicy children = 4;
+   */
+  children?: NestedPathPolicy;
+
+  constructor(data?: PartialMessage<NestedPathPolicy>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.NestedPathPolicy";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "is_leaf", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
+    { no: 4, name: "children", kind: "message", T: NestedPathPolicy },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedPathPolicy {
+    return new NestedPathPolicy().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedPathPolicy {
+    return new NestedPathPolicy().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedPathPolicy {
+    return new NestedPathPolicy().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: NestedPathPolicy | PlainMessage<NestedPathPolicy> | undefined, b: NestedPathPolicy | PlainMessage<NestedPathPolicy> | undefined): boolean {
+    return proto3.util.equals(NestedPathPolicy, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.NestedObjectPolicy
+ */
+export class NestedObjectPolicy extends Message<NestedObjectPolicy> {
+  /**
+   * @generated from field: string object_type = 1;
+   */
+  objectType = "";
+
+  /**
+   * @generated from field: auth.NestedPathPolicy policies = 2;
+   */
+  policies?: NestedPathPolicy;
+
+  constructor(data?: PartialMessage<NestedObjectPolicy>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.NestedObjectPolicy";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "policies", kind: "message", T: NestedPathPolicy },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedObjectPolicy {
+    return new NestedObjectPolicy().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedObjectPolicy {
+    return new NestedObjectPolicy().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedObjectPolicy {
+    return new NestedObjectPolicy().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: NestedObjectPolicy | PlainMessage<NestedObjectPolicy> | undefined, b: NestedObjectPolicy | PlainMessage<NestedObjectPolicy> | undefined): boolean {
+    return proto3.util.equals(NestedObjectPolicy, a, b);
+  }
+}
+
+/**
  * Access Control Entry for use in Hash Tree
  *
- * @generated from message auth.ACEntryTree
+ * @generated from message auth.NestedACEntry
  */
-export class ACEntryTree extends Message<ACEntryTree> {
+export class NestedACEntry extends Message<NestedACEntry> {
   /**
    * @generated from field: auth.ObjectPolicy root = 1;
    */
@@ -784,37 +908,37 @@ export class ACEntryTree extends Message<ACEntryTree> {
   isLeaf = false;
 
   /**
-   * @generated from field: map<string, auth.ACEntryTree> children = 2;
+   * @generated from field: map<string, auth.NestedACEntry> children = 2;
    */
-  children: { [key: string]: ACEntryTree } = {};
+  children: { [key: string]: NestedACEntry } = {};
 
-  constructor(data?: PartialMessage<ACEntryTree>) {
+  constructor(data?: PartialMessage<NestedACEntry>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ACEntryTree";
+  static readonly typeName = "auth.NestedACEntry";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "root", kind: "message", T: ObjectPolicy },
     { no: 3, name: "is_leaf", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: ACEntryTree} },
+    { no: 2, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: NestedACEntry} },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntryTree {
-    return new ACEntryTree().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedACEntry {
+    return new NestedACEntry().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACEntryTree {
-    return new ACEntryTree().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedACEntry {
+    return new NestedACEntry().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACEntryTree {
-    return new ACEntryTree().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedACEntry {
+    return new NestedACEntry().fromJsonString(jsonString, options);
   }
 
-  static equals(a: ACEntryTree | PlainMessage<ACEntryTree> | undefined, b: ACEntryTree | PlainMessage<ACEntryTree> | undefined): boolean {
-    return proto3.util.equals(ACEntryTree, a, b);
+  static equals(a: NestedACEntry | PlainMessage<NestedACEntry> | undefined, b: NestedACEntry | PlainMessage<NestedACEntry> | undefined): boolean {
+    return proto3.util.equals(NestedACEntry, a, b);
   }
 }
 
@@ -862,60 +986,85 @@ export class Object$ extends Message<Object$> {
 }
 
 /**
- * @generated from message auth.SubObject
+ * @generated from message auth.FullObject
  */
-export class SubObject extends Message<SubObject> {
+export class FullObject extends Message<FullObject> {
   /**
-   * @generated from field: auth.SubObjectKey key = 1;
+   * @generated from field: auth.ObjectKey key = 1;
    */
-  key?: SubObjectKey;
+  key?: ObjectKey;
 
   /**
    * @generated from field: google.protobuf.Any value = 2;
    */
   value?: Any;
 
-  constructor(data?: PartialMessage<SubObject>) {
+  /**
+   * @generated from field: auth.History history = 3;
+   */
+  history?: History;
+
+  /**
+   * @generated from field: repeated auth.Suggestion suggestions = 4;
+   */
+  suggestions: Suggestion[] = [];
+
+  /**
+   * @generated from field: repeated auth.Reference references = 5;
+   */
+  references: Reference[] = [];
+
+  constructor(data?: PartialMessage<FullObject>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.SubObject";
+  static readonly typeName = "auth.FullObject";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "key", kind: "message", T: SubObjectKey },
+    { no: 1, name: "key", kind: "message", T: ObjectKey },
     { no: 2, name: "value", kind: "message", T: Any },
+    { no: 3, name: "history", kind: "message", T: History },
+    { no: 4, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
+    { no: 5, name: "references", kind: "message", T: Reference, repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SubObject {
-    return new SubObject().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FullObject {
+    return new FullObject().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SubObject {
-    return new SubObject().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FullObject {
+    return new FullObject().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SubObject {
-    return new SubObject().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FullObject {
+    return new FullObject().fromJsonString(jsonString, options);
   }
 
-  static equals(a: SubObject | PlainMessage<SubObject> | undefined, b: SubObject | PlainMessage<SubObject> | undefined): boolean {
-    return proto3.util.equals(SubObject, a, b);
+  static equals(a: FullObject | PlainMessage<FullObject> | undefined, b: FullObject | PlainMessage<FullObject> | undefined): boolean {
+    return proto3.util.equals(FullObject, a, b);
   }
 }
 
 /**
  * Keys
- * ─────────────────────────────────────────────────────────────────────────────────
- * enum KeyParts {
- *   KEY_PART_UNSPECIFIED = 0;
- *   KEY_PART_COLLECTION  = 1;
- *   KEY_PART_OBJECT_TYPE = 2;
- *   KEY_PART_OBJECT_ID   = 3;
- *   KEY_PART_SUB_OBJECT_TYPE = 4;
- *   KEY_PART_SUB_OBJECT_ID   = 5;
- * }
- * Key := {OBJECT_TYPE}{COLLECTION_ID}||{...OBJECT_ID}
+ * ─────────────────────────────────────────────────────────────────────────────────────
+ * Object Keys
+ * When converted to its string form it will be: 
+ * - Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+ *
+ * Reference Keys
+ * Used to store references to objects for case like a user having a role
+ * When converted to its string form it will be: 
+ * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ *
+ *
+ * SubKeys
+ * When converted to its string form it will be: 
+ * {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
+ * Examples
+ * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+ * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
  *
  * @generated from message auth.ObjectKey
  */
@@ -966,75 +1115,8 @@ export class ObjectKey extends Message<ObjectKey> {
 }
 
 /**
- * SubKeys {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
- *    Example := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}  {...OBJECT_ID}{SUGGESTION_ID}
- *    Example := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
- *
- * @generated from message auth.SubObjectKey
- */
-export class SubObjectKey extends Message<SubObjectKey> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string sub_object_type = 2;
-   */
-  subObjectType = "";
-
-  /**
-   * @generated from field: string object_type = 3;
-   */
-  objectType = "";
-
-  /**
-   * The key is the fields of the object that make up the primary key
-   * The value is the value of the field
-   *
-   * @generated from field: repeated string object_id_parts = 4;
-   */
-  objectIdParts: string[] = [];
-
-  /**
-   * @generated from field: string sub_object_id = 5;
-   */
-  subObjectId = "";
-
-  constructor(data?: PartialMessage<SubObjectKey>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.SubObjectKey";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "sub_object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 5, name: "sub_object_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SubObjectKey {
-    return new SubObjectKey().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SubObjectKey {
-    return new SubObjectKey().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SubObjectKey {
-    return new SubObjectKey().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: SubObjectKey | PlainMessage<SubObjectKey> | undefined, b: SubObjectKey | PlainMessage<SubObjectKey> | undefined): boolean {
-    return proto3.util.equals(SubObjectKey, a, b);
-  }
-}
-
-/**
- * Reference Keys {REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ * Reference Keys
+ * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
  *
  * @generated from message auth.Reference
  */
@@ -1101,6 +1183,8 @@ export class Reference extends Message<Reference> {
  */
 export class Collection extends Message<Collection> {
   /**
+   * The key for the ledger
+   *
    * @generated from field: string collection_id = 1;
    */
   collectionId = "";
@@ -1220,7 +1304,7 @@ export class User extends Message<User> {
 
 /**
  * Key should be
- * {COLLECTION_ID}{auth.Suggestion}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+ * {auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
  */
@@ -1344,7 +1428,7 @@ export class HiddenTx extends Message<HiddenTx> {
  */
 export class HiddenTxList extends Message<HiddenTxList> {
   /**
-   * The key that is used to store the object  
+   * The key that is used to store the object
    *
    * @generated from field: auth.ObjectKey primary_key = 1;
    */
@@ -1383,6 +1467,198 @@ export class HiddenTxList extends Message<HiddenTxList> {
 
   static equals(a: HiddenTxList | PlainMessage<HiddenTxList> | undefined, b: HiddenTxList | PlainMessage<HiddenTxList> | undefined): boolean {
     return proto3.util.equals(HiddenTxList, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Role
+ */
+export class Role extends Message<Role> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string role_id = 2;
+   */
+  roleId = "";
+
+  /**
+   * @generated from field: auth.ACEntry ac = 4;
+   */
+  ac?: ACEntry;
+
+  /**
+   * @generated from field: string name = 5;
+   */
+  name = "";
+
+  /**
+   * @generated from field: string description = 6;
+   */
+  description = "";
+
+  /**
+   * @generated from field: repeated string parent_role_ids = 7;
+   */
+  parentRoleIds: string[] = [];
+
+  constructor(data?: PartialMessage<Role>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Role";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "ac", kind: "message", T: ACEntry },
+    { no: 5, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role {
+    return new Role().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Role {
+    return new Role().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Role {
+    return new Role().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Role | PlainMessage<Role> | undefined, b: Role | PlainMessage<Role> | undefined): boolean {
+    return proto3.util.equals(Role, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Attribute
+ */
+export class Attribute extends Message<Attribute> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * The msp of the organization that this attribute applies to
+   *
+   * @generated from field: string msp_id = 2;
+   */
+  mspId = "";
+
+  /**
+   * The oid of the attribute
+   *
+   * @generated from field: string oid = 3;
+   */
+  oid = "";
+
+  /**
+   * The value of the attribute required to be satisfied by the user to have the
+   * role
+   *
+   * @generated from field: string value = 4;
+   */
+  value = "";
+
+  /**
+   * The role that the user must have to satisfy the attribute
+   *
+   * @generated from field: string role_id = 5;
+   */
+  roleId = "";
+
+  constructor(data?: PartialMessage<Attribute>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Attribute";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Attribute {
+    return new Attribute().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Attribute {
+    return new Attribute().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Attribute {
+    return new Attribute().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Attribute | PlainMessage<Attribute> | undefined, b: Attribute | PlainMessage<Attribute> | undefined): boolean {
+    return proto3.util.equals(Attribute, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.Membership
+ */
+export class Membership extends Message<Membership> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string msp_id = 2;
+   */
+  mspId = "";
+
+  /**
+   * @generated from field: string user_id = 3;
+   */
+  userId = "";
+
+  /**
+   * @generated from field: auth.ACEntry ac = 4;
+   */
+  ac?: ACEntry;
+
+  constructor(data?: PartialMessage<Membership>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Membership";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "ac", kind: "message", T: ACEntry },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Membership {
+    return new Membership().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Membership {
+    return new Membership().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Membership {
+    return new Membership().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Membership | PlainMessage<Membership> | undefined, b: Membership | PlainMessage<Membership> | undefined): boolean {
+    return proto3.util.equals(Membership, a, b);
   }
 }
 

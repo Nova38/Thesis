@@ -5,7 +5,234 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
-import { HiddenTx, HiddenTxList, History, Object$, ObjectKey, Suggestion } from "../../../auth/v1/auth_pb.js";
+import { HiddenTx, HiddenTxList, History, Object$, ObjectKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
+
+/**
+ * ══════════════════════════════════ Helper ═════════════════════════════════════
+ * ────────────────────────────────── Query ──────────────────────────────────────
+ *
+ * @generated from message auth.common.GetAllTypesResponse
+ */
+export class GetAllTypesResponse extends Message<GetAllTypesResponse> {
+  /**
+   * @generated from field: repeated string types = 1;
+   */
+  types: string[] = [];
+
+  constructor(data?: PartialMessage<GetAllTypesResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.GetAllTypesResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetAllTypesResponse {
+    return new GetAllTypesResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetAllTypesResponse {
+    return new GetAllTypesResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetAllTypesResponse {
+    return new GetAllTypesResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetAllTypesResponse | PlainMessage<GetAllTypesResponse> | undefined, b: GetAllTypesResponse | PlainMessage<GetAllTypesResponse> | undefined): boolean {
+    return proto3.util.equals(GetAllTypesResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.GetCurrentUserResponse
+ */
+export class GetCurrentUserResponse extends Message<GetCurrentUserResponse> {
+  /**
+   * @generated from field: auth.User user = 1;
+   */
+  user?: User;
+
+  constructor(data?: PartialMessage<GetCurrentUserResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.GetCurrentUserResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "user", kind: "message", T: User },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCurrentUserResponse {
+    return new GetCurrentUserResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCurrentUserResponse {
+    return new GetCurrentUserResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCurrentUserResponse {
+    return new GetCurrentUserResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetCurrentUserResponse | PlainMessage<GetCurrentUserResponse> | undefined, b: GetCurrentUserResponse | PlainMessage<GetCurrentUserResponse> | undefined): boolean {
+    return proto3.util.equals(GetCurrentUserResponse, a, b);
+  }
+}
+
+/**
+ * ──────────────────────────────── Invoke ───────────────────────────────────────
+ *
+ * @generated from message auth.common.BootstrapRequest
+ */
+export class BootstrapRequest extends Message<BootstrapRequest> {
+  /**
+   * @generated from field: repeated string default_types = 1;
+   */
+  defaultTypes: string[] = [];
+
+  /**
+   * @generated from field: bool add_default_setup = 2;
+   */
+  addDefaultSetup = false;
+
+  constructor(data?: PartialMessage<BootstrapRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.BootstrapRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "default_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 2, name: "add_default_setup", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): BootstrapRequest {
+    return new BootstrapRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): BootstrapRequest {
+    return new BootstrapRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): BootstrapRequest {
+    return new BootstrapRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: BootstrapRequest | PlainMessage<BootstrapRequest> | undefined, b: BootstrapRequest | PlainMessage<BootstrapRequest> | undefined): boolean {
+    return proto3.util.equals(BootstrapRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.BootstrapResponse
+ */
+export class BootstrapResponse extends Message<BootstrapResponse> {
+  constructor(data?: PartialMessage<BootstrapResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.BootstrapResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): BootstrapResponse {
+    return new BootstrapResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): BootstrapResponse {
+    return new BootstrapResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): BootstrapResponse {
+    return new BootstrapResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: BootstrapResponse | PlainMessage<BootstrapResponse> | undefined, b: BootstrapResponse | PlainMessage<BootstrapResponse> | undefined): boolean {
+    return proto3.util.equals(BootstrapResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.AuthorizeOperationRequest
+ */
+export class AuthorizeOperationRequest extends Message<AuthorizeOperationRequest> {
+  /**
+   * @generated from field: auth.Operation operation = 2;
+   */
+  operation?: Operation;
+
+  constructor(data?: PartialMessage<AuthorizeOperationRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.AuthorizeOperationRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 2, name: "operation", kind: "message", T: Operation },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationRequest {
+    return new AuthorizeOperationRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest {
+    return new AuthorizeOperationRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest {
+    return new AuthorizeOperationRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined, b: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined): boolean {
+    return proto3.util.equals(AuthorizeOperationRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.AuthorizeOperationResponse
+ */
+export class AuthorizeOperationResponse extends Message<AuthorizeOperationResponse> {
+  /**
+   * @generated from field: bool authorized = 1;
+   */
+  authorized = false;
+
+  constructor(data?: PartialMessage<AuthorizeOperationResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.AuthorizeOperationResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "authorized", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationResponse {
+    return new AuthorizeOperationResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse {
+    return new AuthorizeOperationResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse {
+    return new AuthorizeOperationResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined, b: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined): boolean {
+    return proto3.util.equals(AuthorizeOperationResponse, a, b);
+  }
+}
 
 /**
  * Get
@@ -366,167 +593,7 @@ export class ListByAttrsResponse extends Message<ListByAttrsResponse> {
 }
 
 /**
- * History
- *
- * @generated from message auth.common.HistoryRequest
- */
-export class HistoryRequest extends Message<HistoryRequest> {
-  /**
-   * @generated from field: auth.Object object = 1;
-   */
-  object?: Object$;
-
-  constructor(data?: PartialMessage<HistoryRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.common.HistoryRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryRequest {
-    return new HistoryRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryRequest {
-    return new HistoryRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryRequest {
-    return new HistoryRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: HistoryRequest | PlainMessage<HistoryRequest> | undefined, b: HistoryRequest | PlainMessage<HistoryRequest> | undefined): boolean {
-    return proto3.util.equals(HistoryRequest, a, b);
-  }
-}
-
-/**
- * @generated from message auth.common.HistoryResponse
- */
-export class HistoryResponse extends Message<HistoryResponse> {
-  /**
-   * repeated auth. s = 1;
-   *
-   * @generated from field: auth.History history = 2;
-   */
-  history?: History;
-
-  constructor(data?: PartialMessage<HistoryResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.common.HistoryResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 2, name: "history", kind: "message", T: History },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryResponse {
-    return new HistoryResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryResponse {
-    return new HistoryResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryResponse {
-    return new HistoryResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: HistoryResponse | PlainMessage<HistoryResponse> | undefined, b: HistoryResponse | PlainMessage<HistoryResponse> | undefined): boolean {
-    return proto3.util.equals(HistoryResponse, a, b);
-  }
-}
-
-/**
- * HiddenTx
- *
- * @generated from message auth.common.HiddenTxRequest
- */
-export class HiddenTxRequest extends Message<HiddenTxRequest> {
-  /**
-   * @generated from field: auth.Object object = 1;
-   */
-  object?: Object$;
-
-  constructor(data?: PartialMessage<HiddenTxRequest>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.common.HiddenTxRequest";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTxRequest {
-    return new HiddenTxRequest().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTxRequest {
-    return new HiddenTxRequest().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTxRequest {
-    return new HiddenTxRequest().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: HiddenTxRequest | PlainMessage<HiddenTxRequest> | undefined, b: HiddenTxRequest | PlainMessage<HiddenTxRequest> | undefined): boolean {
-    return proto3.util.equals(HiddenTxRequest, a, b);
-  }
-}
-
-/**
- * @generated from message auth.common.HiddenTxResponse
- */
-export class HiddenTxResponse extends Message<HiddenTxResponse> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: repeated auth.HiddenTx hidden_txs = 2;
-   */
-  hiddenTxs: HiddenTx[] = [];
-
-  constructor(data?: PartialMessage<HiddenTxResponse>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.common.HiddenTxResponse";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "hidden_txs", kind: "message", T: HiddenTx, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTxResponse {
-    return new HiddenTxResponse().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTxResponse {
-    return new HiddenTxResponse().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTxResponse {
-    return new HiddenTxResponse().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: HiddenTxResponse | PlainMessage<HiddenTxResponse> | undefined, b: HiddenTxResponse | PlainMessage<HiddenTxResponse> | undefined): boolean {
-    return proto3.util.equals(HiddenTxResponse, a, b);
-  }
-}
-
-/**
- * ──────────────────────────────-- Invoke ────────────────────────────────────-
+ * ──────────────────────────────── Invoke ───────────────────────────────────────
  * Create
  *
  * @generated from message auth.common.CreateRequest
@@ -763,6 +830,166 @@ export class DeleteResponse extends Message<DeleteResponse> {
 }
 
 /**
+ * History
+ *
+ * @generated from message auth.common.HistoryRequest
+ */
+export class HistoryRequest extends Message<HistoryRequest> {
+  /**
+   * @generated from field: auth.Object object = 1;
+   */
+  object?: Object$;
+
+  constructor(data?: PartialMessage<HistoryRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.HistoryRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "object", kind: "message", T: Object$ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryRequest {
+    return new HistoryRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryRequest {
+    return new HistoryRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryRequest {
+    return new HistoryRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HistoryRequest | PlainMessage<HistoryRequest> | undefined, b: HistoryRequest | PlainMessage<HistoryRequest> | undefined): boolean {
+    return proto3.util.equals(HistoryRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.HistoryResponse
+ */
+export class HistoryResponse extends Message<HistoryResponse> {
+  /**
+   * repeated auth. s = 1;
+   *
+   * @generated from field: auth.History history = 2;
+   */
+  history?: History;
+
+  constructor(data?: PartialMessage<HistoryResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.HistoryResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 2, name: "history", kind: "message", T: History },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryResponse {
+    return new HistoryResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryResponse {
+    return new HistoryResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryResponse {
+    return new HistoryResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HistoryResponse | PlainMessage<HistoryResponse> | undefined, b: HistoryResponse | PlainMessage<HistoryResponse> | undefined): boolean {
+    return proto3.util.equals(HistoryResponse, a, b);
+  }
+}
+
+/**
+ * HiddenTx
+ *
+ * @generated from message auth.common.HiddenTxRequest
+ */
+export class HiddenTxRequest extends Message<HiddenTxRequest> {
+  /**
+   * @generated from field: auth.Object object = 1;
+   */
+  object?: Object$;
+
+  constructor(data?: PartialMessage<HiddenTxRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.HiddenTxRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "object", kind: "message", T: Object$ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTxRequest {
+    return new HiddenTxRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTxRequest {
+    return new HiddenTxRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTxRequest {
+    return new HiddenTxRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HiddenTxRequest | PlainMessage<HiddenTxRequest> | undefined, b: HiddenTxRequest | PlainMessage<HiddenTxRequest> | undefined): boolean {
+    return proto3.util.equals(HiddenTxRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.HiddenTxResponse
+ */
+export class HiddenTxResponse extends Message<HiddenTxResponse> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: repeated auth.HiddenTx hidden_txs = 2;
+   */
+  hiddenTxs: HiddenTx[] = [];
+
+  constructor(data?: PartialMessage<HiddenTxResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.HiddenTxResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "hidden_txs", kind: "message", T: HiddenTx, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HiddenTxResponse {
+    return new HiddenTxResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HiddenTxResponse {
+    return new HiddenTxResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HiddenTxResponse {
+    return new HiddenTxResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: HiddenTxResponse | PlainMessage<HiddenTxResponse> | undefined, b: HiddenTxResponse | PlainMessage<HiddenTxResponse> | undefined): boolean {
+    return proto3.util.equals(HiddenTxResponse, a, b);
+  }
+}
+
+/**
  * @generated from message auth.common.HideTxRequest
  */
 export class HideTxRequest extends Message<HideTxRequest> {
@@ -931,6 +1158,521 @@ export class UnHideTxResponse extends Message<UnHideTxResponse> {
 
   static equals(a: UnHideTxResponse | PlainMessage<UnHideTxResponse> | undefined, b: UnHideTxResponse | PlainMessage<UnHideTxResponse> | undefined): boolean {
     return proto3.util.equals(UnHideTxResponse, a, b);
+  }
+}
+
+/**
+ * ════════════════════════════════ References ═════════════════════════════════════
+ * ──────────────────────────────── Query ──────────────────────────────────────────
+ *
+ * @generated from message auth.common.ReferenceRequest
+ */
+export class ReferenceRequest extends Message<ReferenceRequest> {
+  /**
+   * @generated from field: auth.Reference reference = 1;
+   */
+  reference?: Reference;
+
+  constructor(data?: PartialMessage<ReferenceRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: Reference },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceRequest {
+    return new ReferenceRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceRequest {
+    return new ReferenceRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceRequest {
+    return new ReferenceRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceRequest | PlainMessage<ReferenceRequest> | undefined, b: ReferenceRequest | PlainMessage<ReferenceRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceResponse
+ */
+export class ReferenceResponse extends Message<ReferenceResponse> {
+  /**
+   * @generated from field: bool exists = 1;
+   */
+  exists = false;
+
+  constructor(data?: PartialMessage<ReferenceResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "exists", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceResponse {
+    return new ReferenceResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceResponse {
+    return new ReferenceResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceResponse {
+    return new ReferenceResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceResponse | PlainMessage<ReferenceResponse> | undefined, b: ReferenceResponse | PlainMessage<ReferenceResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceListByTypeRequest
+ */
+export class ReferenceListByTypeRequest extends Message<ReferenceListByTypeRequest> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: uint32 limit = 2;
+   */
+  limit = 0;
+
+  /**
+   * @generated from field: string reference_type = 3;
+   */
+  referenceType = "";
+
+  constructor(data?: PartialMessage<ReferenceListByTypeRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceListByTypeRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 3, name: "reference_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceListByTypeRequest {
+    return new ReferenceListByTypeRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceListByTypeRequest {
+    return new ReferenceListByTypeRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceListByTypeRequest {
+    return new ReferenceListByTypeRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceListByTypeRequest | PlainMessage<ReferenceListByTypeRequest> | undefined, b: ReferenceListByTypeRequest | PlainMessage<ReferenceListByTypeRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceListByTypeRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceListByTypeResponse
+ */
+export class ReferenceListByTypeResponse extends Message<ReferenceListByTypeResponse> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: repeated auth.Reference references = 2;
+   */
+  references: Reference[] = [];
+
+  constructor(data?: PartialMessage<ReferenceListByTypeResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceListByTypeResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceListByTypeResponse {
+    return new ReferenceListByTypeResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceListByTypeResponse {
+    return new ReferenceListByTypeResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceListByTypeResponse {
+    return new ReferenceListByTypeResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceListByTypeResponse | PlainMessage<ReferenceListByTypeResponse> | undefined, b: ReferenceListByTypeResponse | PlainMessage<ReferenceListByTypeResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceListByTypeResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceByCollectionRequest
+ */
+export class ReferenceByCollectionRequest extends Message<ReferenceByCollectionRequest> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: uint32 limit = 2;
+   */
+  limit = 0;
+
+  /**
+   * @generated from field: string collection_id = 3;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string reference_type = 4;
+   */
+  referenceType = "";
+
+  constructor(data?: PartialMessage<ReferenceByCollectionRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceByCollectionRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 3, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "reference_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByCollectionRequest {
+    return new ReferenceByCollectionRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByCollectionRequest {
+    return new ReferenceByCollectionRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByCollectionRequest {
+    return new ReferenceByCollectionRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceByCollectionRequest | PlainMessage<ReferenceByCollectionRequest> | undefined, b: ReferenceByCollectionRequest | PlainMessage<ReferenceByCollectionRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceByCollectionRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceByCollectionResponse
+ */
+export class ReferenceByCollectionResponse extends Message<ReferenceByCollectionResponse> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: repeated auth.Reference references = 2;
+   */
+  references: Reference[] = [];
+
+  constructor(data?: PartialMessage<ReferenceByCollectionResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceByCollectionResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByCollectionResponse {
+    return new ReferenceByCollectionResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByCollectionResponse {
+    return new ReferenceByCollectionResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByCollectionResponse {
+    return new ReferenceByCollectionResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceByCollectionResponse | PlainMessage<ReferenceByCollectionResponse> | undefined, b: ReferenceByCollectionResponse | PlainMessage<ReferenceByCollectionResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceByCollectionResponse, a, b);
+  }
+}
+
+/**
+ * Get all of the collections 
+ *
+ * @generated from message auth.common.ReferenceByObjectRequest
+ */
+export class ReferenceByObjectRequest extends Message<ReferenceByObjectRequest> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: uint32 limit = 2;
+   */
+  limit = 0;
+
+  /**
+   * @generated from field: auth.ObjectKey object_key = 3;
+   */
+  objectKey?: ObjectKey;
+
+  /**
+   * @generated from field: string reference_type = 4;
+   */
+  referenceType = "";
+
+  constructor(data?: PartialMessage<ReferenceByObjectRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceByObjectRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
+    { no: 3, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 4, name: "reference_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByObjectRequest {
+    return new ReferenceByObjectRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByObjectRequest {
+    return new ReferenceByObjectRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByObjectRequest {
+    return new ReferenceByObjectRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceByObjectRequest | PlainMessage<ReferenceByObjectRequest> | undefined, b: ReferenceByObjectRequest | PlainMessage<ReferenceByObjectRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceByObjectRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceByObjectResponse
+ */
+export class ReferenceByObjectResponse extends Message<ReferenceByObjectResponse> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark = "";
+
+  /**
+   * @generated from field: repeated auth.Reference references = 2;
+   */
+  references: Reference[] = [];
+
+  constructor(data?: PartialMessage<ReferenceByObjectResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceByObjectResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByObjectResponse {
+    return new ReferenceByObjectResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByObjectResponse {
+    return new ReferenceByObjectResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByObjectResponse {
+    return new ReferenceByObjectResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceByObjectResponse | PlainMessage<ReferenceByObjectResponse> | undefined, b: ReferenceByObjectResponse | PlainMessage<ReferenceByObjectResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceByObjectResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceCreateRequest
+ */
+export class ReferenceCreateRequest extends Message<ReferenceCreateRequest> {
+  /**
+   * @generated from field: auth.Reference reference = 1;
+   */
+  reference?: Reference;
+
+  constructor(data?: PartialMessage<ReferenceCreateRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceCreateRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: Reference },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceCreateRequest {
+    return new ReferenceCreateRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceCreateRequest {
+    return new ReferenceCreateRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceCreateRequest {
+    return new ReferenceCreateRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceCreateRequest | PlainMessage<ReferenceCreateRequest> | undefined, b: ReferenceCreateRequest | PlainMessage<ReferenceCreateRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceCreateRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceCreateResponse
+ */
+export class ReferenceCreateResponse extends Message<ReferenceCreateResponse> {
+  /**
+   * @generated from field: auth.Reference reference = 1;
+   */
+  reference?: Reference;
+
+  constructor(data?: PartialMessage<ReferenceCreateResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceCreateResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: Reference },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceCreateResponse {
+    return new ReferenceCreateResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceCreateResponse {
+    return new ReferenceCreateResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceCreateResponse {
+    return new ReferenceCreateResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceCreateResponse | PlainMessage<ReferenceCreateResponse> | undefined, b: ReferenceCreateResponse | PlainMessage<ReferenceCreateResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceCreateResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceDeleteRequest
+ */
+export class ReferenceDeleteRequest extends Message<ReferenceDeleteRequest> {
+  /**
+   * @generated from field: auth.Reference reference = 1;
+   */
+  reference?: Reference;
+
+  constructor(data?: PartialMessage<ReferenceDeleteRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceDeleteRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: Reference },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceDeleteRequest {
+    return new ReferenceDeleteRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceDeleteRequest {
+    return new ReferenceDeleteRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceDeleteRequest {
+    return new ReferenceDeleteRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceDeleteRequest | PlainMessage<ReferenceDeleteRequest> | undefined, b: ReferenceDeleteRequest | PlainMessage<ReferenceDeleteRequest> | undefined): boolean {
+    return proto3.util.equals(ReferenceDeleteRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.ReferenceDeleteResponse
+ */
+export class ReferenceDeleteResponse extends Message<ReferenceDeleteResponse> {
+  /**
+   * @generated from field: auth.Reference reference = 1;
+   */
+  reference?: Reference;
+
+  constructor(data?: PartialMessage<ReferenceDeleteResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.ReferenceDeleteResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: Reference },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceDeleteResponse {
+    return new ReferenceDeleteResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceDeleteResponse {
+    return new ReferenceDeleteResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceDeleteResponse {
+    return new ReferenceDeleteResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceDeleteResponse | PlainMessage<ReferenceDeleteResponse> | undefined, b: ReferenceDeleteResponse | PlainMessage<ReferenceDeleteResponse> | undefined): boolean {
+    return proto3.util.equals(ReferenceDeleteResponse, a, b);
   }
 }
 

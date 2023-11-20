@@ -25,7 +25,6 @@ type (
 
 	SubObjectInterface interface {
 		ObjectInterface
-		// GetPrimaryKey() *authpb.ObjectKey
 		IsSecondary() bool
 	}
 

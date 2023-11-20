@@ -3,17 +3,56 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
+import { Empty, MethodKind } from "@bufbuild/protobuf";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetAllTypesResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByObjectRequest, ReferenceByObjectResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceListByTypeRequest, ReferenceListByTypeResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
- * ═════════════════════════════════= Object ═════════════════════════════════
- *
  * @generated from service auth.common.GenericService
  */
 export declare const GenericService: {
   readonly typeName: "auth.common.GenericService",
   readonly methods: {
+    /**
+     * ══════════════════════════════════ Helper ═════════════════════════════════════
+     * ────────────────────────────────── Query ──────────────────────────────────────
+     *
+     * @generated from rpc auth.common.GenericService.GetAllTypes
+     */
+    readonly getAllTypes: {
+      readonly name: "GetAllTypes",
+      readonly I: typeof Empty,
+      readonly O: typeof GetAllTypesResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.GetCurrentUser
+     */
+    readonly getCurrentUser: {
+      readonly name: "GetCurrentUser",
+      readonly I: typeof Empty,
+      readonly O: typeof GetCurrentUserResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * ──────────────────────────────── Invoke ───────────────────────────────────────
+     *
+     * @generated from rpc auth.common.GenericService.Bootstrap
+     */
+    readonly bootstrap: {
+      readonly name: "Bootstrap",
+      readonly I: typeof BootstrapRequest,
+      readonly O: typeof BootstrapResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.AuthorizeOperation
+     */
+    readonly authorizeOperation: {
+      readonly name: "AuthorizeOperation",
+      readonly I: typeof AuthorizeOperationRequest,
+      readonly O: typeof AuthorizeOperationResponse,
+      readonly kind: MethodKind.Unary,
+    },
     /**
      * @generated from rpc auth.common.GenericService.Get
      */
@@ -51,24 +90,6 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc auth.common.GenericService.History
-     */
-    readonly history: {
-      readonly name: "History",
-      readonly I: typeof HistoryRequest,
-      readonly O: typeof HistoryResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc auth.common.GenericService.HiddenTx
-     */
-    readonly hiddenTx: {
-      readonly name: "HiddenTx",
-      readonly I: typeof HiddenTxRequest,
-      readonly O: typeof HiddenTxResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
      * @generated from rpc auth.common.GenericService.Create
      */
     readonly create: {
@@ -96,6 +117,24 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
+     * @generated from rpc auth.common.GenericService.History
+     */
+    readonly history: {
+      readonly name: "History",
+      readonly I: typeof HistoryRequest,
+      readonly O: typeof HistoryResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.HiddenTx
+     */
+    readonly hiddenTx: {
+      readonly name: "HiddenTx",
+      readonly I: typeof HiddenTxRequest,
+      readonly O: typeof HiddenTxResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
      * @generated from rpc auth.common.GenericService.HideTx
      */
     readonly hideTx: {
@@ -114,9 +153,60 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * ══════════════════════════════== Suggestions ══════════════════════════════
-     * ──────────────────────────────-- Query ────────────────────────────────────
-     *
+     * @generated from rpc auth.common.GenericService.Reference
+     */
+    readonly reference: {
+      readonly name: "Reference",
+      readonly I: typeof ReferenceRequest,
+      readonly O: typeof ReferenceResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.ReferenceListByType
+     */
+    readonly referenceListByType: {
+      readonly name: "ReferenceListByType",
+      readonly I: typeof ReferenceListByTypeRequest,
+      readonly O: typeof ReferenceListByTypeResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.ReferenceByCollection
+     */
+    readonly referenceByCollection: {
+      readonly name: "ReferenceByCollection",
+      readonly I: typeof ReferenceByCollectionRequest,
+      readonly O: typeof ReferenceByCollectionResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.ReferenceByObject
+     */
+    readonly referenceByObject: {
+      readonly name: "ReferenceByObject",
+      readonly I: typeof ReferenceByObjectRequest,
+      readonly O: typeof ReferenceByObjectResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.ReferenceCreate
+     */
+    readonly referenceCreate: {
+      readonly name: "ReferenceCreate",
+      readonly I: typeof ReferenceCreateRequest,
+      readonly O: typeof ReferenceCreateResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.ReferenceDelete
+     */
+    readonly referenceDelete: {
+      readonly name: "ReferenceDelete",
+      readonly I: typeof ReferenceDeleteRequest,
+      readonly O: typeof ReferenceDeleteResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
      * @generated from rpc auth.common.GenericService.Suggestion
      */
     readonly suggestion: {
@@ -153,7 +243,7 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * ──────────────────────────────-- Invoke ─────────────────────────────────--
+     * ──────────────────────────────── Invoke ───────────────────────────────────────
      *
      * @generated from rpc auth.common.GenericService.SuggestionCreate
      */

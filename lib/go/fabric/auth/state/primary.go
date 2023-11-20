@@ -22,7 +22,7 @@ func PrimaryExists[T common.ObjectInterface](ctx TxCtxInterface, obj T) bool {
 func PrimaryGet[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{ctx: ctx}
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+		Action:       authpb.Action_ACTION_VIEW,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
@@ -43,19 +43,19 @@ func PrimaryGetFull[T common.ObjectInterface](
 
 	ops := []*authpb.Operation{
 		{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW,
+			Action:       authpb.Action_ACTION_VIEW,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
 			Namespace:    obj.Namespace(),
 			Paths:        nil,
 		},
 		{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW_HIDDEN_TXS,
+			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
 			Namespace:    obj.Namespace(),
 			Paths:        nil,
 		},
 		{
-			Action:       authpb.Action_ACTION_OBJECT_VIEW_HIDDEN_TXS,
+			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
 			CollectionId: obj.ObjectKey().GetCollectionId(),
 			Namespace:    obj.Namespace(),
 			Paths:        nil,
@@ -95,7 +95,7 @@ func PrimaryByPartialKey[T common.ObjectInterface](
 	l := &Ledger[T]{ctx: ctx}
 
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+		Action:       authpb.Action_ACTION_VIEW,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
@@ -141,7 +141,7 @@ func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 
 	// Authorize the operation
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_CREATE,
+		Action:       authpb.Action_ACTION_CREATE,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
@@ -163,7 +163,7 @@ func PrimaryUpdate[T common.ObjectInterface](
 		ctx: ctx,
 	}
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_UPDATE,
+		Action:       authpb.Action_ACTION_UPDATE,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        mask,
@@ -181,7 +181,7 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 		ctx: ctx,
 	}
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_DELETE,
+		Action:       authpb.Action_ACTION_DELETE,
 		CollectionId: obj.ObjectKey().GetCollectionId(),
 		Namespace:    obj.Namespace(),
 		Paths:        nil,
@@ -238,7 +238,7 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 // func PrimaryGetFromKey[T common.ObjectInterface](ctx TxCtxInterface, key *authpb.ObjectKey) (obj T, err error) {
 // 	l := &Ledger[T]{ctx: ctx}
 // 	op := &authpb.Operation{
-// 		Action:       authpb.Action_ACTION_OBJECT_VIEW,
+// 		Action:       authpb.Action_ACTION_VIEW,
 // 		CollectionId: key.GetCollectionId(),
 // 		Namespace:    key.GetObjectType(),
 // 		Paths:        nil,

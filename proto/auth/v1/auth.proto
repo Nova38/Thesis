@@ -31,9 +31,9 @@ enum ObjectDomain {
 
 message KeySchema {
   string namespace                         = 1;
-  ObjectDomain object_domain = 2;
+  ObjectDomain object_domain               = 2;
   google.protobuf.FieldMask keys           = 3;
-  google.protobuf.FieldMask primary_key     = 4;
+  google.protobuf.FieldMask primary_key    = 4;
   google.protobuf.FieldMask secondary_keys = 5;
 }
 
@@ -43,7 +43,7 @@ extend google.protobuf.MethodOptions {
   TransactionType transaction_type = 50556;
 }
 extend google.protobuf.MessageOptions {
-  KeySchema key_schema       = 54599;
+  KeySchema key_schema = 54599;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -85,7 +85,8 @@ message Operation {
   Action action                   = 1;
   string collection_id            = 2;
   string namespace                = 3;
-  google.protobuf.FieldMask paths = 4;
+  string secondary_namespace      = 4;
+  google.protobuf.FieldMask paths = 5;
 }
 
 // Action - The action to be performed during the operation
@@ -97,23 +98,40 @@ message Operation {
 //   - MEMBERSHIP:  Used to manage membership of a collection
 //   - OBJECT:      Used to manage objects in a collection
 enum Action {
-  ACTION_UNSPECIFIED                = 0;
-  ACTION_REGISTER_USER              = 1;  // Used to register
-  ACTION_REGISTER_COLLECTION        = 2;  // Used to register
-  // ACTION_MODIFY_DEFAULT_PERMISSIONS = 3;
-  // // Used to modify the default permissions of a collection
+  ACTION_UNSPECIFIED         = 0;
+  ACTION_UTILITY             = 1;
 
-  ACTION_OBJECT_VIEW            = 10;
-  ACTION_OBJECT_CREATE          = 11;
-  ACTION_OBJECT_UPDATE          = 12;
-  ACTION_OBJECT_DELETE          = 13;
-  ACTION_OBJECT_SUGGEST_VIEW    = 14;
-  ACTION_OBJECT_SUGGEST_CREATE  = 15;
-  ACTION_OBJECT_SUGGEST_DELETE  = 16;
-  ACTION_OBJECT_SUGGEST_APPROVE = 17;
-  ACTION_OBJECT_VIEW_HISTORY    = 18;
-  ACTION_OBJECT_VIEW_HIDDEN_TXS = 19;
-  ACTION_OBJECT_HIDE_TX         = 20;
+
+  // View the contents of an object
+  ACTION_VIEW = 10;
+  // Create a new object
+  //  - key must not already exist
+  ACTION_CREATE = 11;
+  // Update an existing object
+  //   - key must already exist
+  ACTION_UPDATE = 12;
+  // Delete an existing object, key must already exist
+  ACTION_DELETE = 13;
+
+  // Suggest a change to an object, key must already exist
+  ACTION_SUGGEST_VIEW = 14;
+
+  // Suggest a change to an object, key must already exist
+  ACTION_SUGGEST_CREATE  = 15;
+  // Delete a suggestion, key must already exist
+  ACTION_SUGGEST_DELETE  = 16;
+  // Approve a suggestion and apply it to the object, key must already exist
+  ACTION_SUGGEST_APPROVE = 17;
+
+  ACTION_VIEW_HISTORY    = 18;
+  ACTION_VIEW_HIDDEN_TXS = 19;
+  ACTION_HIDE_TX         = 20;
+
+
+  ACTION_REFERENCE_CREATE = 21;
+  ACTION_REFERENCE_DELETE = 22;
+  ACTION_REFERENCE_VIEW   = 23;
+
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -129,7 +147,6 @@ message PathPolicy {
 
 message ObjectPolicy {
   string object_type           = 1 [(buf.validate.field).required = true];
-  string object_namespace      = 2;
   repeated PathPolicy policies = 3;
 }
 
@@ -140,28 +157,29 @@ message ACEntry {
       [(buf.validate.field).required = true];
 }
 
+// ──────────────────────────────────────────────────
+
+message NestedPathPolicy {
+  string path             = 1 [(buf.validate.field).required = true];
+  bool is_leaf            = 2;
+  repeated Action actions = 3 [(buf.validate.field).required = true];
+
+  NestedPathPolicy children = 4;
+}
+message NestedObjectPolicy {
+  string object_type           = 1 [(buf.validate.field).required = true];
+  NestedPathPolicy policies = 2;
+}
+
 // Access Control Entry for use in Hash Tree
-message ACEntryTree {
+message NestedACEntry {
   ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
   bool is_leaf                      = 3;
-  map<string, ACEntryTree> children = 2;
+  map<string, NestedACEntry> children = 2;
 }
 
 // Auth Types
 // ──────────────────────────────────────────────────
-// message Attribute {
-//   string msp_id = 1 [(buf.validate.field).string.min_len = 1];
-//   string oid    = 2 [(buf.validate.field).string.min_len = 1];
-//   string value  = 3 [(buf.validate.field).string.min_len = 1];
-// }
-
-// message Role {
-//   string role_id = 1 [(buf.validate.field).string.min_len = 1];
-//   string name    = 2 [(buf.validate.field).string.min_len = 1];
-//   string description = 3 [(buf.validate.field).string.min_len = 1];
-//   repeated Attribute attributes = 4;
-//   ACEntry default               = 5 [(buf.validate.field).required = true];
-// }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -174,64 +192,47 @@ message Object {
   google.protobuf.Any value = 2;
 }
 
-message SubObject {
-  SubObjectKey key          = 1;
-  google.protobuf.Any value = 2;
+message FullObject {
+  ObjectKey key              = 1;
+  google.protobuf.Any value  = 2;
+  History history            = 3;
+  repeated Suggestion suggestions = 4;
+  repeated Reference references   = 5;
 }
 
 // Lists
 // ─────────────────────────────────────────────────────────────────────────────────
-// message ObjectList {
-//   option (key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
-//   repeated Object objects = 1;
-// }
-// // message SubObjectList {
-// //   option (key_schema).object_domain = OBJECT_DOMAIN_SUB_OBJECT;
-// //   repeated SubObject objects = 1;
-// // }
-// message ReferenceList {
-//   option (key_schema).object_domain = OBJECT_DOMAIN_REFERENCE;
-//   repeated Reference objects = 1;
-// }
-// message CombinedList {
-//   option (key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
-//   ObjectList objects      = 1;
-//   SubObjectList sub_objects = 2;
-//   ReferenceList references = 3;
-// }
 
-// Keys
-// ─────────────────────────────────────────────────────────────────────────────────
-// enum KeyParts {
-//   KEY_PART_UNSPECIFIED = 0;
-//   KEY_PART_COLLECTION  = 1;
-//   KEY_PART_OBJECT_TYPE = 2;
-//   KEY_PART_OBJECT_ID   = 3;
-//   KEY_PART_SUB_OBJECT_TYPE = 4;
-//   KEY_PART_SUB_OBJECT_ID   = 5;
-// }
-// Key := {OBJECT_TYPE}{COLLECTION_ID}||{...OBJECT_ID}
+
+
+
+/* Keys
+─────────────────────────────────────────────────────────────────────────────────────
+Object Keys
+ When converted to its string form it will be:
+  - Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+
+Reference Keys
+  Used to store references to objects for case like a user having a role
+  When converted to its string form it will be:
+  {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+
+
+SubKeys
+ When converted to its string form it will be:
+ {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
+     Examples
+       - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+       - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
+*/
 message ObjectKey {
-  string collection_id   = 1;
-  string object_type     = 2;
+  string collection_id            = 1;
+  string object_type              = 2;
   repeated string object_id_parts = 3;
 }
 
-// SubKeys {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
-//    Example := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}  {...OBJECT_ID}{SUGGESTION_ID}
-//    Example := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
-message SubObjectKey {
-  string collection_id   = 1;
-  string sub_object_type = 2;
-  string object_type     = 3;
-
-  // The key is the fields of the object that make up the primary key
-  // The value is the value of the field
-  repeated string object_id_parts = 4;
-  string sub_object_id            = 5;
-}
-
-// Reference Keys {REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+// Reference Keys
+// {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
 message Reference {
   option (key_schema).object_domain = OBJECT_DOMAIN_REFERENCE;
 
@@ -240,6 +241,10 @@ message Reference {
   ObjectKey key_1       = 3;
   ObjectKey key_2       = 4;
 }
+
+
+
+
 
 // ═════════════════════════════════════════════════════════════════════════════════
 // Global Objects
@@ -251,15 +256,13 @@ message Reference {
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (key_schema).object_domain   = OBJECT_GLOBAL_OBJECT;
-  option (key_schema).keys = {
+  option (key_schema).object_domain = OBJECT_GLOBAL_OBJECT;
+  option (key_schema).keys          = {
     paths: [ "collection_id" ]
   };
 
   // The key for the ledger
-
-  string collection_id         = 1 [(buf.validate.field).string.min_len = 1];
-
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name                  = 2 [(buf.validate.field).string.min_len = 1];
   string description           = 3 [(buf.validate.field).string.min_len = 1];
   repeated string object_types = 4;
@@ -272,8 +275,8 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (key_schema).object_domain                  = OBJECT_GLOBAL_OBJECT;
-  option (key_schema).keys = {
+  option (key_schema).object_domain = OBJECT_GLOBAL_OBJECT;
+  option (key_schema).keys          = {
     paths: [ "msp_id", "user_id" ]
   };
 
@@ -284,27 +287,26 @@ message User {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 // ═════════════════════════════════════════════════════════════════════════════════
 // Sub Object Types
 // ═════════════════════════════════════════════════════════════════════════════════
 
 
 
+
 // Key should be
-// {COLLECTION_ID}{auth.Suggestion}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+// {auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
 message Suggestion {
-  option (key_schema).object_domain   = OBJECT_DOMAIN_SUB_OBJECT;
+  option (key_schema).object_domain = OBJECT_DOMAIN_SUB_OBJECT;
+  option (key_schema).keys = {paths: [ "suggestion_id" ]};
 
-  option (key_schema).keys = {
-    paths: ["suggestion_id" ]
-  };
-
-  ObjectKey primary_key = 1;
-  string suggestion_id = 2;
+  ObjectKey primary_key           = 1;
+  string suggestion_id            = 2;
   google.protobuf.FieldMask paths = 5;
   google.protobuf.Any value       = 6;
 }
+
+
 
 message HiddenTx {
   string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
@@ -319,12 +321,67 @@ message HiddenTx {
 message HiddenTxList {
   option (key_schema).object_domain = OBJECT_DOMAIN_SUB_OBJECT;
 
-  ObjectKey primary_key = 1; // The key that is used to store the object
-  repeated HiddenTx txs = 4; // The list of hidden txs by tx_id
+  ObjectKey primary_key = 1;  // The key that is used to store the object
+  repeated HiddenTx txs = 4;  // The list of hidden txs by tx_id
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ═════════════════════════════════════════════════════════════════════════════════
+// Collection Objects
+// ═════════════════════════════════════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────────────────────────────────────────
+// Access Control Objects
+// ─────────────────────────────────────────────────────────────────────────────────
+
+message Role {
+  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).keys          = {
+    paths: [ "role_id" ]
+  };
+
+  string collection_id            = 1 [(buf.validate.field).string.min_len = 1];
+  string role_id                  = 2 [(buf.validate.field).string.min_len = 1];
+  auth.ACEntry ac                 = 4 [(buf.validate.field).required = true];
+  string name                     = 5 [(buf.validate.field).string.min_len = 1];
+  string description              = 6 [(buf.validate.field).string.min_len = 1];
+  repeated string parent_role_ids = 7;
+}
+
+message Attribute {
+  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).keys          = {
+    paths: [ "msp_id", "oid", "role_id" ]
+  };
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+
+
+  // The msp of the organization that this attribute applies to
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The oid of the attribute
+  string oid = 3 [(buf.validate.field).string.min_len = 1];
+  // The value of the attribute required to be satisfied by the user to have the
+  // role
+  string value = 4 [(buf.validate.field).string.min_len = 1];
+  // The role that the user must have to satisfy the attribute
+  string role_id = 5 [(buf.validate.field).string.min_len = 1];
+}
+
+message Membership {
+  option (auth.key_schema).object_domain = OBJECT_DOMAIN_PRIMARY_OBJECT;
+  option (auth.key_schema).keys          = {
+    paths: [ "msp_id", "user_id" ]
+  };
+
+  string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  string msp_id        = 2 [(buf.validate.field).string.min_len = 1];
+  string user_id       = 3 [(buf.validate.field).required = true];
+  auth.ACEntry ac      = 4 [(buf.validate.field).required = true];
+
+
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 enum TxError {
   UNSPECIFIED        = 0;

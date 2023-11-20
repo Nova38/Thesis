@@ -1,0 +1,75 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/Operation",
+    "definitions": {
+        "Operation": {
+            "properties": {
+                "action": {
+                    "enum": [
+                        "ACTION_UNSPECIFIED",
+                        0,
+                        "ACTION_REGISTER_USER",
+                        1,
+                        "ACTION_REGISTER_COLLECTION",
+                        2,
+                        "ACTION_VIEW",
+                        10,
+                        "ACTION_CREATE",
+                        11,
+                        "ACTION_UPDATE",
+                        12,
+                        "ACTION_DELETE",
+                        13,
+                        "ACTION_SUGGEST_VIEW",
+                        14,
+                        "ACTION_SUGGEST_CREATE",
+                        15,
+                        "ACTION_SUGGEST_DELETE",
+                        16,
+                        "ACTION_SUGGEST_APPROVE",
+                        17,
+                        "ACTION_VIEW_HISTORY",
+                        18,
+                        "ACTION_VIEW_HIDDEN_TXS",
+                        19,
+                        "ACTION_HIDE_TX",
+                        20
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "title": "Action",
+                    "description": "Action - The action to be performed during the operation # Action Groups   - UNSPECIFIED: null or not set   - REGISTER:    Used to register a new user or collection (always allowed)   - COLLECTION:  Used to manage collections permissions   - MEMBERSHIP:  Used to manage membership of a collection   - OBJECT:      Used to manage objects in a collection"
+                },
+                "collection_id": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "paths": {
+                    "properties": {
+                        "paths": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array",
+                            "description": "The set of field mask paths."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "═════════════════════════════════════════════\n Access Control\n ═════════════════════════════════════════════",
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ═════════════════════════════════════════════ Access Control ═════════════════════════════════════════════"
+        }
+    }
+}

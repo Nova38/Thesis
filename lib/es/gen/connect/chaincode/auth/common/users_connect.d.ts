@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { Empty, MethodKind } from "@bufbuild/protobuf";
-import { UserCreateRequest, UserCreateResponse, UserDeleteRequest, UserDeleteResponse, UserGetCurrentIdResponse, UserGetCurrentResponse, UserGetHiddenTxRequest, UserGetHiddenTxResponse, UserGetHistoryRequest, UserGetHistoryResponse, UserGetListResponse, UserGetRequest, UserGetResponse, UserHideTxRequest, UserHideTxResponse, UserUpdateRequest, UserUpdateResponse } from "./users_pb.js";
+import { UserCreateRequest, UserCreateResponse, UserDeleteRequest, UserDeleteResponse, UserGetCurrentResponse, UserGetHiddenTxRequest, UserGetHiddenTxResponse, UserGetHistoryRequest, UserGetHistoryResponse, UserGetListResponse, UserGetRequest, UserGetResponse, UserHideTxRequest, UserHideTxResponse, UserUpdateRequest, UserUpdateResponse } from "./users_pb.js";
 
 /**
  * @generated from service auth.common.UserService
@@ -12,15 +12,6 @@ import { UserCreateRequest, UserCreateResponse, UserDeleteRequest, UserDeleteRes
 export declare const UserService: {
   readonly typeName: "auth.common.UserService",
   readonly methods: {
-    /**
-     * @generated from rpc auth.common.UserService.UserGetCurrentId
-     */
-    readonly userGetCurrentId: {
-      readonly name: "UserGetCurrentId",
-      readonly I: typeof Empty,
-      readonly O: typeof UserGetCurrentIdResponse,
-      readonly kind: MethodKind.Unary,
-    },
     /**
      * @generated from rpc auth.common.UserService.UserGetCurrent
      */

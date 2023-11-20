@@ -67,7 +67,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
 		handler = SuggestionHandler{suggestion: s}
 		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
+			Action:       authpb.Action_ACTION_SUGGEST_CREATE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
 			Namespace:    s.GetPrimaryKey().GetObjectType(),
 			Paths:        s.GetPaths(),
@@ -104,7 +104,7 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
 		handler = SuggestionHandler{suggestion: s}
 		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_DELETE,
+			Action:       authpb.Action_ACTION_SUGGEST_DELETE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
 			Namespace:    s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
@@ -144,7 +144,7 @@ func SuggestionApprove(
 		ol      = &Ledger[common.ObjectInterface]{ctx: ctx}
 		handler = SuggestionHandler{suggestion: s}
 		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_APPROVE,
+			Action:       authpb.Action_ACTION_SUGGEST_APPROVE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
 			Namespace:    s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
@@ -188,8 +188,8 @@ func SuggestionApprove(
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
 
-// Get Suggestion by its ID
-func Suggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+// Get GetSuggestion by its ID
+func GetSuggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	ctx.GetLogger().Debug("GetSuggestion", "suggestion:", s)
 
 	var (
@@ -197,7 +197,7 @@ func Suggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 
 		handler = SuggestionHandler{suggestion: s}
 		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
 			Namespace:    s.GetPrimaryKey().GetObjectType(),
 			Paths:        nil,
@@ -227,7 +227,7 @@ func PartialSuggestionList(
 	ctx.GetLogger().Debug("GetPartialSuggestionList", "suggestion:", s)
 
 	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+		Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 		CollectionId: s.GetPrimaryKey().GetCollectionId(),
 		Namespace:    s.GetPrimaryKey().GetObjectType(),
 		Paths:        nil,
@@ -287,7 +287,7 @@ func PartialSuggestionList(
 		}
 		sug := new(authpb.Suggestion)
 
-		if err := json.Unmarshal(queryResponse.Value, sug); err != nil {
+		if err := json.Unmarshal(queryResponse.GetValue(), sug); err != nil {
 			return nil, "", err
 		}
 
@@ -342,7 +342,7 @@ func SuggestionListByObject(
 //
 //	err = ctx.SetOperation(
 //		&authpb.Operation{
-//			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+//			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 //			CollectionId: o.GetCollectionId(),
 //			Namespace:    o.Namespace(),
 //			Paths:        nil,
@@ -535,7 +535,7 @@ func SuggestionListByObject(
 // 	}
 
 // 	op := &authpb.Operation{
-// 		Action:       authpb.Action_ACTION_OBJECT_SUGGEST_CREATE,
+// 		Action:       authpb.Action_ACTION_SUGGEST_CREATE,
 // 		CollectionId: obj.GetCollectionId(),
 // 		Namespace:    obj.Namespace(),
 // 		Paths:        nil,
@@ -585,7 +585,7 @@ func SuggestionListByObject(
 // 	var (
 // 		attr = lo.Must(obj.Key())
 // 		op   = &authpb.Operation{
-// 			Action:       authpb.Action_ACTION_OBJECT_SUGGEST_VIEW,
+// 			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 // 			CollectionId: obj.GetCollectionId(),
 // 			Namespace:    obj.Namespace(),
 // 		}

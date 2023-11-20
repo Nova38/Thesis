@@ -19,7 +19,7 @@ func KeyExists(ctx TxCtxInterface, key string) bool {
 // ─────────────────────────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────────────────────────
-func MakeObjectKeyAtter(key *authpb.ObjectKey) []string {
+func MakeObjectKeyAttr(key *authpb.ObjectKey) []string {
 	return append(
 		[]string{key.GetCollectionId()},
 		key.GetObjectIdParts()...,
@@ -29,12 +29,14 @@ func MakeObjectKeyAtter(key *authpb.ObjectKey) []string {
 func MakeObjectKeyPrimary(key *authpb.ObjectKey) (objectKey string, err error) {
 	return shim.CreateCompositeKey(
 		key.GetObjectType(),
-		MakeObjectKeyAtter(key),
+		MakeObjectKeyAttr(key),
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
-func MakePrimaryKeyAtter[T common.ObjectInterface](obj T) (attr []string) {
+
+// MakePrimaryKeyAttr creates a composite key from the given attributes
+func MakePrimaryKeyAttr[T common.ObjectInterface](obj T) (attr []string) {
 	return append(
 		[]string{obj.ObjectKey().GetCollectionId()},
 		obj.ObjectKey().GetObjectIdParts()...,
@@ -45,7 +47,7 @@ func MakePrimaryKeyAtter[T common.ObjectInterface](obj T) (attr []string) {
 func MakePrimaryKey[T common.ObjectInterface](obj T) (key string, err error) {
 	return shim.CreateCompositeKey(
 		obj.ObjectKey().GetObjectType(),
-		MakePrimaryKeyAtter(obj),
+		MakePrimaryKeyAttr(obj),
 	)
 }
 
