@@ -183,6 +183,10 @@
                 </li>
 
                 <li>
+                  <a href="#auth.ACEntry.ChildrenEntry"><span class="badge">M</span>ACEntry.ChildrenEntry</a>
+                </li>
+
+                <li>
                   <a href="#auth.Attribute"><span class="badge">M</span>Attribute</a>
                 </li>
 
@@ -219,22 +223,6 @@
                 </li>
 
                 <li>
-                  <a href="#auth.NestedACEntry"><span class="badge">M</span>NestedACEntry</a>
-                </li>
-
-                <li>
-                  <a href="#auth.NestedACEntry.ChildrenEntry"><span class="badge">M</span>NestedACEntry.ChildrenEntry</a>
-                </li>
-
-                <li>
-                  <a href="#auth.NestedObjectPolicy"><span class="badge">M</span>NestedObjectPolicy</a>
-                </li>
-
-                <li>
-                  <a href="#auth.NestedPathPolicy"><span class="badge">M</span>NestedPathPolicy</a>
-                </li>
-
-                <li>
                   <a href="#auth.Object"><span class="badge">M</span>Object</a>
                 </li>
 
@@ -243,15 +231,15 @@
                 </li>
 
                 <li>
-                  <a href="#auth.ObjectPolicy"><span class="badge">M</span>ObjectPolicy</a>
-                </li>
-
-                <li>
                   <a href="#auth.Operation"><span class="badge">M</span>Operation</a>
                 </li>
 
                 <li>
                   <a href="#auth.PathPolicy"><span class="badge">M</span>PathPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#auth.PathPolicy.SubPathsEntry"><span class="badge">M</span>PathPolicy.SubPathsEntry</a>
                 </li>
 
                 <li>
@@ -549,93 +537,6 @@
 
 
           <li>
-            <a href="#chaincode%2fauth%2fcommon%2fusers.proto">chaincode/auth/common/users.proto</a>
-            <ul>
-
-                <li>
-                  <a href="#auth.common.UserCreateRequest"><span class="badge">M</span>UserCreateRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserCreateResponse"><span class="badge">M</span>UserCreateResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserDeleteRequest"><span class="badge">M</span>UserDeleteRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserDeleteResponse"><span class="badge">M</span>UserDeleteResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetCurrentIdResponse"><span class="badge">M</span>UserGetCurrentIdResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetCurrentResponse"><span class="badge">M</span>UserGetCurrentResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetHiddenTxRequest"><span class="badge">M</span>UserGetHiddenTxRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetHiddenTxResponse"><span class="badge">M</span>UserGetHiddenTxResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetHistoryRequest"><span class="badge">M</span>UserGetHistoryRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetHistoryResponse"><span class="badge">M</span>UserGetHistoryResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetListRequest"><span class="badge">M</span>UserGetListRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetListResponse"><span class="badge">M</span>UserGetListResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetRequest"><span class="badge">M</span>UserGetRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserGetResponse"><span class="badge">M</span>UserGetResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserHideTxRequest"><span class="badge">M</span>UserHideTxRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserHideTxResponse"><span class="badge">M</span>UserHideTxResponse</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserUpdateRequest"><span class="badge">M</span>UserUpdateRequest</a>
-                </li>
-
-                <li>
-                  <a href="#auth.common.UserUpdateResponse"><span class="badge">M</span>UserUpdateResponse</a>
-                </li>
-
-
-
-
-                <li>
-                  <a href="#auth.common.UserService"><span class="badge">S</span>UserService</a>
-                </li>
-
-            </ul>
-          </li>
-
-
-          <li>
             <a href="#chaincode%2fauth%2frbac%2fschema%2fv1%2frbac.proto">chaincode/auth/rbac/schema/v1/rbac.proto</a>
             <ul>
 
@@ -811,7 +712,7 @@
 
 
         <h3 id="auth.ACEntry">ACEntry</h3>
-        <p>Access Control Entry for use in Radix Tree</p>
+        <p>Access Control Entry for use in Hash Tree</p><p>ObjectPolicy root                 = 1 [(buf.validate.field).required = true];</p>
 
 
           <table class="field-table">
@@ -821,15 +722,39 @@
             <tbody>
 
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.ObjectPolicy">ObjectPolicy</a></td>
+                  <td>children</td>
+                  <td><a href="#auth.ACEntry.ChildrenEntry">ACEntry.ChildrenEntry</a></td>
                   <td>repeated</td>
+                  <td><p>key is the object type </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.ACEntry.ChildrenEntry">ACEntry.ChildrenEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
 
                 <tr>
-                  <td>view_mask</td>
-                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td>value</td>
+                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -842,7 +767,7 @@
 
 
         <h3 id="auth.Attribute">Attribute</h3>
-        <p>An attribute is used to define permissions via the value of the attribute in the </p><p>users certificate for a given msp</p>
+        <p>An attribute is used to define permissions via the value of the attribute in the</p><p>users certificate for a given msp</p>
 
 
           <table class="field-table">
@@ -1254,151 +1179,6 @@ role </p></td>
 
 
 
-        <h3 id="auth.NestedACEntry">NestedACEntry</h3>
-        <p>Access Control Entry for use in Hash Tree</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>root</td>
-                  <td><a href="#auth.ObjectPolicy">ObjectPolicy</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>is_leaf</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>children</td>
-                  <td><a href="#auth.NestedACEntry.ChildrenEntry">NestedACEntry.ChildrenEntry</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.NestedACEntry.ChildrenEntry">NestedACEntry.ChildrenEntry</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>key</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>value</td>
-                  <td><a href="#auth.NestedACEntry">NestedACEntry</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.NestedObjectPolicy">NestedObjectPolicy</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>object_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>policies</td>
-                  <td><a href="#auth.NestedPathPolicy">NestedPathPolicy</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.NestedPathPolicy">NestedPathPolicy</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>path</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>is_leaf</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>actions</td>
-                  <td><a href="#auth.Action">Action</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>children</td>
-                  <td><a href="#auth.NestedPathPolicy">NestedPathPolicy</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
         <h3 id="auth.Object">Object</h3>
         <p></p>
 
@@ -1468,37 +1248,6 @@ role </p></td>
 
 
 
-        <h3 id="auth.ObjectPolicy">ObjectPolicy</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>object_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>policies</td>
-                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
         <h3 id="auth.Operation">Operation</h3>
         <p></p>
 
@@ -1552,7 +1301,7 @@ role </p></td>
 
 
         <h3 id="auth.PathPolicy">PathPolicy</h3>
-        <p></p>
+        <p>This message is the tree node for operations on the state object</p>
 
 
           <table class="field-table">
@@ -1565,13 +1314,65 @@ role </p></td>
                   <td>path</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
+                  <td><p>The path is a sub path of a field mask </p></td>
+                </tr>
+
+                <tr>
+                  <td>full_path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
                   <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>allow_sub_paths</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>sub_paths</td>
+                  <td><a href="#auth.PathPolicy.SubPathsEntry">PathPolicy.SubPathsEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>The key is a valid sub path in the type of state object </p></td>
                 </tr>
 
                 <tr>
                   <td>actions</td>
                   <td><a href="#auth.Action">Action</a></td>
                   <td>repeated</td>
+                  <td><p>If the policy is not set than use a parent policy unless nested policy is set </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="auth.PathPolicy.SubPathsEntry">PathPolicy.SubPathsEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
 
@@ -1654,13 +1455,6 @@ role </p></td>
                 <tr>
                   <td>ac</td>
                   <td><a href="#auth.ACEntry">ACEntry</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3868,18 +3662,15 @@ The user does not have permission to perform the operation</p></td>
           <tbody>
 
               <tr>
-                <td>GetAllTypes</td>
-                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
-                <td><a href="#auth.common.GetAllTypesResponse">GetAllTypesResponse</a></td>
-                <td><p>══════════════════════════════════ Helper ═════════════════════════════════════
-────────────────────────────────── Query ──────────────────────────────────────</p></td>
-              </tr>
-
-              <tr>
                 <td>GetCurrentUser</td>
                 <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
                 <td><a href="#auth.common.GetCurrentUserResponse">GetCurrentUserResponse</a></td>
-                <td><p></p></td>
+                <td><p>══════════════════════════════════ Helper ═════════════════════════════════════
+────────────────────────────────── Query ──────────────────────────────────────
+rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+  option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  option (auth.operation) = {action: ACTION_UTILITY};
+}</p></td>
               </tr>
 
               <tr>
@@ -4061,639 +3852,6 @@ The user does not have permission to perform the operation</p></td>
                 <td>SuggestionApprove</td>
                 <td><a href="#auth.common.SuggestionApproveRequest">SuggestionApproveRequest</a></td>
                 <td><a href="#auth.common.SuggestionApproveResponse">SuggestionApproveResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-          </tbody>
-        </table>
-
-
-
-
-      <div class="file-heading">
-        <h2 id="chaincode/auth/common/users.proto">chaincode/auth/common/users.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-
-        <h3 id="auth.common.UserCreateRequest">UserCreateRequest</h3>
-        <p>UserCreate</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserCreateResponse">UserCreateResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserDeleteRequest">UserDeleteRequest</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>reason</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserDeleteResponse">UserDeleteResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetCurrentIdResponse">UserGetCurrentIdResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetCurrentResponse">UserGetCurrentResponse</h3>
-        <p>──────────────────-- Query ─────────────────────</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetHiddenTxRequest">UserGetHiddenTxRequest</h3>
-        <p>UserGetHiddenTx</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetHiddenTxResponse">UserGetHiddenTxResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>hidden_txs</td>
-                  <td><a href="#auth.HiddenTxList">auth.HiddenTxList</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetHistoryRequest">UserGetHistoryRequest</h3>
-        <p>UserGetHistory</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>show_hidden</td>
-                  <td><a href="#bool">bool</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetHistoryResponse">UserGetHistoryResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>history</td>
-                  <td><a href="#auth.History">auth.History</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetListRequest">UserGetListRequest</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>bookmark</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>limit</td>
-                  <td><a href="#uint32">uint32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetListResponse">UserGetListResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>users</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>bookmark</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetRequest">UserGetRequest</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserGetResponse">UserGetResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserHideTxRequest">UserHideTxRequest</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>hidden_tx</td>
-                  <td><a href="#auth.HiddenTx">auth.HiddenTx</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserHideTxResponse">UserHideTxResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserUpdateRequest">UserUpdateRequest</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-        <h3 id="auth.common.UserUpdateResponse">UserUpdateResponse</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>user</td>
-                  <td><a href="#auth.User">auth.User</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-
-
-
-
-
-
-        <h3 id="auth.common.UserService">UserService</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-
-              <tr>
-                <td>UserGetCurrent</td>
-                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
-                <td><a href="#auth.common.UserGetCurrentResponse">UserGetCurrentResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserGet</td>
-                <td><a href="#auth.common.UserGetRequest">UserGetRequest</a></td>
-                <td><a href="#auth.common.UserGetResponse">UserGetResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserGetList</td>
-                <td><a href="#google.protobuf.Empty">.google.protobuf.Empty</a></td>
-                <td><a href="#auth.common.UserGetListResponse">UserGetListResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserGetHistory</td>
-                <td><a href="#auth.common.UserGetHistoryRequest">UserGetHistoryRequest</a></td>
-                <td><a href="#auth.common.UserGetHistoryResponse">UserGetHistoryResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserGetHiddenTx</td>
-                <td><a href="#auth.common.UserGetHiddenTxRequest">UserGetHiddenTxRequest</a></td>
-                <td><a href="#auth.common.UserGetHiddenTxResponse">UserGetHiddenTxResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserCreate</td>
-                <td><a href="#auth.common.UserCreateRequest">UserCreateRequest</a></td>
-                <td><a href="#auth.common.UserCreateResponse">UserCreateResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserDelete</td>
-                <td><a href="#auth.common.UserDeleteRequest">UserDeleteRequest</a></td>
-                <td><a href="#auth.common.UserDeleteResponse">UserDeleteResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserUpdate</td>
-                <td><a href="#auth.common.UserUpdateRequest">UserUpdateRequest</a></td>
-                <td><a href="#auth.common.UserUpdateResponse">UserUpdateResponse</a></td>
-                <td><p></p></td>
-              </tr>
-
-              <tr>
-                <td>UserHideTx</td>
-                <td><a href="#auth.common.UserHideTxRequest">UserHideTxRequest</a></td>
-                <td><a href="#auth.common.UserHideTxResponse">UserHideTxResponse</a></td>
                 <td><p></p></td>
               </tr>
 

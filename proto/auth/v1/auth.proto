@@ -154,43 +154,52 @@ enum Action {
 // Access Control
 // ═════════════════════════════════════════════
 
+
+// This message is the tree node for operations on the state object
 message PathPolicy {
-  string path             = 1 [(buf.validate.field).required = true];
-  repeated Action actions = 2 [(buf.validate.field).required = true];
+  // The path is a sub path of a field mask
+  string path      = 1 [(buf.validate.field).string.min_len = 1];
+  string full_path = 2 [(buf.validate.field).string.min_len = 1];
+
+  bool allow_sub_paths = 3;
+  // The key is a valid sub path in the type of state object
+  map<string, PathPolicy> sub_paths = 4;
+
+  // If the policy is not set than use a parent policy unless nested policy is set
+  repeated Action actions = 5;
+
+
+  option (buf.validate.message).cel = {
+    id: "SubPathsAllowed"
+    message: "Sub Paths are not allowed"
+    expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+  };
+  // option (buf.validate.message).cel = {
+  //   id: "pathAndFullPath"
+  //   message: "Path must be a sub path of full path"
+  //   expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+  // };
 }
 
-message ObjectPolicy {
-  string object_type           = 1 [(buf.validate.field).required = true];
-  repeated PathPolicy policies = 3;
-}
+// message ObjectPolicy {
+//   string object_type           = 1 [(buf.validate.field).required = true];
+//   PathPolicy path_policies = 2;
+// }
 
-// Access Control Entry for use in Radix Tree
+// Access Control Entry for use in Hash Tree
 message ACEntry {
-  repeated ObjectPolicy object = 1 [(buf.validate.field).required = true];
-  google.protobuf.FieldMask view_mask = 2
-      [(buf.validate.field).required = true];
+  // ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
+
+  // key is the object type
+  map<string, PathPolicy> children = 1;
 }
+
+
+
+
 
 // ──────────────────────────────────────────────────
 
-message NestedPathPolicy {
-  string path             = 1 [(buf.validate.field).required = true];
-  bool is_leaf            = 2;
-  repeated Action actions = 3 [(buf.validate.field).required = true];
-
-  NestedPathPolicy children = 4;
-}
-message NestedObjectPolicy {
-  string object_type           = 1 [(buf.validate.field).required = true];
-  NestedPathPolicy policies = 2;
-}
-
-// Access Control Entry for use in Hash Tree
-message NestedACEntry {
-  ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
-  bool is_leaf                      = 3;
-  map<string, NestedACEntry> children = 2;
-}
 
 // Auth Types
 // ──────────────────────────────────────────────────
@@ -203,7 +212,15 @@ message NestedACEntry {
 
 message Object {
   ObjectKey key             = 1;
-  google.protobuf.Any value = 2;
+  google.protobuf.Any value = 2 [(buf.validate.field).any = {
+    not_in: [
+      "type.googleapis.com/auth.Suggestion"
+      "type.googleapis.com/auth.HiddenTxList"
+      "type.googleapis.com/auth.ACEntry"
+      "type.googleapis.com/auth.PathPolicy"
+
+      ]
+  }];
 }
 
 message FullObject {
@@ -216,8 +233,6 @@ message FullObject {
 
 // Lists
 // ─────────────────────────────────────────────────────────────────────────────────
-
-
 
 
 /* Keys
@@ -357,9 +372,8 @@ message Role {
   string collection_id            = 1 [(buf.validate.field).string.min_len = 1];
   string role_id                  = 2 [(buf.validate.field).string.min_len = 1];
   auth.ACEntry ac                 = 4 [(buf.validate.field).required = true];
-  string name                     = 5 [(buf.validate.field).string.min_len = 1];
-  string description              = 6 [(buf.validate.field).string.min_len = 1];
-  repeated string parent_role_ids = 7;
+  string description              = 5 [(buf.validate.field).string.min_len = 1];
+  repeated string parent_role_ids = 6;
 }
 
 // An attribute is used to define permissions via the value of the attribute in the
@@ -378,7 +392,6 @@ message Attribute {
   // The value of the attribute required to be satisfied by the user to have the
   // role
   string value = 4 [(buf.validate.field).string.min_len = 1];
-
   // The Permission that the user will have if they have the attribute
   auth.ACEntry ac = 5 [(buf.validate.field).required = true];
 

@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { Empty, MethodKind } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetAllTypesResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByObjectRequest, ReferenceByObjectResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceListByTypeRequest, ReferenceListByTypeResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByObjectRequest, ReferenceByObjectResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceListByTypeRequest, ReferenceListByTypeResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -15,16 +15,11 @@ export declare const GenericService: {
     /**
      * ══════════════════════════════════ Helper ═════════════════════════════════════
      * ────────────────────────────────── Query ──────────────────────────────────────
+     * rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+     *   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+     *   option (auth.operation) = {action: ACTION_UTILITY};
+     * }
      *
-     * @generated from rpc auth.common.GenericService.GetAllTypes
-     */
-    readonly getAllTypes: {
-      readonly name: "GetAllTypes",
-      readonly I: typeof Empty,
-      readonly O: typeof GetAllTypesResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
      * @generated from rpc auth.common.GenericService.GetCurrentUser
      */
     readonly getCurrentUser: {

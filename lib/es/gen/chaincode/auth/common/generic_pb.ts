@@ -1429,7 +1429,7 @@ export class ReferenceByCollectionResponse extends Message<ReferenceByCollection
 }
 
 /**
- * Get all of the collections 
+ * Get all of the collections
  *
  * @generated from message auth.common.ReferenceByObjectRequest
  */

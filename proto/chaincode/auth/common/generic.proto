@@ -13,10 +13,10 @@ import "google/protobuf/empty.proto";
 service GenericService {
   // ══════════════════════════════════ Helper ═════════════════════════════════════
   // ────────────────────────────────── Query ──────────────────────────────────────
-  rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_UTILITY};
-  }
+  // rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //   option (auth.operation) = {action: ACTION_UTILITY};
+  // }
   rpc GetCurrentUser(google.protobuf.Empty) returns (GetCurrentUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};

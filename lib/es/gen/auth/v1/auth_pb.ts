@@ -293,7 +293,7 @@ export enum TxError {
   USER_INVALID_ID = 20,
 
   /**
-   * The certificate is not registered as a user and thus cannot be used 
+   * The certificate is not registered as a user and thus cannot be used
    *
    * @generated from enum value: USER_UNREGISTERED = 21;
    */
@@ -710,16 +710,39 @@ export class Operation extends Message<Operation> {
 }
 
 /**
+ * This message is the tree node for operations on the state object
+ *
  * @generated from message auth.PathPolicy
  */
 export class PathPolicy extends Message<PathPolicy> {
   /**
+   * The path is a sub path of a field mask
+   *
    * @generated from field: string path = 1;
    */
   path = "";
 
   /**
-   * @generated from field: repeated auth.Action actions = 2;
+   * @generated from field: string full_path = 2;
+   */
+  fullPath = "";
+
+  /**
+   * @generated from field: bool allow_sub_paths = 3;
+   */
+  allowSubPaths = false;
+
+  /**
+   * The key is a valid sub path in the type of state object
+   *
+   * @generated from field: map<string, auth.PathPolicy> sub_paths = 4;
+   */
+  subPaths: { [key: string]: PathPolicy } = {};
+
+  /**
+   * If the policy is not set than use a parent policy unless nested policy is set
+   *
+   * @generated from field: repeated auth.Action actions = 5;
    */
   actions: Action[] = [];
 
@@ -732,7 +755,10 @@ export class PathPolicy extends Message<PathPolicy> {
   static readonly typeName = "auth.PathPolicy";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
+    { no: 2, name: "full_path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "allow_sub_paths", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
+    { no: 5, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): PathPolicy {
@@ -753,63 +779,19 @@ export class PathPolicy extends Message<PathPolicy> {
 }
 
 /**
- * @generated from message auth.ObjectPolicy
- */
-export class ObjectPolicy extends Message<ObjectPolicy> {
-  /**
-   * @generated from field: string object_type = 1;
-   */
-  objectType = "";
-
-  /**
-   * @generated from field: repeated auth.PathPolicy policies = 3;
-   */
-  policies: PathPolicy[] = [];
-
-  constructor(data?: PartialMessage<ObjectPolicy>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ObjectPolicy";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "policies", kind: "message", T: PathPolicy, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectPolicy {
-    return new ObjectPolicy().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectPolicy {
-    return new ObjectPolicy().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectPolicy {
-    return new ObjectPolicy().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ObjectPolicy | PlainMessage<ObjectPolicy> | undefined, b: ObjectPolicy | PlainMessage<ObjectPolicy> | undefined): boolean {
-    return proto3.util.equals(ObjectPolicy, a, b);
-  }
-}
-
-/**
- * Access Control Entry for use in Radix Tree
+ * Access Control Entry for use in Hash Tree
+ *
+ * ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
  *
  * @generated from message auth.ACEntry
  */
 export class ACEntry extends Message<ACEntry> {
   /**
-   * @generated from field: repeated auth.ObjectPolicy object = 1;
+   * key is the object type
+   *
+   * @generated from field: map<string, auth.PathPolicy> children = 1;
    */
-  object: ObjectPolicy[] = [];
-
-  /**
-   * @generated from field: google.protobuf.FieldMask view_mask = 2;
-   */
-  viewMask?: FieldMask;
+  children: { [key: string]: PathPolicy } = {};
 
   constructor(data?: PartialMessage<ACEntry>) {
     super();
@@ -819,8 +801,7 @@ export class ACEntry extends Message<ACEntry> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.ACEntry";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "object", kind: "message", T: ObjectPolicy, repeated: true },
-    { no: 2, name: "view_mask", kind: "message", T: FieldMask },
+    { no: 1, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntry {
@@ -837,155 +818,6 @@ export class ACEntry extends Message<ACEntry> {
 
   static equals(a: ACEntry | PlainMessage<ACEntry> | undefined, b: ACEntry | PlainMessage<ACEntry> | undefined): boolean {
     return proto3.util.equals(ACEntry, a, b);
-  }
-}
-
-/**
- * @generated from message auth.NestedPathPolicy
- */
-export class NestedPathPolicy extends Message<NestedPathPolicy> {
-  /**
-   * @generated from field: string path = 1;
-   */
-  path = "";
-
-  /**
-   * @generated from field: bool is_leaf = 2;
-   */
-  isLeaf = false;
-
-  /**
-   * @generated from field: repeated auth.Action actions = 3;
-   */
-  actions: Action[] = [];
-
-  /**
-   * @generated from field: auth.NestedPathPolicy children = 4;
-   */
-  children?: NestedPathPolicy;
-
-  constructor(data?: PartialMessage<NestedPathPolicy>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.NestedPathPolicy";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "is_leaf", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 3, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
-    { no: 4, name: "children", kind: "message", T: NestedPathPolicy },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedPathPolicy {
-    return new NestedPathPolicy().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedPathPolicy {
-    return new NestedPathPolicy().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedPathPolicy {
-    return new NestedPathPolicy().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: NestedPathPolicy | PlainMessage<NestedPathPolicy> | undefined, b: NestedPathPolicy | PlainMessage<NestedPathPolicy> | undefined): boolean {
-    return proto3.util.equals(NestedPathPolicy, a, b);
-  }
-}
-
-/**
- * @generated from message auth.NestedObjectPolicy
- */
-export class NestedObjectPolicy extends Message<NestedObjectPolicy> {
-  /**
-   * @generated from field: string object_type = 1;
-   */
-  objectType = "";
-
-  /**
-   * @generated from field: auth.NestedPathPolicy policies = 2;
-   */
-  policies?: NestedPathPolicy;
-
-  constructor(data?: PartialMessage<NestedObjectPolicy>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.NestedObjectPolicy";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "policies", kind: "message", T: NestedPathPolicy },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedObjectPolicy {
-    return new NestedObjectPolicy().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedObjectPolicy {
-    return new NestedObjectPolicy().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedObjectPolicy {
-    return new NestedObjectPolicy().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: NestedObjectPolicy | PlainMessage<NestedObjectPolicy> | undefined, b: NestedObjectPolicy | PlainMessage<NestedObjectPolicy> | undefined): boolean {
-    return proto3.util.equals(NestedObjectPolicy, a, b);
-  }
-}
-
-/**
- * Access Control Entry for use in Hash Tree
- *
- * @generated from message auth.NestedACEntry
- */
-export class NestedACEntry extends Message<NestedACEntry> {
-  /**
-   * @generated from field: auth.ObjectPolicy root = 1;
-   */
-  root?: ObjectPolicy;
-
-  /**
-   * @generated from field: bool is_leaf = 3;
-   */
-  isLeaf = false;
-
-  /**
-   * @generated from field: map<string, auth.NestedACEntry> children = 2;
-   */
-  children: { [key: string]: NestedACEntry } = {};
-
-  constructor(data?: PartialMessage<NestedACEntry>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.NestedACEntry";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "root", kind: "message", T: ObjectPolicy },
-    { no: 3, name: "is_leaf", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 2, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: NestedACEntry} },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): NestedACEntry {
-    return new NestedACEntry().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): NestedACEntry {
-    return new NestedACEntry().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): NestedACEntry {
-    return new NestedACEntry().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: NestedACEntry | PlainMessage<NestedACEntry> | undefined, b: NestedACEntry | PlainMessage<NestedACEntry> | undefined): boolean {
-    return proto3.util.equals(NestedACEntry, a, b);
   }
 }
 
@@ -1537,17 +1369,12 @@ export class Role extends Message<Role> {
   ac?: ACEntry;
 
   /**
-   * @generated from field: string name = 5;
-   */
-  name = "";
-
-  /**
-   * @generated from field: string description = 6;
+   * @generated from field: string description = 5;
    */
   description = "";
 
   /**
-   * @generated from field: repeated string parent_role_ids = 7;
+   * @generated from field: repeated string parent_role_ids = 6;
    */
   parentRoleIds: string[] = [];
 
@@ -1562,9 +1389,8 @@ export class Role extends Message<Role> {
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "ac", kind: "message", T: ACEntry },
-    { no: 5, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Role {
@@ -1585,7 +1411,7 @@ export class Role extends Message<Role> {
 }
 
 /**
- * An attribute is used to define permissions via the value of the attribute in the 
+ * An attribute is used to define permissions via the value of the attribute in the
  * users certificate for a given msp
  *
  * @generated from message auth.Attribute

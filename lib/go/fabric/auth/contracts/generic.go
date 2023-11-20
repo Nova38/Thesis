@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
@@ -17,6 +18,9 @@ type ObjectContractImpl struct {
 }
 
 // ════════════════════════════════════ Init ═══════════════════════════════════════
+
+// ══════════════════════════════════ Helper ═════════════════════════════════════
+// ────────────────────────────────── Query ──────────────────────────────────────
 
 // ════════════════════════════════════ Object ═════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────

@@ -33,28 +33,18 @@ auth.Operation
 	 -auth.Operation.paths - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
 auth.PathPolicy
 	 -auth.PathPolicy.path - <nil>
+	 -auth.PathPolicy.full_path - <nil>
+	 -auth.PathPolicy.allow_sub_paths - <nil>
+	 -auth.PathPolicy.sub_paths - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy.SubPathsEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}
 	 -auth.PathPolicy.actions - <nil>
-auth.ObjectPolicy
-	 -auth.ObjectPolicy.object_type - <nil>
-	 -auth.ObjectPolicy.policies - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: actions, Number: 2, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}]}
+auth.PathPolicy.SubPathsEntry
+	 -auth.PathPolicy.SubPathsEntry.key - <nil>
+	 -auth.PathPolicy.SubPathsEntry.value - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: full_path, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "fullPath"}, {Name: allow_sub_paths, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "allowSubPaths"}, {Name: sub_paths, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "subPaths", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}, {Name: actions, Number: 5, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}], Messages: [{Name: SubPathsEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 auth.ACEntry
-	 -auth.ACEntry.object - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
-	 -auth.ACEntry.view_mask - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.FieldMask, Fields: [{Name: paths, Number: 1, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "paths", IsList: true}]}
-auth.NestedPathPolicy
-	 -auth.NestedPathPolicy.path - <nil>
-	 -auth.NestedPathPolicy.is_leaf - <nil>
-	 -auth.NestedPathPolicy.actions - <nil>
-	 -auth.NestedPathPolicy.children - MessageDescriptor{Syntax: proto3, FullName: auth.NestedPathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: is_leaf, Number: 2, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isLeaf"}, {Name: actions, Number: 3, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}, {Name: children, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "children", HasPresence: true, Message: auth.NestedPathPolicy}]}
-auth.NestedObjectPolicy
-	 -auth.NestedObjectPolicy.object_type - <nil>
-	 -auth.NestedObjectPolicy.policies - MessageDescriptor{Syntax: proto3, FullName: auth.NestedPathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: is_leaf, Number: 2, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isLeaf"}, {Name: actions, Number: 3, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}, {Name: children, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "children", HasPresence: true, Message: auth.NestedPathPolicy}]}
-auth.NestedACEntry
-	 -auth.NestedACEntry.root - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectPolicy, Fields: [{Name: object_type, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: policies, Number: 3, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "policies", IsList: true, Message: auth.PathPolicy}]}
-	 -auth.NestedACEntry.is_leaf - <nil>
-	 -auth.NestedACEntry.children - MessageDescriptor{Syntax: proto3, FullName: auth.NestedACEntry.ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.NestedACEntry}]}
-auth.NestedACEntry.ChildrenEntry
-	 -auth.NestedACEntry.ChildrenEntry.key - <nil>
-	 -auth.NestedACEntry.ChildrenEntry.value - MessageDescriptor{Syntax: proto3, FullName: auth.NestedACEntry, Fields: [{Name: root, Number: 1, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "root", HasPresence: true, Message: auth.ObjectPolicy}, {Name: is_leaf, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "isLeaf"}, {Name: children, Number: 2, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.NestedACEntry}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.NestedACEntry}]}]}
+	 -auth.ACEntry.children - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry.ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}
+auth.ACEntry.ChildrenEntry
+	 -auth.ACEntry.ChildrenEntry.key - <nil>
+	 -auth.ACEntry.ChildrenEntry.value - MessageDescriptor{Syntax: proto3, FullName: auth.PathPolicy, Fields: [{Name: path, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "path"}, {Name: full_path, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "fullPath"}, {Name: allow_sub_paths, Number: 3, Cardinality: optional, Kind: bool, HasJSONName: true, JSONName: "allowSubPaths"}, {Name: sub_paths, Number: 4, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "subPaths", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}, {Name: actions, Number: 5, Cardinality: repeated, Kind: enum, HasJSONName: true, JSONName: "actions", IsPacked: true, IsList: true, Enum: auth.Action}], Messages: [{Name: SubPathsEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 auth.Object
 	 -auth.Object.key - MessageDescriptor{Syntax: proto3, FullName: auth.ObjectKey, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: object_type, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "objectType"}, {Name: object_id_parts, Number: 3, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "objectIdParts", IsList: true}]}
 	 -auth.Object.value - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Any, Fields: [{Name: type_url, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "typeUrl"}, {Name: value, Number: 2, Cardinality: optional, Kind: bytes, HasJSONName: true, JSONName: "value"}]}
@@ -78,7 +68,7 @@ auth.Collection
 	 -auth.Collection.name - <nil>
 	 -auth.Collection.description - <nil>
 	 -auth.Collection.object_types - <nil>
-	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
+	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: children, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 auth.User
 	 -auth.User.collection_id - <nil>
 	 -auth.User.msp_id - <nil>
@@ -101,8 +91,7 @@ auth.HiddenTxList
 auth.Role
 	 -auth.Role.collection_id - <nil>
 	 -auth.Role.role_id - <nil>
-	 -auth.Role.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
-	 -auth.Role.name - <nil>
+	 -auth.Role.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: children, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 	 -auth.Role.description - <nil>
 	 -auth.Role.parent_role_ids - <nil>
 auth.Attribute
@@ -110,9 +99,9 @@ auth.Attribute
 	 -auth.Attribute.msp_id - <nil>
 	 -auth.Attribute.oid - <nil>
 	 -auth.Attribute.value - <nil>
-	 -auth.Attribute.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
+	 -auth.Attribute.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: children, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 auth.Membership
 	 -auth.Membership.collection_id - <nil>
 	 -auth.Membership.msp_id - <nil>
 	 -auth.Membership.user_id - <nil>
-	 -auth.Membership.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: object, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "object", IsList: true, Message: auth.ObjectPolicy}, {Name: view_mask, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "viewMask", HasPresence: true, Message: google.protobuf.FieldMask}]}
+	 -auth.Membership.ac - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: children, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}

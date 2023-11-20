@@ -28,7 +28,7 @@
             "CHAINCODE_SERVER_ADDRESS" : "127.0.0.1:8541",
             "CHAINCODE_ID": "noauth:0.0.1",
         }
-    }
+    },
 
         // {
         //     "name": "rbac_v1",

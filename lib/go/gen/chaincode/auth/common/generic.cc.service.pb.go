@@ -15,13 +15,11 @@ import (
 type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	// ══════════════════════════════════ Helper ═════════════════════════════════════
 	// ────────────────────────────────── Query ──────────────────────────────────────
-	// # Operation:
-	//   - Domain: ACTION_UTILITY
 	//
-	// req is empty
-	GetAllTypes(ctx T) (res *GetAllTypesResponse, err error)
-
-	// GetCurrentUser
+	//	rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+	//	  option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+	//	  option (auth.operation) = {action: ACTION_UTILITY};
+	//	}
 	//
 	// # Operation:
 	//   - Domain: ACTION_VIEW
@@ -189,7 +187,6 @@ type GenericServiceBase struct {
 
 func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 	return []string{
-		"GetAllTypes",
 		"GetCurrentUser",
 		"Get",
 		"List",
@@ -210,11 +207,6 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 
 func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
-	case "GetAllTypes":
-		// action:ACTION_UTILITY
-		return &v1.Operation{
-			Action: 1,
-		}, nil
 	case "GetCurrentUser":
 		// action:ACTION_VIEW
 		return &v1.Operation{

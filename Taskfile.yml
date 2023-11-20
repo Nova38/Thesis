@@ -37,6 +37,8 @@ tasks:
       - golines --ignore-generated  . -w
 
 
+  go:RunSample:
+    cmd: go run ./apps/chaincode/sample
 
 
   fabric:getMetadata:

@@ -146,7 +146,9 @@ func UserGetCurrentId(contract *client.Contract) (string, error) {
 		"\n--> Evaluate Transaction: GetAllAssets, function returns all the current assets on the ledger",
 	)
 
-	evaluateResult, err := contract.EvaluateTransaction("auth.users:UserGetCurrentId")
+	bytes := []byte(`{"msp_id":"Org1MSP","user_id":"User1"}`)
+
+	evaluateResult, err := contract.EvaluateTransaction("auth.generic:GetAllTypes", string(bytes))
 	if err != nil {
 		fmt.Printf("Error, failed to evaluate transaction: %v", err)
 		return "", fmt.Errorf("failed to evaluate transaction: %w", err)

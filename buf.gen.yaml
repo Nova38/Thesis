@@ -30,6 +30,7 @@ plugins:
       out: lib/es/gen
       opt: target=ts
 
+
     - plugin: buf.build/bufbuild/connect-es
       out: lib/es/gen/connect
 

@@ -234,28 +234,28 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 
 // 	return obj, nil
 // }
-
-func PrimaryGetFromKey[T common.ObjectInterface](ctx TxCtxInterface, key *authpb.ObjectKey) (obj T, err error) {
-	l := &Ledger[T]{ctx: ctx}
-	op := &authpb.Operation{
-		Action:       authpb.Action_ACTION_VIEW,
-		CollectionId: key.GetCollectionId(),
-		ObjectType:   key.GetObjectType(),
-		Paths:        nil,
-	}
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-		return obj, oops.Wrap(common.UserPermissionDenied)
-	}
-
-	k, err := MakeObjectKeyPrimary(key)
-	if err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	obj, err = l.GetFromKey(k)
-	if err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	return obj, l.Get(obj)
-}
+//
+//func PrimaryGetFromKey[T common.ObjectInterface](ctx TxCtxInterface, key *authpb.ObjectKey) (obj T, err error) {
+//	l := &Ledger[T]{ctx: ctx}
+//	op := &authpb.Operation{
+//		Action:       authpb.Action_ACTION_VIEW,
+//		CollectionId: key.GetCollectionId(),
+//		ObjectType:   key.GetObjectType(),
+//		Paths:        nil,
+//	}
+//	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+//		return obj, oops.Wrap(common.UserPermissionDenied)
+//	}
+//
+//	k, err := MakeObjectKeyPrimary(key)
+//	if err != nil {
+//		return obj, oops.Wrap(err)
+//	}
+//
+//	obj, err = l.GetFromKey(k)
+//	if err != nil {
+//		return obj, oops.Wrap(err)
+//	}
+//
+//	return obj, l.Get(obj)
+//}

@@ -257,18 +257,6 @@
         }
       }
     },
-    "commonGetAllTypesResponse": {
-      "type": "object",
-      "properties": {
-        "types": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "══════════════════════════════════ Helper ═════════════════════════════════════\n────────────────────────────────── Query ──────────────────────────────────────"
-    },
     "commonGetCurrentUserResponse": {
       "type": "object",
       "properties": {
