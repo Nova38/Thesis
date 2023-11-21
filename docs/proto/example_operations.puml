@@ -30,3 +30,6 @@ json "<b>Create Collection" as J {
 }
 
 @enduml
+@startuml
+Alice -> Bob: test
+@enduml

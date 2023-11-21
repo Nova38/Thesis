@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	fmtPkg     = protogen.GoImportPath("fmt")
-	gatewayPkg = protogen.GoImportPath("github.com/hyperledger/fabric-gateway/pkg/client")
+	fmtPkg                        = protogen.GoImportPath("fmt")
+	gatewayPkg                    = protogen.GoImportPath("github.com/hyperledger/fabric-gateway/pkg/client")
+	generatedGatewayPackageSuffix = "gateway"
 )
 
 type ServiceGenerator struct{}
@@ -50,7 +51,7 @@ func (sg *ServiceGenerator) GenerateFile(
 		// sg.GenerateGoGatewayHandler(gen, g, sv)
 	}
 
-	sg.GenerateGatewayFile(gen, file)
+	// sg.GenerateGatewayFile(gen, file)
 
 	return g, nil
 }
@@ -294,11 +295,11 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 
 			if tt == auth_pb.TransactionType_TRANSACTION_TYPE_QUERY {
 				g.P(
-					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName+\":",
+					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName\":",
 					m.GoName, "\", string(inBytes) )")
 			} else {
 				g.P(
-					"evaluateResult, err:= s.contract.SubmitTransaction(s.ChaincodeName+\":",
+					"evaluateResult, err:= s.contract.SubmitTransaction(s.ChaincodeName\":",
 					m.GoName, "\", string(inBytes) )")
 			}
 		}

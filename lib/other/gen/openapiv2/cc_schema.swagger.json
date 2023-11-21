@@ -1,0 +1,2324 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "auth/v1/auth.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "GenericService"
+    },
+    {
+      "name": "SpecimenService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth.common.GenericService/AuthorizeOperation": {
+      "post": {
+        "operationId": "GenericService_AuthorizeOperation",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonAuthorizeOperationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Bootstrap": {
+      "post": {
+        "summary": "──────────────────────────────── Invoke ───────────────────────────────────────",
+        "operationId": "GenericService_Bootstrap",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonBootstrapRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Create": {
+      "post": {
+        "operationId": "GenericService_Create",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/CreateUser": {
+      "post": {
+        "operationId": "GenericService_CreateUser",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Delete": {
+      "post": {
+        "operationId": "GenericService_Delete",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Get": {
+      "post": {
+        "operationId": "GenericService_Get",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonGetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/GetCurrentUser": {
+      "post": {
+        "summary": "══════════════════════════════════ Helper ═════════════════════════════════════\n────────────────────────────────── Query ──────────────────────────────────────\nrpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {\n  option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;\n  option (auth.operation) = {action: ACTION_UTILITY};\n}",
+        "operationId": "GenericService_GetCurrentUser",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/HiddenTx": {
+      "post": {
+        "operationId": "GenericService_HiddenTx",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonHiddenTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/HideTx": {
+      "post": {
+        "operationId": "GenericService_HideTx",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonHideTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/History": {
+      "post": {
+        "operationId": "GenericService_History",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonHistoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/List": {
+      "post": {
+        "operationId": "GenericService_List",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ListByAttrs": {
+      "post": {
+        "operationId": "GenericService_ListByAttrs",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonListByAttrsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ListByCollection": {
+      "post": {
+        "operationId": "GenericService_ListByCollection",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonListByCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Reference": {
+      "post": {
+        "operationId": "GenericService_Reference",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ReferenceByCollection": {
+      "post": {
+        "operationId": "GenericService_ReferenceByCollection",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceByCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ReferenceByObject": {
+      "post": {
+        "operationId": "GenericService_ReferenceByObject",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceByObjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ReferenceCreate": {
+      "post": {
+        "operationId": "GenericService_ReferenceCreate",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ReferenceDelete": {
+      "post": {
+        "operationId": "GenericService_ReferenceDelete",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/ReferenceListByType": {
+      "post": {
+        "operationId": "GenericService_ReferenceListByType",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceListByTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Suggestion": {
+      "post": {
+        "operationId": "GenericService_Suggestion",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionApprove": {
+      "post": {
+        "operationId": "GenericService_SuggestionApprove",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionApproveRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionByPartialKey": {
+      "post": {
+        "operationId": "GenericService_SuggestionByPartialKey",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionByPartialKeyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionCreate": {
+      "post": {
+        "summary": "──────────────────────────────── Invoke ───────────────────────────────────────",
+        "operationId": "GenericService_SuggestionCreate",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionDelete": {
+      "post": {
+        "operationId": "GenericService_SuggestionDelete",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionList": {
+      "post": {
+        "operationId": "GenericService_SuggestionList",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/SuggestionListByCollection": {
+      "post": {
+        "operationId": "GenericService_SuggestionListByCollection",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonSuggestionListByCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/UnHideTx": {
+      "post": {
+        "operationId": "GenericService_UnHideTx",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonUnHideTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/Update": {
+      "post": {
+        "operationId": "GenericService_Update",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenCreate": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenCreate",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenDelete": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenDelete",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenGet": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenGet",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenGetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenGetByCollection": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenGetByCollection",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenGetByCollectionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenGetHistory": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenGetHistory",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenGetHistoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenGetList": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenGetList",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenGetListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenHideTx": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenHideTx",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenHideTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenUnHideTx": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenUnHideTx",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenUnHideTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    },
+    "/ccbio.schema.v0.SpecimenService/SpecimenUpdate": {
+      "post": {
+        "operationId": "SpecimenService_SpecimenUpdate",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v0SpecimenUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SpecimenService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "SpecimenGeoreference": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "state_province": {
+          "type": "string"
+        },
+        "county": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "habitat": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "SpecimenGrant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "granted_by": {
+          "type": "string"
+        },
+        "granted_to": {
+          "type": "string"
+        },
+        "granted_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "SpecimenImage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      },
+      "title": "Mapped Types"
+    },
+    "SpecimenLoan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "loaned_by": {
+          "type": "string"
+        },
+        "loaned_to": {
+          "type": "string"
+        },
+        "loaned_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "SpecimenPrimary": {
+      "type": "object",
+      "properties": {
+        "catalog_number": {
+          "type": "string"
+        },
+        "accession_number": {
+          "type": "string"
+        },
+        "field_number": {
+          "type": "string"
+        },
+        "tissue_number": {
+          "type": "string"
+        },
+        "cataloger": {
+          "type": "string"
+        },
+        "collector": {
+          "type": "string"
+        },
+        "determiner": {
+          "type": "string"
+        },
+        "field_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "catalog_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "determined_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "determined_reason": {
+          "type": "string"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "SpecimenSecondary": {
+      "type": "object",
+      "properties": {
+        "preparation": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "SpecimenTaxon": {
+      "type": "object",
+      "properties": {
+        "kingdom": {
+          "type": "string"
+        },
+        "phylum": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "order": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "genus": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "subspecies": {
+          "type": "string"
+        },
+        "last_modified": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "authAction": {
+      "type": "string",
+      "enum": [
+        "ACTION_UNSPECIFIED",
+        "ACTION_UTILITY",
+        "ACTION_VIEW",
+        "ACTION_CREATE",
+        "ACTION_UPDATE",
+        "ACTION_DELETE",
+        "ACTION_SUGGEST_VIEW",
+        "ACTION_SUGGEST_CREATE",
+        "ACTION_SUGGEST_DELETE",
+        "ACTION_SUGGEST_APPROVE",
+        "ACTION_VIEW_HISTORY",
+        "ACTION_VIEW_HIDDEN_TXS",
+        "ACTION_HIDE_TX",
+        "ACTION_REFERENCE_CREATE",
+        "ACTION_REFERENCE_DELETE",
+        "ACTION_REFERENCE_VIEW"
+      ],
+      "default": "ACTION_UNSPECIFIED",
+      "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - OBJECT:      Used to manage objects in a collection\n\n - ACTION_VIEW: View the contents of an object\n - ACTION_CREATE: Create a new object\n - key must not already exist\n - ACTION_UPDATE: Update an existing object\n  - key must already exist\n - ACTION_DELETE: Delete an existing object, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an object, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an object, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the object, key must already exist",
+      "title": "Action - The action to be performed during the operation"
+    },
+    "authHiddenTx": {
+      "type": "object",
+      "properties": {
+        "tx_id": {
+          "type": "string"
+        },
+        "msp_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "authHiddenTxList": {
+      "type": "object",
+      "properties": {
+        "primary_key": {
+          "$ref": "#/definitions/authObjectKey",
+          "title": "The key that is used to store the object"
+        },
+        "txs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authHiddenTx"
+          },
+          "title": "The list of hidden txs by tx_id"
+        }
+      },
+      "title": "Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}"
+    },
+    "authHistory": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authHistoryEntry"
+          }
+        },
+        "hidden_txs": {
+          "$ref": "#/definitions/authHiddenTxList"
+        }
+      }
+    },
+    "authHistoryEntry": {
+      "type": "object",
+      "properties": {
+        "tx_id": {
+          "type": "string",
+          "title": "The transaction id that caused the change"
+        },
+        "is_delete": {
+          "type": "boolean",
+          "title": "Whether the object was deleted"
+        },
+        "is_hidden": {
+          "type": "boolean",
+          "title": "Whether the transaction was hidden"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the change"
+        },
+        "note": {
+          "type": "string",
+          "title": "A note about the change"
+        },
+        "value": {
+          "$ref": "#/definitions/protobufAny",
+          "title": "The value of the object"
+        }
+      }
+    },
+    "authObject": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "value": {
+          "$ref": "#/definitions/protobufAny"
+        }
+      }
+    },
+    "authObjectKey": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "object_type": {
+          "type": "string"
+        },
+        "object_id_parts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Reference Keys\nUsed to store references to objects for case like a user having a role\nWhen converted to its string form it will be:\n{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]\n\n\nSubKeys\nWhen converted to its string form it will be:\n{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}\nExamples\n- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}\n- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}",
+      "title": "Keys\n─────────────────────────────────────────────────────────────────────────────────────\nObject Keys\nWhen converted to its string form it will be:\n- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}"
+    },
+    "authOperation": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/authAction"
+        },
+        "collection_id": {
+          "type": "string"
+        },
+        "object_type": {
+          "type": "string"
+        },
+        "secondary_object_type": {
+          "type": "string"
+        },
+        "paths": {
+          "type": "string"
+        }
+      }
+    },
+    "authReference": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "reference_type": {
+          "type": "string"
+        },
+        "key_1": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "key_2": {
+          "$ref": "#/definitions/authObjectKey"
+        }
+      },
+      "title": "Reference Keys\n{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]"
+    },
+    "authStateActivity": {
+      "type": "object",
+      "properties": {
+        "tx_id": {
+          "type": "string",
+          "title": "The transaction id that caused the change"
+        },
+        "msp_id": {
+          "type": "string",
+          "title": "The msp of the user that caused the change"
+        },
+        "user_id": {
+          "type": "string",
+          "title": "The id of the user that caused the change"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "title": "The timestamp of the change"
+        },
+        "note": {
+          "type": "string",
+          "title": "A note about the change"
+        }
+      },
+      "title": "Can be used as the history entry"
+    },
+    "authSuggestion": {
+      "type": "object",
+      "properties": {
+        "primary_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "suggestion_id": {
+          "type": "string"
+        },
+        "paths": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/protobufAny"
+        }
+      },
+      "title": "Key should be\n{auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}"
+    },
+    "authUser": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "msp_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "description": "key := {USER}{USER_ID.msp_id}{USER_ID.id}",
+      "title": "User\n┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈"
+    },
+    "commonAuthorizeOperationRequest": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "$ref": "#/definitions/authOperation"
+        }
+      }
+    },
+    "commonAuthorizeOperationResponse": {
+      "type": "object",
+      "properties": {
+        "authorized": {
+          "type": "boolean"
+        }
+      }
+    },
+    "commonBootstrapRequest": {
+      "type": "object",
+      "properties": {
+        "default_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "add_default_setup": {
+          "type": "boolean"
+        }
+      },
+      "title": "──────────────────────────────── Invoke ───────────────────────────────────────"
+    },
+    "commonBootstrapResponse": {
+      "type": "object"
+    },
+    "commonCreateRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      },
+      "title": "──────────────────────────────── Invoke ───────────────────────────────────────\nCreate"
+    },
+    "commonCreateResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonCreateUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/authUser"
+        }
+      }
+    },
+    "commonDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "commonDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonGetCurrentUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/authUser"
+        }
+      }
+    },
+    "commonGetRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      },
+      "title": "Get"
+    },
+    "commonGetResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonHiddenTxRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      },
+      "title": "HiddenTx"
+    },
+    "commonHiddenTxResponse": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "hidden_txs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authHiddenTx"
+          }
+        }
+      }
+    },
+    "commonHideTxRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "hidden_tx": {
+          "$ref": "#/definitions/authHiddenTx"
+        }
+      }
+    },
+    "commonHideTxResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "hidden_txs": {
+          "$ref": "#/definitions/authHiddenTxList"
+        }
+      }
+    },
+    "commonHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      },
+      "title": "History"
+    },
+    "commonHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "history": {
+          "$ref": "#/definitions/authHistory",
+          "title": "repeated auth. s = 1;"
+        }
+      }
+    },
+    "commonListByAttrsRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "num_attrs": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "commonListByAttrsResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authObject"
+          }
+        }
+      }
+    },
+    "commonListByCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonListByCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authObject"
+          }
+        }
+      }
+    },
+    "commonListRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonListResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authObject"
+          }
+        }
+      }
+    },
+    "commonReferenceByCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collection_id": {
+          "type": "string"
+        },
+        "reference_type": {
+          "type": "string"
+        }
+      }
+    },
+    "commonReferenceByCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authReference"
+          }
+        }
+      }
+    },
+    "commonReferenceByObjectRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "object_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "reference_type": {
+          "type": "string"
+        }
+      },
+      "title": "Get all of the collections"
+    },
+    "commonReferenceByObjectResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authReference"
+          }
+        }
+      }
+    },
+    "commonReferenceCreateRequest": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReference"
+        }
+      }
+    },
+    "commonReferenceCreateResponse": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReference"
+        }
+      }
+    },
+    "commonReferenceDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReference"
+        }
+      }
+    },
+    "commonReferenceDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReference"
+        }
+      }
+    },
+    "commonReferenceListByTypeRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reference_type": {
+          "type": "string"
+        }
+      }
+    },
+    "commonReferenceListByTypeResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authReference"
+          }
+        }
+      }
+    },
+    "commonReferenceRequest": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReference"
+        }
+      },
+      "title": "════════════════════════════════ References ═════════════════════════════════════\n──────────────────────────────── Query ──────────────────────────────────────────"
+    },
+    "commonReferenceResponse": {
+      "type": "object",
+      "properties": {
+        "exists": {
+          "type": "boolean"
+        }
+      }
+    },
+    "commonSuggestionApproveRequest": {
+      "type": "object",
+      "properties": {
+        "object_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "suggestion_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "commonSuggestionApproveResponse": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
+        },
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "commonSuggestionByPartialKeyRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num_attrs": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "object_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "suggestion_id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonSuggestionByPartialKeyResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authSuggestion"
+          }
+        }
+      }
+    },
+    "commonSuggestionCreateRequest": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
+        }
+      }
+    },
+    "commonSuggestionCreateResponse": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
+        }
+      }
+    },
+    "commonSuggestionDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "object_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "suggestion_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "commonSuggestionDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
+        }
+      }
+    },
+    "commonSuggestionListByCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collection_id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonSuggestionListByCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authSuggestion"
+          }
+        }
+      }
+    },
+    "commonSuggestionListRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "title": "auth.Object object = 3;"
+        }
+      }
+    },
+    "commonSuggestionListResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authSuggestion"
+          }
+        }
+      }
+    },
+    "commonSuggestionRequest": {
+      "type": "object",
+      "properties": {
+        "object_key": {
+          "$ref": "#/definitions/authObjectKey"
+        },
+        "suggestion_id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonSuggestionResponse": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
+        }
+      }
+    },
+    "commonUnHideTxRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "tx_id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonUnHideTxResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "hidden_txs": {
+          "$ref": "#/definitions/authHiddenTxList"
+        }
+      }
+    },
+    "commonUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        },
+        "update_mask": {
+          "type": "string"
+        }
+      }
+    },
+    "commonUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "object": {
+          "$ref": "#/definitions/authObject"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\nExample 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\nExample 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v0Specimen": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "specimen_id": {
+          "type": "string"
+        },
+        "primary": {
+          "$ref": "#/definitions/SpecimenPrimary"
+        },
+        "secondary": {
+          "$ref": "#/definitions/SpecimenSecondary"
+        },
+        "taxon": {
+          "$ref": "#/definitions/SpecimenTaxon"
+        },
+        "georeference": {
+          "$ref": "#/definitions/SpecimenGeoreference"
+        },
+        "images": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SpecimenImage"
+          }
+        },
+        "loans": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SpecimenLoan"
+          }
+        },
+        "grants": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SpecimenGrant"
+          }
+        }
+      }
+    },
+    "v0SpecimenCreateRequest": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      },
+      "title": "SpecimenCreate"
+    },
+    "v0SpecimenCreateResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      }
+    },
+    "v0SpecimenDeleteRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "specimen_id": {
+          "type": "string"
+        }
+      },
+      "title": "SpecimenDelete"
+    },
+    "v0SpecimenDeleteResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      }
+    },
+    "v0SpecimenGetByCollectionRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        }
+      },
+      "title": "SpecimenGetByCollection"
+    },
+    "v0SpecimenGetByCollectionResponse": {
+      "type": "object",
+      "properties": {
+        "specimens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v0Specimen"
+          }
+        }
+      }
+    },
+    "v0SpecimenGetHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "specimen_id": {
+          "type": "string"
+        },
+        "include_hidden": {
+          "type": "boolean"
+        }
+      },
+      "title": "SpecimenGetHistory"
+    },
+    "v0SpecimenGetHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "history": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      }
+    },
+    "v0SpecimenGetListRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "SpecimenGetList"
+    },
+    "v0SpecimenGetListResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "specimens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v0Specimen"
+          }
+        }
+      }
+    },
+    "v0SpecimenGetRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string",
+          "title": "Specimen.Id id = 1 [(buf.validate.field).required = true];"
+        },
+        "specimen_id": {
+          "type": "string"
+        }
+      },
+      "title": "Evaluate\nSpecimenGet"
+    },
+    "v0SpecimenGetResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      }
+    },
+    "v0SpecimenHideTxRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "specimen_id": {
+          "type": "string"
+        },
+        "tx": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      },
+      "title": "SpecimenHideTx"
+    },
+    "v0SpecimenHideTxResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      }
+    },
+    "v0SpecimenUnHideTxRequest": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "specimen_id": {
+          "type": "string"
+        },
+        "tx": {
+          "$ref": "#/definitions/authStateActivity"
+        }
+      },
+      "title": "SpecimenUnHideTx"
+    },
+    "v0SpecimenUnHideTxResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        }
+      }
+    },
+    "v0SpecimenUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        },
+        "update_mask": {
+          "type": "string"
+        }
+      },
+      "title": "SpecimenUpdate"
+    },
+    "v0SpecimenUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "specimen": {
+          "$ref": "#/definitions/v0Specimen"
+        },
+        "update_mask": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

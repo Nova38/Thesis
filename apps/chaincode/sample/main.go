@@ -148,7 +148,7 @@ func UserGetCurrentId(contract *client.Contract) (string, error) {
 
 	bytes := []byte(`{"msp_id":"Org1MSP","user_id":"User1"}`)
 
-	evaluateResult, err := contract.EvaluateTransaction("auth.generic:GetAllTypes", string(bytes))
+	evaluateResult, err := contract.EvaluateTransaction("org.hyperledger.fabric:GetMetadata", string(bytes))
 	if err != nil {
 		fmt.Printf("Error, failed to evaluate transaction: %v", err)
 		return "", fmt.Errorf("failed to evaluate transaction: %w", err)

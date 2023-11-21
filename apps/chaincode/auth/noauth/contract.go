@@ -10,6 +10,7 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	contracts "github.com/nova38/thesis/lib/go/fabric/auth/contracts"
+	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
@@ -105,6 +106,8 @@ func main() {
 		fmt.Printf("Error creating No Auth contract: %s", err)
 		panic(err)
 	}
+
+	sm.TransactionSerializer = &serializer.TxSerializer{}
 
 	server := &shim.ChaincodeServer{
 		CCID:    config.CCID,

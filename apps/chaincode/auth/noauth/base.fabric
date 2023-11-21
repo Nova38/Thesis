@@ -14,21 +14,18 @@
     {
         "query" :"auth.generic:List",
         "args": [{
-            "Bookmark": "",
-            "Limit": 0,
-            "Object": {
-                "name": "collection1"
-            }
+            "bookmark": "",
+            "limit": 0
+
+
         }]
 
     },
     {
-        "invoke" : "auth.users:List",
+        "invoke" : "auth.generic:GetCurrentUser",
         "args":
         [
-            {
-                "name": "admin"
-            }
+
         ]
         // "identity": "earl",
     },

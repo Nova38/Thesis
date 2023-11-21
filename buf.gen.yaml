@@ -1,6 +1,7 @@
 version: v1
 managed:
     enabled: true
+
     go_package_prefix:
         default: github.com/nova38/thesis/lib/go/gen
         except:
@@ -36,6 +37,13 @@ plugins:
 
     - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.1
       out: lib/other/gen/openapiv2
+      opt:
+        - allow_merge=true
+        - merge_file_name=cc_schema
+        - generate_unbound_methods=true
+        - disable_default_responses=true
+        - json_names_for_fields=false
+        # - simple_operation_ids=true
 
     # - plugin: buf.build/community/chrusty-jsonschema:v1.4.1
     #   out: lib/other/gen/jsonschema
