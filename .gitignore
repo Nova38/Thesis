@@ -7,6 +7,9 @@ tools/fabric/bin
 tools/fabric/builders
 tools/scripts/config
 
+network/bin
+network/builders
+
 
 
 # Binaries for programs and plugins

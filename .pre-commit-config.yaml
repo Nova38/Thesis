@@ -9,6 +9,9 @@ repos:
 
       - id: trailing-whitespace
         exclude: "lib/es/gen/"
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
 
   # - repo: https://github.com/segmentio/golines
   #   rev: v0.11.0

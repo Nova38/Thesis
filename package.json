@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bufbuild/buf": "^1.26.1",
+    "@bufbuild/buf": "^1.28.1",
     "@sinclair/typebox": "^0.31.18"
   }
 }

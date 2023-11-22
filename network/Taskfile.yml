@@ -1,0 +1,8 @@
+version: 3
+dotenv:
+  - ""
+
+tasks:
+  network_setup:
+    cmds:
+      -  test-network/network.sh -ca up createChannel
