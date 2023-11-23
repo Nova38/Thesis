@@ -19,8 +19,8 @@ test:
   workers:
     number: 1
   rounds:
-  - label: 
-    contractId: noauth
+  - label: Some
+    contractId: test
     txDuration: 20
     rateControl:
       type: fixed-rate
@@ -28,5 +28,5 @@ test:
     workload:
       module: benchmarks/workloads/Get.js
       arguments:
-        contractId: noauth
+        contractId: test
         contractVersion: 0.1

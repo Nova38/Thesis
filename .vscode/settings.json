@@ -97,5 +97,6 @@
         "**/.idea": true,
         "**/.task": true
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    
 }

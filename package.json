@@ -9,5 +9,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "workspaces":[
+    "caliper-workspace",
+    "lib/es"
+  ]
 }

@@ -14,7 +14,9 @@
 
 'use strict';
 
-import { WorkloadModuleBase } from '@hyperledger/caliper-core';
+// import { WorkloadModuleBase } from '@hyperledger/caliper-core';
+// import { Operation } from '../../lib';
+const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
 
 /**
  * Workload module for the benchmark round.
@@ -54,11 +56,12 @@ class GetWorkload extends WorkloadModuleBase {
      */
     async submitTransaction() {
 
-        const op = new  schema.AuthorizeOperationRequest()
-        bytes = op.toJson()
+        // const op = new  Operation()
+        // bytes = op.toBinary()
+        // console.log(bytes)
         const myArgs = {
             contractId: this.contractId,
-            contractFunction: 'Get',
+            contractFunction: 'Test',
             contractArguments: [],
             readOnly: false
         };
@@ -74,5 +77,8 @@ function createWorkloadModule() {
     return new GetWorkload();
 }
 
-const _createWorkloadModule = createWorkloadModule;
-export { _createWorkloadModule as createWorkloadModule };
+// const _createWorkloadModule = createWorkloadModule;
+// export { _createWorkloadModule as createWorkloadModule };
+
+
+module.exports.createWorkloadModule = createWorkloadModule;

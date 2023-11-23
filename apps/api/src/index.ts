@@ -37,9 +37,8 @@ const peerHostAlias = envOrDefault('PEER_HOST_ALIAS', 'peer0.org1.example.com');
 const utf8Decoder = new TextDecoder();
 const assetId = `asset${Date.now()}`;
 
-import {GenericService} from "../../../lib/es/gen/connect/chaincode/auth/common/generic_connect"
-import * as schema from "../../../lib/es/gen/chaincode/auth/common/generic_pb"
-import { Operation } from '../../../lib/es/gen/auth/v1/auth_pb';
+import { Operation } from 'lib/gen/auth/v1/auth_pb.js';
+
 async function main(): Promise<void> {
 
     await displayInputParameters();
@@ -129,16 +128,11 @@ async function newSigner(): Promise<Signer> {
 async function initLedger(contract: Contract): Promise<void> {
     console.log('\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger');
 
-    
-    let item = new schema.AuthorizeOperationRequest({
-        
-    })
+ 
 
     const op = new Operation()
-    
-    
-
     op.toJson()
+    
 
     console.log(bytes);
     // await contract.submitTransaction();
