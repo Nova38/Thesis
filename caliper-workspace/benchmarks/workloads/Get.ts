@@ -14,12 +14,9 @@
 
 'use strict';
 
-// import { WorkloadModuleBase } from '@hyperledger/caliper-core';
+import { WorkloadModuleBase } from '@hyperledger/caliper-core';
 // import { Operation } from '../../lib';
-
-//
-const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
-const lib = require('es')
+// const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
 
 /**
  * Workload module for the benchmark round.
@@ -47,7 +44,7 @@ class GetWorkload extends WorkloadModuleBase {
      */
     async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext) {
         await super.initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext);
-        // const  i = import('../../lib')
+
         const args = this.roundArguments;
         this.contractId = args.contractId;
         this.contractVersion = args.contractVersion;
@@ -58,7 +55,10 @@ class GetWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
-        console.log(bytes)
+
+        // const op = new  Operation()
+        // bytes = op.toBinary()
+        // console.log(bytes)
         const myArgs = {
             contractId: this.contractId,
             contractFunction: 'Test',
@@ -81,4 +81,4 @@ function createWorkloadModule() {
 // export { _createWorkloadModule as createWorkloadModule };
 
 
-module.exports.createWorkloadModule = createWorkloadModule;
+// module.exports.createWorkloadModule = createWorkloadModule;

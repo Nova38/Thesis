@@ -1,0 +1,33 @@
+{
+  "name": "es",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf ./dist",
+    "build": "esbuild --bundle index.ts --outfile=bundle.js --platform=node --target=node16 --format=cjs ",
+    "build:watch": "esbuild --bundle index.ts --outfile=bundle.js --platform=node --target=node16 --format=cjs --watch",
+    "build:cjs": "tsc --project tsconfig.json --module commonjs --outDir ./dist/cjs --declaration --declarationDir ./dist/cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "0.19.7",
+    "typescript": "^5.3.2"
+  },
+  "exports": {
+    ".": {
+      "module": "./dist/esm/index.js",
+      "require": "./bundle.js",
+      "import": "./dist/proxy/index.js"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.4.2"
+  }
+}

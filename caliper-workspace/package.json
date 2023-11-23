@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "bind": "@hyperledger/caliper-cli bind --caliper-bind-sut fabric:2.4",
     "start": "node index.js",
     "launch": "caliper launch manager --caliper-workspace ./ --caliper-networkconfig networks/test-network.yaml  --caliper-benchconfig benchmarks/config.yaml --caliper-flow-only-test"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@bufbuild/protobuf": "^1.4.2",
-    "@hyperledger/caliper-cli": "^0.5.0"
+    "@hyperledger/caliper-cli": "^0.5.0",
+    "es": "link:..\\lib\\es"
+  },
+  "devDependencies": {
+    "esbuild": "0.19.7",
+    "typescript": "^5.3.2"
   }
 }
