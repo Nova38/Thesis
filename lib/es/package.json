@@ -24,6 +24,7 @@
       "import": "./dist/proxy/index.js"
     }
   },
+  "packageManager": "pnpm",
   "files": [
     "dist/**"
   ],

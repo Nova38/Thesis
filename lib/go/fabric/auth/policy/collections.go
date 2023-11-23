@@ -2,7 +2,7 @@ package policy
 
 // type Collection pb.Collection
 // type PathRolePermission pb.Operations_PathRolePermission
-//func ValidateCollection(c *auth_pb.Collection) (err error) {
+// func ValidateCollection(c *auth_pb.Collection) (err error) {
 //	// Check to see if the type is valid
 //	if _, err = GetType(c); err != nil {
 //		return oops.

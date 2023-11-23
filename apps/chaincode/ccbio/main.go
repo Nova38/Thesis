@@ -120,7 +120,7 @@ func runChaincode() {
 	}
 }
 
-func print_empty() {
+func printEmpty() {
 	out := &schema.LastModified{
 		UserId: &schema.User_Id{
 			MspId: "",
@@ -133,12 +133,12 @@ func print_empty() {
 			Nanos:   0,
 		},
 	}
-	// encode it in json
-	json, err := json.Marshal(out)
+	// encode it in bytes
+	bytes, err := json.Marshal(out)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s\n", json)
+	fmt.Printf("%s\n", bytes)
 }
 
 func FormatTime(groups []string, a slog.Attr) slog.Attr {
@@ -153,7 +153,7 @@ func main() {
 	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
 	// slog.SetDefault(logger)
 
-	print_empty()
+	printEmpty()
 	// attr := &map[string]string{"time": ""}
 	opts := slog.HandlerOptions{
 		Level:       slog.LevelDebug,

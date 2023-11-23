@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"strconv"
 
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"google.golang.org/protobuf/proto"
@@ -198,7 +199,12 @@ func (l *Ledger[T]) GetPartialKeyList(
 	if err != nil {
 		return nil, "", err
 	}
-	defer results.Close()
+	defer func(results shim.StateQueryIteratorInterface) {
+		err := results.Close()
+		if err != nil {
+			l.ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
+		}
+	}(results)
 
 	for results.HasNext() {
 		queryResponse, err := results.Next()
@@ -207,7 +213,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 		}
 		obj := new(T)
 
-		if err := json.Unmarshal(queryResponse.Value, &obj); err != nil {
+		if err := json.Unmarshal(queryResponse.GetValue(), &obj); err != nil {
 			return nil, "", err
 		}
 

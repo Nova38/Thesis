@@ -215,9 +215,9 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 	return nil, oops.Errorf("collection not set")
 }
 
-//func (ctx *BaseTxCtx) SetCollection(
+// func (ctx *BaseTxCtx) SetCollection(
 //	collectionId string,
-//) (col *authpb.Collection, err error) {
+// ) (col *authpb.Collection, err error) {
 //	// TODO:
 //	// FIXME: Need to check in fns before calling is Authorized
 //
@@ -248,7 +248,7 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 // Role Functions
 // ════════════════════════════════════════════════════════
 
-//func (ctx *BaseTxCtx) GetACLKey() (key string, err error) {
+// func (ctx *BaseTxCtx) GetACLKey() (key string, err error) {
 //	// Check the requirements
 //	if ctx.User != nil || ctx.Collection != nil {
 //		return key, oops.
@@ -273,7 +273,7 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //  Operations Functions
 // ═════════════════════════════════════════════
 
-//func (ctx *BaseTxCtx) SetOperation(op *authpb.Operation) {
+// func (ctx *BaseTxCtx) SetOperation(op *authpb.Operation) {
 //	// See if the operation pointer has an ID and is not nil
 //	ctx.ops = op
 //}
@@ -304,7 +304,7 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //
 // ═════════════════════════════════════════════
 
-//func (ctx *BaseTxCtx) ExtractAuthTransactionItems(req any) (err error) {
+// func (ctx *BaseTxCtx) ExtractAuthTransactionItems(req any) (err error) {
 //	// TODO implement me
 //	panic("implement me")
 //}
@@ -323,10 +323,10 @@ func (ctx *BaseTxCtx) GetViewMask() (mask *fieldmaskpb.FieldMask) {
 	if ctx.ops == nil {
 		ctx.ops = &authpb.Operation{}
 	}
-	if ctx.ops.Paths == nil {
+	if ctx.ops.GetPaths() == nil {
 		ctx.ops.Paths = &fieldmaskpb.FieldMask{}
 	}
-	return ctx.ops.Paths
+	return ctx.ops.GetPaths()
 }
 
 func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) {

@@ -1,4 +1,4 @@
-import { Object$ } from "../gen/auth/v1/auth_pb";
+import { Item } from "../gen/auth/v1/auth_pb";
 import { Author } from "../gen/chaincode/sample/v0/items_pb";
 
 import { Any, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
@@ -16,8 +16,8 @@ export function createAuthor(): Author {
     return author;
 }
 
-export function createAuthorObject(): Object$ {
-    const obj = new Object$();
+export function createAuthorItem(): Item {
+    const obj = new  Item();
     const author = createAuthor();
 
     obj.value = Any.pack(author);

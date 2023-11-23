@@ -70,85 +70,41 @@ export declare class Group extends Message<Group> {
 }
 
 /**
- * @generated from message sample.Person
- */
-export declare class Person extends Message<Person> {
-  /**
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * @generated from field: int32 age = 2;
-   */
-  age: number;
-
-  /**
-   * @generated from field: repeated string friends = 3;
-   */
-  friends: string[];
-
-  /**
-   * @generated from field: repeated sample.Group groups = 4;
-   */
-  groups: Group[];
-
-  constructor(data?: PartialMessage<Person>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "sample.Person";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Person;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Person;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Person;
-
-  static equals(a: Person | PlainMessage<Person> | undefined, b: Person | PlainMessage<Person> | undefined): boolean;
-}
-
-/**
  * @generated from message sample.Book
  */
 export declare class Book extends Message<Book> {
   /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId: string;
-
-  /**
-   * @generated from field: string isbn = 2;
+   * @generated from field: string isbn = 1;
    */
   isbn: string;
 
   /**
-   * @generated from field: string book_title = 3;
+   * @generated from field: string book_title = 2;
    */
   bookTitle: string;
 
   /**
-   * @generated from field: string author = 4;
+   * @generated from field: string author = 3;
    */
   author: string;
 
   /**
-   * @generated from field: int32 year = 5;
+   * @generated from field: int32 year = 4;
    */
   year: number;
 
   /**
-   * @generated from field: string publisher = 6;
+   * @generated from field: string publisher = 5;
    */
   publisher: string;
 
   /**
-   * @generated from field: string language = 7;
+   * @generated from field: string language = 6;
    */
   language: string;
 
   /**
-   * @generated from field: string description = 8;
+   * @generated from field: string description = 7;
    */
   description: string;
 
@@ -206,17 +162,22 @@ export declare class Degree extends Message<Degree> {
  */
 export declare class Awards extends Message<Awards> {
   /**
-   * @generated from field: string award_name = 1;
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId: string;
+
+  /**
+   * @generated from field: string award_name = 2;
    */
   awardName: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp award_date = 2;
+   * @generated from field: google.protobuf.Timestamp award_date = 3;
    */
   awardDate?: Timestamp;
 
   /**
-   * @generated from field: string award_description = 3;
+   * @generated from field: string award_description = 4;
    */
   awardDescription: string;
 
@@ -240,24 +201,29 @@ export declare class Awards extends Message<Awards> {
  */
 export declare class Author extends Message<Author> {
   /**
-   * @generated from field: string author_id = 1;
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId: string;
+
+  /**
+   * @generated from field: string author_id = 2;
    */
   authorId: string;
 
   /**
-   * @generated from field: string author_name = 2;
+   * @generated from field: string author_name = 3;
    */
   authorName: string;
 
   /**
-   * @generated from field: repeated sample.Book books = 3;
+   * @generated from field: repeated sample.Book books = 4;
    */
   books: Book[];
 
   /**
    * Key: degree_name
    *
-   * @generated from field: map<string, sample.Degree> degrees = 4;
+   * @generated from field: map<string, sample.Degree> degrees = 5;
    */
   degrees: { [key: string]: Degree };
 
@@ -274,5 +240,49 @@ export declare class Author extends Message<Author> {
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Author;
 
   static equals(a: Author | PlainMessage<Author> | undefined, b: Author | PlainMessage<Author> | undefined): boolean;
+}
+
+/**
+ * @generated from message sample.Person
+ */
+export declare class Person extends Message<Person> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: int32 age = 3;
+   */
+  age: number;
+
+  /**
+   * @generated from field: repeated string friends = 4;
+   */
+  friends: string[];
+
+  /**
+   * @generated from field: repeated sample.Group groups = 5;
+   */
+  groups: Group[];
+
+  constructor(data?: PartialMessage<Person>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "sample.Person";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Person;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Person;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Person;
+
+  static equals(a: Person | PlainMessage<Person> | undefined, b: Person | PlainMessage<Person> | undefined): boolean;
 }
 

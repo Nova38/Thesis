@@ -7,7 +7,7 @@ import (
 	"github.com/samber/oops"
 )
 
-// SpecimenContract contract for handling BasicAssets
+// SpecimenContractImpl contract for handling BasicAssets
 type SpecimenContractImpl struct {
 	contractapi.Contract
 

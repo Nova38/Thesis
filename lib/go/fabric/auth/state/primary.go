@@ -238,7 +238,7 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 // 	return obj, nil
 // }
 //
-//func PrimaryGetFromKey[T common.ItemInterface](ctx TxCtxInterface, key *authpb.ItemKey) (obj T, err error) {
+// func PrimaryGetFromKey[T common.ItemInterface](ctx TxCtxInterface, key *authpb.ItemKey) (obj T, err error) {
 //	l := &Ledger[T]{ctx: ctx}
 //	op := &authpb.Operation{
 //		Action:       authpb.Action_ACTION_VIEW,

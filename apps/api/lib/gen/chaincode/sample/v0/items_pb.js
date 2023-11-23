@@ -29,32 +29,18 @@ export const Group = proto3.makeMessageType(
 );
 
 /**
- * @generated from message sample.Person
- */
-export const Person = proto3.makeMessageType(
-  "sample.Person",
-  () => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "age", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 3, name: "friends", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 4, name: "groups", kind: "message", T: Group, repeated: true },
-  ],
-);
-
-/**
  * @generated from message sample.Book
  */
 export const Book = proto3.makeMessageType(
   "sample.Book",
   () => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "isbn", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "book_title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "author", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 6, name: "publisher", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 8, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "isbn", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "book_title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "author", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 5, name: "publisher", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
@@ -76,9 +62,10 @@ export const Degree = proto3.makeMessageType(
 export const Awards = proto3.makeMessageType(
   "sample.Awards",
   () => [
-    { no: 1, name: "award_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "award_date", kind: "message", T: Timestamp },
-    { no: 3, name: "award_description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "award_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "award_date", kind: "message", T: Timestamp },
+    { no: 4, name: "award_description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
@@ -88,10 +75,25 @@ export const Awards = proto3.makeMessageType(
 export const Author = proto3.makeMessageType(
   "sample.Author",
   () => [
-    { no: 1, name: "author_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "author_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "books", kind: "message", T: Book, repeated: true },
-    { no: 4, name: "degrees", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Degree} },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "author_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "author_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "books", kind: "message", T: Book, repeated: true },
+    { no: 5, name: "degrees", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Degree} },
+  ],
+);
+
+/**
+ * @generated from message sample.Person
+ */
+export const Person = proto3.makeMessageType(
+  "sample.Person",
+  () => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "age", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 4, name: "friends", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "groups", kind: "message", T: Group, repeated: true },
   ],
 );
 

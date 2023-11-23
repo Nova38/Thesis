@@ -78,7 +78,7 @@ type (
 		//  Operations Functions
 		// ════════════════════════════════════════════════════════
 		//
-		//SetOperation(operation *authpb.Operation)
+		// SetOperation(operation *authpb.Operation)
 		//GetOperations() (ops *authpb.Operation, err error)
 		//SetOperationsPaths(paths *fieldmaskpb.FieldMask) (err error)
 
@@ -100,7 +100,7 @@ type (
 
 		// ─────────────────────────────────────────────────────────────────────
 
-		//GetCollection - Gets the collection value from the state
+		// GetCollection - Gets the collection value from the state
 		//
 		//# Requirements:
 		// - collection to be set

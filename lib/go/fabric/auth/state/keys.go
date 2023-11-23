@@ -17,8 +17,9 @@ func KeyExists(ctx TxCtxInterface, key string) bool {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
-
 // ─────────────────────────────────────────────────────────────────────────────────
+
+// MakeItemKeyAttr creates a composite key from the given attributes
 func MakeItemKeyAttr(key *authpb.ItemKey) []string {
 	return append(
 		[]string{key.GetCollectionId()},
@@ -26,6 +27,7 @@ func MakeItemKeyAttr(key *authpb.ItemKey) []string {
 	)
 }
 
+// MakeItemKeyPrimary
 func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
 	return shim.CreateCompositeKey(
 		key.GetItemType(),
@@ -117,7 +119,7 @@ func MakeItemKeySuggestion(
 
 func MakeRefKeys(
 	ref *authpb.Reference,
-) (refKey_1 string, refKey_2 string, err error) {
+) (refKey1 string, refKey2 string, err error) {
 	// attr := obj.KeyAttr()
 	// ItemKey := obj.ItemKey()
 
@@ -145,26 +147,26 @@ func MakeRefKeys(
 		k1 = append(a, b...)
 		k2 = append(b, a...)
 
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k1...))
+		refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k1...))
 		if err != nil {
 			return "", "", err
 		}
 
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k2...))
+		refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k2...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_1() != nil {
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, a...))
+		refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, a...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_2() != nil {
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, b...))
+		refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, b...))
 		if err != nil {
 			return "", "", err
 		}
 	}
 
-	return refKey_1, refKey_2, nil
+	return refKey1, refKey2, nil
 }

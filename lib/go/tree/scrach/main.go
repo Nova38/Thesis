@@ -7,11 +7,11 @@ import (
 	"github.com/nova38/thesis/lib/go/tree"
 )
 
-func printNode[T A]() func(node *tree.Node[T]) {
-	return func(node *tree.Node[T]) {
-		fmt.Println(node.Path, ":", node.Value)
-	}
-}
+// func printNode[T A]() func(node *tree.Node[T]) {
+//	return func(node *tree.Node[T]) {
+//		fmt.Println(node.Path, ":", node.Value)
+//	}
+//}
 
 type A struct {
 	name string

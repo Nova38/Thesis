@@ -9,27 +9,6 @@ import (
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-func (m *Person) ItemType() string {
-	return "sample.Person"
-}
-func (m *Person) KeyAttr() []string {
-	attr := []string{}
-	attr = append(attr, m.GetName())
-	return attr
-}
-
-// Domain Item
-func (m *Person) IsPrimary() bool {
-	return true
-}
-func (m *Person) ItemKey() *v1.ItemKey {
-	key := &v1.ItemKey{
-		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Person",
-		ItemIdParts:  m.KeyAttr(),
-	}
-	return key
-}
 func (m *Awards) ItemType() string {
 	return "sample.Awards"
 }
@@ -68,6 +47,27 @@ func (m *Author) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
 		ItemType:     "sample.Author",
+		ItemIdParts:  m.KeyAttr(),
+	}
+	return key
+}
+func (m *Person) ItemType() string {
+	return "sample.Person"
+}
+func (m *Person) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetName())
+	return attr
+}
+
+// Domain Item
+func (m *Person) IsPrimary() bool {
+	return true
+}
+func (m *Person) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "sample.Person",
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key

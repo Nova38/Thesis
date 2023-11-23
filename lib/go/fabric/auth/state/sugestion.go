@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"strconv"
 
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
@@ -278,7 +279,12 @@ func PartialSuggestionList(
 	if err != nil {
 		return nil, "", err
 	}
-	defer results.Close()
+	defer func(results shim.StateQueryIteratorInterface) {
+		err := results.Close()
+		if err != nil {
+			ctx.GetLogger().Error("GetPartialSuggestedKeyList", "Error", err)
+		}
+	}(results)
 
 	for results.HasNext() {
 		queryResponse, err := results.Next()
@@ -313,7 +319,7 @@ func SuggestionListByCollection(ctx TxCtxInterface, collection_id string, bookma
 		},
 	}
 
-	return PartialSuggestionList(ctx, s, 1, "")
+	return PartialSuggestionList(ctx, s, 1, bookmark)
 }
 
 // Get Suggestion List, for the item
@@ -330,5 +336,5 @@ func SuggestionListByItem(
 
 	num := len(objKey.GetItemIdParts()) + 2
 
-	return PartialSuggestionList(ctx, s, num, "")
+	return PartialSuggestionList(ctx, s, num, bookmark)
 }

@@ -342,11 +342,13 @@ func (o ItemContractImpl) UnHideTx(
 // ════════════════════════════════════ References ═════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-// todo: Reference
+// Reference returns the reference if it exists
 func (o ItemContractImpl) Reference(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceRequest,
 ) (res *cc.ReferenceResponse, err error) {
+	// todo: Reference
+
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)

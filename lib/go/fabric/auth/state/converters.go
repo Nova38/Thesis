@@ -28,7 +28,7 @@ func ProtoToItem(obj *authpb.Item) (item common.ItemInterface, err error) {
 	return item, nil
 }
 
-// Does not populate the item's key
+// ItemKeyToItemType Does not populate the item's key
 func ItemKeyToItemType(key *authpb.ItemKey) (item common.ItemInterface, err error) {
 	if key == nil {
 		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
