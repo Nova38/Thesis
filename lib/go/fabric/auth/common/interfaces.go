@@ -11,25 +11,25 @@ type (
 		Address string
 	}
 
-	ObjectInterface interface {
+	ItemInterface interface {
 		KeyAttr() (attr []string)
-		ObjectKey() *authpb.ObjectKey
-		ObjectType() string
+		ItemKey() *authpb.ItemKey
+		ItemType() string
 		proto.Message
 	}
 
-	PrimaryObjectInterface interface {
-		ObjectInterface
+	PrimaryItemInterface interface {
+		ItemInterface
 		IsPrimary() bool
 	}
 
-	SubObjectInterface interface {
-		ObjectInterface
+	SubItemInterface interface {
+		ItemInterface
 		IsSecondary() bool
 	}
 
-	GlobalObjectInterface interface {
-		ObjectInterface
+	GlobalItemInterface interface {
+		ItemInterface
 		IsGlobal() bool
 	}
 )

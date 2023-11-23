@@ -13,13 +13,13 @@ import (
 	"github.com/samber/oops"
 )
 
-type Ledger[T common.ObjectInterface] struct {
+type Ledger[T common.ItemInterface] struct {
 	ctx TxCtxInterface
 }
 
 // UTIL Functions
 
-// Exists returns true if the object exists in the ledger
+// Exists returns true if the item exists in the ledger
 func (l *Ledger[T]) Exists(key string) bool {
 	bytes, err := l.ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
@@ -33,8 +33,8 @@ func (l *Ledger[T]) Exists(key string) bool {
 // Invoke Functions
 // ════════════════════════════════════════════════════════
 
-// Insert inserts the object into the ledger
-// returns error if the object already exists
+// Insert inserts the item into the ledger
+// returns error if the item already exists
 func (l *Ledger[T]) Create(obj T) (err error) {
 	var (
 		key   string
@@ -47,7 +47,7 @@ func (l *Ledger[T]) Create(obj T) (err error) {
 
 	if l.Exists(key) {
 		return oops.
-			With("Key", key, "ObjectType", obj.ObjectType()).
+			With("Key", key, "ItemType", obj.ItemType()).
 			Wrap(common.AlreadyExists)
 	}
 
@@ -58,8 +58,8 @@ func (l *Ledger[T]) Create(obj T) (err error) {
 	return l.ctx.GetStub().PutState(key, bytes)
 }
 
-// Edit updates the object in the ledger
-// returns error if the object does not exist
+// Edit updates the item in the ledger
+// returns error if the item does not exist
 func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 	var (
 		key     string
@@ -67,7 +67,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 		current T
 	)
 
-	// Get the current object from the ledger
+	// Get the current item from the ledger
 	if key, err = MakePrimaryKey(update); err != nil {
 		return err
 	}
@@ -76,11 +76,11 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 		return oops.Wrap(err)
 	}
 
-	// Apply the mask to the Updating object
+	// Apply the mask to the Updating item
 	fmutils.Filter(update, mask.Paths)
 	proto.Merge(current, update)
 
-	// Put the object back into the ledger
+	// Put the item back into the ledger
 	if bytes, err = json.Marshal(current); err != nil {
 		return oops.Wrap(err)
 	}
@@ -90,7 +90,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 	return l.ctx.GetStub().PutState(key, bytes)
 }
 
-// Delete deletes the object from the ledger
+// Delete deletes the item from the ledger
 func (l *Ledger[T]) Delete(in T) (err error) {
 	key, err := MakePrimaryKey(in)
 	if err != nil {
@@ -112,7 +112,7 @@ func (l *Ledger[T]) GetFromKey(key string) (obj T, err error) {
 	bytes, err := l.ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return obj, oops.
-			With("Key", key, "ObjectType", obj.ObjectType()).
+			With("Key", key, "ItemType", obj.ItemType()).
 			Wrap(common.KeyNotFound)
 	} else if err != nil {
 		return obj, oops.Wrap(err)
@@ -125,15 +125,15 @@ func (l *Ledger[T]) GetFromKey(key string) (obj T, err error) {
 	return obj, nil
 }
 
-// Get returns the object from the ledger
+// Get returns the item from the ledger
 func (l *Ledger[T]) Get(in T) (err error) {
 	var (
 		key   string
 		bytes []byte
 	)
 
-	objecttype := in.ObjectType()
-	l.ctx.GetLogger().Debug("fn: GetState", "ObjectType", objecttype)
+	itemtype := in.ItemType()
+	l.ctx.GetLogger().Debug("fn: GetState", "ItemType", itemtype)
 
 	if key, err = MakePrimaryKey(in); err != nil {
 		return err
@@ -141,7 +141,7 @@ func (l *Ledger[T]) Get(in T) (err error) {
 
 	if bytes, err = l.ctx.GetStub().GetState(key); err == nil {
 		return oops.
-			With("Key", key, "ObjectType", in.ObjectType()).
+			With("Key", key, "ItemType", in.ItemType()).
 			Wrap(common.AlreadyExists)
 	}
 
@@ -151,8 +151,8 @@ func (l *Ledger[T]) Get(in T) (err error) {
 	return nil
 }
 
-// GetPartialKeyList returns a list of objects of type T
-// T must implement StateObject interface
+// GetPartialKeyList returns a list of items of type T
+// T must implement StateItem interface
 // numAttr is the number of attributes in the key to search for
 func (l *Ledger[T]) GetPartialKeyList(
 	obj T,
@@ -163,12 +163,12 @@ func (l *Ledger[T]) GetPartialKeyList(
 	l.ctx.GetLogger().Info("GetPartialKeyList")
 
 	var (
-		objecttype = obj.ObjectType()
-		attr       = append([]string{objecttype}, obj.KeyAttr()...)
+		itemtype = obj.ItemType()
+		attr     = append([]string{itemtype}, obj.KeyAttr()...)
 	)
 
 	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ObjectInvalid
+		return nil, "", common.ItemInvalid
 	}
 
 	// Extract the attributes to search for
@@ -177,7 +177,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 	l.ctx.GetLogger().
 		Info("GetPartialKeyList",
 			slog.Group(
-				"Key", "ObjectType", objecttype,
+				"Key", "ItemType", itemtype,
 				slog.Int("numAttr", numAttr),
 				slog.Any("attr", attr),
 				slog.Group(
@@ -190,7 +190,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 
 	results, meta, err := l.ctx.GetStub().
 		GetStateByPartialCompositeKeyWithPagination(
-			obj.ObjectKey().GetObjectType(),
+			obj.ItemKey().GetItemType(),
 			attr,
 			l.ctx.GetPageSize(),
 			bookmark,

@@ -6,7 +6,7 @@ package policy
 //	// Check to see if the type is valid
 //	if _, err = GetType(c); err != nil {
 //		return oops.
-//			With("type", c.GetObjectType()).
+//			With("type", c.GetItemType()).
 //			Wrap(err)
 //	}
 //
@@ -59,7 +59,7 @@ package policy
 //	paths := lo.Uniq(lo.Flatten(lo.MapToSlice(
 //		acl.GetEntries(),
 //		func(key string, v *auth_pb.ACL_Entry) []string {
-//			return getSubPaths(v.ObjectPaths)
+//			return getSubPaths(v.ItemPaths)
 //		},
 //	)))
 //
@@ -69,7 +69,7 @@ package policy
 //// Collection Type helpers
 //
 //func GetType(c *auth_pb.Collection) (protoreflect.MessageType, error) {
-//	name := protoreflect.FullName(c.ObjectType)
+//	name := protoreflect.FullName(c.ItemType)
 //
 //	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
 //	if err != nil {
@@ -133,14 +133,14 @@ package policy
 //func ExtractPathPolicy(
 //	current *auth_pb.ACL_PathPermission,
 //	path string,
-//) (*auth_pb.ACL_Policy_ObjectField, error) {
+//) (*auth_pb.ACL_Policy_ItemField, error) {
 //	paths := splitPath(path)
 //
 //	// check to see if paths is empty
 //	if len(paths) == 0 {
 //		return nil, oops.
 //			In("WalkPATH").
-//			Code(auth_pb.TxError_INVALID_OBJECT_FIELD_PATH.String()).
+//			Code(auth_pb.TxError_INVALID_ITEM_FIELD_PATH.String()).
 //			Errorf("path is empty")
 //	}
 //
@@ -148,7 +148,7 @@ package policy
 //	if current.Path != paths[0] {
 //		return nil, oops.
 //			In("WalkPATH").
-//			Code(auth_pb.TxError_INVALID_OBJECT_FIELD_PATH.String()).
+//			Code(auth_pb.TxError_INVALID_ITEM_FIELD_PATH.String()).
 //			With("path", path, "current path policy", current).
 //			Errorf("path %s doesn't match current path %s", paths[0], current.Path)
 //	}
@@ -187,7 +187,7 @@ package policy
 //	default:
 //		return nil, oops.
 //			In("WalkPATH").
-//			Code(auth_pb.TxError_INVALID_OBJECT_FIELD_PATH.String()).
+//			Code(auth_pb.TxError_INVALID_ITEM_FIELD_PATH.String()).
 //			With("path", path, "current path policy", current).
 //			Errorf("invalid path, this should not be thrown")
 //	}
@@ -220,7 +220,7 @@ package policy
 //			Code(auth_pb.TxError_RUNTIME_BAD_OPS.String()).
 //			Hint("Action not one of the valid options").
 //			With("action", action).
-//			Errorf("invalid action for object")
+//			Errorf("invalid action for item")
 //	}
 //}
 //
@@ -358,43 +358,43 @@ package policy
 //
 //		}
 //
-//	case auth_pb.Operation_DOMAIN_OBJECT:
+//	case auth_pb.Operation_DOMAIN_ITEM:
 //		{
 //
-//			if acl.Object == nil {
+//			if acl.Item == nil {
 //				return false, errorBuilder.
-//					Hint("Object is nil").
+//					Hint("Item is nil").
 //					Errorf("ACL is invalid")
 //			}
 //
 //			switch op.Action {
 //			case auth_pb.Operation_ACTION_VIEW:
-//				return acl.Object.View, nil
+//				return acl.Item.View, nil
 //			case auth_pb.Operation_ACTION_CREATE:
-//				return acl.Object.Create, nil
+//				return acl.Item.Create, nil
 //			case auth_pb.Operation_ACTION_DELETE:
-//				return acl.Object.Delete, nil
+//				return acl.Item.Delete, nil
 //			case auth_pb.Operation_ACTION_VIEW_HISTORY:
-//				return acl.Object.ViewHistory, nil
+//				return acl.Item.ViewHistory, nil
 //			case auth_pb.Operation_ACTION_HIDDEN_TX:
-//				return acl.Object.HiddenTx, nil
+//				return acl.Item.HiddenTx, nil
 //			default:
 //				return false, errorBuilder.
 //					Hint("Action not one of the valid options").
-//					Errorf("invalid action for object")
+//					Errorf("invalid action for item")
 //			}
 //		}
 //
-//	case auth_pb.Operation_DOMAIN_OBJECT_FIELD:
+//	case auth_pb.Operation_DOMAIN_ITEM_FIELD:
 //		{
 //			if op.Paths == nil {
 //				return false, errorBuilder.
 //					Hint("Paths is nil").
 //					Errorf("Ops is invalid")
 //			}
-//			if acl.ObjectPaths == nil {
+//			if acl.ItemPaths == nil {
 //				return false, errorBuilder.
-//					Hint("ObjectPaths is nil").
+//					Hint("ItemPaths is nil").
 //					Errorf("ACL is invalid")
 //			}
 //
@@ -404,12 +404,12 @@ package policy
 //					authorized = false
 //					err = errorBuilder.
 //						Hint("Panic").
-//						Errorf("invalid path for object, %v", p)
+//						Errorf("invalid path for item, %v", p)
 //				}
 //			}()
 //
 //			for _, path := range op.Paths.GetPaths() {
-//				path_valid, err := CheckPathAction(path, op.Action, acl.ObjectPaths)
+//				path_valid, err := CheckPathAction(path, op.Action, acl.ItemPaths)
 //				if err != nil {
 //					panic(err)
 //				}

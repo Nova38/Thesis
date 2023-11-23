@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, FieldMask, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import type { HiddenTx, HiddenTxList, History, Object$, ObjectKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
+import type { HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
 
 /**
  * ══════════════════════════════════ Helper ═════════════════════════════════════
@@ -187,9 +187,9 @@ export declare class CreateUserResponse extends Message<CreateUserResponse> {
  */
 export declare class GetRequest extends Message<GetRequest> {
   /**
-   * @generated from field: auth.Object object = 3;
+   * @generated from field: auth.Item item = 3;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<GetRequest>);
 
@@ -211,9 +211,9 @@ export declare class GetRequest extends Message<GetRequest> {
  */
 export declare class GetResponse extends Message<GetResponse> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<GetResponse>);
 
@@ -245,9 +245,9 @@ export declare class ListRequest extends Message<ListRequest> {
   limit: number;
 
   /**
-   * @generated from field: auth.Object object = 3;
+   * @generated from field: auth.Item item = 3;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<ListRequest>);
 
@@ -274,9 +274,9 @@ export declare class ListResponse extends Message<ListResponse> {
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Object objects = 2;
+   * @generated from field: repeated auth.Item items = 2;
    */
-  objects: Object$[];
+  items: Item[];
 
   constructor(data?: PartialMessage<ListResponse>);
 
@@ -308,9 +308,9 @@ export declare class ListByCollectionRequest extends Message<ListByCollectionReq
   limit: number;
 
   /**
-   * @generated from field: auth.Object object = 3;
+   * @generated from field: auth.Item item = 3;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<ListByCollectionRequest>);
 
@@ -337,9 +337,9 @@ export declare class ListByCollectionResponse extends Message<ListByCollectionRe
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Object objects = 2;
+   * @generated from field: repeated auth.Item items = 2;
    */
-  objects: Object$[];
+  items: Item[];
 
   constructor(data?: PartialMessage<ListByCollectionResponse>);
 
@@ -371,9 +371,9 @@ export declare class ListByAttrsRequest extends Message<ListByAttrsRequest> {
   limit: number;
 
   /**
-   * @generated from field: auth.Object object = 3;
+   * @generated from field: auth.Item item = 3;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: int32 num_attrs = 4;
@@ -405,9 +405,9 @@ export declare class ListByAttrsResponse extends Message<ListByAttrsResponse> {
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Object objects = 2;
+   * @generated from field: repeated auth.Item items = 2;
    */
-  objects: Object$[];
+  items: Item[];
 
   constructor(data?: PartialMessage<ListByAttrsResponse>);
 
@@ -432,9 +432,9 @@ export declare class ListByAttrsResponse extends Message<ListByAttrsResponse> {
  */
 export declare class CreateRequest extends Message<CreateRequest> {
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<CreateRequest>);
 
@@ -456,9 +456,9 @@ export declare class CreateRequest extends Message<CreateRequest> {
  */
 export declare class CreateResponse extends Message<CreateResponse> {
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<CreateResponse>);
 
@@ -480,9 +480,9 @@ export declare class CreateResponse extends Message<CreateResponse> {
  */
 export declare class UpdateRequest extends Message<UpdateRequest> {
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: google.protobuf.FieldMask update_mask = 3;
@@ -509,9 +509,9 @@ export declare class UpdateRequest extends Message<UpdateRequest> {
  */
 export declare class UpdateResponse extends Message<UpdateResponse> {
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<UpdateResponse>);
 
@@ -533,9 +533,9 @@ export declare class UpdateResponse extends Message<UpdateResponse> {
  */
 export declare class DeleteRequest extends Message<DeleteRequest> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: string reason = 4;
@@ -562,9 +562,9 @@ export declare class DeleteRequest extends Message<DeleteRequest> {
  */
 export declare class DeleteResponse extends Message<DeleteResponse> {
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<DeleteResponse>);
 
@@ -588,9 +588,9 @@ export declare class DeleteResponse extends Message<DeleteResponse> {
  */
 export declare class HistoryRequest extends Message<HistoryRequest> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<HistoryRequest>);
 
@@ -640,9 +640,9 @@ export declare class HistoryResponse extends Message<HistoryResponse> {
  */
 export declare class HiddenTxRequest extends Message<HiddenTxRequest> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<HiddenTxRequest>);
 
@@ -693,9 +693,9 @@ export declare class HiddenTxResponse extends Message<HiddenTxResponse> {
  */
 export declare class HideTxRequest extends Message<HideTxRequest> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: auth.HiddenTx hidden_tx = 2;
@@ -722,9 +722,9 @@ export declare class HideTxRequest extends Message<HideTxRequest> {
  */
 export declare class HideTxResponse extends Message<HideTxResponse> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: auth.HiddenTxList hidden_txs = 2;
@@ -751,9 +751,9 @@ export declare class HideTxResponse extends Message<HideTxResponse> {
  */
 export declare class UnHideTxRequest extends Message<UnHideTxRequest> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: string tx_id = 2;
@@ -780,9 +780,9 @@ export declare class UnHideTxRequest extends Message<UnHideTxRequest> {
  */
 export declare class UnHideTxResponse extends Message<UnHideTxResponse> {
   /**
-   * @generated from field: auth.Object object = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  object?: Object$;
+  item?: Item;
 
   /**
    * @generated from field: auth.HiddenTxList hidden_txs = 2;
@@ -989,9 +989,9 @@ export declare class ReferenceByCollectionResponse extends Message<ReferenceByCo
 /**
  * Get all of the collections
  *
- * @generated from message auth.common.ReferenceByObjectRequest
+ * @generated from message auth.common.ReferenceByItemRequest
  */
-export declare class ReferenceByObjectRequest extends Message<ReferenceByObjectRequest> {
+export declare class ReferenceByItemRequest extends Message<ReferenceByItemRequest> {
   /**
    * @generated from field: string bookmark = 1;
    */
@@ -1003,34 +1003,34 @@ export declare class ReferenceByObjectRequest extends Message<ReferenceByObjectR
   limit: number;
 
   /**
-   * @generated from field: auth.ObjectKey object_key = 3;
+   * @generated from field: auth.ItemKey item_key = 3;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
   /**
    * @generated from field: string reference_type = 4;
    */
   referenceType: string;
 
-  constructor(data?: PartialMessage<ReferenceByObjectRequest>);
+  constructor(data?: PartialMessage<ReferenceByItemRequest>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.ReferenceByObjectRequest";
+  static readonly typeName = "auth.common.ReferenceByItemRequest";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByObjectRequest;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByItemRequest;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByObjectRequest;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByItemRequest;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByObjectRequest;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByItemRequest;
 
-  static equals(a: ReferenceByObjectRequest | PlainMessage<ReferenceByObjectRequest> | undefined, b: ReferenceByObjectRequest | PlainMessage<ReferenceByObjectRequest> | undefined): boolean;
+  static equals(a: ReferenceByItemRequest | PlainMessage<ReferenceByItemRequest> | undefined, b: ReferenceByItemRequest | PlainMessage<ReferenceByItemRequest> | undefined): boolean;
 }
 
 /**
- * @generated from message auth.common.ReferenceByObjectResponse
+ * @generated from message auth.common.ReferenceByItemResponse
  */
-export declare class ReferenceByObjectResponse extends Message<ReferenceByObjectResponse> {
+export declare class ReferenceByItemResponse extends Message<ReferenceByItemResponse> {
   /**
    * @generated from field: string bookmark = 1;
    */
@@ -1041,19 +1041,19 @@ export declare class ReferenceByObjectResponse extends Message<ReferenceByObject
    */
   references: Reference[];
 
-  constructor(data?: PartialMessage<ReferenceByObjectResponse>);
+  constructor(data?: PartialMessage<ReferenceByItemResponse>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.ReferenceByObjectResponse";
+  static readonly typeName = "auth.common.ReferenceByItemResponse";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByObjectResponse;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByItemResponse;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByObjectResponse;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByItemResponse;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByObjectResponse;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByItemResponse;
 
-  static equals(a: ReferenceByObjectResponse | PlainMessage<ReferenceByObjectResponse> | undefined, b: ReferenceByObjectResponse | PlainMessage<ReferenceByObjectResponse> | undefined): boolean;
+  static equals(a: ReferenceByItemResponse | PlainMessage<ReferenceByItemResponse> | undefined, b: ReferenceByItemResponse | PlainMessage<ReferenceByItemResponse> | undefined): boolean;
 }
 
 /**
@@ -1157,9 +1157,9 @@ export declare class ReferenceDeleteResponse extends Message<ReferenceDeleteResp
  */
 export declare class SuggestionRequest extends Message<SuggestionRequest> {
   /**
-   * @generated from field: auth.ObjectKey object_key = 1;
+   * @generated from field: auth.ItemKey item_key = 1;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
   /**
    * @generated from field: string suggestion_id = 2;
@@ -1215,7 +1215,7 @@ export declare class SuggestionListRequest extends Message<SuggestionListRequest
   bookmark: string;
 
   /**
-   * auth.Object object = 3;
+   * auth.Item item = 3;
    *
    * @generated from field: uint32 limit = 2;
    */
@@ -1329,51 +1329,51 @@ export declare class SuggestionListByCollectionResponse extends Message<Suggesti
 }
 
 /**
- * @generated from message auth.common.SuggestionListByObjectRequest
+ * @generated from message auth.common.SuggestionListByItemRequest
  */
-export declare class SuggestionListByObjectRequest extends Message<SuggestionListByObjectRequest> {
+export declare class SuggestionListByItemRequest extends Message<SuggestionListByItemRequest> {
   /**
-   * @generated from field: auth.ObjectKey object_key = 1;
+   * @generated from field: auth.ItemKey item_key = 1;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
-  constructor(data?: PartialMessage<SuggestionListByObjectRequest>);
+  constructor(data?: PartialMessage<SuggestionListByItemRequest>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.SuggestionListByObjectRequest";
+  static readonly typeName = "auth.common.SuggestionListByItemRequest";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionListByObjectRequest;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionListByItemRequest;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestionListByObjectRequest;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestionListByItemRequest;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestionListByObjectRequest;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestionListByItemRequest;
 
-  static equals(a: SuggestionListByObjectRequest | PlainMessage<SuggestionListByObjectRequest> | undefined, b: SuggestionListByObjectRequest | PlainMessage<SuggestionListByObjectRequest> | undefined): boolean;
+  static equals(a: SuggestionListByItemRequest | PlainMessage<SuggestionListByItemRequest> | undefined, b: SuggestionListByItemRequest | PlainMessage<SuggestionListByItemRequest> | undefined): boolean;
 }
 
 /**
- * @generated from message auth.common.SuggestionListByObjectResponse
+ * @generated from message auth.common.SuggestionListByItemResponse
  */
-export declare class SuggestionListByObjectResponse extends Message<SuggestionListByObjectResponse> {
+export declare class SuggestionListByItemResponse extends Message<SuggestionListByItemResponse> {
   /**
    * @generated from field: repeated auth.Suggestion suggestions = 1;
    */
   suggestions: Suggestion[];
 
-  constructor(data?: PartialMessage<SuggestionListByObjectResponse>);
+  constructor(data?: PartialMessage<SuggestionListByItemResponse>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.SuggestionListByObjectResponse";
+  static readonly typeName = "auth.common.SuggestionListByItemResponse";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionListByObjectResponse;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SuggestionListByItemResponse;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestionListByObjectResponse;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SuggestionListByItemResponse;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestionListByObjectResponse;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SuggestionListByItemResponse;
 
-  static equals(a: SuggestionListByObjectResponse | PlainMessage<SuggestionListByObjectResponse> | undefined, b: SuggestionListByObjectResponse | PlainMessage<SuggestionListByObjectResponse> | undefined): boolean;
+  static equals(a: SuggestionListByItemResponse | PlainMessage<SuggestionListByItemResponse> | undefined, b: SuggestionListByItemResponse | PlainMessage<SuggestionListByItemResponse> | undefined): boolean;
 }
 
 /**
@@ -1396,9 +1396,9 @@ export declare class SuggestionByPartialKeyRequest extends Message<SuggestionByP
   numAttrs: number;
 
   /**
-   * @generated from field: auth.ObjectKey object_key = 4;
+   * @generated from field: auth.ItemKey item_key = 4;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
   /**
    * @generated from field: string suggestion_id = 5;
@@ -1502,9 +1502,9 @@ export declare class SuggestionCreateResponse extends Message<SuggestionCreateRe
  */
 export declare class SuggestionDeleteRequest extends Message<SuggestionDeleteRequest> {
   /**
-   * @generated from field: auth.ObjectKey object_key = 1;
+   * @generated from field: auth.ItemKey item_key = 1;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
   /**
    * @generated from field: string suggestion_id = 2;
@@ -1560,9 +1560,9 @@ export declare class SuggestionDeleteResponse extends Message<SuggestionDeleteRe
  */
 export declare class SuggestionApproveRequest extends Message<SuggestionApproveRequest> {
   /**
-   * @generated from field: auth.ObjectKey object_key = 1;
+   * @generated from field: auth.ItemKey item_key = 1;
    */
-  objectKey?: ObjectKey;
+  itemKey?: ItemKey;
 
   /**
    * @generated from field: string suggestion_id = 2;
@@ -1599,9 +1599,9 @@ export declare class SuggestionApproveResponse extends Message<SuggestionApprove
   suggestion?: Suggestion;
 
   /**
-   * @generated from field: auth.Object object = 2;
+   * @generated from field: auth.Item item = 2;
    */
-  object?: Object$;
+  item?: Item;
 
   constructor(data?: PartialMessage<SuggestionApproveResponse>);
 

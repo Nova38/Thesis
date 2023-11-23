@@ -13,7 +13,7 @@ import (
 var _ state.TxCtxInterface = (*CCBioTxCtx)(nil)
 
 type (
-	TransactionObjects struct {
+	TransactionItems struct {
 		Specimen *pb.Specimen
 		// Suggested *pb.SuggestedUpdate
 		Mask *fieldmaskpb.FieldMask
@@ -22,7 +22,7 @@ type (
 	CCBioTxCtx struct {
 		*state.BaseTxCtx
 
-		TransactionObjects
+		TransactionItems
 	}
 )
 

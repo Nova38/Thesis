@@ -26,7 +26,7 @@ var (
 )
 
 type (
-	TxObjects struct {
+	TxItems struct {
 		User       *authpb.User
 		Collection *authpb.Collection
 		ops        *authpb.Operation
@@ -34,7 +34,7 @@ type (
 
 	BaseTxCtx struct {
 		contractapi.TransactionContext
-		TxObjects
+		TxItems
 
 		Logger   *slog.Logger
 		PageSize int32
@@ -344,7 +344,7 @@ func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) 
 
 	fn := ctx.GetAuthenticator()
 
-	// Check if all the objects are set
+	// Check if all the items are set
 	if fn == nil {
 		return false, oops.Errorf("authenticator function is not set")
 	}

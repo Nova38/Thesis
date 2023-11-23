@@ -1,11 +1,12 @@
 package generators
 
 import (
+	_ "strings"
+
 	auth_pb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
-	_ "strings"
 
 	_ "google.golang.org/protobuf/types/dynamicpb"
 )
@@ -97,7 +98,7 @@ func (sv *TextGenerater) GenerateInterface(
 		} else if op != nil {
 			mComments += "// # Operation: \n"
 			mComments += "//   - Action: " + op.Action.String() + "\n"
-			// mComments += "//   - Object: " + op.ObjectTypeName + "\n"
+			// mComments += "//   - Item: " + op.ItemTypeName + "\n"
 		}
 
 		if m.Input.Desc.Name() == "Empty" {
@@ -193,8 +194,8 @@ func (sv *TextGenerater) GenerateOperationLookup(
 			g.P("return &", opImport, "{")
 			g.P("Action: ", op.Action.Number(), ",")
 
-			// if op.ObjectTypeName != "" {
-			// 	g.P("ObjectTypeName: ", op.ObjectTypeName, ",")
+			// if op.ItemTypeName != "" {
+			// 	g.P("ItemTypeName: ", op.ItemTypeName, ",")
 			// }
 
 			g.P("}, nil")

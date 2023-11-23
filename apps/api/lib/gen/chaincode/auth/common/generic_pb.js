@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { FieldMask, proto3 } from "@bufbuild/protobuf";
-import { HiddenTx, HiddenTxList, History, Object$, ObjectKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
+import { HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
 
 /**
  * ══════════════════════════════════ Helper ═════════════════════════════════════
@@ -88,7 +88,7 @@ export const CreateUserResponse = proto3.makeMessageType(
 export const GetRequest = proto3.makeMessageType(
   "auth.common.GetRequest",
   () => [
-    { no: 3, name: "object", kind: "message", T: Object$ },
+    { no: 3, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -98,7 +98,7 @@ export const GetRequest = proto3.makeMessageType(
 export const GetResponse = proto3.makeMessageType(
   "auth.common.GetResponse",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -110,7 +110,7 @@ export const ListRequest = proto3.makeMessageType(
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 3, name: "object", kind: "message", T: Object$ },
+    { no: 3, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -121,7 +121,7 @@ export const ListResponse = proto3.makeMessageType(
   "auth.common.ListResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "objects", kind: "message", T: Object$, repeated: true },
+    { no: 2, name: "items", kind: "message", T: Item, repeated: true },
   ],
 );
 
@@ -133,7 +133,7 @@ export const ListByCollectionRequest = proto3.makeMessageType(
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 3, name: "object", kind: "message", T: Object$ },
+    { no: 3, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -144,7 +144,7 @@ export const ListByCollectionResponse = proto3.makeMessageType(
   "auth.common.ListByCollectionResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "objects", kind: "message", T: Object$, repeated: true },
+    { no: 2, name: "items", kind: "message", T: Item, repeated: true },
   ],
 );
 
@@ -156,7 +156,7 @@ export const ListByAttrsRequest = proto3.makeMessageType(
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 3, name: "object", kind: "message", T: Object$ },
+    { no: 3, name: "item", kind: "message", T: Item },
     { no: 4, name: "num_attrs", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ],
 );
@@ -168,7 +168,7 @@ export const ListByAttrsResponse = proto3.makeMessageType(
   "auth.common.ListByAttrsResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "objects", kind: "message", T: Object$, repeated: true },
+    { no: 2, name: "items", kind: "message", T: Item, repeated: true },
   ],
 );
 
@@ -181,7 +181,7 @@ export const ListByAttrsResponse = proto3.makeMessageType(
 export const CreateRequest = proto3.makeMessageType(
   "auth.common.CreateRequest",
   () => [
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -191,7 +191,7 @@ export const CreateRequest = proto3.makeMessageType(
 export const CreateResponse = proto3.makeMessageType(
   "auth.common.CreateResponse",
   () => [
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -201,7 +201,7 @@ export const CreateResponse = proto3.makeMessageType(
 export const UpdateRequest = proto3.makeMessageType(
   "auth.common.UpdateRequest",
   () => [
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
     { no: 3, name: "update_mask", kind: "message", T: FieldMask },
   ],
 );
@@ -212,7 +212,7 @@ export const UpdateRequest = proto3.makeMessageType(
 export const UpdateResponse = proto3.makeMessageType(
   "auth.common.UpdateResponse",
   () => [
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -222,7 +222,7 @@ export const UpdateResponse = proto3.makeMessageType(
 export const DeleteRequest = proto3.makeMessageType(
   "auth.common.DeleteRequest",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
     { no: 4, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
@@ -233,7 +233,7 @@ export const DeleteRequest = proto3.makeMessageType(
 export const DeleteResponse = proto3.makeMessageType(
   "auth.common.DeleteResponse",
   () => [
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -245,7 +245,7 @@ export const DeleteResponse = proto3.makeMessageType(
 export const HistoryRequest = proto3.makeMessageType(
   "auth.common.HistoryRequest",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -267,7 +267,7 @@ export const HistoryResponse = proto3.makeMessageType(
 export const HiddenTxRequest = proto3.makeMessageType(
   "auth.common.HiddenTxRequest",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
   ],
 );
 
@@ -288,7 +288,7 @@ export const HiddenTxResponse = proto3.makeMessageType(
 export const HideTxRequest = proto3.makeMessageType(
   "auth.common.HideTxRequest",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
     { no: 2, name: "hidden_tx", kind: "message", T: HiddenTx },
   ],
 );
@@ -299,7 +299,7 @@ export const HideTxRequest = proto3.makeMessageType(
 export const HideTxResponse = proto3.makeMessageType(
   "auth.common.HideTxResponse",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
     { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
   ],
 );
@@ -310,7 +310,7 @@ export const HideTxResponse = proto3.makeMessageType(
 export const UnHideTxRequest = proto3.makeMessageType(
   "auth.common.UnHideTxRequest",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
     { no: 2, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
@@ -321,7 +321,7 @@ export const UnHideTxRequest = proto3.makeMessageType(
 export const UnHideTxResponse = proto3.makeMessageType(
   "auth.common.UnHideTxResponse",
   () => [
-    { no: 1, name: "object", kind: "message", T: Object$ },
+    { no: 1, name: "item", kind: "message", T: Item },
     { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
   ],
 );
@@ -399,23 +399,23 @@ export const ReferenceByCollectionResponse = proto3.makeMessageType(
 /**
  * Get all of the collections
  *
- * @generated from message auth.common.ReferenceByObjectRequest
+ * @generated from message auth.common.ReferenceByItemRequest
  */
-export const ReferenceByObjectRequest = proto3.makeMessageType(
-  "auth.common.ReferenceByObjectRequest",
+export const ReferenceByItemRequest = proto3.makeMessageType(
+  "auth.common.ReferenceByItemRequest",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
-    { no: 3, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 3, name: "item_key", kind: "message", T: ItemKey },
     { no: 4, name: "reference_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
 
 /**
- * @generated from message auth.common.ReferenceByObjectResponse
+ * @generated from message auth.common.ReferenceByItemResponse
  */
-export const ReferenceByObjectResponse = proto3.makeMessageType(
-  "auth.common.ReferenceByObjectResponse",
+export const ReferenceByItemResponse = proto3.makeMessageType(
+  "auth.common.ReferenceByItemResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
@@ -468,7 +468,7 @@ export const ReferenceDeleteResponse = proto3.makeMessageType(
 export const SuggestionRequest = proto3.makeMessageType(
   "auth.common.SuggestionRequest",
   () => [
-    { no: 1, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "item_key", kind: "message", T: ItemKey },
     { no: 2, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
@@ -529,20 +529,20 @@ export const SuggestionListByCollectionResponse = proto3.makeMessageType(
 );
 
 /**
- * @generated from message auth.common.SuggestionListByObjectRequest
+ * @generated from message auth.common.SuggestionListByItemRequest
  */
-export const SuggestionListByObjectRequest = proto3.makeMessageType(
-  "auth.common.SuggestionListByObjectRequest",
+export const SuggestionListByItemRequest = proto3.makeMessageType(
+  "auth.common.SuggestionListByItemRequest",
   () => [
-    { no: 1, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "item_key", kind: "message", T: ItemKey },
   ],
 );
 
 /**
- * @generated from message auth.common.SuggestionListByObjectResponse
+ * @generated from message auth.common.SuggestionListByItemResponse
  */
-export const SuggestionListByObjectResponse = proto3.makeMessageType(
-  "auth.common.SuggestionListByObjectResponse",
+export const SuggestionListByItemResponse = proto3.makeMessageType(
+  "auth.common.SuggestionListByItemResponse",
   () => [
     { no: 1, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
   ],
@@ -557,7 +557,7 @@ export const SuggestionByPartialKeyRequest = proto3.makeMessageType(
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "limit", kind: "scalar", T: 13 /* ScalarType.UINT32 */ },
     { no: 3, name: "num_attrs", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 4, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 4, name: "item_key", kind: "message", T: ItemKey },
     { no: 5, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
 );
@@ -599,7 +599,7 @@ export const SuggestionCreateResponse = proto3.makeMessageType(
 export const SuggestionDeleteRequest = proto3.makeMessageType(
   "auth.common.SuggestionDeleteRequest",
   () => [
-    { no: 1, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "item_key", kind: "message", T: ItemKey },
     { no: 2, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
@@ -621,7 +621,7 @@ export const SuggestionDeleteResponse = proto3.makeMessageType(
 export const SuggestionApproveRequest = proto3.makeMessageType(
   "auth.common.SuggestionApproveRequest",
   () => [
-    { no: 1, name: "object_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "item_key", kind: "message", T: ItemKey },
     { no: 2, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ],
@@ -634,7 +634,7 @@ export const SuggestionApproveResponse = proto3.makeMessageType(
   "auth.common.SuggestionApproveResponse",
   () => [
     { no: 1, name: "suggestion", kind: "message", T: Suggestion },
-    { no: 2, name: "object", kind: "message", T: Object$ },
+    { no: 2, name: "item", kind: "message", T: Item },
   ],
 );
 

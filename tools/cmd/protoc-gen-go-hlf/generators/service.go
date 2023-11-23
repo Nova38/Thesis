@@ -127,7 +127,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 		} else if op != nil {
 			mComments += "// # Operation: \n"
 			mComments += "//   - Domain: " + op.Action.String() + "\n"
-			// mComments += "//   - Action: " + op.ObjectTypeName + "\n"
+			// mComments += "//   - Action: " + op.ItemTypeName + "\n"
 		}
 
 		if m.Input.Desc.Name() == "Empty" {
@@ -228,8 +228,8 @@ func GenerateOperationLookup(
 		} else if op != nil {
 			g.P("return &", opImport, "{")
 			g.P("Action: ", op.Action.Number(), ",")
-			// if op.ObjectTypeName != "" {
-			// 	g.P("ObjectTypeName: ", op.ObjectTypeName, ",")
+			// if op.ItemTypeName != "" {
+			// 	g.P("ItemTypeName: ", op.ItemTypeName, ",")
 			// }
 			g.P("}, nil")
 

@@ -1,11 +1,11 @@
 package common
 
 const (
-	// ObjectTypes
+	// ItemTypes
 
-	HiddenObjectType     = "auth.HiddenTxList"
-	SuggestionObjectType = "auth.Suggestion"
-	ReferenceObjectType  = "auth.Reference"
+	HiddenItemType     = "auth.HiddenTxList"
+	SuggestionItemType = "auth.Suggestion"
+	ReferenceItemType  = "auth.Reference"
 
 	// ─────────────────────────────
 

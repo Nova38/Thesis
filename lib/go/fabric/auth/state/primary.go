@@ -9,22 +9,22 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-// Primary Objects
+// Primary Items
 
 // ──────────────────────────────────────────────────
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
-func PrimaryExists[T common.ObjectInterface](ctx TxCtxInterface, obj T) bool {
+func PrimaryExists[T common.ItemInterface](ctx TxCtxInterface, obj T) bool {
 	key := lo.Must(MakePrimaryKey(obj))
 	return KeyExists(ctx, key)
 }
 
-func PrimaryGet[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryGet[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{ctx: ctx}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        nil,
 	}
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
@@ -34,59 +34,59 @@ func PrimaryGet[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error)
 	return l.Get(obj)
 }
 
-func PrimaryGetFull[T common.ObjectInterface](
+func PrimaryGetFull[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
-) (object *FullObject[T], err error) {
+) (item *FullItem[T], err error) {
 	l := &Ledger[T]{ctx: ctx}
-	object = &FullObject[T]{}
+	item = &FullItem[T]{}
 
 	ops := []*authpb.Operation{
 		{
 			Action:       authpb.Action_ACTION_VIEW,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		},
 		{
 			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		},
 		{
 			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		},
 	}
 	if auth, err := ctx.Authorize(ops); !auth || err != nil {
 		return nil, oops.Wrap(common.UserPermissionDenied)
 	}
-	// Get the object
+	// Get the item
 	if err = l.Get(obj); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	object.Object = obj
+	item.Item = obj
 
-	object.Suggestions, _, err = SuggestionListByObject(ctx, obj.ObjectKey(), "")
+	item.Suggestions, _, err = SuggestionListByItem(ctx, obj.ItemKey(), "")
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	// Get the history
-	object.History, err = history(ctx, obj, true)
+	item.History, err = history(ctx, obj, true)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// state.ObjectToAuthObj(obj, object.Value)
+	// state.ItemToAuthObj(obj, item.Value)
 
-	return object, nil
+	return item, nil
 }
 
-func PrimaryByPartialKey[T common.ObjectInterface](
+func PrimaryByPartialKey[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	numAttr int,
@@ -96,8 +96,8 @@ func PrimaryByPartialKey[T common.ObjectInterface](
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        nil,
 	}
 
@@ -108,7 +108,7 @@ func PrimaryByPartialKey[T common.ObjectInterface](
 	return l.GetPartialKeyList(obj, numAttr, bookmark)
 }
 
-func PrimaryList[T common.ObjectInterface](
+func PrimaryList[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
@@ -116,7 +116,7 @@ func PrimaryList[T common.ObjectInterface](
 	return PrimaryByPartialKey(ctx, obj, 1, bookmark)
 }
 
-func ByCollection[T common.ObjectInterface](
+func ByCollection[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	bookmark string,
@@ -128,13 +128,13 @@ func ByCollection[T common.ObjectInterface](
 // Invoke Suggested Functions
 // ──────────────────────────────────────────────────
 
-// PrimaryCreate creates the object in the ledger
-// returns error if the object already exists
+// PrimaryCreate creates the item in the ledger
+// returns error if the item already exists
 // will panic if
 //   - the key cannot be created,
-//   - the object cannot be marshalled
+//   - the item cannot be marshalled
 //   - Authorization errors
-func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryCreate[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
@@ -142,8 +142,8 @@ func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 	// Authorize the operation
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_CREATE,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        nil,
 	}
 
@@ -157,7 +157,7 @@ func PrimaryCreate[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 	return l.Create(obj)
 }
 
-func PrimaryUpdate[T common.ObjectInterface](
+func PrimaryUpdate[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	mask *fieldmaskpb.FieldMask,
@@ -167,8 +167,8 @@ func PrimaryUpdate[T common.ObjectInterface](
 	}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_UPDATE,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        mask,
 	}
 
@@ -179,14 +179,14 @@ func PrimaryUpdate[T common.ObjectInterface](
 	return l.Update(obj, mask)
 }
 
-func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_DELETE,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        nil,
 	}
 
@@ -196,16 +196,16 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 
 	err = l.Delete(obj)
 
-	// TODO: Handle deleting refs/sub objects here
+	// TODO: Handle deleting refs/sub items here
 
 	// TODO: Handle deleting suggestions here
-	// TODO: Handle deleting hiddenTx objects here
+	// TODO: Handle deleting hiddenTx items here
 
 	return err
 }
 
-// func PrimaryDeleteFromKey(ctx TxCtxInterface, key *authpb.ObjectKey) (obj *authpb.Object, err error) {
-// 	k, err := MakeObjectKeyPrimary(key)
+// func PrimaryDeleteFromKey(ctx TxCtxInterface, key *authpb.ItemKey) (obj *authpb.Item, err error) {
+// 	k, err := MakeItemKeyPrimary(key)
 // 	if err != nil {
 // 		return obj, oops.Wrap(err)
 // 	}
@@ -220,7 +220,7 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 // 		return nil, oops.Wrap(err)
 // 	}
 
-// 	obj = &authpb.Object{}
+// 	obj = &authpb.Item{}
 // 	if err = json.Unmarshal(bytes, obj); err != nil {
 // 		return nil, oops.Wrap(err)
 // 	}
@@ -238,19 +238,19 @@ func PrimaryDelete[T common.ObjectInterface](ctx TxCtxInterface, obj T) (err err
 // 	return obj, nil
 // }
 //
-//func PrimaryGetFromKey[T common.ObjectInterface](ctx TxCtxInterface, key *authpb.ObjectKey) (obj T, err error) {
+//func PrimaryGetFromKey[T common.ItemInterface](ctx TxCtxInterface, key *authpb.ItemKey) (obj T, err error) {
 //	l := &Ledger[T]{ctx: ctx}
 //	op := &authpb.Operation{
 //		Action:       authpb.Action_ACTION_VIEW,
 //		CollectionId: key.GetCollectionId(),
-//		ObjectType:   key.GetObjectType(),
+//		ItemType:   key.GetItemType(),
 //		Paths:        nil,
 //	}
 //	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 //		return obj, oops.Wrap(common.UserPermissionDenied)
 //	}
 //
-//	k, err := MakeObjectKeyPrimary(key)
+//	k, err := MakeItemKeyPrimary(key)
 //	if err != nil {
 //		return obj, oops.Wrap(err)
 //	}

@@ -108,10 +108,10 @@ package policy
 // 		return h.collectionRoles()
 // 	case auth_pb.Operation_DOMAIN_USER:
 // 		return h.user()
-// 	case auth_pb.Operation_DOMAIN_OBJECT:
-// 		return h.object()
-// 	case auth_pb.Operation_DOMAIN_OBJECT_FIELD:
-// 		return h.objectField()
+// 	case auth_pb.Operation_DOMAIN_ITEM:
+// 		return h.item()
+// 	case auth_pb.Operation_DOMAIN_ITEM_FIELD:
+// 		return h.itemField()
 // 	default:
 // 		return false, h.error().Errorf("invalid domain")
 
@@ -264,20 +264,20 @@ package policy
 // 	}
 // }
 
-// // object - Handles the operations in the
-// // object domain
-// func (h *ACLHandler) object() (allowed bool, err error) {
+// // item - Handles the operations in the
+// // item domain
+// func (h *ACLHandler) item() (allowed bool, err error) {
 // 	if err = h.valid(); err != nil {
 // 		return false, err
 // 	}
 
-// 	var policy *auth_pb.ACL_Policy_Object
+// 	var policy *auth_pb.ACL_Policy_Item
 
 // 	for _, entry := range h.entries {
-// 		if entry.GetObject() == nil {
+// 		if entry.GetItem() == nil {
 // 			continue
 // 		}
-// 		policy = entry.GetObject()
+// 		policy = entry.GetItem()
 // 		break
 // 	}
 
@@ -298,21 +298,21 @@ package policy
 // 		return policy.HiddenTx, nil
 // 	default:
 // 		return false, h.error().
-// 			Errorf("invalid action for object")
+// 			Errorf("invalid action for item")
 // 	}
 // }
 
-// func (h *ACLHandler) objectField() (allowed bool, err error) {
+// func (h *ACLHandler) itemField() (allowed bool, err error) {
 // 	// TODO: implement
 // 	baseWalker := &PathWalker{
 // 		entries:        []*auth_pb.ACL_PathPermission{},
 // 		restrict_paths: []string{},
 // 	}
 // 	for _, entry := range h.entries {
-// 		if entry.ObjectPaths == nil {
+// 		if entry.ItemPaths == nil {
 // 			continue
 // 		}
-// 		baseWalker.entries = append(baseWalker.entries, entry.ObjectPaths)
+// 		baseWalker.entries = append(baseWalker.entries, entry.ItemPaths)
 // 	}
 // 	if len(baseWalker.entries) == 0 {
 // 		return false, h.error().Errorf("no policy found")
@@ -322,5 +322,5 @@ package policy
 // }
 
 // // ════════════════════════════════════════════════==
-// // Object Field Helpers
+// // Item Field Helpers
 // // ════════════════════════════════════════════════==

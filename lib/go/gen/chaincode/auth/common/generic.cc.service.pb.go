@@ -130,11 +130,11 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceByCollection(ctx T, req *ReferenceByCollectionRequest) (res *ReferenceByCollectionResponse, err error)
 
-	// ReferenceByObject
+	// ReferenceByItem
 	//
 	// # Operation:
 	//   - Domain: ACTION_REFERENCE_VIEW
-	ReferenceByObject(ctx T, req *ReferenceByObjectRequest) (res *ReferenceByObjectResponse, err error)
+	ReferenceByItem(ctx T, req *ReferenceByItemRequest) (res *ReferenceByItemResponse, err error)
 
 	// ReferenceCreate
 	//
@@ -205,7 +205,7 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"Reference",
 		"ReferenceListByType",
 		"ReferenceByCollection",
-		"ReferenceByObject",
+		"ReferenceByItem",
 		"Suggestion",
 		"SuggestionList",
 		"SuggestionListByCollection",
@@ -231,7 +231,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 1,
 		}, nil
 	case "CreateUser":
-		// action:ACTION_CREATE object_type:"User"
+		// action:ACTION_CREATE item_type:"User"
 		return &v1.Operation{
 			Action: 11,
 		}, nil
@@ -305,7 +305,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 23,
 		}, nil
-	case "ReferenceByObject":
+	case "ReferenceByItem":
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,

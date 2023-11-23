@@ -568,7 +568,7 @@ func (msg *ReferenceByCollectionResponse) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *ReferenceByObjectRequest) MarshalJSON() ([]byte, error) {
+func (msg *ReferenceByItemRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -577,14 +577,14 @@ func (msg *ReferenceByObjectRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *ReferenceByObjectRequest) UnmarshalJSON(b []byte) error {
+func (msg *ReferenceByItemRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *ReferenceByObjectResponse) MarshalJSON() ([]byte, error) {
+func (msg *ReferenceByItemResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -593,7 +593,7 @@ func (msg *ReferenceByObjectResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *ReferenceByObjectResponse) UnmarshalJSON(b []byte) error {
+func (msg *ReferenceByItemResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
@@ -760,7 +760,7 @@ func (msg *SuggestionListByCollectionResponse) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *SuggestionListByObjectRequest) MarshalJSON() ([]byte, error) {
+func (msg *SuggestionListByItemRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -769,14 +769,14 @@ func (msg *SuggestionListByObjectRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *SuggestionListByObjectRequest) UnmarshalJSON(b []byte) error {
+func (msg *SuggestionListByItemRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *SuggestionListByObjectResponse) MarshalJSON() ([]byte, error) {
+func (msg *SuggestionListByItemResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -785,7 +785,7 @@ func (msg *SuggestionListByObjectResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *SuggestionListByObjectResponse) UnmarshalJSON(b []byte) error {
+func (msg *SuggestionListByItemResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)

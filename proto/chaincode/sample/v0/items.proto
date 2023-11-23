@@ -18,7 +18,7 @@ message Group {
 }
 
 message Person {
-  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
+  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (auth.key_schema).keys          = {
     paths: [ "name" ]
   };
@@ -49,7 +49,7 @@ message Degree {
 
 
 message Awards {
-  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
+  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (auth.key_schema).keys          = {
     paths: [  "award_name" ]
   };
@@ -60,7 +60,7 @@ message Awards {
 
 
 message Author {
-  option (auth.key_schema).object_kind = OBJECT_KIND_PRIMARY_OBJECT;
+  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (auth.key_schema).keys          = {
     paths: [ "author_id" ]
   };

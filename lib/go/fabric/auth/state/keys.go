@@ -19,97 +19,97 @@ func KeyExists(ctx TxCtxInterface, key string) bool {
 // ─────────────────────────────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────────────────────────
-func MakeObjectKeyAttr(key *authpb.ObjectKey) []string {
+func MakeItemKeyAttr(key *authpb.ItemKey) []string {
 	return append(
 		[]string{key.GetCollectionId()},
-		key.GetObjectIdParts()...,
+		key.GetItemIdParts()...,
 	)
 }
 
-func MakeObjectKeyPrimary(key *authpb.ObjectKey) (objectKey string, err error) {
+func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
 	return shim.CreateCompositeKey(
-		key.GetObjectType(),
-		MakeObjectKeyAttr(key),
+		key.GetItemType(),
+		MakeItemKeyAttr(key),
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
 // MakePrimaryKeyAttr creates a composite key from the given attributes
-func MakePrimaryKeyAttr[T common.ObjectInterface](obj T) (attr []string) {
+func MakePrimaryKeyAttr[T common.ItemInterface](obj T) (attr []string) {
 	return append(
-		[]string{obj.ObjectKey().GetCollectionId()},
-		obj.ObjectKey().GetObjectIdParts()...,
+		[]string{obj.ItemKey().GetCollectionId()},
+		obj.ItemKey().GetItemIdParts()...,
 	)
 }
 
 // MakePrimaryKey creates a composite key from the given attributes
-func MakePrimaryKey[T common.ObjectInterface](obj T) (key string, err error) {
+func MakePrimaryKey[T common.ItemInterface](obj T) (key string, err error) {
 	return shim.CreateCompositeKey(
-		obj.ObjectKey().GetObjectType(),
+		obj.ItemKey().GetItemType(),
 		MakePrimaryKeyAttr(obj),
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
-func MakeSubKeyAtter[T common.ObjectInterface](obj T) (attr []string) {
+func MakeSubKeyAtter[T common.ItemInterface](obj T) (attr []string) {
 	return append(
 		[]string{
-			obj.ObjectKey().GetCollectionId(),
-			obj.ObjectKey().GetObjectType(),
+			obj.ItemKey().GetCollectionId(),
+			obj.ItemKey().GetItemType(),
 		},
-		obj.ObjectKey().GetObjectIdParts()...,
+		obj.ItemKey().GetItemIdParts()...,
 	)
 }
 
-func MakeSubObjectKeyAtter(key *authpb.ObjectKey) (attr []string) {
+func MakeSubItemKeyAtter(key *authpb.ItemKey) (attr []string) {
 	return append(
-		[]string{key.GetCollectionId(), key.GetObjectType()},
-		key.GetObjectIdParts()...,
+		[]string{key.GetCollectionId(), key.GetItemType()},
+		key.GetItemIdParts()...,
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
-// func MakeHiddenKeyAtter[T common.ObjectInterface](obj T) (attr []string) {
-// 	return append([]string{common.HiddenObjectType}, ...)
+// func MakeHiddenKeyAtter[T common.ItemInterface](obj T) (attr []string) {
+// 	return append([]string{common.HiddenItemType}, ...)
 // }
 
-func MakeHiddenKey[T common.ObjectInterface](obj T) (hiddenKey string, err error) {
+func MakeHiddenKey[T common.ItemInterface](obj T) (hiddenKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.HiddenObjectType,
+		common.HiddenItemType,
 		MakeSubKeyAtter(obj),
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
-func MakeSuggestionKeyAtter[T common.ObjectInterface](
+func MakeSuggestionKeyAtter[T common.ItemInterface](
 	obj T,
 	suggestionId string,
 ) (attr []string) {
 	return append(MakeSubKeyAtter(obj), suggestionId)
 }
 
-// Key should be {SUGGESTION}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SuggestionId}
-func MakeSuggestionKey[T common.ObjectInterface](
+// Key should be {SUGGESTION}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SuggestionId}
+func MakeSuggestionKey[T common.ItemInterface](
 	obj T,
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionObjectType,
+		common.SuggestionItemType,
 		MakeSuggestionKeyAtter(obj, suggestionId),
 	)
 }
 
-func MakeObjectKeySuggestion(
-	objKey *authpb.ObjectKey,
+func MakeItemKeySuggestion(
+	objKey *authpb.ItemKey,
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionObjectType,
-		append(MakeSubObjectKeyAtter(objKey), suggestionId),
+		common.SuggestionItemType,
+		append(MakeSubItemKeyAtter(objKey), suggestionId),
 	)
 }
 
@@ -119,7 +119,7 @@ func MakeRefKeys(
 	ref *authpb.Reference,
 ) (refKey_1 string, refKey_2 string, err error) {
 	// attr := obj.KeyAttr()
-	// ObjectKey := obj.ObjectKey()
+	// ItemKey := obj.ItemKey()
 
 	if ref == nil || (ref.GetKey_1() == nil && ref.GetKey_2() == nil) {
 		return "", "", oops.Errorf("Invalid reference")
@@ -128,39 +128,39 @@ func MakeRefKeys(
 	var a, b, k1, k2 []string
 
 	refBase := []string{
-		common.ReferenceObjectType,
+		common.ReferenceItemType,
 		ref.GetReferenceType(),
 	}
 
 	if ref.GetKey_1() != nil {
-		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetObjectType()}, ref.GetKey_1().GetObjectIdParts()...)
-		a = MakeSubObjectKeyAtter(ref.GetKey_1())
+		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
+		a = MakeSubItemKeyAtter(ref.GetKey_1())
 	}
 	if ref.GetKey_2() != nil {
-		// b = append([]string{ref.GetKey_2().GetObjectType()}, ref.GetKey_2().GetObjectIdParts()...)
-		b = MakeSubObjectKeyAtter(ref.GetKey_2())
+		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
+		b = MakeSubItemKeyAtter(ref.GetKey_2())
 	}
 
 	if ref.GetKey_1() != nil && ref.GetKey_2() != nil {
 		k1 = append(a, b...)
 		k2 = append(b, a...)
 
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, k1...))
+		refKey_1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k1...))
 		if err != nil {
 			return "", "", err
 		}
 
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, k2...))
+		refKey_2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k2...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_1() != nil {
-		refKey_1, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, a...))
+		refKey_1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, a...))
 		if err != nil {
 			return "", "", err
 		}
 	} else if ref.GetKey_2() != nil {
-		refKey_2, err = shim.CreateCompositeKey(common.ReferenceObjectType, append(refBase, b...))
+		refKey_2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, b...))
 		if err != nil {
 			return "", "", err
 		}

@@ -12,7 +12,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-type ObjectContractImpl struct {
+type ItemContractImpl struct {
 	contractapi.Contract
 	cc.GenericServiceBase
 }
@@ -22,16 +22,16 @@ type ObjectContractImpl struct {
 // ══════════════════════════════════ Helper ═════════════════════════════════════
 // ────────────────────────────────── Query ──────────────────────────────────────
 
-// ════════════════════════════════════ Object ═════════════════════════════════════
+// ════════════════════════════════════ Item ═════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-func (o ObjectContractImpl) Get(
+func (o ItemContractImpl) Get(
 	ctx state.TxCtxInterface,
 	req *cc.GetRequest,
 ) (res *cc.GetResponse, err error) {
 	var (
-		obj common.ObjectInterface
-		msg *authpb.Object
+		obj common.ItemInterface
+		msg *authpb.Item
 	)
 
 	// Validate the request
@@ -39,7 +39,7 @@ func (o ObjectContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -47,16 +47,16 @@ func (o ObjectContractImpl) Get(
 		return nil, err
 	}
 
-	if msg, err = state.ObjectToProto(obj); err != nil {
+	if msg, err = state.ItemToProto(obj); err != nil {
 		return nil, err
 	} else {
 		return &cc.GetResponse{
-			Object: msg,
+			Item: msg,
 		}, nil
 	}
 }
 
-func (o ObjectContractImpl) List(
+func (o ItemContractImpl) List(
 	ctx state.TxCtxInterface,
 	req *cc.ListRequest,
 ) (res *cc.ListResponse, err error) {
@@ -65,12 +65,12 @@ func (o ObjectContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToObject(req.GetObject())
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 	proto.Reset(obj)
-	// reset the object to its default state, so that we can get the full list
+	// reset the item to its default state, so that we can get the full list
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
@@ -79,17 +79,17 @@ func (o ObjectContractImpl) List(
 
 	res = &cc.ListResponse{
 		Bookmark: mk,
-		Objects:  []*authpb.Object{},
+		Items:    []*authpb.Item{},
 	}
 
-	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
+	if res.Items, err = state.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return res, err
 }
 
-func (o ObjectContractImpl) ListByCollection(
+func (o ItemContractImpl) ListByCollection(
 	ctx state.TxCtxInterface,
 	req *cc.ListByCollectionRequest,
 ) (res *cc.ListByCollectionResponse, err error) {
@@ -98,11 +98,11 @@ func (o ObjectContractImpl) ListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToObject(req.GetObject())
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	// proto.Reset(obj) // reset the object to its default state, so that we can get the full list
+	// proto.Reset(obj) // reset the item to its default state, so that we can get the full list
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
@@ -111,17 +111,17 @@ func (o ObjectContractImpl) ListByCollection(
 
 	res = &cc.ListByCollectionResponse{
 		Bookmark: mk,
-		Objects:  []*authpb.Object{},
+		Items:    []*authpb.Item{},
 	}
 
-	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
+	if res.Items, err = state.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return res, err
 }
 
-func (o ObjectContractImpl) ListByAttrs(
+func (o ItemContractImpl) ListByAttrs(
 	ctx state.TxCtxInterface,
 	req *cc.ListByAttrsRequest,
 ) (res *cc.ListByAttrsResponse, err error) {
@@ -130,7 +130,7 @@ func (o ObjectContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToObject(req.GetObject())
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -142,10 +142,10 @@ func (o ObjectContractImpl) ListByAttrs(
 
 	res = &cc.ListByAttrsResponse{
 		Bookmark: mk,
-		Objects:  []*authpb.Object{},
+		Items:    []*authpb.Item{},
 	}
 
-	if res.Objects, err = state.ListObjectToProtos(list); err != nil {
+	if res.Items, err = state.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -154,7 +154,7 @@ func (o ObjectContractImpl) ListByAttrs(
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
 
-func (o ObjectContractImpl) Create(
+func (o ItemContractImpl) Create(
 	ctx state.TxCtxInterface,
 	req *cc.CreateRequest,
 ) (res *cc.CreateResponse, err error) {
@@ -163,22 +163,22 @@ func (o ObjectContractImpl) Create(
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the object from the request
-	obj, err := state.ProtoToObject(req.GetObject())
+	// Get the item from the request
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Check if the object is a valid object for the collection??
+	// Check if the item is a valid item for the collection??
 
 	err = state.PrimaryCreate(ctx, obj)
 
 	return &cc.CreateResponse{
-		Object: req.GetObject(),
+		Item: req.GetItem(),
 	}, err
 }
 
-func (o ObjectContractImpl) Update(
+func (o ItemContractImpl) Update(
 	ctx state.TxCtxInterface,
 	req *cc.UpdateRequest,
 ) (res *cc.UpdateResponse, err error) {
@@ -187,8 +187,8 @@ func (o ObjectContractImpl) Update(
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the object from the request
-	obj, err := state.ProtoToObject(req.GetObject())
+	// Get the item from the request
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -196,11 +196,11 @@ func (o ObjectContractImpl) Update(
 	err = state.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
 
 	return &cc.UpdateResponse{
-		Object: req.GetObject(),
+		Item: req.GetItem(),
 	}, err
 }
 
-func (o ObjectContractImpl) Delete(
+func (o ItemContractImpl) Delete(
 	ctx state.TxCtxInterface,
 	req *cc.DeleteRequest,
 ) (res *cc.DeleteResponse, err error) {
@@ -209,8 +209,8 @@ func (o ObjectContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the object from the request
-	obj, err := state.ProtoToObject(req.GetObject())
+	// Get the item from the request
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -219,25 +219,25 @@ func (o ObjectContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	object, err := state.ObjectToProto(obj)
+	item, err := state.ItemToProto(obj)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.DeleteResponse{
-		Object: object,
+		Item: item,
 	}, err
 }
 
 // ════════════════════════════════════ History ════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-func (o ObjectContractImpl) History(
+func (o ItemContractImpl) History(
 	ctx state.TxCtxInterface,
 	req *cc.HistoryRequest,
 ) (res *cc.HistoryResponse, err error) {
 	var (
-		obj common.ObjectInterface
+		obj common.ItemInterface
 		h   *authpb.History
 	)
 
@@ -245,7 +245,7 @@ func (o ObjectContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -258,12 +258,12 @@ func (o ObjectContractImpl) History(
 	}, nil
 }
 
-func (o ObjectContractImpl) HiddenTx(
+func (o ItemContractImpl) HiddenTx(
 	ctx state.TxCtxInterface,
 	req *cc.HiddenTxRequest,
 ) (res *cc.HiddenTxResponse, err error) {
 	var (
-		obj  common.ObjectInterface
+		obj  common.ItemInterface
 		hTxs *authpb.HiddenTxList
 	)
 
@@ -271,7 +271,7 @@ func (o ObjectContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToObject(req.GetObject()); err != nil {
+	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -280,14 +280,14 @@ func (o ObjectContractImpl) HiddenTx(
 	}
 
 	return &cc.HiddenTxResponse{
-		CollectionId: obj.ObjectKey().GetCollectionId(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
 		HiddenTxs:    hTxs.GetTxs(),
 	}, nil
 }
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
 
-func (o ObjectContractImpl) HideTx(
+func (o ItemContractImpl) HideTx(
 	ctx state.TxCtxInterface,
 	req *cc.HideTxRequest,
 ) (res *cc.HideTxResponse, err error) {
@@ -296,8 +296,8 @@ func (o ObjectContractImpl) HideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the object from the request
-	obj, err := state.ProtoToObject(req.GetObject())
+	// Get the item from the request
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -308,12 +308,12 @@ func (o ObjectContractImpl) HideTx(
 	}
 
 	return &cc.HideTxResponse{
-		Object:    req.GetObject(),
+		Item:      req.GetItem(),
 		HiddenTxs: list,
 	}, err
 }
 
-func (o ObjectContractImpl) UnHideTx(
+func (o ItemContractImpl) UnHideTx(
 	ctx state.TxCtxInterface,
 	req *cc.UnHideTxRequest,
 ) (res *cc.UnHideTxResponse, err error) {
@@ -322,8 +322,8 @@ func (o ObjectContractImpl) UnHideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the object from the request
-	obj, err := state.ProtoToObject(req.GetObject())
+	// Get the item from the request
+	obj, err := state.ProtoToItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -334,7 +334,7 @@ func (o ObjectContractImpl) UnHideTx(
 	}
 
 	return &cc.UnHideTxResponse{
-		Object:    req.GetObject(),
+		Item:      req.GetItem(),
 		HiddenTxs: list,
 	}, err
 }
@@ -343,7 +343,7 @@ func (o ObjectContractImpl) UnHideTx(
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
 // todo: Reference
-func (o ObjectContractImpl) Reference(
+func (o ItemContractImpl) Reference(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceRequest,
 ) (res *cc.ReferenceResponse, err error) {
@@ -366,7 +366,7 @@ func (o ObjectContractImpl) Reference(
 }
 
 // todo: ReferenceListByType
-func (o ObjectContractImpl) ReferenceByType(
+func (o ItemContractImpl) ReferenceByType(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceListByTypeRequest,
 ) (res *cc.ReferenceListByTypeResponse, err error) {
@@ -388,7 +388,7 @@ func (o ObjectContractImpl) ReferenceByType(
 }
 
 // todo: ReferenceByCollection
-func (o ObjectContractImpl) ReferenceByCollection(
+func (o ItemContractImpl) ReferenceByCollection(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceByCollectionRequest,
 ) (res *cc.ReferenceByCollectionResponse, err error) {
@@ -409,21 +409,21 @@ func (o ObjectContractImpl) ReferenceByCollection(
 	return res, nil
 }
 
-// todo: ReferenceByObject
-func (o ObjectContractImpl) ReferenceByObject(
+// todo: ReferenceByItem
+func (o ItemContractImpl) ReferenceByItem(
 	ctx state.TxCtxInterface,
-	req *cc.ReferenceByObjectRequest,
-) (res *cc.ReferenceByObjectResponse, err error) {
+	req *cc.ReferenceByItemRequest,
+) (res *cc.ReferenceByItemResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	list, mk, err := state.ReferenceListByObject(ctx, req.GetObjectKey(), req.GetBookmark())
+	list, mk, err := state.ReferenceListByItem(ctx, req.GetItemKey(), req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	res = &cc.ReferenceByObjectResponse{
+	res = &cc.ReferenceByItemResponse{
 		Bookmark:   mk,
 		References: list,
 	}
@@ -433,7 +433,7 @@ func (o ObjectContractImpl) ReferenceByObject(
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
 // todo: ReferenceCreate
-func (o ObjectContractImpl) ReferenceCreate(
+func (o ItemContractImpl) ReferenceCreate(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceCreateRequest,
 ) (res *cc.ReferenceCreateResponse, err error) {
@@ -452,7 +452,7 @@ func (o ObjectContractImpl) ReferenceCreate(
 }
 
 // todo: ReferenceDelete
-func (o ObjectContractImpl) ReferenceDelete(
+func (o ItemContractImpl) ReferenceDelete(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceDeleteRequest,
 ) (res *cc.ReferenceDeleteResponse, err error) {
@@ -472,7 +472,7 @@ func (o ObjectContractImpl) ReferenceDelete(
 // ════════════════════════════════════ Suggestions ════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-func (o ObjectContractImpl) Suggestion(
+func (o ItemContractImpl) Suggestion(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionRequest,
 ) (res *cc.SuggestionResponse, err error) {
@@ -482,7 +482,7 @@ func (o ObjectContractImpl) Suggestion(
 	}
 
 	sug := &authpb.Suggestion{
-		PrimaryKey:   req.GetObjectKey(),
+		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
 	}
 
@@ -495,7 +495,7 @@ func (o ObjectContractImpl) Suggestion(
 	}, nil
 }
 
-func (o ObjectContractImpl) SuggestionListByCollection(
+func (o ItemContractImpl) SuggestionListByCollection(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionListByCollectionRequest,
 ) (res *cc.SuggestionListByCollectionResponse, err error) {
@@ -517,7 +517,7 @@ func (o ObjectContractImpl) SuggestionListByCollection(
 	return res, nil
 }
 
-func (o ObjectContractImpl) SuggestionByPartialKey(
+func (o ItemContractImpl) SuggestionByPartialKey(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionByPartialKeyRequest,
 ) (res *cc.SuggestionByPartialKeyResponse, err error) {
@@ -526,7 +526,7 @@ func (o ObjectContractImpl) SuggestionByPartialKey(
 		return nil, oops.Wrap(err)
 	}
 	sug := &authpb.Suggestion{
-		PrimaryKey: req.GetObjectKey(),
+		PrimaryKey: req.GetItemKey(),
 	}
 
 	list, mk, err := state.PartialSuggestionList(
@@ -549,7 +549,7 @@ func (o ObjectContractImpl) SuggestionByPartialKey(
 
 // ──────────────────────────────── Invoke ─────────────────────────────────────────
 
-func (o ObjectContractImpl) SuggestionCreate(
+func (o ItemContractImpl) SuggestionCreate(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionCreateRequest,
 ) (res *cc.SuggestionCreateResponse, err error) {
@@ -568,7 +568,7 @@ func (o ObjectContractImpl) SuggestionCreate(
 	}, nil
 }
 
-func (o ObjectContractImpl) SuggestionDelete(
+func (o ItemContractImpl) SuggestionDelete(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionDeleteRequest,
 ) (res *cc.SuggestionDeleteResponse, err error) {
@@ -578,7 +578,7 @@ func (o ObjectContractImpl) SuggestionDelete(
 	}
 
 	sug := &authpb.Suggestion{
-		PrimaryKey:   req.GetObjectKey(),
+		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
 	}
 
@@ -591,7 +591,7 @@ func (o ObjectContractImpl) SuggestionDelete(
 	}, nil
 }
 
-func (o ObjectContractImpl) SuggestionApprove(
+func (o ItemContractImpl) SuggestionApprove(
 	ctx state.TxCtxInterface,
 	req *cc.SuggestionApproveRequest,
 ) (res *cc.SuggestionApproveResponse, err error) {
@@ -601,7 +601,7 @@ func (o ObjectContractImpl) SuggestionApprove(
 	}
 
 	sug := &authpb.Suggestion{
-		PrimaryKey:   req.GetObjectKey(),
+		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
 	}
 
@@ -610,11 +610,11 @@ func (o ObjectContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	if updated, err := state.ObjectToProto(*u); err != nil {
+	if updated, err := state.ItemToProto(*u); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
 		res = &cc.SuggestionApproveResponse{
-			Object:     updated,
+			Item:       updated,
 			Suggestion: sug,
 		}
 	}

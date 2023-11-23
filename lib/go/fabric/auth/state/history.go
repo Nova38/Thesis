@@ -16,7 +16,7 @@ import (
 // History Functions
 // ════════════════════════════════════════════════════════
 
-func hiddenTxs[T common.ObjectInterface](
+func hiddenTxs[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 ) (list *authpb.HiddenTxList, err error) {
@@ -40,7 +40,7 @@ func hiddenTxs[T common.ObjectInterface](
 	return list, nil
 }
 
-func history[T common.ObjectInterface](
+func history[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	showHidden bool,
@@ -96,13 +96,13 @@ func history[T common.ObjectInterface](
 	return history, err
 }
 
-func History[T common.ObjectInterface](ctx TxCtxInterface, obj T) (h *authpb.History, err error) {
+func History[T common.ItemInterface](ctx TxCtxInterface, obj T) (h *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW_HISTORY,
-		CollectionId: obj.ObjectKey().GetCollectionId(),
-		ObjectType:   obj.ObjectType(),
+		CollectionId: obj.ItemKey().GetCollectionId(),
+		ItemType:     obj.ItemType(),
 		Paths:        nil,
 	}
 
@@ -114,7 +114,7 @@ func History[T common.ObjectInterface](ctx TxCtxInterface, obj T) (h *authpb.His
 	return history(ctx, obj, false)
 }
 
-func FullHistory[T common.ObjectInterface](
+func FullHistory[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 ) (h *authpb.History, err error) {
@@ -123,8 +123,8 @@ func FullHistory[T common.ObjectInterface](
 	var (
 		op = &authpb.Operation{
 			Action:       authpb.Action_ACTION_VIEW_HISTORY,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -137,7 +137,7 @@ func FullHistory[T common.ObjectInterface](
 	return history(ctx, obj, true)
 }
 
-func HiddenTx[T common.ObjectInterface](
+func HiddenTx[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 ) (l *authpb.HiddenTxList, err error) {
@@ -145,8 +145,8 @@ func HiddenTx[T common.ObjectInterface](
 	var (
 		op = &authpb.Operation{
 			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -159,7 +159,7 @@ func HiddenTx[T common.ObjectInterface](
 	return hiddenTxs(ctx, obj)
 }
 
-func HideTransaction[T common.ObjectInterface](
+func HideTransaction[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	tx *authpb.HiddenTx,
@@ -171,8 +171,8 @@ func HideTransaction[T common.ObjectInterface](
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))
@@ -197,7 +197,7 @@ func HideTransaction[T common.ObjectInterface](
 	return hidden, ctx.GetStub().PutState(key, bytes)
 }
 
-func UnHideTransaction[T common.ObjectInterface](
+func UnHideTransaction[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	txId string,
@@ -209,8 +209,8 @@ func UnHideTransaction[T common.ObjectInterface](
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,
-			CollectionId: obj.ObjectKey().GetCollectionId(),
-			ObjectType:   obj.ObjectType(),
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		}
 		authorized = lo.Must(ctx.Authorize([]*authpb.Operation{op}))

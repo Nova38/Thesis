@@ -35,11 +35,11 @@ service GenericService {
 
   rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_CREATE, object_type: "User"};
+    option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
   }
 
 
-  // ══════════════════════════════════ Object ═════════════════════════════════════
+  // ══════════════════════════════════ Item ═════════════════════════════════════
 
   // ────────────────────────────────── Query ──────────────────────────────────────
 
@@ -125,7 +125,7 @@ service GenericService {
     option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
   }
 
-  rpc ReferenceByObject(ReferenceByObjectRequest) returns (ReferenceByObjectResponse) {
+  rpc ReferenceByItem(ReferenceByItemRequest) returns (ReferenceByItemResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
   }
@@ -223,47 +223,47 @@ message CreateUserResponse {
 
 
 
-// ══════════════════════════════ Generic Object ══════════════════════════════=
+// ══════════════════════════════ Generic Item ══════════════════════════════=
 // ────────────────────────────── Query ───────────────────────────────────────-
 
 // Get
 message GetRequest {
-  auth.Object object = 3;
+  auth.Item item = 3;
 }
 
 message GetResponse {
-  auth.Object object = 1;
+  auth.Item item = 1;
 }
 
 message ListRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Object object = 3;
+  auth.Item item = 3;
 }
 message ListResponse {
   string bookmark = 1;
-  repeated auth.Object objects = 2;
+  repeated auth.Item items = 2;
 }
 
 message ListByCollectionRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Object object = 3;
+  auth.Item item = 3;
 }
 message ListByCollectionResponse {
   string bookmark = 1;
-  repeated auth.Object objects = 2;
+  repeated auth.Item items = 2;
 }
 
 message ListByAttrsRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Object object = 3;
+  auth.Item item = 3;
   int32 num_attrs = 4;
 }
 message ListByAttrsResponse {
   string bookmark = 1;
-  repeated auth.Object objects = 2;
+  repeated auth.Item items = 2;
 }
 
 
@@ -271,27 +271,27 @@ message ListByAttrsResponse {
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 // Create
 message CreateRequest {
-  auth.Object object = 2;
+  auth.Item item = 2;
 }
 message CreateResponse {
-  auth.Object object = 2;
+  auth.Item item = 2;
 }
 
 message UpdateRequest {
-  auth.Object object = 2;
+  auth.Item item = 2;
   google.protobuf.FieldMask update_mask = 3;
 }
 message UpdateResponse {
-  auth.Object object = 2;
+  auth.Item item = 2;
 }
 
 message DeleteRequest {
-  auth.Object object = 1;
+  auth.Item item = 1;
 
   string reason = 4;
 }
 message DeleteResponse {
-  auth.Object object = 2;
+  auth.Item item = 2;
 }
 
 // ══════════════════════════════ History ══════════════════════════════════════════
@@ -299,7 +299,7 @@ message DeleteResponse {
 
 // History
 message HistoryRequest {
-  auth.Object object = 1;
+  auth.Item item = 1;
 }
 message HistoryResponse {
   // repeated auth. s = 1;
@@ -308,7 +308,7 @@ message HistoryResponse {
 
 // HiddenTx
 message HiddenTxRequest {
-  auth.Object object = 1;
+  auth.Item item = 1;
 }
 message HiddenTxResponse {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
@@ -318,20 +318,20 @@ message HiddenTxResponse {
 // ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 message HideTxRequest {
-  auth.Object object = 1;
+  auth.Item item = 1;
   auth.HiddenTx hidden_tx = 2;
 }
 message HideTxResponse {
-  auth.Object object = 1;
+  auth.Item item = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
 
 message UnHideTxRequest {
-  auth.Object object = 1;
+  auth.Item item = 1;
   string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message UnHideTxResponse {
-  auth.Object object = 1;
+  auth.Item item = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
 
@@ -366,13 +366,13 @@ message ReferenceByCollectionResponse{
 }
 
 // Get all of the collections
-message ReferenceByObjectRequest{
+message ReferenceByItemRequest{
   string bookmark = 1;
   uint32 limit = 2;
-  auth.ObjectKey object_key = 3;
+  auth.ItemKey item_key = 3;
   string reference_type = 4 [(buf.validate.field).string.min_len = 1];
 }
-message ReferenceByObjectResponse{
+message ReferenceByItemResponse{
   string bookmark = 1;
   repeated auth.Reference references = 2;
 }
@@ -399,7 +399,7 @@ message ReferenceDeleteResponse{
 // ──────────────────────────────── Query ──────────────────────────────────────────
 
 message SuggestionRequest {
-  auth.ObjectKey object_key = 1;
+  auth.ItemKey item_key = 1;
   string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message SuggestionResponse {
@@ -409,7 +409,7 @@ message SuggestionResponse {
 message SuggestionListRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  // auth.Object object = 3;
+  // auth.Item item = 3;
 }
 message SuggestionListResponse {
   string bookmark = 1;
@@ -426,10 +426,10 @@ message SuggestionListByCollectionResponse {
   repeated auth.Suggestion suggestions = 2;
 }
 
-message SuggestionListByObjectRequest {
-  auth.ObjectKey object_key = 1;
+message SuggestionListByItemRequest {
+  auth.ItemKey item_key = 1;
 }
-message SuggestionListByObjectResponse {
+message SuggestionListByItemResponse {
   repeated auth.Suggestion suggestions = 1;
 }
 
@@ -438,7 +438,7 @@ message SuggestionByPartialKeyRequest {
   uint32 limit = 2;
   int32 num_attrs = 3;
 
-  auth.ObjectKey object_key = 4;
+  auth.ItemKey item_key = 4;
   string suggestion_id = 5;
 }
 message SuggestionByPartialKeyResponse {
@@ -457,7 +457,7 @@ message SuggestionCreateResponse {
 }
 
 message SuggestionDeleteRequest {
-  auth.ObjectKey object_key = 1;
+  auth.ItemKey item_key = 1;
   string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
   string reason = 3;
 }
@@ -466,12 +466,12 @@ message SuggestionDeleteResponse {
 }
 
 message SuggestionApproveRequest {
-  auth.ObjectKey object_key = 1;
+  auth.ItemKey item_key = 1;
   string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
   string reason = 3;
 }
 
 message SuggestionApproveResponse {
   auth.Suggestion suggestion = 1;
-  auth.Object object = 2;
+  auth.Item item = 2;
 }

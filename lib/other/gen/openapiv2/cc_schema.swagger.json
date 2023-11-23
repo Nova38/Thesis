@@ -413,9 +413,9 @@
         ]
       }
     },
-    "/auth.common.GenericService/ReferenceByObject": {
+    "/auth.common.GenericService/ReferenceByItem": {
       "post": {
-        "operationId": "GenericService_ReferenceByObject",
+        "operationId": "GenericService_ReferenceByItem",
         "responses": {
           "default": {
             "description": "An unexpected error response.",
@@ -430,7 +430,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commonReferenceByObjectRequest"
+              "$ref": "#/definitions/commonReferenceByItemRequest"
             }
           }
         ],
@@ -1206,7 +1206,7 @@
         "ACTION_REFERENCE_VIEW"
       ],
       "default": "ACTION_UNSPECIFIED",
-      "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - OBJECT:      Used to manage objects in a collection\n\n - ACTION_VIEW: View the contents of an object\n - ACTION_CREATE: Create a new object\n - key must not already exist\n - ACTION_UPDATE: Update an existing object\n  - key must already exist\n - ACTION_DELETE: Delete an existing object, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an object, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an object, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the object, key must already exist",
+      "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - ITEM:      Used to manage items in a collection\n\n - ACTION_VIEW: View the contents of an item\n - ACTION_CREATE: Create a new item\n - key must not already exist\n - ACTION_UPDATE: Update an existing item\n  - key must already exist\n - ACTION_DELETE: Delete an existing item, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the item, key must already exist",
       "title": "Action - The action to be performed during the operation"
     },
     "authHiddenTx": {
@@ -1234,8 +1234,8 @@
       "type": "object",
       "properties": {
         "primary_key": {
-          "$ref": "#/definitions/authObjectKey",
-          "title": "The key that is used to store the object"
+          "$ref": "#/definitions/authItemKey",
+          "title": "The key that is used to store the item"
         },
         "txs": {
           "type": "array",
@@ -1246,7 +1246,7 @@
           "title": "The list of hidden txs by tx_id"
         }
       },
-      "title": "Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}"
+      "title": "Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}"
     },
     "authHistory": {
       "type": "object",
@@ -1272,7 +1272,7 @@
         },
         "is_delete": {
           "type": "boolean",
-          "title": "Whether the object was deleted"
+          "title": "Whether the item was deleted"
         },
         "is_hidden": {
           "type": "boolean",
@@ -1289,39 +1289,39 @@
         },
         "value": {
           "$ref": "#/definitions/protobufAny",
-          "title": "The value of the object"
+          "title": "The value of the item"
         }
       }
     },
-    "authObject": {
+    "authItem": {
       "type": "object",
       "properties": {
         "key": {
-          "$ref": "#/definitions/authObjectKey"
+          "$ref": "#/definitions/authItemKey"
         },
         "value": {
           "$ref": "#/definitions/protobufAny"
         }
       }
     },
-    "authObjectKey": {
+    "authItemKey": {
       "type": "object",
       "properties": {
         "collection_id": {
           "type": "string"
         },
-        "object_type": {
+        "item_type": {
           "type": "string"
         },
-        "object_id_parts": {
+        "item_id_parts": {
           "type": "array",
           "items": {
             "type": "string"
           }
         }
       },
-      "description": "Reference Keys\nUsed to store references to objects for case like a user having a role\nWhen converted to its string form it will be:\n{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]\n\n\nSubKeys\nWhen converted to its string form it will be:\n{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}\nExamples\n- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}\n- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}",
-      "title": "Keys\n─────────────────────────────────────────────────────────────────────────────────────\nObject Keys\nWhen converted to its string form it will be:\n- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}"
+      "description": "Reference Keys\nUsed to store references to items for case like a user having a role\nWhen converted to its string form it will be:\n{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]\n\n\nSubKeys\nWhen converted to its string form it will be:\n{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}\nExamples\n- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}\n- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}",
+      "title": "Keys\n─────────────────────────────────────────────────────────────────────────────────────\nItem Keys\nWhen converted to its string form it will be:\n- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}"
     },
     "authOperation": {
       "type": "object",
@@ -1332,10 +1332,10 @@
         "collection_id": {
           "type": "string"
         },
-        "object_type": {
+        "item_type": {
           "type": "string"
         },
-        "secondary_object_type": {
+        "secondary_item_type": {
           "type": "string"
         },
         "paths": {
@@ -1353,13 +1353,13 @@
           "type": "string"
         },
         "key_1": {
-          "$ref": "#/definitions/authObjectKey"
+          "$ref": "#/definitions/authItemKey"
         },
         "key_2": {
-          "$ref": "#/definitions/authObjectKey"
+          "$ref": "#/definitions/authItemKey"
         }
       },
-      "title": "Reference Keys\n{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]"
+      "title": "Reference Keys\n{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]"
     },
     "authStateActivity": {
       "type": "object",
@@ -1392,7 +1392,7 @@
       "type": "object",
       "properties": {
         "primary_key": {
-          "$ref": "#/definitions/authObjectKey"
+          "$ref": "#/definitions/authItemKey"
         },
         "suggestion_id": {
           "type": "string"
@@ -1404,7 +1404,7 @@
           "$ref": "#/definitions/protobufAny"
         }
       },
-      "title": "Key should be\n{auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}"
+      "title": "Key should be\n{auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}"
     },
     "authUser": {
       "type": "object",
@@ -1462,8 +1462,8 @@
     "commonCreateRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       },
       "title": "──────────────────────────────── Invoke ───────────────────────────────────────\nCreate"
@@ -1471,8 +1471,8 @@
     "commonCreateResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
@@ -1487,8 +1487,8 @@
     "commonDeleteRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "reason": {
           "type": "string"
@@ -1498,8 +1498,8 @@
     "commonDeleteResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
@@ -1514,8 +1514,8 @@
     "commonGetRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       },
       "title": "Get"
@@ -1523,16 +1523,16 @@
     "commonGetResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
     "commonHiddenTxRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       },
       "title": "HiddenTx"
@@ -1555,8 +1555,8 @@
     "commonHideTxRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "hidden_tx": {
           "$ref": "#/definitions/authHiddenTx"
@@ -1566,8 +1566,8 @@
     "commonHideTxResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "hidden_txs": {
           "$ref": "#/definitions/authHiddenTxList"
@@ -1577,8 +1577,8 @@
     "commonHistoryRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       },
       "title": "History"
@@ -1602,8 +1602,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "num_attrs": {
           "type": "integer",
@@ -1617,11 +1617,11 @@
         "bookmark": {
           "type": "string"
         },
-        "objects": {
+        "items": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/authObject"
+            "$ref": "#/definitions/authItem"
           }
         }
       }
@@ -1636,8 +1636,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
@@ -1647,11 +1647,11 @@
         "bookmark": {
           "type": "string"
         },
-        "objects": {
+        "items": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/authObject"
+            "$ref": "#/definitions/authItem"
           }
         }
       }
@@ -1666,8 +1666,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
@@ -1677,11 +1677,11 @@
         "bookmark": {
           "type": "string"
         },
-        "objects": {
+        "items": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/authObject"
+            "$ref": "#/definitions/authItem"
           }
         }
       }
@@ -1719,7 +1719,7 @@
         }
       }
     },
-    "commonReferenceByObjectRequest": {
+    "commonReferenceByItemRequest": {
       "type": "object",
       "properties": {
         "bookmark": {
@@ -1729,8 +1729,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "object_key": {
-          "$ref": "#/definitions/authObjectKey"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "reference_type": {
           "type": "string"
@@ -1738,7 +1738,7 @@
       },
       "title": "Get all of the collections"
     },
-    "commonReferenceByObjectResponse": {
+    "commonReferenceByItemResponse": {
       "type": "object",
       "properties": {
         "bookmark": {
@@ -1835,8 +1835,8 @@
     "commonSuggestionApproveRequest": {
       "type": "object",
       "properties": {
-        "object_key": {
-          "$ref": "#/definitions/authObjectKey"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "suggestion_id": {
           "type": "string"
@@ -1852,8 +1852,8 @@
         "suggestion": {
           "$ref": "#/definitions/authSuggestion"
         },
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },
@@ -1871,8 +1871,8 @@
           "type": "integer",
           "format": "int32"
         },
-        "object_key": {
-          "$ref": "#/definitions/authObjectKey"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "suggestion_id": {
           "type": "string"
@@ -1913,8 +1913,8 @@
     "commonSuggestionDeleteRequest": {
       "type": "object",
       "properties": {
-        "object_key": {
-          "$ref": "#/definitions/authObjectKey"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "suggestion_id": {
           "type": "string"
@@ -1971,7 +1971,7 @@
         "limit": {
           "type": "integer",
           "format": "int64",
-          "title": "auth.Object object = 3;"
+          "title": "auth.Item item = 3;"
         }
       }
     },
@@ -1993,8 +1993,8 @@
     "commonSuggestionRequest": {
       "type": "object",
       "properties": {
-        "object_key": {
-          "$ref": "#/definitions/authObjectKey"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "suggestion_id": {
           "type": "string"
@@ -2012,8 +2012,8 @@
     "commonUnHideTxRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "tx_id": {
           "type": "string"
@@ -2023,8 +2023,8 @@
     "commonUnHideTxResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "hidden_txs": {
           "$ref": "#/definitions/authHiddenTxList"
@@ -2034,8 +2034,8 @@
     "commonUpdateRequest": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         },
         "update_mask": {
           "type": "string"
@@ -2045,8 +2045,8 @@
     "commonUpdateResponse": {
       "type": "object",
       "properties": {
-        "object": {
-          "$ref": "#/definitions/authObject"
+        "item": {
+          "$ref": "#/definitions/authItem"
         }
       }
     },

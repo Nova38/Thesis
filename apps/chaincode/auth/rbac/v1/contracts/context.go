@@ -7,7 +7,7 @@ import (
 
 var _ state.TxCtxInterface = (*AuthTxCtx)(nil)
 
-// TxObjects Extractors
+// TxItems Extractors
 type (
 	CollectionHolder interface {
 		GetCollection() *authpb.Collection

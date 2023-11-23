@@ -9,36 +9,36 @@ import (
 // Generic structures
 
 // TODO: These need to be changed to utilize the new authpb.Collection
-//       and authpb.CollectionObject interfaces.
+//       and authpb.CollectionItem interfaces.
 
 type (
 
-	//CollectionObjectKey interface {
+	//CollectionItemKey interface {
 	//}
 	//
-	//CollectionObject interface {
-	//	GetId() *CollectionObjectKey
+	//CollectionItem interface {
+	//	GetId() *CollectionItemKey
 	//}
 
-	FullObject[T common.ObjectInterface] struct {
-		Object      T                    `json:"object"`
+	FullItem[T common.ItemInterface] struct {
+		Item        T                    `json:"item"`
 		Suggestions []*authpb.Suggestion `json:"suggestions"`
 		History     *authpb.History      `json:"history"`
 	}
 
-	ObjectList[T common.ObjectInterface] struct {
+	ItemList[T common.ItemInterface] struct {
 		Entries []T `json:"entries"`
 	}
 
-	HistoryEntry[T common.ObjectInterface] struct {
+	HistoryEntry[T common.ItemInterface] struct {
 		TxId      string                 `json:"txId"`
 		Timestamp *timestamppb.Timestamp `json:"timestamp"`
 		IsDelete  bool                   `json:"isDelete"`
 		IsHidden  bool                   `json:"isHidden"`
-		State     T                      `json:"object"`
+		State     T                      `json:"item"`
 	}
 
-	HistoryList[T common.ObjectInterface] struct {
+	HistoryList[T common.ItemInterface] struct {
 		Entries []*HistoryEntry[T] `json:"entries"`
 	}
 )

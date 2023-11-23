@@ -9,7 +9,7 @@ import (
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-func (m *Person) ObjectType() string {
+func (m *Person) ItemType() string {
 	return "sample.Person"
 }
 func (m *Person) KeyAttr() []string {
@@ -18,19 +18,19 @@ func (m *Person) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Person) IsPrimary() bool {
 	return true
 }
-func (m *Person) ObjectKey() *v1.ObjectKey {
-	key := &v1.ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "sample.Person",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Person) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "sample.Person",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Awards) ObjectType() string {
+func (m *Awards) ItemType() string {
 	return "sample.Awards"
 }
 func (m *Awards) KeyAttr() []string {
@@ -39,19 +39,19 @@ func (m *Awards) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Awards) IsPrimary() bool {
 	return true
 }
-func (m *Awards) ObjectKey() *v1.ObjectKey {
-	key := &v1.ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "sample.Awards",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Awards) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "sample.Awards",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Author) ObjectType() string {
+func (m *Author) ItemType() string {
 	return "sample.Author"
 }
 func (m *Author) KeyAttr() []string {
@@ -60,15 +60,15 @@ func (m *Author) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Author) IsPrimary() bool {
 	return true
 }
-func (m *Author) ObjectKey() *v1.ObjectKey {
-	key := &v1.ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "sample.Author",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Author) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "sample.Author",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }

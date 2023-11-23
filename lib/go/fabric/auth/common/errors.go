@@ -18,26 +18,26 @@ var (
 	AlreadyRegistered      = errors.New(
 		authpb.TxError_COLLECTION_ALREADY_REGISTERED.String(),
 	)
-	CollectionInvalid           = errors.New(authpb.TxError_COLLECTION_INVALID.String())
-	CollectionInvalidObjectType = errors.New(
-		authpb.TxError_COLLECTION_INVALID_OBJECT_TYPE.String(),
+	CollectionInvalid         = errors.New(authpb.TxError_COLLECTION_INVALID.String())
+	CollectionInvalidItemType = errors.New(
+		authpb.TxError_COLLECTION_INVALID_ITEM_TYPE.String(),
 	)
 	CollectionInvalidRoleId = errors.New(
 		authpb.TxError_COLLECTION_INVALID_ROLE_ID.String(),
 	)
-	UserInvalidId           = errors.New(authpb.TxError_USER_INVALID_ID.String())
-	UserUnregistered        = errors.New(authpb.TxError_USER_UNREGISTERED.String())
-	UserAlreadyRegistered   = errors.New(authpb.TxError_USER_ALREADY_REGISTERED.String())
-	UserInvalid             = errors.New(authpb.TxError_USER_INVALID.String())
-	UserNoRole              = errors.New(authpb.TxError_USER_NO_ROLE.String())
-	UserPermissionDenied    = errors.New(authpb.TxError_USER_PERMISSION_DENIED.String())
-	ObjectInvalidId         = errors.New(authpb.TxError_OBJECT_INVALID_ID.String())
-	ObjectUnregistered      = errors.New(authpb.TxError_OBJECT_UNREGISTERED.String())
-	ObjectAlreadyRegistered = errors.New(authpb.TxError_OBJECT_ALREADY_REGISTERED.String())
-	ObjectInvalid           = errors.New(authpb.TxError_OBJECT_INVALID.String())
-	InvalidObjectFieldPath  = errors.New(authpb.TxError_INVALID_OBJECT_FIELD_PATH.String())
-	InvalidObjectFieldValue = errors.New(
-		authpb.TxError_INVALID_OBJECT_FIELD_VALUE.String(),
+	UserInvalidId         = errors.New(authpb.TxError_USER_INVALID_ID.String())
+	UserUnregistered      = errors.New(authpb.TxError_USER_UNREGISTERED.String())
+	UserAlreadyRegistered = errors.New(authpb.TxError_USER_ALREADY_REGISTERED.String())
+	UserInvalid           = errors.New(authpb.TxError_USER_INVALID.String())
+	UserNoRole            = errors.New(authpb.TxError_USER_NO_ROLE.String())
+	UserPermissionDenied  = errors.New(authpb.TxError_USER_PERMISSION_DENIED.String())
+	ItemInvalidId         = errors.New(authpb.TxError_ITEM_INVALID_ID.String())
+	ItemUnregistered      = errors.New(authpb.TxError_ITEM_UNREGISTERED.String())
+	ItemAlreadyRegistered = errors.New(authpb.TxError_ITEM_ALREADY_REGISTERED.String())
+	ItemInvalid           = errors.New(authpb.TxError_ITEM_INVALID.String())
+	InvalidItemFieldPath  = errors.New(authpb.TxError_INVALID_ITEM_FIELD_PATH.String())
+	InvalidItemFieldValue = errors.New(
+		authpb.TxError_INVALID_ITEM_FIELD_VALUE.String(),
 	)
 )
 

@@ -10,62 +10,62 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-func ProtoToObject(obj *authpb.Object) (object common.ObjectInterface, err error) {
+func ProtoToItem(obj *authpb.Item) (item common.ItemInterface, err error) {
 	if obj == nil || obj.GetValue() == nil {
-		return nil, oops.In("GetObject").Errorf("Object is nil")
+		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 
 	m, err := obj.GetValue().UnmarshalNew()
 	if err != nil {
 		return nil, err
 	}
-	object, ok := m.(common.ObjectInterface)
+	item, ok := m.(common.ItemInterface)
 
 	if !ok {
-		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")
+		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
 	}
 
-	return object, nil
+	return item, nil
 }
 
-// Does not populate the object's key
-func ObjectKeyToObjectType(key *authpb.ObjectKey) (object common.ObjectInterface, err error) {
+// Does not populate the item's key
+func ItemKeyToItemType(key *authpb.ItemKey) (item common.ItemInterface, err error) {
 	if key == nil {
-		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
 
-	name := protoreflect.FullName(key.GetObjectType())
+	name := protoreflect.FullName(key.GetItemType())
 
 	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
 	if err != nil {
 		return nil, err
 	}
 
-	object, ok := t.New().Interface().(common.ObjectInterface)
+	item, ok := t.New().Interface().(common.ItemInterface)
 
 	if !ok {
-		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")
+		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
 	}
 
-	return object, nil
+	return item, nil
 }
 
-func ObjectToProto(object common.ObjectInterface) (obj *authpb.Object, err error) {
+func ItemToProto(item common.ItemInterface) (obj *authpb.Item, err error) {
 	if obj == nil {
-		return nil, oops.In("GetObject").Errorf("Object is nil")
+		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 
-	msg, err := anypb.New(object)
+	msg, err := anypb.New(item)
 	if err != nil {
 		return nil, err
 	}
 
-	key := object.ObjectKey()
+	key := item.ItemKey()
 	if key == nil {
-		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
 
-	obj = &authpb.Object{
+	obj = &authpb.Item{
 		Key:   key,
 		Value: msg,
 	}
@@ -73,11 +73,11 @@ func ObjectToProto(object common.ObjectInterface) (obj *authpb.Object, err error
 	return obj, nil
 }
 
-func ListObjectToProtos(list []common.ObjectInterface) (objs []*authpb.Object, err error) {
+func ListItemToProtos(list []common.ItemInterface) (objs []*authpb.Item, err error) {
 	for _, o := range list {
-		var msg *authpb.Object
+		var msg *authpb.Item
 
-		if msg, err = ObjectToProto(o); err != nil {
+		if msg, err = ItemToProto(o); err != nil {
 			return nil, err
 		}
 		objs = append(objs, msg)
@@ -88,9 +88,9 @@ func ListObjectToProtos(list []common.ObjectInterface) (objs []*authpb.Object, e
 
 // ──────────────────────────────────────────────────
 
-func ObjectToSuggestion(obj common.ObjectInterface) (suggestion *authpb.Suggestion, err error) {
+func ItemToSuggestion(obj common.ItemInterface) (suggestion *authpb.Suggestion, err error) {
 	if suggestion == nil {
-		return nil, oops.In("GetObject").Errorf("Object is nil")
+		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 
 	msg, err := anypb.New(obj)
@@ -98,9 +98,9 @@ func ObjectToSuggestion(obj common.ObjectInterface) (suggestion *authpb.Suggesti
 		return nil, err
 	}
 
-	primaryKey := obj.ObjectKey()
+	primaryKey := obj.ItemKey()
 	if primaryKey == nil {
-		return nil, oops.In("GetObject").Errorf("ObjectKey is nil")
+		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
 
 	suggestion = &authpb.Suggestion{
@@ -112,20 +112,20 @@ func ObjectToSuggestion(obj common.ObjectInterface) (suggestion *authpb.Suggesti
 	return suggestion, nil
 }
 
-func SuggestionToObject(s *authpb.Suggestion) (obj common.ObjectInterface, err error) {
+func SuggestionToItem(s *authpb.Suggestion) (obj common.ItemInterface, err error) {
 	if s == nil {
-		return nil, oops.In("GetObject").Errorf("Object is nil")
+		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 
 	m, err := s.GetValue().UnmarshalNew()
 	if err != nil {
 		return nil, err
 	}
-	object, ok := m.(common.ObjectInterface)
+	item, ok := m.(common.ItemInterface)
 
 	if !ok {
-		return nil, oops.In("GetObject").Errorf("Object is not a state.Object")
+		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
 	}
 
-	return object, nil
+	return item, nil
 }

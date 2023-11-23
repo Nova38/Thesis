@@ -61,32 +61,32 @@ func (kg *KeyGenerator) GenerateMessage(
 	msg *protogen.Message,
 ) (notUsed bool) {
 	keySchema := KeySchemaOptions(msg)
-	ObjectKey := g.QualifiedGoIdent(authPackage.Ident("ObjectKey"))
-	// SubObject := g.QualifiedGoIdent(authPackage.Ident("SubObject"))
+	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+	// SubItem := g.QualifiedGoIdent(authPackage.Ident("SubItem"))
 
-	// ObjectKind := GetObjectKind(msg)
+	// ItemKind := GetItemKind(msg)
 	if keySchema == nil {
 		return true
 	}
 	// // g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
 	{
-		ns := keySchema.GetObjectType()
+		ns := keySchema.GetItemType()
 		if ns == "" {
-			g.P("func (m *", msg.GoIdent.GoName, ") ObjectType() string {")
+			g.P("func (m *", msg.GoIdent.GoName, ") ItemType() string {")
 			g.P("	return \"", msg.Desc.FullName(), "\"")
 			g.P("}")
 		} else {
-			g.P("func (m *", msg.GoIdent.GoName, ") ObjectType() string {")
+			g.P("func (m *", msg.GoIdent.GoName, ") ItemType() string {")
 			g.P("	return \"", ns, "\"")
 		}
 	}
 
 	kp := keySchema.GetKeys()
 	// dCol := keySchema.GetDefaultCollectionId()
-	// ObjectKind := GetObjectKind()
+	// ItemKind := GetItemKind()
 
-	// sub := keySchema.GetSubObject()
+	// sub := keySchema.GetSubItem()
 	// function for key
 	newMsg := dynamicpb.NewMessage(msg.Desc)
 
@@ -144,50 +144,50 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("}")
 
 		{
-			od := keySchema.GetObjectKind()
+			od := keySchema.GetItemKind()
 
-			if authpb.ObjectKind(od.Number()) == authpb.ObjectKind_OBJECT_KIND_GLOBAL_OBJECT {
-				g.P("// Global Object")
+			if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
+				g.P("// Global Item")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
 				g.P("	return true")
 				g.P("}")
 
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
-				g.P("key := &", ObjectKey, "{")
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
+				g.P("key := &", ItemKey, "{")
 				g.P("CollectionId: \"global\",")
-				g.P("ObjectType: \"", string(msg.Desc.FullName()), "\",")
-				g.P("ObjectIdParts: m.KeyAttr(),")
+				g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
+				g.P("ItemIdParts: m.KeyAttr(),")
 				g.P("}")
 				g.P("return key")
 				g.P("}")
 
 			}
-			if authpb.ObjectKind(
+			if authpb.ItemKind(
 				od.Number(),
-			) == authpb.ObjectKind_OBJECT_KIND_PRIMARY_OBJECT {
-				g.P("// Domain Object")
+			) == authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
+				g.P("// Domain Item")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsPrimary() (bool) {")
 				g.P("	return true")
 				g.P("}")
 
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
-				g.P("key := &", ObjectKey, "{")
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
+				g.P("key := &", ItemKey, "{")
 				g.P("CollectionId: m.GetCollectionId(),")
-				g.P("ObjectType: \"", string(msg.Desc.FullName()), "\",")
-				g.P("ObjectIdParts: m.KeyAttr(),")
+				g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
+				g.P("ItemIdParts: m.KeyAttr(),")
 				g.P("}")
 				g.P("return key")
 				g.P("}")
 
 			}
 
-			if authpb.ObjectKind(od.Number()) == authpb.ObjectKind_OBJECT_KIND_SUB_OBJECT {
-				g.P("// Domain Object")
+			if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_SUB_ITEM {
+				g.P("// Domain Item")
 				g.P("func (m *", msg.GoIdent.GoName, ") IsSecondary() (bool) {")
 				g.P("	return true")
 				g.P("}")
 
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ObjectKey()", "(*", ObjectKey, ") {")
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
 				g.P("return m.GetPrimaryKey()")
 				g.P("}")
 
@@ -252,8 +252,8 @@ func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
 	return v
 }
 
-// func GetObjectKind(m *protogen.Message) *authpb.ObjectKind {
-// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ObjectKind).(*authpb.ObjectKind)
+// func GetItemKind(m *protogen.Message) *authpb.ItemKind {
+// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ItemKind).(*authpb.ItemKind)
 
 // 	if !ok {
 // 		return nil

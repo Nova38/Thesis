@@ -5,10 +5,10 @@
 
 package v1
 
-func (m *Reference) ObjectType() string {
+func (m *Reference) ItemType() string {
 	return "auth.Reference"
 }
-func (m *Collection) ObjectType() string {
+func (m *Collection) ItemType() string {
 	return "auth.Collection"
 }
 func (m *Collection) KeyAttr() []string {
@@ -17,19 +17,19 @@ func (m *Collection) KeyAttr() []string {
 	return attr
 }
 
-// Global Object
+// Global Item
 func (m *Collection) IsGlobal() bool {
 	return true
 }
-func (m *Collection) ObjectKey() *ObjectKey {
-	key := &ObjectKey{
-		CollectionId:  "global",
-		ObjectType:    "auth.Collection",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Collection) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: "global",
+		ItemType:     "auth.Collection",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *User) ObjectType() string {
+func (m *User) ItemType() string {
 	return "auth.User"
 }
 func (m *User) KeyAttr() []string {
@@ -39,19 +39,19 @@ func (m *User) KeyAttr() []string {
 	return attr
 }
 
-// Global Object
+// Global Item
 func (m *User) IsGlobal() bool {
 	return true
 }
-func (m *User) ObjectKey() *ObjectKey {
-	key := &ObjectKey{
-		CollectionId:  "global",
-		ObjectType:    "auth.User",
-		ObjectIdParts: m.KeyAttr(),
+func (m *User) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: "global",
+		ItemType:     "auth.User",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Suggestion) ObjectType() string {
+func (m *Suggestion) ItemType() string {
 	return "auth.Suggestion"
 }
 func (m *Suggestion) KeyAttr() []string {
@@ -60,17 +60,17 @@ func (m *Suggestion) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Suggestion) IsSecondary() bool {
 	return true
 }
-func (m *Suggestion) ObjectKey() *ObjectKey {
+func (m *Suggestion) ItemKey() *ItemKey {
 	return m.GetPrimaryKey()
 }
-func (m *HiddenTxList) ObjectType() string {
+func (m *HiddenTxList) ItemType() string {
 	return "auth.HiddenTxList"
 }
-func (m *Role) ObjectType() string {
+func (m *Role) ItemType() string {
 	return "auth.Role"
 }
 func (m *Role) KeyAttr() []string {
@@ -79,22 +79,22 @@ func (m *Role) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Role) IsPrimary() bool {
 	return true
 }
-func (m *Role) ObjectKey() *ObjectKey {
-	key := &ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "auth.Role",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Role) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "auth.Role",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Attribute) ObjectType() string {
+func (m *Attribute) ItemType() string {
 	return "auth.Attribute"
 }
-func (m *Membership) ObjectType() string {
+func (m *Membership) ItemType() string {
 	return "auth.Membership"
 }
 func (m *Membership) KeyAttr() []string {
@@ -104,15 +104,15 @@ func (m *Membership) KeyAttr() []string {
 	return attr
 }
 
-// Domain Object
+// Domain Item
 func (m *Membership) IsPrimary() bool {
 	return true
 }
-func (m *Membership) ObjectKey() *ObjectKey {
-	key := &ObjectKey{
-		CollectionId:  m.GetCollectionId(),
-		ObjectType:    "auth.Membership",
-		ObjectIdParts: m.KeyAttr(),
+func (m *Membership) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "auth.Membership",
+		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }

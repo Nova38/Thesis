@@ -195,7 +195,7 @@
                 </li>
               
                 <li>
-                  <a href="#auth.FullObject"><span class="badge">M</span>FullObject</a>
+                  <a href="#auth.FullItem"><span class="badge">M</span>FullItem</a>
                 </li>
               
                 <li>
@@ -215,19 +215,19 @@
                 </li>
               
                 <li>
+                  <a href="#auth.Item"><span class="badge">M</span>Item</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.ItemKey"><span class="badge">M</span>ItemKey</a>
+                </li>
+              
+                <li>
                   <a href="#auth.KeySchema"><span class="badge">M</span>KeySchema</a>
                 </li>
               
                 <li>
                   <a href="#auth.Membership"><span class="badge">M</span>Membership</a>
-                </li>
-              
-                <li>
-                  <a href="#auth.Object"><span class="badge">M</span>Object</a>
-                </li>
-              
-                <li>
-                  <a href="#auth.ObjectKey"><span class="badge">M</span>ObjectKey</a>
                 </li>
               
                 <li>
@@ -268,7 +268,7 @@
                 </li>
               
                 <li>
-                  <a href="#auth.ObjectKind"><span class="badge">E</span>ObjectKind</a>
+                  <a href="#auth.ItemKind"><span class="badge">E</span>ItemKind</a>
                 </li>
               
                 <li>
@@ -410,11 +410,11 @@
                 </li>
               
                 <li>
-                  <a href="#auth.common.ReferenceByObjectRequest"><span class="badge">M</span>ReferenceByObjectRequest</a>
+                  <a href="#auth.common.ReferenceByItemRequest"><span class="badge">M</span>ReferenceByItemRequest</a>
                 </li>
               
                 <li>
-                  <a href="#auth.common.ReferenceByObjectResponse"><span class="badge">M</span>ReferenceByObjectResponse</a>
+                  <a href="#auth.common.ReferenceByItemResponse"><span class="badge">M</span>ReferenceByItemResponse</a>
                 </li>
               
                 <li>
@@ -490,11 +490,11 @@
                 </li>
               
                 <li>
-                  <a href="#auth.common.SuggestionListByObjectRequest"><span class="badge">M</span>SuggestionListByObjectRequest</a>
+                  <a href="#auth.common.SuggestionListByItemRequest"><span class="badge">M</span>SuggestionListByItemRequest</a>
                 </li>
               
                 <li>
-                  <a href="#auth.common.SuggestionListByObjectResponse"><span class="badge">M</span>SuggestionListByObjectResponse</a>
+                  <a href="#auth.common.SuggestionListByItemResponse"><span class="badge">M</span>SuggestionListByItemResponse</a>
                 </li>
               
                 <li>
@@ -748,7 +748,7 @@
 
       
         <h3 id="auth.ACEntry">ACEntry</h3>
-        <p>Access Control Entry for use in Hash Tree</p><p>ObjectPolicy root                 = 1 [(buf.validate.field).required = true];</p>
+        <p>Access Control Entry for use in Hash Tree</p><p>ItemPolicy root                 = 1 [(buf.validate.field).required = true];</p>
 
         
           <table class="field-table">
@@ -761,7 +761,7 @@
                   <td>children</td>
                   <td><a href="#auth.ACEntry.ChildrenEntry">ACEntry.ChildrenEntry</a></td>
                   <td>repeated</td>
-                  <td><p>key is the object type </p></td>
+                  <td><p>key is the item type </p></td>
                 </tr>
               
             </tbody>
@@ -856,7 +856,7 @@ role </p></td>
         
       
         <h3 id="auth.Collection">Collection</h3>
-        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of objects are stored in the default ACEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
+        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of items are stored in the default ACEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
 
         
           <table class="field-table">
@@ -887,7 +887,7 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>object_types</td>
+                  <td>item_types</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
@@ -907,7 +907,7 @@ role </p></td>
 
         
       
-        <h3 id="auth.FullObject">FullObject</h3>
+        <h3 id="auth.FullItem">FullItem</h3>
         <p></p>
 
         
@@ -919,7 +919,7 @@ role </p></td>
               
                 <tr>
                   <td>key</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1012,7 +1012,7 @@ role </p></td>
         
       
         <h3 id="auth.HiddenTxList">HiddenTxList</h3>
-        <p>Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}</p>
+        <p>Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}</p>
 
         
           <table class="field-table">
@@ -1023,9 +1023,9 @@ role </p></td>
               
                 <tr>
                   <td>primary_key</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
-                  <td><p>The key that is used to store the object </p></td>
+                  <td><p>The key that is used to store the item </p></td>
                 </tr>
               
                 <tr>
@@ -1094,7 +1094,7 @@ role </p></td>
                   <td>is_delete</td>
                   <td><a href="#bool">bool</a></td>
                   <td></td>
-                  <td><p>Whether the object was deleted </p></td>
+                  <td><p>Whether the item was deleted </p></td>
                 </tr>
               
                 <tr>
@@ -1122,7 +1122,76 @@ role </p></td>
                   <td>value</td>
                   <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
                   <td></td>
-                  <td><p>The value of the object </p></td>
+                  <td><p>The value of the item </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.Item">Item</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.ItemKey">ItemKey</h3>
+        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Item Keys</p><p>When converted to its string form it will be:</p><p>- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}</p><p>Reference Keys</p><p>Used to store references to items for case like a user having a role</p><p>When converted to its string form it will be:</p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be:</p><p>{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item_id_parts</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -1143,17 +1212,17 @@ role </p></td>
             <tbody>
               
                 <tr>
-                  <td>object_type</td>
+                  <td>item_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
-                  <td><p>The object type of the key </p></td>
+                  <td><p>The item type of the key </p></td>
                 </tr>
               
                 <tr>
-                  <td>object_kind</td>
-                  <td><a href="#auth.ObjectKind">ObjectKind</a></td>
+                  <td>item_kind</td>
+                  <td><a href="#auth.ItemKind">ItemKind</a></td>
                   <td></td>
-                  <td><p>The kind of object that the key is for </p></td>
+                  <td><p>The kind of item that the key is for </p></td>
                 </tr>
               
                 <tr>
@@ -1215,75 +1284,6 @@ role </p></td>
 
         
       
-        <h3 id="auth.Object">Object</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>key</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>value</td>
-                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="auth.ObjectKey">ObjectKey</h3>
-        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Object Keys</p><p>When converted to its string form it will be:</p><p>- Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}</p><p>Reference Keys</p><p>Used to store references to objects for case like a user having a role</p><p>When converted to its string form it will be:</p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be:</p><p>{SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>object_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>object_id_parts</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="auth.Operation">Operation</h3>
         <p></p>
 
@@ -1309,14 +1309,14 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>object_type</td>
+                  <td>item_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
-                  <td>secondary_object_type</td>
+                  <td>secondary_item_type</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
@@ -1337,7 +1337,7 @@ role </p></td>
         
       
         <h3 id="auth.PathPolicy">PathPolicy</h3>
-        <p>This message is the tree node for operations on the state object</p>
+        <p>This message is the tree node for operations on the state item</p>
 
         
           <table class="field-table">
@@ -1371,7 +1371,7 @@ role </p></td>
                   <td>sub_paths</td>
                   <td><a href="#auth.PathPolicy.SubPathsEntry">PathPolicy.SubPathsEntry</a></td>
                   <td>repeated</td>
-                  <td><p>The key is a valid sub path in the type of state object </p></td>
+                  <td><p>The key is a valid sub path in the type of state item </p></td>
                 </tr>
               
                 <tr>
@@ -1420,7 +1420,7 @@ role </p></td>
         
       
         <h3 id="auth.Reference">Reference</h3>
-        <p>Reference Keys</p><p>{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]</p>
+        <p>Reference Keys</p><p>{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]</p>
 
         
           <table class="field-table">
@@ -1445,14 +1445,14 @@ role </p></td>
               
                 <tr>
                   <td>key_1</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
                   <td>key_2</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1569,7 +1569,7 @@ role </p></td>
         
       
         <h3 id="auth.Suggestion">Suggestion</h3>
-        <p>Key should be</p><p>{auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}</p>
+        <p>Key should be</p><p>{auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}</p>
 
         
           <table class="field-table">
@@ -1580,7 +1580,7 @@ role </p></td>
               
                 <tr>
                   <td>primary_key</td>
-                  <td><a href="#auth.ObjectKey">ObjectKey</a></td>
+                  <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1661,7 +1661,7 @@ role </p></td>
 
       
         <h3 id="auth.Action">Action</h3>
-        <p>Action - The action to be performed during the operation</p><p># Action Groups</p><p>- UNSPECIFIED: null or not set</p><p>- REGISTER:    Used to register a new user or collection (always allowed)</p><p>- COLLECTION:  Used to manage collections permissions</p><p>- MEMBERSHIP:  Used to manage membership of a collection</p><p>- OBJECT:      Used to manage objects in a collection</p>
+        <p>Action - The action to be performed during the operation</p><p># Action Groups</p><p>- UNSPECIFIED: null or not set</p><p>- REGISTER:    Used to register a new user or collection (always allowed)</p><p>- COLLECTION:  Used to manage collections permissions</p><p>- MEMBERSHIP:  Used to manage membership of a collection</p><p>- ITEM:      Used to manage items in a collection</p>
         <table class="enum-table">
           <thead>
             <tr><td>Name</td><td>Number</td><td>Description</td></tr>
@@ -1683,39 +1683,39 @@ role </p></td>
               <tr>
                 <td>ACTION_VIEW</td>
                 <td>10</td>
-                <td><p>View the contents of an object</p></td>
+                <td><p>View the contents of an item</p></td>
               </tr>
             
               <tr>
                 <td>ACTION_CREATE</td>
                 <td>11</td>
-                <td><p>Create a new object
+                <td><p>Create a new item
  - key must not already exist</p></td>
               </tr>
             
               <tr>
                 <td>ACTION_UPDATE</td>
                 <td>12</td>
-                <td><p>Update an existing object
+                <td><p>Update an existing item
   - key must already exist</p></td>
               </tr>
             
               <tr>
                 <td>ACTION_DELETE</td>
                 <td>13</td>
-                <td><p>Delete an existing object, key must already exist</p></td>
+                <td><p>Delete an existing item, key must already exist</p></td>
               </tr>
             
               <tr>
                 <td>ACTION_SUGGEST_VIEW</td>
                 <td>14</td>
-                <td><p>Suggest a change to an object, key must already exist</p></td>
+                <td><p>Suggest a change to an item, key must already exist</p></td>
               </tr>
             
               <tr>
                 <td>ACTION_SUGGEST_CREATE</td>
                 <td>15</td>
-                <td><p>Suggest a change to an object, key must already exist</p></td>
+                <td><p>Suggest a change to an item, key must already exist</p></td>
               </tr>
             
               <tr>
@@ -1727,7 +1727,7 @@ role </p></td>
               <tr>
                 <td>ACTION_SUGGEST_APPROVE</td>
                 <td>17</td>
-                <td><p>Approve a suggestion and apply it to the object, key must already exist</p></td>
+                <td><p>Approve a suggestion and apply it to the item, key must already exist</p></td>
               </tr>
             
               <tr>
@@ -1769,7 +1769,7 @@ role </p></td>
           </tbody>
         </table>
       
-        <h3 id="auth.ObjectKind">ObjectKind</h3>
+        <h3 id="auth.ItemKind">ItemKind</h3>
         <p></p>
         <table class="enum-table">
           <thead>
@@ -1778,31 +1778,31 @@ role </p></td>
           <tbody>
             
               <tr>
-                <td>OBJECT_KIND_UNSPECIFIED</td>
+                <td>ITEM_KIND_UNSPECIFIED</td>
                 <td>0</td>
                 <td><p></p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_KIND_GLOBAL_OBJECT</td>
+                <td>ITEM_KIND_GLOBAL_ITEM</td>
                 <td>1</td>
                 <td><p></p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_KIND_PRIMARY_OBJECT</td>
+                <td>ITEM_KIND_PRIMARY_ITEM</td>
                 <td>2</td>
-                <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
+                <td><p>Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_KIND_SUB_OBJECT</td>
+                <td>ITEM_KIND_SUB_ITEM</td>
                 <td>3</td>
-                <td><p>Object&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}</p></td>
+                <td><p>Item&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_KIND_REFERENCE</td>
+                <td>ITEM_KIND_REFERENCE</td>
                 <td>4</td>
                 <td><p></p></td>
               </tr>
@@ -1908,9 +1908,9 @@ role </p></td>
               </tr>
             
               <tr>
-                <td>COLLECTION_INVALID_OBJECT_TYPE</td>
+                <td>COLLECTION_INVALID_ITEM_TYPE</td>
                 <td>15</td>
-                <td><p>The object type in the collection is invalid</p></td>
+                <td><p>The item type in the collection is invalid</p></td>
               </tr>
             
               <tr>
@@ -1957,39 +1957,39 @@ The user does not have permission to perform the operation</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_INVALID_ID</td>
+                <td>ITEM_INVALID_ID</td>
                 <td>31</td>
-                <td><p>The Object&#39;s key is invalid</p></td>
+                <td><p>The Item&#39;s key is invalid</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_UNREGISTERED</td>
+                <td>ITEM_UNREGISTERED</td>
                 <td>32</td>
-                <td><p>The Object is not registered and thus cannot be accessed</p></td>
+                <td><p>The Item is not registered and thus cannot be accessed</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_ALREADY_REGISTERED</td>
+                <td>ITEM_ALREADY_REGISTERED</td>
                 <td>33</td>
-                <td><p>The Object is already registered and thus cannot be registered again</p></td>
+                <td><p>The Item is already registered and thus cannot be registered again</p></td>
               </tr>
             
               <tr>
-                <td>OBJECT_INVALID</td>
+                <td>ITEM_INVALID</td>
                 <td>34</td>
-                <td><p>The Object is invalid</p></td>
+                <td><p>The Item is invalid</p></td>
               </tr>
             
               <tr>
-                <td>INVALID_OBJECT_FIELD_PATH</td>
+                <td>INVALID_ITEM_FIELD_PATH</td>
                 <td>35</td>
-                <td><p>The object field path is invalid for the object type</p></td>
+                <td><p>The item field path is invalid for the item type</p></td>
               </tr>
             
               <tr>
-                <td>INVALID_OBJECT_FIELD_VALUE</td>
+                <td>INVALID_ITEM_FIELD_VALUE</td>
                 <td>36</td>
-                <td><p>The value at the object field path is invalid for the object type</p></td>
+                <td><p>The value at the item field path is invalid for the item type</p></td>
               </tr>
             
           </tbody>
@@ -2138,8 +2138,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2162,8 +2162,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2210,8 +2210,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2241,8 +2241,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2313,8 +2313,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2337,8 +2337,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2361,8 +2361,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2416,8 +2416,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2447,8 +2447,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2478,8 +2478,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2540,8 +2540,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2578,8 +2578,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>objects</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>items</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
@@ -2616,8 +2616,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2647,8 +2647,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>objects</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>items</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
@@ -2685,8 +2685,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2716,8 +2716,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>objects</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>items</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
@@ -2805,7 +2805,7 @@ The user does not have permission to perform the operation</p></td>
 
         
       
-        <h3 id="auth.common.ReferenceByObjectRequest">ReferenceByObjectRequest</h3>
+        <h3 id="auth.common.ReferenceByItemRequest">ReferenceByItemRequest</h3>
         <p>Get all of the collections</p>
 
         
@@ -2830,8 +2830,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2850,7 +2850,7 @@ The user does not have permission to perform the operation</p></td>
 
         
       
-        <h3 id="auth.common.ReferenceByObjectResponse">ReferenceByObjectResponse</h3>
+        <h3 id="auth.common.ReferenceByItemResponse">ReferenceByItemResponse</h3>
         <p></p>
 
         
@@ -3105,8 +3105,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3150,8 +3150,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3195,8 +3195,8 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3305,8 +3305,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3425,7 +3425,7 @@ The user does not have permission to perform the operation</p></td>
 
         
       
-        <h3 id="auth.common.SuggestionListByObjectRequest">SuggestionListByObjectRequest</h3>
+        <h3 id="auth.common.SuggestionListByItemRequest">SuggestionListByItemRequest</h3>
         <p></p>
 
         
@@ -3436,8 +3436,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3449,7 +3449,7 @@ The user does not have permission to perform the operation</p></td>
 
         
       
-        <h3 id="auth.common.SuggestionListByObjectResponse">SuggestionListByObjectResponse</h3>
+        <h3 id="auth.common.SuggestionListByItemResponse">SuggestionListByItemResponse</h3>
         <p></p>
 
         
@@ -3494,7 +3494,7 @@ The user does not have permission to perform the operation</p></td>
                   <td>limit</td>
                   <td><a href="#uint32">uint32</a></td>
                   <td></td>
-                  <td><p>auth.Object object = 3; </p></td>
+                  <td><p>auth.Item item = 3; </p></td>
                 </tr>
               
             </tbody>
@@ -3546,8 +3546,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object_key</td>
-                  <td><a href="#auth.ObjectKey">auth.ObjectKey</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3601,8 +3601,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3632,8 +3632,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3663,8 +3663,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3694,8 +3694,8 @@ The user does not have permission to perform the operation</p></td>
             <tbody>
               
                 <tr>
-                  <td>object</td>
-                  <td><a href="#auth.Object">auth.Object</a></td>
+                  <td>item</td>
+                  <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3853,9 +3853,9 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               </tr>
             
               <tr>
-                <td>ReferenceByObject</td>
-                <td><a href="#auth.common.ReferenceByObjectRequest">ReferenceByObjectRequest</a></td>
-                <td><a href="#auth.common.ReferenceByObjectResponse">ReferenceByObjectResponse</a></td>
+                <td>ReferenceByItem</td>
+                <td><a href="#auth.common.ReferenceByItemRequest">ReferenceByItemRequest</a></td>
+                <td><a href="#auth.common.ReferenceByItemResponse">ReferenceByItemResponse</a></td>
                 <td><p></p></td>
               </tr>
             

@@ -18,16 +18,16 @@ export const TransactionType = proto3.makeEnum(
 );
 
 /**
- * @generated from enum auth.ObjectKind
+ * @generated from enum auth.ItemKind
  */
-export const ObjectKind = proto3.makeEnum(
-  "auth.ObjectKind",
+export const ItemKind = proto3.makeEnum(
+  "auth.ItemKind",
   [
-    {no: 0, name: "OBJECT_KIND_UNSPECIFIED", localName: "UNSPECIFIED"},
-    {no: 1, name: "OBJECT_KIND_GLOBAL_OBJECT", localName: "GLOBAL_OBJECT"},
-    {no: 2, name: "OBJECT_KIND_PRIMARY_OBJECT", localName: "PRIMARY_OBJECT"},
-    {no: 3, name: "OBJECT_KIND_SUB_OBJECT", localName: "SUB_OBJECT"},
-    {no: 4, name: "OBJECT_KIND_REFERENCE", localName: "REFERENCE"},
+    {no: 0, name: "ITEM_KIND_UNSPECIFIED", localName: "UNSPECIFIED"},
+    {no: 1, name: "ITEM_KIND_GLOBAL_ITEM", localName: "GLOBAL_ITEM"},
+    {no: 2, name: "ITEM_KIND_PRIMARY_ITEM", localName: "PRIMARY_ITEM"},
+    {no: 3, name: "ITEM_KIND_SUB_ITEM", localName: "SUB_ITEM"},
+    {no: 4, name: "ITEM_KIND_REFERENCE", localName: "REFERENCE"},
   ],
 );
 
@@ -39,7 +39,7 @@ export const ObjectKind = proto3.makeEnum(
  *   - REGISTER:    Used to register a new user or collection (always allowed)
  *   - COLLECTION:  Used to manage collections permissions
  *   - MEMBERSHIP:  Used to manage membership of a collection
- *   - OBJECT:      Used to manage objects in a collection
+ *   - ITEM:      Used to manage items in a collection
  *
  * @generated from enum auth.Action
  */
@@ -81,7 +81,7 @@ export const TxError = proto3.makeEnum(
     {no: 12, name: "COLLECTION_UNREGISTERED"},
     {no: 13, name: "COLLECTION_ALREADY_REGISTERED"},
     {no: 14, name: "COLLECTION_INVALID"},
-    {no: 15, name: "COLLECTION_INVALID_OBJECT_TYPE"},
+    {no: 15, name: "COLLECTION_INVALID_ITEM_TYPE"},
     {no: 16, name: "COLLECTION_INVALID_ROLE_ID"},
     {no: 20, name: "USER_INVALID_ID"},
     {no: 21, name: "USER_UNREGISTERED"},
@@ -89,12 +89,12 @@ export const TxError = proto3.makeEnum(
     {no: 23, name: "USER_INVALID"},
     {no: 24, name: "USER_NO_ROLE"},
     {no: 26, name: "USER_PERMISSION_DENIED"},
-    {no: 31, name: "OBJECT_INVALID_ID"},
-    {no: 32, name: "OBJECT_UNREGISTERED"},
-    {no: 33, name: "OBJECT_ALREADY_REGISTERED"},
-    {no: 34, name: "OBJECT_INVALID"},
-    {no: 35, name: "INVALID_OBJECT_FIELD_PATH"},
-    {no: 36, name: "INVALID_OBJECT_FIELD_VALUE"},
+    {no: 31, name: "ITEM_INVALID_ID"},
+    {no: 32, name: "ITEM_UNREGISTERED"},
+    {no: 33, name: "ITEM_ALREADY_REGISTERED"},
+    {no: 34, name: "ITEM_INVALID"},
+    {no: 35, name: "INVALID_ITEM_FIELD_PATH"},
+    {no: 36, name: "INVALID_ITEM_FIELD_VALUE"},
   ],
 );
 
@@ -104,8 +104,8 @@ export const TxError = proto3.makeEnum(
 export const KeySchema = proto3.makeMessageType(
   "auth.KeySchema",
   () => [
-    { no: 1, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_kind", kind: "enum", T: proto3.getEnumType(ObjectKind) },
+    { no: 1, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "item_kind", kind: "enum", T: proto3.getEnumType(ItemKind) },
     { no: 3, name: "keys", kind: "message", T: FieldMask },
   ],
 );
@@ -160,14 +160,14 @@ export const Operation = proto3.makeMessageType(
   () => [
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
     { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "secondary_object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "secondary_item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "paths", kind: "message", T: FieldMask },
   ],
 );
 
 /**
- * This message is the tree node for operations on the state object
+ * This message is the tree node for operations on the state item
  *
  * @generated from message auth.PathPolicy
  */
@@ -185,7 +185,7 @@ export const PathPolicy = proto3.makeMessageType(
 /**
  * Access Control Entry for use in Hash Tree
  *
- * ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
+ * ItemPolicy root                 = 1 [(buf.validate.field).required = true];
  *
  * @generated from message auth.ACEntry
  */
@@ -197,24 +197,23 @@ export const ACEntry = proto3.makeMessageType(
 );
 
 /**
- * @generated from message auth.Object
+ * @generated from message auth.Item
  */
-export const Object$ = proto3.makeMessageType(
-  "auth.Object",
+export const Item = proto3.makeMessageType(
+  "auth.Item",
   () => [
-    { no: 1, name: "key", kind: "message", T: ObjectKey },
+    { no: 1, name: "key", kind: "message", T: ItemKey },
     { no: 2, name: "value", kind: "message", T: Any },
   ],
-  {localName: "Object$"},
 );
 
 /**
- * @generated from message auth.FullObject
+ * @generated from message auth.FullItem
  */
-export const FullObject = proto3.makeMessageType(
-  "auth.FullObject",
+export const FullItem = proto3.makeMessageType(
+  "auth.FullItem",
   () => [
-    { no: 1, name: "key", kind: "message", T: ObjectKey },
+    { no: 1, name: "key", kind: "message", T: ItemKey },
     { no: 2, name: "value", kind: "message", T: Any },
     { no: 3, name: "history", kind: "message", T: History },
     { no: 4, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
@@ -225,37 +224,37 @@ export const FullObject = proto3.makeMessageType(
 /**
  * Keys
  * ─────────────────────────────────────────────────────────────────────────────────────
- * Object Keys
+ * Item Keys
  * When converted to its string form it will be:
- * - Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+ * - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
  *
  * Reference Keys
- * Used to store references to objects for case like a user having a role
+ * Used to store references to items for case like a user having a role
  * When converted to its string form it will be:
- * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
  *
  * SubKeys
  * When converted to its string form it will be:
- * {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
+ * {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
  * Examples
- * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
- * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
+ * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+ * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
  *
- * @generated from message auth.ObjectKey
+ * @generated from message auth.ItemKey
  */
-export const ObjectKey = proto3.makeMessageType(
-  "auth.ObjectKey",
+export const ItemKey = proto3.makeMessageType(
+  "auth.ItemKey",
   () => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "object_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "object_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "item_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ],
 );
 
 /**
  * Reference Keys
- * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
  * @generated from message auth.Reference
  */
@@ -264,15 +263,15 @@ export const Reference = proto3.makeMessageType(
   () => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "reference_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "key_1", kind: "message", T: ObjectKey },
-    { no: 4, name: "key_2", kind: "message", T: ObjectKey },
+    { no: 3, name: "key_1", kind: "message", T: ItemKey },
+    { no: 4, name: "key_2", kind: "message", T: ItemKey },
   ],
 );
 
 /**
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of objects are stored in the default ACEntry
+ * Note that the types of items are stored in the default ACEntry
  *
  * key := {COLLECTION}{COLLECTION_ID}
  *
@@ -284,7 +283,7 @@ export const Collection = proto3.makeMessageType(
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "object_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 4, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 5, name: "default", kind: "message", T: ACEntry },
   ],
 );
@@ -310,14 +309,14 @@ export const User = proto3.makeMessageType(
 
 /**
  * Key should be
- * {auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+ * {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
  */
 export const Suggestion = proto3.makeMessageType(
   "auth.Suggestion",
   () => [
-    { no: 1, name: "primary_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "primary_key", kind: "message", T: ItemKey },
     { no: 2, name: "suggestion_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "paths", kind: "message", T: FieldMask },
     { no: 6, name: "value", kind: "message", T: Any },
@@ -339,14 +338,14 @@ export const HiddenTx = proto3.makeMessageType(
 );
 
 /**
- * Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
+ * Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
  *
  * @generated from message auth.HiddenTxList
  */
 export const HiddenTxList = proto3.makeMessageType(
   "auth.HiddenTxList",
   () => [
-    { no: 1, name: "primary_key", kind: "message", T: ObjectKey },
+    { no: 1, name: "primary_key", kind: "message", T: ItemKey },
     { no: 4, name: "txs", kind: "message", T: HiddenTx, repeated: true },
   ],
 );

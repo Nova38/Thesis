@@ -22,13 +22,13 @@ import (
 type SuggestionHandler struct {
 	suggestionKey string
 	objKey        string
-	obj           common.ObjectInterface
-	current       common.ObjectInterface
+	obj           common.ItemInterface
+	current       common.ItemInterface
 	suggestion    *authpb.Suggestion
 	bytes         []byte
 }
 
-// SuggestionToObject converts a suggestion to an object
+// SuggestionToItem converts a suggestion to an item
 
 func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
 	if sug == nil {
@@ -36,7 +36,7 @@ func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
 	}
 	s.suggestion = sug
 
-	if s.obj, err = SuggestionToObject(s.suggestion); err != nil {
+	if s.obj, err = SuggestionToItem(s.suggestion); err != nil {
 		return oops.Wrap(err)
 	}
 
@@ -69,7 +69,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_CREATE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ObjectType:   s.GetPrimaryKey().GetObjectType(),
+			ItemType:     s.GetPrimaryKey().GetItemType(),
 			Paths:        s.GetPaths(),
 		}
 	)
@@ -80,17 +80,17 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	// Extract the object from the suggestion
+	// Extract the item from the suggestion
 	if err = handler.Extract(s); err != nil {
 		return oops.Wrap(err)
 	}
 
-	// Check if the object exists, if it does not, return error
+	// Check if the item exists, if it does not, return error
 	if !KeyExists(ctx, handler.objKey) {
 		return oops.
 			With("suggestion ID",
 				s.GetSuggestionId(), "Key", handler.objKey,
-				"ObjectType", handler.obj.ObjectType()).
+				"ItemType", handler.obj.ItemType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -106,11 +106,11 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_DELETE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ObjectType:   s.GetPrimaryKey().GetObjectType(),
+			ItemType:     s.GetPrimaryKey().GetItemType(),
 			Paths:        nil,
 		}
 	)
-	// Extract the object from the suggestion
+	// Extract the item from the suggestion
 	if err = handler.Extract(s); err != nil {
 		return oops.Wrap(err)
 	}
@@ -118,7 +118,7 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	if err = l.Get(handler.suggestion); err != nil {
 		return oops.
 			In("DeleteSuggestion").
-			With("Key", s, "ObjectType", s.ObjectType()).
+			With("Key", s, "ItemType", s.ItemType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -136,22 +136,22 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 func SuggestionApprove(
 	ctx TxCtxInterface,
 	s *authpb.Suggestion,
-) (updated *common.ObjectInterface, err error) {
+) (updated *common.ItemInterface, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("ApproveSuggestion", "suggestion:", s)
 	var (
 		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
-		ol      = &Ledger[common.ObjectInterface]{ctx: ctx}
+		ol      = &Ledger[common.ItemInterface]{ctx: ctx}
 		handler = SuggestionHandler{suggestion: s}
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_APPROVE,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ObjectType:   s.GetPrimaryKey().GetObjectType(),
+			ItemType:     s.GetPrimaryKey().GetItemType(),
 			Paths:        nil,
 		}
 	)
 
-	// Extract the object from the suggestion
+	// Extract the item from the suggestion
 	if err = handler.Extract(s); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -160,7 +160,7 @@ func SuggestionApprove(
 	if err = l.Get(handler.suggestion); err != nil {
 		return nil, oops.
 			In("ApproveSuggestion").
-			With("Key", s, "ObjectType", s.ObjectType()).
+			With("Key", s, "ItemType", s.ItemType()).
 			Wrap(common.KeyNotFound)
 	}
 
@@ -199,12 +199,12 @@ func GetSuggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 		op      = &authpb.Operation{
 			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ObjectType:   s.GetPrimaryKey().GetObjectType(),
+			ItemType:     s.GetPrimaryKey().GetItemType(),
 			Paths:        nil,
 		}
 	)
 
-	// Extract the object from the suggestion
+	// Extract the item from the suggestion
 	if err = handler.Extract(s); err != nil {
 		return oops.Wrap(err)
 	}
@@ -229,7 +229,7 @@ func PartialSuggestionList(
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 		CollectionId: s.GetPrimaryKey().GetCollectionId(),
-		ObjectType:   s.GetPrimaryKey().GetObjectType(),
+		ItemType:     s.GetPrimaryKey().GetItemType(),
 		Paths:        nil,
 	}
 
@@ -245,10 +245,10 @@ func PartialSuggestionList(
 
 	attr := MakeSuggestionKeyAtter(handler.obj, "")
 	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ObjectInvalid
+		return nil, "", common.ItemInvalid
 	}
 
-	// attr = append([]string{common.SuggestionObjectType}, attr...)
+	// attr = append([]string{common.SuggestionItemType}, attr...)
 	// Extract the attributes to search for
 	// attr = attr[:len(attr)-numAttr]
 
@@ -257,7 +257,7 @@ func PartialSuggestionList(
 	ctx.GetLogger().
 		Info("GetPartialSuggestedKeyList",
 			slog.Group(
-				"Key", "ObjectType", common.SuggestionObjectType,
+				"Key", "ItemType", common.SuggestionItemType,
 				slog.Int("numAttr", numAttr),
 				slog.Any("attr", attr),
 				slog.Group(
@@ -270,7 +270,7 @@ func PartialSuggestionList(
 
 	results, metadata, err := ctx.GetStub().
 		GetStateByPartialCompositeKeyWithPagination(
-			common.SuggestionObjectType,
+			common.SuggestionItemType,
 			attr,
 			ctx.GetPageSize(),
 			bookmark,
@@ -308,7 +308,7 @@ func SuggestionListByCollection(ctx TxCtxInterface, collection_id string, bookma
 	ctx.GetLogger().Debug("GetSuggestionListByCollection", "collection_id:", collection_id)
 
 	s := &authpb.Suggestion{
-		PrimaryKey: &authpb.ObjectKey{
+		PrimaryKey: &authpb.ItemKey{
 			CollectionId: collection_id,
 		},
 	}
@@ -316,10 +316,10 @@ func SuggestionListByCollection(ctx TxCtxInterface, collection_id string, bookma
 	return PartialSuggestionList(ctx, s, 1, "")
 }
 
-// Get Suggestion List, for the object
-func SuggestionListByObject(
+// Get Suggestion List, for the item
+func SuggestionListByItem(
 	ctx TxCtxInterface,
-	objKey *authpb.ObjectKey,
+	objKey *authpb.ItemKey,
 	bookmark string,
 ) (list []*authpb.Suggestion, mk string, err error) {
 	ctx.GetLogger().Debug("GetSuggestionList", "suggestion:", objKey)
@@ -328,7 +328,7 @@ func SuggestionListByObject(
 		PrimaryKey: objKey,
 	}
 
-	num := len(objKey.GetObjectIdParts()) + 2
+	num := len(objKey.GetItemIdParts()) + 2
 
 	return PartialSuggestionList(ctx, s, num, "")
 }

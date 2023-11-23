@@ -27,35 +27,35 @@ export declare enum TransactionType {
 }
 
 /**
- * @generated from enum auth.ObjectKind
+ * @generated from enum auth.ItemKind
  */
-export declare enum ObjectKind {
+export declare enum ItemKind {
   /**
-   * @generated from enum value: OBJECT_KIND_UNSPECIFIED = 0;
+   * @generated from enum value: ITEM_KIND_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: OBJECT_KIND_GLOBAL_OBJECT = 1;
+   * @generated from enum value: ITEM_KIND_GLOBAL_ITEM = 1;
    */
-  GLOBAL_OBJECT = 1,
+  GLOBAL_ITEM = 1,
 
   /**
-   * Object's key := {COLLECTION_ID}{TYPE}[...key_paths]
+   * Item's key := {COLLECTION_ID}{TYPE}[...key_paths]
    *
-   * @generated from enum value: OBJECT_KIND_PRIMARY_OBJECT = 2;
+   * @generated from enum value: ITEM_KIND_PRIMARY_ITEM = 2;
    */
-  PRIMARY_OBJECT = 2,
+  PRIMARY_ITEM = 2,
 
   /**
-   * Object's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
+   * Item's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
    *
-   * @generated from enum value: OBJECT_KIND_SUB_OBJECT = 3;
+   * @generated from enum value: ITEM_KIND_SUB_ITEM = 3;
    */
-  SUB_OBJECT = 3,
+  SUB_ITEM = 3,
 
   /**
-   * @generated from enum value: OBJECT_KIND_REFERENCE = 4;
+   * @generated from enum value: ITEM_KIND_REFERENCE = 4;
    */
   REFERENCE = 4,
 }
@@ -68,7 +68,7 @@ export declare enum ObjectKind {
  *   - REGISTER:    Used to register a new user or collection (always allowed)
  *   - COLLECTION:  Used to manage collections permissions
  *   - MEMBERSHIP:  Used to manage membership of a collection
- *   - OBJECT:      Used to manage objects in a collection
+ *   - ITEM:      Used to manage items in a collection
  *
  * @generated from enum auth.Action
  */
@@ -84,14 +84,14 @@ export declare enum Action {
   UTILITY = 1,
 
   /**
-   * View the contents of an object
+   * View the contents of an item
    *
    * @generated from enum value: ACTION_VIEW = 10;
    */
   VIEW = 10,
 
   /**
-   * Create a new object
+   * Create a new item
    *  - key must not already exist
    *
    * @generated from enum value: ACTION_CREATE = 11;
@@ -99,7 +99,7 @@ export declare enum Action {
   CREATE = 11,
 
   /**
-   * Update an existing object
+   * Update an existing item
    *   - key must already exist
    *
    * @generated from enum value: ACTION_UPDATE = 12;
@@ -107,21 +107,21 @@ export declare enum Action {
   UPDATE = 12,
 
   /**
-   * Delete an existing object, key must already exist
+   * Delete an existing item, key must already exist
    *
    * @generated from enum value: ACTION_DELETE = 13;
    */
   DELETE = 13,
 
   /**
-   * Suggest a change to an object, key must already exist
+   * Suggest a change to an item, key must already exist
    *
    * @generated from enum value: ACTION_SUGGEST_VIEW = 14;
    */
   SUGGEST_VIEW = 14,
 
   /**
-   * Suggest a change to an object, key must already exist
+   * Suggest a change to an item, key must already exist
    *
    * @generated from enum value: ACTION_SUGGEST_CREATE = 15;
    */
@@ -135,7 +135,7 @@ export declare enum Action {
   SUGGEST_DELETE = 16,
 
   /**
-   * Approve a suggestion and apply it to the object, key must already exist
+   * Approve a suggestion and apply it to the item, key must already exist
    *
    * @generated from enum value: ACTION_SUGGEST_APPROVE = 17;
    */
@@ -239,11 +239,11 @@ export declare enum TxError {
   COLLECTION_INVALID = 14,
 
   /**
-   * The object type in the collection is invalid
+   * The item type in the collection is invalid
    *
-   * @generated from enum value: COLLECTION_INVALID_OBJECT_TYPE = 15;
+   * @generated from enum value: COLLECTION_INVALID_ITEM_TYPE = 15;
    */
-  COLLECTION_INVALID_OBJECT_TYPE = 15,
+  COLLECTION_INVALID_ITEM_TYPE = 15,
 
   /**
    * The role id in the collection is invalid
@@ -296,46 +296,46 @@ export declare enum TxError {
   USER_PERMISSION_DENIED = 26,
 
   /**
-   * The Object's key is invalid
+   * The Item's key is invalid
    *
-   * @generated from enum value: OBJECT_INVALID_ID = 31;
+   * @generated from enum value: ITEM_INVALID_ID = 31;
    */
-  OBJECT_INVALID_ID = 31,
+  ITEM_INVALID_ID = 31,
 
   /**
-   * The Object is not registered and thus cannot be accessed
+   * The Item is not registered and thus cannot be accessed
    *
-   * @generated from enum value: OBJECT_UNREGISTERED = 32;
+   * @generated from enum value: ITEM_UNREGISTERED = 32;
    */
-  OBJECT_UNREGISTERED = 32,
+  ITEM_UNREGISTERED = 32,
 
   /**
-   * The Object is already registered and thus cannot be registered again
+   * The Item is already registered and thus cannot be registered again
    *
-   * @generated from enum value: OBJECT_ALREADY_REGISTERED = 33;
+   * @generated from enum value: ITEM_ALREADY_REGISTERED = 33;
    */
-  OBJECT_ALREADY_REGISTERED = 33,
+  ITEM_ALREADY_REGISTERED = 33,
 
   /**
-   * The Object is invalid
+   * The Item is invalid
    *
-   * @generated from enum value: OBJECT_INVALID = 34;
+   * @generated from enum value: ITEM_INVALID = 34;
    */
-  OBJECT_INVALID = 34,
+  ITEM_INVALID = 34,
 
   /**
-   * The object field path is invalid for the object type
+   * The item field path is invalid for the item type
    *
-   * @generated from enum value: INVALID_OBJECT_FIELD_PATH = 35;
+   * @generated from enum value: INVALID_ITEM_FIELD_PATH = 35;
    */
-  INVALID_OBJECT_FIELD_PATH = 35,
+  INVALID_ITEM_FIELD_PATH = 35,
 
   /**
-   * The value at the object field path is invalid for the object type
+   * The value at the item field path is invalid for the item type
    *
-   * @generated from enum value: INVALID_OBJECT_FIELD_VALUE = 36;
+   * @generated from enum value: INVALID_ITEM_FIELD_VALUE = 36;
    */
-  INVALID_OBJECT_FIELD_VALUE = 36,
+  INVALID_ITEM_FIELD_VALUE = 36,
 }
 
 /**
@@ -343,18 +343,18 @@ export declare enum TxError {
  */
 export declare class KeySchema extends Message<KeySchema> {
   /**
-   * The object type of the key
+   * The item type of the key
    *
-   * @generated from field: string object_type = 1;
+   * @generated from field: string item_type = 1;
    */
-  objectType: string;
+  itemType: string;
 
   /**
-   * The kind of object that the key is for
+   * The kind of item that the key is for
    *
-   * @generated from field: auth.ObjectKind object_kind = 2;
+   * @generated from field: auth.ItemKind item_kind = 2;
    */
-  objectKind: ObjectKind;
+  itemKind: ItemKind;
 
   /**
    * The paths that make up the key
@@ -446,7 +446,7 @@ export declare class HistoryEntry extends Message<HistoryEntry> {
   txId: string;
 
   /**
-   * Whether the object was deleted
+   * Whether the item was deleted
    *
    * @generated from field: bool is_delete = 2;
    */
@@ -474,7 +474,7 @@ export declare class HistoryEntry extends Message<HistoryEntry> {
   note: string;
 
   /**
-   * The value of the object
+   * The value of the item
    *
    * @generated from field: google.protobuf.Any value = 6;
    */
@@ -539,14 +539,14 @@ export declare class Operation extends Message<Operation> {
   collectionId: string;
 
   /**
-   * @generated from field: string object_type = 3;
+   * @generated from field: string item_type = 3;
    */
-  objectType: string;
+  itemType: string;
 
   /**
-   * @generated from field: string secondary_object_type = 4;
+   * @generated from field: string secondary_item_type = 4;
    */
-  secondaryObjectType: string;
+  secondaryItemType: string;
 
   /**
    * @generated from field: google.protobuf.FieldMask paths = 5;
@@ -569,7 +569,7 @@ export declare class Operation extends Message<Operation> {
 }
 
 /**
- * This message is the tree node for operations on the state object
+ * This message is the tree node for operations on the state item
  *
  * @generated from message auth.PathPolicy
  */
@@ -592,7 +592,7 @@ export declare class PathPolicy extends Message<PathPolicy> {
   allowSubPaths: boolean;
 
   /**
-   * The key is a valid sub path in the type of state object
+   * The key is a valid sub path in the type of state item
    *
    * @generated from field: map<string, auth.PathPolicy> sub_paths = 4;
    */
@@ -623,13 +623,13 @@ export declare class PathPolicy extends Message<PathPolicy> {
 /**
  * Access Control Entry for use in Hash Tree
  *
- * ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
+ * ItemPolicy root                 = 1 [(buf.validate.field).required = true];
  *
  * @generated from message auth.ACEntry
  */
 export declare class ACEntry extends Message<ACEntry> {
   /**
-   * key is the object type
+   * key is the item type
    *
    * @generated from field: map<string, auth.PathPolicy> children = 1;
    */
@@ -651,42 +651,42 @@ export declare class ACEntry extends Message<ACEntry> {
 }
 
 /**
- * @generated from message auth.Object
+ * @generated from message auth.Item
  */
-export declare class Object$ extends Message<Object$> {
+export declare class Item extends Message<Item> {
   /**
-   * @generated from field: auth.ObjectKey key = 1;
+   * @generated from field: auth.ItemKey key = 1;
    */
-  key?: ObjectKey;
+  key?: ItemKey;
 
   /**
    * @generated from field: google.protobuf.Any value = 2;
    */
   value?: Any;
 
-  constructor(data?: PartialMessage<Object$>);
+  constructor(data?: PartialMessage<Item>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.Object";
+  static readonly typeName = "auth.Item";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Object$;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Item;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Object$;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Item;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Object$;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Item;
 
-  static equals(a: Object$ | PlainMessage<Object$> | undefined, b: Object$ | PlainMessage<Object$> | undefined): boolean;
+  static equals(a: Item | PlainMessage<Item> | undefined, b: Item | PlainMessage<Item> | undefined): boolean;
 }
 
 /**
- * @generated from message auth.FullObject
+ * @generated from message auth.FullItem
  */
-export declare class FullObject extends Message<FullObject> {
+export declare class FullItem extends Message<FullItem> {
   /**
-   * @generated from field: auth.ObjectKey key = 1;
+   * @generated from field: auth.ItemKey key = 1;
    */
-  key?: ObjectKey;
+  key?: ItemKey;
 
   /**
    * @generated from field: google.protobuf.Any value = 2;
@@ -708,77 +708,77 @@ export declare class FullObject extends Message<FullObject> {
    */
   references: Reference[];
 
-  constructor(data?: PartialMessage<FullObject>);
+  constructor(data?: PartialMessage<FullItem>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.FullObject";
+  static readonly typeName = "auth.FullItem";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FullObject;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FullItem;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FullObject;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FullItem;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FullObject;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FullItem;
 
-  static equals(a: FullObject | PlainMessage<FullObject> | undefined, b: FullObject | PlainMessage<FullObject> | undefined): boolean;
+  static equals(a: FullItem | PlainMessage<FullItem> | undefined, b: FullItem | PlainMessage<FullItem> | undefined): boolean;
 }
 
 /**
  * Keys
  * ─────────────────────────────────────────────────────────────────────────────────────
- * Object Keys
+ * Item Keys
  * When converted to its string form it will be:
- * - Key := {OBJECT_TYPE}{COLLECTION_ID}{...OBJECT_ID}
+ * - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
  *
  * Reference Keys
- * Used to store references to objects for case like a user having a role
+ * Used to store references to items for case like a user having a role
  * When converted to its string form it will be:
- * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
  *
  * SubKeys
  * When converted to its string form it will be:
- * {SUB_OBJECT_TYPE}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUB_OBJECT_ID}
+ * {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
  * Examples
- * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
- * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{OBJECT_TYPE} {...OBJECT_ID}
+ * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+ * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
  *
- * @generated from message auth.ObjectKey
+ * @generated from message auth.ItemKey
  */
-export declare class ObjectKey extends Message<ObjectKey> {
+export declare class ItemKey extends Message<ItemKey> {
   /**
    * @generated from field: string collection_id = 1;
    */
   collectionId: string;
 
   /**
-   * @generated from field: string object_type = 2;
+   * @generated from field: string item_type = 2;
    */
-  objectType: string;
+  itemType: string;
 
   /**
-   * @generated from field: repeated string object_id_parts = 3;
+   * @generated from field: repeated string item_id_parts = 3;
    */
-  objectIdParts: string[];
+  itemIdParts: string[];
 
-  constructor(data?: PartialMessage<ObjectKey>);
+  constructor(data?: PartialMessage<ItemKey>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.ObjectKey";
+  static readonly typeName = "auth.ItemKey";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ObjectKey;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ItemKey;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ObjectKey;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ItemKey;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ObjectKey;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ItemKey;
 
-  static equals(a: ObjectKey | PlainMessage<ObjectKey> | undefined, b: ObjectKey | PlainMessage<ObjectKey> | undefined): boolean;
+  static equals(a: ItemKey | PlainMessage<ItemKey> | undefined, b: ItemKey | PlainMessage<ItemKey> | undefined): boolean;
 }
 
 /**
  * Reference Keys
- * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{OBJECT1_TYPE}{...OBJECT1_ID}][{OBJECT2_TYPE}{...OBJECT2_ID}]
+ * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
  * @generated from message auth.Reference
  */
@@ -794,14 +794,14 @@ export declare class Reference extends Message<Reference> {
   referenceType: string;
 
   /**
-   * @generated from field: auth.ObjectKey key_1 = 3;
+   * @generated from field: auth.ItemKey key_1 = 3;
    */
-  key1?: ObjectKey;
+  key1?: ItemKey;
 
   /**
-   * @generated from field: auth.ObjectKey key_2 = 4;
+   * @generated from field: auth.ItemKey key_2 = 4;
    */
-  key2?: ObjectKey;
+  key2?: ItemKey;
 
   constructor(data?: PartialMessage<Reference>);
 
@@ -821,7 +821,7 @@ export declare class Reference extends Message<Reference> {
 /**
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of objects are stored in the default ACEntry
+ * Note that the types of items are stored in the default ACEntry
  *
  * key := {COLLECTION}{COLLECTION_ID}
  *
@@ -846,9 +846,9 @@ export declare class Collection extends Message<Collection> {
   description: string;
 
   /**
-   * @generated from field: repeated string object_types = 4;
+   * @generated from field: repeated string item_types = 4;
    */
-  objectTypes: string[];
+  itemTypes: string[];
 
   /**
    * @generated from field: auth.ACEntry default = 5;
@@ -917,15 +917,15 @@ export declare class User extends Message<User> {
 
 /**
  * Key should be
- * {auth.Suggestion}{COLLECTION_ID}{OBJECT_TYPE}{...OBJECT_ID}{SUGGESTION_ID}
+ * {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
  *
  * @generated from message auth.Suggestion
  */
 export declare class Suggestion extends Message<Suggestion> {
   /**
-   * @generated from field: auth.ObjectKey primary_key = 1;
+   * @generated from field: auth.ItemKey primary_key = 1;
    */
-  primaryKey?: ObjectKey;
+  primaryKey?: ItemKey;
 
   /**
    * @generated from field: string suggestion_id = 2;
@@ -1002,17 +1002,17 @@ export declare class HiddenTx extends Message<HiddenTx> {
 }
 
 /**
- * Key should be {COLLECTION_ID}{auth.HiddenTxList}{OBJECT_TYPE}{...OBJECT_ID}
+ * Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
  *
  * @generated from message auth.HiddenTxList
  */
 export declare class HiddenTxList extends Message<HiddenTxList> {
   /**
-   * The key that is used to store the object
+   * The key that is used to store the item
    *
-   * @generated from field: auth.ObjectKey primary_key = 1;
+   * @generated from field: auth.ItemKey primary_key = 1;
    */
-  primaryKey?: ObjectKey;
+  primaryKey?: ItemKey;
 
   /**
    * The list of hidden txs by tx_id

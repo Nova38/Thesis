@@ -87,7 +87,7 @@ func main() {
 
 	auth := new(NoAuthContract)
 
-	generic := new(contracts.ObjectContractImpl)
+	generic := new(contracts.ItemContractImpl)
 
 	auth.Name = "auth.none"
 

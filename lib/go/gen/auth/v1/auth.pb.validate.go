@@ -57,9 +57,9 @@ func (m *KeySchema) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ObjectType
+	// no validation rules for ItemType
 
-	// no validation rules for ObjectKind
+	// no validation rules for ItemKind
 
 	if all {
 		switch v := interface{}(m.GetKeys()).(type) {
@@ -656,9 +656,9 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for CollectionId
 
-	// no validation rules for ObjectType
+	// no validation rules for ItemType
 
-	// no validation rules for SecondaryObjectType
+	// no validation rules for SecondaryItemType
 
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
@@ -1061,21 +1061,21 @@ var _ interface {
 	ErrorName() string
 } = ACEntryValidationError{}
 
-// Validate checks the field values on Object with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *Object) Validate() error {
+// Validate checks the field values on Item with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Item) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Object with the rules defined in the
+// ValidateAll checks the field values on Item with the rules defined in the
 // proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in ObjectMultiError, or nil if none found.
-func (m *Object) ValidateAll() error {
+// a list of violation errors wrapped in ItemMultiError, or nil if none found.
+func (m *Item) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Object) validate(all bool) error {
+func (m *Item) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1086,7 +1086,7 @@ func (m *Object) validate(all bool) error {
 		switch v := interface{}(m.GetKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ObjectValidationError{
+				errors = append(errors, ItemValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1094,7 +1094,7 @@ func (m *Object) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ObjectValidationError{
+				errors = append(errors, ItemValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1103,7 +1103,7 @@ func (m *Object) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ObjectValidationError{
+			return ItemValidationError{
 				field:  "Key",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1115,7 +1115,7 @@ func (m *Object) validate(all bool) error {
 		switch v := interface{}(m.GetValue()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ObjectValidationError{
+				errors = append(errors, ItemValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1123,7 +1123,7 @@ func (m *Object) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ObjectValidationError{
+				errors = append(errors, ItemValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1132,7 +1132,7 @@ func (m *Object) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ObjectValidationError{
+			return ItemValidationError{
 				field:  "Value",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1141,18 +1141,18 @@ func (m *Object) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ObjectMultiError(errors)
+		return ItemMultiError(errors)
 	}
 
 	return nil
 }
 
-// ObjectMultiError is an error wrapping multiple validation errors returned by
-// Object.ValidateAll() if the designated constraints aren't met.
-type ObjectMultiError []error
+// ItemMultiError is an error wrapping multiple validation errors returned by
+// Item.ValidateAll() if the designated constraints aren't met.
+type ItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ObjectMultiError) Error() string {
+func (m ItemMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1161,11 +1161,11 @@ func (m ObjectMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ObjectMultiError) AllErrors() []error { return m }
+func (m ItemMultiError) AllErrors() []error { return m }
 
-// ObjectValidationError is the validation error returned by Object.Validate if
-// the designated constraints aren't met.
-type ObjectValidationError struct {
+// ItemValidationError is the validation error returned by Item.Validate if the
+// designated constraints aren't met.
+type ItemValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1173,22 +1173,22 @@ type ObjectValidationError struct {
 }
 
 // Field function returns field value.
-func (e ObjectValidationError) Field() string { return e.field }
+func (e ItemValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ObjectValidationError) Reason() string { return e.reason }
+func (e ItemValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ObjectValidationError) Cause() error { return e.cause }
+func (e ItemValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ObjectValidationError) Key() bool { return e.key }
+func (e ItemValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ObjectValidationError) ErrorName() string { return "ObjectValidationError" }
+func (e ItemValidationError) ErrorName() string { return "ItemValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ObjectValidationError) Error() string {
+func (e ItemValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1200,14 +1200,14 @@ func (e ObjectValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sObject.%s: %s%s",
+		"invalid %sItem.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ObjectValidationError{}
+var _ error = ItemValidationError{}
 
 var _ interface {
 	Field() string
@@ -1215,24 +1215,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ObjectValidationError{}
+} = ItemValidationError{}
 
-// Validate checks the field values on FullObject with the rules defined in the
+// Validate checks the field values on FullItem with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *FullObject) Validate() error {
+func (m *FullItem) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on FullObject with the rules defined in
+// ValidateAll checks the field values on FullItem with the rules defined in
 // the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in FullObjectMultiError, or
-// nil if none found.
-func (m *FullObject) ValidateAll() error {
+// result is a list of violation errors wrapped in FullItemMultiError, or nil
+// if none found.
+func (m *FullItem) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *FullObject) validate(all bool) error {
+func (m *FullItem) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1243,7 +1243,7 @@ func (m *FullObject) validate(all bool) error {
 		switch v := interface{}(m.GetKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1251,7 +1251,7 @@ func (m *FullObject) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1260,7 +1260,7 @@ func (m *FullObject) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return FullObjectValidationError{
+			return FullItemValidationError{
 				field:  "Key",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1272,7 +1272,7 @@ func (m *FullObject) validate(all bool) error {
 		switch v := interface{}(m.GetValue()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1280,7 +1280,7 @@ func (m *FullObject) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "Value",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1289,7 +1289,7 @@ func (m *FullObject) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return FullObjectValidationError{
+			return FullItemValidationError{
 				field:  "Value",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1301,7 +1301,7 @@ func (m *FullObject) validate(all bool) error {
 		switch v := interface{}(m.GetHistory()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1309,7 +1309,7 @@ func (m *FullObject) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, FullObjectValidationError{
+				errors = append(errors, FullItemValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1318,7 +1318,7 @@ func (m *FullObject) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetHistory()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return FullObjectValidationError{
+			return FullItemValidationError{
 				field:  "History",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1333,7 +1333,7 @@ func (m *FullObject) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, FullObjectValidationError{
+					errors = append(errors, FullItemValidationError{
 						field:  fmt.Sprintf("Suggestions[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1341,7 +1341,7 @@ func (m *FullObject) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, FullObjectValidationError{
+					errors = append(errors, FullItemValidationError{
 						field:  fmt.Sprintf("Suggestions[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1350,7 +1350,7 @@ func (m *FullObject) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return FullObjectValidationError{
+				return FullItemValidationError{
 					field:  fmt.Sprintf("Suggestions[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1367,7 +1367,7 @@ func (m *FullObject) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, FullObjectValidationError{
+					errors = append(errors, FullItemValidationError{
 						field:  fmt.Sprintf("References[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1375,7 +1375,7 @@ func (m *FullObject) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, FullObjectValidationError{
+					errors = append(errors, FullItemValidationError{
 						field:  fmt.Sprintf("References[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -1384,7 +1384,7 @@ func (m *FullObject) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return FullObjectValidationError{
+				return FullItemValidationError{
 					field:  fmt.Sprintf("References[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1395,18 +1395,18 @@ func (m *FullObject) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return FullObjectMultiError(errors)
+		return FullItemMultiError(errors)
 	}
 
 	return nil
 }
 
-// FullObjectMultiError is an error wrapping multiple validation errors
-// returned by FullObject.ValidateAll() if the designated constraints aren't met.
-type FullObjectMultiError []error
+// FullItemMultiError is an error wrapping multiple validation errors returned
+// by FullItem.ValidateAll() if the designated constraints aren't met.
+type FullItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m FullObjectMultiError) Error() string {
+func (m FullItemMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1415,11 +1415,11 @@ func (m FullObjectMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m FullObjectMultiError) AllErrors() []error { return m }
+func (m FullItemMultiError) AllErrors() []error { return m }
 
-// FullObjectValidationError is the validation error returned by
-// FullObject.Validate if the designated constraints aren't met.
-type FullObjectValidationError struct {
+// FullItemValidationError is the validation error returned by
+// FullItem.Validate if the designated constraints aren't met.
+type FullItemValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1427,22 +1427,22 @@ type FullObjectValidationError struct {
 }
 
 // Field function returns field value.
-func (e FullObjectValidationError) Field() string { return e.field }
+func (e FullItemValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e FullObjectValidationError) Reason() string { return e.reason }
+func (e FullItemValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e FullObjectValidationError) Cause() error { return e.cause }
+func (e FullItemValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e FullObjectValidationError) Key() bool { return e.key }
+func (e FullItemValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e FullObjectValidationError) ErrorName() string { return "FullObjectValidationError" }
+func (e FullItemValidationError) ErrorName() string { return "FullItemValidationError" }
 
 // Error satisfies the builtin error interface
-func (e FullObjectValidationError) Error() string {
+func (e FullItemValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1454,14 +1454,14 @@ func (e FullObjectValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sFullObject.%s: %s%s",
+		"invalid %sFullItem.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = FullObjectValidationError{}
+var _ error = FullItemValidationError{}
 
 var _ interface {
 	Field() string
@@ -1469,24 +1469,23 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = FullObjectValidationError{}
+} = FullItemValidationError{}
 
-// Validate checks the field values on ObjectKey with the rules defined in the
+// Validate checks the field values on ItemKey with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *ObjectKey) Validate() error {
+func (m *ItemKey) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ObjectKey with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ObjectKeyMultiError, or nil
-// if none found.
-func (m *ObjectKey) ValidateAll() error {
+// ValidateAll checks the field values on ItemKey with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ItemKeyMultiError, or nil if none found.
+func (m *ItemKey) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ObjectKey) validate(all bool) error {
+func (m *ItemKey) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1495,21 +1494,21 @@ func (m *ObjectKey) validate(all bool) error {
 
 	// no validation rules for CollectionId
 
-	// no validation rules for ObjectType
+	// no validation rules for ItemType
 
 	if len(errors) > 0 {
-		return ObjectKeyMultiError(errors)
+		return ItemKeyMultiError(errors)
 	}
 
 	return nil
 }
 
-// ObjectKeyMultiError is an error wrapping multiple validation errors returned
-// by ObjectKey.ValidateAll() if the designated constraints aren't met.
-type ObjectKeyMultiError []error
+// ItemKeyMultiError is an error wrapping multiple validation errors returned
+// by ItemKey.ValidateAll() if the designated constraints aren't met.
+type ItemKeyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ObjectKeyMultiError) Error() string {
+func (m ItemKeyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1518,11 +1517,11 @@ func (m ObjectKeyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ObjectKeyMultiError) AllErrors() []error { return m }
+func (m ItemKeyMultiError) AllErrors() []error { return m }
 
-// ObjectKeyValidationError is the validation error returned by
-// ObjectKey.Validate if the designated constraints aren't met.
-type ObjectKeyValidationError struct {
+// ItemKeyValidationError is the validation error returned by ItemKey.Validate
+// if the designated constraints aren't met.
+type ItemKeyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1530,22 +1529,22 @@ type ObjectKeyValidationError struct {
 }
 
 // Field function returns field value.
-func (e ObjectKeyValidationError) Field() string { return e.field }
+func (e ItemKeyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ObjectKeyValidationError) Reason() string { return e.reason }
+func (e ItemKeyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ObjectKeyValidationError) Cause() error { return e.cause }
+func (e ItemKeyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ObjectKeyValidationError) Key() bool { return e.key }
+func (e ItemKeyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ObjectKeyValidationError) ErrorName() string { return "ObjectKeyValidationError" }
+func (e ItemKeyValidationError) ErrorName() string { return "ItemKeyValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ObjectKeyValidationError) Error() string {
+func (e ItemKeyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1557,14 +1556,14 @@ func (e ObjectKeyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sObjectKey.%s: %s%s",
+		"invalid %sItemKey.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ObjectKeyValidationError{}
+var _ error = ItemKeyValidationError{}
 
 var _ interface {
 	Field() string
@@ -1572,7 +1571,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ObjectKeyValidationError{}
+} = ItemKeyValidationError{}
 
 // Validate checks the field values on Reference with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

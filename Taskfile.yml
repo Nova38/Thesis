@@ -21,9 +21,10 @@ tasks:
 
   gen:clean:
     cmds:
-      - rm -rf ./lib/go/gen/chaincode
+      - rm -rf ./lib/go/gen/chaincode/*
       - rm -rf ./lib/go/gen/*
       - rm -rf ./lib/es/gen/*
+      - rm -rf ./apps/api/lib/gen/*
 
 
   gen-lib:

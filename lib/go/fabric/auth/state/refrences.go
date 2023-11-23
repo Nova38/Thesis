@@ -8,8 +8,8 @@ import authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 
 // ──────────────────────────────── Utils ────────────────────────────────────────
 
-// // GetObjectByReference returns the objects referenced by the given reference
-// func GetObjectByReference(ctx TxCtxInterface, reference *authpb.Reference) (object *authpb.Object, err error) {
+// // GetItemByReference returns the items referenced by the given reference
+// func GetItemByReference(ctx TxCtxInterface, reference *authpb.Reference) (item *authpb.Item, err error) {
 // 	return nil, nil
 // }
 
@@ -22,7 +22,7 @@ func GetReference(
 	// op := &authpb.Operation{
 	// 	Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 	// 	CollectionId: s.GetPrimaryKey().GetCollectionId(),
-	// 	ObjectType:    s.GetPrimaryKey().GetObjectType(),
+	// 	ItemType:    s.GetPrimaryKey().GetItemType(),
 	// 	Paths:        nil,
 	// }
 
@@ -40,15 +40,15 @@ func PartialReferenceList(
 
 func ReferenceByType(
 	ctx TxCtxInterface,
-	objectType string,
+	itemType string,
 	bookmark string,
 ) (list []*authpb.Reference, mk string, err error) {
 	return nil, "", nil
 }
 
-func ReferenceListByObject(
+func ReferenceListByItem(
 	ctx TxCtxInterface,
-	key *authpb.ObjectKey,
+	key *authpb.ItemKey,
 	bookmark string,
 ) (list []*authpb.Reference, mk string, err error) {
 	return nil, "", nil
@@ -72,5 +72,5 @@ func ReferenceDelete(ctx TxCtxInterface, reference *authpb.Reference) (err error
 	return nil
 }
 
-func ReferenceDeleteByObject(ctx TxCtxInterface, key *authpb.ObjectKey) {
+func ReferenceDeleteByItem(ctx TxCtxInterface, key *authpb.ItemKey) {
 }
