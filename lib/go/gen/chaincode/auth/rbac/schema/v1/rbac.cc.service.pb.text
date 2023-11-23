@@ -4,3 +4,4 @@
 // source: chaincode/auth/rbac/schema/v1/rbac.proto
 
 package schemav1
+

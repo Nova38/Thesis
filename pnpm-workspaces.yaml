@@ -1,4 +1,7 @@
 
 packages:
   - 'app/api'
+  - 'app/api'
   - 'app/web'
+  - 'caliper-workspace'
+  - 'lib/es/gen'

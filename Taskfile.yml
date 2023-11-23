@@ -41,6 +41,11 @@ tasks:
     cmd: go run ./apps/chaincode/sample
 
 
+  build:chaincode: 
+    cmds:
+      - go build -o ./apps/chaincode/sample/sample ./apps/chaincode/sample
+      - GOOS=linux go build  -gcflags="all=-N -l" -o noauth
+
   fabric:getMetadata:
     cmds:
       - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'

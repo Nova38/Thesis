@@ -1,17 +1,13 @@
 {
-  "name": "thesis",
+  "name": "Thesis",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "buf generate"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@bufbuild/buf": "^1.28.1",
-    "@sinclair/typebox": "^0.31.18"
-  }
+  "license": "ISC"
 }

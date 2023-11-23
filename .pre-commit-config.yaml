@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v4.5.0
     hooks:
       - id: check-yaml
         exclude: "lib/es/gen/"
@@ -11,7 +11,7 @@ repos:
         exclude: "lib/es/gen/"
       # - id: mixed-line-ending
       #   args: ['--fix=lf']
-
+      - id: check-shebang-scripts-are-executable
 
   # - repo: https://github.com/segmentio/golines
   #   rev: v0.11.0

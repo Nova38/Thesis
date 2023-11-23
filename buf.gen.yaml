@@ -29,7 +29,8 @@ plugins:
 
     - plugin: buf.build/bufbuild/es:v1.3.1
       out: lib/es/gen
-      opt: target=ts
+    - plugin: buf.build/bufbuild/es:v1.3.1
+      out: caliper-workspace/lib/gen
 
 #    - plugin: buf.build/bufbuild/es:v1.3.1
 #      out: lib/es/js/gen
