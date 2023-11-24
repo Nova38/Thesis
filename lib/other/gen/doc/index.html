@@ -247,6 +247,10 @@
                 </li>
               
                 <li>
+                  <a href="#auth.ReferenceKey"><span class="badge">M</span>ReferenceKey</a>
+                </li>
+              
+                <li>
                   <a href="#auth.Role"><span class="badge">M</span>Role</a>
                 </li>
               
@@ -415,6 +419,14 @@
               
                 <li>
                   <a href="#auth.common.ReferenceByItemResponse"><span class="badge">M</span>ReferenceByItemResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.common.ReferenceByPartialKeyRequest"><span class="badge">M</span>ReferenceByPartialKeyRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.common.ReferenceByPartialKeyResponse"><span class="badge">M</span>ReferenceByPartialKeyResponse</a>
                 </li>
               
                 <li>
@@ -1412,6 +1424,44 @@ role </p></td>
         
       
         <h3 id="auth.Reference">Reference</h3>
+        <p>Used to return the values of the items that are referenced</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.ReferenceKey">ReferenceKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item1</td>
+                  <td><a href="#auth.Item">Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item2</td>
+                  <td><a href="#auth.Item">Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.ReferenceKey">ReferenceKey</h3>
         <p>Reference Keys</p><p>{auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]</p>
 
         
@@ -1429,14 +1479,14 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>key_1</td>
+                  <td>key1</td>
                   <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p>string reference_type = 2; </p></td>
                 </tr>
               
                 <tr>
-                  <td>key_2</td>
+                  <td>key2</td>
                   <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
@@ -2808,15 +2858,15 @@ The user does not have permission to perform the operation</p></td>
                 </tr>
               
                 <tr>
-                  <td>item_key</td>
-                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
-                  <td>reference_type</td>
-                  <td><a href="#string">string</a></td>
+                  <td>item_key</td>
+                  <td><a href="#auth.ItemKey">auth.ItemKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2829,6 +2879,75 @@ The user does not have permission to perform the operation</p></td>
         
       
         <h3 id="auth.common.ReferenceByItemResponse">ReferenceByItemResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>references</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.common.ReferenceByPartialKeyRequest">ReferenceByPartialKeyRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>limit</td>
+                  <td><a href="#uint32">uint32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.ReferenceKey">auth.ReferenceKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.common.ReferenceByPartialKeyResponse">ReferenceByPartialKeyResponse</h3>
         <p></p>
 
         
@@ -2967,7 +3086,7 @@ The user does not have permission to perform the operation</p></td>
               
                 <tr>
                   <td>reference</td>
-                  <td><a href="#auth.Reference">auth.Reference</a></td>
+                  <td><a href="#auth.ReferenceKey">auth.ReferenceKey</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -2992,6 +3111,13 @@ The user does not have permission to perform the operation</p></td>
                 <tr>
                   <td>exists</td>
                   <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>reference</td>
+                  <td><a href="#auth.Reference">auth.Reference</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -3758,6 +3884,13 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
                 <td>ReferenceByItem</td>
                 <td><a href="#auth.common.ReferenceByItemRequest">ReferenceByItemRequest</a></td>
                 <td><a href="#auth.common.ReferenceByItemResponse">ReferenceByItemResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ReferenceByPartialKey</td>
+                <td><a href="#auth.common.ReferenceByPartialKeyRequest">ReferenceByPartialKeyRequest</a></td>
+                <td><a href="#auth.common.ReferenceByPartialKeyResponse">ReferenceByPartialKeyResponse</a></td>
                 <td><p></p></td>
               </tr>
             

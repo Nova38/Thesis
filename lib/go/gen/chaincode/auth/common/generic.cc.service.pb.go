@@ -130,6 +130,12 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceByItem(ctx T, req *ReferenceByItemRequest) (res *ReferenceByItemResponse, err error)
 
+	// ReferenceByPartialKey
+	//
+	// # Operation:
+	//   - Domain: ACTION_SUGGEST_VIEW
+	ReferenceByPartialKey(ctx T, req *ReferenceByPartialKeyRequest) (res *ReferenceByPartialKeyResponse, err error)
+
 	// ReferenceCreate
 	//
 	// # Operation:
@@ -199,6 +205,7 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"Reference",
 		"ReferenceByCollection",
 		"ReferenceByItem",
+		"ReferenceByPartialKey",
 		"Suggestion",
 		"SuggestionList",
 		"SuggestionListByCollection",
@@ -297,6 +304,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,
+		}, nil
+	case "ReferenceByPartialKey":
+		// action:ACTION_SUGGEST_VIEW
+		return &v1.Operation{
+			Action: 14,
 		}, nil
 	case "ReferenceCreate":
 		// action:ACTION_REFERENCE_CREATE

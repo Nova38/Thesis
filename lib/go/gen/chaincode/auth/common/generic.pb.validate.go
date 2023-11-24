@@ -3995,6 +3995,35 @@ func (m *ReferenceResponse) validate(all bool) error {
 
 	// no validation rules for Exists
 
+	if all {
+		switch v := interface{}(m.GetReference()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ReferenceResponseValidationError{
+					field:  "Reference",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ReferenceResponseValidationError{
+					field:  "Reference",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ReferenceResponseValidationError{
+				field:  "Reference",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return ReferenceResponseMultiError(errors)
 	}
@@ -4323,6 +4352,281 @@ var _ interface {
 	ErrorName() string
 } = ReferenceByCollectionResponseValidationError{}
 
+// Validate checks the field values on ReferenceByPartialKeyRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ReferenceByPartialKeyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ReferenceByPartialKeyRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ReferenceByPartialKeyRequestMultiError, or nil if none found.
+func (m *ReferenceByPartialKeyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ReferenceByPartialKeyRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Bookmark
+
+	// no validation rules for Limit
+
+	if all {
+		switch v := interface{}(m.GetReference()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ReferenceByPartialKeyRequestValidationError{
+					field:  "Reference",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ReferenceByPartialKeyRequestValidationError{
+					field:  "Reference",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ReferenceByPartialKeyRequestValidationError{
+				field:  "Reference",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ReferenceByPartialKeyRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ReferenceByPartialKeyRequestMultiError is an error wrapping multiple
+// validation errors returned by ReferenceByPartialKeyRequest.ValidateAll() if
+// the designated constraints aren't met.
+type ReferenceByPartialKeyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ReferenceByPartialKeyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ReferenceByPartialKeyRequestMultiError) AllErrors() []error { return m }
+
+// ReferenceByPartialKeyRequestValidationError is the validation error returned
+// by ReferenceByPartialKeyRequest.Validate if the designated constraints
+// aren't met.
+type ReferenceByPartialKeyRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ReferenceByPartialKeyRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ReferenceByPartialKeyRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ReferenceByPartialKeyRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ReferenceByPartialKeyRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ReferenceByPartialKeyRequestValidationError) ErrorName() string {
+	return "ReferenceByPartialKeyRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ReferenceByPartialKeyRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sReferenceByPartialKeyRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ReferenceByPartialKeyRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ReferenceByPartialKeyRequestValidationError{}
+
+// Validate checks the field values on ReferenceByPartialKeyResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ReferenceByPartialKeyResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ReferenceByPartialKeyResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// ReferenceByPartialKeyResponseMultiError, or nil if none found.
+func (m *ReferenceByPartialKeyResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ReferenceByPartialKeyResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Bookmark
+
+	for idx, item := range m.GetReferences() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ReferenceByPartialKeyResponseValidationError{
+						field:  fmt.Sprintf("References[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ReferenceByPartialKeyResponseValidationError{
+						field:  fmt.Sprintf("References[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ReferenceByPartialKeyResponseValidationError{
+					field:  fmt.Sprintf("References[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ReferenceByPartialKeyResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ReferenceByPartialKeyResponseMultiError is an error wrapping multiple
+// validation errors returned by ReferenceByPartialKeyResponse.ValidateAll()
+// if the designated constraints aren't met.
+type ReferenceByPartialKeyResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ReferenceByPartialKeyResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ReferenceByPartialKeyResponseMultiError) AllErrors() []error { return m }
+
+// ReferenceByPartialKeyResponseValidationError is the validation error
+// returned by ReferenceByPartialKeyResponse.Validate if the designated
+// constraints aren't met.
+type ReferenceByPartialKeyResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ReferenceByPartialKeyResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ReferenceByPartialKeyResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ReferenceByPartialKeyResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ReferenceByPartialKeyResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ReferenceByPartialKeyResponseValidationError) ErrorName() string {
+	return "ReferenceByPartialKeyResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ReferenceByPartialKeyResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sReferenceByPartialKeyResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ReferenceByPartialKeyResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ReferenceByPartialKeyResponseValidationError{}
+
 // Validate checks the field values on ReferenceByItemRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -4348,6 +4652,8 @@ func (m *ReferenceByItemRequest) validate(all bool) error {
 	// no validation rules for Bookmark
 
 	// no validation rules for Limit
+
+	// no validation rules for CollectionId
 
 	if all {
 		switch v := interface{}(m.GetItemKey()).(type) {
@@ -4377,8 +4683,6 @@ func (m *ReferenceByItemRequest) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for ReferenceType
 
 	if len(errors) > 0 {
 		return ReferenceByItemRequestMultiError(errors)

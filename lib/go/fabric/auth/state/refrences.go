@@ -17,8 +17,8 @@ import (
 
 func GetReference(
 	ctx TxCtxInterface,
-	ref *authpb.Reference,
-) (reference *authpb.Reference, err error) {
+	ref *authpb.ReferenceKey,
+) (reference *authpb.ReferenceKey, err error) {
 	if err = AuthRef(ctx, ref, authpb.Action_ACTION_REFERENCE_VIEW); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -31,19 +31,8 @@ func PartialReferenceList(
 	key string,
 	numAttr int,
 	bookmark string,
-) (list []*authpb.Reference, mk string, err error) {
+) (list []*authpb.ReferenceKey, mk string, err error) {
 	// TODO: Implement PartialReferenceList function
-
-	return nil, "", nil
-}
-
-func ReferenceByType(
-	ctx TxCtxInterface,
-	itemType string,
-	bookmark string,
-) (list []*authpb.Reference, mk string, err error) {
-	// todo: Implement ReferenceByType function
-	panic("not implemented")
 
 	return nil, "", nil
 }
@@ -52,7 +41,7 @@ func ReferenceListByItem(
 	ctx TxCtxInterface,
 	key *authpb.ItemKey,
 	bookmark string,
-) (list []*authpb.Reference, mk string, err error) {
+) (list []*authpb.ReferenceKey, mk string, err error) {
 	// todo: Implement ReferenceListByItem function
 	panic("not implemented")
 	return nil, "", nil
@@ -62,7 +51,7 @@ func ReferenceByCollection(
 	ctx TxCtxInterface,
 	collectionId string,
 	bookmark string,
-) (list []*authpb.Reference, mk string, err error) {
+) (list []*authpb.ReferenceKey, mk string, err error) {
 	// todo: Implement ReferenceByCollection function
 	panic("not implemented")
 
@@ -71,14 +60,14 @@ func ReferenceByCollection(
 
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 
-func ReferenceCreate(ctx TxCtxInterface, reference *authpb.Reference) (err error) {
+func ReferenceCreate(ctx TxCtxInterface, reference *authpb.ReferenceKey) (err error) {
 	if err = AuthRef(ctx, reference, authpb.Action_ACTION_DELETE); err != nil {
 		return oops.Wrap(err)
 	}
 
 	// See if the reference already exists
 
-	if objExist, err := ReferenceObjectsExist(ctx, reference); err != nil {
+	if objExist, err := ReferencedObjectsExist(ctx, reference); err != nil {
 		return oops.Wrap(err)
 	} else if !objExist {
 		return oops.Wrap(common.KeyNotFound)
@@ -109,12 +98,12 @@ func ReferenceCreate(ctx TxCtxInterface, reference *authpb.Reference) (err error
 	return nil
 }
 
-func ReferenceDelete(ctx TxCtxInterface, reference *authpb.Reference) (err error) {
+func ReferenceDelete(ctx TxCtxInterface, reference *authpb.ReferenceKey) (err error) {
 	if err = AuthRef(ctx, reference, authpb.Action_ACTION_DELETE); err != nil {
 		return oops.Wrap(err)
 	}
 
-	if objExist, err := ReferenceObjectsExist(ctx, reference); err != nil {
+	if objExist, err := ReferencedObjectsExist(ctx, reference); err != nil {
 		return oops.Wrap(err)
 	} else if !objExist {
 		return oops.Wrap(common.KeyNotFound)
@@ -145,7 +134,7 @@ func ReferenceDelete(ctx TxCtxInterface, reference *authpb.Reference) (err error
 // ──────────────────────────────── Utils ──────────────────────────────────────────
 
 // AuthRef checks if the user is authorized to perform the given action on the given reference
-func AuthRef(ctx TxCtxInterface, ref *authpb.Reference, action authpb.Action) (err error) {
+func AuthRef(ctx TxCtxInterface, ref *authpb.ReferenceKey, action authpb.Action) (err error) {
 	op := RefToOp(ref, action)
 
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
@@ -156,27 +145,28 @@ func AuthRef(ctx TxCtxInterface, ref *authpb.Reference, action authpb.Action) (e
 }
 
 // RefToOp converts a reference to an operation
-func RefToOp(ref *authpb.Reference, action authpb.Action) (op *authpb.Operation) {
+func RefToOp(ref *authpb.ReferenceKey, action authpb.Action) (op *authpb.Operation) {
 	return &authpb.Operation{
 		Action:            action,
 		CollectionId:      ref.GetCollectionId(),
-		ItemType:          ref.GetKey_1().GetItemType(),
-		SecondaryItemType: ref.GetKey_2().GetItemType(),
+		ItemType:          ref.GetKey1().GetItemType(),
+		SecondaryItemType: ref.GetKey2().GetItemType(),
 		Paths:             &fieldmaskpb.FieldMask{},
 	}
 }
 
-func ReferenceObjectsExist(
+// ReferencedObjectsExist checks if the objects referenced by the given reference exist
+func ReferencedObjectsExist(
 	ctx TxCtxInterface,
-	reference *authpb.Reference,
+	reference *authpb.ReferenceKey,
 ) (exists bool, err error) {
 	// See if the objects exist
-	k1, err := MakeItemKeyPrimary(reference.GetKey_1())
+	k1, err := MakeItemKeyPrimary(reference.GetKey1())
 	if err != nil {
 		return false, oops.Wrap(err)
 	}
 
-	k2, err := MakeItemKeyPrimary(reference.GetKey_2())
+	k2, err := MakeItemKeyPrimary(reference.GetKey2())
 	if err != nil {
 		return false, oops.Wrap(err)
 	}
@@ -190,7 +180,8 @@ func ReferenceObjectsExist(
 	return true, nil
 }
 
-func ReferencesExist(ctx TxCtxInterface, reference *authpb.Reference) (exists bool, err error) {
+// ReferencesExist checks if the references for the given reference exist
+func ReferencesExist(ctx TxCtxInterface, reference *authpb.ReferenceKey) (exists bool, err error) {
 	// See if the reference already exists
 	k1, k2, err := MakeRefKeys(reference)
 	if err != nil {
@@ -207,6 +198,7 @@ func ReferencesExist(ctx TxCtxInterface, reference *authpb.Reference) (exists bo
 	return true, nil
 }
 
+// ReferenceDeleteByItem deletes all the references for the given item
 func ReferenceDeleteByItem(ctx TxCtxInterface, key *authpb.ItemKey) (err error) {
 	// Get all the references for the given item
 
@@ -223,5 +215,19 @@ func ReferenceDeleteByItem(ctx TxCtxInterface, key *authpb.ItemKey) (err error) 
 
 	// Delete all the references for the given item, in both directions
 	// todo: Implement ReferenceDeleteByItem function
+	panic("not implemented")
+}
+
+// ReferenceKeyToItems converts a reference key to the item object
+
+func ReferenceKeyToItems(ref *authpb.ReferenceKey) (item1 common.ItemInterface, item2 common.ItemInterface, err error) {
+	// TODO: Implement ReferenceKeyToItems function
+
+	panic("not implemented")
+	return nil, nil, nil
+}
+
+// PackReference packs the items into anypb and returns the reference
+func PackReference(ref *authpb.ReferenceKey, item1 common.ItemInterface, item2 common.ItemInterface) (reference authpb.Reference, err error) {
 	panic("not implemented")
 }

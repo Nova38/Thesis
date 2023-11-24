@@ -122,7 +122,7 @@ func MakeItemKeySuggestion(
 // ─────────────────────────────────────────────────────────────────────────────────
 
 func MakeRefKeys(
-	ref *authpb.Reference,
+	ref *authpb.ReferenceKey,
 ) (refKey1 string, refKey2 string, err error) {
 	// attr := obj.KeyAttr()
 	// ItemKey := obj.ItemKey()

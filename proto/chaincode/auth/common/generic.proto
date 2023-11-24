@@ -130,7 +130,10 @@ service GenericService {
     option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
   }
 
-
+  rpc ReferenceByPartialKey(ReferenceByPartialKeyRequest) returns (ReferenceByPartialKeyResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+  }
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
 
@@ -338,10 +341,11 @@ message UnHideTxResponse {
 // ════════════════════════════════ References ═════════════════════════════════════
 // ──────────────────────────────── Query ──────────────────────────────────────────
 message ReferenceRequest {
-  auth.Reference reference = 1;
+  auth.ReferenceKey reference = 1;
 }
 message ReferenceResponse{
   bool exists = 1;
+  auth.Reference reference = 2;
 }
 message ReferenceByCollectionRequest{
   string bookmark = 1;
@@ -354,17 +358,16 @@ message ReferenceByCollectionResponse{
   repeated auth.Reference references = 2;
 }
 
-//message ReferenceByCollectionTypeRequest{
-//  string bookmark = 1;
-//  uint32 limit = 2;
-//  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
-//  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
-//}
-//
-//message ReferenceByCollectionTypeResponse{
-//  string bookmark = 1;
-//  repeated auth.Reference references = 2;
-//}
+message ReferenceByPartialKeyRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  auth.ReferenceKey reference = 3;
+}
+
+message ReferenceByPartialKeyResponse{
+  string bookmark = 1;
+  repeated auth.Reference references = 2;
+}
 
 
 
@@ -372,9 +375,10 @@ message ReferenceByCollectionResponse{
 message ReferenceByItemRequest{
   string bookmark = 1;
   uint32 limit = 2;
-  auth.ItemKey item_key = 3;
-  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  auth.ItemKey item_key = 4;
 }
+
 message ReferenceByItemResponse{
   string bookmark = 1;
   repeated auth.Reference references = 2;

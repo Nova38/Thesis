@@ -256,14 +256,28 @@ export const ItemKey = proto3.makeMessageType(
  * Reference Keys
  * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
+ * @generated from message auth.ReferenceKey
+ */
+export const ReferenceKey = proto3.makeMessageType(
+  "auth.ReferenceKey",
+  () => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "key1", kind: "message", T: ItemKey },
+    { no: 4, name: "key2", kind: "message", T: ItemKey },
+  ],
+);
+
+/**
+ * Used to return the values of the items that are referenced
+ *
  * @generated from message auth.Reference
  */
 export const Reference = proto3.makeMessageType(
   "auth.Reference",
   () => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "key_1", kind: "message", T: ItemKey },
-    { no: 4, name: "key_2", kind: "message", T: ItemKey },
+    { no: 1, name: "reference", kind: "message", T: ReferenceKey },
+    { no: 2, name: "item1", kind: "message", T: Item },
+    { no: 3, name: "item2", kind: "message", T: Item },
   ],
 );
 

@@ -262,15 +262,21 @@ message ItemKey {
 
 // Reference Keys
 // {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
-message Reference {
+message ReferenceKey {
   option (key_schema).item_kind = ITEM_KIND_REFERENCE;
 
   string collection_id  = 1;
 //  string reference_type = 2;
-  ItemKey key_1       = 3;
-  ItemKey key_2       = 4;
+  ItemKey key1       = 3;
+  ItemKey key2       = 4;
 }
 
+// Used to return the values of the items that are referenced
+message Reference {
+  ReferenceKey reference = 1;
+  Item item1         = 2;
+  Item item2         = 3;
+}
 
 
 

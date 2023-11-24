@@ -5,8 +5,8 @@
 
 package v1
 
-func (m *Reference) ItemType() string {
-	return "auth.Reference"
+func (m *ReferenceKey) ItemType() string {
+	return "auth.ReferenceKey"
 }
 func (m *Collection) ItemType() string {
 	return "auth.Collection"

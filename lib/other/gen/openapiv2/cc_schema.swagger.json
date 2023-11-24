@@ -439,6 +439,32 @@
         ]
       }
     },
+    "/auth.common.GenericService/ReferenceByPartialKey": {
+      "post": {
+        "operationId": "GenericService_ReferenceByPartialKey",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceByPartialKeyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
     "/auth.common.GenericService/ReferenceCreate": {
       "post": {
         "operationId": "GenericService_ReferenceCreate",
@@ -1320,14 +1346,29 @@
     "authReference": {
       "type": "object",
       "properties": {
+        "reference": {
+          "$ref": "#/definitions/authReferenceKey"
+        },
+        "item1": {
+          "$ref": "#/definitions/authItem"
+        },
+        "item2": {
+          "$ref": "#/definitions/authItem"
+        }
+      },
+      "title": "Used to return the values of the items that are referenced"
+    },
+    "authReferenceKey": {
+      "type": "object",
+      "properties": {
         "collection_id": {
           "type": "string"
         },
-        "key_1": {
+        "key1": {
           "$ref": "#/definitions/authItemKey",
           "title": "string reference_type = 2;"
         },
-        "key_2": {
+        "key2": {
           "$ref": "#/definitions/authItemKey"
         }
       },
@@ -1698,16 +1739,46 @@
           "type": "integer",
           "format": "int64"
         },
+        "collection_id": {
+          "type": "string"
+        },
         "item_key": {
           "$ref": "#/definitions/authItemKey"
-        },
-        "reference_type": {
-          "type": "string"
         }
       },
       "title": "Get all of the collections"
     },
     "commonReferenceByItemResponse": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authReference"
+          }
+        }
+      }
+    },
+    "commonReferenceByPartialKeyRequest": {
+      "type": "object",
+      "properties": {
+        "bookmark": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "reference": {
+          "$ref": "#/definitions/authReferenceKey"
+        }
+      }
+    },
+    "commonReferenceByPartialKeyResponse": {
       "type": "object",
       "properties": {
         "bookmark": {
@@ -1758,7 +1829,7 @@
       "type": "object",
       "properties": {
         "reference": {
-          "$ref": "#/definitions/authReference"
+          "$ref": "#/definitions/authReferenceKey"
         }
       },
       "title": "════════════════════════════════ References ═════════════════════════════════════\n──────────────────────────────── Query ──────────────────────────────────────────"
@@ -1768,6 +1839,9 @@
       "properties": {
         "exists": {
           "type": "boolean"
+        },
+        "reference": {
+          "$ref": "#/definitions/authReference"
         }
       }
     },

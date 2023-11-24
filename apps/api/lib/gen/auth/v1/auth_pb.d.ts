@@ -780,9 +780,9 @@ export declare class ItemKey extends Message<ItemKey> {
  * Reference Keys
  * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
  *
- * @generated from message auth.Reference
+ * @generated from message auth.ReferenceKey
  */
-export declare class Reference extends Message<Reference> {
+export declare class ReferenceKey extends Message<ReferenceKey> {
   /**
    * @generated from field: string collection_id = 1;
    */
@@ -791,14 +791,50 @@ export declare class Reference extends Message<Reference> {
   /**
    *  string reference_type = 2;
    *
-   * @generated from field: auth.ItemKey key_1 = 3;
+   * @generated from field: auth.ItemKey key1 = 3;
    */
   key1?: ItemKey;
 
   /**
-   * @generated from field: auth.ItemKey key_2 = 4;
+   * @generated from field: auth.ItemKey key2 = 4;
    */
   key2?: ItemKey;
+
+  constructor(data?: PartialMessage<ReferenceKey>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.ReferenceKey";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceKey;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceKey;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceKey;
+
+  static equals(a: ReferenceKey | PlainMessage<ReferenceKey> | undefined, b: ReferenceKey | PlainMessage<ReferenceKey> | undefined): boolean;
+}
+
+/**
+ * Used to return the values of the items that are referenced
+ *
+ * @generated from message auth.Reference
+ */
+export declare class Reference extends Message<Reference> {
+  /**
+   * @generated from field: auth.ReferenceKey reference = 1;
+   */
+  reference?: ReferenceKey;
+
+  /**
+   * @generated from field: auth.Item item1 = 2;
+   */
+  item1?: Item;
+
+  /**
+   * @generated from field: auth.Item item2 = 3;
+   */
+  item2?: Item;
 
   constructor(data?: PartialMessage<Reference>);
 

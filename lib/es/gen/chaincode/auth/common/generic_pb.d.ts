@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, FieldMask, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import type { HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, Suggestion, User } from "../../../auth/v1/auth_pb.js";
+import type { HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, ReferenceKey, Suggestion, User } from "../../../auth/v1/auth_pb.js";
 
 /**
  * ══════════════════════════════════ Helper ═════════════════════════════════════
@@ -812,9 +812,9 @@ export declare class UnHideTxResponse extends Message<UnHideTxResponse> {
  */
 export declare class ReferenceRequest extends Message<ReferenceRequest> {
   /**
-   * @generated from field: auth.Reference reference = 1;
+   * @generated from field: auth.ReferenceKey reference = 1;
    */
-  reference?: Reference;
+  reference?: ReferenceKey;
 
   constructor(data?: PartialMessage<ReferenceRequest>);
 
@@ -839,6 +839,11 @@ export declare class ReferenceResponse extends Message<ReferenceResponse> {
    * @generated from field: bool exists = 1;
    */
   exists: boolean;
+
+  /**
+   * @generated from field: auth.Reference reference = 2;
+   */
+  reference?: Reference;
 
   constructor(data?: PartialMessage<ReferenceResponse>);
 
@@ -919,6 +924,69 @@ export declare class ReferenceByCollectionResponse extends Message<ReferenceByCo
 }
 
 /**
+ * @generated from message auth.common.ReferenceByPartialKeyRequest
+ */
+export declare class ReferenceByPartialKeyRequest extends Message<ReferenceByPartialKeyRequest> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark: string;
+
+  /**
+   * @generated from field: uint32 limit = 2;
+   */
+  limit: number;
+
+  /**
+   * @generated from field: auth.ReferenceKey reference = 3;
+   */
+  reference?: ReferenceKey;
+
+  constructor(data?: PartialMessage<ReferenceByPartialKeyRequest>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.common.ReferenceByPartialKeyRequest";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByPartialKeyRequest;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByPartialKeyRequest;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByPartialKeyRequest;
+
+  static equals(a: ReferenceByPartialKeyRequest | PlainMessage<ReferenceByPartialKeyRequest> | undefined, b: ReferenceByPartialKeyRequest | PlainMessage<ReferenceByPartialKeyRequest> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.common.ReferenceByPartialKeyResponse
+ */
+export declare class ReferenceByPartialKeyResponse extends Message<ReferenceByPartialKeyResponse> {
+  /**
+   * @generated from field: string bookmark = 1;
+   */
+  bookmark: string;
+
+  /**
+   * @generated from field: repeated auth.Reference references = 2;
+   */
+  references: Reference[];
+
+  constructor(data?: PartialMessage<ReferenceByPartialKeyResponse>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.common.ReferenceByPartialKeyResponse";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceByPartialKeyResponse;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceByPartialKeyResponse;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceByPartialKeyResponse;
+
+  static equals(a: ReferenceByPartialKeyResponse | PlainMessage<ReferenceByPartialKeyResponse> | undefined, b: ReferenceByPartialKeyResponse | PlainMessage<ReferenceByPartialKeyResponse> | undefined): boolean;
+}
+
+/**
  * Get all of the collections
  *
  * @generated from message auth.common.ReferenceByItemRequest
@@ -935,14 +1003,14 @@ export declare class ReferenceByItemRequest extends Message<ReferenceByItemReque
   limit: number;
 
   /**
-   * @generated from field: auth.ItemKey item_key = 3;
+   * @generated from field: string collection_id = 3;
    */
-  itemKey?: ItemKey;
+  collectionId: string;
 
   /**
-   * @generated from field: string reference_type = 4;
+   * @generated from field: auth.ItemKey item_key = 4;
    */
-  referenceType: string;
+  itemKey?: ItemKey;
 
   constructor(data?: PartialMessage<ReferenceByItemRequest>);
 

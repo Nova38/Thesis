@@ -22,6 +22,9 @@
    - `<auth.Ref>{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]`
    - `<auth.Ref>{COLLECTION_ID}[{ITEM2_TYPE}{...ITEM2_ID}][{ITEM1_TYPE}{...ITEM1_ID}]`
 
+The Reference keys return a refrence object that includes the refKey and the serilized items that are referenced.
+
+
 
 ## Global
 
@@ -31,10 +34,8 @@
 
 - Allowed Item Types
 - Allowed Reference Types
-
 - Auth Types
 
 
 
 ### Users
-
