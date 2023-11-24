@@ -63,7 +63,8 @@ class GetWorkload extends WorkloadModuleBase {
             contractId: this.contractId,
             contractFunction: 'Test',
             contractArguments: [],
-            readOnly: false
+            readOnly: false,
+            invokerIdentity: "user1"
         };
         return this.sutAdapter.sendRequests(myArgs);
     }

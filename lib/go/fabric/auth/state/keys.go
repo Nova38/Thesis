@@ -29,6 +29,10 @@ func MakeItemKeyAttr(key *authpb.ItemKey) []string {
 
 // MakeItemKeyPrimary
 func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
+	if key == nil {
+		return "", oops.Errorf("Invalid item key")
+	}
+
 	return shim.CreateCompositeKey(
 		key.GetItemType(),
 		MakeItemKeyAttr(key),
@@ -94,7 +98,7 @@ func MakeSuggestionKeyAtter[T common.ItemInterface](
 	return append(MakeSubKeyAtter(obj), suggestionId)
 }
 
-// Key should be {SUGGESTION}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SuggestionId}
+// Key should be {<SUGGESTION>}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SuggestionId}
 func MakeSuggestionKey[T common.ItemInterface](
 	obj T,
 	suggestionId string,
@@ -129,11 +133,6 @@ func MakeRefKeys(
 
 	var a, b, k1, k2 []string
 
-	refBase := []string{
-		common.ReferenceItemType,
-		ref.GetReferenceType(),
-	}
-
 	if ref.GetKey_1() != nil {
 		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
 		a = MakeSubItemKeyAtter(ref.GetKey_1())
@@ -143,30 +142,43 @@ func MakeRefKeys(
 		b = MakeSubItemKeyAtter(ref.GetKey_2())
 	}
 
-	if ref.GetKey_1() != nil && ref.GetKey_2() != nil {
-		k1 = append(a, b...)
-		k2 = append(b, a...)
+	switch {
+	case ref.GetKey_1() != nil && ref.GetKey_2() != nil:
+		{
+			k1 = append(a, b...)
+			k2 = append(b, a...)
 
-		refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k1...))
-		if err != nil {
-			return "", "", err
-		}
+			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, k1)
+			if err != nil {
+				return "", "", err
+			}
 
-		refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, k2...))
-		if err != nil {
-			return "", "", err
+			refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, k2)
+			if err != nil {
+				return "", "", err
+			}
+
+			return refKey1, refKey2, nil
 		}
-	} else if ref.GetKey_1() != nil {
-		refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, a...))
-		if err != nil {
-			return "", "", err
+	case ref.GetKey_1() != nil && ref.GetKey_2() == nil:
+		{
+			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, a)
+			if err != nil {
+				return "", "", err
+			}
+			return refKey1, "", nil
+
 		}
-	} else if ref.GetKey_2() != nil {
-		refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, append(refBase, b...))
-		if err != nil {
-			return "", "", err
+	case ref.GetKey_1() == nil && ref.GetKey_2() != nil:
+		{
+			refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, b)
+			if err != nil {
+				return "", "", err
+			}
+
+			return "", refKey2, nil
 		}
+	default:
+		return "", "", oops.Errorf("Invalid reference")
 	}
-
-	return refKey1, refKey2, nil
 }

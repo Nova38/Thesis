@@ -491,32 +491,6 @@
         ]
       }
     },
-    "/auth.common.GenericService/ReferenceListByType": {
-      "post": {
-        "operationId": "GenericService_ReferenceListByType",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceListByTypeRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
     "/auth.common.GenericService/Suggestion": {
       "post": {
         "operationId": "GenericService_Suggestion",
@@ -1349,11 +1323,9 @@
         "collection_id": {
           "type": "string"
         },
-        "reference_type": {
-          "type": "string"
-        },
         "key_1": {
-          "$ref": "#/definitions/authItemKey"
+          "$ref": "#/definitions/authItemKey",
+          "title": "string reference_type = 2;"
         },
         "key_2": {
           "$ref": "#/definitions/authItemKey"
@@ -1698,9 +1670,6 @@
         },
         "collection_id": {
           "type": "string"
-        },
-        "reference_type": {
-          "type": "string"
         }
       }
     },
@@ -1782,36 +1751,6 @@
       "properties": {
         "reference": {
           "$ref": "#/definitions/authReference"
-        }
-      }
-    },
-    "commonReferenceListByTypeRequest": {
-      "type": "object",
-      "properties": {
-        "bookmark": {
-          "type": "string"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "reference_type": {
-          "type": "string"
-        }
-      }
-    },
-    "commonReferenceListByTypeResponse": {
-      "type": "object",
-      "properties": {
-        "bookmark": {
-          "type": "string"
-        },
-        "references": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/authReference"
-          }
         }
       }
     },

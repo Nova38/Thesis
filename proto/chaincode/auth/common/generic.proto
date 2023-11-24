@@ -115,10 +115,10 @@ service GenericService {
     option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
   }
 
-  rpc ReferenceListByType(ReferenceListByTypeRequest) returns (ReferenceListByTypeResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-  }
+//  rpc ReferenceListByType(ReferenceListByTypeRequest) returns (ReferenceListByTypeResponse) {
+//    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+//  }
 
   rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -343,27 +343,30 @@ message ReferenceRequest {
 message ReferenceResponse{
   bool exists = 1;
 }
-message ReferenceListByTypeRequest{
-  string bookmark = 1;
-  uint32 limit = 2;
-  string reference_type = 3 [(buf.validate.field).string.min_len = 1];
-}
-message ReferenceListByTypeResponse{
-  string bookmark = 1;
-  repeated auth.Reference references = 2;
-}
-
 message ReferenceByCollectionRequest{
   string bookmark = 1;
   uint32 limit = 2;
   string collection_id = 3 [(buf.validate.field).string.min_len = 1];
-  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
 }
 
 message ReferenceByCollectionResponse{
   string bookmark = 1;
   repeated auth.Reference references = 2;
 }
+
+//message ReferenceByCollectionTypeRequest{
+//  string bookmark = 1;
+//  uint32 limit = 2;
+//  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+//  string reference_type = 4 [(buf.validate.field).string.min_len = 1];
+//}
+//
+//message ReferenceByCollectionTypeResponse{
+//  string bookmark = 1;
+//  repeated auth.Reference references = 2;
+//}
+
+
 
 // Get all of the collections
 message ReferenceByItemRequest{

@@ -118,12 +118,6 @@ type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_REFERENCE_VIEW
 	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
 
-	// ReferenceListByType
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_VIEW
-	ReferenceListByType(ctx T, req *ReferenceListByTypeRequest) (res *ReferenceListByTypeResponse, err error)
-
 	// ReferenceByCollection
 	//
 	// # Operation:
@@ -203,7 +197,6 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"History",
 		"HiddenTx",
 		"Reference",
-		"ReferenceListByType",
 		"ReferenceByCollection",
 		"ReferenceByItem",
 		"Suggestion",
@@ -291,11 +284,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 20,
 		}, nil
 	case "Reference":
-		// action:ACTION_REFERENCE_VIEW
-		return &v1.Operation{
-			Action: 23,
-		}, nil
-	case "ReferenceListByType":
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,

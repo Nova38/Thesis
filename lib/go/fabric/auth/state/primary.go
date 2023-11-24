@@ -199,9 +199,35 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 	// TODO: Handle deleting refs/sub items here
 
 	// TODO: Handle deleting suggestions here
+	if err := deleteSuggestionsByItem(ctx, obj.ItemKey()); err != nil {
+		return oops.Wrap(err)
+	}
+
 	// TODO: Handle deleting hiddenTx items here
+	if hiddenKey, err := MakeHiddenKey(obj); err != nil {
+		return oops.Wrap(err)
+	} else if hiddenKey != "" {
+		if err := ctx.GetStub().DelState(hiddenKey); err != nil {
+			return oops.Wrap(err)
+		}
+	}
 
 	return err
+}
+
+func deleteSuggestionsByItem(ctx TxCtxInterface, key *authpb.ItemKey) (err error) {
+	l := &Ledger[*authpb.Suggestion]{ctx: ctx}
+
+	sList, _, err := SuggestionListByItem(ctx, key, "")
+	if err != nil {
+		return oops.Wrap(err)
+	}
+	for _, s := range sList {
+		if err := l.Delete(s); err != nil {
+			return oops.Wrap(err)
+		}
+	}
+	return nil
 }
 
 // func PrimaryDeleteFromKey(ctx TxCtxInterface, key *authpb.ItemKey) (obj *authpb.Item, err error) {

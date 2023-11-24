@@ -83,8 +83,11 @@
         "descriptorpb",
         "golines",
         "oneof",
+        "pdfauthor",
+        "pdfsubject",
         "segmentio",
-        "spydra"
+        "spydra",
+        "urlcolor"
     ],
     "files.exclude": {
         "**/.git": true,
@@ -98,5 +101,7 @@
         "**/.task": true
     },
     "explorerExclude.backup": {},
+    "plantuml.server": "http://localhost:8888",
+    "plantuml.render": "PlantUMLServer",
     
 }

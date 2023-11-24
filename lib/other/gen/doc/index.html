@@ -434,14 +434,6 @@
                 </li>
               
                 <li>
-                  <a href="#auth.common.ReferenceListByTypeRequest"><span class="badge">M</span>ReferenceListByTypeRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#auth.common.ReferenceListByTypeResponse"><span class="badge">M</span>ReferenceListByTypeResponse</a>
-                </li>
-              
-                <li>
                   <a href="#auth.common.ReferenceRequest"><span class="badge">M</span>ReferenceRequest</a>
                 </li>
               
@@ -897,7 +889,7 @@ role </p></td>
                   <td>default</td>
                   <td><a href="#auth.ACEntry">ACEntry</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>repeated string reference_types = 5; </p></td>
                 </tr>
               
             </tbody>
@@ -1437,17 +1429,10 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>reference_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
                   <td>key_1</td>
                   <td><a href="#auth.ItemKey">ItemKey</a></td>
                   <td></td>
-                  <td><p> </p></td>
+                  <td><p>string reference_type = 2; </p></td>
                 </tr>
               
                 <tr>
@@ -2760,13 +2745,6 @@ The user does not have permission to perform the operation</p></td>
                   <td><p> </p></td>
                 </tr>
               
-                <tr>
-                  <td>reference_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
             </tbody>
           </table>
 
@@ -2967,75 +2945,6 @@ The user does not have permission to perform the operation</p></td>
                   <td>reference</td>
                   <td><a href="#auth.Reference">auth.Reference</a></td>
                   <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="auth.common.ReferenceListByTypeRequest">ReferenceListByTypeRequest</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>bookmark</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>limit</td>
-                  <td><a href="#uint32">uint32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>reference_type</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="auth.common.ReferenceListByTypeResponse">ReferenceListByTypeResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>bookmark</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>references</td>
-                  <td><a href="#auth.Reference">auth.Reference</a></td>
-                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -3835,13 +3744,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
                 <td>Reference</td>
                 <td><a href="#auth.common.ReferenceRequest">ReferenceRequest</a></td>
                 <td><a href="#auth.common.ReferenceResponse">ReferenceResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>ReferenceListByType</td>
-                <td><a href="#auth.common.ReferenceListByTypeRequest">ReferenceListByTypeRequest</a></td>
-                <td><a href="#auth.common.ReferenceListByTypeResponse">ReferenceListByTypeResponse</a></td>
                 <td><p></p></td>
               </tr>
             

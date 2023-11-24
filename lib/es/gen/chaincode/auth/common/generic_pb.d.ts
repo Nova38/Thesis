@@ -856,69 +856,6 @@ export declare class ReferenceResponse extends Message<ReferenceResponse> {
 }
 
 /**
- * @generated from message auth.common.ReferenceListByTypeRequest
- */
-export declare class ReferenceListByTypeRequest extends Message<ReferenceListByTypeRequest> {
-  /**
-   * @generated from field: string bookmark = 1;
-   */
-  bookmark: string;
-
-  /**
-   * @generated from field: uint32 limit = 2;
-   */
-  limit: number;
-
-  /**
-   * @generated from field: string reference_type = 3;
-   */
-  referenceType: string;
-
-  constructor(data?: PartialMessage<ReferenceListByTypeRequest>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.ReferenceListByTypeRequest";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceListByTypeRequest;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceListByTypeRequest;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceListByTypeRequest;
-
-  static equals(a: ReferenceListByTypeRequest | PlainMessage<ReferenceListByTypeRequest> | undefined, b: ReferenceListByTypeRequest | PlainMessage<ReferenceListByTypeRequest> | undefined): boolean;
-}
-
-/**
- * @generated from message auth.common.ReferenceListByTypeResponse
- */
-export declare class ReferenceListByTypeResponse extends Message<ReferenceListByTypeResponse> {
-  /**
-   * @generated from field: string bookmark = 1;
-   */
-  bookmark: string;
-
-  /**
-   * @generated from field: repeated auth.Reference references = 2;
-   */
-  references: Reference[];
-
-  constructor(data?: PartialMessage<ReferenceListByTypeResponse>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.ReferenceListByTypeResponse";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceListByTypeResponse;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceListByTypeResponse;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceListByTypeResponse;
-
-  static equals(a: ReferenceListByTypeResponse | PlainMessage<ReferenceListByTypeResponse> | undefined, b: ReferenceListByTypeResponse | PlainMessage<ReferenceListByTypeResponse> | undefined): boolean;
-}
-
-/**
  * @generated from message auth.common.ReferenceByCollectionRequest
  */
 export declare class ReferenceByCollectionRequest extends Message<ReferenceByCollectionRequest> {
@@ -936,11 +873,6 @@ export declare class ReferenceByCollectionRequest extends Message<ReferenceByCol
    * @generated from field: string collection_id = 3;
    */
   collectionId: string;
-
-  /**
-   * @generated from field: string reference_type = 4;
-   */
-  referenceType: string;
 
   constructor(data?: PartialMessage<ReferenceByCollectionRequest>);
 

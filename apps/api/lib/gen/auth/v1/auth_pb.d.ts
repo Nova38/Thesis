@@ -789,11 +789,8 @@ export declare class Reference extends Message<Reference> {
   collectionId: string;
 
   /**
-   * @generated from field: string reference_type = 2;
-   */
-  referenceType: string;
-
-  /**
+   *  string reference_type = 2;
+   *
    * @generated from field: auth.ItemKey key_1 = 3;
    */
   key1?: ItemKey;
@@ -851,6 +848,8 @@ export declare class Collection extends Message<Collection> {
   itemTypes: string[];
 
   /**
+   *  repeated string reference_types = 5;
+   *
    * @generated from field: auth.ACEntry default = 5;
    */
   default?: ACEntry;

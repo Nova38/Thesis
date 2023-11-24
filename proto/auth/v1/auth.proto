@@ -266,7 +266,7 @@ message Reference {
   option (key_schema).item_kind = ITEM_KIND_REFERENCE;
 
   string collection_id  = 1;
-  string reference_type = 2;
+//  string reference_type = 2;
   ItemKey key_1       = 3;
   ItemKey key_2       = 4;
 }
@@ -294,7 +294,8 @@ message Collection {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name                  = 2 [(buf.validate.field).string.min_len = 1];
   string description           = 3 [(buf.validate.field).string.min_len = 1];
-  repeated string item_types = 4;
+  repeated string item_types   = 4;
+//  repeated string reference_types = 5;
   ACEntry default              = 5 [(buf.validate.field).required = true];
 }
 

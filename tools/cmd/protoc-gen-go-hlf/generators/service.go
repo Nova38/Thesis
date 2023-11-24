@@ -12,8 +12,10 @@ import (
 )
 
 const (
-	fmtPkg                        = protogen.GoImportPath("fmt")
-	gatewayPkg                    = protogen.GoImportPath("github.com/hyperledger/fabric-gateway/pkg/client")
+	fmtPkg     = protogen.GoImportPath("fmt")
+	gatewayPkg = protogen.GoImportPath(
+		"github.com/hyperledger/fabric-gateway/pkg/client",
+	)
 	generatedGatewayPackageSuffix = "gateway"
 )
 
@@ -281,7 +283,11 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 		if in == "Empty" {
 			g.P("func (s *", v.GoName, "Handler)", m.GoName, "( )(out *", out, "){")
 			if tt == auth_pb.TransactionType_TRANSACTION_TYPE_QUERY {
-				g.P("evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName+\":", m.GoName, "\")")
+				g.P(
+					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName+\":",
+					m.GoName,
+					"\")",
+				)
 			} else {
 				g.P("evaluateResult, err:= s.contract.SubmitTransaction(s.ChaincodeName+\":", m.GoName, "\")")
 			}

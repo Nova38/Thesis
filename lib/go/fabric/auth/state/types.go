@@ -12,14 +12,6 @@ import (
 //       and authpb.CollectionItem interfaces.
 
 type (
-
-	//CollectionItemKey interface {
-	//}
-	//
-	//CollectionItem interface {
-	//	GetId() *CollectionItemKey
-	//}
-
 	FullItem[T common.ItemInterface] struct {
 		Item        T                    `json:"item"`
 		Suggestions []*authpb.Suggestion `json:"suggestions"`

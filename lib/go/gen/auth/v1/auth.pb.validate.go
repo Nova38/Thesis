@@ -1597,8 +1597,6 @@ func (m *Reference) validate(all bool) error {
 
 	// no validation rules for CollectionId
 
-	// no validation rules for ReferenceType
-
 	if all {
 		switch v := interface{}(m.GetKey_1()).(type) {
 		case interface{ ValidateAll() error }:

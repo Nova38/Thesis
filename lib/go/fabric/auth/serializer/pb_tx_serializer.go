@@ -19,7 +19,12 @@ type TxSerializer struct {
 // adhere to and components which the schema may point to as a reference. The schema and
 // component metadata may be nil. The function should produce a reflect value which matches
 // the goal type.
-func (s *TxSerializer) FromString(param string, objType reflect.Type, pm *metadata.ParameterMetadata, cm *metadata.ComponentMetadata) (reflect.Value, error) {
+func (s *TxSerializer) FromString(
+	param string,
+	objType reflect.Type,
+	pm *metadata.ParameterMetadata,
+	cm *metadata.ComponentMetadata,
+) (reflect.Value, error) {
 	// Check to see if the type is a protobuf message
 
 	if objType.Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
@@ -41,6 +46,11 @@ func (s *TxSerializer) FromString(param string, objType reflect.Type, pm *metada
 // originally, the schema defining the rules of what that value should meet and components
 // which the schema may point to as a reference. The schema and component metadata may be nil
 // The function should produce a string which represents the original value
-func (s *TxSerializer) ToString(v reflect.Value, t reflect.Type, rm *metadata.ReturnMetadata, cm *metadata.ComponentMetadata) (string, error) {
+func (s *TxSerializer) ToString(
+	v reflect.Value,
+	t reflect.Type,
+	rm *metadata.ReturnMetadata,
+	cm *metadata.ComponentMetadata,
+) (string, error) {
 	return s.JSONSerializer.ToString(v, t, rm, cm)
 }

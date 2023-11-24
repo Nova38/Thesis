@@ -1,0 +1,22 @@
+@startuml CommonOperations
+
+
+map "Create Collection" as cc {
+    
+    Action => ACTION_CREATE
+    CollectionId => <COLLECTION_ID>
+    ItemType => Auth.Collection
+}
+
+map "Register Role" as rr {
+    Action => ACTION_REGISTER
+    CollectionId => **<COLLECTION_ID>**
+    ItemType => Auth.Role
+    ItemId => <ROLE_ID>
+}
+
+map RegisterUser {
+
+}
+
+@enduml

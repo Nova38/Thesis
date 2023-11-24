@@ -434,7 +434,8 @@ func (o ItemContractImpl) ReferenceByItem(
 }
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
-// todo: ReferenceCreate
+
+// ReferenceCreate creates a reference
 func (o ItemContractImpl) ReferenceCreate(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceCreateRequest,
@@ -453,7 +454,7 @@ func (o ItemContractImpl) ReferenceCreate(
 	}, nil
 }
 
-// todo: ReferenceDelete
+// ReferenceDelete deletes a reference
 func (o ItemContractImpl) ReferenceDelete(
 	ctx state.TxCtxInterface,
 	req *cc.ReferenceDeleteRequest,

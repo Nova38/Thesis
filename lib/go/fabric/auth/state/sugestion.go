@@ -20,6 +20,7 @@ import (
 // ──────────────────────────────────────────────────
 // Helpers
 // ──────────────────────────────────────────────────
+
 type SuggestionHandler struct {
 	suggestionKey string
 	objKey        string

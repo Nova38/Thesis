@@ -19,6 +19,14 @@ type Ledger[T common.ItemInterface] struct {
 }
 
 // UTIL Functions
+func Exists(ctx TxCtxInterface, key string) bool {
+	bytes, err := ctx.GetStub().GetState(key)
+	if bytes == nil && err == nil {
+		return false
+	}
+
+	return err == nil
+}
 
 // Exists returns true if the item exists in the ledger
 func (l *Ledger[T]) Exists(key string) bool {
