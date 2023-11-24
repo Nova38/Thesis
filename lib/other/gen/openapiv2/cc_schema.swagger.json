@@ -1361,9 +1361,6 @@
     "authReferenceKey": {
       "type": "object",
       "properties": {
-        "collection_id": {
-          "type": "string"
-        },
         "key1": {
           "$ref": "#/definitions/authItemKey",
           "title": "string reference_type = 2;"

@@ -120,6 +120,28 @@ func MakeItemKeySuggestion(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
+func MakeRefKeyAttrs(
+	ref *authpb.ReferenceKey,
+) (refKey1 []string, refKey2 []string, err error) {
+	if ref == nil || (ref.GetKey1() == nil && ref.GetKey2() == nil) {
+		return refKey1, refKey2, oops.Errorf("Invalid reference")
+	}
+
+	var a, b []string
+
+	if ref.GetKey1() != nil {
+		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
+		a = MakeSubItemKeyAtter(ref.GetKey1())
+	}
+	if ref.GetKey2() != nil {
+		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
+		b = MakeSubItemKeyAtter(ref.GetKey2())
+	}
+	refKey1 = append(a, b...)
+	refKey2 = append(b, a...)
+
+	return refKey1, refKey2, nil
+}
 
 func MakeRefKeys(
 	ref *authpb.ReferenceKey,
@@ -127,23 +149,23 @@ func MakeRefKeys(
 	// attr := obj.KeyAttr()
 	// ItemKey := obj.ItemKey()
 
-	if ref == nil || (ref.GetKey_1() == nil && ref.GetKey_2() == nil) {
+	if ref == nil || (ref.GetKey1() == nil && ref.GetKey2() == nil) {
 		return "", "", oops.Errorf("Invalid reference")
 	}
 
 	var a, b, k1, k2 []string
 
-	if ref.GetKey_1() != nil {
+	if ref.GetKey1() != nil {
 		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
-		a = MakeSubItemKeyAtter(ref.GetKey_1())
+		a = MakeSubItemKeyAtter(ref.GetKey1())
 	}
-	if ref.GetKey_2() != nil {
+	if ref.GetKey2() != nil {
 		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
-		b = MakeSubItemKeyAtter(ref.GetKey_2())
+		b = MakeSubItemKeyAtter(ref.GetKey2())
 	}
 
 	switch {
-	case ref.GetKey_1() != nil && ref.GetKey_2() != nil:
+	case ref.GetKey1() != nil && ref.GetKey2() != nil:
 		{
 			k1 = append(a, b...)
 			k2 = append(b, a...)
@@ -160,7 +182,7 @@ func MakeRefKeys(
 
 			return refKey1, refKey2, nil
 		}
-	case ref.GetKey_1() != nil && ref.GetKey_2() == nil:
+	case ref.GetKey1() != nil && ref.GetKey2() == nil:
 		{
 			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, a)
 			if err != nil {
@@ -169,7 +191,7 @@ func MakeRefKeys(
 			return refKey1, "", nil
 
 		}
-	case ref.GetKey_1() == nil && ref.GetKey_2() != nil:
+	case ref.GetKey1() == nil && ref.GetKey2() != nil:
 		{
 			refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, b)
 			if err != nil {

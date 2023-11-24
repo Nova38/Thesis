@@ -194,9 +194,10 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	err = l.Delete(obj)
-
-	// TODO: Handle deleting refs/sub items here
+	if err := ReferenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
+		return oops.Wrap(err)
+	}
+	// Should we delete the object refs in other collections? (there shouldn't be any except for users)
 
 	// TODO: Handle deleting suggestions here
 	if err := deleteSuggestionsByItem(ctx, obj.ItemKey()); err != nil {
@@ -212,6 +213,7 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 		}
 	}
 
+	err = l.Delete(obj)
 	return err
 }
 

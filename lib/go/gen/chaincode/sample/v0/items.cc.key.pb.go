@@ -17,6 +17,14 @@ func (m *Awards) KeyAttr() []string {
 	attr = append(attr, m.GetAwardName())
 	return attr
 }
+func (m *Awards) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.AwardName = attr[0]
+	} else {
+		return
+	}
+	return
+}
 
 // Domain Item
 func (m *Awards) IsPrimary() bool {
@@ -38,6 +46,14 @@ func (m *Author) KeyAttr() []string {
 	attr = append(attr, m.GetAuthorId())
 	return attr
 }
+func (m *Author) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.AuthorId = attr[0]
+	} else {
+		return
+	}
+	return
+}
 
 // Domain Item
 func (m *Author) IsPrimary() bool {
@@ -58,6 +74,14 @@ func (m *Person) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetName())
 	return attr
+}
+func (m *Person) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.Name = attr[0]
+	} else {
+		return
+	}
+	return
 }
 
 // Domain Item

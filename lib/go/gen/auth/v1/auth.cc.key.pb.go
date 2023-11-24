@@ -16,6 +16,14 @@ func (m *Collection) KeyAttr() []string {
 	attr = append(attr, m.GetCollectionId())
 	return attr
 }
+func (m *Collection) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.CollectionId = attr[0]
+	} else {
+		return
+	}
+	return
+}
 
 // Global Item
 func (m *Collection) IsGlobal() bool {
@@ -38,6 +46,19 @@ func (m *User) KeyAttr() []string {
 	attr = append(attr, m.GetUserId())
 	return attr
 }
+func (m *User) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.MspId = attr[0]
+	} else {
+		return
+	}
+	if len(attr) > 1 {
+		m.UserId = attr[1]
+	} else {
+		return
+	}
+	return
+}
 
 // Global Item
 func (m *User) IsGlobal() bool {
@@ -59,6 +80,14 @@ func (m *Suggestion) KeyAttr() []string {
 	attr = append(attr, m.GetSuggestionId())
 	return attr
 }
+func (m *Suggestion) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.SuggestionId = attr[0]
+	} else {
+		return
+	}
+	return
+}
 
 // Domain Item
 func (m *Suggestion) IsSecondary() bool {
@@ -77,6 +106,14 @@ func (m *Role) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetRoleId())
 	return attr
+}
+func (m *Role) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.RoleId = attr[0]
+	} else {
+		return
+	}
+	return
 }
 
 // Domain Item
@@ -102,6 +139,19 @@ func (m *Membership) KeyAttr() []string {
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
+}
+func (m *Membership) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.MspId = attr[0]
+	} else {
+		return
+	}
+	if len(attr) > 1 {
+		m.UserId = attr[1]
+	} else {
+		return
+	}
+	return
 }
 
 // Domain Item

@@ -39,7 +39,7 @@ func (o ItemContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
+	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -47,7 +47,7 @@ func (o ItemContractImpl) Get(
 		return nil, err
 	}
 
-	if msg, err = state.ItemToProto(obj); err != nil {
+	if msg, err = state.PackItem(obj); err != nil {
 		return nil, err
 	} else {
 		return &cc.GetResponse{
@@ -65,7 +65,7 @@ func (o ItemContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -98,7 +98,7 @@ func (o ItemContractImpl) ListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -130,7 +130,7 @@ func (o ItemContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -164,7 +164,7 @@ func (o ItemContractImpl) Create(
 	}
 
 	// Get the item from the request
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -188,7 +188,7 @@ func (o ItemContractImpl) Update(
 	}
 
 	// Get the item from the request
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -210,7 +210,7 @@ func (o ItemContractImpl) Delete(
 	}
 
 	// Get the item from the request
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -219,7 +219,7 @@ func (o ItemContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	item, err := state.ItemToProto(obj)
+	item, err := state.PackItem(obj)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -245,7 +245,7 @@ func (o ItemContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
+	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -271,7 +271,7 @@ func (o ItemContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.ProtoToItem(req.GetItem()); err != nil {
+	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -297,7 +297,7 @@ func (o ItemContractImpl) HideTx(
 	}
 
 	// Get the item from the request
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -323,7 +323,7 @@ func (o ItemContractImpl) UnHideTx(
 	}
 
 	// Get the item from the request
-	obj, err := state.ProtoToItem(req.GetItem())
+	obj, err := state.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -613,7 +613,7 @@ func (o ItemContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	if updated, err := state.ItemToProto(*u); err != nil {
+	if updated, err := state.PackItem(*u); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
 		res = &cc.SuggestionApproveResponse{

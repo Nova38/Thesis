@@ -347,15 +347,15 @@ message ReferenceResponse{
   bool exists = 1;
   auth.Reference reference = 2;
 }
+
 message ReferenceByCollectionRequest{
   string bookmark = 1;
   uint32 limit = 2;
   string collection_id = 3 [(buf.validate.field).string.min_len = 1];
 }
-
 message ReferenceByCollectionResponse{
   string bookmark = 1;
-  repeated auth.Reference references = 2;
+  repeated auth.ReferenceKey references = 2;
 }
 
 message ReferenceByPartialKeyRequest{
@@ -363,13 +363,10 @@ message ReferenceByPartialKeyRequest{
   uint32 limit = 2;
   auth.ReferenceKey reference = 3;
 }
-
 message ReferenceByPartialKeyResponse{
   string bookmark = 1;
-  repeated auth.Reference references = 2;
+  repeated auth.ReferenceKey references = 2;
 }
-
-
 
 // Get all of the collections
 message ReferenceByItemRequest{
@@ -381,12 +378,10 @@ message ReferenceByItemRequest{
 
 message ReferenceByItemResponse{
   string bookmark = 1;
-  repeated auth.Reference references = 2;
+  repeated auth.ReferenceKey references = 2;
 }
 
 // ──────────────────────────────── Invoke ───────────────────────────────────────
-
-
 
 message ReferenceCreateRequest{
   auth.Reference reference = 1;

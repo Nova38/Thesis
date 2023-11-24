@@ -14,7 +14,9 @@ type (
 	ItemInterface interface {
 		KeyAttr() (attr []string)
 		ItemKey() *authpb.ItemKey
+		SetKeyAttr(attr []string)
 		ItemType() string
+
 		proto.Message
 	}
 

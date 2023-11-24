@@ -10,24 +10,6 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-func ProtoToItem(obj *authpb.Item) (item common.ItemInterface, err error) {
-	if obj == nil || obj.GetValue() == nil {
-		return nil, oops.In("GetItem").Errorf("Item is nil")
-	}
-
-	m, err := obj.GetValue().UnmarshalNew()
-	if err != nil {
-		return nil, err
-	}
-	item, ok := m.(common.ItemInterface)
-
-	if !ok {
-		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
-	}
-
-	return item, nil
-}
-
 // ItemKeyToItemType Does not populate the item's key
 func ItemKeyToItemType(key *authpb.ItemKey) (item common.ItemInterface, err error) {
 	if key == nil {
@@ -50,7 +32,42 @@ func ItemKeyToItemType(key *authpb.ItemKey) (item common.ItemInterface, err erro
 	return item, nil
 }
 
-func ItemToProto(item common.ItemInterface) (obj *authpb.Item, err error) {
+func ItemKeyToItem(key *authpb.ItemKey) (item common.ItemInterface, err error) {
+	item, err = ItemKeyToItemType(key)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if key.GetItemIdParts() == nil {
+		return nil, oops.Errorf("ItemKey is nil")
+	}
+
+	item.SetKeyAttr(key.GetItemIdParts())
+
+	return item, nil
+}
+
+// ──────────────────────────────── Packing ──────────────────────────────────────────
+
+func UnPackItem(obj *authpb.Item) (item common.ItemInterface, err error) {
+	if obj == nil || obj.GetValue() == nil {
+		return nil, oops.In("GetItem").Errorf("Item is nil")
+	}
+
+	m, err := obj.GetValue().UnmarshalNew()
+	if err != nil {
+		return nil, err
+	}
+	item, ok := m.(common.ItemInterface)
+
+	if !ok {
+		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
+	}
+
+	return item, nil
+}
+
+func PackItem(item common.ItemInterface) (obj *authpb.Item, err error) {
 	if obj == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -77,7 +94,7 @@ func ListItemToProtos(list []common.ItemInterface) (objs []*authpb.Item, err err
 	for _, o := range list {
 		var msg *authpb.Item
 
-		if msg, err = ItemToProto(o); err != nil {
+		if msg, err = PackItem(o); err != nil {
 			return nil, err
 		}
 		objs = append(objs, msg)
@@ -86,7 +103,7 @@ func ListItemToProtos(list []common.ItemInterface) (objs []*authpb.Item, err err
 	return objs, nil
 }
 
-// ──────────────────────────────────────────────────
+// ──────────────────────────────── Suggestions ──────────────────────────────────────────
 
 func ItemToSuggestion(obj common.ItemInterface) (suggestion *authpb.Suggestion, err error) {
 	if suggestion == nil {
@@ -128,4 +145,56 @@ func SuggestionToItem(s *authpb.Suggestion) (obj common.ItemInterface, err error
 	}
 
 	return item, nil
+}
+
+// ──────────────────────────────── References ──────────────────────────────────────────
+
+// ReferenceKeyToItems converts a reference key to the item object
+
+func ReferenceKeyToItems(ref *authpb.ReferenceKey) (item1 common.ItemInterface, item2 common.ItemInterface, err error) {
+	if ref == nil {
+		return nil, nil, oops.In("GetItem").Errorf("Item is nil")
+	}
+
+	if ref.GetKey1() == nil && ref.GetKey2() == nil {
+		return nil, nil, oops.In("GetItem").Errorf("ItemKey is nil")
+	}
+
+	if ref.GetKey1() != nil {
+		// Get the items from the ledger
+		item1, err = ItemKeyToItem(ref.GetKey1())
+		if err != nil {
+			return nil, nil, oops.Wrap(err)
+		}
+	}
+
+	if ref.GetKey2() != nil {
+		item2, err = ItemKeyToItem(ref.GetKey2())
+		if err != nil {
+			return item1, nil, oops.Wrap(err)
+		}
+	}
+
+	return item1, item2, nil
+}
+
+// PackReference packs the items into anypb and returns the reference
+func PackReference(ref *authpb.ReferenceKey, item1 common.ItemInterface, item2 common.ItemInterface) (reference *authpb.Reference, err error) {
+	reference = &authpb.Reference{
+		Reference: ref,
+		Item1:     &authpb.Item{},
+		Item2:     &authpb.Item{},
+	}
+
+	reference.Item1, err = PackItem(item1)
+	if err != nil {
+		return nil, oops.Hint("Error packing item1").Wrap(err)
+	}
+
+	reference.Item2, err = PackItem(item2)
+	if err != nil {
+		return nil, oops.Hint("Error packing item2").Wrap(err)
+	}
+
+	return reference, nil
 }

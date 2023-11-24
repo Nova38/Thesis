@@ -17,6 +17,14 @@ func (m *Specimen) KeyAttr() []string {
 	attr = append(attr, m.GetSpecimenId())
 	return attr
 }
+func (m *Specimen) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.SpecimenId = attr[0]
+	} else {
+		return
+	}
+	return
+}
 
 // Domain Item
 func (m *Specimen) IsPrimary() bool {

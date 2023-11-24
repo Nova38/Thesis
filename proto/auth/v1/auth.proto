@@ -265,10 +265,9 @@ message ItemKey {
 message ReferenceKey {
   option (key_schema).item_kind = ITEM_KIND_REFERENCE;
 
-  string collection_id  = 1;
 //  string reference_type = 2;
-  ItemKey key1       = 3;
-  ItemKey key2       = 4;
+  ItemKey key1       = 1;
+  ItemKey key2       = 2;
 }
 
 // Used to return the values of the items that are referenced

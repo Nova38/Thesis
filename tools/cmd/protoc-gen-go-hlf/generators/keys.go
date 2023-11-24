@@ -143,6 +143,39 @@ func (kg *KeyGenerator) GenerateMessage(
 		g.P("return attr")
 		g.P("}")
 
+		{ // Generate SetKeyAttr
+			g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKeyAttr", "(attr []string) {")
+			// check if there is more attributes than the key schema
+			// g.P("if len(attr) > ", len(rawPaths), " {")
+			// g.P("return ")
+			// g.P("}")
+
+			// g.P("for i, f := range attr {")
+			// g.P("field := m.")
+
+			// g.P("}")
+			// g.P("return nil")
+
+			// g.P("}")
+
+			for i, f := range rawPaths {
+				field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+				if field == nil {
+					continue
+				}
+
+				g.P("if len(attr) > ", i, " {")
+				g.P("m.", PathToSet(f), " = attr[", i, "]")
+				g.P("} else{ return }")
+			}
+
+			g.P("return}")
+
+			// g.P("ok := lo.Try(func () error {")
+
+		}
+
 		{
 			od := keySchema.GetItemKind()
 
@@ -208,6 +241,33 @@ func (kg *KeyGenerator) GenerateMessage(
 		return false
 	}
 	return true
+}
+
+func PathToSet(path string) string {
+	subPaths := toSubPaths(path)
+
+	firstTime := true
+	str := ""
+	for _, subPath := range subPaths {
+		if !firstTime {
+			str += "."
+		}
+
+		// Convert the string from snake case to camel case
+		sections := strings.Split(subPath, "_")
+
+		for _, section := range sections {
+			str += cases.Title(language.Und).String(section)
+		}
+		str += "()"
+		firstTime = false
+	}
+
+	// remove the last ()
+	if len(str) > 2 {
+		str = str[:len(str)-2]
+	}
+	return str
 }
 
 func PathToGetter(path string) string {

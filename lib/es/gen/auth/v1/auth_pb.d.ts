@@ -784,19 +784,14 @@ export declare class ItemKey extends Message<ItemKey> {
  */
 export declare class ReferenceKey extends Message<ReferenceKey> {
   /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId: string;
-
-  /**
    *  string reference_type = 2;
    *
-   * @generated from field: auth.ItemKey key1 = 3;
+   * @generated from field: auth.ItemKey key1 = 1;
    */
   key1?: ItemKey;
 
   /**
-   * @generated from field: auth.ItemKey key2 = 4;
+   * @generated from field: auth.ItemKey key2 = 2;
    */
   key2?: ItemKey;
 

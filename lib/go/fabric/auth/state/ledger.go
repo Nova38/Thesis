@@ -86,7 +86,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 	}
 
 	// Apply the mask to the Updating item
-	fmutils.Filter(update, mask.Paths)
+	fmutils.Filter(update, mask.GetPaths())
 	proto.Merge(current, update)
 
 	// Put the item back into the ledger
@@ -229,4 +229,33 @@ func (l *Ledger[T]) GetPartialKeyList(
 	}
 
 	return list, meta.GetBookmark(), nil
+}
+
+// ════════════════════════════════════════════════════════
+// Raw Functions
+// ════════════════════════════════════════════════════════
+
+func Get[T common.ItemInterface](ctx TxCtxInterface, item T) (err error) {
+	var (
+		key   string
+		bytes []byte
+	)
+
+	itemtype := item.ItemType()
+	ctx.GetLogger().Debug("fn: GetRawState", "ItemType", itemtype)
+
+	if key, err = MakePrimaryKey(item); err != nil {
+		return err
+	}
+
+	if bytes, err = ctx.GetStub().GetState(key); err == nil {
+		return oops.
+			With("Key", key, "ItemType", item.ItemType()).
+			Wrap(common.AlreadyExists)
+	}
+
+	if err = json.Unmarshal(bytes, item); err != nil {
+		return oops.Wrap(err)
+	}
+	return nil
 }
