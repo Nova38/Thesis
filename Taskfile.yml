@@ -52,6 +52,15 @@ tasks:
       - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
 
+  network:up:
+    cmds:
+      - wsl bash -c "./network/network.sh up createChannel -ca -s couchdb -c mychannel"
+      # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
+  network:down:
+    cmds:
+      - wsl bash -c "./network/network.sh down"
+
+
   default:
     watch: true
     sources:
