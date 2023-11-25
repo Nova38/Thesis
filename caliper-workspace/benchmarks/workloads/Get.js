@@ -59,13 +59,12 @@ class GetWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
-        console.log(bytes)
         const myArgs = {
             contractId: this.contractId,
             contractFunction: 'Test',
             contractArguments: [],
             readOnly: false,
-            invokerIdentity: "user1"
+            invokerIdentity: "User1"
         };
         return this.sutAdapter.sendRequests(myArgs);
     }

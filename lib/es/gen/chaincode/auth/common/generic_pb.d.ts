@@ -812,6 +812,8 @@ export declare class UnHideTxResponse extends Message<UnHideTxResponse> {
  */
 export declare class ReferenceRequest extends Message<ReferenceRequest> {
   /**
+   * buf:lint:ignore FIELD_SAME_TYPE
+   *
    * @generated from field: auth.ReferenceKey reference = 1;
    */
   reference?: ReferenceKey;
@@ -1061,9 +1063,9 @@ export declare class ReferenceByItemResponse extends Message<ReferenceByItemResp
  */
 export declare class ReferenceCreateRequest extends Message<ReferenceCreateRequest> {
   /**
-   * @generated from field: auth.Reference reference = 1;
+   * @generated from field: auth.ReferenceKey refKey = 1;
    */
-  reference?: Reference;
+  refKey?: ReferenceKey;
 
   constructor(data?: PartialMessage<ReferenceCreateRequest>);
 
@@ -1085,9 +1087,9 @@ export declare class ReferenceCreateRequest extends Message<ReferenceCreateReque
  */
 export declare class ReferenceCreateResponse extends Message<ReferenceCreateResponse> {
   /**
-   * @generated from field: auth.Reference reference = 1;
+   * @generated from field: auth.ReferenceKey refKey = 1;
    */
-  reference?: Reference;
+  refKey?: ReferenceKey;
 
   constructor(data?: PartialMessage<ReferenceCreateResponse>);
 
@@ -1109,9 +1111,9 @@ export declare class ReferenceCreateResponse extends Message<ReferenceCreateResp
  */
 export declare class ReferenceDeleteRequest extends Message<ReferenceDeleteRequest> {
   /**
-   * @generated from field: auth.Reference reference = 1;
+   * @generated from field: auth.ReferenceKey refKey = 1;
    */
-  reference?: Reference;
+  refKey?: ReferenceKey;
 
   constructor(data?: PartialMessage<ReferenceDeleteRequest>);
 
@@ -1133,9 +1135,9 @@ export declare class ReferenceDeleteRequest extends Message<ReferenceDeleteReque
  */
 export declare class ReferenceDeleteResponse extends Message<ReferenceDeleteResponse> {
   /**
-   * @generated from field: auth.Reference reference = 1;
+   * @generated from field: auth.ReferenceKey refKey = 1;
    */
-  reference?: Reference;
+  refKey?: ReferenceKey;
 
   constructor(data?: PartialMessage<ReferenceDeleteResponse>);
 

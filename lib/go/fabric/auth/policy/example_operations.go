@@ -18,14 +18,6 @@ var Policies = map[string]authpb.Operation{
 		ItemType:     "auth.User",
 		Paths:        &fieldmaskpb.FieldMask{},
 	},
-	// "Register User Permission": {
-	// 	//todo: I don't think this will work
-	// 	Action:            authpb.Action_ACTION_REFERENCE_CREATE,
-	// 	CollectionId:      "collection_id",
-	// 	ItemType:          "auth.User",
-	// 	SecondaryItemType: "auth.Permission",
-	// 	Paths:             &fieldmaskpb.FieldMask{},
-	// },
 	"Register Role": {
 		Action:       authpb.Action_ACTION_CREATE,
 		CollectionId: "collection_id",

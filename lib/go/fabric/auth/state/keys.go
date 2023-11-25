@@ -1,6 +1,8 @@
 package state
 
 import (
+	"slices"
+
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
@@ -137,8 +139,11 @@ func MakeRefKeyAttrs(
 		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
 		b = MakeSubItemKeyAtter(ref.GetKey2())
 	}
-	refKey1 = append(a, b...)
-	refKey2 = append(b, a...)
+	refKey1 = slices.Clone(a)
+	refKey1 = append(refKey1, b...)
+
+	refKey2 = slices.Clone(b)
+	refKey2 = append(refKey2, a...)
 
 	return refKey1, refKey2, nil
 }
@@ -167,8 +172,10 @@ func MakeRefKeys(
 	switch {
 	case ref.GetKey1() != nil && ref.GetKey2() != nil:
 		{
-			k1 = append(a, b...)
-			k2 = append(b, a...)
+			k1 = slices.Clone(a)
+			k1 = append(k1, b...)
+			k2 = slices.Clone(b)
+			k2 = append(k2, a...)
 
 			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, k1)
 			if err != nil {

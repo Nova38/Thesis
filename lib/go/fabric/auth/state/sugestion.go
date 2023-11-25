@@ -25,7 +25,6 @@ type SuggestionHandler struct {
 	suggestionKey string
 	objKey        string
 	obj           common.ItemInterface
-	current       common.ItemInterface
 	suggestion    *authpb.Suggestion
 	bytes         []byte
 }
@@ -175,7 +174,7 @@ func SuggestionApprove(
 	}
 
 	// Process the Update
-	if err = ol.Update(handler.obj, s.GetPaths()); err != nil {
+	if _, err := ol.Update(handler.obj, s.GetPaths()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -309,14 +308,14 @@ func PartialSuggestionList(
 }
 
 // Get Full Suggestion List, for the collection
-func SuggestionListByCollection(ctx TxCtxInterface, collection_id string, bookmark string) (
+func SuggestionListByCollection(ctx TxCtxInterface, collectionId string, bookmark string) (
 	list []*authpb.Suggestion, mk string, err error,
 ) {
-	ctx.GetLogger().Debug("GetSuggestionListByCollection", "collection_id:", collection_id)
+	ctx.GetLogger().Debug("GetSuggestionListByCollection", "collection_id:", collectionId)
 
 	s := &authpb.Suggestion{
 		PrimaryKey: &authpb.ItemKey{
-			CollectionId: collection_id,
+			CollectionId: collectionId,
 		},
 	}
 

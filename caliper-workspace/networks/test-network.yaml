@@ -1,45 +1,61 @@
+name: Caliper Benchmarks
+version: 2.0.0
+
 caliper:
   blockchain: fabric
+
+
 channels:
-- channelName: mychannel
-  contracts:
-  - id: test
-name: Caliper Benchmarks
+  # channelName of mychannel matches the name of the channel created by test network
+  - channelName: mychannel
+    # the chaincodeIDs of all the fabric chaincodes in caliper-benchmarks
+    contracts:
+    - id: test
+
+
 organizations:
-- connectionProfile:
-    discover: true
-    path: ../network//organizations/peerOrganizations/org1.example.com/connection-org1.yaml
-  identities:
-    certificates:
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\Admin@org1.example.com\msp\keystore\79954cf8db2c81d515e61648517574e30ee1e2a137a7b946b5030d93f12588b1_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\Admin@org1.example.com\msp\signcerts\cert.pem
-      name: Admin
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User1@org1.example.com\msp\keystore\580d82f5b30ae0dd379ba4f3bc2be05ee43d1d1db4df560d09834238f93d5ae7_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User1@org1.example.com\msp\signcerts\cert.pem
-      name: User1
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User2@org1.example.com\msp\keystore\18f9854addfc8ccf5cde75e18604958206a7d8087807d0912c27f2bba98c351b_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User2@org1.example.com\msp\signcerts\cert.pem
-      name: User2
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User3@org1.example.com\msp\keystore\7db7b12970bde86b136c25cc26bac8de7bf3ea2015d0fe092613da2155ecc26b_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User3@org1.example.com\msp\signcerts\cert.pem
-      name: User3
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User4@org1.example.com\msp\keystore\bc2ba6d04f77b335e96b8a5955f325bdcde94d64b7529149f043ef8bb826b977_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User4@org1.example.com\msp\signcerts\cert.pem
-      name: User4
-    - clientPrivateKey:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User5@org1.example.com\msp\keystore\3a180092b1348797ddee3fcc012eac30b92f4aa55d63639810b9a9daa3055793_sk
-      clientSignedCert:
-        path: z:\source\repos\Thesis\network\organizations\peerOrganizations\org1.example.com\users\User5@org1.example.com\msp\signcerts\cert.pem
-      name: User5
-  mspid: Org1MSP
-version: 2.0.0
+  - mspid: Org1MSP
+    connectionProfile:
+      discover: true
+      path: ../network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml
+    identities:
+      certificates:
+      - name: Admin
+        admin: true
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem'
+
+
+      - name: 'User1'
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem'
+
+      - name: 'User2'
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/signcerts/cert.pem'
+
+      - name: 'User3'
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/signcerts/cert.pem'
+
+
+      - name: 'User4'
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/signcerts/cert.pem'
+
+
+      - name: 'User5'
+        clientPrivateKey:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/keystore/priv_sk'
+        clientSignedCert:
+          path: '../network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/signcerts/cert.pem'

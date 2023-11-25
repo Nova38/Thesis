@@ -161,7 +161,7 @@ func PrimaryUpdate[T common.ItemInterface](
 	ctx TxCtxInterface,
 	obj T,
 	mask *fieldmaskpb.FieldMask,
-) (err error) {
+) (updated T, err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
@@ -173,7 +173,7 @@ func PrimaryUpdate[T common.ItemInterface](
 	}
 
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-		return oops.Wrap(common.UserPermissionDenied)
+		return updated, oops.Wrap(common.UserPermissionDenied)
 	}
 
 	return l.Update(obj, mask)

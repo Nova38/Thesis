@@ -143,30 +143,30 @@ func ReferenceByCollection(
 
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 
-func ReferenceCreate(ctx TxCtxInterface, reference *authpb.ReferenceKey) (err error) {
-	ctx.GetLogger().Debug("ReferenceCreate", slog.Group("ref", reference))
-	if err = AuthRef(ctx, reference, authpb.Action_ACTION_DELETE); err != nil {
-		return oops.Wrap(err)
+func ReferenceCreate(ctx TxCtxInterface, refKey *authpb.ReferenceKey) (reference *authpb.Reference, err error) {
+	ctx.GetLogger().Debug("ReferenceCreate", slog.Group("args", "refKey", refKey))
+	if err = AuthRef(ctx, refKey, authpb.Action_ACTION_DELETE); err != nil {
+		return nil, oops.Wrap(err)
 	}
 
 	// See if the reference already exists
 
-	if objExist, err := ReferencedObjectsExist(ctx, reference); err != nil {
-		return oops.Wrap(err)
+	if objExist, err := ReferencedObjectsExist(ctx, refKey); err != nil {
+		return nil, oops.Wrap(err)
 	} else if !objExist {
-		return oops.Wrap(common.KeyNotFound)
+		return nil, oops.Wrap(common.KeyNotFound)
 	}
 
-	if refExist, err := ReferencesExist(ctx, reference); err != nil {
-		return oops.Wrap(err)
+	if refExist, err := ReferencesExist(ctx, refKey); err != nil {
+		return nil, oops.Wrap(err)
 	} else if refExist {
-		return oops.Wrap(common.AlreadyExists)
+		return nil, oops.Wrap(common.AlreadyExists)
 	}
 
-	k1, k2, err := MakeRefKeys(reference)
+	k1, k2, err := MakeRefKeys(refKey)
 	if err != nil {
 		// ctx.GetLogger().Error("Error making reference keys", "ref", reference, slog.Group("k1", k1, "k2", k2))
-		return oops.Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 
 	// Put the reference into the ledger
@@ -174,13 +174,13 @@ func ReferenceCreate(ctx TxCtxInterface, reference *authpb.ReferenceKey) (err er
 	value := []byte{0x00}
 
 	if err = ctx.GetStub().PutState(k1, value); err != nil {
-		return oops.Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 	if err = ctx.GetStub().PutState(k2, value); err != nil {
-		return oops.Wrap(err)
+		return nil, oops.Wrap(err)
 	}
 
-	return nil
+	return nil, nil
 }
 
 func ReferenceDelete(ctx TxCtxInterface, reference *authpb.ReferenceKey) (err error) {

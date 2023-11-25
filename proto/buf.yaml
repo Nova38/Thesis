@@ -21,5 +21,4 @@ lint:
     - ENUM_VALUE_PREFIX
     - ENUM_ZERO_VALUE_SUFFIX
   rpc_allow_google_protobuf_empty_requests: true
-  rpc_allow_google_protobuf_empty_responses: true
   allow_comment_ignores: true

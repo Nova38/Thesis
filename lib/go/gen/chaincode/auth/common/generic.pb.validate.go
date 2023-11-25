@@ -4925,11 +4925,11 @@ func (m *ReferenceCreateRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetReference()).(type) {
+		switch v := interface{}(m.GetRefKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ReferenceCreateRequestValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -4937,16 +4937,16 @@ func (m *ReferenceCreateRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ReferenceCreateRequestValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRefKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ReferenceCreateRequestValidationError{
-				field:  "Reference",
+				field:  "RefKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -5056,11 +5056,11 @@ func (m *ReferenceCreateResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetReference()).(type) {
+		switch v := interface{}(m.GetRefKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ReferenceCreateResponseValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -5068,16 +5068,16 @@ func (m *ReferenceCreateResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ReferenceCreateResponseValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRefKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ReferenceCreateResponseValidationError{
-				field:  "Reference",
+				field:  "RefKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -5187,11 +5187,11 @@ func (m *ReferenceDeleteRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetReference()).(type) {
+		switch v := interface{}(m.GetRefKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ReferenceDeleteRequestValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -5199,16 +5199,16 @@ func (m *ReferenceDeleteRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ReferenceDeleteRequestValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRefKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ReferenceDeleteRequestValidationError{
-				field:  "Reference",
+				field:  "RefKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -5318,11 +5318,11 @@ func (m *ReferenceDeleteResponse) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetReference()).(type) {
+		switch v := interface{}(m.GetRefKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ReferenceDeleteResponseValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -5330,16 +5330,16 @@ func (m *ReferenceDeleteResponse) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ReferenceDeleteResponseValidationError{
-					field:  "Reference",
+					field:  "RefKey",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetReference()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetRefKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ReferenceDeleteResponseValidationError{
-				field:  "Reference",
+				field:  "RefKey",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

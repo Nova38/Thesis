@@ -193,11 +193,20 @@ func (o ItemContractImpl) Update(
 		return nil, oops.Wrap(err)
 	}
 
-	err = state.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
+	updated, err := state.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-	return &cc.UpdateResponse{
-		Item: req.GetItem(),
-	}, err
+	if item, err := state.PackItem(updated); err != nil {
+		return nil, oops.Wrap(err)
+	} else {
+		res = &cc.UpdateResponse{
+			Item: item,
+		}
+	}
+
+	return res, err
 }
 
 func (o ItemContractImpl) Delete(
@@ -367,27 +376,27 @@ func (o ItemContractImpl) Reference(
 	}, nil
 }
 
-// todo: ReferenceListByType
-func (o ItemContractImpl) ReferenceByType(
-	ctx state.TxCtxInterface,
-	req *cc.ReferenceListByTypeRequest,
-) (res *cc.ReferenceListByTypeResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	list, mk, err := state.ReferenceByType(ctx, req.GetReferenceType(), req.GetBookmark())
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
+// // todo: ReferenceListByType
+// func (o ItemContractImpl) ReferenceByType(
+// 	ctx state.TxCtxInterface,
+// 	req *cc.ReferenceListByTypeRequest,
+// ) (res *cc.ReferenceListByTypeResponse, err error) {
+// 	// Validate the request
+// 	if err = ctx.Validate(req); err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
+// 	list, mk, err := state.ReferenceByType(ctx, req.GetReferenceType(), req.GetBookmark())
+// 	if err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
 
-	res = &cc.ReferenceListByTypeResponse{
-		Bookmark:   mk,
-		References: list,
-	}
+// 	res = &cc.ReferenceListByTypeResponse{
+// 		Bookmark:   mk,
+// 		References: list,
+// 	}
 
-	return res, nil
-}
+// 	return res, nil
+// }
 
 // todo: ReferenceByCollection
 func (o ItemContractImpl) ReferenceByCollection(
@@ -445,12 +454,12 @@ func (o ItemContractImpl) ReferenceCreate(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = state.ReferenceCreate(ctx, req.GetReference()); err != nil {
+	if _, err = state.ReferenceCreate(ctx, req.GetRefKey()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.ReferenceCreateResponse{
-		Reference: req.GetReference(),
+		RefKey: req.GetRefKey(),
 	}, nil
 }
 
@@ -463,12 +472,12 @@ func (o ItemContractImpl) ReferenceDelete(
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = state.ReferenceDelete(ctx, req.GetReference()); err != nil {
+	if err = state.ReferenceDelete(ctx, req.GetRefKey()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	return &cc.ReferenceDeleteResponse{
-		Reference: req.GetReference(),
+		RefKey: req.GetRefKey(),
 	}, nil
 }
 

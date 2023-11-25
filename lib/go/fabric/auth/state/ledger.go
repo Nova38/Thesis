@@ -67,22 +67,22 @@ func (l *Ledger[T]) Create(obj T) (err error) {
 	return l.ctx.GetStub().PutState(key, bytes)
 }
 
+// Update updates the item in the ledger and applies the mask
 // Edit updates the item in the ledger
 // returns error if the item does not exist
-func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
+func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (current T, err error) {
 	var (
-		key     string
-		bytes   []byte
-		current T
+		key   string
+		bytes []byte
 	)
 
 	// Get the current item from the ledger
 	if key, err = MakePrimaryKey(update); err != nil {
-		return err
+		return current, err
 	}
 
 	if current, err = l.GetFromKey(key); err != nil {
-		return oops.Wrap(err)
+		return current, oops.Wrap(err)
 	}
 
 	// Apply the mask to the Updating item
@@ -91,12 +91,10 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (err error) {
 
 	// Put the item back into the ledger
 	if bytes, err = json.Marshal(current); err != nil {
-		return oops.Wrap(err)
+		return current, oops.Wrap(err)
 	}
 
-	update = current
-
-	return l.ctx.GetStub().PutState(key, bytes)
+	return current, l.ctx.GetStub().PutState(key, bytes)
 }
 
 // Delete deletes the item from the ledger
@@ -257,5 +255,95 @@ func Get[T common.ItemInterface](ctx TxCtxInterface, item T) (err error) {
 	if err = json.Unmarshal(bytes, item); err != nil {
 		return oops.Wrap(err)
 	}
+	return nil
+}
+
+func GetFromKey[T common.ItemInterface](ctx TxCtxInterface, key string) (obj T, err error) {
+	bytes, err := ctx.GetStub().GetState(key)
+	if bytes == nil && err == nil {
+		return obj, oops.
+			With("Key", key, "ItemType", obj.ItemType()).
+			Wrap(common.KeyNotFound)
+	} else if err != nil {
+		return obj, oops.Wrap(err)
+	}
+
+	if err = json.Unmarshal(bytes, obj); err != nil {
+		return obj, oops.Wrap(err)
+	}
+
+	return obj, nil
+}
+
+// ════════════════════════════════════════════════════════
+// Invoke Functions
+// ════════════════════════════════════════════════════════
+
+// Insert inserts the item into the ledger
+// returns error if the item already exists
+func Create[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
+	var (
+		key   string
+		bytes []byte
+	)
+
+	if key, err = MakePrimaryKey(obj); err != nil {
+		return err
+	}
+
+	if Exists(ctx, key) {
+		return oops.
+			With("Key", key, "ItemType", obj.ItemType()).
+			Wrap(common.AlreadyExists)
+	}
+
+	if bytes, err = json.Marshal(obj); err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutState(key, bytes)
+}
+
+// Edit updates the item in the ledger
+// returns error if the item does not exist
+func Update[T common.ItemInterface](ctx TxCtxInterface, update T, mask *fieldmaskpb.FieldMask) (err error) {
+	var (
+		key     string
+		bytes   []byte
+		current T
+	)
+
+	// Get the current item from the ledger
+	if key, err = MakePrimaryKey(update); err != nil {
+		return err
+	}
+
+	if current, err = GetFromKey[T](ctx, key); err != nil {
+		return oops.Wrap(err)
+	}
+
+	// Apply the mask to the Updating item
+	fmutils.Filter(update, mask.GetPaths())
+	proto.Merge(current, update)
+
+	// Put the item back into the ledger
+	if bytes, err = json.Marshal(current); err != nil {
+		return oops.Wrap(err)
+	}
+
+	return ctx.GetStub().PutState(key, bytes)
+}
+
+// Delete deletes the item from the ledger
+func Delete[T common.ItemInterface](ctx TxCtxInterface, in T) (err error) {
+	key, err := MakePrimaryKey(in)
+	if err != nil {
+		return err
+	}
+
+	if err = ctx.GetStub().DelState(key); err != nil {
+		return oops.Wrap(err)
+	}
+
 	return nil
 }

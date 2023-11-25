@@ -278,14 +278,14 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //	ctx.ops = op
 //}
 //
-//func (ctx *BaseTxCtx) GetOperations() (ops *authpb.Operation, err error) {
+// func (ctx *BaseTxCtx) GetOperations() (ops *authpb.Operation, err error) {
 //	if ctx.ops != nil {
 //		return ctx.ops, nil
 //	}
 //	return nil, oops.Errorf("operations not set")
 //}
 //
-//func (ctx *BaseTxCtx) SetOperationsPaths(paths *fieldmaskpb.FieldMask) (err error) {
+// func (ctx *BaseTxCtx) SetOperationsPaths(paths *fieldmaskpb.FieldMask) (err error) {
 //	if paths == nil {
 //		return oops.Errorf("paths is nil")
 //	}

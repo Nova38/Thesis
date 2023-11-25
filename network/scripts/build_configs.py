@@ -25,38 +25,6 @@ def GetCaliperPath() -> pathlib.Path:
 
 
 
-def MakeYaml(users: List[User]):
-    """Creates a YAML file with an entry for each user in the identity."""
-
-    data = {}
-    with open(GetCaliperPath() ) as file:
-        data = yaml.load(file, Loader=yaml.FullLoader)
-
-
-
-
-    identities = []
-    for user in users:
-        identity = {
-            "name": user.name,
-            "clientPrivateKey": {
-                "path":  str(user.private_key) 
-            },
-            "clientSignedCert": {
-                "path":  str(user.certificate / "cert.pem") 
-            }
-        }
-        identities.append(identity)
-
-    # print() 
-    data["organizations"][0]["identities"]["certificates"] = identities
-
-    with open(GetCaliperPath(), "w") as file:
-        yaml.dump(data, file)
-
-    
-
-
 
 def GetUserPaths() -> list[User]:
     """Returns a list of paths to the user's config files."""
@@ -77,7 +45,14 @@ def GetUserPaths() -> list[User]:
                 certificate = path / "msp" / "signcerts"
             )
 
+            
+
+            private_key.rename(private_key_dir / "priv_sk")
+
+
             users.append(user)
+
+
 
 
     print(users)
@@ -89,9 +64,9 @@ def main():
     p = pathlib.Path()
     # print(GetBasePath())
 
-    print(GetUserPaths())
+    GetUserPaths()
 
-    MakeYaml(GetUserPaths())
+    # MakeYaml(GetUserPaths())
 
 if __name__ == "__main__":
     main()

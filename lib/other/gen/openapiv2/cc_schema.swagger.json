@@ -1793,32 +1793,32 @@
     "commonReferenceCreateRequest": {
       "type": "object",
       "properties": {
-        "reference": {
-          "$ref": "#/definitions/authReference"
+        "refKey": {
+          "$ref": "#/definitions/authReferenceKey"
         }
       }
     },
     "commonReferenceCreateResponse": {
       "type": "object",
       "properties": {
-        "reference": {
-          "$ref": "#/definitions/authReference"
+        "refKey": {
+          "$ref": "#/definitions/authReferenceKey"
         }
       }
     },
     "commonReferenceDeleteRequest": {
       "type": "object",
       "properties": {
-        "reference": {
-          "$ref": "#/definitions/authReference"
+        "refKey": {
+          "$ref": "#/definitions/authReferenceKey"
         }
       }
     },
     "commonReferenceDeleteResponse": {
       "type": "object",
       "properties": {
-        "reference": {
-          "$ref": "#/definitions/authReference"
+        "refKey": {
+          "$ref": "#/definitions/authReferenceKey"
         }
       }
     },
@@ -1826,7 +1826,8 @@
       "type": "object",
       "properties": {
         "reference": {
-          "$ref": "#/definitions/authReferenceKey"
+          "$ref": "#/definitions/authReferenceKey",
+          "title": "buf:lint:ignore FIELD_SAME_TYPE"
         }
       },
       "title": "════════════════════════════════ References ═════════════════════════════════════\n──────────────────────────────── Query ──────────────────────────────────────────"

@@ -341,6 +341,7 @@ message UnHideTxResponse {
 // ════════════════════════════════ References ═════════════════════════════════════
 // ──────────────────────────────── Query ──────────────────────────────────────────
 message ReferenceRequest {
+  // buf:lint:ignore FIELD_SAME_TYPE
   auth.ReferenceKey reference = 1;
 }
 message ReferenceResponse{
@@ -384,16 +385,16 @@ message ReferenceByItemResponse{
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 
 message ReferenceCreateRequest{
-  auth.Reference reference = 1;
+  auth.ReferenceKey ref_key = 1;
 }
 message ReferenceCreateResponse{
-  auth.Reference reference = 1;
+  auth.ReferenceKey ref_key = 1;
 }
 message ReferenceDeleteRequest{
-  auth.Reference reference = 1;
+  auth.ReferenceKey ref_key = 1;
 }
 message ReferenceDeleteResponse{
-  auth.Reference reference = 1;
+  auth.ReferenceKey ref_key = 1;
 }
 
 
