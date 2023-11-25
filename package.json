@@ -10,8 +10,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "workspaces":[
-    "caliper-workspace",
-    "lib/es"
-  ]
+
 }
