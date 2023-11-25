@@ -7,12 +7,12 @@ package common
 
 import (
 	fmt "fmt"
-	state "github.com/nova38/thesis/lib/go/fabric/auth/state"
+	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
 // Service GenericService
-type GenericServiceInterface[T state.GenericTxCtxInterface] interface {
+type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// ══════════════════════════════════ Helper ═════════════════════════════════════
 	// ────────────────────────────────── Query ──────────────────────────────────────
 	//
@@ -203,7 +203,7 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"History",
 		"HiddenTx",
 		"Reference",
-		"ReferenceKeysByCollection",
+		"ReferenceByCollection",
 		"ReferenceByItem",
 		"ReferenceByPartialKey",
 		"Suggestion",
@@ -295,7 +295,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 23,
 		}, nil
-	case "ReferenceKeysByCollection":
+	case "ReferenceByCollection":
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,

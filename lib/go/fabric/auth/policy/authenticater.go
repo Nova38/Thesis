@@ -79,7 +79,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 		found := slices.Contains(collection.GetItemTypes(), op.GetItemType())
 		if !found {
-			return false, oops.Errorf("Operation item type is not in collection item types", op.GetItemType(), op.GetCollectionId())
+			return false, oops.Errorf("Operation item type %v is not in collection %v item types", op.GetItemType(), op.GetCollectionId())
 		}
 
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
@@ -96,7 +96,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 		found := slices.Contains(collection.GetItemTypes(), op.GetItemType())
 		if !found {
-			return false, oops.Errorf("Operation item type is not in collection item types", op.GetItemType(), op.GetCollectionId())
+			return false, oops.Errorf("Operation item type %v is not in collection %v 's item types", op.GetItemType(), op.GetCollectionId())
 		}
 	}
 

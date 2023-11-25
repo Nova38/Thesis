@@ -104,7 +104,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 		protogen.GoIdent{
 			GoName: "GenericTxCtxInterface",
 
-			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/auth/state",
+			GoImportPath: "github.com/nova38/thesis/lib/go/fabric/auth/common",
 		},
 	)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")

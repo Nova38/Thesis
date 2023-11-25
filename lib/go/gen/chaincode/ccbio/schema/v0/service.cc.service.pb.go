@@ -7,12 +7,12 @@ package v0
 
 import (
 	fmt "fmt"
-	state "github.com/nova38/thesis/lib/go/fabric/auth/state"
+	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
 // Service SpecimenService
-type SpecimenServiceInterface[T state.GenericTxCtxInterface] interface {
+type SpecimenServiceInterface[T common.GenericTxCtxInterface] interface {
 	// SpecimenGet
 	//
 	// # Operation:

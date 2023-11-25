@@ -83,12 +83,13 @@ func PrimaryGetFull[T common.ItemInterface](
 	}
 
 	// Get the References
-	refKeys, _, err := ReferenceKeysByItem(ctx, obj.ItemKey(), "")
+	refKeys, _, err := ReferencesByItem(ctx, obj.ItemKey(), "")
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
+	fullItem.References = refKeys
 
-	return item, nil
+	return fullItem, nil
 }
 
 func PrimaryByPartialKey[T common.ItemInterface](
