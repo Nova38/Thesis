@@ -1240,11 +1240,11 @@ func (m *FullItem) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetKey()).(type) {
+		switch v := interface{}(m.GetItem()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, FullItemValidationError{
-					field:  "Key",
+					field:  "Item",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1252,45 +1252,16 @@ func (m *FullItem) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, FullItemValidationError{
-					field:  "Key",
+					field:  "Item",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetItem()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return FullItemValidationError{
-				field:  "Key",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetValue()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, FullItemValidationError{
-					field:  "Value",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, FullItemValidationError{
-					field:  "Value",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetValue()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return FullItemValidationError{
-				field:  "Value",
+				field:  "Item",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

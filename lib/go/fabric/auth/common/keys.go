@@ -1,10 +1,9 @@
-package state
+package common
 
 import (
 	"slices"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/oops"
 )
@@ -44,7 +43,7 @@ func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
 // ─────────────────────────────────────────────────────────────────────────────────
 
 // MakePrimaryKeyAttr creates a composite key from the given attributes
-func MakePrimaryKeyAttr[T common.ItemInterface](obj T) (attr []string) {
+func MakePrimaryKeyAttr[T ItemInterface](obj T) (attr []string) {
 	return append(
 		[]string{obj.ItemKey().GetCollectionId()},
 		obj.ItemKey().GetItemIdParts()...,
@@ -52,7 +51,7 @@ func MakePrimaryKeyAttr[T common.ItemInterface](obj T) (attr []string) {
 }
 
 // MakePrimaryKey creates a composite key from the given attributes
-func MakePrimaryKey[T common.ItemInterface](obj T) (key string, err error) {
+func MakePrimaryKey[T ItemInterface](obj T) (key string, err error) {
 	return shim.CreateCompositeKey(
 		obj.ItemKey().GetItemType(),
 		MakePrimaryKeyAttr(obj),
@@ -61,7 +60,7 @@ func MakePrimaryKey[T common.ItemInterface](obj T) (key string, err error) {
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
-func MakeSubKeyAtter[T common.ItemInterface](obj T) (attr []string) {
+func MakeSubKeyAtter[T ItemInterface](obj T) (attr []string) {
 	return append(
 		[]string{
 			obj.ItemKey().GetCollectionId(),
@@ -84,16 +83,16 @@ func MakeSubItemKeyAtter(key *authpb.ItemKey) (attr []string) {
 // 	return append([]string{common.HiddenItemType}, ...)
 // }
 
-func MakeHiddenKey[T common.ItemInterface](obj T) (hiddenKey string, err error) {
+func MakeHiddenKey[T ItemInterface](obj T) (hiddenKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.HiddenItemType,
+		HiddenItemType,
 		MakeSubKeyAtter(obj),
 	)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
-func MakeSuggestionKeyAtter[T common.ItemInterface](
+func MakeSuggestionKeyAtter[T ItemInterface](
 	obj T,
 	suggestionId string,
 ) (attr []string) {
@@ -101,12 +100,12 @@ func MakeSuggestionKeyAtter[T common.ItemInterface](
 }
 
 // Key should be {<SUGGESTION>}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SuggestionId}
-func MakeSuggestionKey[T common.ItemInterface](
+func MakeSuggestionKey[T ItemInterface](
 	obj T,
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionItemType,
+		SuggestionItemType,
 		MakeSuggestionKeyAtter(obj, suggestionId),
 	)
 }
@@ -116,7 +115,7 @@ func MakeItemKeySuggestion(
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
-		common.SuggestionItemType,
+		SuggestionItemType,
 		append(MakeSubItemKeyAtter(objKey), suggestionId),
 	)
 }
@@ -177,12 +176,12 @@ func MakeRefKeys(
 			k2 = slices.Clone(b)
 			k2 = append(k2, a...)
 
-			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, k1)
+			refKey1, err = shim.CreateCompositeKey(ReferenceItemType, k1)
 			if err != nil {
 				return "", "", err
 			}
 
-			refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, k2)
+			refKey2, err = shim.CreateCompositeKey(ReferenceItemType, k2)
 			if err != nil {
 				return "", "", err
 			}
@@ -191,7 +190,7 @@ func MakeRefKeys(
 		}
 	case ref.GetKey1() != nil && ref.GetKey2() == nil:
 		{
-			refKey1, err = shim.CreateCompositeKey(common.ReferenceItemType, a)
+			refKey1, err = shim.CreateCompositeKey(ReferenceItemType, a)
 			if err != nil {
 				return "", "", err
 			}
@@ -200,7 +199,7 @@ func MakeRefKeys(
 		}
 	case ref.GetKey1() == nil && ref.GetKey2() != nil:
 		{
-			refKey2, err = shim.CreateCompositeKey(common.ReferenceItemType, b)
+			refKey2, err = shim.CreateCompositeKey(ReferenceItemType, b)
 			if err != nil {
 				return "", "", err
 			}

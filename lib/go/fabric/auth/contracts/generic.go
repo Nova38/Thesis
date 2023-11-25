@@ -2,7 +2,6 @@ package contracts
 
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
@@ -26,7 +25,7 @@ type ItemContractImpl struct {
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ItemContractImpl) Get(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.GetRequest,
 ) (res *cc.GetResponse, err error) {
 	var (
@@ -39,7 +38,7 @@ func (o ItemContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
+	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -47,7 +46,7 @@ func (o ItemContractImpl) Get(
 		return nil, err
 	}
 
-	if msg, err = state.PackItem(obj); err != nil {
+	if msg, err = common.PackItem(obj); err != nil {
 		return nil, err
 	} else {
 		return &cc.GetResponse{
@@ -57,7 +56,7 @@ func (o ItemContractImpl) Get(
 }
 
 func (o ItemContractImpl) List(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ListRequest,
 ) (res *cc.ListResponse, err error) {
 	// Validate the request
@@ -65,7 +64,7 @@ func (o ItemContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -82,7 +81,7 @@ func (o ItemContractImpl) List(
 		Items:    []*authpb.Item{},
 	}
 
-	if res.Items, err = state.ListItemToProtos(list); err != nil {
+	if res.Items, err = common.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -90,7 +89,7 @@ func (o ItemContractImpl) List(
 }
 
 func (o ItemContractImpl) ListByCollection(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ListByCollectionRequest,
 ) (res *cc.ListByCollectionResponse, err error) {
 	// Validate the request
@@ -98,7 +97,7 @@ func (o ItemContractImpl) ListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -114,7 +113,7 @@ func (o ItemContractImpl) ListByCollection(
 		Items:    []*authpb.Item{},
 	}
 
-	if res.Items, err = state.ListItemToProtos(list); err != nil {
+	if res.Items, err = common.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -122,7 +121,7 @@ func (o ItemContractImpl) ListByCollection(
 }
 
 func (o ItemContractImpl) ListByAttrs(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ListByAttrsRequest,
 ) (res *cc.ListByAttrsResponse, err error) {
 	// Validate the request
@@ -130,7 +129,7 @@ func (o ItemContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -145,7 +144,7 @@ func (o ItemContractImpl) ListByAttrs(
 		Items:    []*authpb.Item{},
 	}
 
-	if res.Items, err = state.ListItemToProtos(list); err != nil {
+	if res.Items, err = common.ListItemToProtos(list); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -155,7 +154,7 @@ func (o ItemContractImpl) ListByAttrs(
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
 
 func (o ItemContractImpl) Create(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.CreateRequest,
 ) (res *cc.CreateResponse, err error) {
 	// Validate the request
@@ -164,7 +163,7 @@ func (o ItemContractImpl) Create(
 	}
 
 	// Get the item from the request
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -179,7 +178,7 @@ func (o ItemContractImpl) Create(
 }
 
 func (o ItemContractImpl) Update(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.UpdateRequest,
 ) (res *cc.UpdateResponse, err error) {
 	// Validate the request
@@ -188,7 +187,7 @@ func (o ItemContractImpl) Update(
 	}
 
 	// Get the item from the request
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -198,7 +197,7 @@ func (o ItemContractImpl) Update(
 		return nil, oops.Wrap(err)
 	}
 
-	if item, err := state.PackItem(updated); err != nil {
+	if item, err := common.PackItem(updated); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
 		res = &cc.UpdateResponse{
@@ -210,7 +209,7 @@ func (o ItemContractImpl) Update(
 }
 
 func (o ItemContractImpl) Delete(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.DeleteRequest,
 ) (res *cc.DeleteResponse, err error) {
 	// Validate the request
@@ -219,7 +218,7 @@ func (o ItemContractImpl) Delete(
 	}
 
 	// Get the item from the request
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -228,7 +227,7 @@ func (o ItemContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	item, err := state.PackItem(obj)
+	item, err := common.PackItem(obj)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -242,7 +241,7 @@ func (o ItemContractImpl) Delete(
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ItemContractImpl) History(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.HistoryRequest,
 ) (res *cc.HistoryResponse, err error) {
 	var (
@@ -254,7 +253,7 @@ func (o ItemContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
+	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -268,7 +267,7 @@ func (o ItemContractImpl) History(
 }
 
 func (o ItemContractImpl) HiddenTx(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.HiddenTxRequest,
 ) (res *cc.HiddenTxResponse, err error) {
 	var (
@@ -280,7 +279,7 @@ func (o ItemContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if obj, err = state.UnPackItem(req.GetItem()); err != nil {
+	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -297,7 +296,7 @@ func (o ItemContractImpl) HiddenTx(
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
 
 func (o ItemContractImpl) HideTx(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.HideTxRequest,
 ) (res *cc.HideTxResponse, err error) {
 	// Validate the request
@@ -306,7 +305,7 @@ func (o ItemContractImpl) HideTx(
 	}
 
 	// Get the item from the request
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -323,7 +322,7 @@ func (o ItemContractImpl) HideTx(
 }
 
 func (o ItemContractImpl) UnHideTx(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.UnHideTxRequest,
 ) (res *cc.UnHideTxResponse, err error) {
 	// Validate the request
@@ -332,7 +331,7 @@ func (o ItemContractImpl) UnHideTx(
 	}
 
 	// Get the item from the request
-	obj, err := state.UnPackItem(req.GetItem())
+	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -353,7 +352,7 @@ func (o ItemContractImpl) UnHideTx(
 
 // Reference returns the reference if it exists
 func (o ItemContractImpl) Reference(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ReferenceRequest,
 ) (res *cc.ReferenceResponse, err error) {
 	// todo: Reference
@@ -400,14 +399,14 @@ func (o ItemContractImpl) Reference(
 
 // todo: ReferenceByCollection
 func (o ItemContractImpl) ReferenceByCollection(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ReferenceByCollectionRequest,
 ) (res *cc.ReferenceByCollectionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	list, mk, err := state.ReferenceByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
+	list, mk, err := state.ReferenceKeysByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -422,14 +421,14 @@ func (o ItemContractImpl) ReferenceByCollection(
 
 // todo: ReferenceByItem
 func (o ItemContractImpl) ReferenceByItem(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ReferenceByItemRequest,
 ) (res *cc.ReferenceByItemResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	list, mk, err := state.ReferenceListByItem(ctx, req.GetItemKey(), req.GetBookmark())
+	list, mk, err := state.ReferenceKeysByItem(ctx, req.GetItemKey(), req.GetBookmark())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -446,7 +445,7 @@ func (o ItemContractImpl) ReferenceByItem(
 
 // ReferenceCreate creates a reference
 func (o ItemContractImpl) ReferenceCreate(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ReferenceCreateRequest,
 ) (res *cc.ReferenceCreateResponse, err error) {
 	// Validate the request
@@ -465,7 +464,7 @@ func (o ItemContractImpl) ReferenceCreate(
 
 // ReferenceDelete deletes a reference
 func (o ItemContractImpl) ReferenceDelete(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.ReferenceDeleteRequest,
 ) (res *cc.ReferenceDeleteResponse, err error) {
 	// Validate the request
@@ -485,7 +484,7 @@ func (o ItemContractImpl) ReferenceDelete(
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ItemContractImpl) Suggestion(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionRequest,
 ) (res *cc.SuggestionResponse, err error) {
 	// Validate the request
@@ -508,7 +507,7 @@ func (o ItemContractImpl) Suggestion(
 }
 
 func (o ItemContractImpl) SuggestionListByCollection(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionListByCollectionRequest,
 ) (res *cc.SuggestionListByCollectionResponse, err error) {
 	// Validate the request
@@ -530,7 +529,7 @@ func (o ItemContractImpl) SuggestionListByCollection(
 }
 
 func (o ItemContractImpl) SuggestionByPartialKey(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionByPartialKeyRequest,
 ) (res *cc.SuggestionByPartialKeyResponse, err error) {
 	// Validate the request
@@ -562,7 +561,7 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 // ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 func (o ItemContractImpl) SuggestionCreate(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionCreateRequest,
 ) (res *cc.SuggestionCreateResponse, err error) {
 	// Validate the request
@@ -581,7 +580,7 @@ func (o ItemContractImpl) SuggestionCreate(
 }
 
 func (o ItemContractImpl) SuggestionDelete(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionDeleteRequest,
 ) (res *cc.SuggestionDeleteResponse, err error) {
 	// Validate the request
@@ -604,7 +603,7 @@ func (o ItemContractImpl) SuggestionDelete(
 }
 
 func (o ItemContractImpl) SuggestionApprove(
-	ctx state.TxCtxInterface,
+	ctx common.TxCtxInterface,
 	req *cc.SuggestionApproveRequest,
 ) (res *cc.SuggestionApproveResponse, err error) {
 	// Validate the request
@@ -622,7 +621,7 @@ func (o ItemContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	if updated, err := state.PackItem(*u); err != nil {
+	if updated, err := common.PackItem(*u); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
 		res = &cc.SuggestionApproveResponse{

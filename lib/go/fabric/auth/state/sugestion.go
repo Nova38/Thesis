@@ -37,15 +37,15 @@ func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
 	}
 	s.suggestion = sug
 
-	if s.obj, err = SuggestionToItem(s.suggestion); err != nil {
+	if s.obj, err = common.SuggestionToItem(s.suggestion); err != nil {
 		return oops.Wrap(err)
 	}
 
-	if s.objKey, err = MakePrimaryKey(s.obj); err != nil {
+	if s.objKey, err = common.MakePrimaryKey(s.obj); err != nil {
 		return oops.Wrap(err)
 	}
 
-	if s.suggestionKey, err = MakeSuggestionKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
+	if s.suggestionKey, err = common.MakeSuggestionKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
 		return oops.Wrap(err)
 	}
 
@@ -60,7 +60,7 @@ func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
 // Invoke Suggested Functions
 // ──────────────────────────────────────────────────
 
-func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("CreateSuggestion", "suggestion:", s)
 
@@ -87,7 +87,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	}
 
 	// Check if the item exists, if it does not, return error
-	if !KeyExists(ctx, handler.objKey) {
+	if !common.KeyExists(ctx, handler.objKey) {
 		return oops.
 			With("suggestion ID",
 				s.GetSuggestionId(), "Key", handler.objKey,
@@ -98,7 +98,7 @@ func SuggestionCreate(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 	return l.Create(handler.suggestion)
 }
 
-func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+func SuggestionDelete(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
 	ctx.GetLogger().Debug("DeleteSuggestion", "suggestion:", s)
 
 	var (
@@ -135,7 +135,7 @@ func SuggestionDelete(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 }
 
 func SuggestionApprove(
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	s *authpb.Suggestion,
 ) (updated *common.ItemInterface, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
@@ -190,7 +190,7 @@ func SuggestionApprove(
 // ──────────────────────────────────────────────────
 
 // Get GetSuggestion by its ID
-func GetSuggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
+func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
 	ctx.GetLogger().Debug("GetSuggestion", "suggestion:", s)
 
 	var (
@@ -220,7 +220,7 @@ func GetSuggestion(ctx TxCtxInterface, s *authpb.Suggestion) (err error) {
 
 // partialSuggestedKeyList returns a list of suggestions based on the partial key
 func PartialSuggestionList(
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	s *authpb.Suggestion,
 	numAttr int,
 	bookmark string,
@@ -244,7 +244,7 @@ func PartialSuggestionList(
 		return nil, "", oops.Wrap(err)
 	}
 
-	attr := MakeSuggestionKeyAtter(handler.obj, "")
+	attr := common.MakeSuggestionKeyAtter(handler.obj, "")
 	if len(attr) == 0 || len(attr) < numAttr {
 		return nil, "", common.ItemInvalid
 	}
@@ -308,7 +308,7 @@ func PartialSuggestionList(
 }
 
 // Get Full Suggestion List, for the collection
-func SuggestionListByCollection(ctx TxCtxInterface, collectionId string, bookmark string) (
+func SuggestionListByCollection(ctx common.TxCtxInterface, collectionId string, bookmark string) (
 	list []*authpb.Suggestion, mk string, err error,
 ) {
 	ctx.GetLogger().Debug("GetSuggestionListByCollection", "collection_id:", collectionId)
@@ -324,7 +324,7 @@ func SuggestionListByCollection(ctx TxCtxInterface, collectionId string, bookmar
 
 // Get Suggestion List, for the item
 func SuggestionListByItem(
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	objKey *authpb.ItemKey,
 	bookmark string,
 ) (list []*authpb.Suggestion, mk string, err error) {

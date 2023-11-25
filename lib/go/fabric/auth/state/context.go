@@ -3,9 +3,8 @@ package state
 import (
 	"log/slog"
 
-	"github.com/hyperledger/fabric-chaincode-go/shim"
-
 	"github.com/bufbuild/protovalidate-go"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -20,7 +19,7 @@ import (
 
 var (
 	// Validate that AuthCtxInterface implements the required interfaces
-	_ TxCtxInterface = (*BaseTxCtx)(nil)
+	_ common.TxCtxInterface = (*BaseTxCtx)(nil)
 	// Global validator
 	validator *protovalidate.Validator
 )
@@ -40,7 +39,7 @@ type (
 		PageSize int32
 
 		// This is the chaincode function name to call for authorization
-		authFn      AuthFunc
+		authFn      common.AuthFunc
 		authorized  bool
 		authChecked bool
 	}
@@ -309,11 +308,11 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 //	panic("implement me")
 //}
 
-func (ctx *BaseTxCtx) SetAuthenticator(fn AuthFunc) {
+func (ctx *BaseTxCtx) SetAuthenticator(fn common.AuthFunc) {
 	ctx.authFn = fn
 }
 
-func (ctx *BaseTxCtx) GetAuthenticator() AuthFunc {
+func (ctx *BaseTxCtx) GetAuthenticator() common.AuthFunc {
 	return ctx.authFn
 }
 

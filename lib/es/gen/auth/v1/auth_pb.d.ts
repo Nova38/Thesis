@@ -101,6 +101,7 @@ export declare enum Action {
   /**
    * Update an existing item
    *   - key must already exist
+   *   - potenital has paths
    *
    * @generated from enum value: ACTION_UPDATE = 12;
    */
@@ -684,27 +685,22 @@ export declare class Item extends Message<Item> {
  */
 export declare class FullItem extends Message<FullItem> {
   /**
-   * @generated from field: auth.ItemKey key = 1;
+   * @generated from field: auth.Item item = 1;
    */
-  key?: ItemKey;
+  item?: Item;
 
   /**
-   * @generated from field: google.protobuf.Any value = 2;
-   */
-  value?: Any;
-
-  /**
-   * @generated from field: auth.History history = 3;
+   * @generated from field: auth.History history = 2;
    */
   history?: History;
 
   /**
-   * @generated from field: repeated auth.Suggestion suggestions = 4;
+   * @generated from field: repeated auth.Suggestion suggestions = 3;
    */
   suggestions: Suggestion[];
 
   /**
-   * @generated from field: repeated auth.Reference references = 5;
+   * @generated from field: repeated auth.Reference references = 4;
    */
   references: Reference[];
 

@@ -1,6 +1,7 @@
 package contract
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
@@ -10,7 +11,7 @@ import (
 	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
 )
 
-var _ state.TxCtxInterface = (*CCBioTxCtx)(nil)
+var _ common.TxCtxInterface = (*CCBioTxCtx)(nil)
 
 type (
 	TransactionItems struct {

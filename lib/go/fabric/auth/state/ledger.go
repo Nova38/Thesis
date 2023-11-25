@@ -15,11 +15,11 @@ import (
 )
 
 type Ledger[T common.ItemInterface] struct {
-	ctx TxCtxInterface
+	ctx common.TxCtxInterface
 }
 
 // UTIL Functions
-func Exists(ctx TxCtxInterface, key string) bool {
+func Exists(ctx common.TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return false
@@ -44,13 +44,15 @@ func (l *Ledger[T]) Exists(key string) bool {
 
 // Insert inserts the item into the ledger
 // returns error if the item already exists
+
+// Create creates the item in the ledger
 func (l *Ledger[T]) Create(obj T) (err error) {
 	var (
 		key   string
 		bytes []byte
 	)
 
-	if key, err = MakePrimaryKey(obj); err != nil {
+	if key, err = common.MakePrimaryKey(obj); err != nil {
 		return err
 	}
 
@@ -77,7 +79,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (current T, er
 	)
 
 	// Get the current item from the ledger
-	if key, err = MakePrimaryKey(update); err != nil {
+	if key, err = common.MakePrimaryKey(update); err != nil {
 		return current, err
 	}
 
@@ -99,7 +101,7 @@ func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (current T, er
 
 // Delete deletes the item from the ledger
 func (l *Ledger[T]) Delete(in T) (err error) {
-	key, err := MakePrimaryKey(in)
+	key, err := common.MakePrimaryKey(in)
 	if err != nil {
 		return err
 	}
@@ -142,7 +144,7 @@ func (l *Ledger[T]) Get(in T) (err error) {
 	itemtype := in.ItemType()
 	l.ctx.GetLogger().Debug("fn: GetState", "ItemType", itemtype)
 
-	if key, err = MakePrimaryKey(in); err != nil {
+	if key, err = common.MakePrimaryKey(in); err != nil {
 		return err
 	}
 
@@ -233,7 +235,7 @@ func (l *Ledger[T]) GetPartialKeyList(
 // Raw Functions
 // ════════════════════════════════════════════════════════
 
-func Get[T common.ItemInterface](ctx TxCtxInterface, item T) (err error) {
+func Get[T common.ItemInterface](ctx common.TxCtxInterface, item T) (err error) {
 	var (
 		key   string
 		bytes []byte
@@ -242,7 +244,7 @@ func Get[T common.ItemInterface](ctx TxCtxInterface, item T) (err error) {
 	itemtype := item.ItemType()
 	ctx.GetLogger().Debug("fn: GetRawState", "ItemType", itemtype)
 
-	if key, err = MakePrimaryKey(item); err != nil {
+	if key, err = common.MakePrimaryKey(item); err != nil {
 		return err
 	}
 
@@ -258,7 +260,7 @@ func Get[T common.ItemInterface](ctx TxCtxInterface, item T) (err error) {
 	return nil
 }
 
-func GetFromKey[T common.ItemInterface](ctx TxCtxInterface, key string) (obj T, err error) {
+func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string) (obj T, err error) {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return obj, oops.
@@ -281,13 +283,13 @@ func GetFromKey[T common.ItemInterface](ctx TxCtxInterface, key string) (obj T, 
 
 // Insert inserts the item into the ledger
 // returns error if the item already exists
-func Create[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
+func Create[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	var (
 		key   string
 		bytes []byte
 	)
 
-	if key, err = MakePrimaryKey(obj); err != nil {
+	if key, err = common.MakePrimaryKey(obj); err != nil {
 		return err
 	}
 
@@ -306,7 +308,7 @@ func Create[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
 
 // Edit updates the item in the ledger
 // returns error if the item does not exist
-func Update[T common.ItemInterface](ctx TxCtxInterface, update T, mask *fieldmaskpb.FieldMask) (err error) {
+func Update[T common.ItemInterface](ctx common.TxCtxInterface, update T, mask *fieldmaskpb.FieldMask) (err error) {
 	var (
 		key     string
 		bytes   []byte
@@ -314,7 +316,7 @@ func Update[T common.ItemInterface](ctx TxCtxInterface, update T, mask *fieldmas
 	)
 
 	// Get the current item from the ledger
-	if key, err = MakePrimaryKey(update); err != nil {
+	if key, err = common.MakePrimaryKey(update); err != nil {
 		return err
 	}
 
@@ -335,8 +337,8 @@ func Update[T common.ItemInterface](ctx TxCtxInterface, update T, mask *fieldmas
 }
 
 // Delete deletes the item from the ledger
-func Delete[T common.ItemInterface](ctx TxCtxInterface, in T) (err error) {
-	key, err := MakePrimaryKey(in)
+func Delete[T common.ItemInterface](ctx common.TxCtxInterface, in T) (err error) {
+	key, err := common.MakePrimaryKey(in)
 	if err != nil {
 		return err
 	}

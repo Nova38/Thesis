@@ -19,22 +19,20 @@ import (
 // ═════════════════════════════════════════════
 // Transaction Context
 // ═════════════════════════════════════════════
-var _ state.TxCtxInterface = (*NoAuthTxCtx)(nil)
+var _ common.TxCtxInterface = (*NoAuthTxCtx)(nil)
 
 type NoAuthTxCtx struct {
 	state.BaseTxCtx
 }
 
-func Authenticate(ctx state.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
+func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Authenticate")
 
 	for _, op := range ops {
 		ctx.GetLogger().Info(op.String())
-        
 
-        // policy.ValidateOperation()
+		// policy.ValidateOperation()
 	}
-
 
 	return true, nil
 }
@@ -49,13 +47,13 @@ type NoAuthContract struct {
 	contractapi.Contract
 }
 
-func (c *NoAuthContract) Test(ctx state.TxCtxInterface) (bool, error) {
+func (c *NoAuthContract) Test(ctx common.TxCtxInterface) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Test")
 
 	return true, nil
 }
 
-func BeforeTransaction(ctx state.TxCtxInterface) (err error) {
+func BeforeTransaction(ctx common.TxCtxInterface) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {

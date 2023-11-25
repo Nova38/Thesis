@@ -1,6 +1,10 @@
 package state
 
-func Bootstrap(ctx TxCtxInterface) (err error) {
+import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+)
+
+func Bootstrap(ctx common.TxCtxInterface) (err error) {
 	// TODO: Implement Bootstrap function
 
 	// Create the collections

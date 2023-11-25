@@ -5,7 +5,6 @@ import (
 	"slices"
 
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
@@ -17,13 +16,13 @@ import (
 // ════════════════════════════════════════════════════════
 
 func hiddenTxs[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 ) (list *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakeHiddenKey(obj))
-		exists = KeyExists(ctx, key)
+		key    = lo.Must(common.MakeHiddenKey(obj))
+		exists = common.KeyExists(ctx, key)
 	)
 	if !exists {
 		return nil, oops.Wrap(common.KeyNotFound)
@@ -41,14 +40,14 @@ func hiddenTxs[T common.ItemInterface](
 }
 
 func history[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	showHidden bool,
 ) (history *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
-		key    = lo.Must(MakePrimaryKey(obj))
-		exists = KeyExists(ctx, key)
+		key    = lo.Must(common.MakePrimaryKey(obj))
+		exists = common.KeyExists(ctx, key)
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 	)
 
@@ -96,7 +95,7 @@ func history[T common.ItemInterface](
 	return history, err
 }
 
-func History[T common.ItemInterface](ctx TxCtxInterface, obj T) (h *authpb.History, err error) {
+func History[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (h *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	op := &authpb.Operation{
@@ -115,7 +114,7 @@ func History[T common.ItemInterface](ctx TxCtxInterface, obj T) (h *authpb.Histo
 }
 
 func FullHistory[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 ) (h *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
@@ -138,7 +137,7 @@ func FullHistory[T common.ItemInterface](
 }
 
 func HiddenTx[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 ) (l *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
@@ -160,14 +159,14 @@ func HiddenTx[T common.ItemInterface](
 }
 
 func HideTransaction[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	tx *authpb.HiddenTx,
 ) (hiddenList *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
-		key    = lo.Must(MakeHiddenKey(obj))
+		key    = lo.Must(common.MakeHiddenKey(obj))
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,
@@ -198,14 +197,14 @@ func HideTransaction[T common.ItemInterface](
 }
 
 func UnHideTransaction[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	txId string,
 ) (hiddenList *authpb.HiddenTxList, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
-		key    = lo.Must(MakeHiddenKey(obj))
+		key    = lo.Must(common.MakeHiddenKey(obj))
 		hidden = lo.Must(hiddenTxs(ctx, obj))
 		op     = &authpb.Operation{
 			Action:       authpb.Action_ACTION_HIDE_TX,

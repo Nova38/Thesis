@@ -107,7 +107,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 // Gets the collection of the operation and validates the operation against it
 // Then sees if the default ACL of the collection allows the operation
 // If so, returns true, otherwise returns false
-func HandleCollectionOperation(ctx state.TxCtxInterface, op *authpb.Operation) (auth bool, err error) {
+func HandleCollectionOperation(ctx common.TxCtxInterface, op *authpb.Operation) (auth bool, err error) {
 	ctx.GetLogger().Debug("HandleOperation", slog.Group("args", "op", op))
 
 	// Get Operation Collection
@@ -137,11 +137,11 @@ func HandleCollectionOperation(ctx state.TxCtxInterface, op *authpb.Operation) (
 	return false, nil
 }
 
-func Authenticate(ctx state.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
+func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
 	return true, nil
 }
 
-func AuthOp(ctx state.TxCtxInterface, op *authpb.Operation, acl *authpb.ACEntry) (auth bool, err error) {
+func AuthOp(ctx common.TxCtxInterface, op *authpb.Operation, acl *authpb.ACEntry) (auth bool, err error) {
 	// TODO implement AuthOp
 	return false, nil
 }

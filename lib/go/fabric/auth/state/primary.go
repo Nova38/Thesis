@@ -2,7 +2,6 @@ package state
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
@@ -14,12 +13,12 @@ import (
 // ──────────────────────────────────────────────────
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
-func PrimaryExists[T common.ItemInterface](ctx TxCtxInterface, obj T) bool {
-	key := lo.Must(MakePrimaryKey(obj))
-	return KeyExists(ctx, key)
+func PrimaryExists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) bool {
+	key := lo.Must(common.MakePrimaryKey(obj))
+	return common.KeyExists(ctx, key)
 }
 
-func PrimaryGet[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{ctx: ctx}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
@@ -35,11 +34,11 @@ func PrimaryGet[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
 }
 
 func PrimaryGetFull[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
-) (item *FullItem[T], err error) {
+) (fullItem *authpb.FullItem, err error) {
 	l := &Ledger[T]{ctx: ctx}
-	item = &FullItem[T]{}
+	fullItem = &authpb.FullItem{}
 
 	ops := []*authpb.Operation{
 		{
@@ -68,26 +67,32 @@ func PrimaryGetFull[T common.ItemInterface](
 	if err = l.Get(obj); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	item.Item = obj
+	if fullItem.Item, err = common.PackItem(obj); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-	item.Suggestions, _, err = SuggestionListByItem(ctx, obj.ItemKey(), "")
+	fullItem.Suggestions, _, err = SuggestionListByItem(ctx, obj.ItemKey(), "")
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	// Get the history
-	item.History, err = history(ctx, obj, true)
+	fullItem.History, err = history(ctx, obj, true)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// state.ItemToAuthObj(obj, item.Value)
+	// Get the References
+	refKeys, _, err := ReferenceKeysByItem(ctx, obj.ItemKey(), "")
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	return item, nil
 }
 
 func PrimaryByPartialKey[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	numAttr int,
 	bookmark string,
@@ -109,7 +114,7 @@ func PrimaryByPartialKey[T common.ItemInterface](
 }
 
 func PrimaryList[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
@@ -117,7 +122,7 @@ func PrimaryList[T common.ItemInterface](
 }
 
 func ByCollection[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
@@ -134,7 +139,7 @@ func ByCollection[T common.ItemInterface](
 //   - the key cannot be created,
 //   - the item cannot be marshalled
 //   - Authorization errors
-func PrimaryCreate[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
@@ -158,7 +163,7 @@ func PrimaryCreate[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 }
 
 func PrimaryUpdate[T common.ItemInterface](
-	ctx TxCtxInterface,
+	ctx common.TxCtxInterface,
 	obj T,
 	mask *fieldmaskpb.FieldMask,
 ) (updated T, err error) {
@@ -179,7 +184,7 @@ func PrimaryUpdate[T common.ItemInterface](
 	return l.Update(obj, mask)
 }
 
-func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error) {
+func PrimaryDelete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
@@ -194,7 +199,7 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if err := ReferenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
+	if err := referenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
 		return oops.Wrap(err)
 	}
 	// Should we delete the object refs in other collections? (there shouldn't be any except for users)
@@ -205,7 +210,7 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 	}
 
 	// TODO: Handle deleting hiddenTx items here
-	if hiddenKey, err := MakeHiddenKey(obj); err != nil {
+	if hiddenKey, err := common.MakeHiddenKey(obj); err != nil {
 		return oops.Wrap(err)
 	} else if hiddenKey != "" {
 		if err := ctx.GetStub().DelState(hiddenKey); err != nil {
@@ -217,7 +222,7 @@ func PrimaryDelete[T common.ItemInterface](ctx TxCtxInterface, obj T) (err error
 	return err
 }
 
-func deleteSuggestionsByItem(ctx TxCtxInterface, key *authpb.ItemKey) (err error) {
+func deleteSuggestionsByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (err error) {
 	l := &Ledger[*authpb.Suggestion]{ctx: ctx}
 
 	sList, _, err := SuggestionListByItem(ctx, key, "")

@@ -228,11 +228,10 @@ message Item {
 }
 
 message FullItem {
-  ItemKey key              = 1;
-  google.protobuf.Any value  = 2;
-  History history            = 3;
-  repeated Suggestion suggestions = 4;
-  repeated Reference references   = 5;
+  Item item                       = 1;
+  History history                 = 2;
+  repeated Suggestion suggestions = 3;
+  repeated Reference references   = 4;
 }
 
 // Lists

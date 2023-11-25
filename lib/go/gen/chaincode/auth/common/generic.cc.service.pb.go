@@ -203,7 +203,7 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"History",
 		"HiddenTx",
 		"Reference",
-		"ReferenceByCollection",
+		"ReferenceKeysByCollection",
 		"ReferenceByItem",
 		"ReferenceByPartialKey",
 		"Suggestion",
@@ -295,7 +295,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 23,
 		}, nil
-	case "ReferenceByCollection":
+	case "ReferenceKeysByCollection":
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 23,

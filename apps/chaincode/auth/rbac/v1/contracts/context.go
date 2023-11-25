@@ -1,11 +1,12 @@
 package rbac
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-var _ state.TxCtxInterface = (*AuthTxCtx)(nil)
+var _ common.TxCtxInterface = (*AuthTxCtx)(nil)
 
 // TxItems Extractors
 type (
@@ -25,7 +26,7 @@ type (
 
 	AuthTxCtxInterface interface {
 		ExtractAuthTransactionItems(req interface{}) (err error)
-		state.TxCtxInterface
+		common.TxCtxInterface
 	}
 
 	// AuthTxCtx is a wrapper around the contractapi.TransactionContext
