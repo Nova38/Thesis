@@ -19,6 +19,7 @@
 
 //
 const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
+const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const lib = require('es')
 
 /**

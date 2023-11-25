@@ -326,6 +326,7 @@ func (ctx *BaseTxCtx) GetViewMask() (mask *fieldmaskpb.FieldMask) {
 	if ctx.ops.GetPaths() == nil {
 		ctx.ops.Paths = &fieldmaskpb.FieldMask{}
 	}
+
 	return ctx.ops.GetPaths()
 }
 
