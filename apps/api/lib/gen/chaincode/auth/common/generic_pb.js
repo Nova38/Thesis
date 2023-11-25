@@ -369,7 +369,7 @@ export const ReferenceByCollectionResponse = proto3.makeMessageType(
   "auth.common.ReferenceByCollectionResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+    { no: 2, name: "references", kind: "message", T: ReferenceKey, repeated: true },
   ],
 );
 
@@ -392,7 +392,7 @@ export const ReferenceByPartialKeyResponse = proto3.makeMessageType(
   "auth.common.ReferenceByPartialKeyResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+    { no: 2, name: "references", kind: "message", T: ReferenceKey, repeated: true },
   ],
 );
 
@@ -418,7 +418,7 @@ export const ReferenceByItemResponse = proto3.makeMessageType(
   "auth.common.ReferenceByItemResponse",
   () => [
     { no: 1, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "references", kind: "message", T: Reference, repeated: true },
+    { no: 2, name: "references", kind: "message", T: ReferenceKey, repeated: true },
   ],
 );
 

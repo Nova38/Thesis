@@ -1,8 +1,7 @@
 'use strict'
 const l = require("es")    
 
-const x = new l.utils.createAuthorObject()
+const x = l.utils.factory.createAuthorItem()
 
 
-
-console.log(x.toJson({typeRegistry: l.utils.registry}))
+console.log(x.toJson({typeRegistry: l.utils.reg.Registry}))

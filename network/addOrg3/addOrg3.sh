@@ -11,7 +11,7 @@
 
 # prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
 # this may be commented out to resolve installed version of tools if desired
-export PATH=${PWD}/../../bin:${PWD}:$PATH
+export PATH=${PWD}/../bin:${PWD}:$PATH
 export FABRIC_CFG_PATH=${PWD}
 export VERBOSE=false
 
@@ -111,7 +111,7 @@ function generateOrg3Definition() {
     fatalln "configtxgen tool not found. exiting"
   fi
   infoln "Generating Org3 organization definition"
-  export FABRIC_CFG_PATH=$PWD
+  export FABRIC_CFG_PATH=${PWD}
   set -x
   configtxgen -printOrg Org3MSP > ../organizations/peerOrganizations/org3.example.com/org3.json
   res=$?

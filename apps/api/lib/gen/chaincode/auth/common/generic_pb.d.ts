@@ -904,9 +904,9 @@ export declare class ReferenceByCollectionResponse extends Message<ReferenceByCo
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Reference references = 2;
+   * @generated from field: repeated auth.ReferenceKey references = 2;
    */
-  references: Reference[];
+  references: ReferenceKey[];
 
   constructor(data?: PartialMessage<ReferenceByCollectionResponse>);
 
@@ -967,9 +967,9 @@ export declare class ReferenceByPartialKeyResponse extends Message<ReferenceByPa
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Reference references = 2;
+   * @generated from field: repeated auth.ReferenceKey references = 2;
    */
-  references: Reference[];
+  references: ReferenceKey[];
 
   constructor(data?: PartialMessage<ReferenceByPartialKeyResponse>);
 
@@ -1037,9 +1037,9 @@ export declare class ReferenceByItemResponse extends Message<ReferenceByItemResp
   bookmark: string;
 
   /**
-   * @generated from field: repeated auth.Reference references = 2;
+   * @generated from field: repeated auth.ReferenceKey references = 2;
    */
-  references: Reference[];
+  references: ReferenceKey[];
 
   constructor(data?: PartialMessage<ReferenceByItemResponse>);
 

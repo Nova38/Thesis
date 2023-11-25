@@ -3,10 +3,10 @@ import { Author } from "../gen/chaincode/sample/v0/items_pb";
 
 import { Any, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 
+import { Registry } from "./registry";
 
-export const registry = createRegistry(
-    Author
-)
+
+
 
 export function createAuthor(): Author {
     const author = new Author();
@@ -19,10 +19,21 @@ export function createAuthor(): Author {
 export function createAuthorItem(): Item {
     const obj = new  Item();
     const author = createAuthor();
-
+    console.log("author", author);
     obj.value = Any.pack(author);
     // author.setAuthorName("John Doe");
     // author.setName("John Doe");
     // author.setAge(42);
+    console.log("author", author);
+
     return obj ;
+}
+
+
+
+export function unpackItem(item: Item)  {
+    const author = new Author();
+    
+    return item.value?.unpack(Registry) 
+
 }
