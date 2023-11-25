@@ -70,6 +70,7 @@ auth.Collection
 	 -auth.Collection.name - <nil>
 	 -auth.Collection.description - <nil>
 	 -auth.Collection.item_types - <nil>
+	 -auth.Collection.reference_types - <nil>
 	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.ACEntry, Fields: [{Name: children, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "children", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ChildrenEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
 auth.User
 	 -auth.User.collection_id - <nil>

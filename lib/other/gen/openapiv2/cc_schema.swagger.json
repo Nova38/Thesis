@@ -1793,7 +1793,7 @@
     "commonReferenceCreateRequest": {
       "type": "object",
       "properties": {
-        "refKey": {
+        "ref_key": {
           "$ref": "#/definitions/authReferenceKey"
         }
       }
@@ -1801,7 +1801,7 @@
     "commonReferenceCreateResponse": {
       "type": "object",
       "properties": {
-        "refKey": {
+        "ref_key": {
           "$ref": "#/definitions/authReferenceKey"
         }
       }
@@ -1809,7 +1809,7 @@
     "commonReferenceDeleteRequest": {
       "type": "object",
       "properties": {
-        "refKey": {
+        "ref_key": {
           "$ref": "#/definitions/authReferenceKey"
         }
       }
@@ -1817,7 +1817,7 @@
     "commonReferenceDeleteResponse": {
       "type": "object",
       "properties": {
-        "refKey": {
+        "ref_key": {
           "$ref": "#/definitions/authReferenceKey"
         }
       }

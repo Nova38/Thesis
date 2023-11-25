@@ -96,8 +96,8 @@ message History {
 message Operation {
   Action action                     = 1;
   string collection_id              = 2;
-  string item_type                = 3;
-  string secondary_item_type      = 4;
+  string item_type                  = 3;
+  string secondary_item_type        = 4;
   google.protobuf.FieldMask paths   = 5;
 }
 
@@ -121,6 +121,7 @@ enum Action {
   ACTION_CREATE = 11;
   // Update an existing item
   //   - key must already exist
+  //   - potenital has paths
   ACTION_UPDATE = 12;
   // Delete an existing item, key must already exist
   ACTION_DELETE = 13;
@@ -134,6 +135,9 @@ enum Action {
   ACTION_SUGGEST_DELETE  = 16;
   // Approve a suggestion and apply it to the item, key must already exist
   ACTION_SUGGEST_APPROVE = 17;
+
+  // View the history of an item
+
 
   ACTION_VIEW_HISTORY    = 18;
   ACTION_VIEW_HIDDEN_TXS = 19;
@@ -300,8 +304,8 @@ message Collection {
   string name                  = 2 [(buf.validate.field).string.min_len = 1];
   string description           = 3 [(buf.validate.field).string.min_len = 1];
   repeated string item_types   = 4;
-//  repeated string reference_types = 5;
-  ACEntry default              = 5 [(buf.validate.field).required = true];
+  repeated string reference_types = 5;
+  ACEntry default                 = 6 [(buf.validate.field).required = true];
 }
 
 // User

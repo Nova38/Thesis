@@ -30,7 +30,11 @@ func Authenticate(ctx state.TxCtxInterface, ops []*authpb.Operation) (bool, erro
 
 	for _, op := range ops {
 		ctx.GetLogger().Info(op.String())
+        
+
+        // policy.ValidateOperation()
 	}
+
 
 	return true, nil
 }

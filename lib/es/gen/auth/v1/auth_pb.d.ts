@@ -879,9 +879,12 @@ export declare class Collection extends Message<Collection> {
   itemTypes: string[];
 
   /**
-   *  repeated string reference_types = 5;
-   *
-   * @generated from field: auth.ACEntry default = 5;
+   * @generated from field: repeated string reference_types = 5;
+   */
+  referenceTypes: string[];
+
+  /**
+   * @generated from field: auth.ACEntry default = 6;
    */
   default?: ACEntry;
 

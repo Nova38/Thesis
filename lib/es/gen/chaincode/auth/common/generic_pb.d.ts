@@ -1063,7 +1063,7 @@ export declare class ReferenceByItemResponse extends Message<ReferenceByItemResp
  */
 export declare class ReferenceCreateRequest extends Message<ReferenceCreateRequest> {
   /**
-   * @generated from field: auth.ReferenceKey refKey = 1;
+   * @generated from field: auth.ReferenceKey ref_key = 1;
    */
   refKey?: ReferenceKey;
 
@@ -1087,7 +1087,7 @@ export declare class ReferenceCreateRequest extends Message<ReferenceCreateReque
  */
 export declare class ReferenceCreateResponse extends Message<ReferenceCreateResponse> {
   /**
-   * @generated from field: auth.ReferenceKey refKey = 1;
+   * @generated from field: auth.ReferenceKey ref_key = 1;
    */
   refKey?: ReferenceKey;
 
@@ -1111,7 +1111,7 @@ export declare class ReferenceCreateResponse extends Message<ReferenceCreateResp
  */
 export declare class ReferenceDeleteRequest extends Message<ReferenceDeleteRequest> {
   /**
-   * @generated from field: auth.ReferenceKey refKey = 1;
+   * @generated from field: auth.ReferenceKey ref_key = 1;
    */
   refKey?: ReferenceKey;
 
@@ -1135,7 +1135,7 @@ export declare class ReferenceDeleteRequest extends Message<ReferenceDeleteReque
  */
 export declare class ReferenceDeleteResponse extends Message<ReferenceDeleteResponse> {
   /**
-   * @generated from field: auth.ReferenceKey refKey = 1;
+   * @generated from field: auth.ReferenceKey ref_key = 1;
    */
   refKey?: ReferenceKey;
 
