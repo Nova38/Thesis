@@ -46,6 +46,12 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// req is empty
 	CreateUser(ctx T) (res *CreateUserResponse, err error)
 
+	// CreateCollection
+	//
+	// # Operation:
+	//   - Domain: ACTION_CREATE
+	CreateCollection(ctx T, req *CreateCollectionRequest) (res *CreateCollectionResponse, err error)
+
 	// Get
 	//
 	// # Operation:
@@ -118,12 +124,6 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_REFERENCE_VIEW
 	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
 
-	// ReferenceByCollection
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_VIEW
-	ReferenceByCollection(ctx T, req *ReferenceByCollectionRequest) (res *ReferenceByCollectionResponse, err error)
-
 	// ReferenceByItem
 	//
 	// # Operation:
@@ -153,12 +153,6 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// # Operation:
 	//   - Domain: ACTION_SUGGEST_VIEW
 	Suggestion(ctx T, req *SuggestionRequest) (res *SuggestionResponse, err error)
-
-	// SuggestionList
-	//
-	// # Operation:
-	//   - Domain: ACTION_SUGGEST_VIEW
-	SuggestionList(ctx T, req *SuggestionListRequest) (res *SuggestionListResponse, err error)
 
 	// SuggestionListByCollection
 	//
@@ -203,11 +197,9 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"History",
 		"HiddenTx",
 		"Reference",
-		"ReferenceByCollection",
 		"ReferenceByItem",
 		"ReferenceByPartialKey",
 		"Suggestion",
-		"SuggestionList",
 		"SuggestionListByCollection",
 		"SuggestionByPartialKey",
 	}
@@ -232,6 +224,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		}, nil
 	case "CreateUser":
 		// action:ACTION_CREATE item_type:"User"
+		return &v1.Operation{
+			Action: 11,
+		}, nil
+	case "CreateCollection":
+		// action:ACTION_CREATE item_type:"Collection"
 		return &v1.Operation{
 			Action: 11,
 		}, nil
@@ -295,11 +292,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 23,
 		}, nil
-	case "ReferenceByCollection":
-		// action:ACTION_REFERENCE_VIEW
-		return &v1.Operation{
-			Action: 23,
-		}, nil
 	case "ReferenceByItem":
 		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
@@ -321,11 +313,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 22,
 		}, nil
 	case "Suggestion":
-		// action:ACTION_SUGGEST_VIEW
-		return &v1.Operation{
-			Action: 14,
-		}, nil
-	case "SuggestionList":
 		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,

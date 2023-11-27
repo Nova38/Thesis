@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { Empty, MethodKind } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -55,6 +55,15 @@ export declare const GenericService: {
       readonly name: "CreateUser",
       readonly I: typeof Empty,
       readonly O: typeof CreateUserResponse,
+      readonly kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc auth.common.GenericService.CreateCollection
+     */
+    readonly createCollection: {
+      readonly name: "CreateCollection",
+      readonly I: typeof CreateCollectionRequest,
+      readonly O: typeof CreateCollectionResponse,
       readonly kind: MethodKind.Unary,
     },
     /**
@@ -166,15 +175,6 @@ export declare const GenericService: {
       readonly kind: MethodKind.Unary,
     },
     /**
-     * @generated from rpc auth.common.GenericService.ReferenceByCollection
-     */
-    readonly referenceByCollection: {
-      readonly name: "ReferenceByCollection",
-      readonly I: typeof ReferenceByCollectionRequest,
-      readonly O: typeof ReferenceByCollectionResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
      * @generated from rpc auth.common.GenericService.ReferenceByItem
      */
     readonly referenceByItem: {
@@ -217,15 +217,6 @@ export declare const GenericService: {
       readonly name: "Suggestion",
       readonly I: typeof SuggestionRequest,
       readonly O: typeof SuggestionResponse,
-      readonly kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc auth.common.GenericService.SuggestionList
-     */
-    readonly suggestionList: {
-      readonly name: "SuggestionList",
-      readonly I: typeof SuggestionListRequest,
-      readonly O: typeof SuggestionListResponse,
       readonly kind: MethodKind.Unary,
     },
     /**

@@ -8,22 +8,6 @@ import (
 )
 
 // MarshalJSON implements json.Marshaler
-func (msg *GetAllTypesResponse) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{
-		UseEnumNumbers:  true,
-		EmitUnpopulated: true,
-		UseProtoNames:   true,
-	}.Marshal(msg)
-}
-
-// UnmarshalJSON implements json.Unmarshaler
-func (msg *GetAllTypesResponse) UnmarshalJSON(b []byte) error {
-	return protojson.UnmarshalOptions{
-		DiscardUnknown: false,
-	}.Unmarshal(b, msg)
-}
-
-// MarshalJSON implements json.Marshaler
 func (msg *GetCurrentUserResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
@@ -34,6 +18,38 @@ func (msg *GetCurrentUserResponse) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler
 func (msg *GetCurrentUserResponse) UnmarshalJSON(b []byte) error {
+	return protojson.UnmarshalOptions{
+		DiscardUnknown: false,
+	}.Unmarshal(b, msg)
+}
+
+// MarshalJSON implements json.Marshaler
+func (msg *AuthorizeOperationRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{
+		UseEnumNumbers:  true,
+		EmitUnpopulated: true,
+		UseProtoNames:   true,
+	}.Marshal(msg)
+}
+
+// UnmarshalJSON implements json.Unmarshaler
+func (msg *AuthorizeOperationRequest) UnmarshalJSON(b []byte) error {
+	return protojson.UnmarshalOptions{
+		DiscardUnknown: false,
+	}.Unmarshal(b, msg)
+}
+
+// MarshalJSON implements json.Marshaler
+func (msg *AuthorizeOperationResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{
+		UseEnumNumbers:  true,
+		EmitUnpopulated: true,
+		UseProtoNames:   true,
+	}.Marshal(msg)
+}
+
+// UnmarshalJSON implements json.Unmarshaler
+func (msg *AuthorizeOperationResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
@@ -72,7 +88,7 @@ func (msg *BootstrapResponse) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *AuthorizeOperationRequest) MarshalJSON() ([]byte, error) {
+func (msg *CreateCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -81,14 +97,14 @@ func (msg *AuthorizeOperationRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *AuthorizeOperationRequest) UnmarshalJSON(b []byte) error {
+func (msg *CreateCollectionRequest) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *AuthorizeOperationResponse) MarshalJSON() ([]byte, error) {
+func (msg *CreateCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -97,7 +113,7 @@ func (msg *AuthorizeOperationResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *AuthorizeOperationResponse) UnmarshalJSON(b []byte) error {
+func (msg *CreateCollectionResponse) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)

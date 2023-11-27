@@ -5,34 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, FieldMask, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import type { HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, ReferenceKey, Suggestion, User } from "../../../auth/v1/auth_pb.js";
-
-/**
- * ══════════════════════════════════ Helper ═════════════════════════════════════
- * ────────────────────────────────── Query ──────────────────────────────────────
- *
- * @generated from message auth.common.GetAllTypesResponse
- */
-export declare class GetAllTypesResponse extends Message<GetAllTypesResponse> {
-  /**
-   * @generated from field: repeated string types = 1;
-   */
-  types: string[];
-
-  constructor(data?: PartialMessage<GetAllTypesResponse>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.GetAllTypesResponse";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetAllTypesResponse;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetAllTypesResponse;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetAllTypesResponse;
-
-  static equals(a: GetAllTypesResponse | PlainMessage<GetAllTypesResponse> | undefined, b: GetAllTypesResponse | PlainMessage<GetAllTypesResponse> | undefined): boolean;
-}
+import type { Collection, HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Reference, ReferenceKey, Suggestion, User } from "../../../auth/v1/auth_pb.js";
 
 /**
  * @generated from message auth.common.GetCurrentUserResponse
@@ -56,6 +29,54 @@ export declare class GetCurrentUserResponse extends Message<GetCurrentUserRespon
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCurrentUserResponse;
 
   static equals(a: GetCurrentUserResponse | PlainMessage<GetCurrentUserResponse> | undefined, b: GetCurrentUserResponse | PlainMessage<GetCurrentUserResponse> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.common.AuthorizeOperationRequest
+ */
+export declare class AuthorizeOperationRequest extends Message<AuthorizeOperationRequest> {
+  /**
+   * @generated from field: auth.Operation operation = 2;
+   */
+  operation?: Operation;
+
+  constructor(data?: PartialMessage<AuthorizeOperationRequest>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.common.AuthorizeOperationRequest";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationRequest;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest;
+
+  static equals(a: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined, b: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.common.AuthorizeOperationResponse
+ */
+export declare class AuthorizeOperationResponse extends Message<AuthorizeOperationResponse> {
+  /**
+   * @generated from field: bool authorized = 1;
+   */
+  authorized: boolean;
+
+  constructor(data?: PartialMessage<AuthorizeOperationResponse>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.common.AuthorizeOperationResponse";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationResponse;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse;
+
+  static equals(a: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined, b: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined): boolean;
 }
 
 /**
@@ -109,51 +130,51 @@ export declare class BootstrapResponse extends Message<BootstrapResponse> {
 }
 
 /**
- * @generated from message auth.common.AuthorizeOperationRequest
+ * @generated from message auth.common.CreateCollectionRequest
  */
-export declare class AuthorizeOperationRequest extends Message<AuthorizeOperationRequest> {
+export declare class CreateCollectionRequest extends Message<CreateCollectionRequest> {
   /**
-   * @generated from field: auth.Operation operation = 2;
+   * @generated from field: auth.Collection collection = 1;
    */
-  operation?: Operation;
+  collection?: Collection;
 
-  constructor(data?: PartialMessage<AuthorizeOperationRequest>);
+  constructor(data?: PartialMessage<CreateCollectionRequest>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.AuthorizeOperationRequest";
+  static readonly typeName = "auth.common.CreateCollectionRequest";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationRequest;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateCollectionRequest;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateCollectionRequest;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationRequest;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateCollectionRequest;
 
-  static equals(a: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined, b: AuthorizeOperationRequest | PlainMessage<AuthorizeOperationRequest> | undefined): boolean;
+  static equals(a: CreateCollectionRequest | PlainMessage<CreateCollectionRequest> | undefined, b: CreateCollectionRequest | PlainMessage<CreateCollectionRequest> | undefined): boolean;
 }
 
 /**
- * @generated from message auth.common.AuthorizeOperationResponse
+ * @generated from message auth.common.CreateCollectionResponse
  */
-export declare class AuthorizeOperationResponse extends Message<AuthorizeOperationResponse> {
+export declare class CreateCollectionResponse extends Message<CreateCollectionResponse> {
   /**
-   * @generated from field: bool authorized = 1;
+   * @generated from field: auth.Collection collection = 1;
    */
-  authorized: boolean;
+  collection?: Collection;
 
-  constructor(data?: PartialMessage<AuthorizeOperationResponse>);
+  constructor(data?: PartialMessage<CreateCollectionResponse>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.common.AuthorizeOperationResponse";
+  static readonly typeName = "auth.common.CreateCollectionResponse";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthorizeOperationResponse;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): CreateCollectionResponse;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): CreateCollectionResponse;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): AuthorizeOperationResponse;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): CreateCollectionResponse;
 
-  static equals(a: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined, b: AuthorizeOperationResponse | PlainMessage<AuthorizeOperationResponse> | undefined): boolean;
+  static equals(a: CreateCollectionResponse | PlainMessage<CreateCollectionResponse> | undefined, b: CreateCollectionResponse | PlainMessage<CreateCollectionResponse> | undefined): boolean;
 }
 
 /**

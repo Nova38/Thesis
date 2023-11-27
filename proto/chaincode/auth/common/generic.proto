@@ -21,6 +21,7 @@ service GenericService {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
   }
+
   // ──────────────────────────────── Invoke ───────────────────────────────────────
   rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -33,12 +34,16 @@ service GenericService {
   }
 
 
+
   rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
   }
 
-
+  rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_CREATE, item_type: "Collection"};
+  }
   // ══════════════════════════════════ Item ═════════════════════════════════════
 
   // ────────────────────────────────── Query ──────────────────────────────────────
@@ -120,10 +125,10 @@ service GenericService {
 //    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
 //  }
 
-  rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-  }
+  // rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //   option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  // }
 
   rpc ReferenceByItem(ReferenceByItemRequest) returns (ReferenceByItemResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -157,10 +162,10 @@ service GenericService {
     option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
   }
 
-  rpc SuggestionList(SuggestionListRequest) returns (SuggestionListResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
-  }
+  // rpc SuggestionList(SuggestionListRequest) returns (SuggestionListResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+  // }
 
   rpc SuggestionListByCollection(SuggestionListByCollectionRequest) returns (SuggestionListByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -192,36 +197,41 @@ service GenericService {
 
   // ══════════════════════════════════ Helper ═════════════════════════════════════
   // ────────────────────────────────── Query ──────────────────────────────────────
-message GetAllTypesResponse{
-  repeated string types = 1;
-}
-message GetCurrentUserResponse {
-  auth.User user = 1;
-}
 
+  message GetCurrentUserResponse {
+    auth.User user = 1;
+  }
+
+  message AuthorizeOperationRequest {
+    auth.Operation operation = 2;
+  }
+
+
+  message AuthorizeOperationResponse {
+    bool authorized = 1;
+  }
 
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
-message BootstrapRequest {
-  repeated string default_types = 1;
-  bool add_default_setup = 2;
-}
+  message BootstrapRequest {
+    repeated string default_types = 1;
+    bool add_default_setup = 2;
+  }
 
-message BootstrapResponse {
-}
+  message BootstrapResponse {
 
-message AuthorizeOperationRequest {
-  auth.Operation operation = 2;
-}
+  }
 
+  message CreateCollectionRequest{
+    auth.Collection collection = 1;
+  }
+  message CreateCollectionResponse{
+    auth.Collection collection = 1;
+  }
 
-message AuthorizeOperationResponse {
-  bool authorized = 1;
-}
-
-message CreateUserResponse {
-  auth.User user = 1;
-}
+  message CreateUserResponse {
+    auth.User user = 1;
+  }
 
 
 

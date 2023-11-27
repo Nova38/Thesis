@@ -255,7 +255,7 @@ const (
 	TxError_COLLECTION_UNREGISTERED TxError = 12
 	// The collection is already registered and thus cannot be registered again
 	TxError_COLLECTION_ALREADY_REGISTERED TxError = 13
-	// The collection is invalid (e.g. the collection does not have a default Polices)
+	// The collection is invalid (e.g. the collection does not have a default ACLEntry)
 	TxError_COLLECTION_INVALID TxError = 14
 	// The item type in the collection is invalid
 	TxError_COLLECTION_INVALID_ITEM_TYPE TxError = 15
@@ -1210,7 +1210,7 @@ func (x *Reference) GetItem2() *Item {
 
 // Collection
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-// Note that the types of items are stored in the default Polices
+// Note that the types of items are stored in the default ACLEntry
 //
 // key := {COLLECTION}{COLLECTION_ID}
 type Collection struct {

@@ -326,6 +326,14 @@
                 </li>
               
                 <li>
+                  <a href="#auth.common.CreateCollectionRequest"><span class="badge">M</span>CreateCollectionRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.common.CreateCollectionResponse"><span class="badge">M</span>CreateCollectionResponse</a>
+                </li>
+              
+                <li>
                   <a href="#auth.common.CreateRequest"><span class="badge">M</span>CreateRequest</a>
                 </li>
               
@@ -343,10 +351,6 @@
               
                 <li>
                   <a href="#auth.common.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#auth.common.GetAllTypesResponse"><span class="badge">M</span>GetAllTypesResponse</a>
                 </li>
               
                 <li>
@@ -543,6 +547,17 @@
                 <li>
                   <a href="#auth.common.GenericService"><span class="badge">S</span>GenericService</a>
                 </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#chaincode%2fauth%2fcommon%2fhelper.proto">chaincode/auth/common/helper.proto</a>
+            <ul>
+              
+              
+              
               
             </ul>
           </li>
@@ -2205,6 +2220,54 @@ The user does not have permission to perform the operation</p></td>
 
         
       
+        <h3 id="auth.common.CreateCollectionRequest">CreateCollectionRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#auth.Collection">auth.Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.common.CreateCollectionResponse">CreateCollectionResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#auth.Collection">auth.Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="auth.common.CreateRequest">CreateRequest</h3>
         <p>──────────────────────────────── Invoke ───────────────────────────────────────</p><p>Create</p>
 
@@ -2322,30 +2385,6 @@ The user does not have permission to perform the operation</p></td>
                   <td>item</td>
                   <td><a href="#auth.Item">auth.Item</a></td>
                   <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="auth.common.GetAllTypesResponse">GetAllTypesResponse</h3>
-        <p>══════════════════════════════════ Helper ═════════════════════════════════════</p><p>────────────────────────────────── Query ──────────────────────────────────────</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>types</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -3833,6 +3872,13 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               </tr>
             
               <tr>
+                <td>CreateCollection</td>
+                <td><a href="#auth.common.CreateCollectionRequest">CreateCollectionRequest</a></td>
+                <td><a href="#auth.common.CreateCollectionResponse">CreateCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
                 <td>Get</td>
                 <td><a href="#auth.common.GetRequest">GetRequest</a></td>
                 <td><a href="#auth.common.GetResponse">GetResponse</a></td>
@@ -3917,13 +3963,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               </tr>
             
               <tr>
-                <td>ReferenceByCollection</td>
-                <td><a href="#auth.common.ReferenceByCollectionRequest">ReferenceByCollectionRequest</a></td>
-                <td><a href="#auth.common.ReferenceByCollectionResponse">ReferenceByCollectionResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
                 <td>ReferenceByItem</td>
                 <td><a href="#auth.common.ReferenceByItemRequest">ReferenceByItemRequest</a></td>
                 <td><a href="#auth.common.ReferenceByItemResponse">ReferenceByItemResponse</a></td>
@@ -3955,13 +3994,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
                 <td>Suggestion</td>
                 <td><a href="#auth.common.SuggestionRequest">SuggestionRequest</a></td>
                 <td><a href="#auth.common.SuggestionResponse">SuggestionResponse</a></td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>SuggestionList</td>
-                <td><a href="#auth.common.SuggestionListRequest">SuggestionListRequest</a></td>
-                <td><a href="#auth.common.SuggestionListResponse">SuggestionListResponse</a></td>
                 <td><p></p></td>
               </tr>
             
@@ -4004,6 +4036,20 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
         </table>
 
         
+    
+      
+      <div class="file-heading">
+        <h2 id="chaincode/auth/common/helper.proto">chaincode/auth/common/helper.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+
+      
+
+      
+
+      
     
       
       <div class="file-heading">

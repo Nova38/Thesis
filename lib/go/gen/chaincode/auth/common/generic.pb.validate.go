@@ -35,108 +35,6 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on GetAllTypesResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetAllTypesResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetAllTypesResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetAllTypesResponseMultiError, or nil if none found.
-func (m *GetAllTypesResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetAllTypesResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return GetAllTypesResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// GetAllTypesResponseMultiError is an error wrapping multiple validation
-// errors returned by GetAllTypesResponse.ValidateAll() if the designated
-// constraints aren't met.
-type GetAllTypesResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetAllTypesResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetAllTypesResponseMultiError) AllErrors() []error { return m }
-
-// GetAllTypesResponseValidationError is the validation error returned by
-// GetAllTypesResponse.Validate if the designated constraints aren't met.
-type GetAllTypesResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetAllTypesResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetAllTypesResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetAllTypesResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetAllTypesResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetAllTypesResponseValidationError) ErrorName() string {
-	return "GetAllTypesResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetAllTypesResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetAllTypesResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetAllTypesResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetAllTypesResponseValidationError{}
-
 // Validate checks the field values on GetCurrentUserResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -267,210 +165,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetCurrentUserResponseValidationError{}
-
-// Validate checks the field values on BootstrapRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *BootstrapRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on BootstrapRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// BootstrapRequestMultiError, or nil if none found.
-func (m *BootstrapRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *BootstrapRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for AddDefaultSetup
-
-	if len(errors) > 0 {
-		return BootstrapRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// BootstrapRequestMultiError is an error wrapping multiple validation errors
-// returned by BootstrapRequest.ValidateAll() if the designated constraints
-// aren't met.
-type BootstrapRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m BootstrapRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m BootstrapRequestMultiError) AllErrors() []error { return m }
-
-// BootstrapRequestValidationError is the validation error returned by
-// BootstrapRequest.Validate if the designated constraints aren't met.
-type BootstrapRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e BootstrapRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e BootstrapRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e BootstrapRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e BootstrapRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e BootstrapRequestValidationError) ErrorName() string { return "BootstrapRequestValidationError" }
-
-// Error satisfies the builtin error interface
-func (e BootstrapRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sBootstrapRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = BootstrapRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = BootstrapRequestValidationError{}
-
-// Validate checks the field values on BootstrapResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *BootstrapResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on BootstrapResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// BootstrapResponseMultiError, or nil if none found.
-func (m *BootstrapResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *BootstrapResponse) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return BootstrapResponseMultiError(errors)
-	}
-
-	return nil
-}
-
-// BootstrapResponseMultiError is an error wrapping multiple validation errors
-// returned by BootstrapResponse.ValidateAll() if the designated constraints
-// aren't met.
-type BootstrapResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m BootstrapResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m BootstrapResponseMultiError) AllErrors() []error { return m }
-
-// BootstrapResponseValidationError is the validation error returned by
-// BootstrapResponse.Validate if the designated constraints aren't met.
-type BootstrapResponseValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e BootstrapResponseValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e BootstrapResponseValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e BootstrapResponseValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e BootstrapResponseValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e BootstrapResponseValidationError) ErrorName() string {
-	return "BootstrapResponseValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e BootstrapResponseValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sBootstrapResponse.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = BootstrapResponseValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = BootstrapResponseValidationError{}
 
 // Validate checks the field values on AuthorizeOperationRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -706,6 +400,472 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = AuthorizeOperationResponseValidationError{}
+
+// Validate checks the field values on BootstrapRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *BootstrapRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BootstrapRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BootstrapRequestMultiError, or nil if none found.
+func (m *BootstrapRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BootstrapRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for AddDefaultSetup
+
+	if len(errors) > 0 {
+		return BootstrapRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BootstrapRequestMultiError is an error wrapping multiple validation errors
+// returned by BootstrapRequest.ValidateAll() if the designated constraints
+// aren't met.
+type BootstrapRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BootstrapRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BootstrapRequestMultiError) AllErrors() []error { return m }
+
+// BootstrapRequestValidationError is the validation error returned by
+// BootstrapRequest.Validate if the designated constraints aren't met.
+type BootstrapRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BootstrapRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BootstrapRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BootstrapRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BootstrapRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BootstrapRequestValidationError) ErrorName() string { return "BootstrapRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e BootstrapRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBootstrapRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BootstrapRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BootstrapRequestValidationError{}
+
+// Validate checks the field values on BootstrapResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *BootstrapResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BootstrapResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BootstrapResponseMultiError, or nil if none found.
+func (m *BootstrapResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BootstrapResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return BootstrapResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// BootstrapResponseMultiError is an error wrapping multiple validation errors
+// returned by BootstrapResponse.ValidateAll() if the designated constraints
+// aren't met.
+type BootstrapResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BootstrapResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BootstrapResponseMultiError) AllErrors() []error { return m }
+
+// BootstrapResponseValidationError is the validation error returned by
+// BootstrapResponse.Validate if the designated constraints aren't met.
+type BootstrapResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BootstrapResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BootstrapResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BootstrapResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BootstrapResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BootstrapResponseValidationError) ErrorName() string {
+	return "BootstrapResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BootstrapResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBootstrapResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BootstrapResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BootstrapResponseValidationError{}
+
+// Validate checks the field values on CreateCollectionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateCollectionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateCollectionRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateCollectionRequestMultiError, or nil if none found.
+func (m *CreateCollectionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateCollectionRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCollection()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateCollectionRequestValidationError{
+					field:  "Collection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateCollectionRequestValidationError{
+					field:  "Collection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCollection()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateCollectionRequestValidationError{
+				field:  "Collection",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateCollectionRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateCollectionRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateCollectionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CreateCollectionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateCollectionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateCollectionRequestMultiError) AllErrors() []error { return m }
+
+// CreateCollectionRequestValidationError is the validation error returned by
+// CreateCollectionRequest.Validate if the designated constraints aren't met.
+type CreateCollectionRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateCollectionRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateCollectionRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateCollectionRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateCollectionRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateCollectionRequestValidationError) ErrorName() string {
+	return "CreateCollectionRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateCollectionRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateCollectionRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateCollectionRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateCollectionRequestValidationError{}
+
+// Validate checks the field values on CreateCollectionResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreateCollectionResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateCollectionResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateCollectionResponseMultiError, or nil if none found.
+func (m *CreateCollectionResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateCollectionResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetCollection()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateCollectionResponseValidationError{
+					field:  "Collection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateCollectionResponseValidationError{
+					field:  "Collection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCollection()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CreateCollectionResponseValidationError{
+				field:  "Collection",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CreateCollectionResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CreateCollectionResponseMultiError is an error wrapping multiple validation
+// errors returned by CreateCollectionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type CreateCollectionResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateCollectionResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateCollectionResponseMultiError) AllErrors() []error { return m }
+
+// CreateCollectionResponseValidationError is the validation error returned by
+// CreateCollectionResponse.Validate if the designated constraints aren't met.
+type CreateCollectionResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreateCollectionResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreateCollectionResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreateCollectionResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreateCollectionResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreateCollectionResponseValidationError) ErrorName() string {
+	return "CreateCollectionResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreateCollectionResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreateCollectionResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreateCollectionResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreateCollectionResponseValidationError{}
 
 // Validate checks the field values on CreateUserResponse with the rules
 // defined in the proto definition for this message. If any rules are

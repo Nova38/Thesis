@@ -17,12 +17,39 @@ type ItemContractImpl struct {
 }
 
 // see if ItemContractImpl implements the interface GenericServiceInterface
-// var _ cc.GenericServiceInterface[common.GenericTxCtxInterface] = (*ItemContractImpl)(nil)
+var _ cc.GenericServiceInterface[common.TxCtxInterface] = (*ItemContractImpl)(nil)
 
 // ════════════════════════════════════ Init ═══════════════════════════════════════
 
 // ══════════════════════════════════ Helper ═════════════════════════════════════
 // ────────────────────────────────── Query ──────────────────────────────────────
+
+func (o ItemContractImpl) GetCurrentUser(ctx common.TxCtxInterface) (res *cc.GetCurrentUserResponse, err error) {
+	// TODO implement me
+	panic("implement me")
+}
+
+// ──────────────────────────────────── Invoke ─────────────────────────────────────
+
+func (o ItemContractImpl) Bootstrap(ctx common.TxCtxInterface, req *cc.BootstrapRequest) (res *cc.BootstrapResponse, err error) {
+	// TODO implement me
+	panic("implement me")
+}
+
+func (o ItemContractImpl) AuthorizeOperation(ctx common.TxCtxInterface, req *cc.AuthorizeOperationRequest) (res *cc.AuthorizeOperationResponse, err error) {
+	// TODO implement me
+	panic("implement me")
+}
+
+func (o ItemContractImpl) CreateUser(ctx common.TxCtxInterface) (res *cc.CreateUserResponse, err error) {
+	// TODO implement me
+	panic("implement me")
+}
+
+func (o ItemContractImpl) CreateCollection(ctx common.TxCtxInterface, req *cc.CreateCollectionRequest) (res *cc.CreateCollectionResponse, err error) {
+	// TODO implement me
+	panic("implement me")
+}
 
 // ════════════════════════════════════ Item ═════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
@@ -376,6 +403,33 @@ func (o ItemContractImpl) Reference(
 	return &cc.ReferenceResponse{
 		Exists: true,
 	}, nil
+}
+
+// ReferenceByPartialKey
+func (o ItemContractImpl) ReferenceByPartialKey(
+	ctx common.TxCtxInterface,
+	req *cc.ReferenceByPartialKeyRequest,
+) (res *cc.ReferenceByPartialKeyResponse, err error) {
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	list, mk, err := state.PartialReferenceKeysList(
+		ctx,
+		req.GetReference(),
+		int(ctx.GetPageSize()),
+		req.GetBookmark(),
+	)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	res = &cc.ReferenceByPartialKeyResponse{
+		Bookmark:   mk,
+		References: list,
+	}
+	return res, nil
 }
 
 // // todo: ReferenceListByType
