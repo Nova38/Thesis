@@ -4,12 +4,15 @@ FROM golang:1.21.4-bookworm
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
 
-
-WORKDIR /app
+WORKDIR /app/chaincode
 COPY . .
 
 
-RUN ls -la
+# RUN go get -d -v ./...
+RUN go install -v ./...
+
+
+# RUN ls -la
 # RUN go build -o noauth.exe
 
 

@@ -117,15 +117,15 @@ func RoleAuthorizeOperations(ctx common.TxCtxInterface, ops []*authpb.Operation)
 
 			// Get the roles of the user for the given collection
 
-			itemPolicy, found, err := roleGetPolicyForItem(ctx, role, op.GetItemType())
+			// itemPolicy, found, err := roleGetPolicyForItem(ctx, role, op.GetItemType())
 			if err != nil {
 				return false, oops.Wrap(err)
 			}
-			if !found {
-				// No policy found for this item type in this role
-				// todo: check if there is a policy for the parent role
-				continue
-			}
+			// if !found {
+			// 	// No policy found for this item type in this role
+			// 	// todo: check if there is a policy for the parent role
+			// 	continue
+			// }
 
 			// if policy.Allowed(itemPolicy, op.GetAction()) {
 			// 	return true, nil
