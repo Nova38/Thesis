@@ -2,6 +2,12 @@ version: 3
 dotenv:
   - ""
 
+includes:
+
+  network:
+    taskfile: ./network/Taskfile.yml
+    dir: ./network
+
 tasks:
   install:
     cmds:
@@ -55,16 +61,7 @@ tasks:
       - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
 
-  network:up:
-    cmds:
-      - wsl bash -c "./network/network.sh up createChannel -ca -s couchdb -c mychannel"
-      # - docker-compose -f ./network/explorer/docker-compose.yaml up -d
-      - docker-compose -f ./network/prometheus-grafana/docker-compose.yaml up -d
-      # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
-  network:down:
-    cmds:
-      - wsl bash -c "./network/network.sh down"
-
+  
   # network:extract:
   #   cmds: 
   #     # - wsl bash -c "find \'$base_path\' -type d -name \'keystore\' -exec find {} -maxdepth 1 -type f \; -exec echo \'Found file: {}\" \;"

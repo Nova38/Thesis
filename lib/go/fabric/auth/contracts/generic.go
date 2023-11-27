@@ -16,6 +16,9 @@ type ItemContractImpl struct {
 	cc.GenericServiceBase
 }
 
+// see if ItemContractImpl implements the interface GenericServiceInterface
+// var _ cc.GenericServiceInterface[common.GenericTxCtxInterface] = (*ItemContractImpl)(nil)
+
 // ════════════════════════════════════ Init ═══════════════════════════════════════
 
 // ══════════════════════════════════ Helper ═════════════════════════════════════

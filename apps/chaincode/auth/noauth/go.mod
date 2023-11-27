@@ -6,7 +6,8 @@ require (
 	github.com/charmbracelet/log v0.3.0
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20231108144948-3542320d76a7
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
-	github.com/nova38/thesis v0.0.1
+    github.com/nova38/thesis v0.0.2-0.20231127060721-06d95dc774f5
+	// github.com/nova38/thesis @main
 	github.com/samber/oops v1.9.1
 )
 
@@ -36,6 +37,7 @@ require (
 	github.com/mennanov/fmutils v0.2.1 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
+	
 	github.com/oklog/ulid/v2 v2.1.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect

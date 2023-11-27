@@ -1,8 +1,34 @@
 version: 3
-dotenv:
-  - ""
+
 
 tasks:
-  network_setup:
+  where:
     cmds:
-      -  network.sh -ca up createChannel
+      - pwd
+  # network_setup:
+    # cmds:
+      # -  network.sh -ca up createChannel
+  up:
+    cmds:
+      # - bash -c "./network.sh up createChannel -ca -s couchdb -c mychannel"
+      - python ./scripts/build_configs.py
+      - docker-compose -f ./explorer/docker-compose.yaml up -d
+      - docker-compose -f ./prometheus-grafana/docker-compose.yaml up -d
+      # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
+  down:
+    cmds:
+      
+      - docker-compose -f ./explorer/docker-compose.yaml down -v --remove-orphans
+      - docker-compose -f ./prometheus-grafana/docker-compose.yaml down -v --remove-orphans
+      - bash -c "./network.sh down"
+  t: 
+    cmd: bash -c "ls -l ../apps/chaincode/auth/noauth"
+  debug:noauth:
+    cmds:
+      # - pwd
+      # - bash -c "ls -l ../"
+      - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth -ccaasdocker false"
+
+  deploy:noauth:
+    cmds:
+      - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth"

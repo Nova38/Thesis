@@ -1,20 +1,32 @@
-FROM golang:1.21.4-bookworm
+FROM golang:1.21.4-bookworm AS build-env
 # ENV CORE_CHAINCODE_ID_NAME=biochain
 
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
 
+
 WORKDIR /app/chaincode
 COPY . .
 
+# CMD ["/bin/bash"]
+
+RUN go build -gcflags="all=-N -l" -o /noauth
 
 # RUN go get -d -v ./...
-RUN go install -v ./...
+#RUN go install -v 
 
+FROM golang:1.21.4-bookworm AS debug-env
+
+WORKDIR /
+COPY --from=build-env /go/bin/dlv /
+COPY --from=build-env /noauth /
 
 # RUN ls -la
 # RUN go build -o noauth.exe
 
-
 EXPOSE 9999
-CMD ["/app/noauth"]
+
+# CMD ["/dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", "/noauth"]
+
+# 
+CMD ["/noauth"]

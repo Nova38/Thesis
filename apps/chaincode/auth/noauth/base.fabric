@@ -12,13 +12,8 @@
 
     },
     {
-        "query" :"auth.generic:List",
-        "args": [{
-            "bookmark": "",
-            "limit": 0
-
-
-        }]
+        "query" :"auth.generic:CreateUser",
+        "args": [{}]
 
     },
     {

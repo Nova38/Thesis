@@ -12,6 +12,18 @@ channels:
     contracts:
     - id: test
 
+# const (
+# 	mspID        = "Org1MSP"
+# 	basePath     = "C:/Users/devcs/.vscode/extensions/spydra.hyperledger-fabric-debugger-0.1.3/"
+# 	cryptoPath   = basePath + "fabric/local/organizations/peerOrganizations/org1.debugger.com"
+# 	certPath     = cryptoPath + "/users/User1/msp/signcerts/cert.pem"
+# 	keyPath      = cryptoPath + "/users/User1/msp/keystore/"
+# 	tlsCertPath  = cryptoPath + "/peers/peer0.org1.debugger.com/tls/ca.crt"
+# 	peerEndpoint = "localhost:5051"
+# 	gatewayPeer  = "peer0.org1.debugger.com"
+# )
+
+
 
 organizations:
   - mspid: Org1MSP

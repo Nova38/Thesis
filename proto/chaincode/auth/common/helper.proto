@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package auth.common;
+
+// import "auth/v1/auth.proto";
+// import "buf/validate/validate.proto";
+// import "google/protobuf/descriptor.proto";
+// import "google/protobuf/field_mask.proto";
+// import "google/protobuf/empty.proto";
+
+
+
+// service GenericHelperService {
+
+
+//   rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
+//     option (google.api.http) = {
+//       post: "/v1/{parent=projects/*/databases/*/documents}:createCollection"
+//       body: "*"
+//     };
+//   }
+
+// }

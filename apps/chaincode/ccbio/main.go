@@ -1,170 +1,171 @@
-package main
+// package main
 
-import (
-	"encoding/json"
-	"fmt"
-	"log/slog"
-	"os"
-	"time"
+// import (
+// 	"encoding/json"
+// 	"fmt"
+// 	"log/slog"
+// 	"os"
+// 	"time"
 
-	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
-	schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
+// 	// "github.com/nova38/thesis/apps/chaincode/ccbio/context"
+// 	// schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
 
-	"google.golang.org/protobuf/types/known/timestamppb"
+// 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/hyperledger/fabric-chaincode-go/shim"
+// 	"github.com/hyperledger/fabric-chaincode-go/shim"
 
-	"github.com/samber/oops"
+// 	"github.com/samber/oops"
 
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/contracts"
-)
+// 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+// 	"github.com/hyperledger/fabric-contract-api-go/metadata"
+// 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/context"
+// 	"github.com/nova38/thesis/apps/chaincode/ccbio/v1/contracts"
+// )
 
-type ServerConfig struct {
-	CCID    string
-	Address string
-}
+// type ServerConfig struct {
+// 	CCID    string
+// 	Address string
+// }
 
-func makeBioContract() *contracts.SpecimenContract {
-	contract := new(contracts.SpecimenContract)
-	contract.TransactionContextHandler = &context.AuthTxContext{}
-	contract.BeforeTransaction = context.HandelBefore
+// func makeBioContract() *contracts.SpecimenContract {
+// 	contract := new(contracts.SpecimenContract)
+// 	contract.TransactionContextHandler = &context.AuthTxContext{}
+// 	contract.BeforeTransaction = context.HandelBefore
 
-	contract.Info = metadata.InfoMetadata{
-		Description: "",
-		Title:       "Biochain Chaincode",
-		Contact: &metadata.ContactMetadata{
-			Name:  "Thomas Atkins",
-			URL:   "https://biochain.iitc.ku.edu",
-			Email: "tom@ku.edu",
-		},
-		License: &metadata.LicenseMetadata{
-			Name: "MIT",
-			URL:  "https://example.com",
-		},
-		Version: "latest",
-	}
+// 	contract.Info = metadata.InfoMetadata{
+// 		Description: "",
+// 		Title:       "Biochain Chaincode",
+// 		Contact: &metadata.ContactMetadata{
+// 			Name:  "Thomas Atkins",
+// 			URL:   "https://biochain.iitc.ku.edu",
+// 			Email: "tom@ku.edu",
+// 		},
+// 		License: &metadata.LicenseMetadata{
+// 			Name: "MIT",
+// 			URL:  "https://example.com",
+// 		},
+// 		Version: "latest",
+// 	}
 
-	contract.Name = "thomas.BioContract"
+// 	contract.Name = "thomas.BioContract"
 
-	return contract
-}
+// 	return contract
+// }
 
-func makeAuthContract() *contracts.AuthContract {
-	contract := new(contracts.AuthContract)
-	contract.TransactionContextHandler = &context.AuthTxContext{}
-	contract.BeforeTransaction = context.HandelBefore
+// func makeAuthContract() *contracts.AuthContract {
+// 	contract := new(contracts.AuthContract)
+// 	contract.TransactionContextHandler = &context.AuthTxContext{}
+// 	contract.BeforeTransaction = context.HandelBefore
 
-	contract.Info = metadata.InfoMetadata{
-		Description: "",
-		Title:       "Biochain Chaincode",
-		Contact: &metadata.ContactMetadata{
-			Name:  "Thomas Atkins",
-			URL:   "https://biochain.iitc.ku.edu",
-			Email: "tom@ku.edu",
-		},
-		License: &metadata.LicenseMetadata{
-			Name: "MIT",
-			URL:  "https://example.com",
-		},
-		Version: "latest",
-	}
+// 	contract.Info = metadata.InfoMetadata{
+// 		Description: "",
+// 		Title:       "Biochain Chaincode",
+// 		Contact: &metadata.ContactMetadata{
+// 			Name:  "Thomas Atkins",
+// 			URL:   "https://biochain.iitc.ku.edu",
+// 			Email: "tom@ku.edu",
+// 		},
+// 		License: &metadata.LicenseMetadata{
+// 			Name: "MIT",
+// 			URL:  "https://example.com",
+// 		},
+// 		Version: "latest",
+// 	}
 
-	contract.Name = "thomas.AuthContract"
+// 	contract.Name = "thomas.AuthContract"
 
-	return contract
-}
+// 	return contract
+// }
 
-func runChaincode() {
-	fmt.Println("Starting BioChain")
+// func runChaincode() {
+// 	fmt.Println("Starting BioChain")
 
-	config := ServerConfig{
-		CCID:    os.Getenv("CHAINCODE_ID"),
-		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
-	}
+// 	config := ServerConfig{
+// 		CCID:    os.Getenv("CHAINCODE_ID"),
+// 		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
+// 	}
 
-	// bioContract := makeBioContract()
-	// authContract := makeAuthContract()
+// 	// bioContract := makeBioContract()
+// 	// authContract := makeAuthContract()
 
-	// contracts.SpecimenContract
+// 	// contracts.SpecimenContract
 
-	specimenContract := contracts.BuildSpecimenContract()
-	specimenContract.TransactionContextHandler = &context.AuthTxContext{}
-	authContract := contracts.BuildAuthContract()
-	authContract.TransactionContextHandler = &context.AuthTxContext{}
+// 	specimenContract := contracts.BuildSpecimenContract()
+// 	specimenContract.TransactionContextHandler = &context.AuthTxContext{}
+// 	authContract := contracts.BuildAuthContract()
+// 	authContract.TransactionContextHandler = &context.AuthTxContext{}
 
-	sm, err := contractapi.NewChaincode(specimenContract, authContract)
-	if err != nil {
-		fmt.Printf("Error creating BioChain contract: %s", err)
-		panic(err)
-	}
-	sm.Info.Title = "CCBIO"
-	sm.DefaultContract = specimenContract.Name
+// 	sm, err := contractapi.NewChaincode(specimenContract, authContract)
+// 	if err != nil {
+// 		fmt.Printf("Error creating BioChain contract: %s", err)
+// 		panic(err)
+// 	}
+// 	sm.Info.Title = "CCBIO"
+// 	sm.DefaultContract = specimenContract.Name
 
-	server := &shim.ChaincodeServer{
-		CCID:    config.CCID,
-		Address: config.Address,
-		CC:      sm,
-		TLSProps: shim.TLSProperties{
-			Disabled: true,
-		},
-	}
+// 	server := &shim.ChaincodeServer{
+// 		CCID:    config.CCID,
+// 		Address: config.Address,
+// 		CC:      sm,
+// 		TLSProps: shim.TLSProperties{
+// 			Disabled: true,
+// 		},
+// 	}
 
-	fmt.Print("Starting BioChain Chaincode Server")
-	fmt.Printf("config: %+v\n", config)
-	fmt.Printf("server: %+v\n", server)
+// 	fmt.Print("Starting BioChain Chaincode Server")
+// 	fmt.Printf("config: %+v\n", config)
+// 	fmt.Printf("server: %+v\n", server)
 
-	if err := server.Start(); err != nil {
-		slog.Error("Failed to start", err)
-	}
-}
+// 	if err := server.Start(); err != nil {
+// 		slog.Error("Failed to start", err)
+// 	}
+// }
 
-func printEmpty() {
-	out := &schema.LastModified{
-		UserId: &schema.User_Id{
-			MspId: "",
-			Id:    "",
-		},
-		UserName: "",
-		TxId:     "",
-		UpdatedAt: &timestamppb.Timestamp{
-			Seconds: 0,
-			Nanos:   0,
-		},
-	}
-	// encode it in bytes
-	bytes, err := json.Marshal(out)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%s\n", bytes)
-}
+// func printEmpty() {
+// 	out := &schema.LastModified{
+// 		UserId: &schema.User_Id{
+// 			MspId: "",
+// 			Id:    "",
+// 		},
+// 		UserName: "",
+// 		TxId:     "",
+// 		UpdatedAt: &timestamppb.Timestamp{
+// 			Seconds: 0,
+// 			Nanos:   0,
+// 		},
+// 	}
+// 	// encode it in bytes
+// 	bytes, err := json.Marshal(out)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	fmt.Printf("%s\n", bytes)
+// }
 
-func FormatTime(groups []string, a slog.Attr) slog.Attr {
-	if a.Key == slog.TimeKey && len(groups) == 0 {
-		a.Value = slog.StringValue(a.Value.Time().Format(time.Kitchen))
-		return a
-	}
-	return a
-}
+// func FormatTime(groups []string, a slog.Attr) slog.Attr {
+// 	if a.Key == slog.TimeKey && len(groups) == 0 {
+// 		a.Value = slog.StringValue(a.Value.Time().Format(time.Kitchen))
+// 		return a
+// 	}
+// 	return a
+// }
 
-func main() {
-	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-	// slog.SetDefault(logger)
+// func main() {
+// 	// logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+// 	// slog.SetDefault(logger)
 
-	printEmpty()
-	// attr := &map[string]string{"time": ""}
-	opts := slog.HandlerOptions{
-		Level:       slog.LevelDebug,
-		AddSource:   true,
-		ReplaceAttr: FormatTime,
-	}
+// 	printEmpty()
+// 	// attr := &map[string]string{"time": ""}
+// 	opts := slog.HandlerOptions{
+// 		Level:       slog.LevelDebug,
+// 		AddSource:   true,
+// 		ReplaceAttr: FormatTime,
+// 	}
 
-	logger := slog.New(slog.NewTextHandler(os.Stdout, &opts))
-	slog.SetDefault(logger)
+// 	logger := slog.New(slog.NewTextHandler(os.Stdout, &opts))
+// 	slog.SetDefault(logger)
 
-	oops.SourceFragmentsHidden = false
+// 	oops.SourceFragmentsHidden = false
 
-	runChaincode()
-}
+// 	runChaincode()
+// }

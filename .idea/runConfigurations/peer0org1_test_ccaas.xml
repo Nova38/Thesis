@@ -1,0 +1,36 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="peer0org1_test_ccaas" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="containerName" value="" />
+        <option name="envVars">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="CHAINCODE_ID  " />
+              <option name="value" value="test_1.0.1:d48dd123ca0622c405fbb439c6403f4bf39a330457364453468c708c9cf0c892" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="CORE_CHAINCODE_ID_NAME" />
+              <option name="value" value="test_1.0.1:d48dd123ca0622c405fbb439c6403f4bf39a330457364453468c708c9cf0c892" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="CHAINCODE_SERVER_ADDRESS" />
+              <option name="value" value="0.0.0.0:9999" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="4000" />
+              <option name="hostPort" value="4000" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
+        <option name="commandLineOptions" value="--network fabric_test --security-opt=&quot;apparmor=unconfined&quot; --cap-add=SYS_PTRACE" />
+        <option name="sourceFilePath" value="apps/chaincode/auth/noauth/dockerfile" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

@@ -21,9 +21,7 @@ export function createAuthorItem(): Item {
     const author = createAuthor();
     console.log("author", author);
     obj.value = Any.pack(author);
-    // author.setAuthorName("John Doe");
-    // author.setName("John Doe");
-    // author.setAge(42);
+
     console.log("author", author);
 
     return obj ;
