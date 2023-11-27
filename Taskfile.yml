@@ -36,7 +36,10 @@ tasks:
   go:format:
     cmds:
       - golines --ignore-generated  . -w
-
+  go:vendor:
+    dir: ./apps/chaincode/auth/noauth
+    cmds:
+      - go mod vendor
 
   go:RunSample:
     cmd: go run ./apps/chaincode/sample

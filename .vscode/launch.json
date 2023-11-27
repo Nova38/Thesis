@@ -13,22 +13,35 @@
         "debugAdapter": "dlv-dap",
         "program": "${file}"
     },
-
     {
-        "name": "Debug Chaincode",
-        "type": "go",
+        "name": "NoAuth CC",
+        "type": "hlf-go",
         "request": "launch",
         "debugAdapter": "dlv-dap",
 
-        // "isCaas": true,
+        "isCaas": true,
         "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
         "console": "integratedTerminal",
         "env": {
-            "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG",
-            "CHAINCODE_SERVER_ADDRESS" : "127.0.0.1:8541",
-            "CHAINCODE_ID": "noauth:0.0.1",
+            "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG:kvledger,lockbasedtxmgr,ledgerstorage,stateleveldb,statecouchdb,couchdb=debug"
         }
-    },
+    }
+
+    // {
+    //     "name": "NoAuth CC ",
+    //     "type": "go",
+    //     "request": "launch",
+    //     "debugAdapter": "dlv-dap",
+
+    //     // "isCaas": true,
+    //     "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
+    //     // "console": "integratedTerminal",
+    //     "env": {
+    //         "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG",
+    //         "CHAINCODE_SERVER_ADDRESS" : "127.0.0.1:8541",
+    //         "CHAINCODE_ID": "noauth:0.0.1",
+    //     }
+    // },
 
         // {
         //     "name": "rbac_v1",
