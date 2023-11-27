@@ -5,7 +5,7 @@ import (
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/lib/go/gen/auth/v1"
+	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -94,7 +94,7 @@ type (
 		//
 		// # Requirements:
 		//   - User to be registered
-		// GetUser() (user *authpb.User, err error)
+		GetUser() (user *v1.User, err error)
 
 		// ─────────────────────────────────────────────────────────────────────
 

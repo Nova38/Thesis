@@ -66,26 +66,6 @@ message StateActivity {
   string note = 5;
 }
 
-message HistoryEntry {
-  // The transaction id that caused the change
-  string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
-  // Whether the item was deleted
-  bool is_delete = 2;
-  // Whether the transaction was hidden
-  bool is_hidden = 3;
-  // The timestamp of the change
-  google.protobuf.Timestamp timestamp = 4
-      [(buf.validate.field).required = true];
-  // A note about the change
-  string note               = 5;
-  // The value of the item
-  google.protobuf.Any value = 6;
-}
-
-message History {
-  repeated HistoryEntry entries = 1;
-  HiddenTxList hidden_txs       = 2;
-}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -121,7 +101,7 @@ enum Action {
   ACTION_CREATE = 11;
   // Update an existing item
   //   - key must already exist
-  //   - potenital has paths
+  //   - potential has paths
   ACTION_UPDATE = 12;
   // Delete an existing item, key must already exist
   ACTION_DELETE = 13;
@@ -190,13 +170,20 @@ message PathPolicy {
 //   PathPolicy path_policies = 2;
 // }
 
-// Access Control Entry for use in Hash Tree
-message ACEntry {
-  // ItemPolicy root                 = 1 [(buf.validate.field).required = true];
-
+message Polices {
   // key is the item type
-  map<string, PathPolicy> children = 1;
+  map<string, PathPolicy> item_policies = 1;
 }
+
+
+// // Access Control Entry for use in Hash Tree
+// message ACLEntry {
+
+
+//   // ItemPolicy root                 = 1 [(buf.validate.field).required = true];
+
+
+
 
 
 
@@ -220,7 +207,7 @@ message Item {
     not_in: [
       "type.googleapis.com/auth.Suggestion"
       "type.googleapis.com/auth.HiddenTxList"
-      "type.googleapis.com/auth.ACEntry"
+      "type.googleapis.com/auth.Polices"
       "type.googleapis.com/auth.PathPolicy"
 
       ]
@@ -233,6 +220,28 @@ message FullItem {
   repeated Suggestion suggestions = 3;
   repeated Reference references   = 4;
 }
+
+message HistoryEntry {
+  // The transaction id that caused the change
+  string tx_id   = 1 [(buf.validate.field).string.min_len = 1];
+  // Whether the item was deleted
+  bool is_delete = 2;
+  // Whether the transaction was hidden
+  bool is_hidden = 3;
+  // The timestamp of the change
+  google.protobuf.Timestamp timestamp = 4
+  [(buf.validate.field).required = true];
+  // A note about the change
+  string note               = 5;
+  // The value of the item
+  google.protobuf.Any value = 6;
+}
+
+message History {
+  repeated HistoryEntry entries = 1;
+  HiddenTxList hidden_txs       = 2;
+}
+
 
 // Lists
 // ─────────────────────────────────────────────────────────────────────────────────
@@ -289,7 +298,7 @@ message Reference {
 
 // Collection
 // ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-// Note that the types of items are stored in the default ACEntry
+// Note that the types of items are stored in the default ACLEntry
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
@@ -304,7 +313,7 @@ message Collection {
   string description           = 3 [(buf.validate.field).string.min_len = 1];
   repeated string item_types   = 4;
   repeated string reference_types = 5;
-  ACEntry default                 = 6 [(buf.validate.field).required = true];
+  Polices default                 = 6 [(buf.validate.field).required = true];
 }
 
 // User
@@ -380,7 +389,9 @@ message Role {
 
   string collection_id            = 1 [(buf.validate.field).string.min_len = 1];
   string role_id                  = 2 [(buf.validate.field).string.min_len = 1];
-  auth.ACEntry ac                 = 4 [(buf.validate.field).required = true];
+  
+  Polices polices                 = 4 [(buf.validate.field).required = true];
+  
   string description              = 5 [(buf.validate.field).string.min_len = 1];
   repeated string parent_role_ids = 6;
 }
@@ -402,13 +413,11 @@ message Attribute {
   // role
   string value = 4 [(buf.validate.field).string.min_len = 1];
   // The Permission that the user will have if they have the attribute
-  auth.ACEntry ac = 5 [(buf.validate.field).required = true];
-
-
+  Polices polices = 5 [(buf.validate.field).required = true];
 }
 
 // Membership is used to store permissions for a user in a collection
-message Membership {
+message UserMembership {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (auth.key_schema).keys          = {
     paths: [ "msp_id", "user_id" ]
@@ -421,8 +430,27 @@ message Membership {
   // The id of the user from the certificate
   string user_id       = 3 [(buf.validate.field).required = true];
   // The Permissions that the user will have
-  auth.ACEntry ac      = 4 [(buf.validate.field).required = true];
+  Polices polices      = 4 [(buf.validate.field).required = true];
 }
+
+message UserCollectionRoles {
+  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (auth.key_schema).keys          = {
+    paths: [ "msp_id", "user_id" ]
+  };
+
+  // The collection that the user is a member of
+  string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  // The msp of the organization that the user's certificate is from
+  string msp_id        = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user from the certificate
+  string user_id       = 3 [(buf.validate.field).required = true];
+
+  // The roles that the user has in the collection
+  repeated string role_ids = 4;
+}
+
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -445,7 +473,7 @@ enum TxError {
   COLLECTION_UNREGISTERED        = 12;
   // The collection is already registered and thus cannot be registered again
   COLLECTION_ALREADY_REGISTERED  = 13;
-  // The collection is invalid (e.g. the collection does not have a default ACEntry)
+  // The collection is invalid (e.g. the collection does not have a default ACLEntry)
   COLLECTION_INVALID             = 14;
 
   // The item type in the collection is invalid

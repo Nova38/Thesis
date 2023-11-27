@@ -131,16 +131,16 @@ func (m *Role) ItemKey() *ItemKey {
 func (m *Attribute) ItemType() string {
 	return "auth.Attribute"
 }
-func (m *Membership) ItemType() string {
-	return "auth.Membership"
+func (m *UserMembership) ItemType() string {
+	return "auth.UserMembership"
 }
-func (m *Membership) KeyAttr() []string {
+func (m *UserMembership) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
 }
-func (m *Membership) SetKeyAttr(attr []string) {
+func (m *UserMembership) SetKeyAttr(attr []string) {
 	if len(attr) > 0 {
 		m.MspId = attr[0]
 	} else {
@@ -155,13 +155,48 @@ func (m *Membership) SetKeyAttr(attr []string) {
 }
 
 // Domain Item
-func (m *Membership) IsPrimary() bool {
+func (m *UserMembership) IsPrimary() bool {
 	return true
 }
-func (m *Membership) ItemKey() *ItemKey {
+func (m *UserMembership) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.Membership",
+		ItemType:     "auth.UserMembership",
+		ItemIdParts:  m.KeyAttr(),
+	}
+	return key
+}
+func (m *UserCollectionRoles) ItemType() string {
+	return "auth.UserCollectionRoles"
+}
+func (m *UserCollectionRoles) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetUserId())
+	return attr
+}
+func (m *UserCollectionRoles) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.MspId = attr[0]
+	} else {
+		return
+	}
+	if len(attr) > 1 {
+		m.UserId = attr[1]
+	} else {
+		return
+	}
+	return
+}
+
+// Domain Item
+func (m *UserCollectionRoles) IsPrimary() bool {
+	return true
+}
+func (m *UserCollectionRoles) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemType:     "auth.UserCollectionRoles",
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key

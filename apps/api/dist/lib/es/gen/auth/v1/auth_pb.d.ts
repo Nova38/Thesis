@@ -193,7 +193,7 @@ export declare enum TxError {
      */
     COLLECTION_ALREADY_REGISTERED = 13,
     /**
-     * The collection is invalid (e.g. the collection does not have a default ACEntry)
+     * The collection is invalid (e.g. the collection does not have a default ACLEntry)
      *
      * @generated from enum value: COLLECTION_INVALID = 14;
      */
@@ -511,9 +511,9 @@ export declare class PathPolicy extends Message<PathPolicy> {
  *
  * ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
  *
- * @generated from message auth.ACEntry
+ * @generated from message auth.ACLEntry
  */
-export declare class ACEntry extends Message<ACEntry> {
+export declare class ACLEntry extends Message<ACLEntry> {
     /**
      * key is the object type
      *
@@ -522,14 +522,14 @@ export declare class ACEntry extends Message<ACEntry> {
     children: {
         [key: string]: PathPolicy;
     };
-    constructor(data?: PartialMessage<ACEntry>);
+    constructor(data?: PartialMessage<ACLEntry>);
     static readonly runtime: typeof proto3;
-    static readonly typeName = "auth.ACEntry";
+    static readonly typeName = "auth.ACLEntry";
     static readonly fields: FieldList;
-    static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntry;
-    static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACEntry;
-    static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACEntry;
-    static equals(a: ACEntry | PlainMessage<ACEntry> | undefined, b: ACEntry | PlainMessage<ACEntry> | undefined): boolean;
+    static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACLEntry;
+    static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACLEntry;
+    static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACLEntry;
+    static equals(a: ACLEntry | PlainMessage<ACLEntry> | undefined, b: ACLEntry | PlainMessage<ACLEntry> | undefined): boolean;
 }
 /**
  * @generated from message auth.Object
@@ -664,7 +664,7 @@ export declare class Reference extends Message<Reference> {
 /**
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of objects are stored in the default ACEntry
+ * Note that the types of objects are stored in the default ACLEntry
  *
  * key := {COLLECTION}{COLLECTION_ID}
  *
@@ -690,9 +690,9 @@ export declare class Collection extends Message<Collection> {
      */
     objectTypes: string[];
     /**
-     * @generated from field: auth.ACEntry default = 5;
+     * @generated from field: auth.ACLEntry default = 5;
      */
-    default?: ACEntry;
+    default?: ACLEntry;
     constructor(data?: PartialMessage<Collection>);
     static readonly runtime: typeof proto3;
     static readonly typeName = "auth.Collection";
@@ -842,9 +842,9 @@ export declare class Role extends Message<Role> {
      */
     roleId: string;
     /**
-     * @generated from field: auth.ACEntry ac = 4;
+     * @generated from field: auth.ACLEntry ac = 4;
      */
-    ac?: ACEntry;
+    ac?: ACLEntry;
     /**
      * @generated from field: string description = 5;
      */
@@ -895,9 +895,9 @@ export declare class Attribute extends Message<Attribute> {
     /**
      * The Permission that the user will have if they have the attribute
      *
-     * @generated from field: auth.ACEntry ac = 5;
+     * @generated from field: auth.ACLEntry ac = 5;
      */
-    ac?: ACEntry;
+    ac?: ACLEntry;
     constructor(data?: PartialMessage<Attribute>);
     static readonly runtime: typeof proto3;
     static readonly typeName = "auth.Attribute";
@@ -934,9 +934,9 @@ export declare class Membership extends Message<Membership> {
     /**
      * The Permissions that the user will have
      *
-     * @generated from field: auth.ACEntry ac = 4;
+     * @generated from field: auth.ACLEntry ac = 4;
      */
-    ac?: ACEntry;
+    ac?: ACLEntry;
     constructor(data?: PartialMessage<Membership>);
     static readonly runtime: typeof proto3;
     static readonly typeName = "auth.Membership";

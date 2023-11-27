@@ -179,14 +179,6 @@
             <ul>
               
                 <li>
-                  <a href="#auth.ACEntry"><span class="badge">M</span>ACEntry</a>
-                </li>
-              
-                <li>
-                  <a href="#auth.ACEntry.ChildrenEntry"><span class="badge">M</span>ACEntry.ChildrenEntry</a>
-                </li>
-              
-                <li>
                   <a href="#auth.Attribute"><span class="badge">M</span>Attribute</a>
                 </li>
               
@@ -227,10 +219,6 @@
                 </li>
               
                 <li>
-                  <a href="#auth.Membership"><span class="badge">M</span>Membership</a>
-                </li>
-              
-                <li>
                   <a href="#auth.Operation"><span class="badge">M</span>Operation</a>
                 </li>
               
@@ -240,6 +228,14 @@
               
                 <li>
                   <a href="#auth.PathPolicy.SubPathsEntry"><span class="badge">M</span>PathPolicy.SubPathsEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.Polices"><span class="badge">M</span>Polices</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.Polices.ItemPoliciesEntry"><span class="badge">M</span>Polices.ItemPoliciesEntry</a>
                 </li>
               
                 <li>
@@ -264,6 +260,14 @@
               
                 <li>
                   <a href="#auth.User"><span class="badge">M</span>User</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.UserCollectionRoles"><span class="badge">M</span>UserCollectionRoles</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.UserMembership"><span class="badge">M</span>UserMembership</a>
                 </li>
               
               
@@ -751,61 +755,6 @@
       <p></p>
 
       
-        <h3 id="auth.ACEntry">ACEntry</h3>
-        <p>Access Control Entry for use in Hash Tree</p><p>ItemPolicy root                 = 1 [(buf.validate.field).required = true];</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>children</td>
-                  <td><a href="#auth.ACEntry.ChildrenEntry">ACEntry.ChildrenEntry</a></td>
-                  <td>repeated</td>
-                  <td><p>key is the item type </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="auth.ACEntry.ChildrenEntry">ACEntry.ChildrenEntry</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>key</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>value</td>
-                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="auth.Attribute">Attribute</h3>
         <p>An attribute is used to define permissions via the value of the attribute in the</p><p>users certificate for a given msp</p>
 
@@ -846,8 +795,8 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>ac</td>
-                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td>polices</td>
+                  <td><a href="#auth.Polices">Polices</a></td>
                   <td></td>
                   <td><p>The Permission that the user will have if they have the attribute </p></td>
                 </tr>
@@ -860,7 +809,7 @@ role </p></td>
         
       
         <h3 id="auth.Collection">Collection</h3>
-        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of items are stored in the default ACEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
+        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of items are stored in the default ACLEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
 
         
           <table class="field-table">
@@ -906,7 +855,7 @@ role </p></td>
               
                 <tr>
                   <td>default</td>
-                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td><a href="#auth.Polices">Polices</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1243,51 +1192,6 @@ role </p></td>
 
         
       
-        <h3 id="auth.Membership">Membership</h3>
-        <p>Membership is used to store permissions for a user in a collection</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The collection that the user is a member of </p></td>
-                </tr>
-              
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
-                </tr>
-              
-                <tr>
-                  <td>user_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The id of the user from the certificate </p></td>
-                </tr>
-              
-                <tr>
-                  <td>ac</td>
-                  <td><a href="#auth.ACEntry">ACEntry</a></td>
-                  <td></td>
-                  <td><p>The Permissions that the user will have </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="auth.Operation">Operation</h3>
         <p></p>
 
@@ -1423,6 +1327,61 @@ role </p></td>
 
         
       
+        <h3 id="auth.Polices">Polices</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>item_policies</td>
+                  <td><a href="#auth.Polices.ItemPoliciesEntry">Polices.ItemPoliciesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>key is the item type </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.Polices.ItemPoliciesEntry">Polices.ItemPoliciesEntry</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#auth.PathPolicy">PathPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="auth.Reference">Reference</h3>
         <p>Used to return the values of the items that are referenced</p>
 
@@ -1517,8 +1476,8 @@ role </p></td>
                 </tr>
               
                 <tr>
-                  <td>ac</td>
-                  <td><a href="#auth.ACEntry">ACEntry</a></td>
+                  <td>polices</td>
+                  <td><a href="#auth.Polices">Polices</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -1686,6 +1645,96 @@ role </p></td>
 
         
       
+        <h3 id="auth.UserCollectionRoles">UserCollectionRoles</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The collection that the user is a member of </p></td>
+                </tr>
+              
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user from the certificate </p></td>
+                </tr>
+              
+                <tr>
+                  <td>role_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The roles that the user has in the collection </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="auth.UserMembership">UserMembership</h3>
+        <p>Membership is used to store permissions for a user in a collection</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The collection that the user is a member of </p></td>
+                </tr>
+              
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user from the certificate </p></td>
+                </tr>
+              
+                <tr>
+                  <td>polices</td>
+                  <td><a href="#auth.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p>The Permissions that the user will have </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
         <h3 id="auth.Action">Action</h3>
@@ -1726,7 +1775,7 @@ role </p></td>
                 <td>12</td>
                 <td><p>Update an existing item
   - key must already exist
-  - potenital has paths</p></td>
+  - potential has paths</p></td>
               </tr>
             
               <tr>
@@ -1933,7 +1982,7 @@ role </p></td>
               <tr>
                 <td>COLLECTION_INVALID</td>
                 <td>14</td>
-                <td><p>The collection is invalid (e.g. the collection does not have a default ACEntry)</p></td>
+                <td><p>The collection is invalid (e.g. the collection does not have a default ACLEntry)</p></td>
               </tr>
             
               <tr>

@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Membership = exports.Attribute = exports.Role = exports.HiddenTxList = exports.HiddenTx = exports.Suggestion = exports.User = exports.Collection = exports.Reference = exports.ObjectKey = exports.FullObject = exports.Object$ = exports.ACEntry = exports.PathPolicy = exports.Operation = exports.History = exports.HistoryEntry = exports.StateActivity = exports.KeySchema = exports.TxError = exports.Action = exports.ObjectKind = exports.TransactionType = void 0;
+exports.Membership = exports.Attribute = exports.Role = exports.HiddenTxList = exports.HiddenTx = exports.Suggestion = exports.User = exports.Collection = exports.Reference = exports.ObjectKey = exports.FullObject = exports.Object$ = exports.ACLEntry = exports.PathPolicy = exports.Operation = exports.History = exports.HistoryEntry = exports.StateActivity = exports.KeySchema = exports.TxError = exports.Action = exports.ObjectKind = exports.TransactionType = void 0;
 var protobuf_1 = require("@bufbuild/protobuf");
 /**
  * @generated from enum auth.TransactionType
@@ -251,7 +251,7 @@ var TxError;
      */
     TxError[TxError["COLLECTION_ALREADY_REGISTERED"] = 13] = "COLLECTION_ALREADY_REGISTERED";
     /**
-     * The collection is invalid (e.g. the collection does not have a default ACEntry)
+     * The collection is invalid (e.g. the collection does not have a default ACLEntry)
      *
      * @generated from enum value: COLLECTION_INVALID = 14;
      */
@@ -684,11 +684,11 @@ exports.PathPolicy = PathPolicy;
  *
  * ObjectPolicy root                 = 1 [(buf.validate.field).required = true];
  *
- * @generated from message auth.ACEntry
+ * @generated from message auth.ACLEntry
  */
-var ACEntry = /** @class */ (function (_super) {
-    __extends(ACEntry, _super);
-    function ACEntry(data) {
+var ACLEntry = /** @class */ (function (_super) {
+    __extends(ACLEntry, _super);
+    function ACLEntry(data) {
         var _this = _super.call(this) || this;
         /**
          * key is the object type
@@ -699,26 +699,26 @@ var ACEntry = /** @class */ (function (_super) {
         protobuf_1.proto3.util.initPartial(data, _this);
         return _this;
     }
-    ACEntry.fromBinary = function (bytes, options) {
-        return new ACEntry().fromBinary(bytes, options);
+    ACLEntry.fromBinary = function (bytes, options) {
+        return new ACLEntry().fromBinary(bytes, options);
     };
-    ACEntry.fromJson = function (jsonValue, options) {
-        return new ACEntry().fromJson(jsonValue, options);
+    ACLEntry.fromJson = function (jsonValue, options) {
+        return new ACLEntry().fromJson(jsonValue, options);
     };
-    ACEntry.fromJsonString = function (jsonString, options) {
-        return new ACEntry().fromJsonString(jsonString, options);
+    ACLEntry.fromJsonString = function (jsonString, options) {
+        return new ACLEntry().fromJsonString(jsonString, options);
     };
-    ACEntry.equals = function (a, b) {
-        return protobuf_1.proto3.util.equals(ACEntry, a, b);
+    ACLEntry.equals = function (a, b) {
+        return protobuf_1.proto3.util.equals(ACLEntry, a, b);
     };
-    ACEntry.runtime = protobuf_1.proto3;
-    ACEntry.typeName = "auth.ACEntry";
-    ACEntry.fields = protobuf_1.proto3.util.newFieldList(function () { return [
+    ACLEntry.runtime = protobuf_1.proto3;
+    ACLEntry.typeName = "auth.ACLEntry";
+    ACLEntry.fields = protobuf_1.proto3.util.newFieldList(function () { return [
         { no: 1, name: "children", kind: "map", K: 9 /* ScalarType.STRING */, V: { kind: "message", T: PathPolicy } },
     ]; });
-    return ACEntry;
+    return ACLEntry;
 }(protobuf_1.Message));
-exports.ACEntry = ACEntry;
+exports.ACLEntry = ACLEntry;
 /**
  * @generated from message auth.Object
  */
@@ -902,7 +902,7 @@ exports.Reference = Reference;
 /**
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of objects are stored in the default ACEntry
+ * Note that the types of objects are stored in the default ACLEntry
  *
  * key := {COLLECTION}{COLLECTION_ID}
  *
@@ -952,7 +952,7 @@ var Collection = /** @class */ (function (_super) {
         { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 4, name: "object_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-        { no: 5, name: "default", kind: "message", T: ACEntry },
+        { no: 5, name: "default", kind: "message", T: ACLEntry },
     ]; });
     return Collection;
 }(protobuf_1.Message));
@@ -1184,7 +1184,7 @@ var Role = /** @class */ (function (_super) {
     Role.fields = protobuf_1.proto3.util.newFieldList(function () { return [
         { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-        { no: 4, name: "ac", kind: "message", T: ACEntry },
+        { no: 4, name: "ac", kind: "message", T: ACLEntry },
         { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 6, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     ]; });
@@ -1246,7 +1246,7 @@ var Attribute = /** @class */ (function (_super) {
         { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-        { no: 5, name: "ac", kind: "message", T: ACEntry },
+        { no: 5, name: "ac", kind: "message", T: ACLEntry },
     ]; });
     return Attribute;
 }(protobuf_1.Message));
@@ -1299,7 +1299,7 @@ var Membership = /** @class */ (function (_super) {
         { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-        { no: 4, name: "ac", kind: "message", T: ACEntry },
+        { no: 4, name: "ac", kind: "message", T: ACLEntry },
     ]; });
     return Membership;
 }(protobuf_1.Message));

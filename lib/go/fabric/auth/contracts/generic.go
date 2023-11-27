@@ -398,26 +398,26 @@ func (o ItemContractImpl) Reference(
 // }
 
 // todo: ReferenceByCollection
-func (o ItemContractImpl) ReferenceByCollection(
-	ctx common.TxCtxInterface,
-	req *cc.ReferenceByCollectionRequest,
-) (res *cc.ReferenceByCollectionResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		return nil, oops.Wrap(err)
-	}
-	list, mk, err := state.ReferenceKeysByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
+// func (o ItemContractImpl) ReferenceByCollection(
+// 	ctx common.TxCtxInterface,
+// 	req *cc.ReferenceByCollectionRequest,
+// ) (res *cc.ReferenceByCollectionResponse, err error) {
+// 	// Validate the request
+// 	if err = ctx.Validate(req); err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
+// 	list, mk, err := state.ReferenceKeysByCollection(ctx, req.GetCollectionId(), req.GetBookmark(), "")
+// 	if err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
 
-	res = &cc.ReferenceByCollectionResponse{
-		Bookmark:   mk,
-		References: list,
-	}
+// 	res = &cc.ReferenceByCollectionResponse{
+// 		Bookmark:   mk,
+// 		References: list,
+// 	}
 
-	return res, nil
-}
+// 	return res, nil
+// }
 
 // todo: ReferenceByItem
 func (o ItemContractImpl) ReferenceByItem(

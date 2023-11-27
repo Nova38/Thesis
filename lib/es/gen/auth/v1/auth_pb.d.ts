@@ -101,7 +101,7 @@ export declare enum Action {
   /**
    * Update an existing item
    *   - key must already exist
-   *   - potenital has paths
+   *   - potential has paths
    *
    * @generated from enum value: ACTION_UPDATE = 12;
    */
@@ -233,7 +233,7 @@ export declare enum TxError {
   COLLECTION_ALREADY_REGISTERED = 13,
 
   /**
-   * The collection is invalid (e.g. the collection does not have a default ACEntry)
+   * The collection is invalid (e.g. the collection does not have a default ACLEntry)
    *
    * @generated from enum value: COLLECTION_INVALID = 14;
    */
@@ -436,96 +436,6 @@ export declare class StateActivity extends Message<StateActivity> {
 }
 
 /**
- * @generated from message auth.HistoryEntry
- */
-export declare class HistoryEntry extends Message<HistoryEntry> {
-  /**
-   * The transaction id that caused the change
-   *
-   * @generated from field: string tx_id = 1;
-   */
-  txId: string;
-
-  /**
-   * Whether the item was deleted
-   *
-   * @generated from field: bool is_delete = 2;
-   */
-  isDelete: boolean;
-
-  /**
-   * Whether the transaction was hidden
-   *
-   * @generated from field: bool is_hidden = 3;
-   */
-  isHidden: boolean;
-
-  /**
-   * The timestamp of the change
-   *
-   * @generated from field: google.protobuf.Timestamp timestamp = 4;
-   */
-  timestamp?: Timestamp;
-
-  /**
-   * A note about the change
-   *
-   * @generated from field: string note = 5;
-   */
-  note: string;
-
-  /**
-   * The value of the item
-   *
-   * @generated from field: google.protobuf.Any value = 6;
-   */
-  value?: Any;
-
-  constructor(data?: PartialMessage<HistoryEntry>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.HistoryEntry";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryEntry;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryEntry;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryEntry;
-
-  static equals(a: HistoryEntry | PlainMessage<HistoryEntry> | undefined, b: HistoryEntry | PlainMessage<HistoryEntry> | undefined): boolean;
-}
-
-/**
- * @generated from message auth.History
- */
-export declare class History extends Message<History> {
-  /**
-   * @generated from field: repeated auth.HistoryEntry entries = 1;
-   */
-  entries: HistoryEntry[];
-
-  /**
-   * @generated from field: auth.HiddenTxList hidden_txs = 2;
-   */
-  hiddenTxs?: HiddenTxList;
-
-  constructor(data?: PartialMessage<History>);
-
-  static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.History";
-  static readonly fields: FieldList;
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): History;
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): History;
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): History;
-
-  static equals(a: History | PlainMessage<History> | undefined, b: History | PlainMessage<History> | undefined): boolean;
-}
-
-/**
  * @generated from message auth.Operation
  */
 export declare class Operation extends Message<Operation> {
@@ -622,33 +532,29 @@ export declare class PathPolicy extends Message<PathPolicy> {
 }
 
 /**
- * Access Control Entry for use in Hash Tree
- *
- * ItemPolicy root                 = 1 [(buf.validate.field).required = true];
- *
- * @generated from message auth.ACEntry
+ * @generated from message auth.Polices
  */
-export declare class ACEntry extends Message<ACEntry> {
+export declare class Polices extends Message<Polices> {
   /**
    * key is the item type
    *
-   * @generated from field: map<string, auth.PathPolicy> children = 1;
+   * @generated from field: map<string, auth.PathPolicy> item_policies = 1;
    */
-  children: { [key: string]: PathPolicy };
+  itemPolicies: { [key: string]: PathPolicy };
 
-  constructor(data?: PartialMessage<ACEntry>);
+  constructor(data?: PartialMessage<Polices>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.ACEntry";
+  static readonly typeName = "auth.Polices";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ACEntry;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Polices;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ACEntry;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Polices;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ACEntry;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Polices;
 
-  static equals(a: ACEntry | PlainMessage<ACEntry> | undefined, b: ACEntry | PlainMessage<ACEntry> | undefined): boolean;
+  static equals(a: Polices | PlainMessage<Polices> | undefined, b: Polices | PlainMessage<Polices> | undefined): boolean;
 }
 
 /**
@@ -717,6 +623,96 @@ export declare class FullItem extends Message<FullItem> {
   static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FullItem;
 
   static equals(a: FullItem | PlainMessage<FullItem> | undefined, b: FullItem | PlainMessage<FullItem> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.HistoryEntry
+ */
+export declare class HistoryEntry extends Message<HistoryEntry> {
+  /**
+   * The transaction id that caused the change
+   *
+   * @generated from field: string tx_id = 1;
+   */
+  txId: string;
+
+  /**
+   * Whether the item was deleted
+   *
+   * @generated from field: bool is_delete = 2;
+   */
+  isDelete: boolean;
+
+  /**
+   * Whether the transaction was hidden
+   *
+   * @generated from field: bool is_hidden = 3;
+   */
+  isHidden: boolean;
+
+  /**
+   * The timestamp of the change
+   *
+   * @generated from field: google.protobuf.Timestamp timestamp = 4;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * A note about the change
+   *
+   * @generated from field: string note = 5;
+   */
+  note: string;
+
+  /**
+   * The value of the item
+   *
+   * @generated from field: google.protobuf.Any value = 6;
+   */
+  value?: Any;
+
+  constructor(data?: PartialMessage<HistoryEntry>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.HistoryEntry";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HistoryEntry;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): HistoryEntry;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): HistoryEntry;
+
+  static equals(a: HistoryEntry | PlainMessage<HistoryEntry> | undefined, b: HistoryEntry | PlainMessage<HistoryEntry> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.History
+ */
+export declare class History extends Message<History> {
+  /**
+   * @generated from field: repeated auth.HistoryEntry entries = 1;
+   */
+  entries: HistoryEntry[];
+
+  /**
+   * @generated from field: auth.HiddenTxList hidden_txs = 2;
+   */
+  hiddenTxs?: HiddenTxList;
+
+  constructor(data?: PartialMessage<History>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.History";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): History;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): History;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): History;
+
+  static equals(a: History | PlainMessage<History> | undefined, b: History | PlainMessage<History> | undefined): boolean;
 }
 
 /**
@@ -845,7 +841,7 @@ export declare class Reference extends Message<Reference> {
 /**
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of items are stored in the default ACEntry
+ * Note that the types of items are stored in the default ACLEntry
  *
  * key := {COLLECTION}{COLLECTION_ID}
  *
@@ -880,9 +876,9 @@ export declare class Collection extends Message<Collection> {
   referenceTypes: string[];
 
   /**
-   * @generated from field: auth.ACEntry default = 6;
+   * @generated from field: auth.Polices default = 6;
    */
-  default?: ACEntry;
+  default?: Polices;
 
   constructor(data?: PartialMessage<Collection>);
 
@@ -1080,9 +1076,9 @@ export declare class Role extends Message<Role> {
   roleId: string;
 
   /**
-   * @generated from field: auth.ACEntry ac = 4;
+   * @generated from field: auth.Polices polices = 4;
    */
-  ac?: ACEntry;
+  polices?: Polices;
 
   /**
    * @generated from field: string description = 5;
@@ -1146,9 +1142,9 @@ export declare class Attribute extends Message<Attribute> {
   /**
    * The Permission that the user will have if they have the attribute
    *
-   * @generated from field: auth.ACEntry ac = 5;
+   * @generated from field: auth.Polices polices = 5;
    */
-  ac?: ACEntry;
+  polices?: Polices;
 
   constructor(data?: PartialMessage<Attribute>);
 
@@ -1168,9 +1164,9 @@ export declare class Attribute extends Message<Attribute> {
 /**
  * Membership is used to store permissions for a user in a collection
  *
- * @generated from message auth.Membership
+ * @generated from message auth.UserMembership
  */
-export declare class Membership extends Message<Membership> {
+export declare class UserMembership extends Message<UserMembership> {
   /**
    * The collection that the user is a member of
    *
@@ -1195,22 +1191,69 @@ export declare class Membership extends Message<Membership> {
   /**
    * The Permissions that the user will have
    *
-   * @generated from field: auth.ACEntry ac = 4;
+   * @generated from field: auth.Polices polices = 4;
    */
-  ac?: ACEntry;
+  polices?: Polices;
 
-  constructor(data?: PartialMessage<Membership>);
+  constructor(data?: PartialMessage<UserMembership>);
 
   static readonly runtime: typeof proto3;
-  static readonly typeName = "auth.Membership";
+  static readonly typeName = "auth.UserMembership";
   static readonly fields: FieldList;
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Membership;
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserMembership;
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Membership;
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserMembership;
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Membership;
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserMembership;
 
-  static equals(a: Membership | PlainMessage<Membership> | undefined, b: Membership | PlainMessage<Membership> | undefined): boolean;
+  static equals(a: UserMembership | PlainMessage<UserMembership> | undefined, b: UserMembership | PlainMessage<UserMembership> | undefined): boolean;
+}
+
+/**
+ * @generated from message auth.UserCollectionRoles
+ */
+export declare class UserCollectionRoles extends Message<UserCollectionRoles> {
+  /**
+   * The collection that the user is a member of
+   *
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId: string;
+
+  /**
+   * The msp of the organization that the user's certificate is from
+   *
+   * @generated from field: string msp_id = 2;
+   */
+  mspId: string;
+
+  /**
+   * The id of the user from the certificate
+   *
+   * @generated from field: string user_id = 3;
+   */
+  userId: string;
+
+  /**
+   * The roles that the user has in the collection
+   *
+   * @generated from field: repeated string role_ids = 4;
+   */
+  roleIds: string[];
+
+  constructor(data?: PartialMessage<UserCollectionRoles>);
+
+  static readonly runtime: typeof proto3;
+  static readonly typeName = "auth.UserCollectionRoles";
+  static readonly fields: FieldList;
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserCollectionRoles;
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserCollectionRoles;
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserCollectionRoles;
+
+  static equals(a: UserCollectionRoles | PlainMessage<UserCollectionRoles> | undefined, b: UserCollectionRoles | PlainMessage<UserCollectionRoles> | undefined): boolean;
 }
 

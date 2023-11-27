@@ -436,7 +436,7 @@ class Membership {
 +CollectionId: string
 +MspId: string
 +UserId: string
-+Ac: *ACEntry
++Ac: *ACLEntry
 +ObjectType(): string
 +KeyAttr(): []string
 +IsPrimary(): bool
@@ -449,7 +449,7 @@ class Membership {
 +GetCollectionId(): string
 +GetMspId(): string
 +GetUserId(): string
-+GetAc(): *ACEntry
++GetAc(): *ACLEntry
 }
 class Operation {
 -state: MessageState
@@ -479,7 +479,7 @@ class Attribute {
 +MspId: string
 +Oid: string
 +Value: string
-+Ac: *ACEntry
++Ac: *ACLEntry
 +ObjectType(): string
 +Reset()
 +String(): string
@@ -490,7 +490,7 @@ class Attribute {
 +GetMspId(): string
 +GetOid(): string
 +GetValue(): string
-+GetAc(): *ACEntry
++GetAc(): *ACLEntry
 }
 class TxError {
 
@@ -509,7 +509,7 @@ class Collection {
 +Name: string
 +Description: string
 +ObjectTypes: []string
-+Default: *ACEntry
++Default: *ACLEntry
 +ObjectType(): string
 +KeyAttr(): []string
 +IsGlobal(): bool
@@ -523,7 +523,7 @@ class Collection {
 +GetName(): string
 +GetDescription(): string
 +GetObjectTypes(): []string
-+GetDefault(): *ACEntry
++GetDefault(): *ACLEntry
 }
 class HiddenTxList {
 -state: MessageState
@@ -696,7 +696,7 @@ class Action {
 +Number(): EnumNumber
 +EnumDescriptor(): []byte, []int
 }
-class ACEntry {
+class ACLEntry {
 -state: MessageState
 -sizeCache: SizeCache
 -unknownFields: UnknownFields
@@ -801,7 +801,7 @@ class Role {
 -unknownFields: UnknownFields
 +CollectionId: string
 +RoleId: string
-+Ac: *ACEntry
++Ac: *ACLEntry
 +Description: string
 +ParentRoleIds: []string
 +ObjectType(): string
@@ -815,7 +815,7 @@ class Role {
 +Descriptor(): []byte, []int
 +GetCollectionId(): string
 +GetRoleId(): string
-+GetAc(): *ACEntry
++GetAc(): *ACLEntry
 +GetDescription(): string
 +GetParentRoleIds(): []string
 }
@@ -877,7 +877,7 @@ class AttributeValidationError {
 +ErrorName(): string
 +Error(): string
 }
-class ACEntryValidationError {
+class ACLEntryValidationError {
 -field: string
 -reason: string
 -cause: error
@@ -1066,7 +1066,7 @@ class OperationValidationError {
 +ErrorName(): string
 +Error(): string
 }
-class ACEntryMultiError {
+class ACLEntryMultiError {
 
 +Error(): string
 +AllErrors(): []error
@@ -4907,11 +4907,11 @@ annotation tools\cmd\protoc-gen-go-hlf {
 "BaseTxCtx" --> "AuthFunc"
 "SuggestionHandler" --> "Suggestion"
 "FullObject[T]" --> "History"
-"Membership" --> "ACEntry"
+"Membership" --> "ACLEntry"
 "Operation" --> "Action"
 "AuthorizeOperationRequest" --> "Operation"
-"Attribute" --> "ACEntry"
-"Collection" --> "ACEntry"
+"Attribute" --> "ACLEntry"
+"Collection" --> "ACLEntry"
 "HiddenTxList" --> "ObjectKey"
 "History" --> "HiddenTxList"
 "HideTxResponse" --> "HiddenTxList"
@@ -4968,7 +4968,7 @@ annotation tools\cmd\protoc-gen-go-hlf {
 "FullObject" --> "History"
 "HistoryResponse" --> "History"
 "UserGetHistoryResponse" --> "History"
-"Role" --> "ACEntry"
+"Role" --> "ACLEntry"
 "HideTxRequest" --> "HiddenTx"
 "UserHideTxRequest" --> "HiddenTx"
 "KeySchema" --> "ObjectKind"

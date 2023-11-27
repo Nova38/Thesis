@@ -4,9 +4,9 @@
 ## Table of Contents
 
 - [auth/v1/auth.proto](#auth_v1_auth-proto)
-    - [ACEntry](#auth-ACEntry)
-    - [ACEntryTree](#auth-ACEntryTree)
-    - [ACEntryTree.ChildrenEntry](#auth-ACEntryTree-ChildrenEntry)
+    - [ACLEntry](#auth-ACLEntry)
+    - [ACLEntryTree](#auth-ACLEntryTree)
+    - [ACLEntryTree.ChildrenEntry](#auth-ACLEntryTree-ChildrenEntry)
     - [Attribute](#auth-Attribute)
     - [Collection](#auth-Collection)
     - [CombinedList](#auth-CombinedList)
@@ -200,9 +200,9 @@
 
 
 
-<a name="auth-ACEntry"></a>
+<a name="auth-ACLEntry"></a>
 
-### ACEntry
+### ACLEntry
 Access Control Entry for use in Radix Tree
 
 
@@ -216,9 +216,9 @@ Access Control Entry for use in Radix Tree
 
 
 
-<a name="auth-ACEntryTree"></a>
+<a name="auth-ACLEntryTree"></a>
 
-### ACEntryTree
+### ACLEntryTree
 Access Control Entry for use in Hash Tree
 
 
@@ -226,23 +226,23 @@ Access Control Entry for use in Hash Tree
 | ----- | ---- | ----- | ----------- |
 | root | [ObjectPolicy](#auth-ObjectPolicy) |  |  |
 | is_leaf | [bool](#bool) |  |  |
-| children | [ACEntryTree.ChildrenEntry](#auth-ACEntryTree-ChildrenEntry) | repeated |  |
+| children | [ACLEntryTree.ChildrenEntry](#auth-ACLEntryTree-ChildrenEntry) | repeated |  |
 
 
 
 
 
 
-<a name="auth-ACEntryTree-ChildrenEntry"></a>
+<a name="auth-ACLEntryTree-ChildrenEntry"></a>
 
-### ACEntryTree.ChildrenEntry
+### ACLEntryTree.ChildrenEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [ACEntryTree](#auth-ACEntryTree) |  |  |
+| value | [ACLEntryTree](#auth-ACLEntryTree) |  |  |
 
 
 
@@ -273,7 +273,7 @@ Access Control Entry for use in Hash Tree
 ### Collection
 Collection
 ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-Note that the types of objects are stored in the default ACEntry
+Note that the types of objects are stored in the default ACLEntry
 
 key := {COLLECTION}{COLLECTION_ID}
 
@@ -284,7 +284,7 @@ key := {COLLECTION}{COLLECTION_ID}
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
 | object_types | [string](#string) | repeated |  |
-| default | [ACEntry](#auth-ACEntry) |  |  |
+| default | [ACLEntry](#auth-ACLEntry) |  |  |
 
 
 
@@ -563,7 +563,7 @@ Reference Keys
 | ----- | ---- | ----- | ----------- |
 | collection_id | [string](#string) |  |  |
 | role_id | [string](#string) |  |  |
-| ac | [ACEntry](#auth-ACEntry) |  |  |
+| ac | [ACLEntry](#auth-ACLEntry) |  |  |
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
 | parent_role_ids | [string](#string) | repeated |  |

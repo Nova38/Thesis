@@ -18,6 +18,10 @@ type Ledger[T common.ItemInterface] struct {
 	ctx common.TxCtxInterface
 }
 
+func NewLedger[T common.ItemInterface](ctx common.TxCtxInterface) *Ledger[T] {
+	return &Ledger[T]{ctx: ctx}
+}
+
 // UTIL Functions
 func Exists(ctx common.TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)

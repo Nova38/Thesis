@@ -4622,7 +4622,7 @@ namespace v0 {
 
 
 namespace v1 {
-    class ACEntry << (S,Aquamarine) >> {
+    class ACLEntry << (S,Aquamarine) >> {
         - state protoimpl.MessageState
         - sizeCache protoimpl.SizeCache
         - unknownFields protoimpl.UnknownFields
@@ -4643,12 +4643,12 @@ namespace v1 {
         + ValidateAll() error
 
     }
-    class ACEntryMultiError << (S,Aquamarine) >> {
+    class ACLEntryMultiError << (S,Aquamarine) >> {
         + Error() string
         + AllErrors() []error
 
     }
-    class ACEntryValidationError << (S,Aquamarine) >> {
+    class ACLEntryValidationError << (S,Aquamarine) >> {
         - field string
         - reason string
         - cause error
@@ -4680,7 +4680,7 @@ namespace v1 {
         + MspId string
         + Oid string
         + Value string
-        + Ac *ACEntry
+        + Ac *ACLEntry
 
         - validate(all bool) error
 
@@ -4694,7 +4694,7 @@ namespace v1 {
         + GetMspId() string
         + GetOid() string
         + GetValue() string
-        + GetAc() *ACEntry
+        + GetAc() *ACLEntry
         + MarshalJSON() ([]byte, error)
         + UnmarshalJSON(b []byte) error
         + Validate() error
@@ -4729,7 +4729,7 @@ namespace v1 {
         + Name string
         + Description string
         + ObjectTypes []string
-        + Default *ACEntry
+        + Default *ACLEntry
 
         - validate(all bool) error
 
@@ -4746,7 +4746,7 @@ namespace v1 {
         + GetName() string
         + GetDescription() string
         + GetObjectTypes() []string
-        + GetDefault() *ACEntry
+        + GetDefault() *ACLEntry
         + MarshalJSON() ([]byte, error)
         + UnmarshalJSON(b []byte) error
         + Validate() error
@@ -5055,7 +5055,7 @@ namespace v1 {
         + CollectionId string
         + MspId string
         + UserId string
-        + Ac *ACEntry
+        + Ac *ACLEntry
 
         - validate(all bool) error
 
@@ -5071,7 +5071,7 @@ namespace v1 {
         + GetCollectionId() string
         + GetMspId() string
         + GetUserId() string
-        + GetAc() *ACEntry
+        + GetAc() *ACLEntry
         + MarshalJSON() ([]byte, error)
         + UnmarshalJSON(b []byte) error
         + Validate() error
@@ -5342,7 +5342,7 @@ namespace v1 {
 
         + CollectionId string
         + RoleId string
-        + Ac *ACEntry
+        + Ac *ACLEntry
         + Description string
         + ParentRoleIds []string
 
@@ -5359,7 +5359,7 @@ namespace v1 {
         + Descriptor() ([]byte, []int)
         + GetCollectionId() string
         + GetRoleId() string
-        + GetAc() *ACEntry
+        + GetAc() *ACLEntry
         + GetDescription() string
         + GetParentRoleIds() []string
         + MarshalJSON() ([]byte, error)
@@ -5553,7 +5553,7 @@ namespace v1 {
         + Error() string
 
     }
-    class v1.ACEntryMultiError << (T, #FF7700) >>  {
+    class v1.ACLEntryMultiError << (T, #FF7700) >>  {
     }
     class v1.Action << (T, #FF7700) >>  {
     }
@@ -5703,7 +5703,7 @@ namespace v1 {
 "__builtin__.[]error" #.. "v0.Specimen_PrimaryMultiError"
 "__builtin__.[]error" #.. "v0.Specimen_SecondaryMultiError"
 "__builtin__.[]error" #.. "v0.Specimen_TaxonMultiError"
-"__builtin__.[]error" #.. "v1.ACEntryMultiError"
+"__builtin__.[]error" #.. "v1.ACLEntryMultiError"
 "__builtin__.[]error" #.. "v1.AttributeMultiError"
 "__builtin__.[]error" #.. "v1.CollectionMultiError"
 "__builtin__.[]error" #.. "v1.FullObjectMultiError"

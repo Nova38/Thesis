@@ -182,25 +182,23 @@ func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 	return &authpb.User{MspId: mspId, UserId: userId}, nil
 }
 
-// func (ctx *BaseTxCtx) GetUser() (user *authpb.User, err error) {
-// 	if ctx.User != nil {
-// 		return ctx.User, nil
-// 	}
+func (ctx *BaseTxCtx) GetUser() (*authpb.User, error) {
+	if ctx.User != nil {
+		return ctx.User, nil
+	}
+	user, err := ctx.GetUserId()
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-// 	mspId, userId, err := ctx.GetUserId()
-// 	if err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
+	ctx.User = user
 
-// 	ctx.User = &authpb.User{
-// 		MspId:  mspId,
-// 		UserId: userId,
-// 	}
+	Get(ctx, ctx.User)
 
-// 	// err = state.Get()
+	// err = state.Get()
 
-// 	return ctx.User, nil
-// }
+	return ctx.User, nil
+}
 
 // ════════════════════════════════════════════════════════
 //  Collection Functions
@@ -214,34 +212,34 @@ func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
 	return nil, oops.Errorf("collection not set")
 }
 
-// func (ctx *BaseTxCtx) SetCollection(
-//	collectionId string,
-// ) (col *authpb.Collection, err error) {
-//	// TODO:
-//	// FIXME: Need to check in fns before calling is Authorized
-//
-//	// See if the collection pointer has an ID and is not nil
-//	if collectionId == "" {
-//		return nil, oops.
-//			In("SetCollection").
-//			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
-//			Errorf("collection is nil or has no ID")
-//	}
-//
-//	ctx.Collection = &authpb.Collection{
-//		CollectionId: collectionId,
-//	}
-//
-//	if err = get(ctx, ctx.Collection); err != nil {
-//		return nil, oops.
-//			In("SetCollection").
-//			With("collectionId", collectionId).
-//			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
-//			Wrap(err)
-//	}
-//
-//	return ctx.Collection, nil
-//}
+func (ctx *BaseTxCtx) SetCollection(
+	collectionId string,
+) (col *authpb.Collection, err error) {
+	// TODO:
+	// FIXME: Need to check in fns before calling is Authorized
+
+	// See if the collection pointer has an ID and is not nil
+	if collectionId == "" {
+		return nil, oops.
+			In("SetCollection").
+			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
+			Errorf("collection is nil or has no ID")
+	}
+
+	ctx.Collection = &authpb.Collection{
+		CollectionId: collectionId,
+	}
+
+	if err = Get(ctx, ctx.Collection); err != nil {
+		return nil, oops.
+			In("SetCollection").
+			With("collectionId", collectionId).
+			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
+			Wrap(err)
+	}
+
+	return ctx.Collection, nil
+}
 
 // ════════════════════════════════════════════════════════
 // Role Functions

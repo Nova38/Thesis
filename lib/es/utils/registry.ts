@@ -12,7 +12,7 @@ export const Registry = createRegistry(
     items_pb.Person,
 
 
-    auth_pb.ACEntry,
+    auth_pb.Polices,
     auth_pb.Attribute,
     auth_pb.Collection,
     auth_pb.HiddenTx,
@@ -21,7 +21,7 @@ export const Registry = createRegistry(
     auth_pb.Item,
     auth_pb.ItemKey,
     auth_pb.KeySchema,
-    auth_pb.Membership,
+    auth_pb.UserMembership,
     auth_pb.Operation,
     auth_pb.PathPolicy,
     auth_pb.Reference,

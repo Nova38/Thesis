@@ -153,11 +153,17 @@ func ReferencesByItem(
 // Indirectly checks Auth via ReferenceKeysByItem
 func ReferenceKeysByCollection(
 	ctx common.TxCtxInterface,
+	key1 *authpb.ItemKey,
 	collectionId string,
 	bookmark string,
 ) (list []*authpb.ReferenceKey, mk string, err error) {
+	if key1 == nil || collectionId == "" {
+		return nil, mk, oops.Wrap(common.RequestInvalid)
+	}
+
 	refKey := &authpb.ReferenceKey{
-		Key1: &authpb.ItemKey{
+		Key1: key1,
+		Key2: &authpb.ItemKey{
 			CollectionId: collectionId,
 		},
 	}

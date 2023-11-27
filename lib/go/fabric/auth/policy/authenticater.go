@@ -13,7 +13,7 @@ import (
 type OperationChecker struct {
 	op         *authpb.Operation
 	collection *authpb.Collection
-	Acls       map[string]authpb.ACEntry
+	Acls       map[string]authpb.Polices
 }
 
 // ValidateOperation validates an operation against a collection,
@@ -141,7 +141,7 @@ func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, err
 	return true, nil
 }
 
-func AuthOp(ctx common.TxCtxInterface, op *authpb.Operation, acl *authpb.ACEntry) (auth bool, err error) {
+func AuthOp(ctx common.TxCtxInterface, op *authpb.Operation, acl *authpb.Polices) (auth bool, err error) {
 	// TODO implement AuthOp
 	return false, nil
 }
