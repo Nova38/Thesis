@@ -4,79 +4,69 @@
 // @ts-nocheck
 
 import { Message } from "@bufbuild/protobuf";
-import { Author, Awards, Person } from "./items_pb.js";
+import { Book, Group, SimpleItem } from "./items_pb.js";
 
-// Item 
+// SimpleItem 
 
 // Message
+// Primary Item:  SimpleItem
+
+// namecollection_id field }
+// nameid field }
+// namename field }
+// namequantity field }
+    // id   ,
+export function SimpleItemKey(item : SimpleItem): string[] {
+    attr=[]
+ if (!item?.id) {
+    return attr
+ }
+    attr.push(item?.id)
+ return attr
+}
+// Path: id
+
 // Group 
 
 // Message
+// Primary Item:  Group
+
+// namecollection_id field }
+// namegroup_id field }
+// nameitem1 field }
+// nameitem2 field }
+    // group_id   ,
+export function GroupKey(item : Group): string[] {
+    attr=[]
+ if (!item?.groupId) {
+    return attr
+ }
+    attr.push(item?.groupId)
+ return attr
+}
+// Path: group_id
+
 // Book 
 
 // Message
-// Degree 
-
-// Message
-// Awards 
-
-// Message
-// Primary Item:  Awards
+// Primary Item:  Book
 
 // namecollection_id field }
-// nameaward_name field }
-// nameaward_date field }
-// nameaward_description field }
-    // award_name   ,
-export function AwardsKey(item : Awards): string[] {
+// nameisbn field }
+// namebook_title field }
+// nameauthor field }
+// nameyear field }
+// namepublisher field }
+// namelanguage field }
+// namedescription field }
+    // isbn   ,
+export function BookKey(item : Book): string[] {
     attr=[]
- if (!item?.awardName) {
+ if (!item?.isbn) {
     return attr
  }
-    attr.push(item?.awardName)
+    attr.push(item?.isbn)
  return attr
 }
-// Path: award_name
-
-// Author 
-
-// Message
-// Primary Item:  Author
-
-// namecollection_id field }
-// nameauthor_id field }
-// nameauthor_name field }
-// namebooks field }
-// namedegrees field }
-    // author_id   ,
-export function AuthorKey(item : Author): string[] {
-    attr=[]
- if (!item?.authorId) {
-    return attr
- }
-    attr.push(item?.authorId)
- return attr
-}
-// Path: author_id
-
-// Person 
-
-// Message
-// Primary Item:  Person
-
-// namecollection_id field }
-// namename field }
-// nameage field }
-// namefriends field }
-// namegroups field }
-    // name   ,
-export function PersonKey(item : Person): string[] {
-    attr=[]
- if (!item?.name) {
-    return attr
- }
-    attr.push(item?.name)
- return attr
-}
-// Path: name
+// Path: isbn
 

@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SuggestionListRequest",
+    "definitions": {
+        "SuggestionListRequest": {
+            "properties": {
+                "bookmark": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "auth.Item item = 3;"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Suggestion List Request"
+        }
+    }
+}

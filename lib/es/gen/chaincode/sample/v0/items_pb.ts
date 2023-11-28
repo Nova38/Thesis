@@ -4,54 +4,60 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
- * @generated from message sample.Item
+ * @generated from message sample.SimpleItem
  */
-export class Item extends Message<Item> {
+export class SimpleItem extends Message<SimpleItem> {
   /**
-   * @generated from field: string id = 1;
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string id = 2;
    */
   id = "";
 
   /**
-   * @generated from field: string name = 2;
+   * @generated from field: string name = 3;
    */
   name = "";
 
   /**
-   * @generated from field: int32 quantity = 3;
+   * @generated from field: int32 quantity = 4;
    */
   quantity = 0;
 
-  constructor(data?: PartialMessage<Item>) {
+  constructor(data?: PartialMessage<SimpleItem>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "sample.Item";
+  static readonly typeName = "sample.SimpleItem";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "quantity", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "quantity", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Item {
-    return new Item().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SimpleItem {
+    return new SimpleItem().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Item {
-    return new Item().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SimpleItem {
+    return new SimpleItem().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Item {
-    return new Item().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SimpleItem {
+    return new SimpleItem().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Item | PlainMessage<Item> | undefined, b: Item | PlainMessage<Item> | undefined): boolean {
-    return proto3.util.equals(Item, a, b);
+  static equals(a: SimpleItem | PlainMessage<SimpleItem> | undefined, b: SimpleItem | PlainMessage<SimpleItem> | undefined): boolean {
+    return proto3.util.equals(SimpleItem, a, b);
   }
 }
 
@@ -60,14 +66,24 @@ export class Item extends Message<Item> {
  */
 export class Group extends Message<Group> {
   /**
-   * @generated from field: string name = 1;
+   * @generated from field: string collection_id = 1;
    */
-  name = "";
+  collectionId = "";
 
   /**
-   * @generated from field: repeated sample.Item items = 2;
+   * @generated from field: string group_id = 2;
    */
-  items: Item[] = [];
+  groupId = "";
+
+  /**
+   * @generated from field: sample.SimpleItem item1 = 3;
+   */
+  item1?: SimpleItem;
+
+  /**
+   * @generated from field: sample.SimpleItem item2 = 4;
+   */
+  item2?: SimpleItem;
 
   constructor(data?: PartialMessage<Group>) {
     super();
@@ -77,8 +93,10 @@ export class Group extends Message<Group> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "sample.Group";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "items", kind: "message", T: Item, repeated: true },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "group_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "item1", kind: "message", T: SimpleItem },
+    { no: 4, name: "item2", kind: "message", T: SimpleItem },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Group {
@@ -103,37 +121,42 @@ export class Group extends Message<Group> {
  */
 export class Book extends Message<Book> {
   /**
-   * @generated from field: string isbn = 1;
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string isbn = 2;
    */
   isbn = "";
 
   /**
-   * @generated from field: string book_title = 2;
+   * @generated from field: string book_title = 3;
    */
   bookTitle = "";
 
   /**
-   * @generated from field: string author = 3;
+   * @generated from field: string author = 4;
    */
   author = "";
 
   /**
-   * @generated from field: int32 year = 4;
+   * @generated from field: int32 year = 5;
    */
   year = 0;
 
   /**
-   * @generated from field: string publisher = 5;
+   * @generated from field: string publisher = 6;
    */
   publisher = "";
 
   /**
-   * @generated from field: string language = 6;
+   * @generated from field: string language = 7;
    */
   language = "";
 
   /**
-   * @generated from field: string description = 7;
+   * @generated from field: string description = 8;
    */
   description = "";
 
@@ -145,13 +168,14 @@ export class Book extends Message<Book> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "sample.Book";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "isbn", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "book_title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "author", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 5, name: "publisher", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 7, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "isbn", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "book_title", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "author", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 6, name: "publisher", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "language", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 8, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Book {
@@ -168,234 +192,6 @@ export class Book extends Message<Book> {
 
   static equals(a: Book | PlainMessage<Book> | undefined, b: Book | PlainMessage<Book> | undefined): boolean {
     return proto3.util.equals(Book, a, b);
-  }
-}
-
-/**
- * @generated from message sample.Degree
- */
-export class Degree extends Message<Degree> {
-  /**
-   * @generated from field: string degree_name = 1;
-   */
-  degreeName = "";
-
-  /**
-   * @generated from field: string institute = 2;
-   */
-  institute = "";
-
-  /**
-   * @generated from field: google.protobuf.Timestamp degree_date = 3;
-   */
-  degreeDate?: Timestamp;
-
-  constructor(data?: PartialMessage<Degree>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "sample.Degree";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "degree_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "institute", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "degree_date", kind: "message", T: Timestamp },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Degree {
-    return new Degree().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Degree {
-    return new Degree().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Degree {
-    return new Degree().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Degree | PlainMessage<Degree> | undefined, b: Degree | PlainMessage<Degree> | undefined): boolean {
-    return proto3.util.equals(Degree, a, b);
-  }
-}
-
-/**
- * @generated from message sample.Awards
- */
-export class Awards extends Message<Awards> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string award_name = 2;
-   */
-  awardName = "";
-
-  /**
-   * @generated from field: google.protobuf.Timestamp award_date = 3;
-   */
-  awardDate?: Timestamp;
-
-  /**
-   * @generated from field: string award_description = 4;
-   */
-  awardDescription = "";
-
-  constructor(data?: PartialMessage<Awards>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "sample.Awards";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "award_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "award_date", kind: "message", T: Timestamp },
-    { no: 4, name: "award_description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Awards {
-    return new Awards().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Awards {
-    return new Awards().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Awards {
-    return new Awards().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Awards | PlainMessage<Awards> | undefined, b: Awards | PlainMessage<Awards> | undefined): boolean {
-    return proto3.util.equals(Awards, a, b);
-  }
-}
-
-/**
- * @generated from message sample.Author
- */
-export class Author extends Message<Author> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string author_id = 2;
-   */
-  authorId = "";
-
-  /**
-   * @generated from field: string author_name = 3;
-   */
-  authorName = "";
-
-  /**
-   * @generated from field: repeated sample.Book books = 4;
-   */
-  books: Book[] = [];
-
-  /**
-   * Key: degree_name
-   *
-   * @generated from field: map<string, sample.Degree> degrees = 5;
-   */
-  degrees: { [key: string]: Degree } = {};
-
-  constructor(data?: PartialMessage<Author>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "sample.Author";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "author_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "author_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "books", kind: "message", T: Book, repeated: true },
-    { no: 5, name: "degrees", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Degree} },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Author {
-    return new Author().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Author {
-    return new Author().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Author {
-    return new Author().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Author | PlainMessage<Author> | undefined, b: Author | PlainMessage<Author> | undefined): boolean {
-    return proto3.util.equals(Author, a, b);
-  }
-}
-
-/**
- * @generated from message sample.Person
- */
-export class Person extends Message<Person> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name = "";
-
-  /**
-   * @generated from field: int32 age = 3;
-   */
-  age = 0;
-
-  /**
-   * @generated from field: repeated string friends = 4;
-   */
-  friends: string[] = [];
-
-  /**
-   * @generated from field: repeated sample.Group groups = 5;
-   */
-  groups: Group[] = [];
-
-  constructor(data?: PartialMessage<Person>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "sample.Person";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "age", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 4, name: "friends", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 5, name: "groups", kind: "message", T: Group, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Person {
-    return new Person().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Person {
-    return new Person().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Person {
-    return new Person().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Person | PlainMessage<Person> | undefined, b: Person | PlainMessage<Person> | undefined): boolean {
-    return proto3.util.equals(Person, a, b);
   }
 }
 

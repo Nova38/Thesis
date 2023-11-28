@@ -5,14 +5,18 @@
 
 package v0
 
-sample.Item
-	 -sample.Item.id - <nil>
-	 -sample.Item.name - <nil>
-	 -sample.Item.quantity - <nil>
+sample.SimpleItem
+	 -sample.SimpleItem.collection_id - <nil>
+	 -sample.SimpleItem.id - <nil>
+	 -sample.SimpleItem.name - <nil>
+	 -sample.SimpleItem.quantity - <nil>
 sample.Group
-	 -sample.Group.name - <nil>
-	 -sample.Group.items - MessageDescriptor{Syntax: proto3, FullName: sample.Item, Fields: [{Name: id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "id"}, {Name: name, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}, {Name: quantity, Number: 3, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "quantity"}]}
+	 -sample.Group.collection_id - <nil>
+	 -sample.Group.group_id - <nil>
+	 -sample.Group.item1 - MessageDescriptor{Syntax: proto3, FullName: sample.SimpleItem, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "id"}, {Name: name, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}, {Name: quantity, Number: 4, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "quantity"}]}
+	 -sample.Group.item2 - MessageDescriptor{Syntax: proto3, FullName: sample.SimpleItem, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: id, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "id"}, {Name: name, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}, {Name: quantity, Number: 4, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "quantity"}]}
 sample.Book
+	 -sample.Book.collection_id - <nil>
 	 -sample.Book.isbn - <nil>
 	 -sample.Book.book_title - <nil>
 	 -sample.Book.author - <nil>
@@ -20,27 +24,3 @@ sample.Book
 	 -sample.Book.publisher - <nil>
 	 -sample.Book.language - <nil>
 	 -sample.Book.description - <nil>
-sample.Degree
-	 -sample.Degree.degree_name - <nil>
-	 -sample.Degree.institute - <nil>
-	 -sample.Degree.degree_date - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
-sample.Awards
-	 -sample.Awards.collection_id - <nil>
-	 -sample.Awards.award_name - <nil>
-	 -sample.Awards.award_date - MessageDescriptor{Syntax: proto3, FullName: google.protobuf.Timestamp, Fields: [{Name: seconds, Number: 1, Cardinality: optional, Kind: int64, HasJSONName: true, JSONName: "seconds"}, {Name: nanos, Number: 2, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "nanos"}]}
-	 -sample.Awards.award_description - <nil>
-sample.Author
-	 -sample.Author.collection_id - <nil>
-	 -sample.Author.author_id - <nil>
-	 -sample.Author.author_name - <nil>
-	 -sample.Author.books - MessageDescriptor{Syntax: proto3, FullName: sample.Book, Fields: [{Name: isbn, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "isbn"}, {Name: book_title, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "bookTitle"}, {Name: author, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "author"}, {Name: year, Number: 4, Cardinality: optional, Kind: int32, HasJSONName: true, JSONName: "year"}, {Name: publisher, Number: 5, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "publisher"}, {Name: language, Number: 6, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "language"}, {Name: description, Number: 7, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "description"}]}
-	 -sample.Author.degrees - MessageDescriptor{Syntax: proto3, FullName: sample.Author.DegreesEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: sample.Degree}]}
-sample.Author.DegreesEntry
-	 -sample.Author.DegreesEntry.key - <nil>
-	 -sample.Author.DegreesEntry.value - MessageDescriptor{Syntax: proto3, FullName: sample.Degree, Fields: [{Name: degree_name, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "degreeName"}, {Name: institute, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "institute"}, {Name: degree_date, Number: 3, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "degreeDate", HasPresence: true, Message: google.protobuf.Timestamp}]}
-sample.Person
-	 -sample.Person.collection_id - <nil>
-	 -sample.Person.name - <nil>
-	 -sample.Person.age - <nil>
-	 -sample.Person.friends - <nil>
-	 -sample.Person.groups - MessageDescriptor{Syntax: proto3, FullName: sample.Group, Fields: [{Name: name, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}, {Name: items, Number: 2, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "items", IsList: true, Message: sample.Item}]}

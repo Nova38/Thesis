@@ -729,23 +729,7 @@
             <ul>
               
                 <li>
-                  <a href="#sample.Author"><span class="badge">M</span>Author</a>
-                </li>
-              
-                <li>
-                  <a href="#sample.Author.DegreesEntry"><span class="badge">M</span>Author.DegreesEntry</a>
-                </li>
-              
-                <li>
-                  <a href="#sample.Awards"><span class="badge">M</span>Awards</a>
-                </li>
-              
-                <li>
                   <a href="#sample.Book"><span class="badge">M</span>Book</a>
-                </li>
-              
-                <li>
-                  <a href="#sample.Degree"><span class="badge">M</span>Degree</a>
                 </li>
               
                 <li>
@@ -753,11 +737,7 @@
                 </li>
               
                 <li>
-                  <a href="#sample.Item"><span class="badge">M</span>Item</a>
-                </li>
-              
-                <li>
-                  <a href="#sample.Person"><span class="badge">M</span>Person</a>
+                  <a href="#sample.SimpleItem"><span class="badge">M</span>SimpleItem</a>
                 </li>
               
               
@@ -5461,134 +5441,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
       <p></p>
 
       
-        <h3 id="sample.Author">Author</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>author_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>author_name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>books</td>
-                  <td><a href="#sample.Book">Book</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>degrees</td>
-                  <td><a href="#sample.Author.DegreesEntry">Author.DegreesEntry</a></td>
-                  <td>repeated</td>
-                  <td><p>Key: degree_name </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="sample.Author.DegreesEntry">Author.DegreesEntry</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>key</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>value</td>
-                  <td><a href="#sample.Degree">Degree</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="sample.Awards">Awards</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>award_name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>award_date</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>award_description</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="sample.Book">Book</h3>
         <p></p>
 
@@ -5598,6 +5450,13 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
             </thead>
             <tbody>
+              
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
               
                 <tr>
                   <td>isbn</td>
@@ -5655,44 +5514,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
 
         
       
-        <h3 id="sample.Degree">Degree</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>degree_name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>institute</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>degree_date</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
         <h3 id="sample.Group">Group</h3>
         <p></p>
 
@@ -5704,16 +5525,30 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
             <tbody>
               
                 <tr>
-                  <td>name</td>
+                  <td>collection_id</td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
               
                 <tr>
-                  <td>items</td>
-                  <td><a href="#sample.Item">Item</a></td>
-                  <td>repeated</td>
+                  <td>group_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item1</td>
+                  <td><a href="#sample.SimpleItem">SimpleItem</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item2</td>
+                  <td><a href="#sample.SimpleItem">SimpleItem</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
@@ -5724,7 +5559,7 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
 
         
       
-        <h3 id="sample.Item">Item</h3>
+        <h3 id="sample.SimpleItem">SimpleItem</h3>
         <p></p>
 
         
@@ -5733,6 +5568,13 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
               <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
             </thead>
             <tbody>
+              
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
               
                 <tr>
                   <td>id</td>
@@ -5752,58 +5594,6 @@ rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
                   <td>quantity</td>
                   <td><a href="#int32">int32</a></td>
                   <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="sample.Person">Person</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>age</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>friends</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>groups</td>
-                  <td><a href="#sample.Group">Group</a></td>
-                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               

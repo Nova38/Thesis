@@ -1,0 +1,156 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/CreateCollectionResponse",
+    "definitions": {
+        "CreateCollectionResponse": {
+            "properties": {
+                "collection": {
+                    "$ref": "#/definitions/auth.Collection",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Create Collection Response"
+        },
+        "auth.Collection": {
+            "properties": {
+                "collection_id": {
+                    "type": "string",
+                    "description": "The key for the ledger"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "auth_type": {
+                    "enum": [
+                        "AUTH_TYPE_UNSPECIFIED",
+                        0,
+                        "AUTH_TYPE_NONE",
+                        1,
+                        "AUTH_TYPE_ROLE",
+                        2,
+                        "AUTH_TYPE_IDENTITY",
+                        3
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "title": "Auth Type"
+                },
+                "item_types": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "[(buf.validate.field).repeated.items = {   string: {prefix: \"type.googleapis.com/\"} }];"
+                },
+                "reference_types": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "default": {
+                    "$ref": "#/definitions/auth.Polices",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "═════════════════════════════════════════════════════════════════════════════════\n Global Items\n ═════════════════════════════════════════════════════════════════════════════════",
+            "description": "═════════════════════════════════════════════════════════════════════════════════ Global Items ═════════════════════════════════════════════════════════════════════════════════  Collection ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ Note that the types of items are stored in the default ACLEntry key := {COLLECTION}{COLLECTION_ID}"
+        },
+        "auth.PathPolicy": {
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path is a sub path of a field mask"
+                },
+                "full_path": {
+                    "type": "string"
+                },
+                "allow_sub_paths": {
+                    "type": "boolean"
+                },
+                "sub_paths": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/auth.PathPolicy",
+                        "additionalProperties": true
+                    },
+                    "type": "object",
+                    "description": "The key is a valid sub path in the type of state item"
+                },
+                "actions": {
+                    "items": {
+                        "enum": [
+                            "ACTION_UNSPECIFIED",
+                            0,
+                            "ACTION_UTILITY",
+                            1,
+                            "ACTION_VIEW",
+                            10,
+                            "ACTION_CREATE",
+                            11,
+                            "ACTION_UPDATE",
+                            12,
+                            "ACTION_DELETE",
+                            13,
+                            "ACTION_SUGGEST_VIEW",
+                            14,
+                            "ACTION_SUGGEST_CREATE",
+                            15,
+                            "ACTION_SUGGEST_DELETE",
+                            16,
+                            "ACTION_SUGGEST_APPROVE",
+                            17,
+                            "ACTION_VIEW_HISTORY",
+                            18,
+                            "ACTION_VIEW_HIDDEN_TXS",
+                            19,
+                            "ACTION_HIDE_TX",
+                            20,
+                            "ACTION_REFERENCE_CREATE",
+                            21,
+                            "ACTION_REFERENCE_DELETE",
+                            22,
+                            "ACTION_REFERENCE_VIEW",
+                            23
+                        ]
+                    },
+                    "type": "array",
+                    "title": "Action",
+                    "description": "Action - The action to be performed during the operation # Action Groups   - UNSPECIFIED: null or not set   - REGISTER:    Used to register a new user or collection (always allowed)   - COLLECTION:  Used to manage collections permissions   - MEMBERSHIP:  Used to manage membership of a collection   - ITEM:      Used to manage items in a collection"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "═════════════════════════════════════════════\n Access Control\n ═════════════════════════════════════════════",
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ═════════════════════════════════════════════ Access Control ═════════════════════════════════════════════  This message is the tree node for operations on the state item"
+        },
+        "auth.Polices": {
+            "properties": {
+                "item_policies": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/auth.PathPolicy",
+                        "additionalProperties": true
+                    },
+                    "type": "object",
+                    "description": "key is the item type"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "message ItemPolicy {\n   string item_type           = 1 [(buf.validate.field).required = true];\n   PathPolicy path_policies = 2;\n }",
+            "description": "message ItemPolicy {   string item_type           = 1 [(buf.validate.field).required = true];   PathPolicy path_policies = 2; }"
+        }
+    }
+}

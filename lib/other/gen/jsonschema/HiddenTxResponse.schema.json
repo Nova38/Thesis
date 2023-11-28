@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/HiddenTxResponse",
+    "definitions": {
+        "HiddenTxResponse": {
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "hidden_txs": {
+                    "items": {
+                        "$ref": "#/definitions/auth.HiddenTx"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Hidden Tx Response"
+        },
+        "auth.HiddenTx": {
+            "properties": {
+                "tx_id": {
+                    "type": "string"
+                },
+                "msp_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "note": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Hidden Tx"
+        }
+    }
+}

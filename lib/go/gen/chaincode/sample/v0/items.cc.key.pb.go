@@ -9,17 +9,17 @@ import (
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
 
-func (m *Awards) ItemType() string {
-	return "sample.Awards"
+func (m *SimpleItem) ItemType() string {
+	return "sample.SimpleItem"
 }
-func (m *Awards) KeyAttr() []string {
+func (m *SimpleItem) KeyAttr() []string {
 	attr := []string{}
-	attr = append(attr, m.GetAwardName())
+	attr = append(attr, m.GetId())
 	return attr
 }
-func (m *Awards) SetKeyAttr(attr []string) {
+func (m *SimpleItem) SetKeyAttr(attr []string) {
 	if len(attr) > 0 {
-		m.AwardName = attr[0]
+		m.Id = attr[0]
 	} else {
 		return
 	}
@@ -27,28 +27,28 @@ func (m *Awards) SetKeyAttr(attr []string) {
 }
 
 // Domain Item
-func (m *Awards) IsPrimary() bool {
+func (m *SimpleItem) IsPrimary() bool {
 	return true
 }
-func (m *Awards) ItemKey() *v1.ItemKey {
+func (m *SimpleItem) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Awards",
+		ItemType:     "sample.SimpleItem",
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Author) ItemType() string {
-	return "sample.Author"
+func (m *Group) ItemType() string {
+	return "sample.Group"
 }
-func (m *Author) KeyAttr() []string {
+func (m *Group) KeyAttr() []string {
 	attr := []string{}
-	attr = append(attr, m.GetAuthorId())
+	attr = append(attr, m.GetGroupId())
 	return attr
 }
-func (m *Author) SetKeyAttr(attr []string) {
+func (m *Group) SetKeyAttr(attr []string) {
 	if len(attr) > 0 {
-		m.AuthorId = attr[0]
+		m.GroupId = attr[0]
 	} else {
 		return
 	}
@@ -56,28 +56,28 @@ func (m *Author) SetKeyAttr(attr []string) {
 }
 
 // Domain Item
-func (m *Author) IsPrimary() bool {
+func (m *Group) IsPrimary() bool {
 	return true
 }
-func (m *Author) ItemKey() *v1.ItemKey {
+func (m *Group) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Author",
+		ItemType:     "sample.Group",
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
 }
-func (m *Person) ItemType() string {
-	return "sample.Person"
+func (m *Book) ItemType() string {
+	return "sample.Book"
 }
-func (m *Person) KeyAttr() []string {
+func (m *Book) KeyAttr() []string {
 	attr := []string{}
-	attr = append(attr, m.GetName())
+	attr = append(attr, m.GetIsbn())
 	return attr
 }
-func (m *Person) SetKeyAttr(attr []string) {
+func (m *Book) SetKeyAttr(attr []string) {
 	if len(attr) > 0 {
-		m.Name = attr[0]
+		m.Isbn = attr[0]
 	} else {
 		return
 	}
@@ -85,13 +85,13 @@ func (m *Person) SetKeyAttr(attr []string) {
 }
 
 // Domain Item
-func (m *Person) IsPrimary() bool {
+func (m *Book) IsPrimary() bool {
 	return true
 }
-func (m *Person) ItemKey() *v1.ItemKey {
+func (m *Book) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Person",
+		ItemType:     "sample.Book",
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key

@@ -1,0 +1,73 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/PathPolicy",
+    "definitions": {
+        "PathPolicy": {
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path is a sub path of a field mask"
+                },
+                "full_path": {
+                    "type": "string"
+                },
+                "allow_sub_paths": {
+                    "type": "boolean"
+                },
+                "sub_paths": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/PathPolicy",
+                        "additionalProperties": true
+                    },
+                    "type": "object",
+                    "description": "The key is a valid sub path in the type of state item"
+                },
+                "actions": {
+                    "items": {
+                        "enum": [
+                            "ACTION_UNSPECIFIED",
+                            0,
+                            "ACTION_UTILITY",
+                            1,
+                            "ACTION_VIEW",
+                            10,
+                            "ACTION_CREATE",
+                            11,
+                            "ACTION_UPDATE",
+                            12,
+                            "ACTION_DELETE",
+                            13,
+                            "ACTION_SUGGEST_VIEW",
+                            14,
+                            "ACTION_SUGGEST_CREATE",
+                            15,
+                            "ACTION_SUGGEST_DELETE",
+                            16,
+                            "ACTION_SUGGEST_APPROVE",
+                            17,
+                            "ACTION_VIEW_HISTORY",
+                            18,
+                            "ACTION_VIEW_HIDDEN_TXS",
+                            19,
+                            "ACTION_HIDE_TX",
+                            20,
+                            "ACTION_REFERENCE_CREATE",
+                            21,
+                            "ACTION_REFERENCE_DELETE",
+                            22,
+                            "ACTION_REFERENCE_VIEW",
+                            23
+                        ]
+                    },
+                    "type": "array",
+                    "title": "Action",
+                    "description": "Action - The action to be performed during the operation # Action Groups   - UNSPECIFIED: null or not set   - REGISTER:    Used to register a new user or collection (always allowed)   - COLLECTION:  Used to manage collections permissions   - MEMBERSHIP:  Used to manage membership of a collection   - ITEM:      Used to manage items in a collection"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "═════════════════════════════════════════════\n Access Control\n ═════════════════════════════════════════════",
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ═════════════════════════════════════════════ Access Control ═════════════════════════════════════════════  This message is the tree node for operations on the state item"
+        }
+    }
+}

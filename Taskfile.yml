@@ -73,6 +73,7 @@ tasks:
     sources:
       - "proto/**/*"
       - "tools/**/*"
+      - "./buf.gen.yaml"
     cmds:
       - buf generate
 

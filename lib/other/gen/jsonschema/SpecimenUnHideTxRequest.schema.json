@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SpecimenUnHideTxRequest",
+    "definitions": {
+        "SpecimenUnHideTxRequest": {
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "specimen_id": {
+                    "type": "string"
+                },
+                "tx": {
+                    "$ref": "#/definitions/auth.StateActivity",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Specimen Un Hide Tx Request",
+            "description": "SpecimenUnHideTx"
+        },
+        "auth.StateActivity": {
+            "properties": {
+                "tx_id": {
+                    "type": "string",
+                    "description": "The transaction id that caused the change"
+                },
+                "msp_id": {
+                    "type": "string",
+                    "description": "The msp of the user that caused the change"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "The id of the user that caused the change"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "The timestamp of the change",
+                    "format": "date-time"
+                },
+                "note": {
+                    "type": "string",
+                    "description": "A note about the change"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Misc message options\n ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Misc message options ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  Can be used as the history entry"
+        }
+    }
+}

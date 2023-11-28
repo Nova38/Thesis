@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/CreateUserResponse",
+    "definitions": {
+        "CreateUserResponse": {
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/auth.User",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Create User Response"
+        },
+        "auth.User": {
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "msp_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User",
+            "description": "User ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ key := {USER}{USER_ID.msp_id}{USER_ID.id}"
+        }
+    }
+}

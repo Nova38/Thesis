@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/SpecimenGetListRequest",
+    "definitions": {
+        "SpecimenGetListRequest": {
+            "properties": {
+                "bookmark": {
+                    "type": "string"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Specimen Get List Request",
+            "description": "SpecimenGetList"
+        }
+    }
+}

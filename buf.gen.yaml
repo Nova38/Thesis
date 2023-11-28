@@ -15,6 +15,16 @@ plugins:
       out: lib/go/gen
       opt:
           - paths=source_relative
+
+    - plugin: go-hlf
+      out: lib/go/gen
+      opt: [paths=source_relative]
+
+    - plugin: buf.build/bufbuild/validate-go
+      out: lib/go/gen
+      opt:
+          - paths=source_relative
+      
     - plugin: buf.build/community/mitchellh-go-json:v1.1.0
       out: lib/go/gen
       opt:
@@ -22,30 +32,17 @@ plugins:
           - emit_defaults=true
           # - orig_name=true
           - enums_as_ints=true
-    - plugin: buf.build/bufbuild/validate-go
-      out: lib/go/gen
-      opt:
-          - paths=source_relative
+
 
     - plugin: buf.build/bufbuild/es:v1.3.1
       out: lib/es/gen
       opt: target=ts
+
     - plugin: protoc-gen-es-hlf
-      # Override the path to the plugin binary.
-      # See https://buf.build/docs/configuration/v1/buf-gen-yaml#path
       path: ["tsx", "tools/cmd/protoc-gen-es-hlf/main.ts"] 
       opt: target=ts
       out: lib/es/gen
       strategy: all
-
-#    - plugin: buf.build/bufbuild/es:v1.3.1
-#      out: lib/es/js/gen
-#      opt: target=js
-
-    # - plugin: buf.build/bufbuild/connect-es
-    #   out: lib/es/gen/connect
-    #   opt: target=ts
-
 
     - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.1
       out: lib/other/gen/openapiv2
@@ -57,15 +54,17 @@ plugins:
         - json_names_for_fields=false
         # - simple_operation_ids=true
 
-    # - plugin: buf.build/community/chrusty-jsonschema:v1.4.1
-    #   out: lib/other/gen/jsonschema
-    #   opt:
-    #       - prefix_schema_files_with_package=true
-    #       - paths=source_relative
+    - plugin: buf.build/community/chrusty-jsonschema
+      out: lib/other/gen/jsonschema
+      opt: 
+          - prefix_schema_files_with_package=true
+          - paths=source_relative
+          - file_extension=schema.json
+
     - plugin: buf.build/community/pseudomuto-doc:v1.5.1
       out: lib/other/gen/doc
-      # opt:
-        # -  markdown,docs.md
+      opt:
+        -  markdown,docs.md
 
 
 
@@ -75,9 +74,7 @@ plugins:
     #    opt:
     #      - paths=source_relative
 
-    - plugin: go-hlf
-      out: lib/go/gen
-      opt: [paths=source_relative]
+
 
 #    - plugin: buf.build/community/google-gnostic-openapi:v0.7.0
 #      out: gen/gnostic

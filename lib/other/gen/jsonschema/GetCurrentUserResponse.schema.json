@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/GetCurrentUserResponse",
+    "definitions": {
+        "GetCurrentUserResponse": {
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/auth.User",
+                    "additionalProperties": true
+                },
+                "registerd": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "══════════════════════════════════ Helper ═════════════════════════════════════\n ────────────────────────────────── Query ──────────────────────────────────────",
+            "description": "══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ──────────────────────────────────────"
+        },
+        "auth.User": {
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "msp_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User",
+            "description": "User ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ key := {USER}{USER_ID.msp_id}{USER_ID.id}"
+        }
+    }
+}

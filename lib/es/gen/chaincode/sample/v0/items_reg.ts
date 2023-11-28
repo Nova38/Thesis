@@ -4,14 +4,10 @@
 // @ts-nocheck
 
 import type { Message } from "@bufbuild/protobuf";
-import { Author, Awards, Book, Degree, Group, Item, Person } from "./items_pb.js";
+import { Book, Group, SimpleItem } from "./items_pb.js";
 
 export const allTypes: Message[] =[
-  Item, 
+  SimpleItem, 
   Group, 
   Book, 
-  Degree, 
-  Awards, 
-  Author, 
-  Person, 
 ];
