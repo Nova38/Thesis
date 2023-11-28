@@ -28,7 +28,7 @@
  breaklinks=true,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
  {hyperref}
 \hypersetup{pdftitle={University of Kansas Thesis Template},
- pdfauthor={Anonymous},
+ pdfauthor={Thomas Atkins},
  pdfsubject={A Thesis},
  urlcolor={black},citecolor={black},allcolors={black}}
 \makeatletter
@@ -39,24 +39,30 @@
 % This handles code input. Included here just for completion.
 \usepackage{listings}
 
+
+\usepackage{tabularray}
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is the stuff you should edit.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Some Title}
+\title{Secure and Auditable Academic Collections Storage via Hyperledger Fabric-Based Smart Contracts}
 \author{Thomas Atkins}
 % Optional priorcreds field
 % Leave blank if you don't want to list prior credits
 % \priorcreds{B.M. Caffeine}{B.S. in Caffeine}
-\priorcreds{}
-\dept{Department of Electrical Engineering and Computer Science  }
-\degreetitle{Master/PhD of Whatever}
+\priorcreds{B.S in Computer Engineering}
+\dept{Department of Electrical Engineering and Computer Science}
+\degreetitle{Master Of Computer Engineering}
 \papertype{Thesis} % or Dissertation
 %  It is required to have 7 entries, even if some are empty, i.e., {}  for committee and role
-\committee{Member Name 1}{Member Name 2}{Member Name 3}{Member Name 4}{Member 5 has a long name}{Member 6}{}
-\role{Chairperson}{Co-Chair}{Some description}{No Role}{}{External Reviewer}{}
+\committee{Drew Davidson}{Bo Luo}{Fengjun Li}{}{}{}{}
+\role{Chairperson}{}{}{}{}{}{}
 \@printd@testrue
 % BOTH dates must be included.
-\datedefended{July 02, 2019}
+\datedefended{December 11, 2023}
  % Since the date will likely be unknown, this keeps the blank line from floating above the "Date Approved: " line late signing.
 \dateapproved{\textcolor{white}{blank}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,16 +88,24 @@
 % romanpages ~ pages numbered by roman numerals
 \begin{romanpages}
   \maketitle
-  \import{intro/}{introduction}
+  \import{abstract/}{abstract}
   \tableofcontents{}
   \listoffigures
   \listoftables
 \end{romanpages}
 
+
+
+% This is the main body of the document.
+
+\import{Introduction/}{Introduction}
+
 % These are the chapters loaded using import instead of include.
 % For larger projects, import allows for nested files, which may be useful for figures organized in subfolders.
-\import{chap_1/}{chap_1}
+\import{design/}{design}
 \import{chap_2/}{chap_2}
+
+\import{conclusion/}{conclusion}
 
 
 % Bibliography, default style from former template.
@@ -100,11 +114,14 @@
 % Here's two such styles.
 \bibliographystyle{apalike2}
 % \bibliographystyle{alpha}
-\bibliography{thesis_bibliography}
+\bibliography{thesis.bib}
 
 % Appendix, if needed.
 \appendix
 \import{appendix/}{appendix_1}
 \import{appendix/}{appendix_2}
+
+
+
 
 \end{document}
