@@ -8,7 +8,7 @@ import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 // function MakeDegrees(seed: number[], collectionId: string): Record<string, Degree>{
 //     const faker = fakerEN_US;
 //     faker.seed(seed);
-    
+
 //     const degrees: Record<string,samplepb.Degree> = {};
 //     for (let i = 0; i < faker.number.int({max: 10}); i++) {
 //         const degree = new samplepb.Degree({
@@ -18,7 +18,7 @@ import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 //         });
 //         degrees[degree.degreeName] = degree;
 //     }
-    
+
 //     return degrees;
 // }
 
@@ -30,7 +30,7 @@ import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 //     const books: samplepb.Book[] = [];
 //     for (let i = 0; i < faker.number.int({max: 10}); i++) {
 //         const book = new samplepb.Book({
-            
+
 //         });
 //         books.push(book);
 //     }
@@ -43,7 +43,7 @@ import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 // function MakeAuthor(seed: number[], collectionId: string): samplepb.Author{
 //     const faker = fakerEN_US;
 //     faker.seed(seed);
-    
+
 //     const author = new samplepb.Author({
 //         authorId: faker.string.uuid(),
 //         authorName: faker.person.fullName(),
@@ -51,9 +51,8 @@ import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 //         books: MakeBooks(seed, collectionId),
 //         degrees: MakeDegrees(seed, collectionId),
 //     });
-    
-    
-//     return author;
-    
-// }
 
+
+//     return author;
+
+// }

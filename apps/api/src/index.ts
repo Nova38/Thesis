@@ -127,11 +127,11 @@ async function newSigner(): Promise<Signer> {
 async function initLedger(contract: Contract): Promise<void> {
     console.log('\n--> Submit Transaction: InitLedger, function creates the initial set of assets on the ledger');
 
- 
+
 
     // const op = new Operation()
     // op.toJson()
-    
+
 
     // console.log(bytes);
     // await contract.submitTransaction();

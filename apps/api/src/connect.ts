@@ -20,4 +20,3 @@ const chaincodeConfig = {
 const utf8Decoder = new TextDecoder();
 
 let client: grpc.Client;
-

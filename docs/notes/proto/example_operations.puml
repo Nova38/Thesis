@@ -7,7 +7,7 @@ if (Collection Exists) then (yes)
   :Get Objects allowed in Collection;
     if (Object Type Exists) then (yes)
     :Add Object to Collection;
-    
+
     else (no)
         #pink: Invalid Object;
         detach
@@ -18,7 +18,7 @@ else (no)
   detach
 endif
 
-       
+
 
 stop
 @enduml

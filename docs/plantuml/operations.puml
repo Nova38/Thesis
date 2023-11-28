@@ -2,7 +2,7 @@
 
 
 map "Create Collection" as cc {
-    
+
     Action => ACTION_CREATE
     CollectionId => <COLLECTION_ID>
     ItemType => Auth.Collection

@@ -424,6 +424,3 @@ linters-settings:
 #       - name: waitgroup-by-value
 #         severity: warning
 #         disabled: false
-
-
-

@@ -51,7 +51,7 @@ tasks:
     cmd: go run ./apps/chaincode/sample
 
 
-  build:chaincode: 
+  build:chaincode:
     cmds:
       - go build -o ./apps/chaincode/sample/sample ./apps/chaincode/sample
       - GOOS=linux go build  -gcflags="all=-N -l" -o noauth
@@ -61,9 +61,9 @@ tasks:
       - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
 
-  
+
   # network:extract:
-  #   cmds: 
+  #   cmds:
   #     # - wsl bash -c "find \'$base_path\' -type d -name \'keystore\' -exec find {} -maxdepth 1 -type f \; -exec echo \'Found file: {}\" \;"
 
 

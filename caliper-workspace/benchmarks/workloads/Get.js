@@ -29,7 +29,7 @@ const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-m
 
 /**
  *  @typedef {GetWorkload} SpecialType
- * 
+ *
  * @property {PeerGateway} othe
  */
 
@@ -49,7 +49,7 @@ class GetWorkload extends WorkloadModuleBase {
         super();
         this.contractId = '';
         this.contractVersion = '';
-        
+
     }
 
     /**
@@ -78,10 +78,10 @@ class GetWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
-        /** @type {PeerGateway.FabricRequestSettings}*/ 
+        /** @type {PeerGateway.FabricRequestSettings}*/
         const myArgs = {
             contractId: this.contractId,
-            
+
             contractFunction: 'Test',
             contractArguments: [],
             readOnly: false,
@@ -91,7 +91,7 @@ class GetWorkload extends WorkloadModuleBase {
 
 
         const txStatus = await this.sutAdapter.sendRequests(myArgs);
-        
+
         logger.info('txStatus', txStatus);
 
         return txStatus;

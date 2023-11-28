@@ -13,4 +13,3 @@ elif [ "${CORE_PEER_TLS_ENABLED,,}" = "true" ]; then
 else
    npm run start:server-nontls
 fi
-

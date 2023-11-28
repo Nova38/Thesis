@@ -31,7 +31,7 @@ export function createAuthorItem(): Item {
 
 export function unpackItem(item: Item)  {
     const author = new Author();
-    
-    return item.value?.unpack(Registry) 
+
+    return item.value?.unpack(Registry)
 
 }

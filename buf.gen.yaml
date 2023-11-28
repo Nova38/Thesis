@@ -24,7 +24,7 @@ plugins:
       out: lib/go/gen
       opt:
           - paths=source_relative
-      
+
     - plugin: buf.build/community/mitchellh-go-json:v1.1.0
       out: lib/go/gen
       opt:
@@ -39,7 +39,7 @@ plugins:
       opt: target=ts
 
     - plugin: protoc-gen-es-hlf
-      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/main.ts"] 
+      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/main.ts"]
       opt: target=ts
       out: lib/es/gen
       strategy: all
@@ -56,7 +56,7 @@ plugins:
 
     - plugin: buf.build/community/chrusty-jsonschema
       out: lib/other/gen/jsonschema
-      opt: 
+      opt:
           - prefix_schema_files_with_package=true
           - paths=source_relative
           - file_extension=schema.json

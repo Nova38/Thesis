@@ -12,7 +12,7 @@ channels:
     contracts:
     - id: noauth
     - id: rbac
-    - id: rbacWithParent 
+    - id: rbacWithParent
     - id: test
 
 

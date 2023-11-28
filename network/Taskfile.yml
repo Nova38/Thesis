@@ -17,11 +17,11 @@ tasks:
       # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
   down:
     cmds:
-      
-      - docker-compose -f ./explorer/docker-compose.yaml down -v 
-      - docker-compose -f ./prometheus-grafana/docker-compose.yaml down -v 
+
+      - docker-compose -f ./explorer/docker-compose.yaml down -v
+      - docker-compose -f ./prometheus-grafana/docker-compose.yaml down -v
       - bash -c "./network.sh down"
-  t: 
+  t:
     cmd: bash -c "ls -l ../apps/chaincode/auth/noauth"
   noauth:debug:
     cmds:

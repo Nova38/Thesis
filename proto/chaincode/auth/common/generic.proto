@@ -203,7 +203,7 @@ service GenericService {
   message GetCurrentFullUserResponse {
     auth.User user = 1;
     bool registerd = 2;
-    
+
     repeated auth.UserCollectionRoles user_collection_roles = 3;
     repeated auth.UserMembership user_memberships = 4;
   }

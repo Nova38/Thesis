@@ -23,10 +23,10 @@ pyroscope.write "example" {
 
 
 pyroscope.scrape "default_settings" {
-  targets    = [ 
+  targets    = [
     { "__address__" = "peer0org1_test_ccaas:6060", "service_name" = "example_service" } ,
   ]
-    
+
 
   forward_to = [pyroscope.write.example.receiver]
   profiling_config {

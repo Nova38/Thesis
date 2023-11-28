@@ -13,7 +13,7 @@ COPY . .
 RUN go build -gcflags="all=-N -l" -o /noauth
 RUN ls /go
 # RUN go get -d -v ./...
-#RUN go install -v 
+#RUN go install -v
 
 # FROM golang:1.21.4-bookworm AS debug-env
 
@@ -33,5 +33,5 @@ EXPOSE 40000
 # # CMD ["/bin/bash"]
 # CMD ["/go/bin/dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", " /noauth"]
 
-# 
+#
 CMD ["/noauth"]

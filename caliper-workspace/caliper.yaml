@@ -30,9 +30,9 @@ caliper:
     # Settings related to the binding command
     bind:
         # The binding specification of the SUT in the <SUT type>:<SDK version> format
-        sut: 
+        sut:
         # The CWD to use for the binding (i.e., npm install) command
-        cwd: 
+        cwd:
         # The additional args to pass to the binding (i.e., npm install) command
         args:
         # The file to use when binding (replace supported defaults)
@@ -55,7 +55,7 @@ caliper:
     # Workspace directory that contains all configuration information
     workspace: './'
     # The file path for the project-level configuration file. Can be relative to the workspace.
-    projectconfig: 
+    projectconfig:
     # The file path for the user-level configuration file. Can be relative to the workspace.
     userconfig:
     # The file path for the user-level configuration file. Can be relative to the workspace.
@@ -109,7 +109,7 @@ caliper:
             # Adds a specified label to every message. Useful for distributed workers scenario
             label: caliper
             # serializes the log messages as JSON
-            json: {space:0}
+            # json: {space:0}
             # pads the levels to be the same length
             pad: true
             # adds a tab delimiter before the message to align it in the same place
@@ -198,4 +198,3 @@ caliper:
         timeout:
             # The default timeout in seconds to use for invoking or querying transactions (applied for the entire life-cycle)
             invokeorquery: 60
-

@@ -89,7 +89,7 @@ services:
     ports:
       - "12345:12345"
 
-  
+
   # explorerdb.mynetwork.com:
   #   image: ghcr.io/hyperledger-labs/explorer-db:latest
   #   container_name: explorerdb.mynetwork.com
@@ -135,4 +135,3 @@ services:
   #       condition: service_healthy
   #   networks:
   #     - mynetwork.com
-

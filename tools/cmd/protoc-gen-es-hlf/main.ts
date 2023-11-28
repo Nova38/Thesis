@@ -11,7 +11,7 @@ import type {
     DescMessage,
     DescService,
 
-    
+
 } from "@bufbuild/protobuf";
 import {
     literalString,
@@ -29,7 +29,7 @@ const protocGenReg = createEcmaScriptPlugin({
     name: "protoc-gen-reg",
     version: `v1`,
     generateTs,
-    //   parseOptions: 
+    //   parseOptions:
 });
 
 const exportMap = new Map<DescMessage, ImportSymbol>()
@@ -65,7 +65,7 @@ function generateTs(schema: Schema) {
             if (descType.kind == "message") {
                 f.print`// ${descType.name} \n`
                 const options = findCustomMessageOption(descType, 54599, authpb.KeySchema)
-                
+
 
 
                 const {
@@ -83,7 +83,7 @@ function generateTs(schema: Schema) {
                     // SetKeyAttr
                     descType.fields.forEach((field) => {
                         f.print`// name${field.name} ${field.kind} }`
-                        
+
                     })
                             options?.keys?.paths?.forEach((path) => {
                         f.print`    // ${path}   ,`
@@ -98,7 +98,7 @@ function generateTs(schema: Schema) {
                     f.print`export function ${descType}Key(item : ${descType}): string[] {`
                     f.print`    attr=[]`
 
-                    
+
                     keyPaths.forEach((path) => {
                         const name = path.proto.jsonName || ""
                         f.print` if (!item?.${name}) {`
@@ -109,7 +109,7 @@ function generateTs(schema: Schema) {
                     f.print` return attr`
                     f.print`}`
 
-                    
+
 
 
                     options?.keys?.paths?.forEach((path) => {
@@ -189,7 +189,7 @@ function generateGateway(schema: Schema) {
                     f.print`            const promise = this.contract.evaluate(`;
                     f.print`                ${literalString(method.name)},`;
                     f.print`                $request.toJsonString(this.jsonWriteOptions)`;
-                    f.print`            )`    
+                    f.print`            )`
                     f.print`        } else {`
                     f.print`            const promise = this.contract.submit(`;
                     f.print`                ${literalString(method.name)},`;

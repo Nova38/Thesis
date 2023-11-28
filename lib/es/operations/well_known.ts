@@ -9,6 +9,5 @@ const wellKnown : Record<string, authpb.Operation> = {
         itemType: authpb.Collection.typeName,
         collectionId: "<>",
     }),
-    
-}  
 
+}

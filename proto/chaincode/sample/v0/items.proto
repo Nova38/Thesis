@@ -25,7 +25,7 @@ message Group {
   string collection_id = 1;
   string group_id = 2;
   SimpleItem item1 = 3;
-  SimpleItem item2 = 4; 
+  SimpleItem item2 = 4;
 }
 message Book {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
@@ -89,6 +89,3 @@ message Book {
 //   repeated string friends = 4;
 //   repeated Group groups = 5;
 // }
-
-
-

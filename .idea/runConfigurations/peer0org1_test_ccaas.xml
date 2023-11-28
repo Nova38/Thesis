@@ -7,15 +7,15 @@
           <list>
             <DockerEnvVarImpl>
               <option name="name" value="CHAINCODE_ID  " />
-              <option name="value" value="test_1.0.1:d48dd123ca0622c405fbb439c6403f4bf39a330457364453468c708c9cf0c892" />
-            </DockerEnvVarImpl>
-            <DockerEnvVarImpl>
-              <option name="name" value="CORE_CHAINCODE_ID_NAME" />
-              <option name="value" value="test_1.0.1:d48dd123ca0622c405fbb439c6403f4bf39a330457364453468c708c9cf0c892" />
+              <option name="value" value="test_1.0.1:2e8b83f5fec1cb15ee64a09f690e1ca30518ae3c71b620dd00d384ea1a447593" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="CHAINCODE_SERVER_ADDRESS" />
               <option name="value" value="0.0.0.0:9999" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="CORE_CHAINCODE_ID_NAME" />
+              <option name="value" value="test_1.0.1:2e8b83f5fec1cb15ee64a09f690e1ca30518ae3c71b620dd00d384ea1a447593" />
             </DockerEnvVarImpl>
           </list>
         </option>

@@ -45,7 +45,7 @@ def GetUserPaths() -> list[User]:
                 certificate = path / "msp" / "signcerts"
             )
 
-            
+
 
             private_key.rename(private_key_dir / "priv_sk")
 
