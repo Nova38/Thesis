@@ -20,7 +20,7 @@ plugins:
       opt:
           - paths=source_relative
           - emit_defaults=true
-          - orig_name=true
+          # - orig_name=true
           - enums_as_ints=true
     - plugin: buf.build/bufbuild/validate-go
       out: lib/go/gen
@@ -29,15 +29,23 @@ plugins:
 
     - plugin: buf.build/bufbuild/es:v1.3.1
       out: lib/es/gen
-
-
+      opt: target=ts
+    - plugin: protoc-gen-es-hlf
+      # Override the path to the plugin binary.
+      # See https://buf.build/docs/configuration/v1/buf-gen-yaml#path
+      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/main.ts"] 
+      opt: target=ts
+      out: lib/es/gen
+      strategy: all
 
 #    - plugin: buf.build/bufbuild/es:v1.3.1
 #      out: lib/es/js/gen
 #      opt: target=js
 
-    - plugin: buf.build/bufbuild/connect-es
-      out: lib/es/gen/connect
+    # - plugin: buf.build/bufbuild/connect-es
+    #   out: lib/es/gen/connect
+    #   opt: target=ts
+
 
     - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.1
       out: lib/other/gen/openapiv2

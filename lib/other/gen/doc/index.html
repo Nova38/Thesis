@@ -276,6 +276,10 @@
                 </li>
               
                 <li>
+                  <a href="#auth.AuthType"><span class="badge">E</span>AuthType</a>
+                </li>
+              
+                <li>
                   <a href="#auth.ItemKind"><span class="badge">E</span>ItemKind</a>
                 </li>
               
@@ -351,6 +355,10 @@
               
                 <li>
                   <a href="#auth.common.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#auth.common.GetCurrentFullUserResponse"><span class="badge">M</span>GetCurrentFullUserResponse</a>
                 </li>
               
                 <li>
@@ -855,10 +863,19 @@ role </p></td>
                 </tr>
               
                 <tr>
+                  <td>auth_type</td>
+                  <td><a href="#auth.AuthType">AuthType</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
                   <td>item_types</td>
                   <td><a href="#string">string</a></td>
                   <td>repeated</td>
-                  <td><p> </p></td>
+                  <td><p>[(buf.validate.field).repeated.items = {
+  string: {prefix: &#34;type.googleapis.com/&#34;}
+}]; </p></td>
                 </tr>
               
                 <tr>
@@ -1862,6 +1879,41 @@ role </p></td>
           </tbody>
         </table>
       
+        <h3 id="auth.AuthType">AuthType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>AUTH_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>AUTH_TYPE_NONE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>AUTH_TYPE_ROLE</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>AUTH_TYPE_IDENTITY</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="auth.ItemKind">ItemKind</h3>
         <p></p>
         <table class="enum-table">
@@ -2217,6 +2269,23 @@ The user does not have permission to perform the operation</p></td>
         <p></p>
 
         
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
 
         
       
@@ -2395,6 +2464,51 @@ The user does not have permission to perform the operation</p></td>
 
         
       
+        <h3 id="auth.common.GetCurrentFullUserResponse">GetCurrentFullUserResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>registerd</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_collection_roles</td>
+                  <td><a href="#auth.UserCollectionRoles">auth.UserCollectionRoles</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_memberships</td>
+                  <td><a href="#auth.UserMembership">auth.UserMembership</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="auth.common.GetCurrentUserResponse">GetCurrentUserResponse</h3>
         <p></p>
 
@@ -2408,6 +2522,13 @@ The user does not have permission to perform the operation</p></td>
                 <tr>
                   <td>user</td>
                   <td><a href="#auth.User">auth.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>registerd</td>
+                  <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>

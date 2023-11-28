@@ -12,10 +12,15 @@
 
     },
     {
-        "query" :"auth.generic:CreateUser",
+        "query" :"test",
         "args": [{}]
 
     },
+  {  
+    "query" :"TestFail",
+    "args": [{}]
+
+},
     {
         "invoke" : "auth.generic:GetCurrentUser",
         "args":

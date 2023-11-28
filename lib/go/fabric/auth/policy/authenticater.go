@@ -121,6 +121,12 @@ func HandleCollectionOperation(ctx common.TxCtxInterface, op *authpb.Operation) 
 		return false, oops.Wrap(err)
 	}
 
+	if collection.GetAuthType() == authpb.AuthType_AUTH_TYPE_NONE {
+		ctx.GetLogger().Info("Auth type is no auth, short circuiting")
+		return true, nil
+	}
+
+	// Get the default ACL of the collection
 	acl := collection.GetDefault()
 	if acl == nil {
 		return false, oops.Wrap(err)
@@ -132,6 +138,25 @@ func HandleCollectionOperation(ctx common.TxCtxInterface, op *authpb.Operation) 
 		return false, oops.Wrap(common.UserPermissionDenied)
 	} else if auth {
 		return true, nil
+	}
+
+	policies := []*authpb.Polices{}
+
+	// Handle the extraction of the policies of diffrent auth types
+	switch collection.GetAuthType() {
+	case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
+		ctx.GetLogger().Error("Auth type Unspecified")
+		return false, oops.Wrap(common.UserPermissionDenied)
+
+	case authpb.AuthType_AUTH_TYPE_IDENTITY:
+		policy, err := GetMembershipACL(ctx, collection.GetCollectionId())
+		if err != nil {
+			return false, oops.Wrap(err)
+		}
+
+		policies = append(policies, policy)
+	case authpb.AuthType_AUTH_TYPE_ROLE:
+
 	}
 
 	return false, nil
@@ -147,8 +172,6 @@ func AuthOp(ctx common.TxCtxInterface, op *authpb.Operation, acl *authpb.Polices
 }
 
 // --------------------------------------------------
-func BuildPolicyChecker(policies []*authpb.PathPolicy) {
-}
 
 func ActionOnPathPolicy(p *authpb.PathPolicy, action authpb.Action) (authorized bool, found bool) {
 	if p == nil && p.GetActions() == nil {

@@ -1915,6 +1915,8 @@ func (m *Collection) validate(all bool) error {
 
 	// no validation rules for Description
 
+	// no validation rules for AuthType
+
 	if all {
 		switch v := interface{}(m.GetDefault()).(type) {
 		case interface{ ValidateAll() error }:

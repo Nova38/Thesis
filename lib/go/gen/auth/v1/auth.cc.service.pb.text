@@ -68,6 +68,7 @@ auth.Collection
 	 -auth.Collection.collection_id - <nil>
 	 -auth.Collection.name - <nil>
 	 -auth.Collection.description - <nil>
+	 -auth.Collection.auth_type - <nil>
 	 -auth.Collection.item_types - <nil>
 	 -auth.Collection.reference_types - <nil>
 	 -auth.Collection.default - MessageDescriptor{Syntax: proto3, FullName: auth.Polices, Fields: [{Name: item_policies, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "itemPolicies", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}], Messages: [{Name: ItemPoliciesEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}

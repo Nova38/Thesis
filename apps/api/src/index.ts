@@ -37,7 +37,6 @@ const peerHostAlias = envOrDefault('PEER_HOST_ALIAS', 'peer0.org1.example.com');
 const utf8Decoder = new TextDecoder();
 const assetId = `asset${Date.now()}`;
 
-import { Operation } from 'lib/gen/auth/v1/auth_pb.js';
 
 async function main(): Promise<void> {
 

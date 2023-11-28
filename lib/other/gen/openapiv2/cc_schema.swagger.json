@@ -1183,6 +1183,16 @@
       "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - ITEM:      Used to manage items in a collection\n\n - ACTION_VIEW: View the contents of an item\n - ACTION_CREATE: Create a new item\n - key must not already exist\n - ACTION_UPDATE: Update an existing item\n  - key must already exist\n  - potential has paths\n - ACTION_DELETE: Delete an existing item, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the item, key must already exist",
       "title": "Action - The action to be performed during the operation"
     },
+    "authAuthType": {
+      "type": "string",
+      "enum": [
+        "AUTH_TYPE_UNSPECIFIED",
+        "AUTH_TYPE_NONE",
+        "AUTH_TYPE_ROLE",
+        "AUTH_TYPE_IDENTITY"
+      ],
+      "default": "AUTH_TYPE_UNSPECIFIED"
+    },
     "authCollection": {
       "type": "object",
       "properties": {
@@ -1196,11 +1206,15 @@
         "description": {
           "type": "string"
         },
+        "auth_type": {
+          "$ref": "#/definitions/authAuthType"
+        },
         "item_types": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "title": "[(buf.validate.field).repeated.items = {\n   string: {prefix: \"type.googleapis.com/\"}\n }];"
         },
         "reference_types": {
           "type": "array",
@@ -1515,7 +1529,12 @@
       "title": "──────────────────────────────── Invoke ───────────────────────────────────────"
     },
     "commonBootstrapResponse": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
     },
     "commonCreateCollectionRequest": {
       "type": "object",
@@ -1582,6 +1601,9 @@
       "properties": {
         "user": {
           "$ref": "#/definitions/authUser"
+        },
+        "registerd": {
+          "type": "boolean"
         }
       }
     },

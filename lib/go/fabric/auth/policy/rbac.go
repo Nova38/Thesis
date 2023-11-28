@@ -1,4 +1,4 @@
-package contracts
+package policy
 
 import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
@@ -92,7 +92,15 @@ func roleGetPolicyForItem(ctx common.TxCtxInterface, role *authpb.Role, itemType
 	return itemAcl, true, nil
 }
 
-func RoleAuthorizeOperations(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
+func GetRoleACL(ctx common.TxCtxInterface, role *authpb.Role) (*authpb.Polices, error) {
+	if role.GetPolices() == nil {
+		return nil, oops.Errorf("role ac is nil")
+	}
+
+	return role.GetPolices(), nil
+}
+
+func RoleAuthorizeOperation(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info("RoleAuthorizeOperations", "ops", ops)
 
 	opsByCol := lo.GroupBy(ops, func(op *authpb.Operation) string {

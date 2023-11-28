@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
@@ -9,10 +10,12 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
-	contracts "github.com/nova38/thesis/lib/go/fabric/auth/contracts"
+	"github.com/nova38/thesis/lib/go/fabric/auth/contracts"
 	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	"github.com/samber/lo"
+
 	"github.com/samber/oops"
 )
 
@@ -41,6 +44,10 @@ func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, err
 // Contract
 // ═════════════════════════════════════════════
 
+func iError() error {
+	return oops.Errorf("Error")
+}
+
 // NoAuthContract is the contract for the NoAuth chaincode
 
 type NoAuthContract struct {
@@ -51,6 +58,15 @@ func (c *NoAuthContract) Test(ctx common.TxCtxInterface) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Test")
 
 	return true, nil
+}
+
+func (c *NoAuthContract) TestFail(ctx common.TxCtxInterface) (bool, error) {
+	ctx.GetLogger().Info("NoAuthContract.TestFail")
+	e := iError()
+	b := lo.Must(json.MarshalIndent(e, "", "  "))
+	ctx.GetLogger().Info(string(b))
+
+	return false, e
 }
 
 func BeforeTransaction(ctx common.TxCtxInterface) (err error) {

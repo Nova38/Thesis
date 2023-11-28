@@ -1,7 +1,8 @@
 'use strict'
 const l = require("es")    
 
-const x = l.utils.factory.createAuthorItem()
+const x = new l.gen.auth.v1.auth_pb.Attribute()
 
 
-console.log(x.toJson({typeRegistry: l.utils.reg.Registry}))
+
+console.log(x.toJson())

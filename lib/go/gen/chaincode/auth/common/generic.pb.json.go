@@ -12,7 +12,7 @@ func (msg *GetCurrentUserResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -24,11 +24,27 @@ func (msg *GetCurrentUserResponse) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
+func (msg *GetCurrentFullUserResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{
+		UseEnumNumbers:  true,
+		EmitUnpopulated: true,
+		UseProtoNames:   false,
+	}.Marshal(msg)
+}
+
+// UnmarshalJSON implements json.Unmarshaler
+func (msg *GetCurrentFullUserResponse) UnmarshalJSON(b []byte) error {
+	return protojson.UnmarshalOptions{
+		DiscardUnknown: false,
+	}.Unmarshal(b, msg)
+}
+
+// MarshalJSON implements json.Marshaler
 func (msg *AuthorizeOperationRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -44,7 +60,7 @@ func (msg *AuthorizeOperationResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -60,7 +76,7 @@ func (msg *BootstrapRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -76,7 +92,7 @@ func (msg *BootstrapResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -92,7 +108,7 @@ func (msg *CreateCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -108,7 +124,7 @@ func (msg *CreateCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -124,7 +140,7 @@ func (msg *CreateUserResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -140,7 +156,7 @@ func (msg *GetRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -156,7 +172,7 @@ func (msg *GetResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -172,7 +188,7 @@ func (msg *ListRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -188,7 +204,7 @@ func (msg *ListResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -204,7 +220,7 @@ func (msg *ListByCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -220,7 +236,7 @@ func (msg *ListByCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -236,7 +252,7 @@ func (msg *ListByAttrsRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -252,7 +268,7 @@ func (msg *ListByAttrsResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -268,7 +284,7 @@ func (msg *CreateRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -284,7 +300,7 @@ func (msg *CreateResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -300,7 +316,7 @@ func (msg *UpdateRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -316,7 +332,7 @@ func (msg *UpdateResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -332,7 +348,7 @@ func (msg *DeleteRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -348,7 +364,7 @@ func (msg *DeleteResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -364,7 +380,7 @@ func (msg *HistoryRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -380,7 +396,7 @@ func (msg *HistoryResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -396,7 +412,7 @@ func (msg *HiddenTxRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -412,7 +428,7 @@ func (msg *HiddenTxResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -428,7 +444,7 @@ func (msg *HideTxRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -444,7 +460,7 @@ func (msg *HideTxResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -460,7 +476,7 @@ func (msg *UnHideTxRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -476,7 +492,7 @@ func (msg *UnHideTxResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -492,7 +508,7 @@ func (msg *ReferenceRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -508,7 +524,7 @@ func (msg *ReferenceResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -524,7 +540,7 @@ func (msg *ReferenceByCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -540,7 +556,7 @@ func (msg *ReferenceByCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -556,7 +572,7 @@ func (msg *ReferenceByPartialKeyRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -572,7 +588,7 @@ func (msg *ReferenceByPartialKeyResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -588,7 +604,7 @@ func (msg *ReferenceByItemRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -604,7 +620,7 @@ func (msg *ReferenceByItemResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -620,7 +636,7 @@ func (msg *ReferenceCreateRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -636,7 +652,7 @@ func (msg *ReferenceCreateResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -652,7 +668,7 @@ func (msg *ReferenceDeleteRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -668,7 +684,7 @@ func (msg *ReferenceDeleteResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -684,7 +700,7 @@ func (msg *SuggestionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -700,7 +716,7 @@ func (msg *SuggestionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -716,7 +732,7 @@ func (msg *SuggestionListRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -732,7 +748,7 @@ func (msg *SuggestionListResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -748,7 +764,7 @@ func (msg *SuggestionListByCollectionRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -764,7 +780,7 @@ func (msg *SuggestionListByCollectionResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -780,7 +796,7 @@ func (msg *SuggestionListByItemRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -796,7 +812,7 @@ func (msg *SuggestionListByItemResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -812,7 +828,7 @@ func (msg *SuggestionByPartialKeyRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -828,7 +844,7 @@ func (msg *SuggestionByPartialKeyResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -844,7 +860,7 @@ func (msg *SuggestionCreateRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -860,7 +876,7 @@ func (msg *SuggestionCreateResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -876,7 +892,7 @@ func (msg *SuggestionDeleteRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -892,7 +908,7 @@ func (msg *SuggestionDeleteResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -908,7 +924,7 @@ func (msg *SuggestionApproveRequest) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -924,7 +940,7 @@ func (msg *SuggestionApproveResponse) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 

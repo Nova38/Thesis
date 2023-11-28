@@ -20,10 +20,25 @@
 //
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
+const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
 const lib = require('es')
+
+const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-module');
+
+
+
+/**
+ *  @typedef {GetWorkload} SpecialType
+ * 
+ * @property {PeerGateway} othe
+ */
+
 
 /**
  * Workload module for the benchmark round.
+ * @type {GetWorkload}
+ * @property {string} contractId The name of the contract.
+ * @property {string} contractVersion The version of the contract.
  */
 class GetWorkload extends WorkloadModuleBase {
 
@@ -34,6 +49,7 @@ class GetWorkload extends WorkloadModuleBase {
         super();
         this.contractId = '';
         this.contractVersion = '';
+        
     }
 
     /**
@@ -42,7 +58,7 @@ class GetWorkload extends WorkloadModuleBase {
      * @param {number} totalWorkers The total number of workers participating in the round.
      * @param {number} roundIndex The 0-based index of the currently executing round.
      * @param {Object} roundArguments The user-provided arguments for the round from the benchmark configuration file.
-     * @param {ConnectorBase} sutAdapter The adapter of the underlying SUT.
+     * @param {PeerGateway} sutAdapter The adapter of the underlying SUT.
      * @param {Object} sutContext The custom context object provided by the SUT adapter.
      * @async
      */
@@ -51,6 +67,9 @@ class GetWorkload extends WorkloadModuleBase {
         // const  i = import('../../lib')
         const args = this.roundArguments;
         this.contractId = args.contractId;
+
+        lib.gen.auth.v1.auth_pb.Action.CREATE
+
         this.contractVersion = args.contractVersion;
     }
 
@@ -59,14 +78,23 @@ class GetWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
+        /** @type {PeerGateway.FabricRequestSettings}*/ 
         const myArgs = {
             contractId: this.contractId,
+            
             contractFunction: 'Test',
             contractArguments: [],
             readOnly: false,
-            invokerIdentity: "User1"
+            invokerIdentity: "User1",
+            invokerMspId: "Org1MSP",
         };
-        return this.sutAdapter.sendRequests(myArgs);
+
+
+        const txStatus = await this.sutAdapter.sendRequests(myArgs);
+        
+        logger.info('txStatus', txStatus);
+
+        return txStatus;
     }
 }
 

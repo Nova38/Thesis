@@ -1,7 +1,11 @@
 package contracts
 
 import (
+	"log/slog"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	pkgErrors "github.com/pkg/errors"
+
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
@@ -65,18 +69,20 @@ func (o ItemContractImpl) Get(
 
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
-		return nil, oops.Wrap(err)
+		return nil, pkgErrors.Wrap(err, "UnPackItem")
 	}
 
 	if err = state.PrimaryGet(ctx, obj); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, err
 	}
 
 	if msg, err = common.PackItem(obj); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, err
 	} else {
 		return &cc.GetResponse{
@@ -91,11 +97,12 @@ func (o ItemContractImpl) List(
 ) (res *cc.ListResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 	proto.Reset(obj)
@@ -103,6 +110,7 @@ func (o ItemContractImpl) List(
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -112,6 +120,7 @@ func (o ItemContractImpl) List(
 	}
 
 	if res.Items, err = common.ListItemToProtos(list); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -124,17 +133,19 @@ func (o ItemContractImpl) ListByCollection(
 ) (res *cc.ListByCollectionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 	// proto.Reset(obj) // reset the item to its default state, so that we can get the full list
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -144,6 +155,7 @@ func (o ItemContractImpl) ListByCollection(
 	}
 
 	if res.Items, err = common.ListItemToProtos(list); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -156,16 +168,20 @@ func (o ItemContractImpl) ListByAttrs(
 ) (res *cc.ListByAttrsResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+
 		return nil, oops.Wrap(err)
 	}
 
@@ -175,6 +191,7 @@ func (o ItemContractImpl) ListByAttrs(
 	}
 
 	if res.Items, err = common.ListItemToProtos(list); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -189,18 +206,22 @@ func (o ItemContractImpl) Create(
 ) (res *cc.CreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	// Get the item from the request
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	// Check if the item is a valid item for the collection??
 
-	err = state.PrimaryCreate(ctx, obj)
+	if err = state.PrimaryCreate(ctx, obj); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		return nil, oops.Wrap(err)
+	}
 
 	return &cc.CreateResponse{
 		Item: req.GetItem(),
@@ -213,17 +234,19 @@ func (o ItemContractImpl) Update(
 ) (res *cc.UpdateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	// Get the item from the request
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	updated, err := state.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -244,12 +267,13 @@ func (o ItemContractImpl) Delete(
 ) (res *cc.DeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	// Get the item from the request
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -259,6 +283,7 @@ func (o ItemContractImpl) Delete(
 
 	item, err := common.PackItem(obj)
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -280,14 +305,16 @@ func (o ItemContractImpl) History(
 	)
 
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	if h, err = state.History(ctx, obj); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -306,9 +333,9 @@ func (o ItemContractImpl) HiddenTx(
 	)
 
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -331,17 +358,19 @@ func (o ItemContractImpl) HideTx(
 ) (res *cc.HideTxResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	// Get the item from the request
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	list, err := state.HideTransaction(ctx, obj, req.GetHiddenTx())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -357,17 +386,19 @@ func (o ItemContractImpl) UnHideTx(
 ) (res *cc.UnHideTxResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	// Get the item from the request
 	obj, err := common.UnPackItem(req.GetItem())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
 	list, err := state.UnHideTransaction(ctx, obj, req.GetTxId())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -389,9 +420,9 @@ func (o ItemContractImpl) Reference(
 
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if v, err := state.GetReference(ctx, req.GetReference()); err != nil {
 		return nil, oops.Wrap(err)
 	} else if v == nil && err == nil {
@@ -412,9 +443,9 @@ func (o ItemContractImpl) ReferenceByPartialKey(
 ) (res *cc.ReferenceByPartialKeyResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	list, mk, err := state.PartialReferenceKeysList(
 		ctx,
 		req.GetReference(),
@@ -422,6 +453,7 @@ func (o ItemContractImpl) ReferenceByPartialKey(
 		req.GetBookmark(),
 	)
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -483,10 +515,12 @@ func (o ItemContractImpl) ReferenceByItem(
 ) (res *cc.ReferenceByItemResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 	list, mk, err := state.ReferenceKeysByItem(ctx, req.GetItemKey(), req.GetBookmark())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -507,9 +541,9 @@ func (o ItemContractImpl) ReferenceCreate(
 ) (res *cc.ReferenceCreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if _, err = state.ReferenceCreate(ctx, req.GetRefKey()); err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -526,6 +560,7 @@ func (o ItemContractImpl) ReferenceDelete(
 ) (res *cc.ReferenceDeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 	if err = state.ReferenceDelete(ctx, req.GetRefKey()); err != nil {
@@ -546,9 +581,9 @@ func (o ItemContractImpl) Suggestion(
 ) (res *cc.SuggestionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	sug := &authpb.Suggestion{
 		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
@@ -569,11 +604,12 @@ func (o ItemContractImpl) SuggestionListByCollection(
 ) (res *cc.SuggestionListByCollectionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	list, mk, err := state.SuggestionListByCollection(ctx, req.GetCollectionId(), req.GetBookmark())
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -591,6 +627,7 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 ) (res *cc.SuggestionByPartialKeyResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 	sug := &authpb.Suggestion{
@@ -604,6 +641,7 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 		req.GetBookmark(),
 	)
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
@@ -623,9 +661,9 @@ func (o ItemContractImpl) SuggestionCreate(
 ) (res *cc.SuggestionCreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	if err = state.SuggestionCreate(ctx, req.GetSuggestion()); err != nil {
 		ctx.GetLogger().Warn("SuggestionCreate", "err", err)
 		return nil, oops.Wrap(err)
@@ -642,9 +680,9 @@ func (o ItemContractImpl) SuggestionDelete(
 ) (res *cc.SuggestionDeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	sug := &authpb.Suggestion{
 		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
@@ -665,9 +703,9 @@ func (o ItemContractImpl) SuggestionApprove(
 ) (res *cc.SuggestionApproveResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-
 	sug := &authpb.Suggestion{
 		PrimaryKey:   req.GetItemKey(),
 		SuggestionId: req.GetSuggestionId(),
@@ -675,6 +713,7 @@ func (o ItemContractImpl) SuggestionApprove(
 
 	u, err := state.SuggestionApprove(ctx, sug)
 	if err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 

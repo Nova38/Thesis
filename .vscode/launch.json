@@ -24,7 +24,7 @@
         "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
         "console": "integratedTerminal",
         "env": {
-            "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG:kvledger,lockbasedtxmgr,ledgerstorage,stateleveldb,statecouchdb,couchdb=debug"
+            // "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG:kvledger,lockbasedtxmgr,ledgerstorage,stateleveldb,statecouchdb,couchdb=debug"
         }
     },
     {

@@ -33,8 +33,6 @@ service GenericService {
     option (auth.operation) = {action: ACTION_UTILITY};
   }
 
-
-
   rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
@@ -200,10 +198,18 @@ service GenericService {
 
   message GetCurrentUserResponse {
     auth.User user = 1;
+    bool registerd = 2;
+  }
+  message GetCurrentFullUserResponse {
+    auth.User user = 1;
+    bool registerd = 2;
+    
+    repeated auth.UserCollectionRoles user_collection_roles = 3;
+    repeated auth.UserMembership user_memberships = 4;
   }
 
   message AuthorizeOperationRequest {
-    auth.Operation operation = 2;
+    auth.Operation operation = 1;
   }
 
 
@@ -219,7 +225,7 @@ service GenericService {
   }
 
   message BootstrapResponse {
-
+    bool success = 1;
   }
 
   message CreateCollectionRequest{
@@ -236,7 +242,7 @@ service GenericService {
 
 
 
-// ══════════════════════════════ Generic Item ══════════════════════════════=
+// ══════════════════════════════ Generic Item ════════════════════════════════════
 // ────────────────────────────── Query ───────────────────────────────────────-
 
 // Get

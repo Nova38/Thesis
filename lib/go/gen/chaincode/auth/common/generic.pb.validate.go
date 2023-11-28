@@ -86,6 +86,8 @@ func (m *GetCurrentUserResponse) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Registerd
+
 	if len(errors) > 0 {
 		return GetCurrentUserResponseMultiError(errors)
 	}
@@ -165,6 +167,207 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetCurrentUserResponseValidationError{}
+
+// Validate checks the field values on GetCurrentFullUserResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetCurrentFullUserResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCurrentFullUserResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetCurrentFullUserResponseMultiError, or nil if none found.
+func (m *GetCurrentFullUserResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCurrentFullUserResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetCurrentFullUserResponseValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetCurrentFullUserResponseValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetCurrentFullUserResponseValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Registerd
+
+	for idx, item := range m.GetUserCollectionRoles() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCurrentFullUserResponseValidationError{
+						field:  fmt.Sprintf("UserCollectionRoles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCurrentFullUserResponseValidationError{
+						field:  fmt.Sprintf("UserCollectionRoles[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCurrentFullUserResponseValidationError{
+					field:  fmt.Sprintf("UserCollectionRoles[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetUserMemberships() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetCurrentFullUserResponseValidationError{
+						field:  fmt.Sprintf("UserMemberships[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetCurrentFullUserResponseValidationError{
+						field:  fmt.Sprintf("UserMemberships[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetCurrentFullUserResponseValidationError{
+					field:  fmt.Sprintf("UserMemberships[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetCurrentFullUserResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetCurrentFullUserResponseMultiError is an error wrapping multiple
+// validation errors returned by GetCurrentFullUserResponse.ValidateAll() if
+// the designated constraints aren't met.
+type GetCurrentFullUserResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCurrentFullUserResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCurrentFullUserResponseMultiError) AllErrors() []error { return m }
+
+// GetCurrentFullUserResponseValidationError is the validation error returned
+// by GetCurrentFullUserResponse.Validate if the designated constraints aren't met.
+type GetCurrentFullUserResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetCurrentFullUserResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetCurrentFullUserResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetCurrentFullUserResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetCurrentFullUserResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetCurrentFullUserResponseValidationError) ErrorName() string {
+	return "GetCurrentFullUserResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetCurrentFullUserResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetCurrentFullUserResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetCurrentFullUserResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetCurrentFullUserResponseValidationError{}
 
 // Validate checks the field values on AuthorizeOperationRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -524,6 +727,8 @@ func (m *BootstrapResponse) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Success
 
 	if len(errors) > 0 {
 		return BootstrapResponseMultiError(errors)
