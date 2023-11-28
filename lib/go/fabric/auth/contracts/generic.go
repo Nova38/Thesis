@@ -30,7 +30,12 @@ var _ cc.GenericServiceInterface[common.TxCtxInterface] = (*ItemContractImpl)(ni
 
 func (o ItemContractImpl) GetCurrentUser(ctx common.TxCtxInterface) (res *cc.GetCurrentUserResponse, err error) {
 	// TODO implement me
-	panic("implement me")
+
+	res = &cc.GetCurrentUserResponse{}
+
+	res.User, err = ctx.GetUserId()
+	return res, err
+	// panic("implement me")
 }
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
