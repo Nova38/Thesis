@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./dist",
     "generate-barrels": "barrelsby --delete -s filesystem -e ./dist/*",
-    "build": "esbuild --bundle index.ts --outfile=bundle.js --platform=node --target=node16 --format=cjs ",
-    "build:watch": "esbuild --bundle index.ts --outfile=bundle.js --platform=node --target=node16 --format=cjs --watch",
+    "build": "esbuild --bundle index.ts --outfile=./dist/bundle.js --platform=node --target=node16 --format=cjs ",
+    "build:watch": "esbuild --bundle index.ts --outfile=./dist/bundle.js --platform=node --target=node16 --format=cjs --watch",
     "build:cjs": "tsc --project tsconfig.json --module commonjs --outDir ./dist/cjs --declaration --declarationDir ./dist/cjs"
   },
   "keywords": [],
@@ -24,7 +24,7 @@
   "exports": {
     ".": {
       "module": "./dist/esm/index.js",
-      "require": "./dist/index.js",
+      "require": "./dist/bundle.js",
       "import": "./dist/proxy/index.js"
     }
   },
