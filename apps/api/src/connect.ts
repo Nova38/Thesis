@@ -8,8 +8,8 @@ import {
   signers,
 } from '@hyperledger/fabric-gateway';
 
-import {GenericService} from "../../../lib/es/gen/connect/chaincode/auth/common/generic_connect"
-
+// import {GenericService} from "../../../lib/es/gen/connect/chaincode/auth/common/generic_connect"
+// import {gen} from "es"
 
 
 const chaincodeConfig = {

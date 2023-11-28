@@ -129,11 +129,11 @@ async function initLedger(contract: Contract): Promise<void> {
 
  
 
-    const op = new Operation()
-    op.toJson()
+    // const op = new Operation()
+    // op.toJson()
     
 
-    console.log(bytes);
+    // console.log(bytes);
     // await contract.submitTransaction();
 
     console.log('*** Transaction committed successfully');
