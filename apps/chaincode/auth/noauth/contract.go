@@ -6,6 +6,11 @@ import (
 	"log/slog"
 	"os"
 
+	// _ "net/http/pprof"
+
+	// "github.com/grafana/pyroscope-go"
+	// _ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof" // add this line as well
+
 	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -90,7 +95,49 @@ func BeforeTransaction(ctx common.TxCtxInterface) (err error) {
 // Main
 // ═════════════════════════════════════════════
 
+func startPyrosope() {
+}
+
 func main() {
+	// fmt.Println("Starting http for pprof")
+	// go func() {
+	// 	fmt.Println(http.ListenAndServe("0.0.0.0:6060", nil))
+	// }()
+	// appName := fmt.Sprintf("%s-%s", ccid, "noauth")
+
+	// v, err := pyroscope.Start(pyroscope.Config{
+	// 	ApplicationName: "noauth",
+
+	// 	// replace this with the address of pyroscope server
+	// 	ServerAddress: "http://pyroscope:4040",
+
+	// 	// you can disable logging by setting this to nil
+	// 	Logger: pyroscope.StandardLogger,
+
+	// 	// you can provide static tags via a map:
+	// 	Tags: map[string]string{"hostname": os.Getenv("HOSTNAME")},
+
+	// 	ProfileTypes: []pyroscope.ProfileType{
+	// 		// these profile types are enabled by default:
+	// 		pyroscope.ProfileCPU,
+	// 		pyroscope.ProfileAllocObjects,
+	// 		pyroscope.ProfileAllocSpace,
+	// 		pyroscope.ProfileInuseObjects,
+	// 		pyroscope.ProfileInuseSpace,
+
+	// 		// these profile types are optional:
+	// 		pyroscope.ProfileGoroutines,
+	// 		pyroscope.ProfileMutexCount,
+	// 		pyroscope.ProfileMutexDuration,
+	// 		pyroscope.ProfileBlockCount,
+	// 		pyroscope.ProfileBlockDuration,
+	// 	},
+	// })
+	// if err != nil {
+	// 	fmt.Println("Error starting Pyroscope", err)
+	// }
+	// defer v.Stop()
+
 	fmt.Println("Starting BioChain")
 
 	handler := log.New(os.Stderr)

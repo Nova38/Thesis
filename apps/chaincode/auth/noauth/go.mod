@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/log v0.3.0
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20231108144948-3542320d76a7
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
-	github.com/nova38/thesis v0.0.2-0.20231127060721-06d95dc774f5
+	github.com/nova38/thesis v0.0.2-0.20231128095424-80e54b2aaa06
 	// github.com/nova38/thesis @main
 	github.com/samber/oops v1.9.1
 )
@@ -38,9 +38,9 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/oklog/ulid/v2 v2.1.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
-	github.com/samber/lo v1.38.1 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
@@ -57,7 +57,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-require github.com/pkg/errors v0.9.1
+require github.com/samber/lo v1.38.1
 
 // replace github.com/nova38/thesis/ => ..\..\..\..\
 
