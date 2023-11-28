@@ -4,6 +4,11 @@ volumes:
     prometheus_data: {}
     grafana_storage: {}
 
+networks:
+  default:
+      external: true
+      name: fabric_test
+
 services:
   prometheus:
     image: prom/prometheus:v2.32.1
@@ -20,7 +25,7 @@ services:
       - "9090:9090"
 
   grafana:
-    image: grafana/grafana:8.3.4
+    image: grafana/grafana:latest #:8.3.4
     container_name: grafana
     user: "104"
     depends_on:
@@ -32,6 +37,8 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - ./grafana/config.monitoring
+    environment:
+      - GF_FEATURE_TOGGLES_ENABLE=flameGraph
     restart: always
 
   cadvisor:
@@ -62,7 +69,70 @@ services:
       - 9100:9100
     restart: always
 
-networks:
-  default:
-      external: true
-      name: fabric_test
+  pyroscope:
+    image: grafana/pyroscope:latest
+    container_name: pyroscope
+    ports:
+      - 4040:4040
+  # #  --network=pyroscope-demo -p 4040:4040 grafana/pyroscope:latest
+  agent:
+    image: grafana/agent:latest
+    volumes:
+      - ./agent/config:/etc/agent-config
+    command:
+      - run
+      - /etc/agent-config/config.river
+      - --server.http.listen-addr=0.0.0.0:12345
+    environment:
+      HOSTNAME: agent
+      AGENT_MODE: flow
+    ports:
+      - "12345:12345"
+
+  
+  # explorerdb.mynetwork.com:
+  #   image: ghcr.io/hyperledger-labs/explorer-db:latest
+  #   container_name: explorerdb.mynetwork.com
+  #   hostname: explorerdb.mynetwork.com
+  #   environment:
+  #     - DATABASE_DATABASE=fabricexplorer
+  #     - DATABASE_USERNAME=hppoc
+  #     - DATABASE_PASSWORD=password
+  #   healthcheck:
+  #     test: "pg_isready -h localhost -p 5432 -q -U postgres"
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   networks:
+  #     - mynetwork.com
+
+  # explorer.mynetwork.com:
+  #   image: ghcr.io/hyperledger-labs/explorer:latest
+  #   container_name: explorer.mynetwork.com
+  #   hostname: explorer.mynetwork.com
+  #   environment:
+  #     - DATABASE_HOST=explorerdb.mynetwork.com
+  #     - DATABASE_DATABASE=fabricexplorer
+  #     - DATABASE_USERNAME=hppoc
+  #     - DATABASE_PASSWD=password
+  #     - LOG_LEVEL_APP=info
+  #     - LOG_LEVEL_DB=info
+  #     - LOG_LEVEL_CONSOLE=debug
+  #     - LOG_CONSOLE_STDOUT=true
+  #     - DISCOVERY_AS_LOCALHOST=false
+  #     - PORT=${PORT:-8081}
+  #   volumes:
+  #     - ./config.json:/opt/explorer/app/platform/fabric/config.json
+  #     - ./connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+  #     - ../organizations:/tmp/crypto
+  #     - walletstore:/opt/explorer/wallet
+  #   ports:
+  #     - ${PORT:-8081}:${PORT:-8081}
+  #   depends_on:
+  #     explorerdb.mynetwork.com:
+  #       condition: service_healthy
+  #   networks:
+  #     - mynetwork.com
+

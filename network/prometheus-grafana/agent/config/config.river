@@ -1,0 +1,71 @@
+logging {
+  level = "debug"
+  format = "logfmt"
+}
+
+pyroscope.write "example" {
+  // Send metrics to a locally running Pyroscope instance.
+  endpoint {
+    url = "http://pyroscope:4040"
+
+    // To send data to Grafana Cloud you'll need to provide username and password.
+    // basic_auth {
+    //   username = "myuser"
+    //   password = "mypassword"
+    // }
+  }
+  external_labels = {
+    "env" = "example",
+  }
+}
+
+
+
+
+pyroscope.scrape "default_settings" {
+  targets    = [ 
+    { "__address__" = "peer0org1_test_ccaas:6060", "service_name" = "example_service" } ,
+  ]
+    
+
+  forward_to = [pyroscope.write.example.receiver]
+  profiling_config {
+    profile.goroutine {
+      enabled = true
+      path = "/debug/pprof/goroutine"
+      delta = false
+    }
+    profile.process_cpu {
+      enabled = true
+      path = "/debug/pprof/profile"
+      delta = true
+    }
+    profile.godeltaprof_memory {
+      enabled = true
+      path = "/debug/pprof/delta_heap"
+    }
+    profile.memory {
+      enabled = true
+      path = "/debug/pprof/heap"
+      delta = false
+    }
+    profile.godeltaprof_mutex {
+      enabled = true
+      path = "/debug/pprof/delta_mutex"
+    }
+    profile.mutex {
+      enabled = true
+      path = "/debug/pprof/mutex"
+      delta = false
+    }
+    profile.godeltaprof_block {
+      enabled = true
+      path = "/debug/pprof/delta_block"
+    }
+    profile.block {
+      enabled = true
+      path = "/debug/pprof/block"
+      delta = false
+    }
+  }
+}

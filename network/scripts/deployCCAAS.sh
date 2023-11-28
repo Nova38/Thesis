@@ -133,10 +133,12 @@ startDockerContainer() {
     infoln "Starting the Chaincode-as-a-Service docker container..."
     set -x
     ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \
-                  --network fabric_test \
-                  -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
-                  -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
-                    ${CC_NAME}_ccaas_image:latest
+                --network fabric_test \
+                -p 40000:40000 \
+                -p 6060:6060 \
+                -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
+                -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
+                ${CC_NAME}_ccaas_image:latest
 
     ${CONTAINER_CLI} run  --rm -d --name peer0org2_${CC_NAME}_ccaas \
                   --network fabric_test \

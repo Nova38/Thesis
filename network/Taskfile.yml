@@ -18,17 +18,19 @@ tasks:
   down:
     cmds:
       
-      # - docker-compose -f ./explorer/docker-compose.yaml down -v 
+      - docker-compose -f ./explorer/docker-compose.yaml down -v 
       - docker-compose -f ./prometheus-grafana/docker-compose.yaml down -v 
       - bash -c "./network.sh down"
   t: 
     cmd: bash -c "ls -l ../apps/chaincode/auth/noauth"
-  debug:noauth:
+  noauth:debug:
     cmds:
       # - pwd
       # - bash -c "ls -l ../"
       - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth -ccaasdocker false"
 
-  deploy:noauth:
+  noauth:deploy:
     cmds:
+      - bash -c "pwd"
+
       - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth"

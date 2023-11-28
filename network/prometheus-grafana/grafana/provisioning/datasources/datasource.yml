@@ -9,6 +9,16 @@ deleteDatasources:
 # list of datasources to insert/update depending
 # whats available in the database
 datasources:
+- name: Pyroscope
+  orgId: 1
+  uid: pyroscope
+  type: 'phlare'
+  access: 'proxy'
+  grafanaOrgId: 1
+  url: http://pyroscope:4040
+  editable: true
+
+
   # <string, required> name of the datasource. Required
 - name: Prometheus
   # <string, required> datasource type. Required
