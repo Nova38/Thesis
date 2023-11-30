@@ -10,7 +10,10 @@ import (
 // TODO: Implement NoAuth authentification contract
 
 // Get The user membership for the given collection
-func GetUserMembership(ctx common.TxCtxInterface, collectionId string) (*authpb.UserMembership, error) {
+func GetUserMembership(
+	ctx common.TxCtxInterface,
+	collectionId string,
+) (*authpb.UserMembership, error) {
 	user, err := ctx.GetUserId()
 	if err != nil {
 		return nil, err

@@ -20,6 +20,7 @@ tasks:
       - buf generate
   gen:all:
     watch: true
+
     # sources:
     #   - "./lib/proto/rbac/rbac.proto"
     cmds:
@@ -31,6 +32,8 @@ tasks:
       - rm -rf ./lib/go/gen/*
       - rm -rf ./lib/es/gen/*
       - rm -rf ./apps/api/lib/gen/*
+  # gen:esImage:
+  #   cmd:
 
 
   gen-lib:
@@ -75,6 +78,7 @@ tasks:
       - "tools/**/*"
       - "./buf.gen.yaml"
     cmds:
+      - buf build -o image.bin
       - buf generate
 
 # ./network.sh cc query -c mychannel -ccn noauth_v0 -ccqc '{"Args":["org.hyperledger.fabric:GetMetadata"]}'

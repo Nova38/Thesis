@@ -72,7 +72,11 @@ func GetRoleParent(ctx common.TxCtxInterface, role *authpb.Role) ([]*authpb.Role
 	return parents, nil
 }
 
-func roleGetPolicyForItem(ctx common.TxCtxInterface, role *authpb.Role, itemType string) (itemAcl *authpb.PathPolicy, found bool, err error) {
+func roleGetPolicyForItem(
+	ctx common.TxCtxInterface,
+	role *authpb.Role,
+	itemType string,
+) (itemAcl *authpb.PathPolicy, found bool, err error) {
 	// Get the roles of the user for the given collection
 	acl := role.GetPolices()
 	if acl == nil || acl.GetItemPolicies() == nil {

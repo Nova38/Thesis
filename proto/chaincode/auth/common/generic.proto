@@ -21,27 +21,27 @@ service GenericService {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
   }
-
-  // ──────────────────────────────── Invoke ───────────────────────────────────────
-  rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
+  rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_UTILITY};
+    option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
   }
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+  // rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+  //   option (auth.operation) = {action: ACTION_UTILITY};
+  // }
 
   rpc AuthorizeOperation(AuthorizeOperationRequest) returns (AuthorizeOperationResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_UTILITY};
   }
 
-  rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
-  }
 
-  rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_CREATE, item_type: "Collection"};
-  }
+
+  // rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+  //   option (auth.operation) = {action: ACTION_CREATE, item_type: "Collection"};
+  // }
   // ══════════════════════════════════ Item ═════════════════════════════════════
 
   // ────────────────────────────────── Query ──────────────────────────────────────
@@ -198,11 +198,11 @@ service GenericService {
 
   message GetCurrentUserResponse {
     auth.User user = 1;
-    bool registerd = 2;
+    bool registered = 2;
   }
   message GetCurrentFullUserResponse {
     auth.User user = 1;
-    bool registerd = 2;
+    bool registered = 2;
 
     repeated auth.UserCollectionRoles user_collection_roles = 3;
     repeated auth.UserMembership user_memberships = 4;

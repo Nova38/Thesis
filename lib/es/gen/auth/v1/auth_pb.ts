@@ -1148,21 +1148,26 @@ export class Collection extends Message<Collection> {
   authType = AuthType.UNSPECIFIED;
 
   /**
-   *  [(buf.validate.field).repeated.items = {
-   *   string: {prefix: "type.googleapis.com/"}
-   * }];
-   *
    * @generated from field: repeated string item_types = 5;
    */
   itemTypes: string[] = [];
 
   /**
+   *  [(buf.validate.field).repeated.items = {
+   *   string: {prefix: "type.googleapis.com/"}
+   * }];
+   *
    * @generated from field: repeated string reference_types = 6;
    */
   referenceTypes: string[] = [];
 
   /**
-   * @generated from field: auth.Polices default = 7;
+   * @generated from field: repeated string admin_key = 7;
+   */
+  adminKey: string[] = [];
+
+  /**
+   * @generated from field: auth.Polices default = 8;
    */
   default?: Polices;
 
@@ -1180,7 +1185,8 @@ export class Collection extends Message<Collection> {
     { no: 4, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
     { no: 5, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 6, name: "reference_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 7, name: "default", kind: "message", T: Polices },
+    { no: 7, name: "admin_key", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 8, name: "default", kind: "message", T: Polices },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {

@@ -1,0 +1,246 @@
+[
+    {
+        "query": "org.hyperledger.fabric:GetMetadata",
+        "args": [""]
+    },
+    // GetCurrentUser Empty
+        {
+            "invoke": "getCurrentUser",
+            "args": [
+                {}
+            ]
+        },
+        {
+            "invoke": "getCurrentUser",
+            "args": [
+                {}
+            ],
+            "identity" : "user1"
+
+        },
+    // Bootstrap BootstrapRequest
+        {
+            "invoke": "bootstrap",
+            "args": [
+                {}
+            ]
+        },
+    // AuthorizeOperation AuthorizeOperationRequest
+        {
+            "invoke": "authorizeOperation",
+            "args": [
+                {"operation":{"paths":""}}
+            ]
+        },
+    // CreateUser Empty
+        {
+            "invoke": "createUser",
+            "args": [
+                {}
+            ],
+            "identity" : "user1"
+
+        },
+        {
+            "invoke": "createUser",
+            "args": [
+                {}
+            ],
+            "identity" : "Org1Admin"
+        },
+    // CreateCollection CreateCollectionRequest
+        {
+            "invoke": "createCollection",
+            "args": [
+                {"collection":{"default":{}}}
+            ]
+        },
+    // Get GetRequest
+        {
+            "invoke": "get",
+            "args": [
+                {"item":
+                {"key":
+                {},
+                "value":{
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT",
+                    "name":""
+                }
+                }
+            }
+            ]
+        },
+    // List ListRequest
+        {
+            "invoke": "list",
+            "args": [
+                {"item":{
+                    "key":{},
+                    "value":{
+                        "@type":"type.googleapis.com/auth.User",
+                        "collectionId":"",
+                        "mspId":"Org1MSP",
+                        "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT",
+                        "name":""
+                    }
+                }}
+            ]
+        },
+    // ListByCollection ListByCollectionRequest
+        {
+            "invoke": "listByCollection",
+            "args": [
+                {"item":{"key":{},"value":{
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":""
+
+                }}}
+            ]
+        },
+    // ListByAttrs ListByAttrsRequest
+        {
+            "invoke": "listByAttrs",
+            "args": [
+                {"item":{"key":{},"value":{}}}
+            ]
+        },
+    // Create CreateRequest
+        {
+            "invoke": "create",
+            "args": [
+                {"item":{"key":{},"value":{}}}
+            ]
+        },
+    // Update UpdateRequest
+        {
+            "invoke": "update",
+            "args": [
+                {"item":{"key":{},"value":{}},"updateMask":""}
+            ]
+        },
+    // Delete DeleteRequest
+        {
+            "invoke": "delete",
+            "args": [
+                {"item":{"key":{},"value":{
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT"
+                }}}
+            ]
+        },
+    // History HistoryRequest
+        {
+            "invoke": "history",
+            "args": [
+                {"item":{"key":{},"value":{
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT"
+                }}}
+            ]
+        },
+    // HiddenTx HiddenTxRequest
+        {
+            "invoke": "hiddenTx",
+            "args": [
+                {"item":{"key":{},"value":{}}}
+            ]
+        },
+    // HideTx HideTxRequest
+        {
+            "invoke": "hideTx",
+            "args": [
+                {"item":{"key":{},"value":{}},"hiddenTx":{"timestamp":"1970-01-01T00:00:00Z"}}
+            ]
+        },
+    // UnHideTx UnHideTxRequest
+        {
+            "invoke": "unHideTx",
+            "args": [
+                {"item":{"key":{},"value":{}}}
+            ]
+        },
+    // Reference ReferenceRequest
+        {
+            "invoke": "reference",
+            "args": [
+                {"reference":{"key1":{},"key2":{}}}
+            ]
+        },
+    // ReferenceByItem ReferenceByItemRequest
+        {
+            "invoke": "referenceByItem",
+            "args": [
+                {"itemKey":{}}
+            ]
+        },
+    // ReferenceByPartialKey ReferenceByPartialKeyRequest
+        {
+            "invoke": "referenceByPartialKey",
+            "args": [
+                {"reference":{"key1":{},"key2":{}}}
+            ]
+        },
+    // ReferenceCreate ReferenceCreateRequest
+        {
+            "invoke": "referenceCreate",
+            "args": [
+                {"refKey":{"key1":{},"key2":{}}}
+            ]
+        },
+    // ReferenceDelete ReferenceDeleteRequest
+        {
+            "invoke": "referenceDelete",
+            "args": [
+                {"refKey":{"key1":{},"key2":{}}}
+            ]
+        },
+    // Suggestion SuggestionRequest
+        {
+            "invoke": "suggestion",
+            "args": [
+                {"itemKey":{}}
+            ]
+        },
+    // SuggestionListByCollection SuggestionListByCollectionRequest
+        {
+            "invoke": "suggestionListByCollection",
+            "args": [
+                {}
+            ]
+        },
+    // SuggestionByPartialKey SuggestionByPartialKeyRequest
+        {
+            "invoke": "suggestionByPartialKey",
+            "args": [
+                {"itemKey":{}}
+            ]
+        },
+    // SuggestionCreate SuggestionCreateRequest
+        {
+            "invoke": "suggestionCreate",
+            "args": [
+                {"suggestion":{"primaryKey":{},"paths":"","value":{}}}
+            ]
+        },
+    // SuggestionDelete SuggestionDeleteRequest
+        {
+            "invoke": "suggestionDelete",
+            "args": [
+                {"itemKey":{}}
+            ]
+        },
+    // SuggestionApprove SuggestionApproveRequest
+        {
+            "invoke": "suggestionApprove",
+            "args": [
+                {"itemKey":{}}
+            ]
+        }
+    ]

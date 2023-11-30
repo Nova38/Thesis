@@ -25,6 +25,9 @@ type OperationChecker struct {
 // - Checks per the type of action (see below)
 func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (bool, error) {
 	// Sanity checks
+	if collection == nil || op == nil {
+		return false, oops.Errorf("Collection or Operation is nil")
+	}
 
 	// Checks for nil and empty cases
 	switch {
@@ -63,7 +66,9 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 		foundSecondary := slices.Contains(collection.GetReferenceTypes(), op.GetSecondaryItemType())
 
 		if !found || !foundSecondary {
-			return false, oops.Errorf("Operation item type or secondary item type is not in collection reference types")
+			return false, oops.Errorf(
+				"Operation item type or secondary item type is not in collection reference types",
+			)
 		}
 
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
@@ -79,7 +84,11 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 		found := slices.Contains(collection.GetItemTypes(), op.GetItemType())
 		if !found {
-			return false, oops.Errorf("Operation item type %v is not in collection %v item types", op.GetItemType(), op.GetCollectionId())
+			return false, oops.Errorf(
+				"Operation item type %v is not in collection %v item types",
+				op.GetItemType(),
+				op.GetCollectionId(),
+			)
 		}
 
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
@@ -96,7 +105,11 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 		found := slices.Contains(collection.GetItemTypes(), op.GetItemType())
 		if !found {
-			return false, oops.Errorf("Operation item type %v is not in collection %v 's item types", op.GetItemType(), op.GetCollectionId())
+			return false, oops.Errorf(
+				"Operation item type %v is not in collection %v 's item types",
+				op.GetItemType(),
+				op.GetCollectionId(),
+			)
 		}
 	}
 
@@ -107,7 +120,10 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 // Gets the collection of the operation and validates the operation against it
 // Then sees if the default ACL of the collection allows the operation
 // If so, returns true, otherwise returns false
-func HandleCollectionOperation(ctx common.TxCtxInterface, op *authpb.Operation) (auth bool, err error) {
+func HandleCollectionOperation(
+	ctx common.TxCtxInterface,
+	op *authpb.Operation,
+) (auth bool, err error) {
 	ctx.GetLogger().Debug("HandleOperation", slog.Group("args", "op", op))
 
 	// Get Operation Collection
@@ -166,7 +182,11 @@ func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, err
 	return true, nil
 }
 
-func AuthOp(ctx common.TxCtxInterface, op *authpb.Operation, acl *authpb.Polices) (auth bool, err error) {
+func AuthOp(
+	ctx common.TxCtxInterface,
+	op *authpb.Operation,
+	acl *authpb.Polices,
+) (auth bool, err error) {
 	// TODO implement AuthOp
 	return false, nil
 }

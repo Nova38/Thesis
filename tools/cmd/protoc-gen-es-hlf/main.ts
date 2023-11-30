@@ -5,11 +5,13 @@
 import { createEcmaScriptPlugin, runNodeJs } from "@bufbuild/protoplugin";
 import { ImportSymbol, Schema, findCustomMessageOption } from "@bufbuild/protoplugin/ecmascript";
 import type {
+    AnyMessage,
     DescEnum,
     DescExtension,
     DescFile,
     DescMessage,
     DescService,
+    FileDescriptorSet,
 
 
 } from "@bufbuild/protobuf";
@@ -19,10 +21,15 @@ import {
     localName,
 } from "@bufbuild/protoplugin/ecmascript";
 
-import { MethodKind } from "@bufbuild/protobuf";
-
+import { Empty, MethodKind, createDescriptorSet, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 
 import {gen} from "es"
+
+import * as fs from 'fs';
+
+const registry = createRegistryFromDescriptors(
+    fs.readFileSync("image.bin")
+  );
 
 const authpb = gen.auth.v1.auth_pb
 const protocGenReg = createEcmaScriptPlugin({
@@ -32,14 +39,70 @@ const protocGenReg = createEcmaScriptPlugin({
     //   parseOptions:
 });
 
-const exportMap = new Map<DescMessage, ImportSymbol>()
 
 runNodeJs(protocGenReg);
 
+
+function* getAllTypes(
+    desc: DescFile | DescMessage,
+): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
+    switch (desc.kind) {
+        case "file":
+            for (const message of desc.messages) {
+                yield message;
+                yield* getAllTypes(message);
+            }
+            yield* desc.enums;
+            yield* desc.services;
+            yield* desc.extensions;
+            break;
+        case "message":
+            for (const message of desc.nestedMessages) {
+                yield message;
+                yield* getAllTypes(message);
+            }
+            yield* desc.nestedEnums;
+            yield* desc.nestedExtensions;
+            break;
+    }
+}
+
 function generateTs(schema: Schema) {
     generateGateway(schema);
+    generateFabricTest(schema);
+
+    generateRegistry(schema);
+}
 
 
+function populateFeilds(message: AnyMessage): AnyMessage {
+
+
+
+
+    for (const fieldInfo of message.getType().fields.byNumber()) {
+        if (fieldInfo.kind == "message") {
+            const subType = registry.findMessage(fieldInfo.T.typeName)
+
+            if (!subType) {
+                return new Empty
+            }
+            const subMesg = new subType()
+            message[fieldInfo.localName] = populateFeilds(subMesg)
+        }
+        //   const value = message[fieldInfo.localName];
+        //   console.log(`field ${fieldInfo.localName}: ${value}`);
+    }
+
+
+        return message
+}
+
+
+function toExampleJson(schema: Schema) {
+}
+
+function generateRegistry(schema: Schema) {
     for (const file of schema.files) {
         const f = schema.generateFile(file.name + "_reg.ts");
         f.preamble(file);
@@ -125,35 +188,11 @@ function generateTs(schema: Schema) {
         }
 
     }
-
 }
-
-function* getAllTypes(
-    desc: DescFile | DescMessage,
-): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
-    switch (desc.kind) {
-        case "file":
-            for (const message of desc.messages) {
-                yield message;
-                yield* getAllTypes(message);
-            }
-            yield* desc.enums;
-            yield* desc.services;
-            yield* desc.extensions;
-            break;
-        case "message":
-            for (const message of desc.nestedMessages) {
-                yield message;
-                yield* getAllTypes(message);
-            }
-            yield* desc.nestedEnums;
-            yield* desc.nestedExtensions;
-            break;
-    }
-}
-
 // Modified from the original protoc-gen-ts plugin
 function generateGateway(schema: Schema) {
+
+
     for (const file of schema.files) {
         const f = schema.generateFile(file.name + "_gateway.ts");
 
@@ -204,5 +243,62 @@ function generateGateway(schema: Schema) {
             }
             f.print`}`;
         }
+    }
+}
+
+
+
+
+function generateFabricTest(schema: Schema) {
+    for (const file of schema.files) {
+        const f = schema.generateFile(file.name + ".fabric");
+        // const registry = createRegistryFromDescriptors(createDescriptorSet(schema.proto.sourceFileDescriptors) )
+
+
+        f.preamble(file);
+        const {
+            Message,
+            JsonValue
+        } = schema.runtime;
+        // Convert the Message ImportSymbol to a type-only ImportSymbol
+        const MessageAsType = Message.toTypeOnly();
+
+        f.print`[`
+
+        for (const service of file.services) {
+            const localServiceName = localName(service);
+
+
+            for (const method of service.methods) {
+
+
+                let x = ""
+                const inputType = registry.findMessage(method.input.typeName)
+
+                if (inputType) {
+                    f.print`// ${method.name} ${inputType.name}`
+                    const input = new inputType()
+                    const populated = populateFeilds(input)
+                    x = populated.toJsonString({emitDefaultValues: false})
+
+
+                }else{
+                    x = "{}"
+                }
+
+
+
+                if (method.methodKind === MethodKind.Unary) {
+                    f.print`    {`
+                    f.print`        "invoke": "${localName(method)}",`
+                    f.print`        "args": [`
+                    f.print`            ${x}`
+                    // (request: ${method.input}, evaluate: bool ): Promise< ${method.output}> {`;
+                    f.print`        ]`
+                    f.print`    },`
+                }
+            }
+        }
+        f.print`]`
     }
 }

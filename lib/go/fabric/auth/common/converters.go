@@ -67,7 +67,7 @@ func UnPackItem(obj *authpb.Item) (item ItemInterface, err error) {
 }
 
 func PackItem(item ItemInterface) (obj *authpb.Item, err error) {
-	if obj == nil {
+	if item == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 
@@ -90,15 +90,13 @@ func PackItem(item ItemInterface) (obj *authpb.Item, err error) {
 }
 
 func ListItemToProtos(list []ItemInterface) (objs []*authpb.Item, err error) {
-	for _, o := range list {
-		var msg *authpb.Item
-
-		if msg, err = PackItem(o); err != nil {
-			return nil, err
+	for _, item := range list {
+		msg, err := PackItem(item)
+		if err != nil {
+			return nil, oops.Wrap(err)
 		}
 		objs = append(objs, msg)
 	}
-
 	return objs, nil
 }
 
@@ -150,7 +148,9 @@ func SuggestionToItem(s *authpb.Suggestion) (obj ItemInterface, err error) {
 
 // ReferenceKeyToItems converts a reference key to the item object
 
-func ReferenceKeyToItems(ref *authpb.ReferenceKey) (item1 ItemInterface, item2 ItemInterface, err error) {
+func ReferenceKeyToItems(
+	ref *authpb.ReferenceKey,
+) (item1 ItemInterface, item2 ItemInterface, err error) {
 	if ref == nil {
 		return nil, nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -178,7 +178,11 @@ func ReferenceKeyToItems(ref *authpb.ReferenceKey) (item1 ItemInterface, item2 I
 }
 
 // PackReference packs the items into anypb and returns the reference
-func PackReference(ref *authpb.ReferenceKey, item1 ItemInterface, item2 ItemInterface) (reference *authpb.Reference, err error) {
+func PackReference(
+	ref *authpb.ReferenceKey,
+	item1 ItemInterface,
+	item2 ItemInterface,
+) (reference *authpb.Reference, err error) {
 	reference = &authpb.Reference{
 		Reference: ref,
 		Item1:     &authpb.Item{},

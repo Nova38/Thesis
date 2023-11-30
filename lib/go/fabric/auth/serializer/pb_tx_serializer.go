@@ -52,5 +52,20 @@ func (s *TxSerializer) ToString(
 	rm *metadata.ReturnMetadata,
 	cm *metadata.ComponentMetadata,
 ) (string, error) {
+	var str string
+
+	if t.Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
+		fmt.Println("protobuf message")
+		fmt.Println(v.Interface())
+
+		bytes, err := json.Marshal(v.Interface())
+		str = string(bytes)
+		if err != nil {
+			return "", err
+		}
+
+		return str, nil
+	}
+
 	return s.JSONSerializer.ToString(v, t, rm, cm)
 }

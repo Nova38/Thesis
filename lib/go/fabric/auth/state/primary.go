@@ -1,14 +1,31 @@
 package state
 
 import (
+	"encoding/json"
+
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // Primary Items
+
+func UnmarshalPrimary[T common.ItemInterface](bytes []byte, obj T) (err error) {
+	return json.Unmarshal(bytes, obj)
+}
+func UnmarshalNewPrimary[T common.ItemInterface](bytes []byte, base T) (item T, err error) {
+	// item = new(T)
+	item = proto.Clone(base).(T)
+	proto.Reset(item)
+
+	if err = json.Unmarshal(bytes, item); err != nil {
+		return item, oops.Wrap(err)
+	}
+	return item, nil
+}
 
 // ──────────────────────────────────────────────────
 // Query Suggested Functions
@@ -98,7 +115,6 @@ func PrimaryByPartialKey[T common.ItemInterface](
 	numAttr int,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	l := &Ledger[T]{ctx: ctx}
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
@@ -111,7 +127,10 @@ func PrimaryByPartialKey[T common.ItemInterface](
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 
-	return l.GetPartialKeyList(obj, numAttr, bookmark)
+	list, mk, err = GetPartialKeyList(ctx, obj, numAttr, bookmark)
+
+	return list, mk, err
+	// l.GetPartialKeyList(obj, numAttr, bookmark)
 }
 
 func PrimaryList[T common.ItemInterface](
@@ -119,7 +138,7 @@ func PrimaryList[T common.ItemInterface](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	return PrimaryByPartialKey(ctx, obj, 1, bookmark)
+	return PrimaryByPartialKey(ctx, obj, len(obj.KeyAttr()), bookmark)
 }
 
 func ByCollection[T common.ItemInterface](
@@ -200,9 +219,9 @@ func PrimaryDelete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if err := referenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
-		return oops.Wrap(err)
-	}
+	// if err := referenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
+	// 	return oops.Wrap(err)
+	// }
 	// Should we delete the object refs in other collections? (there shouldn't be any except for users)
 
 	// TODO: Handle deleting suggestions here

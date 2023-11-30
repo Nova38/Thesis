@@ -27,17 +27,6 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// req is empty
 	GetCurrentUser(ctx T) (res *GetCurrentUserResponse, err error)
 
-	// ──────────────────────────────── Invoke ───────────────────────────────────────
-	// # Operation:
-	//   - Domain: ACTION_UTILITY
-	Bootstrap(ctx T, req *BootstrapRequest) (res *BootstrapResponse, err error)
-
-	// AuthorizeOperation
-	//
-	// # Operation:
-	//   - Domain: ACTION_UTILITY
-	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
-
 	// CreateUser
 	//
 	// # Operation:
@@ -46,11 +35,11 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// req is empty
 	CreateUser(ctx T) (res *CreateUserResponse, err error)
 
-	// CreateCollection
+	// AuthorizeOperation
 	//
 	// # Operation:
-	//   - Domain: ACTION_CREATE
-	CreateCollection(ctx T, req *CreateCollectionRequest) (res *CreateCollectionResponse, err error)
+	//   - Domain: ACTION_UTILITY
+	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
 
 	// Get
 	//
@@ -212,25 +201,15 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 10,
 		}, nil
-	case "Bootstrap":
-		// action:ACTION_UTILITY
-		return &v1.Operation{
-			Action: 1,
-		}, nil
-	case "AuthorizeOperation":
-		// action:ACTION_UTILITY
-		return &v1.Operation{
-			Action: 1,
-		}, nil
 	case "CreateUser":
 		// action:ACTION_CREATE item_type:"User"
 		return &v1.Operation{
 			Action: 11,
 		}, nil
-	case "CreateCollection":
-		// action:ACTION_CREATE item_type:"Collection"
+	case "AuthorizeOperation":
+		// action:ACTION_UTILITY
 		return &v1.Operation{
-			Action: 11,
+			Action: 1,
 		}, nil
 	case "Get":
 		// action:ACTION_VIEW

@@ -25,13 +25,13 @@ func (m *Collection) SetKeyAttr(attr []string) {
 	return
 }
 
-// Global Item
-func (m *Collection) IsGlobal() bool {
+// Domain Item
+func (m *Collection) IsPrimary() bool {
 	return true
 }
 func (m *Collection) ItemKey() *ItemKey {
 	key := &ItemKey{
-		CollectionId: "global",
+		CollectionId: m.GetCollectionId(),
 		ItemType:     "auth.Collection",
 		ItemIdParts:  m.KeyAttr(),
 	}

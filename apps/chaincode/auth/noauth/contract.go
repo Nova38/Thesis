@@ -1,91 +1,25 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
 
-	// _ "net/http/pprof"
-
-	// "github.com/grafana/pyroscope-go"
-	// _ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof" // add this line as well
-
-	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/contracts"
-	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
-	"github.com/nova38/thesis/lib/go/fabric/auth/state"
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	"github.com/samber/lo"
-
-	"github.com/samber/oops"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/nova38/thesis/lib/go/fabric/auth/contracts/noauth"
+	sloglogrus "github.com/samber/slog-logrus/v2"
+	"github.com/sirupsen/logrus"
 )
 
-// ═════════════════════════════════════════════
-// Transaction Context
-// ═════════════════════════════════════════════
-var _ common.TxCtxInterface = (*NoAuthTxCtx)(nil)
+// _ "net/http/pprof"
 
-type NoAuthTxCtx struct {
-	state.BaseTxCtx
-}
-
-func Authenticate(ctx common.TxCtxInterface, ops []*authpb.Operation) (bool, error) {
-	ctx.GetLogger().Info("NoAuthContract.Authenticate")
-
-	for _, op := range ops {
-		ctx.GetLogger().Info(op.String())
-
-		// policy.ValidateOperation()
-	}
-
-	return true, nil
-}
+// "github.com/grafana/pyroscope-go"
+// _ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof" // add this line as well
 
 // ═════════════════════════════════════════════
 // Contract
 // ═════════════════════════════════════════════
-
-func iError() error {
-	return oops.Errorf("Error")
-}
-
-// NoAuthContract is the contract for the NoAuth chaincode
-
-type NoAuthContract struct {
-	contractapi.Contract
-}
-
-func (c *NoAuthContract) Test(ctx common.TxCtxInterface) (bool, error) {
-	ctx.GetLogger().Info("NoAuthContract.Test")
-
-	return true, nil
-}
-
-func (c *NoAuthContract) TestFail(ctx common.TxCtxInterface) (bool, error) {
-	ctx.GetLogger().Info("NoAuthContract.TestFail")
-	e := iError()
-	b := lo.Must(json.MarshalIndent(e, "", "  "))
-	ctx.GetLogger().Info(string(b))
-
-	return false, e
-}
-
-func BeforeTransaction(ctx common.TxCtxInterface) (err error) {
-	defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	if err = ctx.HandelBefore(); err != nil {
-		return oops.Wrap(err)
-	}
-
-	// Set the authenticator handler
-	ctx.SetAuthenticator(Authenticate)
-
-	return nil
-}
 
 // ═════════════════════════════════════════════
 // Before Transaction
@@ -140,8 +74,13 @@ func main() {
 
 	fmt.Println("Starting BioChain")
 
-	handler := log.New(os.Stderr)
-	logger := slog.New(handler)
+	// handler := log.New(os.Stderr)
+	// logger := slog.New(handler)
+	logrusLogger := logrus.New()
+
+	logger := slog.New(sloglogrus.Option{Level: slog.LevelDebug, Logger: logrusLogger}.NewLogrusHandler())
+
+	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	slog.SetDefault(logger)
 
@@ -150,29 +89,7 @@ func main() {
 		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
 	}
 
-	auth := new(NoAuthContract)
-
-	generic := new(contracts.ItemContractImpl)
-
-	auth.Name = "auth.none"
-
-	generic.Name = "auth.generic"
-
-	auth.TransactionContextHandler = &NoAuthTxCtx{}
-
-	generic.TransactionContextHandler = &NoAuthTxCtx{}
-
-	auth.BeforeTransaction = BeforeTransaction
-
-	generic.BeforeTransaction = BeforeTransaction
-
-	sm, err := contractapi.NewChaincode(auth, generic)
-	if err != nil {
-		fmt.Printf("Error creating No Auth contract: %s", err)
-		panic(err)
-	}
-
-	sm.TransactionSerializer = &serializer.TxSerializer{}
+	sm := noauth.BuildContract()
 
 	server := &shim.ChaincodeServer{
 		CCID:    config.CCID,
@@ -190,4 +107,28 @@ func main() {
 	if err := server.Start(); err != nil {
 		slog.Error("Failed to start", err)
 	}
+	// auth := new(NoAuthContract)
+
+	// generic := new(contracts.ItemContractImpl)
+
+	// auth.Name = "auth.none"
+
+	// generic.Name = "auth.generic"
+
+	// auth.TransactionContextHandler = &NoAuthTxCtx{}
+
+	// generic.TransactionContextHandler = &NoAuthTxCtx{}
+
+	// auth.BeforeTransaction = BeforeTransaction
+
+	// generic.BeforeTransaction = BeforeTransaction
+
+	// sm, err := contractapi.NewChaincode(auth, generic)
+	// if err != nil {
+	// 	fmt.Printf("Error creating No Auth contract: %s", err)
+	// 	panic(err)
+	// }
+
+	// sm.TransactionSerializer = &serializer.TxSerializer{}
+
 }

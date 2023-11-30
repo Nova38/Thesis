@@ -17,9 +17,9 @@ export class GetCurrentUserResponse extends Message<GetCurrentUserResponse> {
   user?: User;
 
   /**
-   * @generated from field: bool registerd = 2;
+   * @generated from field: bool registered = 2;
    */
-  registerd = false;
+  registered = false;
 
   constructor(data?: PartialMessage<GetCurrentUserResponse>) {
     super();
@@ -30,7 +30,7 @@ export class GetCurrentUserResponse extends Message<GetCurrentUserResponse> {
   static readonly typeName = "auth.common.GetCurrentUserResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "user", kind: "message", T: User },
-    { no: 2, name: "registerd", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 2, name: "registered", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCurrentUserResponse {
@@ -60,9 +60,9 @@ export class GetCurrentFullUserResponse extends Message<GetCurrentFullUserRespon
   user?: User;
 
   /**
-   * @generated from field: bool registerd = 2;
+   * @generated from field: bool registered = 2;
    */
-  registerd = false;
+  registered = false;
 
   /**
    * @generated from field: repeated auth.UserCollectionRoles user_collection_roles = 3;
@@ -83,7 +83,7 @@ export class GetCurrentFullUserResponse extends Message<GetCurrentFullUserRespon
   static readonly typeName = "auth.common.GetCurrentFullUserResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "user", kind: "message", T: User },
-    { no: 2, name: "registerd", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 2, name: "registered", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 3, name: "user_collection_roles", kind: "message", T: UserCollectionRoles, repeated: true },
     { no: 4, name: "user_memberships", kind: "message", T: UserMembership, repeated: true },
   ]);

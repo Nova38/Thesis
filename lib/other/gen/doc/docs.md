@@ -190,8 +190,9 @@ key := {COLLECTION}{COLLECTION_ID}
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
 | auth_type | [AuthType](#auth-AuthType) |  |  |
-| item_types | [string](#string) | repeated | [(buf.validate.field).repeated.items = { string: {prefix: &#34;type.googleapis.com/&#34;} }]; |
-| reference_types | [string](#string) | repeated |  |
+| item_types | [string](#string) | repeated |  |
+| reference_types | [string](#string) | repeated | [(buf.validate.field).repeated.items = { string: {prefix: &#34;type.googleapis.com/&#34;} }]; |
+| admin_key | [string](#string) | repeated |  |
 | default | [Polices](#auth-Polices) |  |  |
 
 
@@ -900,7 +901,7 @@ Create
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | user | [auth.User](#auth-User) |  |  |
-| registerd | [bool](#bool) |  |  |
+| registered | [bool](#bool) |  |  |
 | user_collection_roles | [auth.UserCollectionRoles](#auth-UserCollectionRoles) | repeated |  |
 | user_memberships | [auth.UserMembership](#auth-UserMembership) | repeated |  |
 
@@ -918,7 +919,7 @@ Create
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | user | [auth.User](#auth-User) |  |  |
-| registerd | [bool](#bool) |  |  |
+| registered | [bool](#bool) |  |  |
 
 
 
@@ -1673,10 +1674,8 @@ Get all of the collections
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetCurrentUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse) | ══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ────────────────────────────────────── rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) { option (auth.transaction_type) = TRANSACTION_TYPE_QUERY; option (auth.operation) = {action: ACTION_UTILITY}; } |
-| Bootstrap | [BootstrapRequest](#auth-common-BootstrapRequest) | [BootstrapResponse](#auth-common-BootstrapResponse) | ──────────────────────────────── Invoke ─────────────────────────────────────── |
-| AuthorizeOperation | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse) |  |
 | CreateUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [CreateUserResponse](#auth-common-CreateUserResponse) |  |
-| CreateCollection | [CreateCollectionRequest](#auth-common-CreateCollectionRequest) | [CreateCollectionResponse](#auth-common-CreateCollectionResponse) |  |
+| AuthorizeOperation | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse) |  |
 | Get | [GetRequest](#auth-common-GetRequest) | [GetResponse](#auth-common-GetResponse) |  |
 | List | [ListRequest](#auth-common-ListRequest) | [ListResponse](#auth-common-ListResponse) |  |
 | ListByCollection | [ListByCollectionRequest](#auth-common-ListByCollectionRequest) | [ListByCollectionResponse](#auth-common-ListByCollectionResponse) |  |
@@ -2382,3 +2381,4 @@ Specimen functions
 | <a name="bool" /> bool |  | bool | boolean | boolean | bool | bool | boolean | TrueClass/FalseClass |
 | <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode | string | string | string | String (UTF-8) |
 | <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str | []byte | ByteString | string | String (ASCII-8BIT) |
+

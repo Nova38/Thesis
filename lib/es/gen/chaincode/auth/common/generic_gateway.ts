@@ -6,7 +6,7 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import type { JsonValue } from "@bufbuild/protobuf";
 import { Empty, IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -48,48 +48,6 @@ export class GenericServiceClient {
     }
 
     /**
-     * ──────────────────────────────── Invoke ───────────────────────────────────────
-     *
-     * @generated from rpc auth.common.GenericService.Bootstrap
-     */
-    async bootstrap(request: BootstrapRequest, evaluate: bool ): Promise< BootstrapResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "Bootstrap",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "Bootstrap",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             BootstrapResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.AuthorizeOperation
-     */
-    async authorizeOperation(request: AuthorizeOperationRequest, evaluate: bool ): Promise< AuthorizeOperationResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "AuthorizeOperation",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "AuthorizeOperation",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             AuthorizeOperationResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
      * @generated from rpc auth.common.GenericService.CreateUser
      */
     async createUser(request: Empty, evaluate: bool ): Promise< CreateUserResponse> {
@@ -110,22 +68,22 @@ export class GenericServiceClient {
     }
 
     /**
-     * @generated from rpc auth.common.GenericService.CreateCollection
+     * @generated from rpc auth.common.GenericService.AuthorizeOperation
      */
-    async createCollection(request: CreateCollectionRequest, evaluate: bool ): Promise< CreateCollectionResponse> {
+    async authorizeOperation(request: AuthorizeOperationRequest, evaluate: bool ): Promise< AuthorizeOperationResponse> {
         if (evaluate) {
             const promise = this.contract.evaluate(
-                "CreateCollection",
+                "AuthorizeOperation",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         } else {
             const promise = this.contract.submit(
-                "CreateCollection",
+                "AuthorizeOperation",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         }
         return promise.then(async (data) =>
-             CreateCollectionResponse.fromJson(data as JsonValue)
+             AuthorizeOperationResponse.fromJson(data as JsonValue)
         );
     }
 

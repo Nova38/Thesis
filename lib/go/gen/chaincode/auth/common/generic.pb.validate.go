@@ -86,7 +86,7 @@ func (m *GetCurrentUserResponse) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Registerd
+	// no validation rules for Registered
 
 	if len(errors) > 0 {
 		return GetCurrentUserResponseMultiError(errors)
@@ -219,7 +219,7 @@ func (m *GetCurrentFullUserResponse) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Registerd
+	// no validation rules for Registered
 
 	for idx, item := range m.GetUserCollectionRoles() {
 		_, _ = idx, item

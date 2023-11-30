@@ -39,10 +39,16 @@
                     "items": {
                         "type": "string"
                     },
+                    "type": "array"
+                },
+                "reference_types": {
+                    "items": {
+                        "type": "string"
+                    },
                     "type": "array",
                     "description": "[(buf.validate.field).repeated.items = {   string: {prefix: \"type.googleapis.com/\"} }];"
                 },
-                "reference_types": {
+                "admin_key": {
                     "items": {
                         "type": "string"
                     },

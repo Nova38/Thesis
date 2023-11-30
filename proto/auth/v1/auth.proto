@@ -283,7 +283,7 @@ message Reference {
 //
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
-  option (key_schema).item_kind = ITEM_KIND_GLOBAL_ITEM;
+  option (key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (key_schema).keys = {
     paths: ["collection_id"]
   };
@@ -297,9 +297,11 @@ message Collection {
   //  [(buf.validate.field).repeated.items = {
   //   string: {prefix: "type.googleapis.com/"}
   // }];
-
   repeated string reference_types = 6;
-  Polices default = 7 [(buf.validate.field).required = true];
+
+
+  repeated string admin_key = 7 [(buf.validate.field).repeated.min_items = 1];
+  Polices default = 8 [(buf.validate.field).required = true];
 }
 
 // User

@@ -8,9 +8,11 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
+	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
 
@@ -152,7 +154,13 @@ func (l *Ledger[T]) Get(in T) (err error) {
 		return err
 	}
 
-	if bytes, err = l.ctx.GetStub().GetState(key); err == nil {
+	bytes, err = l.ctx.GetStub().GetState(key)
+
+	if bytes == nil && err == nil {
+		return oops.
+			With("Key", key, "ItemType", in.ItemType()).
+			Wrap(common.KeyNotFound)
+	} else if err != nil {
 		return oops.
 			With("Key", key, "ItemType", in.ItemType()).
 			Wrap(common.AlreadyExists)
@@ -171,13 +179,13 @@ func (l *Ledger[T]) GetPartialKeyList(
 	obj T,
 	numAttr int,
 	bookmark string,
-) (list []T, mk string, err error) {
+) (list []*T, mk string, err error) {
 	// obj = []*T{}
 	l.ctx.GetLogger().Info("GetPartialKeyList")
 
 	var (
 		itemtype = obj.ItemType()
-		attr     = append([]string{itemtype}, obj.KeyAttr()...)
+		attr     = obj.KeyAttr()
 	)
 
 	if len(attr) == 0 || len(attr) < numAttr {
@@ -185,7 +193,8 @@ func (l *Ledger[T]) GetPartialKeyList(
 	}
 
 	// Extract the attributes to search for
-	attr = attr[:len(attr)-numAttr]
+	// attr = attr[:len(attr)-numAttr]
+	attr = lo.DropRight(attr, numAttr)
 
 	l.ctx.GetLogger().
 		Info("GetPartialKeyList",
@@ -221,15 +230,24 @@ func (l *Ledger[T]) GetPartialKeyList(
 	for results.HasNext() {
 		queryResponse, err := results.Next()
 		if err != nil {
-			return nil, "", err
-		}
-		obj := new(T)
-
-		if err := json.Unmarshal(queryResponse.GetValue(), &obj); err != nil {
-			return nil, "", err
+			return nil, "", oops.Wrapf(err, "Error getting next item")
 		}
 
-		list = append(list, *obj)
+		if queryResponse == nil {
+			return nil, "", oops.Errorf("queryResponse is nil")
+		}
+
+		var tmpObj T
+
+		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
+		// 	return nil, "", oops.Wrap(err)
+		// }
+
+		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
+			return nil, "", oops.Wrap(err)
+		}
+
+		list = append(list, &obj)
 	}
 
 	return list, meta.GetBookmark(), nil
@@ -352,4 +370,85 @@ func Delete[T common.ItemInterface](ctx common.TxCtxInterface, in T) (err error)
 	}
 
 	return nil
+}
+
+func GetPartialKeyList[T common.ItemInterface](
+	ctx common.TxCtxInterface,
+	obj T,
+	numAttr int,
+	bookmark string,
+) (list []T, mk string, err error) {
+	// obj = []*T{}
+	ctx.GetLogger().Info("GetPartialKeyList")
+
+	var (
+		itemtype = obj.ItemType()
+		attr     = obj.KeyAttr()
+	)
+
+	if len(attr) == 0 || len(attr) < numAttr {
+		return nil, "", common.ItemInvalid
+	}
+
+	// Extract the attributes to search for
+	// attr = attr[:len(attr)-numAttr]
+	attr = lo.DropRight(attr, numAttr)
+
+	ctx.GetLogger().
+		Info("GetPartialKeyList",
+			slog.Group(
+				"Key", "ItemType", itemtype,
+				slog.Int("numAttr", numAttr),
+				slog.Any("attr", attr),
+				slog.Group(
+					"Paged",
+					"Bookmark", bookmark,
+					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
+				),
+			),
+		)
+
+	results, meta, err := ctx.GetStub().
+		GetStateByPartialCompositeKeyWithPagination(
+			obj.ItemKey().GetItemType(),
+			attr,
+			ctx.GetPageSize(),
+			bookmark,
+		)
+	if err != nil {
+		return nil, "", err
+	}
+	defer func(results shim.StateQueryIteratorInterface) {
+		err := results.Close()
+		if err != nil {
+			ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
+		}
+	}(results)
+
+	base := proto.Clone(obj).(T)
+	proto.Reset(base)
+
+	for results.HasNext() {
+		queryResponse, err := results.Next()
+		if err != nil {
+			return nil, "", oops.Wrapf(err, "Error getting next item")
+		}
+		if queryResponse == nil {
+			return nil, "", oops.Errorf("queryResponse is nil")
+		}
+
+		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
+		// 	return nil, "", oops.Wrap(err)
+		// }
+		// var tmpObj
+		item := proto.Clone(base).(T)
+
+		if err = protojson.Unmarshal(queryResponse.GetValue(), item); err != nil {
+			return nil, "", oops.Wrap(err)
+		}
+
+		list = append(list, item)
+	}
+
+	return list, meta.GetBookmark(), nil
 }

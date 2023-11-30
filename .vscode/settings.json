@@ -101,6 +101,7 @@
         "**/.task": true
     },
     "explorerExclude.backup": {},
+    "editor.minimap.enabled": false,
     // "plantuml.server": "http://localhost:8888",
     // "plantuml.render": "PlantUMLServer",
 

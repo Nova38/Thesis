@@ -1,46 +1,94 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	// "github.com/bufbuild/protovalidate-go"
 	// pb "github.com/nova38/thesis/lib/go/gen/rbac"
-	_ "github.com/nova38/thesis/lib/go/gen/auth/v1"
-
-	"google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/reflect/protoregistry"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	//	"google.golang.org/protobuf/reflect/protoreflect"
+	//	"google.golang.org/protobuf/reflect/protoregistry"
+	//	"google.golang.org/protobuf/types/known/anypb"
+	//
+	// )
 )
 
 func TestV(t *testing.T) {
 }
 
 func main() {
-	name := protoreflect.FullName("auth.Suggestion")
+	// name := protoreflect.FullName("auth.Suggestion")
 
-	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
+	// t, err := protoregistry.GlobalTypes.FindMessageByName(name)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// // item := t.New().Interface()
+
+	// item, ok := t.New().Interface().(common.ItemInterface)
+	// if !ok {
+	// 	fmt.Println("not ok")
+	// }
+
+	// item.ItemKey()
+
+	// fd := item.ProtoReflect().Descriptor().Fields().ByName("suggestion_id")
+	// fmt.Println(fd.Name())
+	// fmt.Println(fd.TextName())
+	// fmt.Println(fd.FullName())
+	// // fmt.Println(fd.())
+	// item.ProtoReflect().Set(fd, protoreflect.ValueOf("test"))
+
+	// // Modifiy suggestion_id field
+	// any, err := anypb.New(&authpb.User{})
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// fmt.Println(any)
+
+	// i := &authpb.User{
+	// 	CollectionId: "",
+	// 	MspId:        "msp_id",
+	// 	UserId:       "user_id",
+	// 	Name:         "Name",
+	// }
+
+	// p, e := common.PackItem(i)
+
+	// b, e := p.MarshalJSON()
+	// // protojson.Marshal(any)
+	// if e != nil {
+	// 	fmt.Println(e)
+	// }
+
+	// fmt.Println(string(b))
+
+	// fmt.Println(item)
+
+	str := "{\"collectionId\":\"\",\"mspId\":\"Org1MSP\",\"name\":\"\",\"userId\":\"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT\"}"
+
+	// bytes := []byte(str)
+
+	// user := &authpb.User{}
+	// _ = json.Unmarshal(bytes, user)
+
+	// fmt.Println(user)
+
+	u, err := Unm(&authpb.User{}, str)
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(*u)
+}
 
-	// item := t.New().Interface()
+func Unm[T common.ItemInterface](o T, s string) (obj *T, err error) {
+	bytes := []byte(s)
+	obj = new(T)
 
-	item, ok := t.New().Interface().(common.ItemInterface)
-	if !ok {
-		fmt.Println("not ok")
-	}
-
-	item.ItemKey()
-
-	fd := item.ProtoReflect().Descriptor().Fields().ByName("suggestion_id")
-	fmt.Println(fd.Name())
-	fmt.Println(fd.TextName())
-	fmt.Println(fd.FullName())
-	// fmt.Println(fd.())
-	item.ProtoReflect().Set(fd, protoreflect.ValueOf("test"))
-
-	// Modifiy suggestion_id field
-
-	fmt.Println(item)
+	err = json.Unmarshal(bytes, obj)
+	return obj, err
 }

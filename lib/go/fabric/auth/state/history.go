@@ -8,6 +8,8 @@ import (
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
+
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
@@ -19,7 +21,7 @@ func hiddenTxs[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 ) (list *authpb.HiddenTxList, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 	var (
 		key    = lo.Must(common.MakeHiddenKey(obj))
 		exists = common.KeyExists(ctx, key)
@@ -44,24 +46,34 @@ func history[T common.ItemInterface](
 	obj T,
 	showHidden bool,
 ) (history *authpb.History, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-	var (
-		key    = lo.Must(common.MakePrimaryKey(obj))
-		exists = common.KeyExists(ctx, key)
-		hidden = lo.Must(hiddenTxs(ctx, obj))
-	)
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if !exists {
-		return nil, oops.Wrap(common.KeyNotFound)
+	key, err := common.MakePrimaryKey(obj)
+	if err != nil {
+		return nil, oops.With("Object", obj).Wrap(err)
+	}
+
+	if !common.KeyExists(ctx, key) {
+		return nil, oops.With("key", key).Wrap(common.KeyNotFound)
 	}
 
 	history = &authpb.History{
-		Entries:   []*authpb.HistoryEntry{},
-		HiddenTxs: lo.Ternary(showHidden, hidden, nil),
+		Entries: []*authpb.HistoryEntry{},
+	}
+
+	// hidden = lo.Must(hiddenTxs(ctx, obj))
+	if showHidden {
+		history.HiddenTxs, err = hiddenTxs(ctx, obj)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	resultIterator := lo.Must(ctx.GetStub().GetHistoryForKey(key))
 	defer ctx.CloseQueryIterator(resultIterator)
+
+	base := proto.Clone(obj).(T)
+	proto.Reset(base)
 
 	for resultIterator.HasNext() {
 		queryResponse := lo.Must(resultIterator.Next())
@@ -72,8 +84,8 @@ func history[T common.ItemInterface](
 			Note:      "",
 		}
 
-		if hidden.GetTxs() != nil {
-			for _, tx := range hidden.GetTxs() {
+		if history.GetHiddenTxs().GetTxs() != nil {
+			for _, tx := range history.GetHiddenTxs().GetTxs() {
 				if tx.GetTxId() == entry.GetTxId() {
 					entry.Note = tx.GetNote()
 					entry.IsHidden = true
@@ -85,9 +97,9 @@ func history[T common.ItemInterface](
 			continue
 		}
 
-		tmp := new(T)
+		tmp := proto.Clone(base)
 		lo.Must0(json.Unmarshal(queryResponse.GetValue(), tmp))
-		entry.Value = lo.Must(anypb.New(*tmp))
+		entry.Value = lo.Must(anypb.New(tmp))
 
 		history.Entries = append(history.GetEntries(), entry)
 	}
@@ -96,7 +108,7 @@ func history[T common.ItemInterface](
 }
 
 func History[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (h *authpb.History, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW_HISTORY,
@@ -117,7 +129,7 @@ func FullHistory[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 ) (h *authpb.History, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
 		op = &authpb.Operation{
@@ -163,7 +175,7 @@ func HideTransaction[T common.ItemInterface](
 	obj T,
 	tx *authpb.HiddenTx,
 ) (hiddenList *authpb.HiddenTxList, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
 		key    = lo.Must(common.MakeHiddenKey(obj))
@@ -201,7 +213,7 @@ func UnHideTransaction[T common.ItemInterface](
 	obj T,
 	txId string,
 ) (hiddenList *authpb.HiddenTxList, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	var (
 		key    = lo.Must(common.MakeHiddenKey(obj))

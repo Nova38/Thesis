@@ -8,7 +8,7 @@
                     "$ref": "#/definitions/auth.User",
                     "additionalProperties": true
                 },
-                "registerd": {
+                "registered": {
                     "type": "boolean"
                 }
             },
