@@ -646,8 +646,7 @@ Action - The action to be performed during the operation
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | ITEM_KIND_UNSPECIFIED | 0 |  |
-| ITEM_KIND_GLOBAL_ITEM | 1 |  |
-| ITEM_KIND_PRIMARY_ITEM | 2 | Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
+| ITEM_KIND_PRIMARY_ITEM | 2 | ITEM_KIND_GLOBAL_ITEM = 1; Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
 | ITEM_KIND_SUB_ITEM | 3 | Item&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths} |
 | ITEM_KIND_REFERENCE | 4 |  |
 

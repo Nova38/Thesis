@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
+	_ "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
+	_ "github.com/nova38/thesis/lib/go/gen/chaincode/sample/v0"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"

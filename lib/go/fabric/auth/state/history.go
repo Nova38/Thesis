@@ -23,6 +23,10 @@ func GetHiddenTxs[T common.ItemInterface](
 ) (list *authpb.HiddenTxList, key string, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
+	if ctx.EnabledHidden() == false {
+		return nil, "", nil
+	}
+
 	key, err = common.MakeHiddenKey(obj)
 	if err != nil {
 		return nil, key, oops.With("Object", obj).Wrap(err)
@@ -37,7 +41,8 @@ func GetHiddenTxs[T common.ItemInterface](
 		return nil, key, err
 	}
 
-	list = new(authpb.HiddenTxList)
+	list = &authpb.HiddenTxList{}
+
 	if err = json.Unmarshal(state, list); err != nil {
 		return nil, key, oops.Wrap(err)
 	}
@@ -45,85 +50,7 @@ func GetHiddenTxs[T common.ItemInterface](
 	return list, key, nil
 }
 
-func history[T common.ItemInterface](
-	ctx common.TxCtxInterface,
-	obj T,
-	showHidden bool,
-) (history *authpb.History, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
-
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return nil, oops.With("Object", obj).Wrap(err)
-	}
-
-	if !common.KeyExists(ctx, key) {
-		return nil, oops.With("key", key).Wrap(common.KeyNotFound)
-	}
-
-	history = &authpb.History{
-		Entries: []*authpb.HistoryEntry{},
-	}
-
-	if showHidden {
-		history.HiddenTxs, _, err = GetHiddenTxs(ctx, obj)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	resultIterator, err := ctx.GetStub().GetHistoryForKey(key)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	defer ctx.CloseQueryIterator(resultIterator)
-
-	base := proto.Clone(obj).(T)
-	proto.Reset(base)
-
-	for resultIterator.HasNext() {
-		queryResponse, err := resultIterator.Next()
-		if err != nil {
-			return nil, oops.Wrap(err)
-		}
-		entry := &authpb.HistoryEntry{
-			TxId:      queryResponse.GetTxId(),
-			IsDelete:  queryResponse.GetIsDelete(),
-			Timestamp: queryResponse.GetTimestamp(),
-			Note:      "",
-		}
-
-		if history.GetHiddenTxs().GetTxs() != nil {
-			for _, tx := range history.GetHiddenTxs().GetTxs() {
-				if tx.GetTxId() == entry.GetTxId() {
-					entry.Note = tx.GetNote()
-					entry.IsHidden = true
-				}
-			}
-		}
-
-		if !showHidden && entry.GetIsHidden() {
-			continue
-		}
-
-		tmp := proto.Clone(base)
-
-		if err := json.Unmarshal(queryResponse.GetValue(), tmp); err != nil {
-			return nil, err
-		}
-
-		entry.Value, err = anypb.New(tmp)
-		if err != nil {
-			return nil, oops.Wrap(err)
-		}
-
-		history.Entries = append(history.GetEntries(), entry)
-	}
-
-	return history, err
-}
-
-func History[T common.ItemInterface](
+func GetHistory[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 ) (h *authpb.History, err error) {
@@ -172,7 +99,7 @@ func FullHistory[T common.ItemInterface](
 	return history(ctx, obj, true)
 }
 
-func HiddenTx[T common.ItemInterface](
+func GetHiddenTx[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 ) (l *authpb.HiddenTxList, err error) {
@@ -296,4 +223,87 @@ func UnHideTransaction[T common.ItemInterface](
 	}
 
 	return hidden, ctx.GetStub().PutState(key, bytes)
+}
+
+func history[T common.ItemInterface](
+	ctx common.TxCtxInterface,
+	obj T,
+	showHidden bool,
+) (history *authpb.History, err error) {
+	// defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	key, err := common.MakePrimaryKey(obj)
+	if err != nil {
+		return nil, oops.With("Object", obj).Wrap(err)
+	}
+
+	// if !common.KeyExists(ctx, key) {
+	// 	return nil, oops.With("key", key).Wrap(common.KeyNotFound)
+	// }
+
+	history = &authpb.History{
+		Entries: []*authpb.HistoryEntry{},
+	}
+
+	if ctx.EnabledHidden() && showHidden {
+		history.HiddenTxs, _, err = GetHiddenTxs(ctx, obj)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	resultIterator, err := ctx.GetStub().GetHistoryForKey(key)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+	defer ctx.CloseQueryIterator(resultIterator)
+
+	base := proto.Clone(obj).(T)
+	proto.Reset(base)
+
+	for resultIterator.HasNext() {
+		queryResponse, err := resultIterator.Next()
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+		entry := &authpb.HistoryEntry{
+			TxId:      queryResponse.GetTxId(),
+			IsDelete:  queryResponse.GetIsDelete(),
+			Timestamp: queryResponse.GetTimestamp(),
+			Note:      "",
+		}
+
+		if ctx.EnabledHidden() && history.GetHiddenTxs() != nil && history.GetHiddenTxs().GetTxs() != nil {
+
+			ctx.GetLogger().Info("Hidden History Enabled, checking for hidden txs")
+			if history.GetHiddenTxs().GetTxs() != nil {
+				for _, tx := range history.GetHiddenTxs().GetTxs() {
+					if tx.GetTxId() == entry.GetTxId() {
+						entry.Note = tx.GetNote()
+						entry.IsHidden = true
+					}
+				}
+			}
+
+			if !showHidden && entry.GetIsHidden() {
+				ctx.GetLogger().Info("Hidden History Enabled but not shown, skipping hidden tx")
+				continue
+			}
+
+		}
+		tmp := proto.Clone(base)
+
+		if err := json.Unmarshal(queryResponse.GetValue(), tmp); err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		entry.Value, err = anypb.New(tmp)
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		history.Entries = append(history.GetEntries(), entry)
+	}
+
+	return history, err
 }

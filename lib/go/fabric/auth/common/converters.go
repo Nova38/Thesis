@@ -41,7 +41,7 @@ func ItemKeyToItem(key *authpb.ItemKey) (item ItemInterface, err error) {
 		return nil, oops.Errorf("ItemKey is nil")
 	}
 
-	item.SetKeyAttr(key.GetItemIdParts())
+	item.SetKey(key)
 
 	return item, nil
 }

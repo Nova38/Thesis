@@ -128,7 +128,10 @@ func HandleCollectionOperation(
 
 	// Get Operation Collection
 	collection := &authpb.Collection{CollectionId: op.GetCollectionId()}
-	if err = state.Get(ctx, collection); err != nil {
+
+	if key, err := common.MakePrimaryKey(collection); err != nil {
+		return false, oops.Wrap(err)
+	} else if err = state.Get(ctx, key, collection); err != nil {
 		oops.Wrap(err)
 	}
 

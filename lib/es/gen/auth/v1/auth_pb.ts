@@ -74,11 +74,7 @@ export enum ItemKind {
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: ITEM_KIND_GLOBAL_ITEM = 1;
-   */
-  GLOBAL_ITEM = 1,
-
-  /**
+   * ITEM_KIND_GLOBAL_ITEM = 1;
    * Item's key := {COLLECTION_ID}{TYPE}[...key_paths]
    *
    * @generated from enum value: ITEM_KIND_PRIMARY_ITEM = 2;
@@ -100,7 +96,6 @@ export enum ItemKind {
 // Retrieve enum metadata with: proto3.getEnumType(ItemKind)
 proto3.util.setEnumType(ItemKind, "auth.ItemKind", [
   { no: 0, name: "ITEM_KIND_UNSPECIFIED" },
-  { no: 1, name: "ITEM_KIND_GLOBAL_ITEM" },
   { no: 2, name: "ITEM_KIND_PRIMARY_ITEM" },
   { no: 3, name: "ITEM_KIND_SUB_ITEM" },
   { no: 4, name: "ITEM_KIND_REFERENCE" },

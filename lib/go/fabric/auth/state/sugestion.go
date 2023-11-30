@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
@@ -21,40 +22,40 @@ import (
 // Helpers
 // ──────────────────────────────────────────────────
 
-type SuggestionHandler struct {
-	suggestionKey string
-	objKey        string
-	obj           common.ItemInterface
-	suggestion    *authpb.Suggestion
-	bytes         []byte
-}
+//type SuggestionHandler struct {
+//	suggestionKey string
+//	objKey        string
+//	obj           common.ItemInterface
+//	suggestion    *authpb.Suggestion
+//	bytes         []byte
+//}
 
 // SuggestionToItem converts a suggestion to an item
 
-func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
-	if sug == nil {
-		return oops.In("Extract").Errorf("Suggestion is nil")
-	}
-	s.suggestion = sug
-
-	if s.obj, err = common.SuggestionToItem(s.suggestion); err != nil {
-		return oops.Wrap(err)
-	}
-
-	if s.objKey, err = common.MakePrimaryKey(s.obj); err != nil {
-		return oops.Wrap(err)
-	}
-
-	if s.suggestionKey, err = common.MakeSuggestionKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
-		return oops.Wrap(err)
-	}
-
-	if s.bytes, err = json.Marshal(s.obj); err != nil {
-		return oops.Wrap(err)
-	}
-
-	return nil
-}
+//func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
+//	if sug == nil {
+//		return oops.In("Extract").Errorf("Suggestion is nil")
+//	}
+//	s.suggestion = sug
+//
+//	if s.obj, err = common.SuggestionToItem(s.suggestion); err != nil {
+//		return oops.Wrap(err)
+//	}
+//
+//	if s.objKey, err = common.MakePrimaryKey(s.obj); err != nil {
+//		return oops.Wrap(err)
+//	}
+//
+//	if s.suggestionKey, err = common.MakeSuggestionPrimaryKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
+//		return oops.Wrap(err)
+//	}
+//
+//	if s.bytes, err = json.Marshal(s.obj); err != nil {
+//		return oops.Wrap(err)
+//	}
+//
+//	return nil
+//}
 
 // ──────────────────────────────────────────────────
 // Invoke Suggested Functions
@@ -64,76 +65,81 @@ func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("CreateSuggestion", "suggestion:", s)
 
-	var (
-		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
-		handler = SuggestionHandler{suggestion: s}
-		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_SUGGEST_CREATE,
-			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ItemType:     s.GetPrimaryKey().GetItemType(),
-			Paths:        s.GetPaths(),
-		}
-	)
-
 	// Authorize the operation
-
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_SUGGEST_CREATE,
+		CollectionId: s.GetPrimaryKey().GetCollectionId(),
+		ItemType:     s.GetPrimaryKey().GetItemType(),
+		Paths:        s.GetPaths(),
+	}
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
+		return oops.Wrap(err)
+	} else if !auth {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
 	// Extract the item from the suggestion
-	if err = handler.Extract(s); err != nil {
-		return oops.Wrap(err)
-	}
 
-	// Check if the item exists, if it does not, return error
-	if !common.KeyExists(ctx, handler.objKey) {
+	if pKey, err := common.MakeItemKeyPrimary(s.GetPrimaryKey()); err != nil {
+		return oops.Wrap(err)
+	} else if !common.KeyExists(ctx, pKey) {
 		return oops.
 			With("suggestion ID",
-				s.GetSuggestionId(), "Key", handler.objKey,
-				"ItemType", handler.obj.ItemType()).
+				s.GetSuggestionId(), "Key", pKey,
+				"ItemType").
 			Wrap(common.KeyNotFound)
+
 	}
 
-	return l.Create(handler.suggestion)
+	// Make the suggestion key
+	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
+	if err != nil {
+		return oops.
+			Hint("Make Item Suggestion Key Failed").
+			With("Primary Key", s.GetPrimaryKey()).
+			Wrap(err)
+	}
+
+	bytes, err := json.Marshal(s)
+	if err != nil {
+		return oops.Hint("Json Marshal Faild").Wrap(err)
+	}
+
+	return ctx.GetStub().PutState(sKey, bytes)
+	// Check if the item exists, if it does not, return error
+
 }
 
 func SuggestionDelete(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
-
 	ctx.GetLogger().Debug("DeleteSuggestion", "suggestion:", s)
 
-	var (
-		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
-		handler = SuggestionHandler{suggestion: s}
-		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_SUGGEST_DELETE,
-			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ItemType:     s.GetPrimaryKey().GetItemType(),
-			Paths:        nil,
-		}
-	)
-	// Extract the item from the suggestion
-	if err = handler.Extract(s); err != nil {
-		return oops.Wrap(err)
-	}
-
-	if err = l.Get(handler.suggestion); err != nil {
+	// Authorize Viewing and Retrieving the suggestion
+	if err = GetSuggestion(ctx, s); err != nil {
 		return oops.
-			In("DeleteSuggestion").
-			With("Key", s, "ItemType", s.ItemType()).
-			Wrap(common.KeyNotFound)
+			Hint("Failed to be able to read suggestions").
+			Wrap(err)
 	}
 
-	// Set The paths
-	op.Paths = handler.suggestion.GetPaths()
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_SUGGEST_DELETE,
+		CollectionId: s.GetPrimaryKey().GetCollectionId(),
+		ItemType:     s.GetPrimaryKey().GetItemType(),
+		Paths:        s.GetPaths(),
+	}
 
-	// Authorize the operation
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
+		return oops.Wrap(err)
+	} else if !auth {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	return l.Delete(handler.suggestion)
+	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
+	if err != nil {
+		return oops.Wrap(err)
+	}
+
+	return ctx.GetStub().DelState(sKey)
 }
 
 func SuggestionApprove(
@@ -142,33 +148,22 @@ func SuggestionApprove(
 ) (updated *common.ItemInterface, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("ApproveSuggestion", "suggestion:", s)
-	var (
-		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
-		ol      = &Ledger[common.ItemInterface]{ctx: ctx}
-		handler = SuggestionHandler{suggestion: s}
-		op      = &authpb.Operation{
-			Action:       authpb.Action_ACTION_SUGGEST_APPROVE,
-			CollectionId: s.GetPrimaryKey().GetCollectionId(),
-			ItemType:     s.GetPrimaryKey().GetItemType(),
-			Paths:        nil,
-		}
-	)
 
-	// Extract the item from the suggestion
-	if err = handler.Extract(s); err != nil {
+	// Authorize Viewing and Retrieving the suggestion
+	if err = GetSuggestion(ctx, s); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
+	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// Get the suggestion from the ledger
-	if err = l.Get(handler.suggestion); err != nil {
-		return nil, oops.
-			In("ApproveSuggestion").
-			With("Key", s, "ItemType", s.ItemType()).
-			Wrap(common.KeyNotFound)
+	op := &authpb.Operation{
+		Action:       authpb.Action_ACTION_SUGGEST_APPROVE,
+		CollectionId: s.GetPrimaryKey().GetCollectionId(),
+		ItemType:     s.GetPrimaryKey().GetItemType(),
+		Paths:        s.GetPaths(),
 	}
-
-	// Set The paths
-	op.Paths = handler.suggestion.GetPaths()
 
 	// Authorize the operation
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
@@ -176,32 +171,48 @@ func SuggestionApprove(
 	}
 
 	// Process the Update
-	if _, err := ol.Update(handler.obj, s.GetPaths()); err != nil {
+	primary, err := common.ItemKeyToItem(s.GetPrimaryKey())
+	if err != nil {
+		return nil, oops.Wrap(err)
+	} else if err = PrimaryGet(ctx, primary); err != nil {
+		return nil, oops.Hint("Shouldn't be possible").Wrap(common.KeyNotFound)
+	}
+
+	update, err := s.GetValue().UnmarshalNew()
+	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	if err = l.Delete(handler.suggestion); err != nil {
+	// Apply the mask to the Updating item
+	fmutils.Overwrite(primary, update, s.GetPaths().GetPaths())
+	pKey, err := common.MakePrimaryKey(primary)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if bytes, err := json.Marshal(primary); err != nil {
+		return nil, oops.Wrap(err)
+	} else if err = ctx.GetStub().PutState(pKey, bytes); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	return &handler.obj, nil
+	// Delete the suggestion
+
+	if err = ctx.GetStub().DelState(sKey); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	return &primary, nil
 }
 
 // ──────────────────────────────────────────────────
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
 
-// Get GetSuggestion by its ID
+// GetSuggestion by its ID
 func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	ctx.GetLogger().Debug("GetSuggestion", "suggestion:", s)
-
-	var (
-		l = &Ledger[*authpb.Suggestion]{ctx: ctx}
-
-		handler = SuggestionHandler{suggestion: s}
-	)
 
 	// Authorize the operation
 	auth, err := ctx.Authorize([]*authpb.Operation{
@@ -218,15 +229,27 @@ func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) 
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	// Extract the item from the suggestion
-	if err = handler.Extract(s); err != nil {
+	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
+	if err != nil {
 		return oops.Wrap(err)
 	}
 
-	return l.Get(handler.suggestion)
+	if bytes, err := ctx.GetStub().GetState(sKey); err != nil {
+		return oops.Wrap(err)
+	} else if bytes == nil && err == nil {
+		return oops.
+			With("suggestion ID",
+				s.GetSuggestionId(), "Key", sKey,
+				"ItemType").
+			Wrap(common.KeyNotFound)
+	} else if err := json.Unmarshal(bytes, s); err != nil {
+		return oops.Hint("Json Unmarshal Failed").Wrap(err)
+	}
+
+	return nil
 }
 
-// partialSuggestedKeyList returns a list of suggestions based on the partial key
+// PartialSuggestionList returns a list of suggestions based on the partial key
 func PartialSuggestionList(
 	ctx common.TxCtxInterface,
 	s *authpb.Suggestion,
@@ -249,12 +272,11 @@ func PartialSuggestionList(
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 
-	handler := SuggestionHandler{suggestion: s}
-	if err = handler.Extract(s); err != nil {
-		return nil, "", oops.Wrap(err)
+	if s.GetPrimaryKey() == nil {
+		return nil, "", oops.Wrap(common.ItemInvalid)
 	}
 
-	attr := common.MakeSuggestionKeyAtter(handler.obj, "")
+	attr := common.MakeItemKeySuggestionKeyAttr(s.GetPrimaryKey(), "")
 	if len(attr) == 0 || len(attr) < numAttr {
 		return nil, "", common.ItemInvalid
 	}

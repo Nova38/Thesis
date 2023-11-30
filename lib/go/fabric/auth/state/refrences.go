@@ -360,13 +360,21 @@ func referenceGetPacked(
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-
-	if err = Get(ctx, item1); err != nil {
+	k1, err := common.MakePrimaryKey(item1)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if err = Get(ctx, k1, item1); err != nil {
 		ctx.GetLogger().Error("Error getting item1", "ref", ref, slog.Group("item1", item1))
 		return nil, oops.With("ref", ref).Wrap(err)
 	}
 
-	if err = Get(ctx, item2); err != nil {
+	k2, err := common.MakePrimaryKey(item2)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	if err = Get(ctx, k2, item2); err != nil {
 		ctx.GetLogger().Error("Error getting item2", "ref", ref, slog.Group("item2", item1))
 		return nil, oops.Wrap(err)
 	}

@@ -21,6 +21,7 @@ type (
 	ItemInterface interface {
 		KeyAttr() (attr []string)
 		ItemKey() *authpb.ItemKey
+		SetKey(key *authpb.ItemKey)
 		SetKeyAttr(attr []string)
 		ItemType() string
 
@@ -96,7 +97,8 @@ type (
 		// ════════════════════════════════════════════════════════
 		// Auth Functions
 		// ════════════════════════════════════════════════════════
-
+		EnabledSuggestions() bool
+		EnabledHidden() bool
 		// ════════════════════════════════════════════════════════
 		//  Operations Functions
 		// ════════════════════════════════════════════════════════
@@ -119,7 +121,7 @@ type (
 		//
 		// # Requirements:
 		//   - User to be registered
-		GetUser() (user *v1.User, err error)
+		// GetUser() (user *v1.User, err error)
 
 		// ─────────────────────────────────────────────────────────────────────
 

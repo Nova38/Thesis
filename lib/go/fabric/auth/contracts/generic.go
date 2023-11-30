@@ -74,20 +74,20 @@ func (o ItemContractImpl) AuthorizeOperation(
 func (o ItemContractImpl) CreateUser(
 	ctx common.TxCtxInterface,
 ) (res *ccpb.CreateUserResponse, err error) {
+	panic("not implemented")
+	// res = &ccpb.CreateUserResponse{}
 
-	res = &ccpb.CreateUserResponse{}
+	// // if user exists, return error
+	// user, err := ctx.GetUserId()
+	// if err != nil {
+	// 	return nil, oops.Wrap(err)
+	// }
 
-	// if user exists, return error
-	user, err := ctx.GetUserId()
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	// create user
-	if err = state.Create(ctx, user); err != nil {
-		ctx.GetLogger().Error("User already exists or other error", slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
+	// // create user
+	// if err = state.Insert(ctx, user); err != nil {
+	// 	ctx.GetLogger().Error("User already exists or other error", slog.Any("error", err))
+	// 	return nil, oops.Wrap(err)
+	// }
 
 	return res, err
 }
@@ -142,6 +142,7 @@ func (o ItemContractImpl) List(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
+
 	proto.Reset(obj)
 	// reset the item to its default state, so that we can get the full list
 
@@ -350,7 +351,7 @@ func (o ItemContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	if h, err = state.History(ctx, obj); err != nil {
+	if h, err = state.GetHistory(ctx, obj); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
@@ -377,7 +378,7 @@ func (o ItemContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if hTxs, err = state.HiddenTx(ctx, obj); err != nil {
+	if hTxs, err = state.GetHiddenTx(ctx, obj); err != nil {
 		return nil, oops.Wrap(err)
 	}
 

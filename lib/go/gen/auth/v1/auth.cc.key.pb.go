@@ -29,6 +29,11 @@ func (m *Collection) SetKeyAttr(attr []string) {
 func (m *Collection) IsPrimary() bool {
 	return true
 }
+func (m *Collection) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
 func (m *Collection) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
@@ -60,13 +65,18 @@ func (m *User) SetKeyAttr(attr []string) {
 	return
 }
 
-// Global Item
-func (m *User) IsGlobal() bool {
+// Domain Item
+func (m *User) IsPrimary() bool {
 	return true
+}
+func (m *User) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
 func (m *User) ItemKey() *ItemKey {
 	key := &ItemKey{
-		CollectionId: "global",
+		CollectionId: m.GetCollectionId(),
 		ItemType:     "auth.User",
 		ItemIdParts:  m.KeyAttr(),
 	}
@@ -92,6 +102,10 @@ func (m *Suggestion) SetKeyAttr(attr []string) {
 // Domain Item
 func (m *Suggestion) IsSecondary() bool {
 	return true
+}
+func (m *Suggestion) SetKey(key *ItemKey) {
+	m.PrimaryKey = key
+	return
 }
 func (m *Suggestion) ItemKey() *ItemKey {
 	return m.GetPrimaryKey()
@@ -119,6 +133,11 @@ func (m *Role) SetKeyAttr(attr []string) {
 // Domain Item
 func (m *Role) IsPrimary() bool {
 	return true
+}
+func (m *Role) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
 func (m *Role) ItemKey() *ItemKey {
 	key := &ItemKey{
@@ -158,6 +177,11 @@ func (m *UserMembership) SetKeyAttr(attr []string) {
 func (m *UserMembership) IsPrimary() bool {
 	return true
 }
+func (m *UserMembership) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
 func (m *UserMembership) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
@@ -192,6 +216,11 @@ func (m *UserCollectionRoles) SetKeyAttr(attr []string) {
 // Domain Item
 func (m *UserCollectionRoles) IsPrimary() bool {
 	return true
+}
+func (m *UserCollectionRoles) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
 func (m *UserCollectionRoles) ItemKey() *ItemKey {
 	key := &ItemKey{

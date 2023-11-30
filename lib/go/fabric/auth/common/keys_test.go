@@ -259,14 +259,14 @@ func TestMakeSuggestionKey(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotSuggestionKey, err := MakeSuggestionKey(tt.args.obj, tt.args.suggestionId)
+			gotSuggestionKey, err := MakeSuggestionPrimaryKey(tt.args.obj, tt.args.suggestionId)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("MakeSuggestionKey() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("MakeSuggestionPrimaryKey() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if gotSuggestionKey != tt.wantSuggestionKey {
 				t.Errorf(
-					"MakeSuggestionKey() = %v, want %v",
+					"MakeSuggestionPrimaryKey() = %v, want %v",
 					gotSuggestionKey,
 					tt.wantSuggestionKey,
 				)

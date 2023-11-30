@@ -26,8 +26,11 @@ func GetUserRoles(ctx common.TxCtxInterface, collectionId string) ([]*authpb.Rol
 	}
 
 	// roles := []*authpb.Role{}
-
-	if err = state.Get(ctx, userRoles); err != nil {
+	key, err := common.MakePrimaryKey(userRoles)
+	if err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if err = state.Get(ctx, key, userRoles); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -37,8 +40,11 @@ func GetUserRoles(ctx common.TxCtxInterface, collectionId string) ([]*authpb.Rol
 		role := &authpb.Role{
 			RoleId: roleId,
 		}
-
-		if err = state.Get(ctx, role); err != nil {
+		key, err := common.MakePrimaryKey(role)
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+		if err = state.Get(ctx, key, role); err != nil {
 			return nil, oops.Wrap(err)
 		}
 
@@ -62,7 +68,12 @@ func GetRoleParent(ctx common.TxCtxInterface, role *authpb.Role) ([]*authpb.Role
 			RoleId:       parrent_id,
 		}
 
-		if err := state.Get(ctx, parent); err != nil {
+		parrentKey, err := common.MakePrimaryKey(parent)
+		if err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		if err := state.Get(ctx, parrentKey, parent); err != nil {
 			return nil, oops.Wrap(err)
 		}
 

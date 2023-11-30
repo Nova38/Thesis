@@ -83,6 +83,8 @@ func (kg *KeyGenerator) GenerateMessage(
 	}
 
 	kp := keySchema.GetKeys()
+	od := keySchema.GetItemKind()
+
 	// dCol := keySchema.GetDefaultCollectionId()
 	// ItemKind := GetItemKind()
 
@@ -92,6 +94,7 @@ func (kg *KeyGenerator) GenerateMessage(
 
 	if kp.IsValid(newMsg) {
 		rawPaths := kp.GetPaths()
+
 		// g.QualifiedGoIdent(stringsPackage.Ident("strings"))
 		// g.QualifiedGoIdent(errorsPackage.Ident("errors"))
 
@@ -177,24 +180,29 @@ func (kg *KeyGenerator) GenerateMessage(
 		}
 
 		{
-			od := keySchema.GetItemKind()
+			//
+			//if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
+			//	g.P("// Global Item")
+			//	g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
+			//	g.P("	return true")
+			//	g.P("}")
+			//
+			//	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
+			//	g.P("m.SetKeyAttr(key.ItemIdParts)")
+			//	g.P("m.CollectionId = \"global\"")
+			//	g.P("return }")
+			//
+			//	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
+			//	g.P("key := &", ItemKey, "{")
+			//	g.P("CollectionId: \"global\",")
+			//	g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
+			//	g.P("ItemIdParts: m.KeyAttr(),")
+			//	g.P("}")
+			//	g.P("return key")
+			//	g.P("}")
+			//
+			//}
 
-			if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
-				g.P("// Global Item")
-				g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
-				g.P("	return true")
-				g.P("}")
-
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
-				g.P("key := &", ItemKey, "{")
-				g.P("CollectionId: \"global\",")
-				g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
-				g.P("ItemIdParts: m.KeyAttr(),")
-				g.P("}")
-				g.P("return key")
-				g.P("}")
-
-			}
 			if authpb.ItemKind(
 				od.Number(),
 			) == authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
@@ -202,6 +210,11 @@ func (kg *KeyGenerator) GenerateMessage(
 				g.P("func (m *", msg.GoIdent.GoName, ") IsPrimary() (bool) {")
 				g.P("	return true")
 				g.P("}")
+
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
+				g.P("m.SetKeyAttr(key.ItemIdParts)")
+				g.P("m.CollectionId = key.GetCollectionId()")
+				g.P("return }")
 
 				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
 				g.P("key := &", ItemKey, "{")
@@ -219,6 +232,10 @@ func (kg *KeyGenerator) GenerateMessage(
 				g.P("func (m *", msg.GoIdent.GoName, ") IsSecondary() (bool) {")
 				g.P("	return true")
 				g.P("}")
+
+				g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
+				g.P("m.PrimaryKey = key")
+				g.P("return }")
 
 				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
 				g.P("return m.GetPrimaryKey()")

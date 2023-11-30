@@ -30,6 +30,11 @@ func (m *SimpleItem) SetKeyAttr(attr []string) {
 func (m *SimpleItem) IsPrimary() bool {
 	return true
 }
+func (m *SimpleItem) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
 func (m *SimpleItem) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
@@ -59,6 +64,11 @@ func (m *Group) SetKeyAttr(attr []string) {
 func (m *Group) IsPrimary() bool {
 	return true
 }
+func (m *Group) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
 func (m *Group) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
@@ -87,6 +97,11 @@ func (m *Book) SetKeyAttr(attr []string) {
 // Domain Item
 func (m *Book) IsPrimary() bool {
 	return true
+}
+func (m *Book) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
 func (m *Book) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{

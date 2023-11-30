@@ -30,6 +30,11 @@ func (m *Specimen) SetKeyAttr(attr []string) {
 func (m *Specimen) IsPrimary() bool {
 	return true
 }
+func (m *Specimen) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemIdParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
 func (m *Specimen) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),

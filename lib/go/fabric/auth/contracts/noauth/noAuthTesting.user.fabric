@@ -39,7 +39,14 @@
             ]
         },
     // CreateUser Empty
+        {
+            "invoke": "createUser",
+            "args": [
+                {}
+            ],
+            "identity" : "user1"
 
+        },
         {
             "invoke": "createUser",
             "args": [
@@ -49,45 +56,9 @@
         },
     // CreateCollection CreateCollectionRequest
         {
-            "invoke": "create",
+            "invoke": "createCollection",
             "args": [
-                {"item":{
-                    "key":{},
-                    "value":{
-                        "@type":"type.googleapis.com/auth.Collection",
-                        "collectionId":"FirstCollection",
-                    }
-                }}
-            ]
-        },
-        {
-            "invoke": "create",
-            "args": [
-                {"item":{
-                    "key":{},
-                    "value":{
-                        "@type":"type.googleapis.com/auth.Collection",
-
-                        "collectionId":"SecondCollection",
-                        "itemTypes":["sample.SimpleItem"]
-                    }
-                }}
-            ]
-        },
-        {
-            "invoke": "create",
-            "args": [
-                {"item":{
-                    "key":{},
-                    "value":{
-                        "@type":"type.googleapis.com/sample.SimpleItem",
-
-                        "collectionId":"SecondCollection",
-                        "id": "332",
-                        "name": "test",
-                        "quantity": 4
-                    }
-                }}
+                {"collection":{"default":{}}}
             ]
         },
     // Get GetRequest
@@ -98,12 +69,11 @@
                 {"key":
                 {},
                 "value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection",
-                    "id": "332",
-                    "name": "test",
-                    "quantity": 4
-
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT",
+                    "name":""
                 }
                 }
             }
@@ -111,14 +81,16 @@
         },
     // List ListRequest
         {
-            "invoke": "ListByCollection",
+            "invoke": "list",
             "args": [
                 {"item":{
                     "key":{},
                     "value":{
-                        "@type":"type.googleapis.com/sample.SimpleItem",
-                        "collectionId":"SecondCollection"
-
+                        "@type":"type.googleapis.com/auth.User",
+                        "collectionId":"",
+                        "mspId":"Org1MSP",
+                        "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT",
+                        "name":""
                     }
                 }}
             ]
@@ -128,8 +100,8 @@
             "invoke": "listByCollection",
             "args": [
                 {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection"
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":""
 
                 }}}
             ]
@@ -152,15 +124,7 @@
         {
             "invoke": "update",
             "args": [
-                {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection",
-                    "id": "332",
-                    "name": "test",
-                    "quantity": 40
-                }},
-                "updateMask":"quantity"
-                }
+                {"item":{"key":{},"value":{}},"updateMask":""}
             ]
         },
     // Delete DeleteRequest
@@ -168,9 +132,10 @@
             "invoke": "delete",
             "args": [
                 {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection",
-                    "id": "332",
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT"
                 }}}
             ]
         },
@@ -179,9 +144,10 @@
             "invoke": "history",
             "args": [
                 {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection",
-                    "id": "332",
+                    "@type":"type.googleapis.com/auth.User",
+                    "collectionId":"",
+                    "mspId":"Org1MSP",
+                    "userId":"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT"
                 }}}
             ]
         },

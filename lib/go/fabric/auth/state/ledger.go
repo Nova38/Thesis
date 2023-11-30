@@ -1,28 +1,8 @@
 package state
 
 import (
-	"encoding/json"
-	"log/slog"
-	"strconv"
-
-	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/mennanov/fmutils"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"google.golang.org/protobuf/encoding/protojson"
-	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
-
-	"github.com/samber/lo"
-	"github.com/samber/oops"
+    "github.com/nova38/thesis/lib/go/fabric/auth/common"
 )
-
-type Ledger[T common.ItemInterface] struct {
-	ctx common.TxCtxInterface
-}
-
-func NewLedger[T common.ItemInterface](ctx common.TxCtxInterface) *Ledger[T] {
-	return &Ledger[T]{ctx: ctx}
-}
 
 // UTIL Functions
 func Exists(ctx common.TxCtxInterface, key string) bool {
@@ -34,270 +14,137 @@ func Exists(ctx common.TxCtxInterface, key string) bool {
 	return err == nil
 }
 
-// Exists returns true if the item exists in the ledger
-func (l *Ledger[T]) Exists(key string) bool {
-	bytes, err := l.ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return false
-	}
-
-	return err == nil
-}
-
 // ════════════════════════════════════════════════════════
 // Invoke Functions
 // ════════════════════════════════════════════════════════
 
 // Insert inserts the item into the ledger
 // returns error if the item already exists
-
-// Create creates the item in the ledger
-func (l *Ledger[T]) Create(obj T) (err error) {
-	var (
-		key   string
-		bytes []byte
-	)
-
-	if key, err = common.MakePrimaryKey(obj); err != nil {
-		return err
-	}
-
-	if l.Exists(key) {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
-
-	if bytes, err = json.Marshal(obj); err != nil {
-		return err
-	}
-
-	return l.ctx.GetStub().PutState(key, bytes)
-}
-
-// Update updates the item in the ledger and applies the mask
-// Edit updates the item in the ledger
-// returns error if the item does not exist
-func (l *Ledger[T]) Update(update T, mask *fieldmaskpb.FieldMask) (current T, err error) {
-	var (
-		key   string
-		bytes []byte
-	)
-
-	// Get the current item from the ledger
-	if key, err = common.MakePrimaryKey(update); err != nil {
-		return current, err
-	}
-
-	if current, err = l.GetFromKey(key); err != nil {
-		return current, oops.Wrap(err)
-	}
-
-	// Apply the mask to the Updating item
-	fmutils.Filter(update, mask.GetPaths())
-	proto.Merge(current, update)
-
-	// Put the item back into the ledger
-	if bytes, err = json.Marshal(current); err != nil {
-		return current, oops.Wrap(err)
-	}
-
-	return current, l.ctx.GetStub().PutState(key, bytes)
-}
-
-// Delete deletes the item from the ledger
-func (l *Ledger[T]) Delete(in T) (err error) {
-	key, err := common.MakePrimaryKey(in)
-	if err != nil {
-		return err
-	}
-
-	if err = l.ctx.GetStub().DelState(key); err != nil {
-		return oops.Wrap(err)
-	}
-
-	return nil
-}
 
 // ════════════════════════════════════════════════════════
 // Query Functions
 // ════════════════════════════════════════════════════════
 
-func (l *Ledger[T]) GetFromKey(key string) (obj T, err error) {
-	bytes, err := l.ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return obj, oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.KeyNotFound)
-	} else if err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	return obj, nil
-}
-
-// Get returns the item from the ledger
-func (l *Ledger[T]) Get(in T) (err error) {
-	var (
-		key   string
-		bytes []byte
-	)
-
-	itemtype := in.ItemType()
-	l.ctx.GetLogger().Debug("fn: GetState", "ItemType", itemtype)
-
-	if key, err = common.MakePrimaryKey(in); err != nil {
-		return err
-	}
-
-	bytes, err = l.ctx.GetStub().GetState(key)
-
-	if bytes == nil && err == nil {
-		return oops.
-			With("Key", key, "ItemType", in.ItemType()).
-			Wrap(common.KeyNotFound)
-	} else if err != nil {
-		return oops.
-			With("Key", key, "ItemType", in.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
-
-	if err = json.Unmarshal(bytes, in); err != nil {
-		return oops.Wrap(err)
-	}
-	return nil
-}
+// func (l *Ledger[T]) GetFromKey(key string) (obj T, err error) {
+// 	return GetFromKey[T](l.ctx, key)
+// }
 
 // GetPartialKeyList returns a list of items of type T
 // T must implement StateItem interface
 // numAttr is the number of attributes in the key to search for
-func (l *Ledger[T]) GetPartialKeyList(
-	obj T,
-	numAttr int,
-	bookmark string,
-) (list []*T, mk string, err error) {
-	// obj = []*T{}
-	l.ctx.GetLogger().Info("GetPartialKeyList")
+// func (l *Ledger[T]) GetPartialKeyList(
+// 	obj T,
+// 	numAttr int,
+// 	bookmark string,
+// ) (list []*T, mk string, err error) {
+// 	// obj = []*T{}
+// 	l.ctx.GetLogger().Info("GetPartialKeyList")
 
-	var (
-		itemtype = obj.ItemType()
-		attr     = obj.KeyAttr()
-	)
+// 	var (
+// 		itemtype = obj.ItemType()
+// 		attr     = obj.KeyAttr()
+// 	)
 
-	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ItemInvalid
-	}
+// 	if len(attr) == 0 || len(attr) < numAttr {
+// 		return nil, "", common.ItemInvalid
+// 	}
 
-	// Extract the attributes to search for
-	// attr = attr[:len(attr)-numAttr]
-	attr = lo.DropRight(attr, numAttr)
+// 	// Extract the attributes to search for
+// 	// attr = attr[:len(attr)-numAttr]
+// 	attr = lo.DropRight(attr, numAttr)
 
-	l.ctx.GetLogger().
-		Info("GetPartialKeyList",
-			slog.Group(
-				"Key", "ItemType", itemtype,
-				slog.Int("numAttr", numAttr),
-				slog.Any("attr", attr),
-				slog.Group(
-					"Paged",
-					"Bookmark", bookmark,
-					"PageSize", strconv.Itoa(int(l.ctx.GetPageSize())),
-				),
-			),
-		)
+// 	l.ctx.GetLogger().
+// 		Info("GetPartialKeyList",
+// 			slog.Group(
+// 				"Key", "ItemType", itemtype,
+// 				slog.Int("numAttr", numAttr),
+// 				slog.Any("attr", attr),
+// 				slog.Group(
+// 					"Paged",
+// 					"Bookmark", bookmark,
+// 					"PageSize", strconv.Itoa(int(l.ctx.GetPageSize())),
+// 				),
+// 			),
+// 		)
 
-	results, meta, err := l.ctx.GetStub().
-		GetStateByPartialCompositeKeyWithPagination(
-			obj.ItemKey().GetItemType(),
-			attr,
-			l.ctx.GetPageSize(),
-			bookmark,
-		)
-	if err != nil {
-		return nil, "", err
-	}
-	defer func(results shim.StateQueryIteratorInterface) {
-		err := results.Close()
-		if err != nil {
-			l.ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
-		}
-	}(results)
+// 	results, meta, err := l.ctx.GetStub().
+// 		GetStateByPartialCompositeKeyWithPagination(
+// 			obj.ItemKey().GetItemType(),
+// 			attr,
+// 			l.ctx.GetPageSize(),
+// 			bookmark,
+// 		)
+// 	if err != nil {
+// 		return nil, "", err
+// 	}
+// 	defer func(results shim.StateQueryIteratorInterface) {
+// 		err := results.Close()
+// 		if err != nil {
+// 			l.ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
+// 		}
+// 	}(results)
 
-	for results.HasNext() {
-		queryResponse, err := results.Next()
-		if err != nil {
-			return nil, "", oops.Wrapf(err, "Error getting next item")
-		}
+// 	for results.HasNext() {
+// 		queryResponse, err := results.Next()
+// 		if err != nil {
+// 			return nil, "", oops.Wrapf(err, "Error getting next item")
+// 		}
 
-		if queryResponse == nil {
-			return nil, "", oops.Errorf("queryResponse is nil")
-		}
+// 		if queryResponse == nil {
+// 			return nil, "", oops.Errorf("queryResponse is nil")
+// 		}
 
-		var tmpObj T
+// 		var tmpObj T
 
-		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
-		// 	return nil, "", oops.Wrap(err)
-		// }
+// 		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
+// 		// 	return nil, "", oops.Wrap(err)
+// 		// }
 
-		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
-			return nil, "", oops.Wrap(err)
-		}
+// 		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
+// 			return nil, "", oops.Wrap(err)
+// 		}
 
-		list = append(list, &obj)
-	}
+// 		list = append(list, &obj)
+// 	}
 
-	return list, meta.GetBookmark(), nil
-}
+// 	return list, meta.GetBookmark(), nil
+// }
 
 // ════════════════════════════════════════════════════════
 // Raw Functions
 // ════════════════════════════════════════════════════════
 
-func Get[T common.ItemInterface](ctx common.TxCtxInterface, item T) (err error) {
-	var (
-		key   string
-		bytes []byte
-	)
+// func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string) (obj T, err error) {
+// 	bytes, err := ctx.GetStub().GetState(key)
+// 	if bytes == nil && err == nil {
+// 		return obj, oops.
+// 			With("Key", key, "ItemType", obj.ItemType()).
+// 			Wrap(common.KeyNotFound)
+// 	} else if err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
 
-	itemtype := item.ItemType()
-	ctx.GetLogger().Debug("fn: GetRawState", "ItemType", itemtype)
+// 	if err = json.Unmarshal(bytes, obj); err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
 
-	if key, err = common.MakePrimaryKey(item); err != nil {
-		return err
-	}
+// 	return obj, nil
+// }
 
-	if bytes, err = ctx.GetStub().GetState(key); err == nil {
-		return oops.
-			With("Key", key, "ItemType", item.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
+// bytes, err := l.ctx.GetStub().GetState(key)
+// 	if bytes == nil && err == nil {
+// 		return obj, oops.
+// 			With("Key", key, "ItemType", obj.ItemType()).
+// 			Wrap(common.KeyNotFound)
+// 	} else if err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
 
-	if err = json.Unmarshal(bytes, item); err != nil {
-		return oops.Wrap(err)
-	}
-	return nil
-}
+// 	if err = json.Unmarshal(bytes, obj); err != nil {
+// 		return obj, oops.Wrap(err)
+// 	}
 
-func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string) (obj T, err error) {
-	bytes, err := ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return obj, oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.KeyNotFound)
-	} else if err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
-		return obj, oops.Wrap(err)
-	}
-
-	return obj, nil
-}
+// 	return obj, nil
 
 // ════════════════════════════════════════════════════════
 // Invoke Functions
@@ -305,154 +152,52 @@ func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string) (
 
 // Insert inserts the item into the ledger
 // returns error if the item already exists
-func Create[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
-	var (
-		key   string
-		bytes []byte
-	)
-
-	if key, err = common.MakePrimaryKey(obj); err != nil {
-		return err
-	}
-
-	if Exists(ctx, key) {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
-
-	if bytes, err = json.Marshal(obj); err != nil {
-		return err
-	}
-
-	return ctx.GetStub().PutState(key, bytes)
-}
+//func Insert[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+//	var (
+//		key   string
+//		bytes []byte
+//	)
+//
+//	if key, err = common.MakePrimaryKey(obj); err != nil {
+//		return err
+//	}
+//
+//	if Exists(ctx, key) {
+//		return oops.
+//			With("Key", key, "ItemType", obj.ItemType()).
+//			Wrap(common.AlreadyExists)
+//	}
+//
+//	if bytes, err = json.Marshal(obj); err != nil {
+//		return err
+//	}
+//
+//	return ctx.GetStub().PutState(key, bytes)
+//}
 
 // Edit updates the item in the ledger
 // returns error if the item does not exist
-func Update[T common.ItemInterface](
-	ctx common.TxCtxInterface,
-	update T,
-	mask *fieldmaskpb.FieldMask,
-) (err error) {
-	var (
-		key     string
-		bytes   []byte
-		current T
-	)
-
-	// Get the current item from the ledger
-	if key, err = common.MakePrimaryKey(update); err != nil {
-		return err
-	}
-
-	if current, err = GetFromKey[T](ctx, key); err != nil {
-		return oops.Wrap(err)
-	}
-
-	// Apply the mask to the Updating item
-	fmutils.Filter(update, mask.GetPaths())
-	proto.Merge(current, update)
-
-	// Put the item back into the ledger
-	if bytes, err = json.Marshal(current); err != nil {
-		return oops.Wrap(err)
-	}
-
-	return ctx.GetStub().PutState(key, bytes)
-}
-
-// Delete deletes the item from the ledger
-func Delete[T common.ItemInterface](ctx common.TxCtxInterface, in T) (err error) {
-	key, err := common.MakePrimaryKey(in)
-	if err != nil {
-		return err
-	}
-
-	if err = ctx.GetStub().DelState(key); err != nil {
-		return oops.Wrap(err)
-	}
-
-	return nil
-}
-
-func GetPartialKeyList[T common.ItemInterface](
-	ctx common.TxCtxInterface,
-	obj T,
-	numAttr int,
-	bookmark string,
-) (list []T, mk string, err error) {
-	// obj = []*T{}
-	ctx.GetLogger().Info("GetPartialKeyList")
-
-	var (
-		itemtype = obj.ItemType()
-		attr     = obj.KeyAttr()
-	)
-
-	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ItemInvalid
-	}
-
-	// Extract the attributes to search for
-	// attr = attr[:len(attr)-numAttr]
-	attr = lo.DropRight(attr, numAttr)
-
-	ctx.GetLogger().
-		Info("GetPartialKeyList",
-			slog.Group(
-				"Key", "ItemType", itemtype,
-				slog.Int("numAttr", numAttr),
-				slog.Any("attr", attr),
-				slog.Group(
-					"Paged",
-					"Bookmark", bookmark,
-					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
-				),
-			),
-		)
-
-	results, meta, err := ctx.GetStub().
-		GetStateByPartialCompositeKeyWithPagination(
-			obj.ItemKey().GetItemType(),
-			attr,
-			ctx.GetPageSize(),
-			bookmark,
-		)
-	if err != nil {
-		return nil, "", err
-	}
-	defer func(results shim.StateQueryIteratorInterface) {
-		err := results.Close()
-		if err != nil {
-			ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
-		}
-	}(results)
-
-	base := proto.Clone(obj).(T)
-	proto.Reset(base)
-
-	for results.HasNext() {
-		queryResponse, err := results.Next()
-		if err != nil {
-			return nil, "", oops.Wrapf(err, "Error getting next item")
-		}
-		if queryResponse == nil {
-			return nil, "", oops.Errorf("queryResponse is nil")
-		}
-
-		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
-		// 	return nil, "", oops.Wrap(err)
-		// }
-		// var tmpObj
-		item := proto.Clone(base).(T)
-
-		if err = protojson.Unmarshal(queryResponse.GetValue(), item); err != nil {
-			return nil, "", oops.Wrap(err)
-		}
-
-		list = append(list, item)
-	}
-
-	return list, meta.GetBookmark(), nil
-}
+//func Update[T common.ItemInterface](
+//	ctx common.TxCtxInterface,
+//	update T,
+//	mask *fieldmaskpb.FieldMask,
+//) (obj T, err error) {
+//	var (
+//		key   string
+//		bytes []byte
+//	)
+//
+//}
+//
+//// Delete deletes the item from the ledger
+//func Delete[T common.ItemInterface](ctx common.TxCtxInterface, in T) (err error) {
+//	if err != nil {
+//		return err
+//	}
+//
+//	if err = ctx.GetStub().DelState(key); err != nil {
+//		return oops.Wrap(err)
+//	}
+//
+//	return nil
+//}

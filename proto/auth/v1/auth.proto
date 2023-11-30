@@ -29,7 +29,7 @@ enum AuthType {
 
 enum ItemKind {
   ITEM_KIND_UNSPECIFIED = 0;
-  ITEM_KIND_GLOBAL_ITEM = 1;
+  // ITEM_KIND_GLOBAL_ITEM = 1;
   // Item's key := {COLLECTION_ID}{TYPE}[...key_paths]
   ITEM_KIND_PRIMARY_ITEM = 2;
   // Item's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
@@ -310,7 +310,7 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (key_schema).item_kind = ITEM_KIND_GLOBAL_ITEM;
+  option (key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
   option (key_schema).keys = {
     paths: [
       "msp_id",

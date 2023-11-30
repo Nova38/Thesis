@@ -37,10 +37,6 @@ type (
 
 		Logger   *slog.Logger
 		PageSize int32
-
-		// This is the chaincode function name to call for authorization
-		authorized  bool
-		authChecked bool
 	}
 )
 
@@ -55,6 +51,11 @@ func (ctx *BaseTxCtx) HandelBefore() (err error) {
 			"channel_id", ctx.GetStub().GetChannelID(),
 		),
 	)
+
+	ctx.User, err = ctx.GetUserId()
+	if err != nil {
+		return oops.Errorf("failed to get user: %w", err)
+	}
 
 	if validator == nil {
 		v, err := protovalidate.New()
@@ -85,8 +86,21 @@ func (ctx *BaseTxCtx) HandleFnError(err *error, r any) {
 	}
 }
 
+func (ctx *BaseTxCtx) ErrorBase() oops.OopsErrorBuilder {
+	return oops.OopsErrorBuilder{}.
+		In(ctx.GetFnName()).
+		User(ctx.User.GetUserId(), ctx.User.GetMspId())
+}
+
 func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInterface) {
 	_ = resultIterator.Close()
+}
+
+func (ctx *BaseTxCtx) EnabledSuggestions() bool {
+	return false
+}
+func (ctx *BaseTxCtx) EnabledHidden() bool {
+	return false
 }
 
 // ─────────────────────────────────────────────-
@@ -182,23 +196,23 @@ func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 	return &authpb.User{MspId: mspId, UserId: userId}, nil
 }
 
-func (ctx *BaseTxCtx) GetUser() (*authpb.User, error) {
-	if ctx.User != nil {
-		return ctx.User, nil
-	}
-	user, err := ctx.GetUserId()
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
+// func (ctx *BaseTxCtx) GetUser() (*authpb.User, error) {
+// 	if ctx.User != nil {
+// 		return ctx.User, nil
+// 	}
+// 	user, err := ctx.GetUserId()
+// 	if err != nil {
+// 		return nil, oops.Wrap(err)
+// 	}
 
-	ctx.User = user
+// 	ctx.User = user
 
-	Get(ctx, ctx.User)
+// 	Get(ctx, ctx.User)
 
-	// err = state.Get()
+// 	// err = state.Get()
 
-	return ctx.User, nil
-}
+// 	return ctx.User, nil
+// }
 
 // ════════════════════════════════════════════════════════
 //  Collection Functions
@@ -230,7 +244,9 @@ func (ctx *BaseTxCtx) SetCollection(
 		CollectionId: collectionId,
 	}
 
-	if err = Get(ctx, ctx.Collection); err != nil {
+	if key, err := common.MakePrimaryKey(ctx.Collection); err != nil {
+		return nil, oops.Wrap(err)
+	} else if err = Get(ctx, key, ctx.Collection); err != nil {
 		return nil, oops.
 			In("SetCollection").
 			With("collectionId", collectionId).

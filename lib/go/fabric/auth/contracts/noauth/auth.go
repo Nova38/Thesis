@@ -1,6 +1,7 @@
 package noauth
 
 import (
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/policy"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
@@ -19,6 +20,11 @@ func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 			ctx.Logger.Info("global collection")
 			continue
 		}
+		if op.GetItemType() == "auth.Collection" {
+			if op.GetAction() == authpb.Action_ACTION_CREATE {
+				return true, nil
+			}
+		}
 
 		if col, ok := collections[op.GetCollectionId()]; ok {
 			valid, err := policy.ValidateOperation(col, op)
@@ -30,7 +36,12 @@ func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 			}
 		} else {
 			col := &authpb.Collection{CollectionId: op.GetCollectionId()}
-			if err := state.Get(ctx, col); err != nil {
+
+			key, err := common.MakePrimaryKey(col)
+			if err != nil {
+				return false, oops.Wrap(err)
+			}
+			if err := state.Get(ctx, key, col); err != nil {
 				return false, oops.Wrap(err)
 			}
 			collections[op.GetCollectionId()] = col

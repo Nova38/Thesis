@@ -100,13 +100,22 @@ func MakeSuggestionKeyAtter[T ItemInterface](
 }
 
 // Key should be {<SUGGESTION>}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SuggestionId}
-func MakeSuggestionKey[T ItemInterface](
+func MakeSuggestionPrimaryKey[T ItemInterface](
 	obj T,
 	suggestionId string,
 ) (suggestionKey string, err error) {
 	return shim.CreateCompositeKey(
 		SuggestionItemType,
 		MakeSuggestionKeyAtter(obj, suggestionId),
+	)
+}
+
+func MakeSuggestionKey[T ItemInterface](
+	suggestion *authpb.Suggestion,
+) (suggestionKey string, err error) {
+	return shim.CreateCompositeKey(
+		SuggestionItemType,
+		append(MakeSubItemKeyAtter(suggestion.GetPrimaryKey()), suggestion.GetSuggestionId()),
 	)
 }
 
@@ -118,6 +127,13 @@ func MakeItemKeySuggestion(
 		SuggestionItemType,
 		append(MakeSubItemKeyAtter(objKey), suggestionId),
 	)
+}
+
+func MakeItemKeySuggestionKeyAttr(
+	objKey *authpb.ItemKey,
+	suggestionId string,
+) (attr []string) {
+	return append(MakeSubItemKeyAtter(objKey), suggestionId)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────

@@ -7,13 +7,13 @@ import (
 func Bootstrap(ctx common.TxCtxInterface) (err error) {
 	// TODO: Implement Bootstrap function
 
-	// Create the collections
+	// Insert the collections
 
 	// Make sure it hasn't been bootstrapped before (and if admin exists, it has)
 
-	// Create the Global user collection
+	// Insert the Global user collection
 
-	// Create
+	// Insert
 
 	return nil
 }

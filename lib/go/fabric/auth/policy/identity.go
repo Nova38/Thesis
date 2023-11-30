@@ -25,7 +25,9 @@ func GetUserMembership(
 		UserId:       user.GetMspId(),
 	}
 
-	if err = state.Get(ctx, membership); err != nil {
+	if key, err := common.MakePrimaryKey(membership); err != nil {
+		return nil, oops.Wrap(err)
+	} else if err = state.Get(ctx, key, membership); err != nil {
 		return nil, err
 	}
 

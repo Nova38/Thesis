@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import { Message } from "@bufbuild/protobuf";
-import { Attribute, Collection, Role, UserCollectionRoles, UserMembership } from "./auth_pb.js";
+import { Attribute, Collection, Role, User, UserCollectionRoles, UserMembership } from "./auth_pb.js";
 
 // KeySchema 
 
@@ -69,6 +69,30 @@ export function CollectionKey(item : Collection): string[] {
 // User 
 
 // Message
+// Primary Item:  User
+
+// namecollection_id field }
+// namemsp_id field }
+// nameuser_id field }
+// namename field }
+    // msp_id   ,
+    // user_id   ,
+export function UserKey(item : User): string[] {
+    attr=[]
+ if (!item?.mspId) {
+    return attr
+ }
+    attr.push(item?.mspId)
+ if (!item?.userId) {
+    return attr
+ }
+    attr.push(item?.userId)
+ return attr
+}
+// Path: msp_id
+
+// Path: user_id
+
 // Suggestion 
 
 // Message
