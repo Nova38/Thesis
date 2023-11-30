@@ -78,7 +78,9 @@ func main() {
 	// logger := slog.New(handler)
 	logrusLogger := logrus.New()
 
-	logger := slog.New(sloglogrus.Option{Level: slog.LevelDebug, Logger: logrusLogger}.NewLogrusHandler())
+	logger := slog.New(
+		sloglogrus.Option{Level: slog.LevelDebug, Logger: logrusLogger}.NewLogrusHandler(),
+	)
 
 	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 

@@ -1,7 +1,9 @@
 package common
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )
@@ -42,3 +44,17 @@ var (
 )
 
 // var KeyNotFoundError = errors.New("Key not found")
+
+type VerboseError struct {
+	Err error
+}
+
+func WrapError(err error) error {
+	b, err1 := json.MarshalIndent(err, "", "  ")
+	if err1 != nil {
+		fmt.Print(err1)
+		return err
+	}
+
+	return errors.New(string(b))
+}

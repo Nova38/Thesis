@@ -20,10 +20,16 @@
         },
     // Bootstrap BootstrapRequest
         {
-            "invoke": "bootstrap",
+            "invoke": "Bootstrap",
             "args": [
                 {}
             ]
+        },
+        {
+            "query": "Test"
+        },
+        {
+            "query": "TestFail"
         },
     // AuthorizeOperation AuthorizeOperationRequest
         {

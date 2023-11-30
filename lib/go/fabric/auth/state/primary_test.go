@@ -21,8 +21,10 @@ func TestUnmarshalNewPrimary(t *testing.T) {
 		{
 			name: "",
 			args: args{
-				bytes: []byte(`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`),
-				base:  &authpb.User{},
+				bytes: []byte(
+					`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
+				),
+				base: &authpb.User{},
 			},
 			wantItem: &authpb.User{
 				CollectionId: "",
@@ -60,7 +62,9 @@ func TestUnmarshalPrimary(t *testing.T) {
 	}{{
 		name: "",
 		args: args{
-			bytes: []byte(`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`),
+			bytes: []byte(
+				`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
+			),
 		},
 		wantItem: &authpb.User{
 			CollectionId: "",

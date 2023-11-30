@@ -31,11 +31,14 @@ func UnmarshalNewPrimary[T common.ItemInterface](bytes []byte, base T) (item T, 
 // Query Suggested Functions
 // ──────────────────────────────────────────────────
 func PrimaryExists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) bool {
+
 	key := lo.Must(common.MakePrimaryKey(obj))
 	return common.KeyExists(ctx, key)
 }
 
 func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[T]{ctx: ctx}
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
@@ -54,6 +57,8 @@ func PrimaryGetFull[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 ) (fullItem *authpb.FullItem, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[T]{ctx: ctx}
 	fullItem = &authpb.FullItem{}
 
@@ -115,6 +120,7 @@ func PrimaryByPartialKey[T common.ItemInterface](
 	numAttr int,
 	bookmark string,
 ) (list []T, mk string, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_VIEW,
@@ -160,19 +166,23 @@ func ByCollection[T common.ItemInterface](
 //   - the item cannot be marshalled
 //   - Authorization errors
 func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
 
 	// Authorize the operation
-	op := &authpb.Operation{
+	auth, err := ctx.Authorize([]*authpb.Operation{{
 		Action:       authpb.Action_ACTION_CREATE,
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		ItemType:     obj.ItemType(),
 		Paths:        nil,
-	}
+	}})
 
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+	if err != nil {
+		return oops.Wrap(err)
+	} else if !auth {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
@@ -187,17 +197,20 @@ func PrimaryUpdate[T common.ItemInterface](
 	obj T,
 	mask *fieldmaskpb.FieldMask,
 ) (updated T, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
-	op := &authpb.Operation{
+	auth, err := ctx.Authorize([]*authpb.Operation{{
 		Action:       authpb.Action_ACTION_UPDATE,
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		ItemType:     obj.ItemType(),
 		Paths:        mask,
-	}
-
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+	}})
+	if err != nil {
+		return updated, oops.Wrap(err)
+	} else if !auth {
 		return updated, oops.Wrap(common.UserPermissionDenied)
 	}
 
@@ -205,17 +218,21 @@ func PrimaryUpdate[T common.ItemInterface](
 }
 
 func PrimaryDelete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[T]{
 		ctx: ctx,
 	}
-	op := &authpb.Operation{
+	auth, err := ctx.Authorize([]*authpb.Operation{{
 		Action:       authpb.Action_ACTION_DELETE,
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		ItemType:     obj.ItemType(),
 		Paths:        nil,
-	}
+	}})
 
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
+	if err != nil {
+		return oops.Wrap(err)
+	} else if !auth {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
@@ -243,6 +260,8 @@ func PrimaryDelete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 }
 
 func deleteSuggestionsByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	l := &Ledger[*authpb.Suggestion]{ctx: ctx}
 
 	sList, _, err := SuggestionListByItem(ctx, key, "")

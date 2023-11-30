@@ -41,7 +41,7 @@ func BuildContract() *contractapi.ContractChaincode {
 // ═════════════════════════════════════════════
 
 // NoAuthContract is the contract for the NoAuth chaincode
-func (c *NoAuthContract) Boostrap(ctx common.TxCtxInterface) error {
+func (c *NoAuthContract) Bootstrap(ctx common.TxCtxInterface) error {
 	ctx.GetLogger().Info("NoAuthContract.Boostrap")
 
 	return nil
@@ -55,7 +55,10 @@ func (c *NoAuthContract) Test(ctx *NoAuthCtx) (bool, error) {
 }
 
 // TestFail is a function that returns false and and error
-func (c *NoAuthContract) TestFail(ctx *NoAuthCtx) (bool, error) {
+func (c *NoAuthContract) TestFail(ctx *NoAuthCtx) (v bool, err error) {
+
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	ctx.GetLogger().Info("NoAuthContract.TestFail")
 	e := oops.Errorf("TestFail")
 	b := lo.Must(json.MarshalIndent(e, "", "  "))

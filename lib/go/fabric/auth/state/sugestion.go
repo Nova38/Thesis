@@ -61,7 +61,7 @@ func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
 // ──────────────────────────────────────────────────
 
 func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("CreateSuggestion", "suggestion:", s)
 
 	var (
@@ -99,6 +99,8 @@ func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 }
 
 func SuggestionDelete(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	ctx.GetLogger().Debug("DeleteSuggestion", "suggestion:", s)
 
 	var (
@@ -138,7 +140,7 @@ func SuggestionApprove(
 	ctx common.TxCtxInterface,
 	s *authpb.Suggestion,
 ) (updated *common.ItemInterface, err error) {
-	// defer func() { ctx.HandleFnError(&err, recover()) }()
+	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("ApproveSuggestion", "suggestion:", s)
 	var (
 		l       = &Ledger[*authpb.Suggestion]{ctx: ctx}
@@ -191,28 +193,34 @@ func SuggestionApprove(
 
 // Get GetSuggestion by its ID
 func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	ctx.GetLogger().Debug("GetSuggestion", "suggestion:", s)
 
 	var (
 		l = &Ledger[*authpb.Suggestion]{ctx: ctx}
 
 		handler = SuggestionHandler{suggestion: s}
-		op      = &authpb.Operation{
+	)
+
+	// Authorize the operation
+	auth, err := ctx.Authorize([]*authpb.Operation{
+		{
 			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
 			CollectionId: s.GetPrimaryKey().GetCollectionId(),
 			ItemType:     s.GetPrimaryKey().GetItemType(),
 			Paths:        nil,
-		}
-	)
+		},
+	})
+	if err != nil {
+		return oops.Wrap(err)
+	} else if !auth {
+		return oops.Wrap(common.UserPermissionDenied)
+	}
 
 	// Extract the item from the suggestion
 	if err = handler.Extract(s); err != nil {
 		return oops.Wrap(err)
-	}
-
-	// Authorize the operation
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-		return oops.Wrap(common.UserPermissionDenied)
 	}
 
 	return l.Get(handler.suggestion)
@@ -225,6 +233,8 @@ func PartialSuggestionList(
 	numAttr int,
 	bookmark string,
 ) (list []*authpb.Suggestion, mk string, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	ctx.GetLogger().Debug("GetPartialSuggestionList", "suggestion:", s)
 
 	op := &authpb.Operation{

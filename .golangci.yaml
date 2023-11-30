@@ -201,10 +201,10 @@ linters-settings:
 #         severity: warning
 #         disabled: false
 #       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-return
-#       - name: error-return
-#         severity: warning
-#         disabled: false
-#       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-strings
+      # - name: error-return
+      #   severity: warning
+      #   disabled: false
+      # # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-strings
 #       - name: error-strings
 #         severity: warning
 #         disabled: false

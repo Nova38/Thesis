@@ -42,7 +42,8 @@ func PartialReferenceKeysList(
 ) (list []*authpb.ReferenceKey, mk string, err error) {
 	// TODO: Implement PartialReferenceKeysList function
 
-	ctx.GetLogger().Debug("PartialReferenceKeysList", slog.Group("args", "ref", ref, "numAttr", numAttr, "bookmark", bookmark))
+	ctx.GetLogger().
+		Debug("PartialReferenceKeysList", slog.Group("args", "ref", ref, "numAttr", numAttr, "bookmark", bookmark))
 
 	if err = authRef(ctx, ref, authpb.Action_ACTION_REFERENCE_VIEW); err != nil {
 		return nil, mk, oops.Wrap(err)
@@ -177,7 +178,10 @@ func ReferenceKeysByCollection(
 
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 
-func ReferenceCreate(ctx common.TxCtxInterface, refKey *authpb.ReferenceKey) (reference *authpb.Reference, err error) {
+func ReferenceCreate(
+	ctx common.TxCtxInterface,
+	refKey *authpb.ReferenceKey,
+) (reference *authpb.Reference, err error) {
 	ctx.GetLogger().Debug("ReferenceCreate", slog.Group("args", "refKey", refKey))
 	if err = authRef(ctx, refKey, authpb.Action_ACTION_DELETE); err != nil {
 		return nil, oops.Wrap(err)
@@ -262,7 +266,10 @@ func ReferenceDelete(ctx common.TxCtxInterface, reference *authpb.ReferenceKey) 
 // ReferencesExist checks if the references for the given reference to exist
 //
 // Does not check Auth
-func ReferencesExist(ctx common.TxCtxInterface, reference *authpb.ReferenceKey) (exists bool, err error) {
+func ReferencesExist(
+	ctx common.TxCtxInterface,
+	reference *authpb.ReferenceKey,
+) (exists bool, err error) {
 	// See if the reference already exists
 	k1, k2, err := common.MakeRefKeys(reference)
 	if err != nil {
@@ -282,7 +289,11 @@ func ReferencesExist(ctx common.TxCtxInterface, reference *authpb.ReferenceKey) 
 // ──────────────────────────────── Internal Utils ──────────────────────────────────────────
 
 // authRef checks if the user is authorized to perform the given action on the given reference
-func authRef(ctx common.TxCtxInterface, ref *authpb.ReferenceKey, action authpb.Action) (err error) {
+func authRef(
+	ctx common.TxCtxInterface,
+	ref *authpb.ReferenceKey,
+	action authpb.Action,
+) (err error) {
 	// ctx.GetLogger().Debug("authRef", slog.Group("ref", ref, "action", action))
 
 	if auth, err := ctx.Authorize(RefToOp(ref, action)); !auth || err != nil {
@@ -341,7 +352,10 @@ func referencedObjectsExist(
 
 // referenceGetPacked gets the referenced objects for the given reference key
 // Assumes that the reference exists
-func referenceGetPacked(ctx common.TxCtxInterface, key *authpb.ReferenceKey) (ref *authpb.Reference, err error) {
+func referenceGetPacked(
+	ctx common.TxCtxInterface,
+	key *authpb.ReferenceKey,
+) (ref *authpb.Reference, err error) {
 	item1, item2, err := common.ReferenceKeyToItems(key)
 	if err != nil {
 		return nil, oops.Wrap(err)

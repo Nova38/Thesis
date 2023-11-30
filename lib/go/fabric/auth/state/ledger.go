@@ -330,7 +330,11 @@ func Create[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error
 
 // Edit updates the item in the ledger
 // returns error if the item does not exist
-func Update[T common.ItemInterface](ctx common.TxCtxInterface, update T, mask *fieldmaskpb.FieldMask) (err error) {
+func Update[T common.ItemInterface](
+	ctx common.TxCtxInterface,
+	update T,
+	mask *fieldmaskpb.FieldMask,
+) (err error) {
 	var (
 		key     string
 		bytes   []byte

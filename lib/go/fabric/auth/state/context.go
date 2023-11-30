@@ -80,6 +80,7 @@ func (ctx *BaseTxCtx) HandleFnError(err *error, r any) {
 	}
 
 	if *err != nil {
+		*err = common.WrapError(*err)
 		slog.Error((*err).Error())
 	}
 }
