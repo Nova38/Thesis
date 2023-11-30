@@ -310,18 +310,8 @@ message Collection {
 // key := {USER}{USER_ID.msp_id}{USER_ID.id}
 //
 message User {
-  option (key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (key_schema).keys = {
-    paths: [
-      "msp_id",
-      "user_id"
-    ]
-  };
-
-  string collection_id = 1 [(buf.validate.field).string.const = "global"];
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  string user_id = 3 [(buf.validate.field).string.min_len = 1];
-  string name = 4;
+  string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+  string user_id = 2;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
