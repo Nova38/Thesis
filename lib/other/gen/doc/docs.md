@@ -27,17 +27,17 @@
     - [User](#auth-User)
     - [UserCollectionRoles](#auth-UserCollectionRoles)
     - [UserMembership](#auth-UserMembership)
-
+  
     - [Action](#auth-Action)
     - [AuthType](#auth-AuthType)
     - [ItemKind](#auth-ItemKind)
     - [TransactionType](#auth-TransactionType)
     - [TxError](#auth-TxError)
-
+  
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
-
+  
 - [chaincode/auth/common/generic.proto](#chaincode_auth_common_generic-proto)
     - [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest)
     - [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse)
@@ -98,9 +98,9 @@
     - [UnHideTxResponse](#auth-common-UnHideTxResponse)
     - [UpdateRequest](#auth-common-UpdateRequest)
     - [UpdateResponse](#auth-common-UpdateResponse)
-
+  
     - [GenericService](#auth-common-GenericService)
-
+  
 - [chaincode/auth/common/helper.proto](#chaincode_auth_common_helper-proto)
 - [chaincode/auth/rbac/schema/v1/rbac.proto](#chaincode_auth_rbac_schema_v1_rbac-proto)
 - [chaincode/ccbio/schema/v0/state.proto](#chaincode_ccbio_schema_v0_state-proto)
@@ -115,7 +115,7 @@
     - [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary)
     - [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary)
     - [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon)
-
+  
 - [chaincode/ccbio/schema/v0/service.proto](#chaincode_ccbio_schema_v0_service-proto)
     - [SpecimenCreateRequest](#ccbio-schema-v0-SpecimenCreateRequest)
     - [SpecimenCreateResponse](#ccbio-schema-v0-SpecimenCreateResponse)
@@ -135,14 +135,14 @@
     - [SpecimenUnHideTxResponse](#ccbio-schema-v0-SpecimenUnHideTxResponse)
     - [SpecimenUpdateRequest](#ccbio-schema-v0-SpecimenUpdateRequest)
     - [SpecimenUpdateResponse](#ccbio-schema-v0-SpecimenUpdateResponse)
-
+  
     - [SpecimenService](#ccbio-schema-v0-SpecimenService)
-
+  
 - [chaincode/sample/v0/items.proto](#chaincode_sample_v0_items-proto)
     - [Book](#sample-Book)
     - [Group](#sample-Group)
     - [SimpleItem](#sample-SimpleItem)
-
+  
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -588,7 +588,7 @@ Membership is used to store permissions for a user in a collection
 
 
 
-
+ 
 
 
 <a name="auth-Action"></a>
@@ -699,7 +699,7 @@ Action - The action to be performed during the operation
 | INVALID_ITEM_FIELD_VALUE | 36 | The value at the item field path is invalid for the item type |
 
 
-
+ 
 
 
 <a name="auth_v1_auth-proto-extensions"></a>
@@ -711,9 +711,9 @@ Action - The action to be performed during the operation
 | operation | Operation | .google.protobuf.MethodOptions | 57775 |  |
 | transaction_type | TransactionType | .google.protobuf.MethodOptions | 50556 |  |
 
+ 
 
-
-
+ 
 
 
 
@@ -1659,11 +1659,11 @@ Get all of the collections
 
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 <a name="auth-common-GenericService"></a>
@@ -1699,7 +1699,7 @@ Get all of the collections
 | SuggestionDelete | [SuggestionDeleteRequest](#auth-common-SuggestionDeleteRequest) | [SuggestionDeleteResponse](#auth-common-SuggestionDeleteResponse) |  |
 | SuggestionApprove | [SuggestionApproveRequest](#auth-common-SuggestionApproveRequest) | [SuggestionApproveResponse](#auth-common-SuggestionApproveResponse) |  |
 
-
+ 
 
 
 
@@ -1709,13 +1709,13 @@ Get all of the collections
 ## chaincode/auth/common/helper.proto
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -1725,13 +1725,13 @@ Get all of the collections
 ## chaincode/auth/rbac/schema/v1/rbac.proto
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -1961,13 +1961,13 @@ Mapped Types
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2260,11 +2260,11 @@ SpecimenUpdate
 
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 <a name="ccbio-schema-v0-SpecimenService"></a>
@@ -2284,7 +2284,7 @@ Specimen functions
 | SpecimenHideTx | [SpecimenHideTxRequest](#ccbio-schema-v0-SpecimenHideTxRequest) | [SpecimenHideTxResponse](#ccbio-schema-v0-SpecimenHideTxResponse) |  |
 | SpecimenUnHideTx | [SpecimenUnHideTxRequest](#ccbio-schema-v0-SpecimenUnHideTxRequest) | [SpecimenUnHideTxResponse](#ccbio-schema-v0-SpecimenUnHideTxResponse) |  |
 
-
+ 
 
 
 
@@ -2352,13 +2352,13 @@ Specimen functions
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 

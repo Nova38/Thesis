@@ -8,11 +8,18 @@ repos:
         exclude: |
           (?x)^(
           lib/es/gen/.*|
-          lib/other/.*
+          lib/other/.* |
+          lib/other/doc/.*
           )$
 
       - id: trailing-whitespace
-        exclude: "lib/es/gen/"
+        exclude: |
+          (?x)^(
+          lib/es/gen/.*|
+          lib/other/.* |
+          lib/other/doc/.*
+          )$
+
       # - id: mixed-line-ending
       #   args: ['--fix=lf']
       # - id: check-shebang-scripts-are-executable

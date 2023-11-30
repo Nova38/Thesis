@@ -36,13 +36,20 @@ func (sg *TextGenerater) GenerateFile(
 		g:    g,
 	}
 
+	noMsg := true
+
 	v.VisitMessages(func(m *protogen.Message) {
 		g.P(m.Desc.FullName())
-
+		noMsg = false
 		for _, f := range m.Fields {
 			g.P("\t -", f.Desc.FullName(), " - ", f.Desc.Message())
 		}
 	})
+
+	if noMsg {
+		g.P("No messages")
+		// g.P()
+	}
 
 	// for _, sv := range file.Services {
 	// 	// g.P("type AuthContractImpl struct{}")
