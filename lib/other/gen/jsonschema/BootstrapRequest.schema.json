@@ -120,14 +120,13 @@
                         ]
                     },
                     "type": "array",
-                    "title": "Action",
-                    "description": "Action - The action to be performed during the operation # Action Groups   - UNSPECIFIED: null or not set   - REGISTER:    Used to register a new user or collection (always allowed)   - COLLECTION:  Used to manage collections permissions   - MEMBERSHIP:  Used to manage membership of a collection   - ITEM:      Used to manage items in a collection"
+                    "title": "Action"
                 }
             },
             "additionalProperties": true,
             "type": "object",
             "title": "═════════════════════════════════════════════\n Access Control\n ═════════════════════════════════════════════",
-            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ═════════════════════════════════════════════ Access Control ═════════════════════════════════════════════  This message is the tree node for operations on the state item"
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ═════════════════════════════════════════════ Access Control ═════════════════════════════════════════════  This message is the tree node for operations on the state item"
         },
         "auth.Polices": {
             "properties": {
@@ -147,8 +146,7 @@
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "message ItemPolicy {\n   string item_type           = 1 [(buf.validate.field).required = true];\n   PathPolicy path_policies = 2;\n }",
-            "description": "message ItemPolicy {   string item_type           = 1 [(buf.validate.field).required = true];   PathPolicy path_policies = 2; }"
+            "title": "Polices"
         }
     }
 }

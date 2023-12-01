@@ -102,19 +102,12 @@ proto3.util.setEnumType(ItemKind, "auth.ItemKind", [
 ]);
 
 /**
- * Action - The action to be performed during the operation
- *
- * # Action Groups
- *   - UNSPECIFIED: null or not set
- *   - REGISTER:    Used to register a new user or collection (always allowed)
- *   - COLLECTION:  Used to manage collections permissions
- *   - MEMBERSHIP:  Used to manage membership of a collection
- *   - ITEM:      Used to manage items in a collection
- *
  * @generated from enum auth.Action
  */
 export enum Action {
   /**
+   * Should throw an error if used
+   *
    * @generated from enum value: ACTION_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
@@ -427,6 +420,49 @@ proto3.util.setEnumType(TxError, "auth.TxError", [
 ]);
 
 /**
+ * @generated from message auth.User
+ */
+export class User extends Message<User> {
+  /**
+   * @generated from field: string msp_id = 1;
+   */
+  mspId = "";
+
+  /**
+   * @generated from field: string user_id = 2;
+   */
+  userId = "";
+
+  constructor(data?: PartialMessage<User>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.User";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
+    return new User().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User {
+    return new User().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User {
+    return new User().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: User | PlainMessage<User> | undefined, b: User | PlainMessage<User> | undefined): boolean {
+    return proto3.util.equals(User, a, b);
+  }
+}
+
+/**
  * @generated from message auth.KeySchema
  */
 export class KeySchema extends Message<KeySchema> {
@@ -726,6 +762,122 @@ export class Polices extends Message<Polices> {
 }
 
 /**
+ * Keys
+ * ─────────────────────────────────────────────────────────────────────────────────────
+ * Item Keys
+ * When converted to its string form it will be:
+ * - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
+ *
+ * Reference Keys
+ * Used to store references to items for case like a user having a role
+ * When converted to its string form it will be:
+ * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+ *
+ *
+ * SubKeys
+ * When converted to its string form it will be:
+ * {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
+ * Examples
+ * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+ * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
+ *
+ * @generated from message auth.ItemKey
+ */
+export class ItemKey extends Message<ItemKey> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string item_type = 2;
+   */
+  itemType = "";
+
+  /**
+   * @generated from field: repeated string item_id_parts = 3;
+   */
+  itemIdParts: string[] = [];
+
+  constructor(data?: PartialMessage<ItemKey>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.ItemKey";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "item_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ItemKey {
+    return new ItemKey().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ItemKey {
+    return new ItemKey().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ItemKey {
+    return new ItemKey().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ItemKey | PlainMessage<ItemKey> | undefined, b: ItemKey | PlainMessage<ItemKey> | undefined): boolean {
+    return proto3.util.equals(ItemKey, a, b);
+  }
+}
+
+/**
+ * Reference Keys
+ * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+ *
+ * @generated from message auth.ReferenceKey
+ */
+export class ReferenceKey extends Message<ReferenceKey> {
+  /**
+   *  string reference_type = 2;
+   *
+   * @generated from field: auth.ItemKey key1 = 1;
+   */
+  key1?: ItemKey;
+
+  /**
+   * @generated from field: auth.ItemKey key2 = 2;
+   */
+  key2?: ItemKey;
+
+  constructor(data?: PartialMessage<ReferenceKey>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.ReferenceKey";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key1", kind: "message", T: ItemKey },
+    { no: 2, name: "key2", kind: "message", T: ItemKey },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceKey {
+    return new ReferenceKey().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceKey {
+    return new ReferenceKey().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceKey {
+    return new ReferenceKey().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: ReferenceKey | PlainMessage<ReferenceKey> | undefined, b: ReferenceKey | PlainMessage<ReferenceKey> | undefined): boolean {
+    return proto3.util.equals(ReferenceKey, a, b);
+  }
+}
+
+/**
  * @generated from message auth.Item
  */
 export class Item extends Message<Item> {
@@ -946,291 +1098,6 @@ export class History extends Message<History> {
 }
 
 /**
- * Keys
- * ─────────────────────────────────────────────────────────────────────────────────────
- * Item Keys
- * When converted to its string form it will be:
- * - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
- *
- * Reference Keys
- * Used to store references to items for case like a user having a role
- * When converted to its string form it will be:
- * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
- *
- *
- * SubKeys
- * When converted to its string form it will be:
- * {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
- * Examples
- * - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
- * - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
- *
- * @generated from message auth.ItemKey
- */
-export class ItemKey extends Message<ItemKey> {
-  /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string item_type = 2;
-   */
-  itemType = "";
-
-  /**
-   * @generated from field: repeated string item_id_parts = 3;
-   */
-  itemIdParts: string[] = [];
-
-  constructor(data?: PartialMessage<ItemKey>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ItemKey";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "item_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ItemKey {
-    return new ItemKey().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ItemKey {
-    return new ItemKey().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ItemKey {
-    return new ItemKey().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ItemKey | PlainMessage<ItemKey> | undefined, b: ItemKey | PlainMessage<ItemKey> | undefined): boolean {
-    return proto3.util.equals(ItemKey, a, b);
-  }
-}
-
-/**
- * Reference Keys
- * {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
- *
- * @generated from message auth.ReferenceKey
- */
-export class ReferenceKey extends Message<ReferenceKey> {
-  /**
-   *  string reference_type = 2;
-   *
-   * @generated from field: auth.ItemKey key1 = 1;
-   */
-  key1?: ItemKey;
-
-  /**
-   * @generated from field: auth.ItemKey key2 = 2;
-   */
-  key2?: ItemKey;
-
-  constructor(data?: PartialMessage<ReferenceKey>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.ReferenceKey";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "key1", kind: "message", T: ItemKey },
-    { no: 2, name: "key2", kind: "message", T: ItemKey },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReferenceKey {
-    return new ReferenceKey().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReferenceKey {
-    return new ReferenceKey().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReferenceKey {
-    return new ReferenceKey().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: ReferenceKey | PlainMessage<ReferenceKey> | undefined, b: ReferenceKey | PlainMessage<ReferenceKey> | undefined): boolean {
-    return proto3.util.equals(ReferenceKey, a, b);
-  }
-}
-
-/**
- * Used to return the values of the items that are referenced
- *
- * @generated from message auth.Reference
- */
-export class Reference extends Message<Reference> {
-  /**
-   * @generated from field: auth.ReferenceKey reference = 1;
-   */
-  reference?: ReferenceKey;
-
-  /**
-   * @generated from field: auth.Item item1 = 2;
-   */
-  item1?: Item;
-
-  /**
-   * @generated from field: auth.Item item2 = 3;
-   */
-  item2?: Item;
-
-  constructor(data?: PartialMessage<Reference>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Reference";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "reference", kind: "message", T: ReferenceKey },
-    { no: 2, name: "item1", kind: "message", T: Item },
-    { no: 3, name: "item2", kind: "message", T: Item },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Reference {
-    return new Reference().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Reference {
-    return new Reference().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Reference {
-    return new Reference().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Reference | PlainMessage<Reference> | undefined, b: Reference | PlainMessage<Reference> | undefined): boolean {
-    return proto3.util.equals(Reference, a, b);
-  }
-}
-
-/**
- * Collection
- * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- * Note that the types of items are stored in the default ACLEntry
- *
- * key := {COLLECTION}{COLLECTION_ID}
- *
- * @generated from message auth.Collection
- */
-export class Collection extends Message<Collection> {
-  /**
-   * The key for the ledger
-   *
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string name = 2;
-   */
-  name = "";
-
-  /**
-   * @generated from field: auth.AuthType auth_type = 3;
-   */
-  authType = AuthType.UNSPECIFIED;
-
-  /**
-   * @generated from field: repeated string item_types = 4;
-   */
-  itemTypes: string[] = [];
-
-  /**
-   * @generated from field: auth.Polices default = 5;
-   */
-  default?: Polices;
-
-  constructor(data?: PartialMessage<Collection>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.Collection";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
-    { no: 4, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 5, name: "default", kind: "message", T: Polices },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
-    return new Collection().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection {
-    return new Collection().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection {
-    return new Collection().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: Collection | PlainMessage<Collection> | undefined, b: Collection | PlainMessage<Collection> | undefined): boolean {
-    return proto3.util.equals(Collection, a, b);
-  }
-}
-
-/**
- * User
- * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
- *
- * key := {USER}{USER_ID.msp_id}{USER_ID.id}
- *
- *
- * @generated from message auth.User
- */
-export class User extends Message<User> {
-  /**
-   * @generated from field: string msp_id = 1;
-   */
-  mspId = "";
-
-  /**
-   * @generated from field: string user_id = 2;
-   */
-  userId = "";
-
-  constructor(data?: PartialMessage<User>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.User";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {
-    return new User().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): User {
-    return new User().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): User {
-    return new User().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: User | PlainMessage<User> | undefined, b: User | PlainMessage<User> | undefined): boolean {
-    return proto3.util.equals(User, a, b);
-  }
-}
-
-/**
  * Key should be
  * {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
  *
@@ -1395,6 +1262,126 @@ export class HiddenTxList extends Message<HiddenTxList> {
 
   static equals(a: HiddenTxList | PlainMessage<HiddenTxList> | undefined, b: HiddenTxList | PlainMessage<HiddenTxList> | undefined): boolean {
     return proto3.util.equals(HiddenTxList, a, b);
+  }
+}
+
+/**
+ * Used to return the values of the items that are referenced
+ *
+ * @generated from message auth.Reference
+ */
+export class Reference extends Message<Reference> {
+  /**
+   * @generated from field: auth.ReferenceKey reference = 1;
+   */
+  reference?: ReferenceKey;
+
+  /**
+   * @generated from field: auth.Item item1 = 2;
+   */
+  item1?: Item;
+
+  /**
+   * @generated from field: auth.Item item2 = 3;
+   */
+  item2?: Item;
+
+  constructor(data?: PartialMessage<Reference>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Reference";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "reference", kind: "message", T: ReferenceKey },
+    { no: 2, name: "item1", kind: "message", T: Item },
+    { no: 3, name: "item2", kind: "message", T: Item },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Reference {
+    return new Reference().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Reference {
+    return new Reference().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Reference {
+    return new Reference().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Reference | PlainMessage<Reference> | undefined, b: Reference | PlainMessage<Reference> | undefined): boolean {
+    return proto3.util.equals(Reference, a, b);
+  }
+}
+
+/**
+ * Collection
+ * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+ * Note that the types of items are stored in the default ACLEntry
+ *
+ * key := {COLLECTION}{COLLECTION_ID}
+ *
+ * @generated from message auth.Collection
+ */
+export class Collection extends Message<Collection> {
+  /**
+   * The key for the ledger
+   *
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name = "";
+
+  /**
+   * @generated from field: auth.AuthType auth_type = 3;
+   */
+  authType = AuthType.UNSPECIFIED;
+
+  /**
+   * @generated from field: repeated string item_types = 4;
+   */
+  itemTypes: string[] = [];
+
+  /**
+   * @generated from field: auth.Polices default = 5;
+   */
+  default?: Polices;
+
+  constructor(data?: PartialMessage<Collection>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Collection";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
+    { no: 4, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "default", kind: "message", T: Polices },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
+    return new Collection().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Collection {
+    return new Collection().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Collection {
+    return new Collection().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Collection | PlainMessage<Collection> | undefined, b: Collection | PlainMessage<Collection> | undefined): boolean {
+    return proto3.util.equals(Collection, a, b);
   }
 }
 

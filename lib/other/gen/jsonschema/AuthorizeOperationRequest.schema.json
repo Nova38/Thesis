@@ -58,8 +58,7 @@
                             "type": "integer"
                         }
                     ],
-                    "title": "Action",
-                    "description": "Action - The action to be performed during the operation # Action Groups   - UNSPECIFIED: null or not set   - REGISTER:    Used to register a new user or collection (always allowed)   - COLLECTION:  Used to manage collections permissions   - MEMBERSHIP:  Used to manage membership of a collection   - ITEM:      Used to manage items in a collection"
+                    "title": "Action"
                 },
                 "collection_id": {
                     "type": "string"

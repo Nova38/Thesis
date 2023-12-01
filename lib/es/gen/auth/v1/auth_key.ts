@@ -6,6 +6,9 @@
 import { Message } from "@bufbuild/protobuf";
 import { Attribute, Collection, Role, UserCollectionRoles, UserMembership } from "./auth_pb.js";
 
+// User 
+
+// Message
 // KeySchema 
 
 // Message
@@ -21,6 +24,12 @@ import { Attribute, Collection, Role, UserCollectionRoles, UserMembership } from
 // Polices 
 
 // Message
+// ItemKey 
+
+// Message
+// ReferenceKey 
+
+// Message
 // Item 
 
 // Message
@@ -33,10 +42,13 @@ import { Attribute, Collection, Role, UserCollectionRoles, UserMembership } from
 // History 
 
 // Message
-// ItemKey 
+// Suggestion 
 
 // Message
-// ReferenceKey 
+// HiddenTx 
+
+// Message
+// HiddenTxList 
 
 // Message
 // Reference 
@@ -63,18 +75,6 @@ export function CollectionKey(item : Collection): string[] {
 }
 // Path: collection_id
 
-// User 
-
-// Message
-// Suggestion 
-
-// Message
-// HiddenTx 
-
-// Message
-// HiddenTxList 
-
-// Message
 // Role 
 
 // Message

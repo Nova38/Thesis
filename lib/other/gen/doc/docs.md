@@ -38,12 +38,6 @@
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
   
-- [chaincode/auth/attributes/attributes.proto](#chaincode_auth_attributes_attributes-proto)
-    - [AttributesBootstrapRequest](#chaincode-auth-attributes-AttributesBootstrapRequest)
-    - [AttributesBootstrapResponse](#chaincode-auth-attributes-AttributesBootstrapResponse)
-  
-    - [AttributesService](#chaincode-auth-attributes-AttributesService)
-  
 - [chaincode/auth/common/generic.proto](#chaincode_auth_common_generic-proto)
     - [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest)
     - [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse)
@@ -110,12 +104,6 @@
     - [ReferenceResponse](#auth-common-ReferenceResponse)
   
     - [ReferenceService](#auth-common-ReferenceService)
-  
-- [chaincode/auth/identity/identity.proto](#chaincode_auth_identity_identity-proto)
-    - [IdentityBootstrapRequest](#chaincode-auth-identity-IdentityBootstrapRequest)
-    - [IdentityBootstrapResponse](#chaincode-auth-identity-IdentityBootstrapResponse)
-  
-    - [IdentityService](#chaincode-auth-identity-IdentityService)
   
 - [chaincode/auth/rbac/schema/v1/rbac.proto](#chaincode_auth_rbac_schema_v1_rbac-proto)
 - [chaincode/ccbio/schema/v0/state.proto](#chaincode_ccbio_schema_v0_state-proto)
@@ -547,10 +535,7 @@ Key should be
 <a name="auth-User"></a>
 
 ### User
-User
-┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
-key := {USER}{USER_ID.msp_id}{USER_ID.id}
 
 
 | Field | Type | Label | Description |
@@ -604,18 +589,11 @@ Membership is used to store permissions for a user in a collection
 <a name="auth-Action"></a>
 
 ### Action
-Action - The action to be performed during the operation
 
-# Action Groups
-  - UNSPECIFIED: null or not set
-  - REGISTER:    Used to register a new user or collection (always allowed)
-  - COLLECTION:  Used to manage collections permissions
-  - MEMBERSHIP:  Used to manage membership of a collection
-  - ITEM:      Used to manage items in a collection
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| ACTION_UNSPECIFIED | 0 |  |
+| ACTION_UNSPECIFIED | 0 | Should throw an error if used |
 | ACTION_UTILITY | 1 |  |
 | ACTION_VIEW | 10 | View the contents of an item |
 | ACTION_CREATE | 11 | Create a new item - key must not already exist |
@@ -721,52 +699,6 @@ Action - The action to be performed during the operation
 | transaction_type | TransactionType | .google.protobuf.MethodOptions | 50556 |  |
 
  
-
- 
-
-
-
-<a name="chaincode_auth_attributes_attributes-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## chaincode/auth/attributes/attributes.proto
-
-
-
-<a name="chaincode-auth-attributes-AttributesBootstrapRequest"></a>
-
-### AttributesBootstrapRequest
-
-
-
-
-
-
-
-<a name="chaincode-auth-attributes-AttributesBootstrapResponse"></a>
-
-### AttributesBootstrapResponse
-
-
-
-
-
-
- 
-
- 
-
- 
-
-
-<a name="chaincode-auth-attributes-AttributesService"></a>
-
-### AttributesService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| AttributesBootstrap | [AttributesBootstrapRequest](#chaincode-auth-attributes-AttributesBootstrapRequest) | [AttributesBootstrapResponse](#chaincode-auth-attributes-AttributesBootstrapResponse) |  |
 
  
 
@@ -1783,52 +1715,6 @@ Get all of the collections
 | ReferenceByPartialKey | [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest) | [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse) |  |
 | ReferenceCreate | [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest) | [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse) |  |
 | ReferenceDelete | [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest) | [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse) |  |
-
- 
-
-
-
-<a name="chaincode_auth_identity_identity-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## chaincode/auth/identity/identity.proto
-
-
-
-<a name="chaincode-auth-identity-IdentityBootstrapRequest"></a>
-
-### IdentityBootstrapRequest
-
-
-
-
-
-
-
-<a name="chaincode-auth-identity-IdentityBootstrapResponse"></a>
-
-### IdentityBootstrapResponse
-
-
-
-
-
-
- 
-
- 
-
- 
-
-
-<a name="chaincode-auth-identity-IdentityService"></a>
-
-### IdentityService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| IdentityBootstrap | [IdentityBootstrapRequest](#chaincode-auth-identity-IdentityBootstrapRequest) | [IdentityBootstrapResponse](#chaincode-auth-identity-IdentityBootstrapResponse) |  |
 
  
 

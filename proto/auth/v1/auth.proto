@@ -14,6 +14,19 @@ import "google/protobuf/timestamp.proto";
 // Message Options
 // ═════════════════════════════════════════════
 
+// Define method options
+extend google.protobuf.MethodOptions {
+  Operation operation = 57775;
+  TransactionType transaction_type = 50556;
+}
+extend google.protobuf.MessageOptions {
+  KeySchema key_schema = 54599;
+}
+
+// ═════════════════════════════════════════════
+// Enums
+// ═════════════════════════════════════════════
+
 enum TransactionType {
   TRANSACTION_TYPE_UNSPECIFIED = 0;
   TRANSACTION_TYPE_INVOKE = 1;
@@ -37,64 +50,8 @@ enum ItemKind {
   ITEM_KIND_REFERENCE = 4;
 }
 
-message KeySchema {
-  // The item type of the key
-  string item_type = 1;
-  // The kind of item that the key is for
-  ItemKind item_kind = 2;
-  // The paths that make up the key
-  google.protobuf.FieldMask keys = 3;
-}
-
-// Define method options
-extend google.protobuf.MethodOptions {
-  Operation operation = 57775;
-  TransactionType transaction_type = 50556;
-}
-extend google.protobuf.MessageOptions {
-  KeySchema key_schema = 54599;
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// Misc message options
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-// Can be used as the history entry
-message StateActivity {
-  // The transaction id that caused the change
-  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
-  // The msp of the user that caused the change
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  // The id of the user that caused the change
-  string user_id = 3 [(buf.validate.field).string.min_len = 1];
-  // The timestamp of the change
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
-  // A note about the change
-  string note = 5;
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-// ═════════════════════════════════════════════
-// Access Control
-// ═════════════════════════════════════════════
-
-message Operation {
-  Action action = 1;
-  string collection_id = 2;
-  string item_type = 3;
-  google.protobuf.FieldMask paths = 5;
-}
-
-// Action - The action to be performed during the operation
-//
-// # Action Groups
-//   - UNSPECIFIED: null or not set
-//   - REGISTER:    Used to register a new user or collection (always allowed)
-//   - COLLECTION:  Used to manage collections permissions
-//   - MEMBERSHIP:  Used to manage membership of a collection
-//   - ITEM:      Used to manage items in a collection
 enum Action {
+  // Should throw an error if used
   ACTION_UNSPECIFIED = 0;
   ACTION_UTILITY = 1;
 
@@ -131,7 +88,111 @@ enum Action {
   ACTION_REFERENCE_VIEW = 23;
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+enum TxError {
+  UNSPECIFIED = 0;
+  REQUEST_INVALID = 1;
+  RUNTIME = 2;
+  RUNTIME_BAD_OPS = 3;
+  // The provided key is not in the world state
+  KEY_NOT_FOUND = 4;
+  // The provided key is already in the world state
+  KEY_ALREADY_EXISTS = 5;
+
+  /* Collection Errors */
+
+  // The collection id is invalid
+  COLLECTION_INVALID_ID = 11;
+  // The collection is not registered and thus cannot be accessed
+  COLLECTION_UNREGISTERED = 12;
+  // The collection is already registered and thus cannot be registered again
+  COLLECTION_ALREADY_REGISTERED = 13;
+  // The collection is invalid (e.g. the collection does not have a default ACLEntry)
+  COLLECTION_INVALID = 14;
+
+  // The item type in the collection is invalid
+  COLLECTION_INVALID_ITEM_TYPE = 15;
+  // The role id in the collection is invalid
+  COLLECTION_INVALID_ROLE_ID = 16;
+
+  /* User Errors */
+
+  // The user does not have permission to perform the operation
+  USER_INVALID_ID = 20;
+  // The certificate is not registered as a user and thus cannot be used
+  USER_UNREGISTERED = 21;
+  // The certificate is already registered as a user and thus cannot be registered again
+  USER_ALREADY_REGISTERED = 22;
+  // The user is invalid
+  USER_INVALID = 23;
+  // The user does not have a role
+  USER_NO_ROLE = 24;
+  // USER_DELETED_ROLE          = 25;
+  // The user does not have permission to perform the operation
+  USER_PERMISSION_DENIED = 26;
+  // The Item's key is invalid
+  ITEM_INVALID_ID = 31;
+  // The Item is not registered and thus cannot be accessed
+  ITEM_UNREGISTERED = 32;
+  // The Item is already registered and thus cannot be registered again
+  ITEM_ALREADY_REGISTERED = 33;
+  // The Item is invalid
+  ITEM_INVALID = 34;
+
+  // The item field path is invalid for the item type
+  INVALID_ITEM_FIELD_PATH = 35;
+  // The value at the item field path is invalid for the item type
+  INVALID_ITEM_FIELD_VALUE = 36;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Misc message options
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+message User {
+  string msp_id = 1 [(buf.validate.field).string.min_len = 1];
+  string user_id = 2;
+}
+
+message KeySchema {
+  // The item type of the key
+  string item_type = 1 [(buf.validate.field).string.min_len = 1];
+  // The kind of item that the key is for
+  ItemKind item_kind = 2;
+  // The paths that make up the key
+  google.protobuf.FieldMask keys = 3;
+}
+
+// Can be used as the history entry
+message StateActivity {
+  // The transaction id that caused the change
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The msp of the user that caused the change
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user that caused the change
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  // The timestamp of the change
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  // A note about the change
+  string note = 5;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ═════════════════════════════════════════════
+// Access Control
+// ═════════════════════════════════════════════
+
+message Operation {
+  Action action = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  string collection_id = 2 [(buf.validate.field).string.min_len = 1];
+  string item_type = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.FieldMask paths = 5;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // ═════════════════════════════════════════════
 // Access Control
@@ -162,11 +223,6 @@ message PathPolicy {
   // };
 }
 
-// message ItemPolicy {
-//   string item_type           = 1 [(buf.validate.field).required = true];
-//   PathPolicy path_policies = 2;
-// }
-
 message Polices {
   // key is the item type
   map<string, PathPolicy> item_policies = 1;
@@ -175,17 +231,43 @@ message Polices {
   PathPolicy default_policy = 2;
 }
 
-// // Access Control Entry for use in Hash Tree
-// message ACLEntry {
 
-//   // ItemPolicy root                 = 1 [(buf.validate.field).required = true];
-
-// ──────────────────────────────────────────────────
-
-// Auth Types
-// ──────────────────────────────────────────────────
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/* Keys
+   ─────────────────────────────────────────────────────────────────────────────────────
+  Item Keys
+    When converted to its string form it will be:
+    - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
+
+  Reference Keys
+    Used to store references to items for case like a user having a role
+    When converted to its string form it will be:
+    {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+
+
+  SubKeys
+    When converted to its string form it will be:
+    {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
+        Examples
+          - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+          - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
+*/
+message ItemKey {
+  string collection_id = 1;
+  string item_type = 2;
+  repeated string item_id_parts = 3;
+}
+
+// Reference Keys
+// {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+message ReferenceKey {
+  option (key_schema).item_kind = ITEM_KIND_REFERENCE;
+
+  //  string reference_type = 2;
+  ItemKey key1 = 1;
+  ItemKey key2 = 2;
+}
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Collection Item Wrapper Types
@@ -204,8 +286,8 @@ message Item {
 }
 
 message FullItem {
-  Item item = 1;
-  History history = 2;
+  Item item = 1       [(buf.validate.field).required = true];
+  History history = 2 [(buf.validate.field).required = true];
   repeated Suggestion suggestions = 3;
   repeated Reference references = 4;
 }
@@ -230,42 +312,38 @@ message History {
   HiddenTxList hidden_txs = 2;
 }
 
-// Lists
-// ─────────────────────────────────────────────────────────────────────────────────
+// ═════════════════════════════════════════════════════════════════════════════════
+// Sub Item Types
+// ═════════════════════════════════════════════════════════════════════════════════
 
-/* Keys
-   ─────────────────────────────────────────────────────────────────────────────────────
-   Item Keys
-    When converted to its string form it will be:
-     - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
+// Key should be
+// {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+message Suggestion {
+  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
+  option (key_schema).keys = {
+    paths: ["suggestion_id"]
+  };
 
-   Reference Keys
-     Used to store references to items for case like a user having a role
-     When converted to its string form it will be:
-     {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
-
-
-   SubKeys
-    When converted to its string form it will be:
-    {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
-        Examples
-          - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
-          - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
-*/
-message ItemKey {
-  string collection_id = 1;
-  string item_type = 2;
-  repeated string item_id_parts = 3;
+  ItemKey primary_key = 1  [(buf.validate.field).required = true];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.FieldMask paths = 5 [(buf.validate.field).required = true];
+  google.protobuf.Any value = 6 ;
 }
 
-// Reference Keys
-// {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
-message ReferenceKey {
-  option (key_schema).item_kind = ITEM_KIND_REFERENCE;
+message HiddenTx {
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  string note = 5;
+}
 
-  //  string reference_type = 2;
-  ItemKey key1 = 1;
-  ItemKey key2 = 2;
+// Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
+message HiddenTxList {
+  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
+
+  ItemKey primary_key = 1 [(buf.validate.field).required = true]; // The key that is used to store the item
+  repeated HiddenTx txs = 4; // The list of hidden txs by tx_id
 }
 
 // Used to return the values of the items that are referenced
@@ -291,64 +369,23 @@ message Collection {
   };
 
   // The key for the ledger
-  string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
-  string name           = 2 [(buf.validate.field).string.min_len = 1];
-  AuthType auth_type    = 3;
-  repeated string item_types = 4;
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string name = 2 [(buf.validate.field).string.min_len = 1];
+  AuthType auth_type = 3;
+  repeated string item_types = 4 [(buf.validate.field).repeated = {
+    unique: true,
+    min_items: 1
+  }];
 
   Polices default = 5 [(buf.validate.field).required = true];
 }
 
-// User
-// ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-//
-// key := {USER}{USER_ID.msp_id}{USER_ID.id}
-//
-message User {
-  string msp_id = 1 [(buf.validate.field).string.min_len = 1];
-  string user_id = 2;
-}
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ═════════════════════════════════════════════════════════════════════════════════
-// Sub Item Types
-// ═════════════════════════════════════════════════════════════════════════════════
-
-// Key should be
-// {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
-message Suggestion {
-  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-  option (key_schema).keys = {
-    paths: ["suggestion_id"]
-  };
-
-  ItemKey primary_key = 1;
-  string suggestion_id = 2;
-  google.protobuf.FieldMask paths = 5;
-  google.protobuf.Any value = 6;
-}
-
-message HiddenTx {
-  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
-  string msp_id = 2;
-  string user_id = 3;
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
-  string note = 5;
-}
-
-// Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
-message HiddenTxList {
-  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-
-  ItemKey primary_key = 1; // The key that is used to store the item
-  repeated HiddenTx txs = 4; // The list of hidden txs by tx_id
-}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // ═════════════════════════════════════════════════════════════════════════════════
 // Collection Items
 // ═════════════════════════════════════════════════════════════════════════════════
-
 // ─────────────────────────────────────────────────────────────────────────────────
 // Access Control Items
 // ─────────────────────────────────────────────────────────────────────────────────
@@ -407,7 +444,7 @@ message UserMembership {
   // The msp of the organization that the user's certificate is from
   string msp_id = 2 [(buf.validate.field).string.min_len = 1];
   // The id of the user from the certificate
-  string user_id = 3 [(buf.validate.field).required = true];
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
   // The Permissions that the user will have
   Polices polices = 4 [(buf.validate.field).required = true];
 }
@@ -429,63 +466,10 @@ message UserCollectionRoles {
   string user_id = 3 [(buf.validate.field).required = true];
 
   // The roles that the user has in the collection
-  repeated string role_ids = 4;
+  repeated string role_ids = 4 [(buf.validate.field).repeated = {
+    unique: true,
+    min_items: 1
+  }];
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-enum TxError {
-  UNSPECIFIED = 0;
-  REQUEST_INVALID = 1;
-  RUNTIME = 2;
-  RUNTIME_BAD_OPS = 3;
-  // The provided key is not in the world state
-  KEY_NOT_FOUND = 4;
-  // The provided key is already in the world state
-  KEY_ALREADY_EXISTS = 5;
-
-  /* Collection Errors */
-
-  // The collection id is invalid
-  COLLECTION_INVALID_ID = 11;
-  // The collection is not registered and thus cannot be accessed
-  COLLECTION_UNREGISTERED = 12;
-  // The collection is already registered and thus cannot be registered again
-  COLLECTION_ALREADY_REGISTERED = 13;
-  // The collection is invalid (e.g. the collection does not have a default ACLEntry)
-  COLLECTION_INVALID = 14;
-
-  // The item type in the collection is invalid
-  COLLECTION_INVALID_ITEM_TYPE = 15;
-  // The role id in the collection is invalid
-  COLLECTION_INVALID_ROLE_ID = 16;
-
-  /* User Errors */
-
-  // The user does not have permission to perform the operation
-  USER_INVALID_ID = 20;
-  // The certificate is not registered as a user and thus cannot be used
-  USER_UNREGISTERED = 21;
-  // The certificate is already registered as a user and thus cannot be registered again
-  USER_ALREADY_REGISTERED = 22;
-  // The user is invalid
-  USER_INVALID = 23;
-  // The user does not have a role
-  USER_NO_ROLE = 24;
-  // USER_DELETED_ROLE          = 25;
-  // The user does not have permission to perform the operation
-  USER_PERMISSION_DENIED = 26;
-  // The Item's key is invalid
-  ITEM_INVALID_ID = 31;
-  // The Item is not registered and thus cannot be accessed
-  ITEM_UNREGISTERED = 32;
-  // The Item is already registered and thus cannot be registered again
-  ITEM_ALREADY_REGISTERED = 33;
-  // The Item is invalid
-  ITEM_INVALID = 34;
-
-  // The item field path is invalid for the item type
-  INVALID_ITEM_FIELD_PATH = 35;
-  // The value at the item field path is invalid for the item type
-  INVALID_ITEM_FIELD_VALUE = 36;
-}

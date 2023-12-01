@@ -6,16 +6,10 @@
   },
   "tags": [
     {
-      "name": "AttributesService"
-    },
-    {
       "name": "GenericService"
     },
     {
       "name": "ReferenceService"
-    },
-    {
-      "name": "IdentityService"
     },
     {
       "name": "SpecimenService"
@@ -915,58 +909,6 @@
           "SpecimenService"
         ]
       }
-    },
-    "/chaincode.auth.attributes.AttributesService/AttributesBootstrap": {
-      "post": {
-        "operationId": "AttributesService_AttributesBootstrap",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/attributesAttributesBootstrapRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AttributesService"
-        ]
-      }
-    },
-    "/chaincode.auth.identity.IdentityService/IdentityBootstrap": {
-      "post": {
-        "operationId": "IdentityService_IdentityBootstrap",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/identityIdentityBootstrapRequest"
-            }
-          }
-        ],
-        "tags": [
-          "IdentityService"
-        ]
-      }
     }
   },
   "definitions": {
@@ -1167,12 +1109,6 @@
         }
       }
     },
-    "attributesAttributesBootstrapRequest": {
-      "type": "object"
-    },
-    "attributesAttributesBootstrapResponse": {
-      "type": "object"
-    },
     "authAction": {
       "type": "string",
       "enum": [
@@ -1194,8 +1130,7 @@
         "ACTION_REFERENCE_VIEW"
       ],
       "default": "ACTION_UNSPECIFIED",
-      "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - ITEM:      Used to manage items in a collection\n\n - ACTION_VIEW: View the contents of an item\n - ACTION_CREATE: Create a new item\n - key must not already exist\n - ACTION_UPDATE: Update an existing item\n  - key must already exist\n  - potential has paths\n - ACTION_DELETE: Delete an existing item, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the item, key must already exist",
-      "title": "Action - The action to be performed during the operation"
+      "title": "- ACTION_UNSPECIFIED: Should throw an error if used\n - ACTION_VIEW: View the contents of an item\n - ACTION_CREATE: Create a new item\n - key must not already exist\n - ACTION_UPDATE: Update an existing item\n  - key must already exist\n  - potential has paths\n - ACTION_DELETE: Delete an existing item, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the item, key must already exist"
     },
     "authAuthType": {
       "type": "string",
@@ -1492,9 +1427,7 @@
         "user_id": {
           "type": "string"
         }
-      },
-      "description": "key := {USER}{USER_ID.msp_id}{USER_ID.id}",
-      "title": "User\n┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈"
+      }
     },
     "commonAuthorizeOperationRequest": {
       "type": "object",
@@ -2076,12 +2009,6 @@
           "$ref": "#/definitions/authItem"
         }
       }
-    },
-    "identityIdentityBootstrapRequest": {
-      "type": "object"
-    },
-    "identityIdentityBootstrapResponse": {
-      "type": "object"
     },
     "protobufAny": {
       "type": "object",

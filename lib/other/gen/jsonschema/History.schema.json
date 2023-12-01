@@ -124,8 +124,8 @@
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "Lists\n ─────────────────────────────────────────────────────────────────────────────────",
-            "description": "Lists ─────────────────────────────────────────────────────────────────────────────────  Keys─────────────────────────────────────────────────────────────────────────────────────Item KeysWhen converted to its string form it will be:- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}Reference KeysUsed to store references to items for case like a user having a roleWhen converted to its string form it will be:{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]SubKeysWhen converted to its string form it will be:{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}Examples- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}"
+            "title": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  Keys─────────────────────────────────────────────────────────────────────────────────────Item KeysWhen converted to its string form it will be:- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}Reference KeysUsed to store references to items for case like a user having a roleWhen converted to its string form it will be:{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]SubKeysWhen converted to its string form it will be:{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}Examples- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}"
         }
     }
 }

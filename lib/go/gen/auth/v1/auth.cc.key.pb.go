@@ -8,6 +8,37 @@ package v1
 func (m *ReferenceKey) ItemType() string {
 	return "auth.ReferenceKey"
 }
+func (m *Suggestion) ItemType() string {
+	return "auth.Suggestion"
+}
+func (m *Suggestion) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetSuggestionId())
+	return attr
+}
+func (m *Suggestion) SetKeyAttr(attr []string) {
+	if len(attr) > 0 {
+		m.SuggestionId = attr[0]
+	} else {
+		return
+	}
+	return
+}
+
+// Domain Item
+func (m *Suggestion) IsSecondary() bool {
+	return true
+}
+func (m *Suggestion) SetKey(key *ItemKey) {
+	m.PrimaryKey = key
+	return
+}
+func (m *Suggestion) ItemKey() *ItemKey {
+	return m.GetPrimaryKey()
+}
+func (m *HiddenTxList) ItemType() string {
+	return "auth.HiddenTxList"
+}
 func (m *Collection) ItemType() string {
 	return "auth.Collection"
 }
@@ -41,37 +72,6 @@ func (m *Collection) ItemKey() *ItemKey {
 		ItemIdParts:  m.KeyAttr(),
 	}
 	return key
-}
-func (m *Suggestion) ItemType() string {
-	return "auth.Suggestion"
-}
-func (m *Suggestion) KeyAttr() []string {
-	attr := []string{}
-	attr = append(attr, m.GetSuggestionId())
-	return attr
-}
-func (m *Suggestion) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.SuggestionId = attr[0]
-	} else {
-		return
-	}
-	return
-}
-
-// Domain Item
-func (m *Suggestion) IsSecondary() bool {
-	return true
-}
-func (m *Suggestion) SetKey(key *ItemKey) {
-	m.PrimaryKey = key
-	return
-}
-func (m *Suggestion) ItemKey() *ItemKey {
-	return m.GetPrimaryKey()
-}
-func (m *HiddenTxList) ItemType() string {
-	return "auth.HiddenTxList"
 }
 func (m *Role) ItemType() string {
 	return "auth.Role"
