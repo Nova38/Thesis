@@ -1,8 +1,6 @@
 package contracts
 
 import (
-	"log/slog"
-
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	ccpb "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
@@ -21,7 +19,7 @@ func (o ItemContractImpl) Reference(
 
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 	if v, err := state.GetReference(ctx, req.GetReference()); err != nil {
@@ -44,7 +42,7 @@ func (o ItemContractImpl) ReferenceByPartialKey(
 ) (res *ccpb.ReferenceByPartialKeyResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 	list, mk, err := state.PartialReferenceKeysList(
@@ -54,7 +52,7 @@ func (o ItemContractImpl) ReferenceByPartialKey(
 		req.GetBookmark(),
 	)
 	if err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 
@@ -116,12 +114,12 @@ func (o ItemContractImpl) ReferenceByItem(
 ) (res *ccpb.ReferenceByItemResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 	list, mk, err := state.ReferenceKeysByItem(ctx, req.GetItemKey(), req.GetBookmark())
 	if err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 
@@ -142,7 +140,7 @@ func (o ItemContractImpl) ReferenceCreate(
 ) (res *ccpb.ReferenceCreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 	if _, err = state.ReferenceCreate(ctx, req.GetRefKey()); err != nil {
@@ -161,7 +159,7 @@ func (o ItemContractImpl) ReferenceDelete(
 ) (res *ccpb.ReferenceDeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 	if err = state.ReferenceDelete(ctx, req.GetRefKey()); err != nil {

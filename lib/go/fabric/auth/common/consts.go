@@ -7,6 +7,8 @@ const (
 	SuggestionItemType = "auth.Suggestion"
 	ReferenceItemType  = "auth.Reference"
 
+	BootstrapKey = "bootstrap"
+
 	// ─────────────────────────────
 	EnableHiddenTxValue   = "enable_hidden_tx"
 	EnableSuggestionValue = "enable_suggestion"

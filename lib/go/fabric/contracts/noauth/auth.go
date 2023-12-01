@@ -16,10 +16,6 @@ func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 	for _, op := range ops {
 		ctx.GetLogger().Info(op.String())
 
-		if op.GetCollectionId() == "global" {
-			ctx.Logger.Info("global collection")
-			continue
-		}
 		if op.GetItemType() == "auth.Collection" {
 			if op.GetAction() == authpb.Action_ACTION_CREATE {
 				return true, nil

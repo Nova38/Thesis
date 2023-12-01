@@ -86,6 +86,23 @@ func (ctx *BaseTxCtx) HandleFnError(err *error, r any) {
 	}
 }
 
+func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
+	if v, err := ctx.GetStub().GetState(common.BootstrapKey); err != nil {
+		return false, oops.Wrap(err)
+	} else if v == nil && err == nil {
+		ctx.GetLogger().Info("Bootstrap not done")
+		ctx.GetStub().PutState(common.BootstrapKey, []byte("true"))
+
+		return false, nil
+	}
+	return true, nil
+
+}
+
+func (ctx *BaseTxCtx) LogError(err error) {
+	ctx.LogError(err)
+}
+
 func (ctx *BaseTxCtx) ErrorBase() oops.OopsErrorBuilder {
 	return oops.OopsErrorBuilder{}.
 		In(ctx.GetFnName()).

@@ -64,6 +64,7 @@ type (
 		// ════════════════════════════════════════════════════════
 
 		GetLogger() *slog.Logger
+		LogError(err error)
 
 		GetPageSize() int32
 		SetPageSize(pageSize int32)
@@ -126,11 +127,6 @@ type (
 		// GetUser() (user *v1.User, err error)
 		// ─────────────────────────────────────────────────────────────────────
 
-		// PostActionProcessing - Used to modify the item after the action has been performed
-		// Before the item is saved to the state, this is used to add the
-		// last modified activity to the item
-		PostActionProcessing(item ItemInterface, ops []*v1.Operation) (err error)
-
 		// GetCollection - Gets the collection value from the state
 		//
 		//# Requirements:
@@ -157,5 +153,11 @@ type (
 		Authorize(ops []*v1.Operation) (bool, error)
 
 		// GetMask - Request the mask for the operation from the auth service
+
+		// PostActionProcessing - Used to modify the item after the action has been performed
+		// Before the item is saved to the state, this is used to add the
+		// last modified activity to the item
+		PostActionProcessing(item ItemInterface, ops []*v1.Operation) (err error)
+		CheckBootstrap() (done bool, err error)
 	}
 )

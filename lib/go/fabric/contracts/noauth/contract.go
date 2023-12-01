@@ -50,7 +50,19 @@ func (c *NoAuthContract) Bootstrap(
 	ctx common.TxCtxInterface,
 	req *cc.BootstrapRequest,
 ) (res *cc.BootstrapResponse, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
 	ctx.GetLogger().Info("NoAuthContract.Boostrap")
+	if err = ctx.Validate(req); err != nil {
+		ctx.LogError(err)
+		return nil, oops.Wrap(err)
+	}
+
+	// Check to see if the bootstrap has already been done
+	// If so, return an error
+	if err = ctx.CheckBootstrap(); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	return res, nil
 }
