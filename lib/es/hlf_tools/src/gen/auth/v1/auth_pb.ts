@@ -1405,9 +1405,9 @@ export class Role extends Message<Role> {
   polices?: Polices;
 
   /**
-   * @generated from field: string description = 5;
+   * @generated from field: string note = 5;
    */
-  description = "";
+  note = "";
 
   /**
    * @generated from field: repeated string parent_role_ids = 6;
@@ -1425,7 +1425,7 @@ export class Role extends Message<Role> {
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "polices", kind: "message", T: Polices },
-    { no: 5, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 6, name: "parent_role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
@@ -1487,6 +1487,11 @@ export class Attribute extends Message<Attribute> {
    */
   polices?: Polices;
 
+  /**
+   * @generated from field: string note = 6;
+   */
+  note = "";
+
   constructor(data?: PartialMessage<Attribute>) {
     super();
     proto3.util.initPartial(data, this);
@@ -1500,6 +1505,7 @@ export class Attribute extends Message<Attribute> {
     { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "polices", kind: "message", T: Polices },
+    { no: 6, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Attribute {
@@ -1553,6 +1559,11 @@ export class UserMembership extends Message<UserMembership> {
    */
   polices?: Polices;
 
+  /**
+   * @generated from field: string note = 6;
+   */
+  note = "";
+
   constructor(data?: PartialMessage<UserMembership>) {
     super();
     proto3.util.initPartial(data, this);
@@ -1565,6 +1576,7 @@ export class UserMembership extends Message<UserMembership> {
     { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "polices", kind: "message", T: Polices },
+    { no: 6, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserMembership {
@@ -1616,6 +1628,11 @@ export class UserCollectionRoles extends Message<UserCollectionRoles> {
    */
   roleIds: string[] = [];
 
+  /**
+   * @generated from field: string note = 6;
+   */
+  note = "";
+
   constructor(data?: PartialMessage<UserCollectionRoles>) {
     super();
     proto3.util.initPartial(data, this);
@@ -1628,6 +1645,7 @@ export class UserCollectionRoles extends Message<UserCollectionRoles> {
     { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "role_ids", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 6, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserCollectionRoles {

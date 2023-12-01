@@ -171,6 +171,7 @@ users certificate for a given msp
 | oid | [string](#string) |  | The oid of the attribute |
 | value | [string](#string) |  | The value of the attribute required to be satisfied by the user to have the role |
 | polices | [Polices](#auth-Polices) |  | The Permission that the user will have if they have the attribute |
+| note | [string](#string) |  |  |
 
 
 
@@ -486,7 +487,7 @@ Reference Keys
 | collection_id | [string](#string) |  |  |
 | role_id | [string](#string) |  |  |
 | polices | [Polices](#auth-Polices) |  |  |
-| description | [string](#string) |  |  |
+| note | [string](#string) |  |  |
 | parent_role_ids | [string](#string) | repeated |  |
 
 
@@ -560,6 +561,7 @@ Key should be
 | msp_id | [string](#string) |  | The msp of the organization that the user&#39;s certificate is from |
 | user_id | [string](#string) |  | The id of the user from the certificate |
 | role_ids | [string](#string) | repeated | The roles that the user has in the collection |
+| note | [string](#string) |  |  |
 
 
 
@@ -578,6 +580,7 @@ Membership is used to store permissions for a user in a collection
 | msp_id | [string](#string) |  | The msp of the organization that the user&#39;s certificate is from |
 | user_id | [string](#string) |  | The id of the user from the certificate |
 | polices | [Polices](#auth-Polices) |  | The Permissions that the user will have |
+| note | [string](#string) |  |  |
 
 
 
@@ -744,7 +747,7 @@ Membership is used to store permissions for a user in a collection
 <a name="auth-common-BootstrapRequest"></a>
 
 ### BootstrapRequest
-──────────────────────────────── Invoke ───────────────────────────────────────
+
 
 
 | Field | Type | Label | Description |

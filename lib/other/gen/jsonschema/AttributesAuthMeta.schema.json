@@ -1,33 +1,50 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$ref": "#/definitions/Role",
+    "$ref": "#/definitions/AttributesAuthMeta",
     "definitions": {
-        "Role": {
+        "AttributesAuthMeta": {
             "properties": {
-                "collection_id": {
-                    "type": "string"
-                },
-                "role_id": {
-                    "type": "string"
-                },
-                "polices": {
-                    "$ref": "#/definitions/auth.Polices",
-                    "additionalProperties": true
-                },
-                "note": {
-                    "type": "string"
-                },
-                "parent_role_ids": {
+                "attributes": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/auth.Attribute"
                     },
                     "type": "array"
                 }
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n ═════════════════════════════════════════════════════════════════════════════════\n Collection Items\n ═════════════════════════════════════════════════════════════════════════════════\n ─────────────────────────────────────────────────────────────────────────────────\n Access Control Items\n ─────────────────────────────────────────────────────────────────────────────────",
-            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ═════════════════════════════════════════════════════════════════════════════════ Collection Items ═════════════════════════════════════════════════════════════════════════════════ ───────────────────────────────────────────────────────────────────────────────── Access Control Items ─────────────────────────────────────────────────────────────────────────────────"
+            "title": "Attributes Auth Meta"
+        },
+        "auth.Attribute": {
+            "properties": {
+                "collection_id": {
+                    "type": "string"
+                },
+                "msp_id": {
+                    "type": "string",
+                    "description": "The msp of the organization that this attribute applies to"
+                },
+                "oid": {
+                    "type": "string",
+                    "description": "The oid of the attribute"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value of the attribute required to be satisfied by the user to have the role"
+                },
+                "polices": {
+                    "$ref": "#/definitions/auth.Polices",
+                    "additionalProperties": true,
+                    "description": "The Permission that the user will have if they have the attribute"
+                },
+                "note": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Attribute",
+            "description": "An attribute is used to define permissions via the value of the attribute in the users certificate for a given msp"
         },
         "auth.PathPolicy": {
             "properties": {

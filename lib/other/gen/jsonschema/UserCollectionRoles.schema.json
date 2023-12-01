@@ -22,6 +22,9 @@
                     },
                     "type": "array",
                     "description": "The roles that the user has in the collection"
+                },
+                "note": {
+                    "type": "string"
                 }
             },
             "additionalProperties": true,

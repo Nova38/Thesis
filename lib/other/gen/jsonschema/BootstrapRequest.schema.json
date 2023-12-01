@@ -13,7 +13,7 @@
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "Bootstrap Request",
+            "title": "──────────────────────────────── Invoke ───────────────────────────────────────",
             "description": "──────────────────────────────── Invoke ───────────────────────────────────────"
         },
         "auth.Collection": {

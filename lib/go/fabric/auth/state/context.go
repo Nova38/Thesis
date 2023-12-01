@@ -25,6 +25,8 @@ var (
 )
 
 type (
+	RawLedger[T common.ItemInterface] struct {
+	}
 	TxItems struct {
 		User       *authpb.User
 		Collection *authpb.Collection

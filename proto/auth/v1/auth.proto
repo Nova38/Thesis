@@ -201,8 +201,8 @@ message Operation {
 // This message is the tree node for operations on the state item
 message PathPolicy {
   // The path is a sub path of a field mask
-  string path = 1 [(buf.validate.field).string.min_len = 1];
-  string full_path = 2 [(buf.validate.field).string.min_len = 1];
+  string path = 1 ;
+  string full_path = 2 ;
 
   bool allow_sub_paths = 3;
   // The key is a valid sub path in the type of state item
@@ -372,6 +372,7 @@ message Collection {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name = 2 [(buf.validate.field).string.min_len = 1];
   AuthType auth_type = 3;
+
   repeated string item_types = 4 [(buf.validate.field).repeated = {
     unique: true,
     min_items: 1
@@ -401,7 +402,7 @@ message Role {
 
   Polices polices = 4 [(buf.validate.field).required = true];
 
-  string description = 5 [(buf.validate.field).string.min_len = 1];
+  string note = 5;
   repeated string parent_role_ids = 6;
 }
 
@@ -427,6 +428,9 @@ message Attribute {
   string value = 4 [(buf.validate.field).string.min_len = 1];
   // The Permission that the user will have if they have the attribute
   Polices polices = 5 [(buf.validate.field).required = true];
+
+  string note = 6 ;
+
 }
 
 // Membership is used to store permissions for a user in a collection
@@ -447,6 +451,9 @@ message UserMembership {
   string user_id = 3 [(buf.validate.field).string.min_len = 1];
   // The Permissions that the user will have
   Polices polices = 4 [(buf.validate.field).required = true];
+
+  string note = 6 ;
+
 }
 
 message UserCollectionRoles {
@@ -470,6 +477,8 @@ message UserCollectionRoles {
     unique: true,
     min_items: 1
   }];
+
+  string note = 6;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

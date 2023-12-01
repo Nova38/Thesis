@@ -180,8 +180,6 @@ export class AuthorizeOperationResponse extends Message<AuthorizeOperationRespon
 }
 
 /**
- * ──────────────────────────────── Invoke ───────────────────────────────────────
- *
  * @generated from message auth.common.BootstrapRequest
  */
 export class BootstrapRequest extends Message<BootstrapRequest> {

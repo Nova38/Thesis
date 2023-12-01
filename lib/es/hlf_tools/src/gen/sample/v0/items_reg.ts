@@ -7,7 +7,7 @@ import type { Message } from "@bufbuild/protobuf";
 import { Book, Group, SimpleItem } from "./items_pb.js";
 
 export const allTypes: Message[] =[
-  SimpleItem,
-  Group,
-  Book,
+  SimpleItem, 
+  Group, 
+  Book, 
 ];

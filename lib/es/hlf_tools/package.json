@@ -22,6 +22,7 @@
     "dist"
   ],
   "scripts": {
+    "build:barrel": "pnpm run generate-barrels",
     "build": "unbuild",
     "dev": "vitest dev",
     "play": "jiti playground",

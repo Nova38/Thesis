@@ -158,6 +158,6 @@ type (
 		// Before the item is saved to the state, this is used to add the
 		// last modified activity to the item
 		PostActionProcessing(item ItemInterface, ops []*v1.Operation) (err error)
-		CheckBootstrap() (done bool, err error)
+		CheckBootstrap() (bootstraped bool, err error)
 	}
 )

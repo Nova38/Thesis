@@ -5,57 +5,57 @@
 
 import { Message } from "@bufbuild/protobuf";
 
-// SpecimenGetRequest
+// SpecimenGetRequest 
 
 // Message
-// SpecimenGetResponse
+// SpecimenGetResponse 
 
 // Message
-// SpecimenGetListRequest
+// SpecimenGetListRequest 
 
 // Message
-// SpecimenGetListResponse
+// SpecimenGetListResponse 
 
 // Message
-// SpecimenGetByCollectionRequest
+// SpecimenGetByCollectionRequest 
 
 // Message
-// SpecimenGetByCollectionResponse
+// SpecimenGetByCollectionResponse 
 
 // Message
-// SpecimenGetHistoryRequest
+// SpecimenGetHistoryRequest 
 
 // Message
-// SpecimenGetHistoryResponse
+// SpecimenGetHistoryResponse 
 
 // Message
-// SpecimenCreateRequest
+// SpecimenCreateRequest 
 
 // Message
-// SpecimenCreateResponse
+// SpecimenCreateResponse 
 
 // Message
-// SpecimenUpdateRequest
+// SpecimenUpdateRequest 
 
 // Message
-// SpecimenUpdateResponse
+// SpecimenUpdateResponse 
 
 // Message
-// SpecimenDeleteRequest
+// SpecimenDeleteRequest 
 
 // Message
-// SpecimenDeleteResponse
+// SpecimenDeleteResponse 
 
 // Message
-// SpecimenHideTxRequest
+// SpecimenHideTxRequest 
 
 // Message
-// SpecimenHideTxResponse
+// SpecimenHideTxResponse 
 
 // Message
-// SpecimenUnHideTxRequest
+// SpecimenUnHideTxRequest 
 
 // Message
-// SpecimenUnHideTxResponse
+// SpecimenUnHideTxResponse 
 
 // Message

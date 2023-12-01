@@ -245,7 +245,6 @@ func (x *AuthorizeOperationResponse) GetAuthorized() bool {
 	return false
 }
 
-// ──────────────────────────────── Invoke ───────────────────────────────────────
 type BootstrapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

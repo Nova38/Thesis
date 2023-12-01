@@ -91,7 +91,7 @@ auth.Role
 	 -auth.Role.collection_id - <nil>
 	 -auth.Role.role_id - <nil>
 	 -auth.Role.polices - MessageDescriptor{Syntax: proto3, FullName: auth.Polices, Fields: [{Name: item_policies, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "itemPolicies", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}, {Name: default_policy, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "defaultPolicy", HasPresence: true, Message: auth.PathPolicy}], Messages: [{Name: ItemPoliciesEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
-	 -auth.Role.description - <nil>
+	 -auth.Role.note - <nil>
 	 -auth.Role.parent_role_ids - <nil>
 auth.Attribute
 	 -auth.Attribute.collection_id - <nil>
@@ -99,13 +99,16 @@ auth.Attribute
 	 -auth.Attribute.oid - <nil>
 	 -auth.Attribute.value - <nil>
 	 -auth.Attribute.polices - MessageDescriptor{Syntax: proto3, FullName: auth.Polices, Fields: [{Name: item_policies, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "itemPolicies", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}, {Name: default_policy, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "defaultPolicy", HasPresence: true, Message: auth.PathPolicy}], Messages: [{Name: ItemPoliciesEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
+	 -auth.Attribute.note - <nil>
 auth.UserMembership
 	 -auth.UserMembership.collection_id - <nil>
 	 -auth.UserMembership.msp_id - <nil>
 	 -auth.UserMembership.user_id - <nil>
 	 -auth.UserMembership.polices - MessageDescriptor{Syntax: proto3, FullName: auth.Polices, Fields: [{Name: item_policies, Number: 1, Cardinality: repeated, Kind: message, HasJSONName: true, JSONName: "itemPolicies", IsMap: true, MapKey: string, MapValue: auth.PathPolicy}, {Name: default_policy, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "defaultPolicy", HasPresence: true, Message: auth.PathPolicy}], Messages: [{Name: ItemPoliciesEntry, IsMapEntry: true, Fields: [{Name: key, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "key"}, {Name: value, Number: 2, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "value", HasPresence: true, Message: auth.PathPolicy}]}]}
+	 -auth.UserMembership.note - <nil>
 auth.UserCollectionRoles
 	 -auth.UserCollectionRoles.collection_id - <nil>
 	 -auth.UserCollectionRoles.msp_id - <nil>
 	 -auth.UserCollectionRoles.user_id - <nil>
 	 -auth.UserCollectionRoles.role_ids - <nil>
+	 -auth.UserCollectionRoles.note - <nil>

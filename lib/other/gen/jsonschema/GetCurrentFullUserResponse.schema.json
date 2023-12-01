@@ -148,6 +148,9 @@
                     },
                     "type": "array",
                     "description": "The roles that the user has in the collection"
+                },
+                "note": {
+                    "type": "string"
                 }
             },
             "additionalProperties": true,
@@ -172,6 +175,9 @@
                     "$ref": "#/definitions/auth.Polices",
                     "additionalProperties": true,
                     "description": "The Permissions that the user will have"
+                },
+                "note": {
+                    "type": "string"
                 }
             },
             "additionalProperties": true,

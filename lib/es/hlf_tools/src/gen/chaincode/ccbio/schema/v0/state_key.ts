@@ -6,7 +6,7 @@
 import { Message } from "@bufbuild/protobuf";
 import { Specimen } from "./state_pb.js";
 
-// Specimen
+// Specimen 
 
 // Message
 // Primary Item:  Specimen
@@ -31,24 +31,24 @@ export function SpecimenKey(item : Specimen): string[] {
 }
 // Path: specimen_id
 
-// Primary
+// Primary 
 
 // Message
-// Secondary
+// Secondary 
 
 // Message
-// Taxon
+// Taxon 
 
 // Message
-// Georeference
+// Georeference 
 
 // Message
-// Image
+// Image 
 
 // Message
-// Loan
+// Loan 
 
 // Message
-// Grant
+// Grant 
 
 // Message

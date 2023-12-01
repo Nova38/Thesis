@@ -5,39 +5,39 @@
 
 import { Message } from "@bufbuild/protobuf";
 
-// ReferenceRequest
+// ReferenceRequest 
 
 // Message
-// ReferenceResponse
+// ReferenceResponse 
 
 // Message
-// ReferenceByCollectionRequest
+// ReferenceByCollectionRequest 
 
 // Message
-// ReferenceByCollectionResponse
+// ReferenceByCollectionResponse 
 
 // Message
-// ReferenceByPartialKeyRequest
+// ReferenceByPartialKeyRequest 
 
 // Message
-// ReferenceByPartialKeyResponse
+// ReferenceByPartialKeyResponse 
 
 // Message
-// ReferenceByItemRequest
+// ReferenceByItemRequest 
 
 // Message
-// ReferenceByItemResponse
+// ReferenceByItemResponse 
 
 // Message
-// ReferenceCreateRequest
+// ReferenceCreateRequest 
 
 // Message
-// ReferenceCreateResponse
+// ReferenceCreateResponse 
 
 // Message
-// ReferenceDeleteRequest
+// ReferenceDeleteRequest 
 
 // Message
-// ReferenceDeleteResponse
+// ReferenceDeleteResponse 
 
 // Message

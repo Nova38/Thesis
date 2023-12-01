@@ -6,55 +6,55 @@
 import { Message } from "@bufbuild/protobuf";
 import { Attribute, Collection, Role, UserCollectionRoles, UserMembership } from "./auth_pb.js";
 
-// User
+// User 
 
 // Message
-// KeySchema
+// KeySchema 
 
 // Message
-// StateActivity
+// StateActivity 
 
 // Message
-// Operation
+// Operation 
 
 // Message
-// PathPolicy
+// PathPolicy 
 
 // Message
-// Polices
+// Polices 
 
 // Message
-// ItemKey
+// ItemKey 
 
 // Message
-// ReferenceKey
+// ReferenceKey 
 
 // Message
-// Item
+// Item 
 
 // Message
-// FullItem
+// FullItem 
 
 // Message
-// HistoryEntry
+// HistoryEntry 
 
 // Message
-// History
+// History 
 
 // Message
-// Suggestion
+// Suggestion 
 
 // Message
-// HiddenTx
+// HiddenTx 
 
 // Message
-// HiddenTxList
+// HiddenTxList 
 
 // Message
-// Reference
+// Reference 
 
 // Message
-// Collection
+// Collection 
 
 // Message
 // Primary Item:  Collection
@@ -75,7 +75,7 @@ export function CollectionKey(item : Collection): string[] {
 }
 // Path: collection_id
 
-// Role
+// Role 
 
 // Message
 // Primary Item:  Role
@@ -83,7 +83,7 @@ export function CollectionKey(item : Collection): string[] {
 // namecollection_id field }
 // namerole_id field }
 // namepolices field }
-// namedescription field }
+// namenote field }
 // nameparent_role_ids field }
     // role_id   ,
 export function RoleKey(item : Role): string[] {
@@ -96,7 +96,7 @@ export function RoleKey(item : Role): string[] {
 }
 // Path: role_id
 
-// Attribute
+// Attribute 
 
 // Message
 // Primary Item:  Attribute
@@ -106,6 +106,7 @@ export function RoleKey(item : Role): string[] {
 // nameoid field }
 // namevalue field }
 // namepolices field }
+// namenote field }
     // msp_id   ,
     // oid   ,
     // role_id   ,
@@ -127,7 +128,7 @@ export function AttributeKey(item : Attribute): string[] {
 
 // Path: role_id
 
-// UserMembership
+// UserMembership 
 
 // Message
 // Primary Item:  UserMembership
@@ -136,6 +137,7 @@ export function AttributeKey(item : Attribute): string[] {
 // namemsp_id field }
 // nameuser_id field }
 // namepolices field }
+// namenote field }
     // msp_id   ,
     // user_id   ,
 export function UserMembershipKey(item : UserMembership): string[] {
@@ -154,7 +156,7 @@ export function UserMembershipKey(item : UserMembership): string[] {
 
 // Path: user_id
 
-// UserCollectionRoles
+// UserCollectionRoles 
 
 // Message
 // Primary Item:  UserCollectionRoles
@@ -163,6 +165,7 @@ export function UserMembershipKey(item : UserMembership): string[] {
 // namemsp_id field }
 // nameuser_id field }
 // namerole_ids field }
+// namenote field }
     // msp_id   ,
     // user_id   ,
 export function UserCollectionRolesKey(item : UserCollectionRoles): string[] {

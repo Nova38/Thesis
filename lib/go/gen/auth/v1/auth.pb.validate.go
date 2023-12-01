@@ -2690,7 +2690,7 @@ func (m *Role) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for Description
+	// no validation rules for Note
 
 	if len(errors) > 0 {
 		return RoleMultiError(errors)
@@ -2828,6 +2828,8 @@ func (m *Attribute) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Note
+
 	if len(errors) > 0 {
 		return AttributeMultiError(errors)
 	}
@@ -2962,6 +2964,8 @@ func (m *UserMembership) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for Note
+
 	if len(errors) > 0 {
 		return UserMembershipMultiError(errors)
 	}
@@ -3067,6 +3071,8 @@ func (m *UserCollectionRoles) validate(all bool) error {
 	// no validation rules for MspId
 
 	// no validation rules for UserId
+
+	// no validation rules for Note
 
 	if len(errors) > 0 {
 		return UserCollectionRolesMultiError(errors)

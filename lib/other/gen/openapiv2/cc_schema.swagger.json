@@ -1455,8 +1455,7 @@
             "$ref": "#/definitions/authCollection"
           }
         }
-      },
-      "title": "──────────────────────────────── Invoke ───────────────────────────────────────"
+      }
     },
     "commonBootstrapResponse": {
       "type": "object",

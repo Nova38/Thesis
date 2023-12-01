@@ -23,6 +23,9 @@
                     "$ref": "#/definitions/auth.Polices",
                     "additionalProperties": true,
                     "description": "The Permission that the user will have if they have the attribute"
+                },
+                "note": {
+                    "type": "string"
                 }
             },
             "additionalProperties": true,

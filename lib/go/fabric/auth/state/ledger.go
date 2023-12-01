@@ -1,10 +1,12 @@
 package state
 
 import (
-    "github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 )
 
 // UTIL Functions
+
+// Returns true if the key exists in the ledger
 func Exists(ctx common.TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {

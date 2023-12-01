@@ -282,7 +282,7 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 	key, err := common.MakePrimaryKey(obj)
 
 	if err != nil {
-		return err
+		return oops.Wrap(err)
 	}
 
 	if Exists(ctx, key) {
@@ -501,3 +501,45 @@ func deleteSuggestionsByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (er
 //
 //	return obj, l.Get(obj)
 //}
+
+func (a RawLedger[T]) PrimaryCreate(ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	key, err := common.MakePrimaryKey(obj)
+	if err != nil {
+		return oops.Wrap(err)
+	}
+
+	if bytes, err := json.Marshal(obj); err != nil {
+		return oops.Hint("Failed To Marshal").Wrap(err)
+	} else {
+		if err := ctx.GetStub().PutState(key, bytes); err != nil {
+			return oops.With("key", key).Wrap(err)
+		}
+	}
+
+	if ctx.EnabledHidden() {
+		hiddenKey, err := common.MakeHiddenKey(obj)
+		if err != nil {
+			return oops.Wrap(err)
+		}
+
+		hiddenBytes, err := json.Marshal(&authpb.HiddenTxList{
+			PrimaryKey: obj.ItemKey(),
+			Txs:        []*authpb.HiddenTx{},
+		})
+
+		if err != nil {
+			return oops.Wrap(err)
+		}
+
+		if err = ctx.GetStub().PutState(hiddenKey, hiddenBytes); err != nil {
+			return oops.With(
+				"Key", hiddenKey,
+				"ItemType", obj.ItemType(),
+			).Wrap(err)
+		}
+	}
+
+	return nil
+}

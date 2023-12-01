@@ -1,33 +1,19 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$ref": "#/definitions/Role",
+    "$ref": "#/definitions/IdentityAuthMeta",
     "definitions": {
-        "Role": {
+        "IdentityAuthMeta": {
             "properties": {
-                "collection_id": {
-                    "type": "string"
-                },
-                "role_id": {
-                    "type": "string"
-                },
-                "polices": {
-                    "$ref": "#/definitions/auth.Polices",
-                    "additionalProperties": true
-                },
-                "note": {
-                    "type": "string"
-                },
-                "parent_role_ids": {
+                "identity_providers": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/auth.UserMembership"
                     },
                     "type": "array"
                 }
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n ═════════════════════════════════════════════════════════════════════════════════\n Collection Items\n ═════════════════════════════════════════════════════════════════════════════════\n ─────────────────────────────────────────────────────────────────────────────────\n Access Control Items\n ─────────────────────────────────────────────────────────────────────────────────",
-            "description": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ ═════════════════════════════════════════════════════════════════════════════════ Collection Items ═════════════════════════════════════════════════════════════════════════════════ ───────────────────────────────────────────────────────────────────────────────── Access Control Items ─────────────────────────────────────────────────────────────────────────────────"
+            "title": "Identity Auth Meta"
         },
         "auth.PathPolicy": {
             "properties": {
@@ -114,6 +100,34 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Polices"
+        },
+        "auth.UserMembership": {
+            "properties": {
+                "collection_id": {
+                    "type": "string",
+                    "description": "The collection that the user is a member of"
+                },
+                "msp_id": {
+                    "type": "string",
+                    "description": "The msp of the organization that the user's certificate is from"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "The id of the user from the certificate"
+                },
+                "polices": {
+                    "$ref": "#/definitions/auth.Polices",
+                    "additionalProperties": true,
+                    "description": "The Permissions that the user will have"
+                },
+                "note": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User Membership",
+            "description": "Membership is used to store permissions for a user in a collection"
         }
     }
 }

@@ -177,15 +177,19 @@ service GenericService {
 
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
+
+
+
+
   message BootstrapRequest {
-
     repeated auth.Collection collections = 1;
-
   }
 
   message BootstrapResponse {
     bool success = 1;
   }
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
 
   message CreateCollectionRequest{
     auth.Collection collection = 1;
@@ -193,6 +197,8 @@ service GenericService {
   message CreateCollectionResponse{
     auth.Collection collection = 1;
   }
+
+
 
 
 

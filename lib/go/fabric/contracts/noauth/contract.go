@@ -60,11 +60,23 @@ func (c *NoAuthContract) Bootstrap(
 
 	// Check to see if the bootstrap has already been done
 	// If so, return an error
-	if err = ctx.CheckBootstrap(); err != nil {
+	if bootstraped, err := ctx.CheckBootstrap(); err != nil {
 		return nil, oops.Wrap(err)
+	} else if bootstraped {
+		ctx.GetLogger().Warn("Bootstrap already done")
+		return nil, oops.Errorf("Bootstrap already done")
 	}
 
-	return res, nil
+	for _, col := range req.GetCollections() {
+		colKey := lo.Must(common.MakePrimaryKey(col))
+
+		colBytes := lo.Must(json.Marshal(col))
+
+		lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
+
+	}
+
+	return &cc.BootstrapResponse{Success: true}, nil
 }
 
 // Test is a function that returns true

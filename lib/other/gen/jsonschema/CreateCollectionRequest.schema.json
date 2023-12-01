@@ -11,7 +11,8 @@
             },
             "additionalProperties": true,
             "type": "object",
-            "title": "Create Collection Request"
+            "title": "──────────────────────────────── Invoke ───────────────────────────────────────",
+            "description": "──────────────────────────────── Invoke ───────────────────────────────────────"
         },
         "auth.Collection": {
             "properties": {

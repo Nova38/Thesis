@@ -11,16 +11,14 @@ type (
 	RolesTxCtx struct {
 		state.BaseTxCtx
 	}
-	IdentiyContract struct {
+	RoleContract struct {
 		contracts.ItemContractImpl
 	}
 )
 
 // type checking
 var (
-	_ common.TxCtxInterface = (*RolesTxCtx)(
-		nil,
-	) // _ contracts.ItemContractInterface = (*IdentiyContract)(nil)
+	_ common.TxCtxInterface = (*RolesTxCtx)(nil) // _ contracts.ItemContractInterface = (*IdentiyContract)(nil)
 	// see if ItemContractImpl implements the interface GenericServiceInterface
-	_ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*IdentiyContract)(nil)
+	_ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*RoleContract)(nil)
 )

@@ -6,7 +6,7 @@
 import { Message } from "@bufbuild/protobuf";
 import { Book, Group, SimpleItem } from "./items_pb.js";
 
-// SimpleItem
+// SimpleItem 
 
 // Message
 // Primary Item:  SimpleItem
@@ -26,7 +26,7 @@ export function SimpleItemKey(item : SimpleItem): string[] {
 }
 // Path: id
 
-// Group
+// Group 
 
 // Message
 // Primary Item:  Group
@@ -46,7 +46,7 @@ export function GroupKey(item : Group): string[] {
 }
 // Path: group_id
 
-// Book
+// Book 
 
 // Message
 // Primary Item:  Book

@@ -1,8 +1,6 @@
 package contracts
 
 import (
-	"log/slog"
-
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
@@ -98,7 +96,7 @@ func (o ItemContractImpl) Get(
 	}
 
 	if err = state.PrimaryGet(ctx, obj); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", (err)))
+		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
 

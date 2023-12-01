@@ -7,16 +7,16 @@ import type { Message } from "@bufbuild/protobuf";
 import { ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse } from "./reference_pb.js";
 
 export const allTypes: Message[] =[
-  ReferenceRequest,
-  ReferenceResponse,
-  ReferenceByCollectionRequest,
-  ReferenceByCollectionResponse,
-  ReferenceByPartialKeyRequest,
-  ReferenceByPartialKeyResponse,
-  ReferenceByItemRequest,
-  ReferenceByItemResponse,
-  ReferenceCreateRequest,
-  ReferenceCreateResponse,
-  ReferenceDeleteRequest,
-  ReferenceDeleteResponse,
+  ReferenceRequest, 
+  ReferenceResponse, 
+  ReferenceByCollectionRequest, 
+  ReferenceByCollectionResponse, 
+  ReferenceByPartialKeyRequest, 
+  ReferenceByPartialKeyResponse, 
+  ReferenceByItemRequest, 
+  ReferenceByItemResponse, 
+  ReferenceCreateRequest, 
+  ReferenceCreateResponse, 
+  ReferenceDeleteRequest, 
+  ReferenceDeleteResponse, 
 ];

@@ -27,7 +27,7 @@ import {gen} from "hlf_tools"
 
 import * as fs from 'fs';
 
-const authpb = gen.auth.index
+const authpb = gen.auth.v1.auth_pb
 
 const registry = createRegistryFromDescriptors(
     fs.readFileSync("image.bin")
