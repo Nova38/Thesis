@@ -7,11 +7,11 @@ import (
 	_ "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
 	_ "github.com/nova38/thesis/lib/go/gen/sample/v0"
 
+	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/nova38/thesis/lib/go/fabric/serializer"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )

@@ -5,7 +5,7 @@ import (
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
+	"github.com/nova38/thesis/lib/go/fabric/serializer"
 	"github.com/samber/oops"
 )
 

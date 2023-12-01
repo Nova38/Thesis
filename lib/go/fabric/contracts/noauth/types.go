@@ -2,8 +2,8 @@ package noauth
 
 import (
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/contracts"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
+	"github.com/nova38/thesis/lib/go/fabric/contracts"
 	ccpb "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 )
 
