@@ -269,7 +269,8 @@ func getHistory[T common.ItemInterface](
 			Note:      "",
 		}
 
-		if ctx.EnabledHidden() && history.GetHiddenTxs() != nil && history.GetHiddenTxs().GetTxs() != nil {
+		if ctx.EnabledHidden() && history.GetHiddenTxs() != nil &&
+			history.GetHiddenTxs().GetTxs() != nil {
 
 			ctx.GetLogger().Info("Hidden History Enabled, checking for hidden txs")
 			if history.GetHiddenTxs().GetTxs() != nil {

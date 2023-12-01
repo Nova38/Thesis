@@ -46,26 +46,6 @@ func PrimaryExists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) boo
 	return common.KeyExists(ctx, key)
 }
 
-// Get returns the item from the ledger
-func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
-	bytes, err := ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.KeyNotFound)
-	}
-	if err != nil {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(err)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
-		return oops.Wrap(err)
-	}
-
-	return nil
-}
 func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 

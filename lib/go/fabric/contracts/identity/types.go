@@ -4,6 +4,7 @@ import (
 	common "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"github.com/nova38/thesis/lib/go/fabric/contracts"
+	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	ccpb "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 )
 
@@ -14,6 +15,7 @@ import (
 type (
 	IdentityTxCtx struct {
 		state.BaseTxCtx
+		CollectionMemberships map[string]*authpb.UserMembership
 	}
 	IdentiyContract struct {
 		contracts.ItemContractImpl

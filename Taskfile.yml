@@ -75,7 +75,7 @@ tasks:
     watch: true
     sources:
       - "proto/**/*"
-      - "tools/**/*"
+      # - "tools/**/*"
       - "./buf.gen.yaml"
     cmds:
       - buf build -o image.bin

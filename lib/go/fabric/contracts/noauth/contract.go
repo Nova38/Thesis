@@ -8,6 +8,7 @@ import (
 	_ "github.com/nova38/thesis/lib/go/gen/sample/v0"
 
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	"github.com/nova38/thesis/lib/go/fabric/serializer"
 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 
@@ -97,4 +98,25 @@ func (c *NoAuthContract) TestFail(ctx *NoAuthCtx) (v bool, err error) {
 	ctx.GetLogger().Info(string(b))
 
 	return false, e
+}
+
+func (c *NoAuthContract) CreateCollection(
+	ctx common.TxCtxInterface,
+	req *cc.CreateCollectionRequest,
+) (res *cc.CreateCollectionResponse, err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+	ctx.GetLogger().Info("NoAuthContract.CreateCollection")
+
+	col := req.GetCollection()
+
+	colKey := lo.Must(common.MakePrimaryKey(col))
+	if state.Exists(ctx, colKey) {
+		return nil, oops.Errorf("Collection already exists")
+	}
+
+	colBytes := lo.Must(json.Marshal(col))
+
+	lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
+
+	return &cc.CreateCollectionResponse{Collection: col}, nil
 }

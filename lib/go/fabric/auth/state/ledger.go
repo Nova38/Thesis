@@ -1,7 +1,10 @@
 package state
 
 import (
+	"encoding/json"
+
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
+	"github.com/samber/oops"
 )
 
 // UTIL Functions
@@ -14,6 +17,39 @@ func Exists(ctx common.TxCtxInterface, key string) bool {
 	}
 
 	return err == nil
+}
+
+// Get returns the item from the ledger
+func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
+	bytes, err := ctx.GetStub().GetState(key)
+	if bytes == nil && err == nil {
+		return oops.
+			With("Key", key, "ItemType", obj.ItemType()).
+			Wrap(common.KeyNotFound)
+	}
+	if err != nil {
+		return oops.
+			With("Key", key, "ItemType", obj.ItemType()).
+			Wrap(err)
+	}
+
+	if err = json.Unmarshal(bytes, obj); err != nil {
+		return oops.Wrap(err)
+	}
+
+	return nil
+}
+
+func Put[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
+	var (
+		bytes []byte
+	)
+
+	if bytes, err = json.Marshal(obj); err != nil {
+		return err
+	}
+
+	return ctx.GetStub().PutState(key, bytes)
 }
 
 // ════════════════════════════════════════════════════════

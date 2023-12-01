@@ -129,9 +129,7 @@ type (
 
 		// GetCollection - Gets the collection value from the state
 		//
-		//# Requirements:
-		// - collection to be set
-		// GetCollection() (col *authpb.Collection, err error)
+		GetCollection(collectionId string) (col *authpb.Collection, err error)
 		//
 		//// SetCollection - Sets the collection value in the state
 		// SetCollection(collectionId string) (col *authpb.Collection, err error)

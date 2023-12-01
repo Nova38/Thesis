@@ -7,7 +7,10 @@
             "path": "lib/go/fabric/"
         },
         {
-            "path": "caliper-workspace"
+            "path": "lib/es/hlf_tools/"
+        },
+        {
+            "path": "caliper"
         },
         {
             "path": "docs/Thesis"
@@ -50,6 +53,8 @@
             "**/CVS": true,
             "**/.DS_Store": true,
             "**/Thumbs.db": true
-        }
+        },
+        "go.formatTool": "gofumpt"
 	}
+
 }

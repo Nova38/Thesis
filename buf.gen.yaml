@@ -62,6 +62,7 @@ plugins:
 
 
 
+
       # opt: ["paths=source_relative"]
 
     #    out: lib/go/gen

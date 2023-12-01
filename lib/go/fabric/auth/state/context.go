@@ -28,9 +28,11 @@ type (
 	RawLedger[T common.ItemInterface] struct {
 	}
 	TxItems struct {
-		User       *authpb.User
-		Collection *authpb.Collection
-		ops        *authpb.Operation
+		User *authpb.User
+		// Collection *authpb.Collection
+		Collections map[string]*authpb.Collection
+
+		ops *authpb.Operation
 	}
 
 	BaseTxCtx struct {
@@ -88,6 +90,7 @@ func (ctx *BaseTxCtx) HandleFnError(err *error, r any) {
 	}
 }
 
+// Helper function to check if the bootstrap has been done
 func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
 	if v, err := ctx.GetStub().GetState(common.BootstrapKey); err != nil {
 		return false, oops.Wrap(err)
@@ -129,8 +132,32 @@ func (ctx *BaseTxCtx) EnabledHidden() bool {
 	return common.EnableHiddenTx == common.EnableHiddenTxValue
 }
 
-func (ctx *BaseTxCtx) PostActionProcessing(item common.ItemInterface, ops []*authpb.Operation) (err error) {
+func (ctx *BaseTxCtx) PostActionProcessing(
+	item common.ItemInterface,
+	ops []*authpb.Operation,
+) (err error) {
 	return nil
+}
+
+func (ctx *BaseTxCtx) GetCollection(collectionId string) (col *authpb.Collection, err error) {
+	if ctx.Collections == nil {
+		ctx.Collections = map[string]*authpb.Collection{}
+	}
+
+	if col, ok := ctx.Collections[collectionId]; ok {
+		return col, nil
+	}
+
+	col = &authpb.Collection{CollectionId: collectionId}
+	if key, err := common.MakePrimaryKey(col); err != nil {
+		return nil, oops.Wrap(err)
+	} else if err := Get(ctx, key, col); err != nil {
+		return nil, oops.Wrap(err)
+	}
+
+	ctx.Collections[collectionId] = col
+
+	return col, nil
 }
 
 // ─────────────────────────────────────────────-
@@ -248,44 +275,44 @@ func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 //  Collection Functions
 // ════════════════════════════════════════════════════════
 
-func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
-	if ctx.Collection != nil {
-		return ctx.Collection, nil
-	}
+// func (ctx *BaseTxCtx) GetCollection() (col *authpb.Collection, err error) {
+// 	if ctx.Collection != nil {
+// 		return ctx.Collection, nil
+// 	}
 
-	return nil, oops.Errorf("collection not set")
-}
+// 	return nil, oops.Errorf("collection not set")
+// }
 
-func (ctx *BaseTxCtx) SetCollection(
-	collectionId string,
-) (col *authpb.Collection, err error) {
-	// TODO:
-	// FIXME: Need to check in fns before calling is Authorized
+// func (ctx *BaseTxCtx) SetCollection(
+// 	collectionId string,
+// ) (col *authpb.Collection, err error) {
+// 	// TODO:
+// 	// FIXME: Need to check in fns before calling is Authorized
 
-	// See if the collection pointer has an ID and is not nil
-	if collectionId == "" {
-		return nil, oops.
-			In("SetCollection").
-			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
-			Errorf("collection is nil or has no ID")
-	}
+// 	// See if the collection pointer has an ID and is not nil
+// 	if collectionId == "" {
+// 		return nil, oops.
+// 			In("SetCollection").
+// 			Code(authpb.TxError_COLLECTION_INVALID_ID.String()).
+// 			Errorf("collection is nil or has no ID")
+// 	}
 
-	ctx.Collection = &authpb.Collection{
-		CollectionId: collectionId,
-	}
+// 	ctx.Collection = &authpb.Collection{
+// 		CollectionId: collectionId,
+// 	}
 
-	if key, err := common.MakePrimaryKey(ctx.Collection); err != nil {
-		return nil, oops.Wrap(err)
-	} else if err = Get(ctx, key, ctx.Collection); err != nil {
-		return nil, oops.
-			In("SetCollection").
-			With("collectionId", collectionId).
-			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
-			Wrap(err)
-	}
+// 	if key, err := common.MakePrimaryKey(ctx.Collection); err != nil {
+// 		return nil, oops.Wrap(err)
+// 	} else if err = Get(ctx, key, ctx.Collection); err != nil {
+// 		return nil, oops.
+// 			In("SetCollection").
+// 			With("collectionId", collectionId).
+// 			Code(authpb.TxError_COLLECTION_UNREGISTERED.String()).
+// 			Wrap(err)
+// 	}
 
-	return ctx.Collection, nil
-}
+// 	return ctx.Collection, nil
+// }
 
 // ════════════════════════════════════════════════════════
 // Role Functions
