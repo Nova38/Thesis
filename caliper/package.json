@@ -18,7 +18,8 @@
     "@hyperledger/caliper-core": "^0.5.0",
     "@hyperledger/caliper-fabric": "^0.5.0",
     "@hyperledger/fabric-gateway": "^1.4.0",
-    "es": "link:..\\lib\\es"
+    "hlf_tools": "link:..\\lib\\es\\hlf_tools",
+    "jiti": "^1.21.0"
   },
   "devDependencies": {
     "esbuild": "0.19.7",

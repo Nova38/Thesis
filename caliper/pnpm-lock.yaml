@@ -20,9 +20,12 @@ dependencies:
   '@hyperledger/fabric-gateway':
     specifier: ^1.4.0
     version: 1.4.0
-  es:
-    specifier: link:..\lib\es
-    version: link:../lib/es
+  hlf_tools:
+    specifier: link:..\lib\es\hlf_tools
+    version: link:../lib/es/hlf_tools
+  jiti:
+    specifier: ^1.21.0
+    version: 1.21.0
 
 devDependencies:
   esbuild:
@@ -569,7 +572,6 @@ packages:
 
   /ajv@6.12.0:
     resolution: {integrity: sha512-D6gFiFA0RRLyUbvijN74DWAjXSFxWKaWP7mldxkVhyhAV3+SWA9HEJPHQ2c9soIeTFJqcSdFDGFgdqs1iUU2Hw==}
-    requiresBuild: true
     dependencies:
       fast-deep-equal: 3.1.3
       fast-json-stable-stringify: 2.1.0
@@ -2582,6 +2584,11 @@ packages:
     dependencies:
       has-to-string-tag-x: 1.4.1
       is-object: 1.0.2
+    dev: false
+
+  /jiti@1.21.0:
+    resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
+    hasBin: true
     dev: false
 
   /js-sha3@0.5.7:
