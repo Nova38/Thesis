@@ -290,6 +290,10 @@ func getHistory[T common.ItemInterface](
 		}
 		tmp := proto.Clone(base)
 
+		if queryResponse.GetValue() == nil {
+			break
+		}
+
 		if err := json.Unmarshal(queryResponse.GetValue(), tmp); err != nil {
 			return nil, oops.Wrap(err)
 		}

@@ -196,7 +196,9 @@ func PrimaryByPartialKey[T common.ItemInterface](
 		if queryResponse == nil {
 			return nil, "", oops.Errorf("queryResponse is nil")
 		}
-
+		if queryResponse.GetValue() == nil {
+			break
+		}
 		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
 		// 	return nil, "", oops.Wrap(err)
 		// }
@@ -345,7 +347,9 @@ func PrimaryUpdate[T common.ItemInterface](
 	}
 
 	// Update the item
-	fmutils.Overwrite(current, obj, mask.GetPaths())
+	fmutils.Filter(obj, mask.GetPaths())
+	proto.Merge(current, obj)
+	// fmutils.Overwrite(current, obj, mask.GetPaths())
 
 	// Put the item back into the ledger
 	if bytes, err := json.Marshal(current); err != nil {

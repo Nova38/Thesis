@@ -12,6 +12,7 @@ import (
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/proto"
 )
 
 // ════════════════════════════════════════════════════════
@@ -184,7 +185,9 @@ func SuggestionApprove(
 	}
 
 	// Apply the mask to the Updating item
-	fmutils.Overwrite(primary, update, s.GetPaths().GetPaths())
+	// fmutils.Overwrite(primary, update, s.GetPaths().GetPaths())
+	fmutils.Filter(primary, s.GetPaths().GetPaths())
+	proto.Merge(primary, update)
 	pKey, err := common.MakePrimaryKey(primary)
 	if err != nil {
 		return nil, oops.Wrap(err)

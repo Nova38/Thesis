@@ -843,7 +843,7 @@ Create
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
 | reason | [string](#string) |  |  |
 
 

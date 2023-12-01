@@ -105,7 +105,7 @@ func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
 }
 
 func (ctx *BaseTxCtx) LogError(err error) {
-	ctx.LogError(err)
+	ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 }
 
 func (ctx *BaseTxCtx) ErrorBase() oops.OopsErrorBuilder {

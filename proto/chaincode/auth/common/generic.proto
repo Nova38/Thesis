@@ -275,7 +275,7 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-  auth.Item item = 1;
+  auth.ItemKey key = 3;
 
   string reason = 4;
 }

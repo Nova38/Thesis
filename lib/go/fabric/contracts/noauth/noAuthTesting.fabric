@@ -55,7 +55,7 @@
                     "key":{},
                     "value":{
                         "@type":"type.googleapis.com/auth.Collection",
-                        "collectionId":"FirstCollection",
+                        "collectionId":"SecondCollection",
                     }
                 }}
             ]
@@ -68,8 +68,8 @@
                     "value":{
                         "@type":"type.googleapis.com/auth.Collection",
 
-                        "collectionId":"SecondCollection",
-                        "itemTypes":["sample.SimpleItem"]
+                        "collectionId":"Collection",
+                        "itemTypes":["sample.Book"]
                     }
                 }}
             ]
@@ -94,33 +94,25 @@
         {
             "invoke": "get",
             "args": [
-                {"item":
-                {"key":
-                {},
-                "value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
-                    "collectionId":"SecondCollection",
-                    "id": "332",
-                    "name": "test",
-                    "quantity": 4
-
+                {
+                    "key":{
+                        "itemType" : "sample.SimpleItem",
+                        "collectionId":"SecondCollection",
+                        "itemIdParts":[ "332"]
+                    }
                 }
-                }
-            }
             ]
         },
     // List ListRequest
         {
             "invoke": "ListByCollection",
             "args": [
-                {"item":{
-                    "key":{},
-                    "value":{
-                        "@type":"type.googleapis.com/sample.SimpleItem",
+                {
+                    "key":{
+                        "itemType" : "sample.SimpleItem",
                         "collectionId":"SecondCollection"
-
                     }
-                }}
+                }
             ]
         },
     // ListByCollection ListByCollectionRequest
@@ -156,8 +148,8 @@
                     "@type":"type.googleapis.com/sample.SimpleItem",
                     "collectionId":"SecondCollection",
                     "id": "332",
-                    "name": "test",
-                    "quantity": 40
+                    "name": "tesst",
+                    "quantity": 400
                 }},
                 "updateMask":"quantity"
                 }
@@ -167,22 +159,22 @@
         {
             "invoke": "delete",
             "args": [
-                {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
+                {"key":{
+                    "itemType":"sample.SimpleItem",
                     "collectionId":"SecondCollection",
-                    "id": "332",
-                }}}
+                    "itemIdParts": ["332"],
+                }}
             ]
         },
     // History HistoryRequest
         {
             "invoke": "history",
             "args": [
-                {"item":{"key":{},"value":{
-                    "@type":"type.googleapis.com/sample.SimpleItem",
+                {"key":{
+                    "itemType":"sample.SimpleItem",
                     "collectionId":"SecondCollection",
-                    "id": "332",
-                }}}
+                    "itemIdParts": ["332"],
+                }}
             ]
         },
     // HiddenTx HiddenTxRequest

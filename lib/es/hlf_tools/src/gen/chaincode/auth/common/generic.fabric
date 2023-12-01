@@ -71,7 +71,7 @@
     {
         "invoke": "delete",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // History HistoryRequest

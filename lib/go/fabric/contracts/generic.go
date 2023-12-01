@@ -289,7 +289,7 @@ func (o ItemContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 	// Get the item from the request
-	obj, err := common.UnPackItem(req.GetItem())
+	obj, err := common.ItemKeyToItem(req.GetKey())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)

@@ -855,9 +855,9 @@ export class UpdateResponse extends Message<UpdateResponse> {
  */
 export class DeleteRequest extends Message<DeleteRequest> {
   /**
-   * @generated from field: auth.Item item = 1;
+   * @generated from field: auth.ItemKey key = 3;
    */
-  item?: Item;
+  key?: ItemKey;
 
   /**
    * @generated from field: string reason = 4;
@@ -872,7 +872,7 @@ export class DeleteRequest extends Message<DeleteRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.DeleteRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "item", kind: "message", T: Item },
+    { no: 3, name: "key", kind: "message", T: ItemKey },
     { no: 4, name: "reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
