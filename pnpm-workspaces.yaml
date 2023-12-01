@@ -4,4 +4,5 @@ packages:
   - 'app/api'
   - 'app/web'
   - 'caliper-workspace'
-  - 'lib/es/gen'
+  - 'tools/cmd/protoc-gen-es-hlf'
+  - 'lib/es/hlf_tools'

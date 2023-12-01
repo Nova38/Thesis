@@ -35,13 +35,13 @@ plugins:
 
 
     - plugin: buf.build/bufbuild/es:v1.3.1
-      out: lib/es/gen
+      out: lib/es/hlf_tools/src/gen
       opt: target=ts
 
     - plugin: protoc-gen-es-hlf
-      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/main.ts"]
+      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/main.ts"]
       opt: target=ts
-      out: lib/es/gen
+      out: lib/es/hlf_tools/src/gen
       strategy: all
 
     - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.1

@@ -15,7 +15,7 @@ repos:
       - id: trailing-whitespace
         exclude: |
           (?x)^(
-          lib/es/gen/.*|
+          lib/es/hlf_tools/src/gen/.*|
           lib/other/.* |
           lib/other/doc/.*
           )$

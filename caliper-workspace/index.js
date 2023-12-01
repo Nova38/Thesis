@@ -1,7 +1,6 @@
 'use strict'
-const l = require("es")
-
-const x = new l.gen.auth.v1.auth_pb.Attribute()
+const l = require("es/hlf_tools")
+let x = new  l.authpb.Attribute()
 
 
 

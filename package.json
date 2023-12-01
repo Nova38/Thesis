@@ -1,5 +1,5 @@
 {
-  "name": "Thesis",
+  "name": "thesis",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -9,5 +9,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.1"
+  }
 }

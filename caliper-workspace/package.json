@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bufbuild/protobuf": "^1.4.2",
+    "@bufbuild/protobuf": "^1.5.0",
     "@hyperledger/caliper-cli": "^0.5.0",
     "@hyperledger/caliper-core": "^0.5.0",
     "@hyperledger/caliper-fabric": "^0.5.0",

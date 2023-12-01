@@ -96,11 +96,18 @@ func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInter
 	_ = resultIterator.Close()
 }
 
+// EnabledSuggestions returns true if the hidden tx feature is enabled,
+// Enabled by default, can be disabled through build flags
+// github.com/nova38/thesis/lib/go/fabric/auth/common.EnabledSuggestions = ""
 func (ctx *BaseTxCtx) EnabledSuggestions() bool {
-	return false
+	return common.EnableSuggestion == common.EnableHiddenTxValue
 }
+
+// EnableHiddenTx returns true if the hidden tx feature is enabled,
+// Enabled by default, can be disabled through build flags
+// github.com/nova38/thesis/lib/go/fabric/auth/common.EnableHiddenTx = ""
 func (ctx *BaseTxCtx) EnabledHidden() bool {
-	return false
+	return common.EnableHiddenTx == common.EnableHiddenTxValue
 }
 
 func (ctx *BaseTxCtx) PostActionProcessing(item common.ItemInterface, ops []*authpb.Operation) (err error) {
