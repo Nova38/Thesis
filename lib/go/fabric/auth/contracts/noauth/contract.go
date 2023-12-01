@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	_ "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
-	_ "github.com/nova38/thesis/lib/go/gen/chaincode/sample/v0"
+	_ "github.com/nova38/thesis/lib/go/gen/sample/v0"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"

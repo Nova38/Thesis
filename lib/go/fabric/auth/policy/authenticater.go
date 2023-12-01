@@ -62,14 +62,14 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 			return false, oops.Errorf("Operation secondary item type is empty")
 		}
 
-		found := slices.Contains(collection.GetReferenceTypes(), op.GetItemType())
-		foundSecondary := slices.Contains(collection.GetReferenceTypes(), op.GetSecondaryItemType())
+		// found := slices.Contains(collection.GetReferenceTypes(), op.GetItemType())
+		// foundSecondary := slices.Contains(collection.GetReferenceTypes(), op.GetSecondaryItemType())
 
-		if !found || !foundSecondary {
-			return false, oops.Errorf(
-				"Operation item type or secondary item type is not in collection reference types",
-			)
-		}
+		// if !found || !foundSecondary {
+		// 	return false, oops.Errorf(
+		// 		"Operation item type or secondary item type is not in collection reference types",
+		// 	)
+		// }
 
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
 			return false, oops.Errorf("Operation paths is not empty")

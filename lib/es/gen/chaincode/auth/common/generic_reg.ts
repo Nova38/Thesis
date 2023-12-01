@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { Message } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 export const allTypes: Message[] =[
   GetCurrentUserResponse, 
@@ -15,7 +15,6 @@ export const allTypes: Message[] =[
   BootstrapResponse, 
   CreateCollectionRequest, 
   CreateCollectionResponse, 
-  CreateUserResponse, 
   GetRequest, 
   GetResponse, 
   ListRequest, 
@@ -38,18 +37,6 @@ export const allTypes: Message[] =[
   HideTxResponse, 
   UnHideTxRequest, 
   UnHideTxResponse, 
-  ReferenceRequest, 
-  ReferenceResponse, 
-  ReferenceByCollectionRequest, 
-  ReferenceByCollectionResponse, 
-  ReferenceByPartialKeyRequest, 
-  ReferenceByPartialKeyResponse, 
-  ReferenceByItemRequest, 
-  ReferenceByItemResponse, 
-  ReferenceCreateRequest, 
-  ReferenceCreateResponse, 
-  ReferenceDeleteRequest, 
-  ReferenceDeleteResponse, 
   SuggestionRequest, 
   SuggestionResponse, 
   SuggestionListRequest, 

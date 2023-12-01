@@ -332,8 +332,6 @@ func (m *Operation) validate(all bool) error {
 
 	// no validation rules for ItemType
 
-	// no validation rules for SecondaryItemType
-
 	if all {
 		switch v := interface{}(m.GetPaths()).(type) {
 		case interface{ ValidateAll() error }:
@@ -655,6 +653,35 @@ func (m *Polices) validate(all bool) error {
 				}
 			}
 
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetDefaultPolicy()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PolicesValidationError{
+					field:  "DefaultPolicy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PolicesValidationError{
+					field:  "DefaultPolicy",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDefaultPolicy()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PolicesValidationError{
+				field:  "DefaultPolicy",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
 		}
 	}
 
@@ -1913,8 +1940,6 @@ func (m *Collection) validate(all bool) error {
 
 	// no validation rules for Name
 
-	// no validation rules for Description
-
 	// no validation rules for AuthType
 
 	if all {
@@ -2044,13 +2069,9 @@ func (m *User) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for CollectionId
-
 	// no validation rules for MspId
 
 	// no validation rules for UserId
-
-	// no validation rules for Name
 
 	if len(errors) > 0 {
 		return UserMultiError(errors)

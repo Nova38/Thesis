@@ -6,7 +6,16 @@
   },
   "tags": [
     {
+      "name": "AttributesService"
+    },
+    {
       "name": "GenericService"
+    },
+    {
+      "name": "ReferenceService"
+    },
+    {
+      "name": "IdentityService"
     },
     {
       "name": "SpecimenService"
@@ -63,33 +72,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/commonCreateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/CreateUser": {
-      "post": {
-        "operationId": "GenericService_CreateUser",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
             }
           }
         ],
@@ -334,136 +316,6 @@
         ]
       }
     },
-    "/auth.common.GenericService/Reference": {
-      "post": {
-        "operationId": "GenericService_Reference",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/ReferenceByItem": {
-      "post": {
-        "operationId": "GenericService_ReferenceByItem",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceByItemRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/ReferenceByPartialKey": {
-      "post": {
-        "operationId": "GenericService_ReferenceByPartialKey",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceByPartialKeyRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/ReferenceCreate": {
-      "post": {
-        "operationId": "GenericService_ReferenceCreate",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceCreateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/ReferenceDelete": {
-      "post": {
-        "operationId": "GenericService_ReferenceDelete",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonReferenceDeleteRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
     "/auth.common.GenericService/Suggestion": {
       "post": {
         "operationId": "GenericService_Suggestion",
@@ -670,6 +522,136 @@
         ],
         "tags": [
           "GenericService"
+        ]
+      }
+    },
+    "/auth.common.ReferenceService/Reference": {
+      "post": {
+        "operationId": "ReferenceService_Reference",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReferenceService"
+        ]
+      }
+    },
+    "/auth.common.ReferenceService/ReferenceByItem": {
+      "post": {
+        "operationId": "ReferenceService_ReferenceByItem",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceByItemRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReferenceService"
+        ]
+      }
+    },
+    "/auth.common.ReferenceService/ReferenceByPartialKey": {
+      "post": {
+        "operationId": "ReferenceService_ReferenceByPartialKey",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceByPartialKeyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReferenceService"
+        ]
+      }
+    },
+    "/auth.common.ReferenceService/ReferenceCreate": {
+      "post": {
+        "operationId": "ReferenceService_ReferenceCreate",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReferenceService"
+        ]
+      }
+    },
+    "/auth.common.ReferenceService/ReferenceDelete": {
+      "post": {
+        "operationId": "ReferenceService_ReferenceDelete",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonReferenceDeleteRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReferenceService"
         ]
       }
     },
@@ -906,6 +888,58 @@
           "SpecimenService"
         ]
       }
+    },
+    "/chaincode.auth.attributes.AttributesService/AttributesBootstrap": {
+      "post": {
+        "operationId": "AttributesService_AttributesBootstrap",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/attributesAttributesBootstrapRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AttributesService"
+        ]
+      }
+    },
+    "/chaincode.auth.identity.IdentityService/IdentityBootstrap": {
+      "post": {
+        "operationId": "IdentityService_IdentityBootstrap",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/identityIdentityBootstrapRequest"
+            }
+          }
+        ],
+        "tags": [
+          "IdentityService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1106,6 +1140,12 @@
         }
       }
     },
+    "attributesAttributesBootstrapRequest": {
+      "type": "object"
+    },
+    "attributesAttributesBootstrapResponse": {
+      "type": "object"
+    },
     "authAction": {
       "type": "string",
       "enum": [
@@ -1256,9 +1296,6 @@
         "item_type": {
           "type": "string"
         },
-        "secondary_item_type": {
-          "type": "string"
-        },
         "paths": {
           "type": "string"
         }
@@ -1340,16 +1377,10 @@
     "authUser": {
       "type": "object",
       "properties": {
-        "collection_id": {
-          "type": "string"
-        },
         "msp_id": {
           "type": "string"
         },
         "user_id": {
-          "type": "string"
-        },
-        "name": {
           "type": "string"
         }
       },
@@ -1389,14 +1420,6 @@
         }
       }
     },
-    "commonCreateUserResponse": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/definitions/authUser"
-        }
-      }
-    },
     "commonDeleteRequest": {
       "type": "object",
       "properties": {
@@ -1430,8 +1453,9 @@
     "commonGetRequest": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey",
+          "title": "auth.Item item = 3;"
         }
       },
       "title": "Get"
@@ -1471,8 +1495,9 @@
     "commonHideTxRequest": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey",
+          "title": "auth.Item item = 1;"
         },
         "hidden_tx": {
           "$ref": "#/definitions/authHiddenTx"
@@ -1482,8 +1507,8 @@
     "commonHideTxResponse": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "hidden_txs": {
           "$ref": "#/definitions/authHiddenTxList"
@@ -1493,8 +1518,14 @@
     "commonHistoryRequest": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey"
+        },
+        "include_hidden": {
+          "type": "boolean"
+        },
+        "bookmark": {
+          "type": "string"
         }
       },
       "title": "History"
@@ -1502,9 +1533,12 @@
     "commonHistoryResponse": {
       "type": "object",
       "properties": {
-        "history": {
-          "$ref": "#/definitions/authHistory",
+        "key": {
+          "$ref": "#/definitions/authItemKey",
           "title": "repeated auth. s = 1;"
+        },
+        "history": {
+          "$ref": "#/definitions/authHistory"
         }
       }
     },
@@ -1518,8 +1552,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "num_attrs": {
           "type": "integer",
@@ -1550,10 +1584,11 @@
         },
         "limit": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "title": "auth.Item item = 3;"
         },
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey"
         }
       }
     },
@@ -1582,10 +1617,12 @@
           "type": "integer",
           "format": "int64"
         },
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey",
+          "title": "auth.Item item = 3;"
         }
-      }
+      },
+      "title": "List of a type"
     },
     "commonListResponse": {
       "type": "object",
@@ -1871,8 +1908,9 @@
     "commonUnHideTxRequest": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey",
+          "title": "auth.Item item = 1;"
         },
         "tx_id": {
           "type": "string"
@@ -1882,8 +1920,8 @@
     "commonUnHideTxResponse": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
+        "key": {
+          "$ref": "#/definitions/authItemKey"
         },
         "hidden_txs": {
           "$ref": "#/definitions/authHiddenTxList"
@@ -1908,6 +1946,12 @@
           "$ref": "#/definitions/authItem"
         }
       }
+    },
+    "identityIdentityBootstrapRequest": {
+      "type": "object"
+    },
+    "identityIdentityBootstrapResponse": {
+      "type": "object"
     },
     "protobufAny": {
       "type": "object",

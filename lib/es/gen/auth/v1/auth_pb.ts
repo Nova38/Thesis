@@ -574,11 +574,6 @@ export class Operation extends Message<Operation> {
   itemType = "";
 
   /**
-   * @generated from field: string secondary_item_type = 4;
-   */
-  secondaryItemType = "";
-
-  /**
    * @generated from field: google.protobuf.FieldMask paths = 5;
    */
   paths?: FieldMask;
@@ -594,7 +589,6 @@ export class Operation extends Message<Operation> {
     { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
     { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "secondary_item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "paths", kind: "message", T: FieldMask },
   ]);
 
@@ -695,6 +689,13 @@ export class Polices extends Message<Polices> {
    */
   itemPolicies: { [key: string]: PathPolicy } = {};
 
+  /**
+   * Default policy for all items
+   *
+   * @generated from field: auth.PathPolicy default_policy = 2;
+   */
+  defaultPolicy?: PathPolicy;
+
   constructor(data?: PartialMessage<Polices>) {
     super();
     proto3.util.initPartial(data, this);
@@ -704,6 +705,7 @@ export class Polices extends Message<Polices> {
   static readonly typeName = "auth.Polices";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "item_policies", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
+    { no: 2, name: "default_policy", kind: "message", T: PathPolicy },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Polices {
@@ -1133,36 +1135,17 @@ export class Collection extends Message<Collection> {
   name = "";
 
   /**
-   * @generated from field: string description = 3;
-   */
-  description = "";
-
-  /**
-   * @generated from field: auth.AuthType auth_type = 4;
+   * @generated from field: auth.AuthType auth_type = 3;
    */
   authType = AuthType.UNSPECIFIED;
 
   /**
-   * @generated from field: repeated string item_types = 5;
+   * @generated from field: repeated string item_types = 4;
    */
   itemTypes: string[] = [];
 
   /**
-   *  [(buf.validate.field).repeated.items = {
-   *   string: {prefix: "type.googleapis.com/"}
-   * }];
-   *
-   * @generated from field: repeated string reference_types = 6;
-   */
-  referenceTypes: string[] = [];
-
-  /**
-   * @generated from field: repeated string admin_key = 7;
-   */
-  adminKey: string[] = [];
-
-  /**
-   * @generated from field: auth.Polices default = 8;
+   * @generated from field: auth.Polices default = 5;
    */
   default?: Polices;
 
@@ -1176,12 +1159,9 @@ export class Collection extends Message<Collection> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
-    { no: 5, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 6, name: "reference_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 7, name: "admin_key", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 8, name: "default", kind: "message", T: Polices },
+    { no: 3, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
+    { no: 4, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 5, name: "default", kind: "message", T: Polices },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {
@@ -1212,24 +1192,14 @@ export class Collection extends Message<Collection> {
  */
 export class User extends Message<User> {
   /**
-   * @generated from field: string collection_id = 1;
-   */
-  collectionId = "";
-
-  /**
-   * @generated from field: string msp_id = 2;
+   * @generated from field: string msp_id = 1;
    */
   mspId = "";
 
   /**
-   * @generated from field: string user_id = 3;
+   * @generated from field: string user_id = 2;
    */
   userId = "";
-
-  /**
-   * @generated from field: string name = 4;
-   */
-  name = "";
 
   constructor(data?: PartialMessage<User>) {
     super();
@@ -1239,10 +1209,8 @@ export class User extends Message<User> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.User";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 1, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): User {

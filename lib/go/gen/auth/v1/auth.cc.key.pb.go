@@ -42,46 +42,6 @@ func (m *Collection) ItemKey() *ItemKey {
 	}
 	return key
 }
-func (m *User) ItemType() string {
-	return "auth.User"
-}
-func (m *User) KeyAttr() []string {
-	attr := []string{}
-	attr = append(attr, m.GetMspId())
-	attr = append(attr, m.GetUserId())
-	return attr
-}
-func (m *User) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.MspId = attr[0]
-	} else {
-		return
-	}
-	if len(attr) > 1 {
-		m.UserId = attr[1]
-	} else {
-		return
-	}
-	return
-}
-
-// Domain Item
-func (m *User) IsPrimary() bool {
-	return true
-}
-func (m *User) SetKey(key *ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
-	m.CollectionId = key.GetCollectionId()
-	return
-}
-func (m *User) ItemKey() *ItemKey {
-	key := &ItemKey{
-		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.User",
-		ItemIdParts:  m.KeyAttr(),
-	}
-	return key
-}
 func (m *Suggestion) ItemType() string {
 	return "auth.Suggestion"
 }

@@ -4,10 +4,14 @@
     "definitions": {
         "HistoryResponse": {
             "properties": {
-                "history": {
-                    "$ref": "#/definitions/auth.History",
+                "key": {
+                    "$ref": "#/definitions/auth.ItemKey",
                     "additionalProperties": true,
                     "description": "repeated auth. s = 1;"
+                },
+                "history": {
+                    "$ref": "#/definitions/auth.History",
+                    "additionalProperties": true
                 }
             },
             "additionalProperties": true,

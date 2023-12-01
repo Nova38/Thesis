@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package chaincode.auth.attributes;
+
+import "auth/v1/auth.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+
+service AttributesService {
+
+  rpc AttributesBootstrap (AttributesBootstrapRequest) returns (AttributesBootstrapResponse) {
+
+  }
+
+}
+
+
+message AttributesBootstrapRequest {
+
+}
+
+message  AttributesBootstrapResponse {
+
+}

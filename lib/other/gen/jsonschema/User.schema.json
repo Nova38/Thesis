@@ -4,16 +4,10 @@
     "definitions": {
         "User": {
             "properties": {
-                "collection_id": {
-                    "type": "string"
-                },
                 "msp_id": {
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             },

@@ -27,14 +27,6 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// req is empty
 	GetCurrentUser(ctx T) (res *GetCurrentUserResponse, err error)
 
-	// CreateUser
-	//
-	// # Operation:
-	//   - Domain: ACTION_CREATE
-	//
-	// req is empty
-	CreateUser(ctx T) (res *CreateUserResponse, err error)
-
 	// AuthorizeOperation
 	//
 	// # Operation:
@@ -107,36 +99,6 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_HIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
-	// Reference
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_VIEW
-	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
-
-	// ReferenceByItem
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_VIEW
-	ReferenceByItem(ctx T, req *ReferenceByItemRequest) (res *ReferenceByItemResponse, err error)
-
-	// ReferenceByPartialKey
-	//
-	// # Operation:
-	//   - Domain: ACTION_SUGGEST_VIEW
-	ReferenceByPartialKey(ctx T, req *ReferenceByPartialKeyRequest) (res *ReferenceByPartialKeyResponse, err error)
-
-	// ReferenceCreate
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_CREATE
-	ReferenceCreate(ctx T, req *ReferenceCreateRequest) (res *ReferenceCreateResponse, err error)
-
-	// ReferenceDelete
-	//
-	// # Operation:
-	//   - Domain: ACTION_REFERENCE_DELETE
-	ReferenceDelete(ctx T, req *ReferenceDeleteRequest) (res *ReferenceDeleteResponse, err error)
-
 	// Suggestion
 	//
 	// # Operation:
@@ -185,9 +147,6 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"ListByAttrs",
 		"History",
 		"HiddenTx",
-		"Reference",
-		"ReferenceByItem",
-		"ReferenceByPartialKey",
 		"Suggestion",
 		"SuggestionListByCollection",
 		"SuggestionByPartialKey",
@@ -200,11 +159,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
-		}, nil
-	case "CreateUser":
-		// action:ACTION_CREATE item_type:"User"
-		return &v1.Operation{
-			Action: 11,
 		}, nil
 	case "AuthorizeOperation":
 		// action:ACTION_UTILITY
@@ -265,31 +219,6 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_HIDE_TX
 		return &v1.Operation{
 			Action: 20,
-		}, nil
-	case "Reference":
-		// action:ACTION_REFERENCE_VIEW
-		return &v1.Operation{
-			Action: 23,
-		}, nil
-	case "ReferenceByItem":
-		// action:ACTION_REFERENCE_VIEW
-		return &v1.Operation{
-			Action: 23,
-		}, nil
-	case "ReferenceByPartialKey":
-		// action:ACTION_SUGGEST_VIEW
-		return &v1.Operation{
-			Action: 14,
-		}, nil
-	case "ReferenceCreate":
-		// action:ACTION_REFERENCE_CREATE
-		return &v1.Operation{
-			Action: 21,
-		}, nil
-	case "ReferenceDelete":
-		// action:ACTION_REFERENCE_DELETE
-		return &v1.Operation{
-			Action: 22,
 		}, nil
 	case "Suggestion":
 		// action:ACTION_SUGGEST_VIEW

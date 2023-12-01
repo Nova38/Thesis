@@ -83,7 +83,6 @@ message Operation {
   Action action = 1;
   string collection_id = 2;
   string item_type = 3;
-  string secondary_item_type = 4;
   google.protobuf.FieldMask paths = 5;
 }
 
@@ -171,6 +170,9 @@ message PathPolicy {
 message Polices {
   // key is the item type
   map<string, PathPolicy> item_policies = 1;
+
+  // Default policy for all items
+  PathPolicy default_policy = 2;
 }
 
 // // Access Control Entry for use in Hash Tree
@@ -291,17 +293,10 @@ message Collection {
   // The key for the ledger
   string collection_id  = 1 [(buf.validate.field).string.min_len = 1];
   string name           = 2 [(buf.validate.field).string.min_len = 1];
-  string description = 3;
-  AuthType auth_type = 4;
-  repeated string item_types = 5;
-  //  [(buf.validate.field).repeated.items = {
-  //   string: {prefix: "type.googleapis.com/"}
-  // }];
-  repeated string reference_types = 6;
+  AuthType auth_type    = 3;
+  repeated string item_types = 4;
 
-
-  repeated string admin_key = 7 [(buf.validate.field).repeated.min_items = 1];
-  Polices default = 8 [(buf.validate.field).required = true];
+  Polices default = 5 [(buf.validate.field).required = true];
 }
 
 // User

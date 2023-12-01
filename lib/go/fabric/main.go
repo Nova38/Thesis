@@ -1,14 +1,7 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"testing"
-
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	// "github.com/bufbuild/protovalidate-go"
-	// pb "github.com/nova38/thesis/lib/go/gen/rbac"
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	//	"google.golang.org/protobuf/reflect/protoreflect"
 	//	"google.golang.org/protobuf/reflect/protoregistry"
 	//	"google.golang.org/protobuf/types/known/anypb"
@@ -78,17 +71,4 @@ func main() {
 
 	// fmt.Println(user)
 
-	u, err := Unm(&authpb.User{}, str)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(*u)
-}
-
-func Unm[T common.ItemInterface](o T, s string) (obj *T, err error) {
-	bytes := []byte(s)
-	obj = new(T)
-
-	err = json.Unmarshal(bytes, obj)
-	return obj, err
 }

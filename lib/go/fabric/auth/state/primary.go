@@ -23,7 +23,10 @@ func UnmarshalPrimary[T common.ItemInterface](bytes []byte, obj T) (err error) {
 }
 func UnmarshalNewPrimary[T common.ItemInterface](bytes []byte, base T) (item T, err error) {
 	// item = new(T)
-	item = proto.Clone(base).(T)
+	item, ok := proto.Clone(base).(T)
+	if !ok {
+		return item, oops.Errorf("Failed to clone")
+	}
 	proto.Reset(item)
 
 	if err = json.Unmarshal(bytes, item); err != nil {

@@ -21,10 +21,7 @@ service GenericService {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
   }
-  rpc CreateUser(google.protobuf.Empty) returns (CreateUserResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_CREATE, item_type: "User"};
-  }
+
   // ──────────────────────────────── Invoke ───────────────────────────────────────
   // rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
   //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -110,45 +107,6 @@ service GenericService {
   }
 
 
-  // ════════════════════════════════ References ══════════════════════════════════
-  // ──────────────────────────────── Query ────────────────────────────────────────
-
-  rpc Reference(ReferenceRequest) returns (ReferenceResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-  }
-
-//  rpc ReferenceListByType(ReferenceListByTypeRequest) returns (ReferenceListByTypeResponse) {
-//    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-//    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-//  }
-
-  // rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
-  //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-  //   option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-  // }
-
-  rpc ReferenceByItem(ReferenceByItemRequest) returns (ReferenceByItemResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
-  }
-
-  rpc ReferenceByPartialKey(ReferenceByPartialKeyRequest) returns (ReferenceByPartialKeyResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
-  }
-
-  // ──────────────────────────────── Invoke ───────────────────────────────────────
-
-  rpc ReferenceCreate(ReferenceCreateRequest) returns (ReferenceCreateResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_REFERENCE_CREATE};
-  }
-
-  rpc ReferenceDelete(ReferenceDeleteRequest) returns (ReferenceDeleteResponse) {
-    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_REFERENCE_DELETE};
-  }
 
 
   // ════════════════════════════════ Suggestions ══════════════════════════════════
@@ -235,9 +193,6 @@ service GenericService {
     auth.Collection collection = 1;
   }
 
-  message CreateUserResponse {
-    auth.User user = 1;
-  }
 
 
 
@@ -247,17 +202,22 @@ service GenericService {
 
 // Get
 message GetRequest {
-  auth.Item item = 3;
+//  auth.Item item = 3;
+  auth.ItemKey key = 1;
+
 }
 
 message GetResponse {
   auth.Item item = 1;
 }
 
+// List of a type
 message ListRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Item item = 3;
+//  auth.Item item = 3;
+   auth.ItemKey key = 3;
+
 }
 message ListResponse {
   string bookmark = 1;
@@ -267,8 +227,11 @@ message ListResponse {
 message ListByCollectionRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Item item = 3;
+//  auth.Item item = 3;
+
+  auth.ItemKey key = 3;
 }
+
 message ListByCollectionResponse {
   string bookmark = 1;
   repeated auth.Item items = 2;
@@ -277,7 +240,7 @@ message ListByCollectionResponse {
 message ListByAttrsRequest {
   string bookmark = 1;
   uint32 limit = 2;
-  auth.Item item = 3;
+  auth.ItemKey key = 3;
   int32 num_attrs = 4;
 }
 message ListByAttrsResponse {
@@ -318,10 +281,18 @@ message DeleteResponse {
 
 // History
 message HistoryRequest {
-  auth.Item item = 1;
+
+  //  auth.Item item = 1;
+
+  auth.ItemKey key = 1;
+  bool include_hidden = 2;
+  string bookmark = 3;
+
 }
+
 message HistoryResponse {
   // repeated auth. s = 1;
+  auth.ItemKey key = 1;
   auth.History history = 2;
 }
 
@@ -337,80 +308,23 @@ message HiddenTxResponse {
 // ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 message HideTxRequest {
-  auth.Item item = 1;
+//  auth.Item item = 1;
+  auth.ItemKey key = 1;
   auth.HiddenTx hidden_tx = 2;
 }
 message HideTxResponse {
-  auth.Item item = 1;
+  auth.ItemKey key = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
 
 message UnHideTxRequest {
-  auth.Item item = 1;
+//  auth.Item item = 1;
+  auth.ItemKey key = 3;
   string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message UnHideTxResponse {
-  auth.Item item = 1;
+  auth.ItemKey key = 1;
   auth.HiddenTxList hidden_txs = 2;
-}
-
-// ════════════════════════════════ References ═════════════════════════════════════
-// ──────────────────────────────── Query ──────────────────────────────────────────
-message ReferenceRequest {
-  // buf:lint:ignore FIELD_SAME_TYPE
-  auth.ReferenceKey reference = 1;
-}
-message ReferenceResponse{
-  bool exists = 1;
-  auth.Reference reference = 2;
-}
-
-message ReferenceByCollectionRequest{
-  string bookmark = 1;
-  uint32 limit = 2;
-  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
-}
-message ReferenceByCollectionResponse{
-  string bookmark = 1;
-  repeated auth.ReferenceKey references = 2;
-}
-
-message ReferenceByPartialKeyRequest{
-  string bookmark = 1;
-  uint32 limit = 2;
-  auth.ReferenceKey reference = 3;
-}
-message ReferenceByPartialKeyResponse{
-  string bookmark = 1;
-  repeated auth.ReferenceKey references = 2;
-}
-
-// Get all of the collections
-message ReferenceByItemRequest{
-  string bookmark = 1;
-  uint32 limit = 2;
-  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
-  auth.ItemKey item_key = 4;
-}
-
-message ReferenceByItemResponse{
-  string bookmark = 1;
-  repeated auth.ReferenceKey references = 2;
-}
-
-// ──────────────────────────────── Invoke ───────────────────────────────────────
-
-message ReferenceCreateRequest{
-  auth.ReferenceKey ref_key = 1;
-}
-message ReferenceCreateResponse{
-  auth.ReferenceKey ref_key = 1;
-}
-message ReferenceDeleteRequest{
-  auth.ReferenceKey ref_key = 1;
-}
-message ReferenceDeleteResponse{
-  auth.ReferenceKey ref_key = 1;
 }
 
 
@@ -428,6 +342,7 @@ message SuggestionResponse {
 message SuggestionListRequest {
   string bookmark = 1;
   uint32 limit = 2;
+  auth.ItemKey key = 3;
   // auth.Item item = 3;
 }
 message SuggestionListResponse {

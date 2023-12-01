@@ -33,10 +33,9 @@ var Policies = map[string]authpb.Operation{
 		},
 	},
 	"Edit User Membership": {
-		Action:            authpb.Action_ACTION_REFERENCE_CREATE,
-		CollectionId:      "collection_id",
-		ItemType:          "auth.User",
-		SecondaryItemType: "auth.Role",
-		Paths:             &fieldmaskpb.FieldMask{},
+		Action:       authpb.Action_ACTION_REFERENCE_CREATE,
+		CollectionId: "collection_id",
+		ItemType:     "auth.UserMembership",
+		Paths:        &fieldmaskpb.FieldMask{},
 	},
 }

@@ -56,9 +56,6 @@
                 "item_type": {
                     "type": "string"
                 },
-                "secondary_item_type": {
-                    "type": "string"
-                },
                 "paths": {
                     "properties": {
                         "paths": {

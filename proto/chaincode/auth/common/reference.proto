@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package auth.common;
+
+import "auth/v1/auth.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+// ════════════════════════════════ References ══════════════════════════════════
+// ──────────────────────────────── Query ────────────────────────────────────────
+service ReferenceService {
+
+  rpc Reference(ReferenceRequest) returns (ReferenceResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+  //  rpc ReferenceListByType(ReferenceListByTypeRequest) returns (ReferenceListByTypeResponse) {
+  //    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  //  }
+
+  // rpc ReferenceByCollection(ReferenceByCollectionRequest) returns (ReferenceByCollectionResponse) {
+  //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //   option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  // }
+
+  rpc ReferenceByItem(ReferenceByItemRequest) returns (ReferenceByItemResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_REFERENCE_VIEW};
+  }
+
+  rpc ReferenceByPartialKey(ReferenceByPartialKeyRequest) returns (ReferenceByPartialKeyResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+  }
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+
+  rpc ReferenceCreate(ReferenceCreateRequest) returns (ReferenceCreateResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_REFERENCE_CREATE};
+  }
+
+  rpc ReferenceDelete(ReferenceDeleteRequest) returns (ReferenceDeleteResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (auth.operation) = {action: ACTION_REFERENCE_DELETE};
+  }
+
+
+}
+
+// ════════════════════════════════ References ═════════════════════════════════════
+// ──────────────────────────────── Query ──────────────────────────────────────────
+message ReferenceRequest {
+  // buf:lint:ignore FIELD_SAME_TYPE
+  auth.ReferenceKey reference = 1;
+}
+message ReferenceResponse{
+  bool exists = 1;
+  auth.Reference reference = 2;
+}
+
+message ReferenceByCollectionRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+}
+message ReferenceByCollectionResponse{
+  string bookmark = 1;
+  repeated auth.ReferenceKey references = 2;
+}
+
+message ReferenceByPartialKeyRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  auth.ReferenceKey reference = 3;
+}
+message ReferenceByPartialKeyResponse{
+  string bookmark = 1;
+  repeated auth.ReferenceKey references = 2;
+}
+
+// Get all of the collections
+message ReferenceByItemRequest{
+  string bookmark = 1;
+  uint32 limit = 2;
+  string collection_id = 3 [(buf.validate.field).string.min_len = 1];
+  auth.ItemKey item_key = 4;
+}
+
+message ReferenceByItemResponse{
+  string bookmark = 1;
+  repeated auth.ReferenceKey references = 2;
+}
+
+// ──────────────────────────────── Invoke ───────────────────────────────────────
+
+message ReferenceCreateRequest{
+  auth.ReferenceKey ref_key = 1;
+}
+message ReferenceCreateResponse{
+  auth.ReferenceKey ref_key = 1;
+}
+message ReferenceDeleteRequest{
+  auth.ReferenceKey ref_key = 1;
+}
+message ReferenceDeleteResponse{
+  auth.ReferenceKey ref_key = 1;
+}

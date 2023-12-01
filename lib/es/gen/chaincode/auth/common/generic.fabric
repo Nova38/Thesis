@@ -11,13 +11,6 @@
             {}
         ]
     },
-// CreateUser Empty
-    {
-        "invoke": "createUser",
-        "args": [
-            {}
-        ]
-    },
 // AuthorizeOperation AuthorizeOperationRequest
     {
         "invoke": "authorizeOperation",
@@ -29,28 +22,28 @@
     {
         "invoke": "get",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // List ListRequest
     {
         "invoke": "list",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // ListByCollection ListByCollectionRequest
     {
         "invoke": "listByCollection",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // ListByAttrs ListByAttrsRequest
     {
         "invoke": "listByAttrs",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // Create CreateRequest
@@ -78,7 +71,7 @@
     {
         "invoke": "history",
         "args": [
-            {"item":{"key":{},"value":{}}}
+            {"key":{}}
         ]
     },
 // HiddenTx HiddenTxRequest
@@ -92,49 +85,14 @@
     {
         "invoke": "hideTx",
         "args": [
-            {"item":{"key":{},"value":{}},"hiddenTx":{"timestamp":"1970-01-01T00:00:00Z"}}
+            {"key":{},"hiddenTx":{"timestamp":"1970-01-01T00:00:00Z"}}
         ]
     },
 // UnHideTx UnHideTxRequest
     {
         "invoke": "unHideTx",
         "args": [
-            {"item":{"key":{},"value":{}}}
-        ]
-    },
-// Reference ReferenceRequest
-    {
-        "invoke": "reference",
-        "args": [
-            {"reference":{"key1":{},"key2":{}}}
-        ]
-    },
-// ReferenceByItem ReferenceByItemRequest
-    {
-        "invoke": "referenceByItem",
-        "args": [
-            {"itemKey":{}}
-        ]
-    },
-// ReferenceByPartialKey ReferenceByPartialKeyRequest
-    {
-        "invoke": "referenceByPartialKey",
-        "args": [
-            {"reference":{"key1":{},"key2":{}}}
-        ]
-    },
-// ReferenceCreate ReferenceCreateRequest
-    {
-        "invoke": "referenceCreate",
-        "args": [
-            {"refKey":{"key1":{},"key2":{}}}
-        ]
-    },
-// ReferenceDelete ReferenceDeleteRequest
-    {
-        "invoke": "referenceDelete",
-        "args": [
-            {"refKey":{"key1":{},"key2":{}}}
+            {"key":{}}
         ]
     },
 // Suggestion SuggestionRequest

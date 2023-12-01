@@ -38,6 +38,12 @@
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
   
+- [chaincode/auth/attributes/attributes.proto](#chaincode_auth_attributes_attributes-proto)
+    - [AttributesBootstrapRequest](#chaincode-auth-attributes-AttributesBootstrapRequest)
+    - [AttributesBootstrapResponse](#chaincode-auth-attributes-AttributesBootstrapResponse)
+  
+    - [AttributesService](#chaincode-auth-attributes-AttributesService)
+  
 - [chaincode/auth/common/generic.proto](#chaincode_auth_common_generic-proto)
     - [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest)
     - [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse)
@@ -47,7 +53,6 @@
     - [CreateCollectionResponse](#auth-common-CreateCollectionResponse)
     - [CreateRequest](#auth-common-CreateRequest)
     - [CreateResponse](#auth-common-CreateResponse)
-    - [CreateUserResponse](#auth-common-CreateUserResponse)
     - [DeleteRequest](#auth-common-DeleteRequest)
     - [DeleteResponse](#auth-common-DeleteResponse)
     - [GetCurrentFullUserResponse](#auth-common-GetCurrentFullUserResponse)
@@ -66,18 +71,6 @@
     - [ListByCollectionResponse](#auth-common-ListByCollectionResponse)
     - [ListRequest](#auth-common-ListRequest)
     - [ListResponse](#auth-common-ListResponse)
-    - [ReferenceByCollectionRequest](#auth-common-ReferenceByCollectionRequest)
-    - [ReferenceByCollectionResponse](#auth-common-ReferenceByCollectionResponse)
-    - [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest)
-    - [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse)
-    - [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest)
-    - [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse)
-    - [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest)
-    - [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse)
-    - [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest)
-    - [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse)
-    - [ReferenceRequest](#auth-common-ReferenceRequest)
-    - [ReferenceResponse](#auth-common-ReferenceResponse)
     - [SuggestionApproveRequest](#auth-common-SuggestionApproveRequest)
     - [SuggestionApproveResponse](#auth-common-SuggestionApproveResponse)
     - [SuggestionByPartialKeyRequest](#auth-common-SuggestionByPartialKeyRequest)
@@ -102,6 +95,28 @@
     - [GenericService](#auth-common-GenericService)
   
 - [chaincode/auth/common/helper.proto](#chaincode_auth_common_helper-proto)
+- [chaincode/auth/common/reference.proto](#chaincode_auth_common_reference-proto)
+    - [ReferenceByCollectionRequest](#auth-common-ReferenceByCollectionRequest)
+    - [ReferenceByCollectionResponse](#auth-common-ReferenceByCollectionResponse)
+    - [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest)
+    - [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse)
+    - [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest)
+    - [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse)
+    - [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest)
+    - [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse)
+    - [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest)
+    - [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse)
+    - [ReferenceRequest](#auth-common-ReferenceRequest)
+    - [ReferenceResponse](#auth-common-ReferenceResponse)
+  
+    - [ReferenceService](#auth-common-ReferenceService)
+  
+- [chaincode/auth/identity/identity.proto](#chaincode_auth_identity_identity-proto)
+    - [IdentityBootstrapRequest](#chaincode-auth-identity-IdentityBootstrapRequest)
+    - [IdentityBootstrapResponse](#chaincode-auth-identity-IdentityBootstrapResponse)
+  
+    - [IdentityService](#chaincode-auth-identity-IdentityService)
+  
 - [chaincode/auth/rbac/schema/v1/rbac.proto](#chaincode_auth_rbac_schema_v1_rbac-proto)
 - [chaincode/ccbio/schema/v0/state.proto](#chaincode_ccbio_schema_v0_state-proto)
     - [Specimen](#ccbio-schema-v0-Specimen)
@@ -138,7 +153,7 @@
   
     - [SpecimenService](#ccbio-schema-v0-SpecimenService)
   
-- [chaincode/sample/v0/items.proto](#chaincode_sample_v0_items-proto)
+- [sample/v0/items.proto](#sample_v0_items-proto)
     - [Book](#sample-Book)
     - [Group](#sample-Group)
     - [SimpleItem](#sample-SimpleItem)
@@ -188,11 +203,8 @@ key := {COLLECTION}{COLLECTION_ID}
 | ----- | ---- | ----- | ----------- |
 | collection_id | [string](#string) |  | The key for the ledger |
 | name | [string](#string) |  |  |
-| description | [string](#string) |  |  |
 | auth_type | [AuthType](#auth-AuthType) |  |  |
 | item_types | [string](#string) | repeated |  |
-| reference_types | [string](#string) | repeated | [(buf.validate.field).repeated.items = { string: {prefix: &#34;type.googleapis.com/&#34;} }]; |
-| admin_key | [string](#string) | repeated |  |
 | default | [Polices](#auth-Polices) |  |  |
 
 
@@ -367,7 +379,6 @@ Examples
 | action | [Action](#auth-Action) |  |  |
 | collection_id | [string](#string) |  |  |
 | item_type | [string](#string) |  |  |
-| secondary_item_type | [string](#string) |  |  |
 | paths | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
 
 
@@ -419,6 +430,7 @@ This message is the tree node for operations on the state item
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | item_policies | [Polices.ItemPoliciesEntry](#auth-Polices-ItemPoliciesEntry) | repeated | key is the item type |
+| default_policy | [PathPolicy](#auth-PathPolicy) |  | Default policy for all items |
 
 
 
@@ -543,10 +555,8 @@ key := {USER}{USER_ID.msp_id}{USER_ID.id}
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
 | msp_id | [string](#string) |  |  |
 | user_id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
 
 
 
@@ -716,6 +726,52 @@ Action - The action to be performed during the operation
 
 
 
+<a name="chaincode_auth_attributes_attributes-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## chaincode/auth/attributes/attributes.proto
+
+
+
+<a name="chaincode-auth-attributes-AttributesBootstrapRequest"></a>
+
+### AttributesBootstrapRequest
+
+
+
+
+
+
+
+<a name="chaincode-auth-attributes-AttributesBootstrapResponse"></a>
+
+### AttributesBootstrapResponse
+
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="chaincode-auth-attributes-AttributesService"></a>
+
+### AttributesService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| AttributesBootstrap | [AttributesBootstrapRequest](#chaincode-auth-attributes-AttributesBootstrapRequest) | [AttributesBootstrapResponse](#chaincode-auth-attributes-AttributesBootstrapResponse) |  |
+
+ 
+
+
+
 <a name="chaincode_auth_common_generic-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -845,21 +901,6 @@ Create
 
 
 
-<a name="auth-common-CreateUserResponse"></a>
-
-### CreateUserResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| user | [auth.User](#auth-User) |  |  |
-
-
-
-
-
-
 <a name="auth-common-DeleteRequest"></a>
 
 ### DeleteRequest
@@ -933,7 +974,7 @@ Get
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
 
 
 
@@ -994,7 +1035,7 @@ HiddenTx
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 1; |
 | hidden_tx | [auth.HiddenTx](#auth-HiddenTx) |  |  |
 
 
@@ -1010,7 +1051,7 @@ HiddenTx
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
 | hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |  |  |
 
 
@@ -1026,7 +1067,9 @@ History
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| include_hidden | [bool](#bool) |  |  |
+| bookmark | [string](#string) |  |  |
 
 
 
@@ -1041,7 +1084,8 @@ History
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| history | [auth.History](#auth-History) |  | repeated auth. s = 1; |
+| key | [auth.ItemKey](#auth-ItemKey) |  | repeated auth. s = 1; |
+| history | [auth.History](#auth-History) |  |  |
 
 
 
@@ -1058,7 +1102,7 @@ History
 | ----- | ---- | ----- | ----------- |
 | bookmark | [string](#string) |  |  |
 | limit | [uint32](#uint32) |  |  |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
 | num_attrs | [int32](#int32) |  |  |
 
 
@@ -1091,8 +1135,8 @@ History
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| item | [auth.Item](#auth-Item) |  |  |
+| limit | [uint32](#uint32) |  | auth.Item item = 3; |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
 
 
 
@@ -1118,14 +1162,14 @@ History
 <a name="auth-common-ListRequest"></a>
 
 ### ListRequest
-
+List of a type
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | bookmark | [string](#string) |  |  |
 | limit | [uint32](#uint32) |  |  |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
 
 
 
@@ -1142,198 +1186,6 @@ History
 | ----- | ---- | ----- | ----------- |
 | bookmark | [string](#string) |  |  |
 | items | [auth.Item](#auth-Item) | repeated |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByCollectionRequest"></a>
-
-### ReferenceByCollectionRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| collection_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByCollectionResponse"></a>
-
-### ReferenceByCollectionResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByItemRequest"></a>
-
-### ReferenceByItemRequest
-Get all of the collections
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| collection_id | [string](#string) |  |  |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByItemResponse"></a>
-
-### ReferenceByItemResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByPartialKeyRequest"></a>
-
-### ReferenceByPartialKeyRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceByPartialKeyResponse"></a>
-
-### ReferenceByPartialKeyResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceCreateRequest"></a>
-
-### ReferenceCreateRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceCreateResponse"></a>
-
-### ReferenceCreateResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceDeleteRequest"></a>
-
-### ReferenceDeleteRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceDeleteResponse"></a>
-
-### ReferenceDeleteResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
-
-
-
-
-
-
-<a name="auth-common-ReferenceRequest"></a>
-
-### ReferenceRequest
-════════════════════════════════ References ═════════════════════════════════════
-──────────────────────────────── Query ──────────────────────────────────────────
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  | buf:lint:ignore FIELD_SAME_TYPE |
-
-
-
-
-
-
-<a name="auth-common-ReferenceResponse"></a>
-
-### ReferenceResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| exists | [bool](#bool) |  |  |
-| reference | [auth.Reference](#auth-Reference) |  |  |
 
 
 
@@ -1542,7 +1394,8 @@ Get all of the collections
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  | auth.Item item = 3; |
+| limit | [uint32](#uint32) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
 
 
 
@@ -1604,7 +1457,7 @@ Get all of the collections
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 1; |
 | tx_id | [string](#string) |  |  |
 
 
@@ -1620,7 +1473,7 @@ Get all of the collections
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
 | hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |  |  |
 
 
@@ -1673,7 +1526,6 @@ Get all of the collections
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetCurrentUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse) | ══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ────────────────────────────────────── rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) { option (auth.transaction_type) = TRANSACTION_TYPE_QUERY; option (auth.operation) = {action: ACTION_UTILITY}; } |
-| CreateUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [CreateUserResponse](#auth-common-CreateUserResponse) |  |
 | AuthorizeOperation | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse) |  |
 | Get | [GetRequest](#auth-common-GetRequest) | [GetResponse](#auth-common-GetResponse) |  |
 | List | [ListRequest](#auth-common-ListRequest) | [ListResponse](#auth-common-ListResponse) |  |
@@ -1686,11 +1538,6 @@ Get all of the collections
 | HiddenTx | [HiddenTxRequest](#auth-common-HiddenTxRequest) | [HiddenTxResponse](#auth-common-HiddenTxResponse) |  |
 | HideTx | [HideTxRequest](#auth-common-HideTxRequest) | [HideTxResponse](#auth-common-HideTxResponse) |  |
 | UnHideTx | [UnHideTxRequest](#auth-common-UnHideTxRequest) | [UnHideTxResponse](#auth-common-UnHideTxResponse) |  |
-| Reference | [ReferenceRequest](#auth-common-ReferenceRequest) | [ReferenceResponse](#auth-common-ReferenceResponse) |  |
-| ReferenceByItem | [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest) | [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse) |  |
-| ReferenceByPartialKey | [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest) | [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse) |  |
-| ReferenceCreate | [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest) | [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse) |  |
-| ReferenceDelete | [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest) | [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse) |  |
 | Suggestion | [SuggestionRequest](#auth-common-SuggestionRequest) | [SuggestionResponse](#auth-common-SuggestionResponse) |  |
 | SuggestionListByCollection | [SuggestionListByCollectionRequest](#auth-common-SuggestionListByCollectionRequest) | [SuggestionListByCollectionResponse](#auth-common-SuggestionListByCollectionResponse) |  |
 | SuggestionByPartialKey | [SuggestionByPartialKeyRequest](#auth-common-SuggestionByPartialKeyRequest) | [SuggestionByPartialKeyResponse](#auth-common-SuggestionByPartialKeyResponse) |  |
@@ -1713,6 +1560,275 @@ Get all of the collections
  
 
  
+
+ 
+
+
+
+<a name="chaincode_auth_common_reference-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## chaincode/auth/common/reference.proto
+
+
+
+<a name="auth-common-ReferenceByCollectionRequest"></a>
+
+### ReferenceByCollectionRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| limit | [uint32](#uint32) |  |  |
+| collection_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceByCollectionResponse"></a>
+
+### ReferenceByCollectionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceByItemRequest"></a>
+
+### ReferenceByItemRequest
+Get all of the collections
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| limit | [uint32](#uint32) |  |  |
+| collection_id | [string](#string) |  |  |
+| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceByItemResponse"></a>
+
+### ReferenceByItemResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceByPartialKeyRequest"></a>
+
+### ReferenceByPartialKeyRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| limit | [uint32](#uint32) |  |  |
+| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceByPartialKeyResponse"></a>
+
+### ReferenceByPartialKeyResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| bookmark | [string](#string) |  |  |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceCreateRequest"></a>
+
+### ReferenceCreateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceCreateResponse"></a>
+
+### ReferenceCreateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceDeleteRequest"></a>
+
+### ReferenceDeleteRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceDeleteResponse"></a>
+
+### ReferenceDeleteResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+
+
+
+
+
+
+<a name="auth-common-ReferenceRequest"></a>
+
+### ReferenceRequest
+════════════════════════════════ References ═════════════════════════════════════
+──────────────────────────────── Query ──────────────────────────────────────────
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  | buf:lint:ignore FIELD_SAME_TYPE |
+
+
+
+
+
+
+<a name="auth-common-ReferenceResponse"></a>
+
+### ReferenceResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| exists | [bool](#bool) |  |  |
+| reference | [auth.Reference](#auth-Reference) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="auth-common-ReferenceService"></a>
+
+### ReferenceService
+════════════════════════════════ References ══════════════════════════════════
+──────────────────────────────── Query ────────────────────────────────────────
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Reference | [ReferenceRequest](#auth-common-ReferenceRequest) | [ReferenceResponse](#auth-common-ReferenceResponse) |  |
+| ReferenceByItem | [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest) | [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse) |  |
+| ReferenceByPartialKey | [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest) | [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse) |  |
+| ReferenceCreate | [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest) | [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse) |  |
+| ReferenceDelete | [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest) | [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse) |  |
+
+ 
+
+
+
+<a name="chaincode_auth_identity_identity-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## chaincode/auth/identity/identity.proto
+
+
+
+<a name="chaincode-auth-identity-IdentityBootstrapRequest"></a>
+
+### IdentityBootstrapRequest
+
+
+
+
+
+
+
+<a name="chaincode-auth-identity-IdentityBootstrapResponse"></a>
+
+### IdentityBootstrapResponse
+
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="chaincode-auth-identity-IdentityService"></a>
+
+### IdentityService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| IdentityBootstrap | [IdentityBootstrapRequest](#chaincode-auth-identity-IdentityBootstrapRequest) | [IdentityBootstrapResponse](#chaincode-auth-identity-IdentityBootstrapResponse) |  |
 
  
 
@@ -2287,10 +2403,10 @@ Specimen functions
 
 
 
-<a name="chaincode_sample_v0_items-proto"></a>
+<a name="sample_v0_items-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## chaincode/sample/v0/items.proto
+## sample/v0/items.proto
 
 
 

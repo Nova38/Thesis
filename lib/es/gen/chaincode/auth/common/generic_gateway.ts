@@ -6,7 +6,7 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import type { JsonValue } from "@bufbuild/protobuf";
 import { Empty, IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, CreateRequest, CreateResponse, CreateUserResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -44,26 +44,6 @@ export class GenericServiceClient {
         }
         return promise.then(async (data) =>
              GetCurrentUserResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.CreateUser
-     */
-    async createUser(request: Empty, evaluate: bool ): Promise< CreateUserResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "CreateUser",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "CreateUser",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             CreateUserResponse.fromJson(data as JsonValue)
         );
     }
 
@@ -304,106 +284,6 @@ export class GenericServiceClient {
         }
         return promise.then(async (data) =>
              UnHideTxResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.Reference
-     */
-    async reference(request: ReferenceRequest, evaluate: bool ): Promise< ReferenceResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "Reference",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "Reference",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             ReferenceResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.ReferenceByItem
-     */
-    async referenceByItem(request: ReferenceByItemRequest, evaluate: bool ): Promise< ReferenceByItemResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "ReferenceByItem",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "ReferenceByItem",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             ReferenceByItemResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.ReferenceByPartialKey
-     */
-    async referenceByPartialKey(request: ReferenceByPartialKeyRequest, evaluate: bool ): Promise< ReferenceByPartialKeyResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "ReferenceByPartialKey",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "ReferenceByPartialKey",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             ReferenceByPartialKeyResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.ReferenceCreate
-     */
-    async referenceCreate(request: ReferenceCreateRequest, evaluate: bool ): Promise< ReferenceCreateResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "ReferenceCreate",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "ReferenceCreate",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             ReferenceCreateResponse.fromJson(data as JsonValue)
-        );
-    }
-
-    /**
-     * @generated from rpc auth.common.GenericService.ReferenceDelete
-     */
-    async referenceDelete(request: ReferenceDeleteRequest, evaluate: bool ): Promise< ReferenceDeleteResponse> {
-        if (evaluate) {
-            const promise = this.contract.evaluate(
-                "ReferenceDelete",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        } else {
-            const promise = this.contract.submit(
-                "ReferenceDelete",
-                $request.toJsonString(this.jsonWriteOptions)
-            )
-        }
-        return promise.then(async (data) =>
-             ReferenceDeleteResponse.fromJson(data as JsonValue)
         );
     }
 

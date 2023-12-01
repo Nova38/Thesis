@@ -22,9 +22,6 @@
                 "name": {
                     "type": "string"
                 },
-                "description": {
-                    "type": "string"
-                },
                 "auth_type": {
                     "enum": [
                         "AUTH_TYPE_UNSPECIFIED",
@@ -47,19 +44,6 @@
                     "title": "Auth Type"
                 },
                 "item_types": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "reference_types": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array",
-                    "description": "[(buf.validate.field).repeated.items = {   string: {prefix: \"type.googleapis.com/\"} }];"
-                },
-                "admin_key": {
                     "items": {
                         "type": "string"
                     },
@@ -151,6 +135,11 @@
                     },
                     "type": "object",
                     "description": "key is the item type"
+                },
+                "default_policy": {
+                    "$ref": "#/definitions/auth.PathPolicy",
+                    "additionalProperties": true,
+                    "description": "Default policy for all items"
                 }
             },
             "additionalProperties": true,

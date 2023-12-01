@@ -4,15 +4,12 @@ import (
 	"log/slog"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	pkgErrors "github.com/pkg/errors"
-
 	// "github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	ccpb "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
 )
 
 type ItemContractImpl struct {
@@ -41,12 +38,6 @@ func (o ItemContractImpl) GetCurrentUser(
 		return nil, oops.Wrap(err)
 	}
 
-	if state.PrimaryExists(ctx, res.GetUser()) {
-		res.Registered = true
-	} else {
-		res.Registered = false
-	}
-
 	return res, err
 }
 
@@ -71,28 +62,8 @@ func (o ItemContractImpl) AuthorizeOperation(
 	}, err
 }
 
-func (o ItemContractImpl) CreateUser(
-	ctx common.TxCtxInterface,
-) (res *ccpb.CreateUserResponse, err error) {
-	panic("not implemented")
-	// res = &ccpb.CreateUserResponse{}
-
-	// // if user exists, return error
-	// user, err := ctx.GetUserId()
-	// if err != nil {
-	// 	return nil, oops.Wrap(err)
-	// }
-
-	// // create user
-	// if err = state.Insert(ctx, user); err != nil {
-	// 	ctx.GetLogger().Error("User already exists or other error", slog.Any("error", err))
-	// 	return nil, oops.Wrap(err)
-	// }
-
-	return res, err
-}
-
 // ════════════════════════════════════ Item ═════════════════════════════════════
+
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
 func (o ItemContractImpl) Get(
@@ -109,13 +80,13 @@ func (o ItemContractImpl) Get(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
-		return nil, pkgErrors.Wrap(err, "UnPackItem")
+	if obj, err = common.ItemKeyToItem(req.GetKey()); err != nil {
+		return nil, oops.Wrap(err)
 	}
 
 	if err = state.PrimaryGet(ctx, obj); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", (err)))
-		return nil, err
+		return nil, oops.Wrap(err)
 	}
 
 	if msg, err = common.PackItem(obj); err != nil {
@@ -137,16 +108,14 @@ func (o ItemContractImpl) List(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	obj, err := common.UnPackItem(req.GetItem())
+
+	item, err := common.ItemKeyToItemType(req.GetKey())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
-	proto.Reset(obj)
-	// reset the item to its default state, so that we can get the full list
-
-	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
+	list, mk, err := state.PrimaryList(ctx, item, req.GetBookmark())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
@@ -174,14 +143,14 @@ func (o ItemContractImpl) ListByCollection(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	obj, err := common.UnPackItem(req.GetItem())
+	item, err := common.ItemKeyToItemType(req.GetKey())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	// proto.Reset(obj) // reset the item to its default state, so that we can get the full list
+	item.SetKey(&authpb.ItemKey{CollectionId: req.GetKey().GetCollectionId()})
 
-	list, mk, err := state.PrimaryList(ctx, obj, req.GetBookmark())
+	list, mk, err := state.PrimaryList(ctx, item, req.GetBookmark())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
@@ -210,13 +179,13 @@ func (o ItemContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	obj, err := common.UnPackItem(req.GetItem())
+	item, err := common.ItemKeyToItem(req.GetKey())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
 
-	list, mk, err := state.PrimaryByPartialKey(ctx, obj, int(req.GetNumAttrs()), req.GetBookmark())
+	list, mk, err := state.PrimaryByPartialKey(ctx, item, int(req.GetNumAttrs()), req.GetBookmark())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 
@@ -346,7 +315,8 @@ func (o ItemContractImpl) History(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	if obj, err = common.UnPackItem(req.GetItem()); err != nil {
+
+	if obj, err = common.ItemKeyToItem(req.GetKey()); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
@@ -357,6 +327,7 @@ func (o ItemContractImpl) History(
 	}
 
 	return &ccpb.HistoryResponse{
+		Key:     req.GetKey(),
 		History: h,
 	}, nil
 }
@@ -399,8 +370,9 @@ func (o ItemContractImpl) HideTx(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	// Get the item from the request
-	obj, err := common.UnPackItem(req.GetItem())
+	// Get the obj from the request
+
+	obj, err := common.ItemKeyToItem(req.GetKey())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
@@ -412,8 +384,10 @@ func (o ItemContractImpl) HideTx(
 		return nil, oops.Wrap(err)
 	}
 
+	// Get the obj from the request from world state to return it
+
 	return &ccpb.HideTxResponse{
-		Item:      req.GetItem(),
+		Key:       req.GetKey(),
 		HiddenTxs: list,
 	}, err
 }
@@ -428,7 +402,8 @@ func (o ItemContractImpl) UnHideTx(
 		return nil, oops.Wrap(err)
 	}
 	// Get the item from the request
-	obj, err := common.UnPackItem(req.GetItem())
+	//obj, err := common.UnPackItem(req.GetItem())
+	obj, err := common.ItemKeyToItem(req.GetKey())
 	if err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
@@ -441,173 +416,9 @@ func (o ItemContractImpl) UnHideTx(
 	}
 
 	return &ccpb.UnHideTxResponse{
-		Item:      req.GetItem(),
+		Key:       req.GetKey(),
 		HiddenTxs: list,
 	}, err
-}
-
-// ════════════════════════════════════ References ═════════════════════════════════
-// ──────────────────────────────────── Query ──────────────────────────────────────
-
-// Reference returns the reference if it exists
-func (o ItemContractImpl) Reference(
-	ctx common.TxCtxInterface,
-	req *ccpb.ReferenceRequest,
-) (res *ccpb.ReferenceResponse, err error) {
-	// todo: Reference
-
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-	if v, err := state.GetReference(ctx, req.GetReference()); err != nil {
-		return nil, oops.Wrap(err)
-	} else if v == nil && err == nil {
-		return &ccpb.ReferenceResponse{
-			Exists: false,
-		}, nil
-	}
-
-	return &ccpb.ReferenceResponse{
-		Exists: true,
-	}, nil
-}
-
-// ReferenceByPartialKey
-func (o ItemContractImpl) ReferenceByPartialKey(
-	ctx common.TxCtxInterface,
-	req *ccpb.ReferenceByPartialKeyRequest,
-) (res *ccpb.ReferenceByPartialKeyResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-	list, mk, err := state.PartialReferenceKeysList(
-		ctx,
-		req.GetReference(),
-		int(ctx.GetPageSize()),
-		req.GetBookmark(),
-	)
-	if err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-
-	res = &ccpb.ReferenceByPartialKeyResponse{
-		Bookmark:   mk,
-		References: list,
-	}
-	return res, nil
-}
-
-// // todo: ReferenceListByType
-// func (o ItemContractImpl) ReferenceByType(
-// 	ctx state.TxCtxInterface,
-// 	req *cc.ReferenceListByTypeRequest,
-// ) (res *cc.ReferenceListByTypeResponse, err error) {
-// 	// Validate the request
-// 	if err = ctx.Validate(req); err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-// 	list, mk, err := state.ReferenceByType(ctx, req.GetReferenceType(), req.GetBookmark())
-// 	if err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-
-// 	res = &cc.ReferenceListByTypeResponse{
-// 		Bookmark:   mk,
-// 		References: list,
-// 	}
-
-// 	return res, nil
-// }
-
-// todo: ReferenceByCollection
-// func (o ItemContractImpl) ReferenceByCollection(
-// 	ctx common.TxCtxInterface,
-// 	req *cc.ReferenceByCollectionRequest,
-// ) (res *cc.ReferenceByCollectionResponse, err error) {
-// 	// Validate the request
-// 	if err = ctx.Validate(req); err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-// 	list, mk, err := state.ReferenceKeysByCollection(ctx, req.GetCollectionId(), req.GetBookmark(), "")
-// 	if err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-
-// 	res = &cc.ReferenceByCollectionResponse{
-// 		Bookmark:   mk,
-// 		References: list,
-// 	}
-
-// 	return res, nil
-// }
-
-// todo: ReferenceByItem
-func (o ItemContractImpl) ReferenceByItem(
-	ctx common.TxCtxInterface,
-	req *ccpb.ReferenceByItemRequest,
-) (res *ccpb.ReferenceByItemResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-	list, mk, err := state.ReferenceKeysByItem(ctx, req.GetItemKey(), req.GetBookmark())
-	if err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-
-	res = &ccpb.ReferenceByItemResponse{
-		Bookmark:   mk,
-		References: list,
-	}
-
-	return res, nil
-}
-
-// ──────────────────────────────────── Invoke ─────────────────────────────────────
-
-// ReferenceCreate creates a reference
-func (o ItemContractImpl) ReferenceCreate(
-	ctx common.TxCtxInterface,
-	req *ccpb.ReferenceCreateRequest,
-) (res *ccpb.ReferenceCreateResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-	if _, err = state.ReferenceCreate(ctx, req.GetRefKey()); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	return &ccpb.ReferenceCreateResponse{
-		RefKey: req.GetRefKey(),
-	}, nil
-}
-
-// ReferenceDelete deletes a reference
-func (o ItemContractImpl) ReferenceDelete(
-	ctx common.TxCtxInterface,
-	req *ccpb.ReferenceDeleteRequest,
-) (res *ccpb.ReferenceDeleteResponse, err error) {
-	// Validate the request
-	if err = ctx.Validate(req); err != nil {
-		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
-		return nil, oops.Wrap(err)
-	}
-	if err = state.ReferenceDelete(ctx, req.GetRefKey()); err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	return &ccpb.ReferenceDeleteResponse{
-		RefKey: req.GetRefKey(),
-	}, nil
 }
 
 // ════════════════════════════════════ Suggestions ════════════════════════════════

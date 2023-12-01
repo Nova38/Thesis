@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/IdentityBootstrapRequest",
+    "definitions": {
+        "IdentityBootstrapRequest": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Identity Bootstrap Request"
+        }
+    }
+}

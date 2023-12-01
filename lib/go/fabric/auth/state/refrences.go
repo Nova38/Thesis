@@ -308,18 +308,16 @@ func RefToOp(ref *authpb.ReferenceKey, action authpb.Action) (ops []*authpb.Oper
 	// ctx.GetLogger().Debug("RefToOp", slog.Group("ref", ref, "action", action))
 	return []*authpb.Operation{
 		{
-			Action:            action,
-			CollectionId:      ref.GetKey1().GetCollectionId(),
-			ItemType:          ref.GetKey1().GetItemType(),
-			SecondaryItemType: ref.GetKey2().GetItemType(),
-			Paths:             &fieldmaskpb.FieldMask{},
+			Action:       action,
+			CollectionId: ref.GetKey1().GetCollectionId(),
+			ItemType:     ref.GetKey1().GetItemType(),
+			Paths:        &fieldmaskpb.FieldMask{},
 		},
 		{
-			Action:            action,
-			CollectionId:      ref.GetKey2().GetCollectionId(),
-			ItemType:          ref.GetKey2().GetItemType(),
-			SecondaryItemType: ref.GetKey1().GetItemType(),
-			Paths:             &fieldmaskpb.FieldMask{},
+			Action:       action,
+			CollectionId: ref.GetKey2().GetCollectionId(),
+			ItemType:     ref.GetKey2().GetItemType(),
+			Paths:        &fieldmaskpb.FieldMask{},
 		},
 	}
 }

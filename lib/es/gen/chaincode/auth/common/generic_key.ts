@@ -29,9 +29,6 @@ import { Message } from "@bufbuild/protobuf";
 // CreateCollectionResponse 
 
 // Message
-// CreateUserResponse 
-
-// Message
 // GetRequest 
 
 // Message
@@ -96,42 +93,6 @@ import { Message } from "@bufbuild/protobuf";
 
 // Message
 // UnHideTxResponse 
-
-// Message
-// ReferenceRequest 
-
-// Message
-// ReferenceResponse 
-
-// Message
-// ReferenceByCollectionRequest 
-
-// Message
-// ReferenceByCollectionResponse 
-
-// Message
-// ReferenceByPartialKeyRequest 
-
-// Message
-// ReferenceByPartialKeyResponse 
-
-// Message
-// ReferenceByItemRequest 
-
-// Message
-// ReferenceByItemResponse 
-
-// Message
-// ReferenceCreateRequest 
-
-// Message
-// ReferenceCreateResponse 
-
-// Message
-// ReferenceDeleteRequest 
-
-// Message
-// ReferenceDeleteResponse 
 
 // Message
 // SuggestionRequest 

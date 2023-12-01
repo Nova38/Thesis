@@ -31,6 +31,7 @@ func ItemKeyToItemType(key *authpb.ItemKey) (item ItemInterface, err error) {
 	return item, nil
 }
 
+// ItemKeyToItem creates the item of the keys type and populates the item's key
 func ItemKeyToItem(key *authpb.ItemKey) (item ItemInterface, err error) {
 	item, err = ItemKeyToItemType(key)
 	if err != nil {
@@ -82,7 +83,6 @@ func PackItem(item ItemInterface) (obj *authpb.Item, err error) {
 	}
 
 	obj = &authpb.Item{
-		Key:   key,
 		Value: msg,
 	}
 
