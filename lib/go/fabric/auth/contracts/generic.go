@@ -8,17 +8,17 @@ import (
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	ccpb "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
+	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
 	"github.com/samber/oops"
 )
 
 type ItemContractImpl struct {
 	contractapi.Contract
-	ccpb.GenericServiceBase
+	cc.GenericServiceBase
 }
 
 // see if ItemContractImpl implements the interface GenericServiceInterface
-var _ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*ItemContractImpl)(nil)
+var _ cc.GenericServiceInterface[common.TxCtxInterface] = (*ItemContractImpl)(nil)
 
 // ════════════════════════════════════ Init ═══════════════════════════════════════
 
@@ -27,9 +27,9 @@ var _ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*ItemContractImpl)(
 
 func (o ItemContractImpl) GetCurrentUser(
 	ctx common.TxCtxInterface,
-) (res *ccpb.GetCurrentUserResponse, err error) {
+) (res *cc.GetCurrentUserResponse, err error) {
 
-	res = &ccpb.GetCurrentUserResponse{}
+	res = &cc.GetCurrentUserResponse{}
 
 	res.User, err = ctx.GetUserId()
 
@@ -45,8 +45,8 @@ func (o ItemContractImpl) GetCurrentUser(
 
 func (o ItemContractImpl) AuthorizeOperation(
 	ctx common.TxCtxInterface,
-	req *ccpb.AuthorizeOperationRequest,
-) (res *ccpb.AuthorizeOperationResponse, err error) {
+	req *cc.AuthorizeOperationRequest,
+) (res *cc.AuthorizeOperationResponse, err error) {
 
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -57,9 +57,22 @@ func (o ItemContractImpl) AuthorizeOperation(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, oops.Wrap(err)
 	}
-	return &ccpb.AuthorizeOperationResponse{
+	return &cc.AuthorizeOperationResponse{
 		Authorized: authorized,
 	}, err
+}
+
+func (o ItemContractImpl) Bootstrap(
+	ctx common.TxCtxInterface,
+	req *cc.BootstrapRequest,
+) (res *cc.BootstrapResponse, err error) {
+	if err = ctx.Validate(req); err != nil {
+		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
+		return nil, oops.Wrap(err)
+	}
+	// TODO: implement bootstrap
+
+	return &cc.BootstrapResponse{}, oops.Errorf("not implemented")
 }
 
 // ════════════════════════════════════ Item ═════════════════════════════════════
@@ -68,8 +81,8 @@ func (o ItemContractImpl) AuthorizeOperation(
 
 func (o ItemContractImpl) Get(
 	ctx common.TxCtxInterface,
-	req *ccpb.GetRequest,
-) (res *ccpb.GetResponse, err error) {
+	req *cc.GetRequest,
+) (res *cc.GetResponse, err error) {
 	var (
 		obj common.ItemInterface
 		msg *authpb.Item
@@ -93,7 +106,7 @@ func (o ItemContractImpl) Get(
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 		return nil, err
 	} else {
-		return &ccpb.GetResponse{
+		return &cc.GetResponse{
 			Item: msg,
 		}, nil
 	}
@@ -101,8 +114,8 @@ func (o ItemContractImpl) Get(
 
 func (o ItemContractImpl) List(
 	ctx common.TxCtxInterface,
-	req *ccpb.ListRequest,
-) (res *ccpb.ListResponse, err error) {
+	req *cc.ListRequest,
+) (res *cc.ListResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -121,7 +134,7 @@ func (o ItemContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	res = &ccpb.ListResponse{
+	res = &cc.ListResponse{
 		Bookmark: mk,
 		Items:    []*authpb.Item{},
 	}
@@ -136,8 +149,8 @@ func (o ItemContractImpl) List(
 
 func (o ItemContractImpl) ListByCollection(
 	ctx common.TxCtxInterface,
-	req *ccpb.ListByCollectionRequest,
-) (res *ccpb.ListByCollectionResponse, err error) {
+	req *cc.ListByCollectionRequest,
+) (res *cc.ListByCollectionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -156,7 +169,7 @@ func (o ItemContractImpl) ListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	res = &ccpb.ListByCollectionResponse{
+	res = &cc.ListByCollectionResponse{
 		Bookmark: mk,
 		Items:    []*authpb.Item{},
 	}
@@ -171,8 +184,8 @@ func (o ItemContractImpl) ListByCollection(
 
 func (o ItemContractImpl) ListByAttrs(
 	ctx common.TxCtxInterface,
-	req *ccpb.ListByAttrsRequest,
-) (res *ccpb.ListByAttrsResponse, err error) {
+	req *cc.ListByAttrsRequest,
+) (res *cc.ListByAttrsResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -192,7 +205,7 @@ func (o ItemContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	res = &ccpb.ListByAttrsResponse{
+	res = &cc.ListByAttrsResponse{
 		Bookmark: mk,
 		Items:    []*authpb.Item{},
 	}
@@ -209,8 +222,8 @@ func (o ItemContractImpl) ListByAttrs(
 
 func (o ItemContractImpl) Create(
 	ctx common.TxCtxInterface,
-	req *ccpb.CreateRequest,
-) (res *ccpb.CreateResponse, err error) {
+	req *cc.CreateRequest,
+) (res *cc.CreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -230,15 +243,15 @@ func (o ItemContractImpl) Create(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.CreateResponse{
+	return &cc.CreateResponse{
 		Item: req.GetItem(),
 	}, err
 }
 
 func (o ItemContractImpl) Update(
 	ctx common.TxCtxInterface,
-	req *ccpb.UpdateRequest,
-) (res *ccpb.UpdateResponse, err error) {
+	req *cc.UpdateRequest,
+) (res *cc.UpdateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -260,7 +273,7 @@ func (o ItemContractImpl) Update(
 	if item, err := common.PackItem(updated); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
-		res = &ccpb.UpdateResponse{
+		res = &cc.UpdateResponse{
 			Item: item,
 		}
 	}
@@ -270,8 +283,8 @@ func (o ItemContractImpl) Update(
 
 func (o ItemContractImpl) Delete(
 	ctx common.TxCtxInterface,
-	req *ccpb.DeleteRequest,
-) (res *ccpb.DeleteResponse, err error) {
+	req *cc.DeleteRequest,
+) (res *cc.DeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -294,7 +307,7 @@ func (o ItemContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.DeleteResponse{
+	return &cc.DeleteResponse{
 		Item: item,
 	}, err
 }
@@ -304,8 +317,8 @@ func (o ItemContractImpl) Delete(
 
 func (o ItemContractImpl) History(
 	ctx common.TxCtxInterface,
-	req *ccpb.HistoryRequest,
-) (res *ccpb.HistoryResponse, err error) {
+	req *cc.HistoryRequest,
+) (res *cc.HistoryResponse, err error) {
 	var (
 		obj common.ItemInterface
 		h   *authpb.History
@@ -326,7 +339,7 @@ func (o ItemContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.HistoryResponse{
+	return &cc.HistoryResponse{
 		Key:     req.GetKey(),
 		History: h,
 	}, nil
@@ -334,8 +347,8 @@ func (o ItemContractImpl) History(
 
 func (o ItemContractImpl) HiddenTx(
 	ctx common.TxCtxInterface,
-	req *ccpb.HiddenTxRequest,
-) (res *ccpb.HiddenTxResponse, err error) {
+	req *cc.HiddenTxRequest,
+) (res *cc.HiddenTxResponse, err error) {
 	var (
 		obj  common.ItemInterface
 		hTxs *authpb.HiddenTxList
@@ -353,7 +366,7 @@ func (o ItemContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.HiddenTxResponse{
+	return &cc.HiddenTxResponse{
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		HiddenTxs:    hTxs.GetTxs(),
 	}, nil
@@ -363,8 +376,8 @@ func (o ItemContractImpl) HiddenTx(
 
 func (o ItemContractImpl) HideTx(
 	ctx common.TxCtxInterface,
-	req *ccpb.HideTxRequest,
-) (res *ccpb.HideTxResponse, err error) {
+	req *cc.HideTxRequest,
+) (res *cc.HideTxResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -386,7 +399,7 @@ func (o ItemContractImpl) HideTx(
 
 	// Get the obj from the request from world state to return it
 
-	return &ccpb.HideTxResponse{
+	return &cc.HideTxResponse{
 		Key:       req.GetKey(),
 		HiddenTxs: list,
 	}, err
@@ -394,8 +407,8 @@ func (o ItemContractImpl) HideTx(
 
 func (o ItemContractImpl) UnHideTx(
 	ctx common.TxCtxInterface,
-	req *ccpb.UnHideTxRequest,
-) (res *ccpb.UnHideTxResponse, err error) {
+	req *cc.UnHideTxRequest,
+) (res *cc.UnHideTxResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -415,7 +428,7 @@ func (o ItemContractImpl) UnHideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.UnHideTxResponse{
+	return &cc.UnHideTxResponse{
 		Key:       req.GetKey(),
 		HiddenTxs: list,
 	}, err
@@ -426,8 +439,8 @@ func (o ItemContractImpl) UnHideTx(
 
 func (o ItemContractImpl) Suggestion(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionRequest,
-) (res *ccpb.SuggestionResponse, err error) {
+	req *cc.SuggestionRequest,
+) (res *cc.SuggestionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -442,15 +455,15 @@ func (o ItemContractImpl) Suggestion(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.SuggestionResponse{
+	return &cc.SuggestionResponse{
 		Suggestion: sug,
 	}, nil
 }
 
 func (o ItemContractImpl) SuggestionListByCollection(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionListByCollectionRequest,
-) (res *ccpb.SuggestionListByCollectionResponse, err error) {
+	req *cc.SuggestionListByCollectionRequest,
+) (res *cc.SuggestionListByCollectionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -462,7 +475,7 @@ func (o ItemContractImpl) SuggestionListByCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	res = &ccpb.SuggestionListByCollectionResponse{
+	res = &cc.SuggestionListByCollectionResponse{
 		Bookmark:    mk,
 		Suggestions: list,
 	}
@@ -472,8 +485,8 @@ func (o ItemContractImpl) SuggestionListByCollection(
 
 func (o ItemContractImpl) SuggestionByPartialKey(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionByPartialKeyRequest,
-) (res *ccpb.SuggestionByPartialKeyResponse, err error) {
+	req *cc.SuggestionByPartialKeyRequest,
+) (res *cc.SuggestionByPartialKeyResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -494,7 +507,7 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 		return nil, oops.Wrap(err)
 	}
 
-	res = &ccpb.SuggestionByPartialKeyResponse{
+	res = &cc.SuggestionByPartialKeyResponse{
 		Bookmark:    mk,
 		Suggestions: list,
 	}
@@ -506,8 +519,8 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 
 func (o ItemContractImpl) SuggestionCreate(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionCreateRequest,
-) (res *ccpb.SuggestionCreateResponse, err error) {
+	req *cc.SuggestionCreateRequest,
+) (res *cc.SuggestionCreateResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -518,15 +531,15 @@ func (o ItemContractImpl) SuggestionCreate(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.SuggestionCreateResponse{
+	return &cc.SuggestionCreateResponse{
 		Suggestion: req.GetSuggestion(),
 	}, nil
 }
 
 func (o ItemContractImpl) SuggestionDelete(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionDeleteRequest,
-) (res *ccpb.SuggestionDeleteResponse, err error) {
+	req *cc.SuggestionDeleteRequest,
+) (res *cc.SuggestionDeleteResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -541,15 +554,15 @@ func (o ItemContractImpl) SuggestionDelete(
 		return nil, oops.Wrap(err)
 	}
 
-	return &ccpb.SuggestionDeleteResponse{
+	return &cc.SuggestionDeleteResponse{
 		Suggestion: sug,
 	}, nil
 }
 
 func (o ItemContractImpl) SuggestionApprove(
 	ctx common.TxCtxInterface,
-	req *ccpb.SuggestionApproveRequest,
-) (res *ccpb.SuggestionApproveResponse, err error) {
+	req *cc.SuggestionApproveRequest,
+) (res *cc.SuggestionApproveResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
@@ -569,7 +582,7 @@ func (o ItemContractImpl) SuggestionApprove(
 	if updated, err := common.PackItem(*u); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
-		res = &ccpb.SuggestionApproveResponse{
+		res = &cc.SuggestionApproveResponse{
 			Item:       updated,
 			Suggestion: sug,
 		}

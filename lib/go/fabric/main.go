@@ -62,8 +62,6 @@ func main() {
 
 	// fmt.Println(item)
 
-	str := "{\"collectionId\":\"\",\"mspId\":\"Org1MSP\",\"name\":\"\",\"userId\":\"eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT\"}"
-
 	// bytes := []byte(str)
 
 	// user := &authpb.User{}

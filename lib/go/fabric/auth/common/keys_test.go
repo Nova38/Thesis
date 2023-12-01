@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	sample "github.com/nova38/thesis/lib/go/gen/chaincode/sample/v0"
+	sample "github.com/nova38/thesis/lib/go/gen/sample/v0"
 
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 )

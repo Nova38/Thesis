@@ -103,6 +103,10 @@ func (ctx *BaseTxCtx) EnabledHidden() bool {
 	return false
 }
 
+func (ctx *BaseTxCtx) PostActionProcessing(item common.ItemInterface, ops []*authpb.Operation) (err error) {
+	return nil
+}
+
 // ─────────────────────────────────────────────-
 // LoggedTxCtxInterface
 // ─────────────────────────────────────────────-

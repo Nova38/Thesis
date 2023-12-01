@@ -186,14 +186,9 @@ export class AuthorizeOperationResponse extends Message<AuthorizeOperationRespon
  */
 export class BootstrapRequest extends Message<BootstrapRequest> {
   /**
-   * @generated from field: repeated string default_types = 1;
+   * @generated from field: repeated auth.Collection collections = 1;
    */
-  defaultTypes: string[] = [];
-
-  /**
-   * @generated from field: bool add_default_setup = 2;
-   */
-  addDefaultSetup = false;
+  collections: Collection[] = [];
 
   constructor(data?: PartialMessage<BootstrapRequest>) {
     super();
@@ -203,8 +198,7 @@ export class BootstrapRequest extends Message<BootstrapRequest> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "auth.common.BootstrapRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "default_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-    { no: 2, name: "add_default_setup", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 1, name: "collections", kind: "message", T: Collection, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): BootstrapRequest {

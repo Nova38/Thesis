@@ -27,6 +27,11 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// req is empty
 	GetCurrentUser(ctx T) (res *GetCurrentUserResponse, err error)
 
+	// ──────────────────────────────── Invoke ───────────────────────────────────────
+	// # Operation:
+	//   - Domain: ACTION_UTILITY
+	Bootstrap(ctx T, req *BootstrapRequest) (res *BootstrapResponse, err error)
+
 	// AuthorizeOperation
 	//
 	// # Operation:
@@ -159,6 +164,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
+		}, nil
+	case "Bootstrap":
+		// action:ACTION_UTILITY
+		return &v1.Operation{
+			Action: 1,
 		}, nil
 	case "AuthorizeOperation":
 		// action:ACTION_UTILITY

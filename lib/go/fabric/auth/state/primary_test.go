@@ -10,12 +10,12 @@ import (
 func TestUnmarshalNewPrimary(t *testing.T) {
 	type args struct {
 		bytes []byte
-		base  *authpb.User
+		base  *authpb.UserMembership
 	}
 	tests := []struct {
 		name     string
 		args     args
-		wantItem *authpb.User
+		wantItem *authpb.UserMembership
 		wantErr  bool
 	}{
 		{
@@ -24,20 +24,19 @@ func TestUnmarshalNewPrimary(t *testing.T) {
 				bytes: []byte(
 					`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
 				),
-				base: &authpb.User{},
+				base: &authpb.UserMembership{},
 			},
-			wantItem: &authpb.User{
+			wantItem: &authpb.UserMembership{
 				CollectionId: "",
 				MspId:        "msp_id",
 				UserId:       "user_id",
-				Name:         "Name",
 			},
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotItem, err := UnmarshalNewPrimary[*authpb.User](tt.args.bytes, tt.args.base)
+			gotItem, err := UnmarshalNewPrimary[*authpb.UserMembership](tt.args.bytes, tt.args.base)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UnmarshalNewPrimary() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -52,12 +51,12 @@ func TestUnmarshalNewPrimary(t *testing.T) {
 func TestUnmarshalPrimary(t *testing.T) {
 	type args struct {
 		bytes []byte
-		obj   *authpb.User
+		obj   *authpb.UserMembership
 	}
 	tests := []struct {
 		name     string
 		args     args
-		wantItem *authpb.User
+		wantItem *authpb.UserMembership
 		wantErr  bool
 	}{{
 		name: "",
@@ -66,18 +65,17 @@ func TestUnmarshalPrimary(t *testing.T) {
 				`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
 			),
 		},
-		wantItem: &authpb.User{
+		wantItem: &authpb.UserMembership{
 			CollectionId: "",
 			MspId:        "msp_id",
 			UserId:       "user_id",
-			Name:         "Name",
 		},
 		wantErr: false,
 	},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotItem := new(authpb.User)
+			gotItem := new(authpb.UserMembership)
 
 			err := UnmarshalPrimary(tt.args.bytes, gotItem)
 			if (err != nil) != tt.wantErr {

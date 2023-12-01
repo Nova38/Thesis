@@ -7,6 +7,7 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
 	v1 "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -74,6 +75,7 @@ type (
 
 		// Validate - Validates the message
 		Validate(msg proto.Message) error
+		ErrorBase() oops.OopsErrorBuilder
 		// ─────────────────────────────────────────────────────────────────────
 
 		// ════════════════════════════════════════════════════════
@@ -122,8 +124,12 @@ type (
 		// # Requirements:
 		//   - User to be registered
 		// GetUser() (user *v1.User, err error)
-
 		// ─────────────────────────────────────────────────────────────────────
+
+		// PostActionProcessing - Used to modify the item after the action has been performed
+		// Before the item is saved to the state, this is used to add the
+		// last modified activity to the item
+		PostActionProcessing(item ItemInterface, ops []*v1.Operation) (err error)
 
 		// GetCollection - Gets the collection value from the state
 		//

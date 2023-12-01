@@ -127,7 +127,7 @@ func PrimaryGetFull[T common.ItemInterface](
 	}
 
 	// Get the history
-	fullItem.History, err = history(ctx, obj, true)
+	fullItem.History, err = getHistory(ctx, obj, true)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -264,12 +264,14 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	// Authorize the operation
-	auth, err := ctx.Authorize([]*authpb.Operation{{
+	ops := []*authpb.Operation{{
 		Action:       authpb.Action_ACTION_CREATE,
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		ItemType:     obj.ItemType(),
 		Paths:        nil,
-	}})
+	}}
+
+	auth, err := ctx.Authorize(ops)
 
 	if err != nil {
 		return oops.Wrap(err)
@@ -288,6 +290,8 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 			With("Key", key, "ItemType", obj.ItemType()).
 			Wrap(common.AlreadyExists)
 	}
+
+	ctx.PostActionProcessing(obj, ops)
 
 	if bytes, err := json.Marshal(obj); err != nil {
 		return oops.Hint("Failed To Marshal").Wrap(err)
@@ -360,9 +364,7 @@ func PrimaryUpdate[T common.ItemInterface](
 		return obj, oops.Wrap(err)
 	}
 
-	// Apply the mask to the Updating item
-	//fmutils.Filter(obj, mask.GetPaths())
-	//proto.Merge(current, obj)
+	// Update the item
 	fmutils.Overwrite(current, obj, mask.GetPaths())
 
 	// Put the item back into the ledger

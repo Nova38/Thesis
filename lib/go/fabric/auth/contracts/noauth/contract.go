@@ -7,6 +7,8 @@ import (
 	_ "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
 	_ "github.com/nova38/thesis/lib/go/gen/sample/v0"
 
+	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/common"
+
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/auth/serializer"
@@ -44,10 +46,13 @@ func BuildContract() *contractapi.ContractChaincode {
 // ═════════════════════════════════════════════
 
 // NoAuthContract is the contract for the NoAuth chaincode
-func (c *NoAuthContract) Bootstrap(ctx common.TxCtxInterface) error {
+func (c *NoAuthContract) Bootstrap(
+	ctx common.TxCtxInterface,
+	req *cc.BootstrapRequest,
+) (res *cc.BootstrapResponse, err error) {
 	ctx.GetLogger().Info("NoAuthContract.Boostrap")
 
-	return nil
+	return res, nil
 }
 
 // Test is a function that returns true

@@ -10,12 +10,6 @@ import (
 	"github.com/samber/oops"
 )
 
-type OperationChecker struct {
-	op         *authpb.Operation
-	collection *authpb.Collection
-	Acls       map[string]authpb.Polices
-}
-
 // ValidateOperation validates an operation against a collection,
 // returns true if valid, false otherwise.
 // Checks:
@@ -57,10 +51,6 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 		authpb.Action_ACTION_REFERENCE_CREATE,
 		authpb.Action_ACTION_REFERENCE_DELETE,
 		authpb.Action_ACTION_REFERENCE_VIEW:
-
-		if op.GetSecondaryItemType() == "" {
-			return false, oops.Errorf("Operation secondary item type is empty")
-		}
 
 		// found := slices.Contains(collection.GetReferenceTypes(), op.GetItemType())
 		// foundSecondary := slices.Contains(collection.GetReferenceTypes(), op.GetSecondaryItemType())

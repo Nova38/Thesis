@@ -817,8 +817,7 @@ Action - The action to be performed during the operation
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| default_types | [string](#string) | repeated |  |
-| add_default_setup | [bool](#bool) |  |  |
+| collections | [auth.Collection](#auth-Collection) | repeated |  |
 
 
 
@@ -1526,6 +1525,7 @@ List of a type
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetCurrentUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse) | ══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ────────────────────────────────────── rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) { option (auth.transaction_type) = TRANSACTION_TYPE_QUERY; option (auth.operation) = {action: ACTION_UTILITY}; } |
+| Bootstrap | [BootstrapRequest](#auth-common-BootstrapRequest) | [BootstrapResponse](#auth-common-BootstrapResponse) | ──────────────────────────────── Invoke ─────────────────────────────────────── |
 | AuthorizeOperation | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse) |  |
 | Get | [GetRequest](#auth-common-GetRequest) | [GetResponse](#auth-common-GetResponse) |  |
 | List | [ListRequest](#auth-common-ListRequest) | [ListResponse](#auth-common-ListResponse) |  |

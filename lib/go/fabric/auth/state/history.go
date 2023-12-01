@@ -71,7 +71,7 @@ func GetHistory[T common.ItemInterface](
 		return nil, oops.Wrap(common.UserPermissionDenied)
 	}
 
-	return history(ctx, obj, false)
+	return getHistory(ctx, obj, false)
 }
 
 func FullHistory[T common.ItemInterface](
@@ -96,7 +96,7 @@ func FullHistory[T common.ItemInterface](
 		return nil, oops.Wrap(common.UserPermissionDenied)
 	}
 
-	return history(ctx, obj, true)
+	return getHistory(ctx, obj, true)
 }
 
 func GetHiddenTx[T common.ItemInterface](
@@ -225,7 +225,7 @@ func UnHideTransaction[T common.ItemInterface](
 	return hidden, ctx.GetStub().PutState(key, bytes)
 }
 
-func history[T common.ItemInterface](
+func getHistory[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
 	showHidden bool,
@@ -236,10 +236,6 @@ func history[T common.ItemInterface](
 	if err != nil {
 		return nil, oops.With("Object", obj).Wrap(err)
 	}
-
-	// if !common.KeyExists(ctx, key) {
-	// 	return nil, oops.With("key", key).Wrap(common.KeyNotFound)
-	// }
 
 	history = &authpb.History{
 		Entries: []*authpb.HistoryEntry{},

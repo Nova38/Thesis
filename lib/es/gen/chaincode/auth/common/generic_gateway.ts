@@ -6,7 +6,7 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import type { JsonValue } from "@bufbuild/protobuf";
 import { Empty, IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -44,6 +44,28 @@ export class GenericServiceClient {
         }
         return promise.then(async (data) =>
              GetCurrentUserResponse.fromJson(data as JsonValue)
+        );
+    }
+
+    /**
+     * ──────────────────────────────── Invoke ───────────────────────────────────────
+     *
+     * @generated from rpc auth.common.GenericService.Bootstrap
+     */
+    async bootstrap(request: BootstrapRequest, evaluate: bool ): Promise< BootstrapResponse> {
+        if (evaluate) {
+            const promise = this.contract.evaluate(
+                "Bootstrap",
+                $request.toJsonString(this.jsonWriteOptions)
+            )
+        } else {
+            const promise = this.contract.submit(
+                "Bootstrap",
+                $request.toJsonString(this.jsonWriteOptions)
+            )
+        }
+        return promise.then(async (data) =>
+             BootstrapResponse.fromJson(data as JsonValue)
         );
     }
 

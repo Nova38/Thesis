@@ -18,8 +18,7 @@ auth.common.AuthorizeOperationRequest
 auth.common.AuthorizeOperationResponse
 	 -auth.common.AuthorizeOperationResponse.authorized - <nil>
 auth.common.BootstrapRequest
-	 -auth.common.BootstrapRequest.default_types - <nil>
-	 -auth.common.BootstrapRequest.add_default_setup - <nil>
+	 -auth.common.BootstrapRequest.collections - MessageDescriptor{Syntax: proto3, FullName: auth.Collection, Fields: [{Name: collection_id, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "collectionId"}, {Name: name, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "name"}, {Name: auth_type, Number: 3, Cardinality: optional, Kind: enum, HasJSONName: true, JSONName: "authType", Enum: auth.AuthType}, {Name: item_types, Number: 4, Cardinality: repeated, Kind: string, HasJSONName: true, JSONName: "itemTypes", IsList: true}, {Name: default, Number: 5, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "default", HasPresence: true, Message: auth.Polices}]}
 auth.common.BootstrapResponse
 	 -auth.common.BootstrapResponse.success - <nil>
 auth.common.CreateCollectionRequest

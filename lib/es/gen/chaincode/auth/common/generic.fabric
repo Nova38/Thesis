@@ -11,6 +11,13 @@
             {}
         ]
     },
+// Bootstrap BootstrapRequest
+    {
+        "invoke": "bootstrap",
+        "args": [
+            {}
+        ]
+    },
 // AuthorizeOperation AuthorizeOperationRequest
     {
         "invoke": "authorizeOperation",

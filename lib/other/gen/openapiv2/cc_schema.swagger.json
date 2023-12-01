@@ -54,6 +54,33 @@
         ]
       }
     },
+    "/auth.common.GenericService/Bootstrap": {
+      "post": {
+        "summary": "──────────────────────────────── Invoke ───────────────────────────────────────",
+        "operationId": "GenericService_Bootstrap",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonBootstrapRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
     "/auth.common.GenericService/Create": {
       "post": {
         "operationId": "GenericService_Create",
@@ -1170,6 +1197,42 @@
       "description": "# Action Groups\n  - UNSPECIFIED: null or not set\n  - REGISTER:    Used to register a new user or collection (always allowed)\n  - COLLECTION:  Used to manage collections permissions\n  - MEMBERSHIP:  Used to manage membership of a collection\n  - ITEM:      Used to manage items in a collection\n\n - ACTION_VIEW: View the contents of an item\n - ACTION_CREATE: Create a new item\n - key must not already exist\n - ACTION_UPDATE: Update an existing item\n  - key must already exist\n  - potential has paths\n - ACTION_DELETE: Delete an existing item, key must already exist\n - ACTION_SUGGEST_VIEW: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_CREATE: Suggest a change to an item, key must already exist\n - ACTION_SUGGEST_DELETE: Delete a suggestion, key must already exist\n - ACTION_SUGGEST_APPROVE: Approve a suggestion and apply it to the item, key must already exist",
       "title": "Action - The action to be performed during the operation"
     },
+    "authAuthType": {
+      "type": "string",
+      "enum": [
+        "AUTH_TYPE_UNSPECIFIED",
+        "AUTH_TYPE_NONE",
+        "AUTH_TYPE_ROLE",
+        "AUTH_TYPE_IDENTITY"
+      ],
+      "default": "AUTH_TYPE_UNSPECIFIED"
+    },
+    "authCollection": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string",
+          "title": "The key for the ledger"
+        },
+        "name": {
+          "type": "string"
+        },
+        "auth_type": {
+          "$ref": "#/definitions/authAuthType"
+        },
+        "item_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default": {
+          "$ref": "#/definitions/authPolices"
+        }
+      },
+      "description": "key := {COLLECTION}{COLLECTION_ID}",
+      "title": "Collection\n┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\nNote that the types of items are stored in the default ACLEntry"
+    },
     "authHiddenTx": {
       "type": "object",
       "properties": {
@@ -1301,6 +1364,52 @@
         }
       }
     },
+    "authPathPolicy": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "title": "The path is a sub path of a field mask"
+        },
+        "full_path": {
+          "type": "string"
+        },
+        "allow_sub_paths": {
+          "type": "boolean"
+        },
+        "sub_paths": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/authPathPolicy"
+          },
+          "title": "The key is a valid sub path in the type of state item"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/authAction"
+          },
+          "title": "If the policy is not set than use a parent policy unless nested policy is set"
+        }
+      },
+      "title": "This message is the tree node for operations on the state item"
+    },
+    "authPolices": {
+      "type": "object",
+      "properties": {
+        "item_policies": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/authPathPolicy"
+          },
+          "title": "key is the item type"
+        },
+        "default_policy": {
+          "$ref": "#/definitions/authPathPolicy",
+          "title": "Default policy for all items"
+        }
+      }
+    },
     "authReference": {
       "type": "object",
       "properties": {
@@ -1399,6 +1508,27 @@
       "type": "object",
       "properties": {
         "authorized": {
+          "type": "boolean"
+        }
+      }
+    },
+    "commonBootstrapRequest": {
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authCollection"
+          }
+        }
+      },
+      "title": "──────────────────────────────── Invoke ───────────────────────────────────────"
+    },
+    "commonBootstrapResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
           "type": "boolean"
         }
       }
