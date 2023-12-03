@@ -1,14 +1,14 @@
 package contract
 
 import (
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/state"
+	"github.com/nova38/thesis/packages/fabric/auth/state"
+	"github.com/nova38/thesis/packages/saacs/auth/common"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
+	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	pb "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v0"
 )
 
 var _ common.TxCtxInterface = (*CCBioTxCtx)(nil)

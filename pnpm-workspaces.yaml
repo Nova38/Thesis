@@ -1,8 +1,5 @@
 
 packages:
-  - 'app/api'
-  - 'app/api'
-  - 'app/web'
-  - 'caliper-workspace'
-  - 'tools/cmd/protoc-gen-es-hlf'
-  - 'lib/es/hlf_tools'
+  - './packages/**'
+  - './caliper'
+  - 'packages/cmd/protoc-gen-es-saacs'

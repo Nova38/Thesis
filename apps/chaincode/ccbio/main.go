@@ -8,7 +8,7 @@ package main
 // 	"time"
 
 // 	// "github.com/nova38/thesis/apps/chaincode/ccbio/context"
-// 	// schema "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v1"
+// 	// schema "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v1"
 
 // 	"google.golang.org/protobuf/types/known/timestamppb"
 

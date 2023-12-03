@@ -2,7 +2,7 @@ package contract
 
 import (
 	"github.com/mennanov/fmutils"
-	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
+	pb "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v0"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 )

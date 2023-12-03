@@ -3,7 +3,7 @@ package contract
 import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
-	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
+	pb "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v0"
 	"github.com/samber/oops"
 )
 

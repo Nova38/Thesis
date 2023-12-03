@@ -12,7 +12,7 @@ tasks:
   install:
     cmds:
 #      - go install ./tools/cmd/protoc-gen-cckey
-      - go install ./tools/cmd/protoc-gen-go-hlf
+      - go install ./packages/cmd/protoc-gen-go-saacs
   gen:cmd:
     deps:
       - install

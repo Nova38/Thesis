@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/contracts/noauth"
+	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/contracts/noauth"
 )
 
 // _ "net/http/pprof"

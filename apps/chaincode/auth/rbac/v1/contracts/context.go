@@ -1,9 +1,9 @@
 package rbac
 
 import (
-	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-	"github.com/nova38/thesis/lib/go/fabric/auth/state"
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
+	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/auth/state"
+	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 )
 
 var _ common.TxCtxInterface = (*AuthTxCtx)(nil)

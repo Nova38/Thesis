@@ -1,14 +1,14 @@
 package rbac
 
 // import (
-// 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
-// 	"github.com/nova38/thesis/lib/go/fabric/auth/state"
+// 	"github.com/nova38/thesis/packages/saacs/auth/common"
+// 	"github.com/nova38/thesis/packages/fabric/auth/state"
 // 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 // 	"github.com/samber/oops"
 
-// 	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-// 	cc "github.com/nova38/thesis/lib/go/gen/chaincode/auth/rbac/schema/v1"
+// 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+// 	cc "github.com/nova38/thesis/packages/saacs/genchaincode/auth/rbac/schema/v1"
 // )
 
 // func (a RbacContractImpl) GetMembershipByUser(

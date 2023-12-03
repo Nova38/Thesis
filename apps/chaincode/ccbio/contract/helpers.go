@@ -3,8 +3,8 @@ package contract
 import (
 	"strings"
 
-	authpb "github.com/nova38/thesis/lib/go/gen/auth/v1"
-	pb "github.com/nova38/thesis/lib/go/gen/chaincode/ccbio/schema/v0"
+	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	pb "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v0"
 	lop "github.com/samber/lo/parallel"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"

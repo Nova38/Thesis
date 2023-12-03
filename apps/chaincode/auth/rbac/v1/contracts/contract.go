@@ -1,6 +1,6 @@
 package rbac
 
-// base "github.com/nova38/thesis/lib/go/"
+// base "github.com/nova38/thesis/packages/"
 
 // Check if AuthContractImpl implements AuthServiceInterface
 // var (
