@@ -41,6 +41,7 @@
 
 
 \usepackage{tabularray}
+\usepackage{subfiles} % Best loaded last in the preamble
 
 
 
@@ -102,7 +103,9 @@
 
 % These are the chapters loaded using import instead of include.
 % For larger projects, import allows for nested files, which may be useful for figures organized in subfolders.
+
 \import{design/}{design}
+% \import{design/}{design}
 \import{chap_2/}{chap_2}
 
 \import{conclusion/}{conclusion}
@@ -118,6 +121,7 @@
 
 % Appendix, if needed.
 \appendix
+
 \import{appendix/}{appendix_1}
 \import{appendix/}{appendix_2}
 
