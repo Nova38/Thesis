@@ -16,13 +16,13 @@ type ReferenceServiceInterface[T common.GenericTxCtxInterface] interface {
 	// Reference
 	//
 	// # Operation:
-	//   - Domain: 32
+	//   - Domain: ACTION_REFERENCE_VIEW
 	Reference(ctx T, req *ReferenceRequest) (res *ReferenceResponse, err error)
 
 	// ReferenceByItem
 	//
 	// # Operation:
-	//   - Domain: 32
+	//   - Domain: ACTION_REFERENCE_VIEW
 	ReferenceByItem(ctx T, req *ReferenceByItemRequest) (res *ReferenceByItemResponse, err error)
 
 	// ReferenceByPartialKey
@@ -34,13 +34,13 @@ type ReferenceServiceInterface[T common.GenericTxCtxInterface] interface {
 	// ReferenceCreate
 	//
 	// # Operation:
-	//   - Domain: 30
+	//   - Domain: ACTION_REFERENCE_CREATE
 	ReferenceCreate(ctx T, req *ReferenceCreateRequest) (res *ReferenceCreateResponse, err error)
 
 	// ReferenceDelete
 	//
 	// # Operation:
-	//   - Domain: 31
+	//   - Domain: ACTION_REFERENCE_DELETE
 	ReferenceDelete(ctx T, req *ReferenceDeleteRequest) (res *ReferenceDeleteResponse, err error)
 }
 
@@ -58,12 +58,12 @@ func (s *ReferenceServiceBase) GetEvaluateTransactions() []string {
 func ReferenceServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 	switch txName {
 	case "Reference":
-		//action:32
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 32,
 		}, nil
 	case "ReferenceByItem":
-		//action:32
+		// action:ACTION_REFERENCE_VIEW
 		return &v1.Operation{
 			Action: 32,
 		}, nil
@@ -73,12 +73,12 @@ func ReferenceServiceGetTxOperation(txName string) (op *v1.Operation, err error)
 			Action: 14,
 		}, nil
 	case "ReferenceCreate":
-		//action:30
+		// action:ACTION_REFERENCE_CREATE
 		return &v1.Operation{
 			Action: 30,
 		}, nil
 	case "ReferenceDelete":
-		//action:31
+		// action:ACTION_REFERENCE_DELETE
 		return &v1.Operation{
 			Action: 31,
 		}, nil

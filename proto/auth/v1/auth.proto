@@ -160,7 +160,7 @@ message KeySchema {
   // The kind of item that the key is for
   ItemKind item_kind = 2;
   // The paths that make up the key
-  google.protobuf.FieldMask keys = 3;
+  google.protobuf.FieldMask properties   = 3;
 }
 
 // Can be used as the history entry
@@ -321,7 +321,7 @@ message History {
 // {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
 message Suggestion {
   option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-  option (key_schema).keys = {
+  option (key_schema).properties    = {
     paths: ["suggestion_id"]
   };
 
@@ -365,7 +365,7 @@ message Reference {
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
   option (key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (key_schema).keys = {
+  option (key_schema).properties   = {
     paths: ["collection_id"]
   };
 
@@ -394,7 +394,7 @@ message Collection {
 
 message Role {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys = {
+  option (auth.key_schema).properties   = {
     paths: ["role_id"]
   };
 
@@ -411,7 +411,7 @@ message Role {
 // users certificate for a given msp
 message Attribute {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys = {
+  option (auth.key_schema).properties   = {
     paths: [
       "msp_id",
       "oid",
@@ -437,7 +437,7 @@ message Attribute {
 // Membership is used to store permissions for a user in a collection
 message UserMembership {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys = {
+  option (auth.key_schema).properties   = {
     paths: [
       "msp_id",
       "user_id"
@@ -459,7 +459,7 @@ message UserMembership {
 
 message UserCollectionRoles {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys = {
+  option (auth.key_schema).properties   = {
     paths: [
       "msp_id",
       "user_id"

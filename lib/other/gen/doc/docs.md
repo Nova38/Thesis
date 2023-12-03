@@ -38,6 +38,19 @@
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
     - [File-level Extensions](#auth_v1_auth-proto-extensions)
   
+- [biochain/v1/state.proto](#biochain_v1_state-proto)
+    - [Specimen](#ccbio-schema-v0-Specimen)
+    - [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference)
+    - [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant)
+    - [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry)
+    - [Specimen.Image](#ccbio-schema-v0-Specimen-Image)
+    - [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry)
+    - [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan)
+    - [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry)
+    - [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary)
+    - [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary)
+    - [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon)
+  
 - [chaincode/auth/common/generic.proto](#chaincode_auth_common_generic-proto)
     - [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest)
     - [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse)
@@ -106,41 +119,7 @@
     - [ReferenceService](#auth-common-ReferenceService)
   
 - [chaincode/auth/rbac/schema/v1/rbac.proto](#chaincode_auth_rbac_schema_v1_rbac-proto)
-- [chaincode/ccbio/schema/v0/state.proto](#chaincode_ccbio_schema_v0_state-proto)
-    - [Specimen](#ccbio-schema-v0-Specimen)
-    - [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference)
-    - [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant)
-    - [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry)
-    - [Specimen.Image](#ccbio-schema-v0-Specimen-Image)
-    - [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry)
-    - [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan)
-    - [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry)
-    - [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary)
-    - [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary)
-    - [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon)
-  
 - [chaincode/ccbio/schema/v0/service.proto](#chaincode_ccbio_schema_v0_service-proto)
-    - [SpecimenCreateRequest](#ccbio-schema-v0-SpecimenCreateRequest)
-    - [SpecimenCreateResponse](#ccbio-schema-v0-SpecimenCreateResponse)
-    - [SpecimenDeleteRequest](#ccbio-schema-v0-SpecimenDeleteRequest)
-    - [SpecimenDeleteResponse](#ccbio-schema-v0-SpecimenDeleteResponse)
-    - [SpecimenGetByCollectionRequest](#ccbio-schema-v0-SpecimenGetByCollectionRequest)
-    - [SpecimenGetByCollectionResponse](#ccbio-schema-v0-SpecimenGetByCollectionResponse)
-    - [SpecimenGetHistoryRequest](#ccbio-schema-v0-SpecimenGetHistoryRequest)
-    - [SpecimenGetHistoryResponse](#ccbio-schema-v0-SpecimenGetHistoryResponse)
-    - [SpecimenGetListRequest](#ccbio-schema-v0-SpecimenGetListRequest)
-    - [SpecimenGetListResponse](#ccbio-schema-v0-SpecimenGetListResponse)
-    - [SpecimenGetRequest](#ccbio-schema-v0-SpecimenGetRequest)
-    - [SpecimenGetResponse](#ccbio-schema-v0-SpecimenGetResponse)
-    - [SpecimenHideTxRequest](#ccbio-schema-v0-SpecimenHideTxRequest)
-    - [SpecimenHideTxResponse](#ccbio-schema-v0-SpecimenHideTxResponse)
-    - [SpecimenUnHideTxRequest](#ccbio-schema-v0-SpecimenUnHideTxRequest)
-    - [SpecimenUnHideTxResponse](#ccbio-schema-v0-SpecimenUnHideTxResponse)
-    - [SpecimenUpdateRequest](#ccbio-schema-v0-SpecimenUpdateRequest)
-    - [SpecimenUpdateResponse](#ccbio-schema-v0-SpecimenUpdateResponse)
-  
-    - [SpecimenService](#ccbio-schema-v0-SpecimenService)
-  
 - [sample/v0/items.proto](#sample_v0_items-proto)
     - [Book](#sample-Book)
     - [Group](#sample-Group)
@@ -350,7 +329,7 @@ Examples
 | ----- | ---- | ----- | ----------- |
 | item_type | [string](#string) |  | The item type of the key |
 | item_kind | [ItemKind](#auth-ItemKind) |  | The kind of item that the key is for |
-| keys | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  | The paths that make up the key |
+| properties | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  | The paths that make up the key |
 
 
 
@@ -701,6 +680,242 @@ Membership is used to store permissions for a user in a collection
 | key_schema | KeySchema | .google.protobuf.MessageOptions | 54599 |  |
 | operation | Operation | .google.protobuf.MethodOptions | 57775 |  |
 | transaction_type | TransactionType | .google.protobuf.MethodOptions | 50556 |  |
+
+ 
+
+ 
+
+
+
+<a name="biochain_v1_state-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## biochain/v1/state.proto
+
+
+
+<a name="ccbio-schema-v0-Specimen"></a>
+
+### Specimen
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| collection_id | [string](#string) |  |  |
+| specimen_id | [string](#string) |  |  |
+| primary | [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary) |  |  |
+| secondary | [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary) |  |  |
+| taxon | [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon) |  |  |
+| georeference | [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference) |  |  |
+| images | [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry) | repeated |  |
+| loans | [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry) | repeated |  |
+| grants | [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry) | repeated |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Georeference"></a>
+
+### Specimen.Georeference
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| country | [string](#string) |  |  |
+| state_province | [string](#string) |  |  |
+| county | [string](#string) |  |  |
+| locality | [string](#string) |  |  |
+| latitude | [string](#string) |  |  |
+| longitude | [string](#string) |  |  |
+| habitat | [string](#string) |  |  |
+| notes | [string](#string) | repeated |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Grant"></a>
+
+### Specimen.Grant
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| granted_by | [string](#string) |  |  |
+| granted_to | [string](#string) |  |  |
+| granted_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-GrantsEntry"></a>
+
+### Specimen.GrantsEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Image"></a>
+
+### Specimen.Image
+Mapped Types
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| url | [string](#string) |  |  |
+| notes | [string](#string) |  |  |
+| hash | [string](#string) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-ImagesEntry"></a>
+
+### Specimen.ImagesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Specimen.Image](#ccbio-schema-v0-Specimen-Image) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Loan"></a>
+
+### Specimen.Loan
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| loaned_by | [string](#string) |  |  |
+| loaned_to | [string](#string) |  |  |
+| loaned_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-LoansEntry"></a>
+
+### Specimen.LoansEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Primary"></a>
+
+### Specimen.Primary
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| catalog_number | [string](#string) |  |  |
+| accession_number | [string](#string) |  |  |
+| field_number | [string](#string) |  |  |
+| tissue_number | [string](#string) |  |  |
+| cataloger | [string](#string) |  |  |
+| collector | [string](#string) |  |  |
+| determiner | [string](#string) |  |  |
+| field_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| catalog_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| determined_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| determined_reason | [string](#string) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Secondary"></a>
+
+### Specimen.Secondary
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| preparation | [string](#string) |  |  |
+| condition | [string](#string) |  |  |
+| notes | [string](#string) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+
+<a name="ccbio-schema-v0-Specimen-Taxon"></a>
+
+### Specimen.Taxon
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| kingdom | [string](#string) |  |  |
+| phylum | [string](#string) |  |  |
+| class | [string](#string) |  |  |
+| order | [string](#string) |  |  |
+| family | [string](#string) |  |  |
+| genus | [string](#string) |  |  |
+| species | [string](#string) |  |  |
+| subspecies | [string](#string) |  |  |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+
+
+
+
+
+ 
+
+ 
 
  
 
@@ -1740,554 +1955,17 @@ Get all of the collections
 
 
 
-<a name="chaincode_ccbio_schema_v0_state-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## chaincode/ccbio/schema/v0/state.proto
-
-
-
-<a name="ccbio-schema-v0-Specimen"></a>
-
-### Specimen
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-| primary | [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary) |  |  |
-| secondary | [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary) |  |  |
-| taxon | [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon) |  |  |
-| georeference | [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference) |  |  |
-| images | [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry) | repeated |  |
-| loans | [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry) | repeated |  |
-| grants | [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry) | repeated |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Georeference"></a>
-
-### Specimen.Georeference
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| country | [string](#string) |  |  |
-| state_province | [string](#string) |  |  |
-| county | [string](#string) |  |  |
-| locality | [string](#string) |  |  |
-| latitude | [string](#string) |  |  |
-| longitude | [string](#string) |  |  |
-| habitat | [string](#string) |  |  |
-| notes | [string](#string) | repeated |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Grant"></a>
-
-### Specimen.Grant
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| granted_by | [string](#string) |  |  |
-| granted_to | [string](#string) |  |  |
-| granted_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-GrantsEntry"></a>
-
-### Specimen.GrantsEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Image"></a>
-
-### Specimen.Image
-Mapped Types
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| url | [string](#string) |  |  |
-| notes | [string](#string) |  |  |
-| hash | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-ImagesEntry"></a>
-
-### Specimen.ImagesEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Image](#ccbio-schema-v0-Specimen-Image) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Loan"></a>
-
-### Specimen.Loan
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| loaned_by | [string](#string) |  |  |
-| loaned_to | [string](#string) |  |  |
-| loaned_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-LoansEntry"></a>
-
-### Specimen.LoansEntry
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Primary"></a>
-
-### Specimen.Primary
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| catalog_number | [string](#string) |  |  |
-| accession_number | [string](#string) |  |  |
-| field_number | [string](#string) |  |  |
-| tissue_number | [string](#string) |  |  |
-| cataloger | [string](#string) |  |  |
-| collector | [string](#string) |  |  |
-| determiner | [string](#string) |  |  |
-| field_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| catalog_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| determined_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| determined_reason | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Secondary"></a>
-
-### Specimen.Secondary
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| preparation | [string](#string) |  |  |
-| condition | [string](#string) |  |  |
-| notes | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-Specimen-Taxon"></a>
-
-### Specimen.Taxon
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| kingdom | [string](#string) |  |  |
-| phylum | [string](#string) |  |  |
-| class | [string](#string) |  |  |
-| order | [string](#string) |  |  |
-| family | [string](#string) |  |  |
-| genus | [string](#string) |  |  |
-| species | [string](#string) |  |  |
-| subspecies | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
 <a name="chaincode_ccbio_schema_v0_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## chaincode/ccbio/schema/v0/service.proto
 
 
-
-<a name="ccbio-schema-v0-SpecimenCreateRequest"></a>
-
-### SpecimenCreateRequest
-SpecimenCreate
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenCreateResponse"></a>
-
-### SpecimenCreateResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenDeleteRequest"></a>
-
-### SpecimenDeleteRequest
-SpecimenDelete
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenDeleteResponse"></a>
-
-### SpecimenDeleteResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetByCollectionRequest"></a>
-
-### SpecimenGetByCollectionRequest
-SpecimenGetByCollection
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetByCollectionResponse"></a>
-
-### SpecimenGetByCollectionResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimens | [Specimen](#ccbio-schema-v0-Specimen) | repeated |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetHistoryRequest"></a>
-
-### SpecimenGetHistoryRequest
-SpecimenGetHistory
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-| include_hidden | [bool](#bool) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetHistoryResponse"></a>
-
-### SpecimenGetHistoryResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| history | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetListRequest"></a>
-
-### SpecimenGetListRequest
-SpecimenGetList
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| page_size | [int32](#int32) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetListResponse"></a>
-
-### SpecimenGetListResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| specimens | [Specimen](#ccbio-schema-v0-Specimen) | repeated |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetRequest"></a>
-
-### SpecimenGetRequest
-Evaluate
-SpecimenGet
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  | Specimen.Id id = 1 [(buf.validate.field).required = true]; |
-| specimen_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenGetResponse"></a>
-
-### SpecimenGetResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenHideTxRequest"></a>
-
-### SpecimenHideTxRequest
-SpecimenHideTx
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-| tx | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenHideTxResponse"></a>
-
-### SpecimenHideTxResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenUnHideTxRequest"></a>
-
-### SpecimenUnHideTxRequest
-SpecimenUnHideTx
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-| tx | [auth.StateActivity](#auth-StateActivity) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenUnHideTxResponse"></a>
-
-### SpecimenUnHideTxResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenUpdateRequest"></a>
-
-### SpecimenUpdateRequest
-SpecimenUpdate
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-| update_mask | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
-
-
-
-
-
-
-<a name="ccbio-schema-v0-SpecimenUpdateResponse"></a>
-
-### SpecimenUpdateResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| specimen | [Specimen](#ccbio-schema-v0-Specimen) |  |  |
-| update_mask | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
-
-
-
-
-
  
 
  
 
  
-
-
-<a name="ccbio-schema-v0-SpecimenService"></a>
-
-### SpecimenService
-Specimen functions
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| SpecimenGet | [SpecimenGetRequest](#ccbio-schema-v0-SpecimenGetRequest) | [SpecimenGetResponse](#ccbio-schema-v0-SpecimenGetResponse) |  |
-| SpecimenGetList | [SpecimenGetListRequest](#ccbio-schema-v0-SpecimenGetListRequest) | [SpecimenGetListResponse](#ccbio-schema-v0-SpecimenGetListResponse) |  |
-| SpecimenGetByCollection | [SpecimenGetByCollectionRequest](#ccbio-schema-v0-SpecimenGetByCollectionRequest) | [SpecimenGetByCollectionResponse](#ccbio-schema-v0-SpecimenGetByCollectionResponse) |  |
-| SpecimenGetHistory | [SpecimenGetHistoryRequest](#ccbio-schema-v0-SpecimenGetHistoryRequest) | [SpecimenGetHistoryResponse](#ccbio-schema-v0-SpecimenGetHistoryResponse) |  |
-| SpecimenCreate | [SpecimenCreateRequest](#ccbio-schema-v0-SpecimenCreateRequest) | [SpecimenCreateResponse](#ccbio-schema-v0-SpecimenCreateResponse) |  |
-| SpecimenUpdate | [SpecimenUpdateRequest](#ccbio-schema-v0-SpecimenUpdateRequest) | [SpecimenUpdateResponse](#ccbio-schema-v0-SpecimenUpdateResponse) |  |
-| SpecimenDelete | [SpecimenDeleteRequest](#ccbio-schema-v0-SpecimenDeleteRequest) | [SpecimenDeleteResponse](#ccbio-schema-v0-SpecimenDeleteResponse) |  |
-| SpecimenHideTx | [SpecimenHideTxRequest](#ccbio-schema-v0-SpecimenHideTxRequest) | [SpecimenHideTxResponse](#ccbio-schema-v0-SpecimenHideTxResponse) |  |
-| SpecimenUnHideTx | [SpecimenUnHideTxRequest](#ccbio-schema-v0-SpecimenUnHideTxRequest) | [SpecimenUnHideTxResponse](#ccbio-schema-v0-SpecimenUnHideTxResponse) |  |
 
  
 

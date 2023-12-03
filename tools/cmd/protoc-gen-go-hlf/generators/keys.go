@@ -82,7 +82,7 @@ func (kg *KeyGenerator) GenerateMessage(
 		}
 	}
 
-	kp := keySchema.GetKeys()
+	kp := keySchema.GetProperties()
 	od := keySchema.GetItemKind()
 
 	// dCol := keySchema.GetDefaultCollectionId()
@@ -323,6 +323,7 @@ func toSubPaths(rawPaths string) []string {
 
 func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_KeySchema).(*authpb.KeySchema)
+
 	if !ok {
 		return nil
 	}

@@ -101,7 +101,7 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// UnHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_REFERENCE_CREATE
+	//   - Domain: ACTION_UNHIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
 	// GetSuggestion
@@ -226,7 +226,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 20,
 		}, nil
 	case "UnHideTx":
-		// action:ACTION_REFERENCE_CREATE
+		// action:ACTION_UNHIDE_TX
 		return &v1.Operation{
 			Action: 21,
 		}, nil

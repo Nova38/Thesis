@@ -1,296 +1,296 @@
-syntax = "proto3";
-
-package ccbio.schema.v0;
-
-import "buf/validate/validate.proto";
-// import "google/protobuf/timestamp.proto";
-
-// import "key/v1/key.proto";
-import "chaincode/ccbio/schema/v0/state.proto";
-
-import "google/protobuf/field_mask.proto";
-
-import "auth/v1/auth.proto";
-
-service SpecimenService{
-    //  // Specimen functions
-
-    // Evaluated
-
-    rpc SpecimenGet(SpecimenGetRequest) returns (SpecimenGetResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (auth.operation) = {
-        action: ACTION_VIEW;
-      };
-    };
-
-    rpc SpecimenGetList(SpecimenGetListRequest) returns (SpecimenGetListResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (auth.operation) = {action: ACTION_VIEW};
-    };
-
-    rpc SpecimenGetByCollection(SpecimenGetByCollectionRequest) returns (SpecimenGetByCollectionResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (auth.operation) = {action: ACTION_VIEW};
-    };
-
-    rpc SpecimenGetHistory(SpecimenGetHistoryRequest) returns (SpecimenGetHistoryResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-      option (auth.operation) = {action: ACTION_VIEW_HISTORY};
-    };
-
-
-    rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_CREATE};
-    };
-
-    rpc SpecimenUpdate(SpecimenUpdateRequest) returns (SpecimenUpdateResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_UPDATE};
-    };
-
-    rpc SpecimenDelete(SpecimenDeleteRequest) returns (SpecimenDeleteResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_DELETE};
-    };
-
-    rpc SpecimenHideTx(SpecimenHideTxRequest) returns (SpecimenHideTxResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_HIDE_TX};
-    };
-
-    rpc SpecimenUnHideTx(SpecimenUnHideTxRequest) returns (SpecimenUnHideTxResponse){
-      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-      option (auth.operation) = {action: ACTION_HIDE_TX};
-
-    };
-
-
-    // Suggest
-
-    // rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (GetSuggestedUpdateResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    //   option (auth.operation) = {action: ACTION_HIDE_HISTORY;};
-
-    // };
-
-    // rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (GetSuggestedUpdateBySpecimenResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
-    // };
-
-    // rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (GetSuggestedUpdateByCollectionResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
-
-    // };
-
-    // rpc GetSuggestedUpdateList(GetSuggestedUpdateListRequest) returns (GetSuggestedUpdateListResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
-
-    // };
-
-    // rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdateCreateResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_CREATE};
-
-    // };
-    // rpc SuggestedUpdateApprove(SuggestedUpdateApproveRequest) returns (SuggestedUpdateApproveResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_APPROVE};
-
-    // };
-    // rpc SuggestedUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdateRejectResponse){
-    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    //   option (auth.operation) = {action: ACTION_SUGGEST_DELETE};
-    // };
-}
-
-
-
-
-
-
-// Specimen
-
-  // Evaluate
-    // SpecimenGet
-      message SpecimenGetRequest {
-        // Specimen.Id id = 1 [(buf.validate.field).required = true];
-        string collection_id = 1 [(buf.validate.field).required = true];
-        string specimen_id = 2 [(buf.validate.field).required = true];
-      }
-      message SpecimenGetResponse {
-        Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-
-    // SpecimenGetList
-      message SpecimenGetListRequest {
-        string bookmark = 1;
-        int32 page_size = 2;
-      }
-      message SpecimenGetListResponse {
-        string bookmark = 1;
-        repeated Specimen specimens = 2;
-      }
-
-    // SpecimenGetByCollection
-      message SpecimenGetByCollectionRequest {
-        string collection_id = 1 [(buf.validate.field).required = true];
-      }
-      message SpecimenGetByCollectionResponse {
-        repeated Specimen specimens = 1;
-      }
-
-    // SpecimenGetHistory
-      message SpecimenGetHistoryRequest {
-        string collection_id = 1 [(buf.validate.field).required = true];
-        string specimen_id = 2 [(buf.validate.field).required = true];
-        bool include_hidden = 3 [(buf.validate.field).required = true];
-      }
-      message SpecimenGetHistoryResponse {
-        auth.StateActivity history = 1;
-      }
-
-
-  // Submit
-
-    // SpecimenCreate
-      message SpecimenCreateRequest {
-            Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-      message SpecimenCreateResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-
-    // SpecimenUpdate
-      message SpecimenUpdateRequest {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-          google.protobuf.FieldMask update_mask = 2;
-      }
-      message SpecimenUpdateResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-          google.protobuf.FieldMask update_mask = 2;
-      }
-
-
-    // SpecimenDelete
-      message SpecimenDeleteRequest {
-        string collection_id = 1 [(buf.validate.field).required = true];
-        string specimen_id = 2 [(buf.validate.field).required = true];
-      }
-      message SpecimenDeleteResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-
-    // SpecimenHideTx
-      message SpecimenHideTxRequest {
-        string collection_id  = 1 [(buf.validate.field).required = true];
-        string specimen_id    = 2 [(buf.validate.field).required = true];
-        auth.StateActivity tx = 3 [(buf.validate.field).required = true];
-      }
-      message SpecimenHideTxResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-
-    // SpecimenUnHideTx
-      message SpecimenUnHideTxRequest {
-        string collection_id  = 1 [(buf.validate.field).required = true];
-        string specimen_id    = 2 [(buf.validate.field).required = true];
-        auth.StateActivity tx = 3 [(buf.validate.field).required = true];
-      }
-      message SpecimenUnHideTxResponse {
-          Specimen specimen = 1 [(buf.validate.field).required = true];
-      }
-
-
-
-
-
-
-
-
-
-
-// SuggestedUpdate
-
-  // Evaluate
-
-    // // GetSuggestedUpdate
-    //   message GetSuggestedUpdateRequest {
-    //     SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-    //   }
-    //   message GetSuggestedUpdateResponse {
-    //     SuggestedUpdate suggested_update = 1;
-    //   }
-
-
-    // // GetSuggestedUpdateBySpecimen
-    //   message GetSuggestedUpdateBySpecimenRequest {
-    //     Specimen.Id id = 1 [(buf.validate.field).required = true];
-    //     string bookmark = 2;
-    //     int32 page_size = 3;
-
-    //   }
-    //   message GetSuggestedUpdateBySpecimenResponse {
-    //     string bookmark = 1;
-    //     repeated SuggestedUpdate suggested_updates = 2;
-    //   }
-
-    // // GetSuggestedUpdateByCollection
-    //   message GetSuggestedUpdateByCollectionRequest {
-    //     string collection_id = 1 [(buf.validate.field).required = true];
-    //     string bookmark = 2;
-    //     int32 page_size = 3;
-
-    //   }
-    //   message GetSuggestedUpdateByCollectionResponse {
-    //     string bookmark = 1;
-    //     repeated SuggestedUpdate suggested_updates = 2;
-    //   }
-
-    // // GetSuggestedUpdateListResponse
-    //   message GetSuggestedUpdateListRequest {
-    //     string bookmark = 1;
-    //     int32 page_size = 2;
-    //   }
-    //   message GetSuggestedUpdateListResponse {
-    //     string bookmark = 1;
-    //     repeated SuggestedUpdate suggested_updates = 2;
-    //   }
-
-
-
-
-  // // Submit
-
-  //   // SuggestedUpdateCreate
-  //     message SuggestedUpdateCreateRequest {
-  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-  //     }
-  //     message SuggestedUpdateCreateResponse {
-  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-  //     }
-
-  //   // SpecimenUpdateApprove
-  //     message SuggestedUpdateApproveRequest {
-  //         SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-  //         string comment = 2 [(buf.validate.field).required = true];
-  //     }
-  //     message SuggestedUpdateApproveResponse {
-  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-  //         Specimen specimen = 2 [(buf.validate.field).required = true];
-  //     }
-
-
-  //   // SpecimenUpdateReject
-  //     message SuggestedUpdateRejectRequest {
-  //         SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
-  //         string comment = 2 [(buf.validate.field).required = true];
-  //     }
-  //     message SuggestedUpdateRejectResponse {
-  //       SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
-
-  //     }
+//syntax = "proto3";
+//
+//package ccbio.schema.v0;
+//
+//import "buf/validate/validate.proto";
+//// import "google/protobuf/timestamp.proto";
+//
+//// import "key/v1/key.proto";
+//import "chaincode/ccbio/schema/v0/state.proto";
+//
+//import "google/protobuf/field_mask.proto";
+//
+//import "auth/v1/auth.proto";
+//
+//service SpecimenService{
+//    //  // Specimen functions
+//
+//    // Evaluated
+//
+//    rpc SpecimenGet(SpecimenGetRequest) returns (SpecimenGetResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (auth.operation) = {
+//        action: ACTION_VIEW;
+//      };
+//    };
+//
+//    rpc SpecimenGetList(SpecimenGetListRequest) returns (SpecimenGetListResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (auth.operation) = {action: ACTION_VIEW};
+//    };
+//
+//    rpc SpecimenGetByCollection(SpecimenGetByCollectionRequest) returns (SpecimenGetByCollectionResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (auth.operation) = {action: ACTION_VIEW};
+//    };
+//
+//    rpc SpecimenGetHistory(SpecimenGetHistoryRequest) returns (SpecimenGetHistoryResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//      option (auth.operation) = {action: ACTION_VIEW_HISTORY};
+//    };
+//
+//
+//    rpc SpecimenCreate(SpecimenCreateRequest) returns (SpecimenCreateResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//      option (auth.operation) = {action: ACTION_CREATE};
+//    };
+//
+//    rpc SpecimenUpdate(SpecimenUpdateRequest) returns (SpecimenUpdateResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//      option (auth.operation) = {action: ACTION_UPDATE};
+//    };
+//
+//    rpc SpecimenDelete(SpecimenDeleteRequest) returns (SpecimenDeleteResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//      option (auth.operation) = {action: ACTION_DELETE};
+//    };
+//
+//    rpc SpecimenHideTx(SpecimenHideTxRequest) returns (SpecimenHideTxResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//      option (auth.operation) = {action: ACTION_HIDE_TX};
+//    };
+//
+//    rpc SpecimenUnHideTx(SpecimenUnHideTxRequest) returns (SpecimenUnHideTxResponse){
+//      option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//      option (auth.operation) = {action: ACTION_HIDE_TX};
+//
+//    };
+//
+//
+//    // Suggest
+//
+//    // rpc GetSuggestedUpdate(GetSuggestedUpdateRequest) returns (GetSuggestedUpdateResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//    //   option (auth.operation) = {action: ACTION_HIDE_HISTORY;};
+//
+//    // };
+//
+//    // rpc GetSuggestedUpdateBySpecimen(GetSuggestedUpdateBySpecimenRequest) returns (GetSuggestedUpdateBySpecimenResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+//    // };
+//
+//    // rpc GetSuggestedUpdateByCollection(GetSuggestedUpdateByCollectionRequest) returns (GetSuggestedUpdateByCollectionResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+//
+//    // };
+//
+//    // rpc GetSuggestedUpdateList(GetSuggestedUpdateListRequest) returns (GetSuggestedUpdateListResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+//
+//    // };
+//
+//    // rpc SuggestedUpdateCreate(SuggestedUpdateCreateRequest) returns (SuggestedUpdateCreateResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_CREATE};
+//
+//    // };
+//    // rpc SuggestedUpdateApprove(SuggestedUpdateApproveRequest) returns (SuggestedUpdateApproveResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_APPROVE};
+//
+//    // };
+//    // rpc SuggestedUpdateReject(SuggestedUpdateRejectRequest) returns (SuggestedUpdateRejectResponse){
+//    //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
+//    //   option (auth.operation) = {action: ACTION_SUGGEST_DELETE};
+//    // };
+//}
+//
+//
+//
+//
+//
+//
+//// Specimen
+//
+//  // Evaluate
+//    // SpecimenGet
+//      message SpecimenGetRequest {
+//        // Specimen.Id id = 1 [(buf.validate.field).required = true];
+//        string collection_id = 1 [(buf.validate.field).required = true];
+//        string specimen_id = 2 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenGetResponse {
+//        Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//
+//    // SpecimenGetList
+//      message SpecimenGetListRequest {
+//        string bookmark = 1;
+//        int32 page_size = 2;
+//      }
+//      message SpecimenGetListResponse {
+//        string bookmark = 1;
+//        repeated Specimen specimens = 2;
+//      }
+//
+//    // SpecimenGetByCollection
+//      message SpecimenGetByCollectionRequest {
+//        string collection_id = 1 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenGetByCollectionResponse {
+//        repeated Specimen specimens = 1;
+//      }
+//
+//    // SpecimenGetHistory
+//      message SpecimenGetHistoryRequest {
+//        string collection_id = 1 [(buf.validate.field).required = true];
+//        string specimen_id = 2 [(buf.validate.field).required = true];
+//        bool include_hidden = 3 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenGetHistoryResponse {
+//        auth.StateActivity history = 1;
+//      }
+//
+//
+//  // Submit
+//
+//    // SpecimenCreate
+//      message SpecimenCreateRequest {
+//            Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenCreateResponse {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//
+//    // SpecimenUpdate
+//      message SpecimenUpdateRequest {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//          google.protobuf.FieldMask update_mask = 2;
+//      }
+//      message SpecimenUpdateResponse {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//          google.protobuf.FieldMask update_mask = 2;
+//      }
+//
+//
+//    // SpecimenDelete
+//      message SpecimenDeleteRequest {
+//        string collection_id = 1 [(buf.validate.field).required = true];
+//        string specimen_id = 2 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenDeleteResponse {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//
+//    // SpecimenHideTx
+//      message SpecimenHideTxRequest {
+//        string collection_id  = 1 [(buf.validate.field).required = true];
+//        string specimen_id    = 2 [(buf.validate.field).required = true];
+//        auth.StateActivity tx = 3 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenHideTxResponse {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//
+//    // SpecimenUnHideTx
+//      message SpecimenUnHideTxRequest {
+//        string collection_id  = 1 [(buf.validate.field).required = true];
+//        string specimen_id    = 2 [(buf.validate.field).required = true];
+//        auth.StateActivity tx = 3 [(buf.validate.field).required = true];
+//      }
+//      message SpecimenUnHideTxResponse {
+//          Specimen specimen = 1 [(buf.validate.field).required = true];
+//      }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//// SuggestedUpdate
+//
+//  // Evaluate
+//
+//    // // GetSuggestedUpdate
+//    //   message GetSuggestedUpdateRequest {
+//    //     SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+//    //   }
+//    //   message GetSuggestedUpdateResponse {
+//    //     SuggestedUpdate suggested_update = 1;
+//    //   }
+//
+//
+//    // // GetSuggestedUpdateBySpecimen
+//    //   message GetSuggestedUpdateBySpecimenRequest {
+//    //     Specimen.Id id = 1 [(buf.validate.field).required = true];
+//    //     string bookmark = 2;
+//    //     int32 page_size = 3;
+//
+//    //   }
+//    //   message GetSuggestedUpdateBySpecimenResponse {
+//    //     string bookmark = 1;
+//    //     repeated SuggestedUpdate suggested_updates = 2;
+//    //   }
+//
+//    // // GetSuggestedUpdateByCollection
+//    //   message GetSuggestedUpdateByCollectionRequest {
+//    //     string collection_id = 1 [(buf.validate.field).required = true];
+//    //     string bookmark = 2;
+//    //     int32 page_size = 3;
+//
+//    //   }
+//    //   message GetSuggestedUpdateByCollectionResponse {
+//    //     string bookmark = 1;
+//    //     repeated SuggestedUpdate suggested_updates = 2;
+//    //   }
+//
+//    // // GetSuggestedUpdateListResponse
+//    //   message GetSuggestedUpdateListRequest {
+//    //     string bookmark = 1;
+//    //     int32 page_size = 2;
+//    //   }
+//    //   message GetSuggestedUpdateListResponse {
+//    //     string bookmark = 1;
+//    //     repeated SuggestedUpdate suggested_updates = 2;
+//    //   }
+//
+//
+//
+//
+//  // // Submit
+//
+//  //   // SuggestedUpdateCreate
+//  //     message SuggestedUpdateCreateRequest {
+//  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+//  //     }
+//  //     message SuggestedUpdateCreateResponse {
+//  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+//  //     }
+//
+//  //   // SpecimenUpdateApprove
+//  //     message SuggestedUpdateApproveRequest {
+//  //         SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+//  //         string comment = 2 [(buf.validate.field).required = true];
+//  //     }
+//  //     message SuggestedUpdateApproveResponse {
+//  //         SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+//  //         Specimen specimen = 2 [(buf.validate.field).required = true];
+//  //     }
+//
+//
+//  //   // SpecimenUpdateReject
+//  //     message SuggestedUpdateRejectRequest {
+//  //         SuggestedUpdate.Id id = 1 [(buf.validate.field).required = true];
+//  //         string comment = 2 [(buf.validate.field).required = true];
+//  //     }
+//  //     message SuggestedUpdateRejectResponse {
+//  //       SuggestedUpdate suggested_update = 1 [(buf.validate.field).required = true];
+//
+//  //     }

@@ -489,9 +489,9 @@ export class KeySchema extends Message<KeySchema> {
   /**
    * The paths that make up the key
    *
-   * @generated from field: google.protobuf.FieldMask keys = 3;
+   * @generated from field: google.protobuf.FieldMask properties = 3;
    */
-  keys?: FieldMask;
+  properties?: FieldMask;
 
   constructor(data?: PartialMessage<KeySchema>) {
     super();
@@ -503,7 +503,7 @@ export class KeySchema extends Message<KeySchema> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "item_kind", kind: "enum", T: proto3.getEnumType(ItemKind) },
-    { no: 3, name: "keys", kind: "message", T: FieldMask },
+    { no: 3, name: "properties", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {

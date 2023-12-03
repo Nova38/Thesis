@@ -8,7 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 message SimpleItem {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys          = {
+  option (auth.key_schema).properties            = {
     paths: [  "id" ]
   };
   string collection_id = 1;
@@ -19,7 +19,7 @@ message SimpleItem {
 
 message Group {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys          = {
+  option (auth.key_schema).properties            = {
     paths: [  "group_id" ]
   };
   string collection_id = 1;
@@ -29,7 +29,7 @@ message Group {
 }
 message Book {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).keys          = {
+  option (auth.key_schema).properties            = {
     paths: [  "isbn" ]
   };
 
