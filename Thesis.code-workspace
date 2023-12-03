@@ -14,6 +14,12 @@
         },
         {
             "path": "docs/Thesis"
+        },
+        {
+            "path": "tools/cmd/protoc-gen-es-hlf"
+        },
+        {
+            "path": "proto"
         }
     ],
 	"settings": {
@@ -54,7 +60,11 @@
             "**/.DS_Store": true,
             "**/Thumbs.db": true
         },
-        "go.formatTool": "gofumpt"
+        "go.formatTool": "gofumpt",
+        "yaml.schemas": {
+            ".vscode/caliper.schema.json": "caliper/caliper.yaml",
+            ".vscode/benchmarks.schema.json": "caliper/benchmarks/NoAuth.yaml",
+        },
 	}
 
 }

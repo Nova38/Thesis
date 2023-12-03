@@ -3,7 +3,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Message } from "@bufbuild/protobuf";
+import { createRegistry } from "@bufbuild/protobuf";
 
-export const allTypes: Message[] =[
+export const allMessages = [
 ];
+export const registry = createRegistry(
+);

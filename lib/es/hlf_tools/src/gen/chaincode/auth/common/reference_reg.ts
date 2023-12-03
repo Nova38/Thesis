@@ -3,10 +3,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Message } from "@bufbuild/protobuf";
 import { ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse } from "./reference_pb.js";
+import { createRegistry } from "@bufbuild/protobuf";
 
-export const allTypes: Message[] =[
+export const allMessages = [
   ReferenceRequest, 
   ReferenceResponse, 
   ReferenceByCollectionRequest, 
@@ -20,3 +20,17 @@ export const allTypes: Message[] =[
   ReferenceDeleteRequest, 
   ReferenceDeleteResponse, 
 ];
+export const registry = createRegistry(
+  ReferenceRequest, 
+  ReferenceResponse, 
+  ReferenceByCollectionRequest, 
+  ReferenceByCollectionResponse, 
+  ReferenceByPartialKeyRequest, 
+  ReferenceByPartialKeyResponse, 
+  ReferenceByItemRequest, 
+  ReferenceByItemResponse, 
+  ReferenceCreateRequest, 
+  ReferenceCreateResponse, 
+  ReferenceDeleteRequest, 
+  ReferenceDeleteResponse, 
+);

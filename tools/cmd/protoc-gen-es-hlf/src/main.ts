@@ -23,11 +23,10 @@ import {
 
 import { Empty, MethodKind, createDescriptorSet, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 
-import {gen} from "hlf_tools"
+
 
 import * as fs from 'fs';
 
-const authpb = gen.auth.v1.auth_pb
 
 const registry = createRegistryFromDescriptors(
     fs.readFileSync("image.bin")
@@ -73,7 +72,68 @@ function generateTs(schema: Schema) {
     generateFabricTest(schema);
 
     generateRegistry(schema);
+    generateIndex(schema);
 }
+
+
+
+function generateIndex(schema: Schema) {
+
+    const folders = new Map<string, string[]>();
+
+    for (const file of schema.files) {
+        // const folder = file.name.split("/").slice(0, -1)
+        const p = file.name.split("/")
+        const base = p.pop() || ""
+        const folder = p.join("/") + "/"
+
+        if (folders.has(folder)) {
+            folders.get(folder)?.push(base)
+        } else {
+            folders.set(folder, [base])
+        }
+
+
+        const f = schema.generateFile(file.name + "index.ts");
+
+        f.preamble(file);
+        if (file.messages.length > 0) {
+            f.print(`export * from "./${base}_pb.js"`)
+            f.print(`export * from "./${base}_reg.js"`)
+        }
+
+        if (file.services.length > 0) {
+
+            f.print(`export * from "./${base}_gateway"`)
+        }
+    }
+
+    folders.forEach((files, folder) => {
+        const f = schema.generateFile(folder + "index.ts");
+
+        if (files.length == 1) {
+            const file = files[0]
+            f.print(`export * from "./${file}index.js"`)
+
+        }
+        else {
+            files.forEach((file) => {
+                f.print(`export * as ${file} from "./${file}index.js"`)
+            })
+        }
+
+
+    })
+
+    //  // remove the last part of the path
+    //  const f = schema.generateFile(folder + "index.ts");
+    //  f.preamble(file);
+
+    //  f.print`//${folder}`
+}
+
+
+
 
 
 function populateFeilds(message: AnyMessage): AnyMessage {
@@ -100,96 +160,128 @@ function populateFeilds(message: AnyMessage): AnyMessage {
 }
 
 
-function toExampleJson(schema: Schema) {
+function getKeySchema(schema: Schema) {
+    for (const file of schema.files) {
+
+    for (const descType of getAllTypes(file)) {
+        if (descType.kind == "message") {
+            if (descType.name == "KeySchema") {
+                return descType
+            }
+        }
+    }
 }
+}
+
+
 
 function generateRegistry(schema: Schema) {
     for (const file of schema.files) {
         const f = schema.generateFile(file.name + "_reg.ts");
         f.preamble(file);
-        // const createRegistry = f.import("createRegistry", "@bufbuild/protobuf");
+        const createRegistry = f.import("createRegistry", "@bufbuild/protobuf");
         const {
             Message,
+            MessageType,
             JsonValue
         } = schema.runtime;
         // Convert the Message ImportSymbol to a type-only ImportSymbol
         const MessageAsType = Message.toTypeOnly();
-        f.print`export const allTypes: ${MessageAsType}[] =[`;
+
+
+        f.print`export const allMessages = [`;
         for (const descType of getAllTypes(file)) {
             if (descType.kind == "message") {
                 f.print`  ${descType}, `;
             }
         }
         f.print`];`;
-    }
-    for (const file of schema.files) {
-        const f = schema.generateFile(file.name + "_key.ts");
-        f.preamble(file);
+
+        f.print("export const registry = ", createRegistry, "(");
         for (const descType of getAllTypes(file)) {
-            if (descType.kind == "message") {
-                f.print`// ${descType.name} \n`
-                const options = findCustomMessageOption(descType, 54599, authpb.KeySchema )
-
-
-
-                const {
-                    Message,
-                    JsonValue
-                } = schema.runtime;
-                f.print`// ${Message}`;
-
-                if (options?.itemKind == authpb.ItemKind.PRIMARY_ITEM) {
-                    f.print`// Primary Item:  ${descType.name}\n`
-                    // f.print`// }`
-
-                    // ItemKey
-                    // KeyAttributes
-                    // SetKeyAttr
-                    descType.fields.forEach((field) => {
-                        f.print`// name${field.name} ${field.kind} }`
-
-                    })
-                            options?.keys?.paths?.forEach((path) => {
-                        f.print`    // ${path}   ,`
-                    })
-
-                    let keyPaths = descType.fields.filter((field) => {
-                        if (options?.keys?.paths?.includes(field.name)) {
-                            return field.name
-                        }
-                    })
-
-                    f.print`export function ${descType}Key(item : ${descType}): string[] {`
-                    f.print`    attr=[]`
-
-
-                    keyPaths.forEach((path) => {
-                        const name = path.proto.jsonName || ""
-                        f.print` if (!item?.${name}) {`
-                        f.print`    return attr`
-                        f.print` }`
-                        f.print`    attr.push(item?.${name})`
-                    })
-                    f.print` return attr`
-                    f.print`}`
-
-
-
-
-                    options?.keys?.paths?.forEach((path) => {
-                        f.print`// Path: ${path}\n`
-                    })
-
-
-
-                }
-
-
-            }
+          if (descType.kind == "message") {
+            f.print("  ", descType, ", ");
+          }
         }
+        f.print(");");
+
 
     }
 }
+    // for (const file of schema.files) {
+    //     const f = schema.generateFile(file.name + "_key.ts");
+    //     f.preamble(file);
+    //     for (const descType of getAllTypes(file)) {
+    //         if (descType.kind == "message") {
+    //             f.print`// ${descType.name} \n`
+
+    //             const keySchema = getKeySchema(schema)
+    //             if (!keySchema) {
+    //                 return
+    //             }
+
+    //             const options = findCustomMessageOption(descType, 54599, authpb.KeySchema )
+
+
+
+    //             const {
+    //                 Message,
+    //                 JsonValue
+    //             } = schema.runtime;
+    //             f.print`// ${Message}`;
+
+    //             if (options?.itemKind == authpb.ItemKind.PRIMARY_ITEM) {
+    //                 f.print`// Primary Item:  ${descType.name}\n`
+    //                 // f.print`// }`
+
+    //                 // ItemKey
+    //                 // KeyAttributes
+    //                 // SetKeyAttr
+    //                 descType.fields.forEach((field) => {
+    //                     f.print`// name${field.name} ${field.kind} }`
+
+    //                 })
+    //                         options?.keys?.paths?.forEach((path) => {
+    //                     f.print`    // ${path}   ,`
+    //                 })
+
+    //                 let keyPaths = descType.fields.filter((field) => {
+    //                     if (options?.keys?.paths?.includes(field.name)) {
+    //                         return field.name
+    //                     }
+    //                 })
+
+    //                 f.print`export function ${descType}Key(item : ${descType}): string[] {`
+    //                 f.print`    attr=[]`
+
+
+    //                 keyPaths.forEach((path) => {
+    //                     const name = path.proto.jsonName || ""
+    //                     f.print` if (!item?.${name}) {`
+    //                     f.print`    return attr`
+    //                     f.print` }`
+    //                     f.print`    attr.push(item?.${name})`
+    //                 })
+    //                 f.print` return attr`
+    //                 f.print`}`
+
+
+
+
+                    // options?.keys?.paths?.forEach((path) => {
+                    //     f.print`// Path: ${path}\n`
+                    // })
+
+
+
+                // }
+
+
+//             }
+//         }
+
+//     }
+// }
 // Modified from the original protoc-gen-ts plugin
 function generateGateway(schema: Schema) {
 

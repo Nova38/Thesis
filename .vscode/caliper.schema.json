@@ -145,12 +145,12 @@
                         "benchconfig": {
                             "title": "Bench Configuration",
                             "description": "Path to the benchmark configuration file that describes the test worker(s), test rounds and monitors",
-                            "type": "null"
+                            "type": "string"
                         },
                         "networkconfig": {
                             "title": "Network Configuration",
                             "description": "Path to the network configuration file that contains information required to interact with the SUT",
-                            "type": "null"
+                            "type": "string"
                         },
                         "progress": {
                             "description": "Configurations related to caliper test progress",
@@ -227,6 +227,10 @@
                                         }
                                     },
                                     "title": "Observer Prometheus"
+                                },
+                                "prometheusmanager":{
+                                    "type": "object",
+                                    "additionalProperties": true
                                 }
                             },
                             "title": "Observer"

@@ -3,10 +3,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Message } from "@bufbuild/protobuf";
 import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, KeySchema, Operation, PathPolicy, Polices, Reference, ReferenceKey, Role, StateActivity, Suggestion, User, UserCollectionRoles, UserMembership } from "./auth_pb.js";
+import { createRegistry } from "@bufbuild/protobuf";
 
-export const allTypes: Message[] =[
+export const allMessages = [
   User, 
   KeySchema, 
   StateActivity, 
@@ -29,3 +29,26 @@ export const allTypes: Message[] =[
   UserMembership, 
   UserCollectionRoles, 
 ];
+export const registry = createRegistry(
+  User, 
+  KeySchema, 
+  StateActivity, 
+  Operation, 
+  PathPolicy, 
+  Polices, 
+  ItemKey, 
+  ReferenceKey, 
+  Item, 
+  FullItem, 
+  HistoryEntry, 
+  History, 
+  Suggestion, 
+  HiddenTx, 
+  HiddenTxList, 
+  Reference, 
+  Collection, 
+  Role, 
+  Attribute, 
+  UserMembership, 
+  UserCollectionRoles, 
+);

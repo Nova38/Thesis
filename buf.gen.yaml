@@ -44,6 +44,13 @@ plugins:
       out: lib/es/hlf_tools/src/gen
       strategy: all
 
+
+    - plugin: protoc-gen-es-tools
+      path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/workload_templates.ts"]
+      opt: target=ts
+      out: caliper/benchmarks/workloads/templates/gen/
+      strategy: all
+
     - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.1
       out: lib/other/gen/openapiv2
       opt:

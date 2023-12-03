@@ -18,7 +18,8 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "dist/image.bin"
   ],
   "scripts": {
     "build:barrel": "pnpm run generate-barrels",
@@ -29,11 +30,10 @@
     "lint:fix": "eslint --cache --ext .ts,.js,.mjs,.cjs . --fix && prettier -c src test -w",
     "generate-barrels": "barrelsby --delete -d ./src -s filesystem",
     "prepack": "pnpm run build",
-    "release": "pnpm test && changelogen --release && npm publish && git push --follow-tags",
-    "test": "pnpm lint && pnpm test:types && vitest run --coverage",
-    "test:types": "tsc --noEmit --skipLibCheck"
+    "stub": "pnpm unbuild --stub"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^20.8.9",
     "@vitest/coverage-v8": "^0.34.6",

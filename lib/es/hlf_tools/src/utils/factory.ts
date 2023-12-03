@@ -1,9 +1,14 @@
-import { Item } from "../gen/auth/v1/auth_pb";
 // import { Author } from "../gen/chaincode/sample/v0/items_pb";
 
 import { Any, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 
-import { Registry } from "./registry";
+
+
+
+export function BuildCollection(types: any[]) {
+
+
+}
 
 
 

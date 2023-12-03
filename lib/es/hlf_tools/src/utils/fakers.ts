@@ -1,8 +1,40 @@
-// import { fakerEN_US } from '@faker-js/faker';
+import { fakerEN_US } from '@faker-js/faker';
 
 // // import { samplepb } from '../gen/chaincode/sample/v0/items_pb';
 
 import { Timestamp } from '@bufbuild/protobuf';
+
+import { auth } from '../gen';
+import { ccbio } from '../gen';
+import { sample } from '../gen';
+
+
+
+
+
+
+export function MakeSpecimen(seed: number[], collectionId: string, id: string): ccbio.state.Specimen {
+    const faker = fakerEN_US;
+    faker.seed(seed);
+
+    const specimen = new ccbio.state.Specimen({
+        specimenId: id,
+        collectionId: collectionId,
+        georeference: new ccbio.state.Specimen_Georeference({
+            latitude: faker.location.latitude().toString(),
+            longitude: faker.location.longitude().toString(),
+            country: faker.location.countryCode(),
+            county: faker.location.county(),
+            stateProvince: faker.location.state(),
+        }),
+
+    });
+
+    return specimen;
+}
+
+
+
 // import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
 
 // // function MakeDegrees(seed: number[], collectionId: string): Record<string, Degree>{

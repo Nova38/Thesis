@@ -3,11 +3,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Message } from "@bufbuild/protobuf";
 import { Book, Group, SimpleItem } from "./items_pb.js";
+import { createRegistry } from "@bufbuild/protobuf";
 
-export const allTypes: Message[] =[
+export const allMessages = [
   SimpleItem, 
   Group, 
   Book, 
 ];
+export const registry = createRegistry(
+  SimpleItem, 
+  Group, 
+  Book, 
+);

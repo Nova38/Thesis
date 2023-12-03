@@ -3,10 +3,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { Message } from "@bufbuild/protobuf";
 import { SpecimenCreateRequest, SpecimenCreateResponse, SpecimenDeleteRequest, SpecimenDeleteResponse, SpecimenGetByCollectionRequest, SpecimenGetByCollectionResponse, SpecimenGetHistoryRequest, SpecimenGetHistoryResponse, SpecimenGetListRequest, SpecimenGetListResponse, SpecimenGetRequest, SpecimenGetResponse, SpecimenHideTxRequest, SpecimenHideTxResponse, SpecimenUnHideTxRequest, SpecimenUnHideTxResponse, SpecimenUpdateRequest, SpecimenUpdateResponse } from "./service_pb.js";
+import { createRegistry } from "@bufbuild/protobuf";
 
-export const allTypes: Message[] =[
+export const allMessages = [
   SpecimenGetRequest, 
   SpecimenGetResponse, 
   SpecimenGetListRequest, 
@@ -26,3 +26,23 @@ export const allTypes: Message[] =[
   SpecimenUnHideTxRequest, 
   SpecimenUnHideTxResponse, 
 ];
+export const registry = createRegistry(
+  SpecimenGetRequest, 
+  SpecimenGetResponse, 
+  SpecimenGetListRequest, 
+  SpecimenGetListResponse, 
+  SpecimenGetByCollectionRequest, 
+  SpecimenGetByCollectionResponse, 
+  SpecimenGetHistoryRequest, 
+  SpecimenGetHistoryResponse, 
+  SpecimenCreateRequest, 
+  SpecimenCreateResponse, 
+  SpecimenUpdateRequest, 
+  SpecimenUpdateResponse, 
+  SpecimenDeleteRequest, 
+  SpecimenDeleteResponse, 
+  SpecimenHideTxRequest, 
+  SpecimenHideTxResponse, 
+  SpecimenUnHideTxRequest, 
+  SpecimenUnHideTxResponse, 
+);

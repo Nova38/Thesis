@@ -20,31 +20,93 @@ test:
     number: 1
   rounds:
   - label: Initialize
-    contractId: test
-    txDuration: 20
+    contractId: noauth
+    txDuration: 2
     rateControl:
       type: fixed-rate
       opts: { tps: 10 }
     workload:
       module: benchmarks/workloads/Get.js
       arguments:
-        contractId: test
+        contractId: noauth
         contractVersion: 0.1
-  - label: Create
-    contractId: test
 
-  - label: Read
 
-  - label: Update
+monitors:
+  transaction:
+    - module: prometheus-push
+      options:
+        pushInterval: 5000
+        pushUrl: "http://localhost:9091"
+    - module: prometheus
+    - module: logging
+      options:
+        loggerModuleName: txinfo
+        messageLevel: info
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+        - /orderer.example.com
 
-  - label: Delete
+        - /peer0.org1.example.com
+        - /couchdb1
+        - /peer0org1_identity_ccaas
+        - /peer0org1_noauth_ccaas
+        - /peer0org1_roles_ccaas
 
-  - label: History
+        - /peer0.org2.example.com
+        - /couchdb2
+        - /peer0org2_identity_ccaas
+        - /peer0org2_noauth_ccaas
+        - /peer0org2_roles_ccaas
 
-  - label: RangeQuery
 
-  - label: SuggestionsCreate
-
-  - label: SuggestionsReadSpecimen
-
-  - label: SuggestionsUpdate
+  - module: prometheus
+    options:
+      url: "http://localhost:9090"
+      charting:
+        polar:
+            metrics: [all]
+        bar:
+            metrics: [all]
+      metrics:
+        include: [dev-.*, couch, peer, orderer]
+        queries:
+        - name: Avg Memory (MB)
+          query: 'sum(container_memory_rss{name=~".+"}) by (name)'
+          step: 10
+          label: name
+          statistic: avg
+          multiplier: 0.000001
+        - name:   CPU (%)
+          query: sum(rate(container_cpu_usage_seconds_total{name=~".+"}[1m])) by (name)
+          step: 10
+          label: name
+          statistic: avg
+          multiplier: 100
+        - name: Network In (MB)
+          query: sum(rate(container_network_receive_bytes_total{name=~".+"}[1m])) by (name)
+          step: 10
+          label: name
+          statistic: sum
+          multiplier: 0.000001
+        - name: Network Out (MB)
+          query: sum(rate(container_network_transmit_bytes_total{name=~".+"}[1m])) by (name)
+          step: 10
+          label: name
+          statistic: sum
+          multiplier: 0.000001
+        - name: Disc Write (MB)
+          query: sum(rate(container_fs_writes_bytes_total{name=~".+"}[1m])) by (name)
+          step: 10
+          label: name
+          statistic: sum
+          multiplier: 0.000001
+        - name: Disc Read (MB)
+          query: sum(rate(container_fs_reads_bytes_total{name=~".+"}[1m])) by (name)
+          step: 10
+          label: name
+          statistic: sum
+          multiplier: 0.000001

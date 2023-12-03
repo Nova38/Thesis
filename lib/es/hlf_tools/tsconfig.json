@@ -1,12 +1,21 @@
-{
-    "extends": "@tsconfig/node18/tsconfig.json",
+// {
+//     "extends": "@tsconfig/node18/tsconfig.json",
 
-    // "compilerOptions": {
-    //   "target": "ESNext",
-    //   "module": "ESNext",
-    //   "moduleResolution": "Node",
-    //   "esModuleInterop": true,
-    //   "strict": true
-    // },
+//     // "compilerOptions": {
+//     //   "target": "ESNext",
+//     //   "module": "ESNext",
+//     //   "strict": true
+//     // },
+//     "include": ["src"]
+//   }
+
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "esModuleInterop": true,
+      "strict": true
+    },
     "include": ["src"]
   }

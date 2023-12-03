@@ -21,7 +21,7 @@
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
-const lib = require('es')
+const lib = require('hlf_tools')
 
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-module');
 
@@ -49,7 +49,6 @@ class GetWorkload extends WorkloadModuleBase {
         super();
         this.contractId = '';
         this.contractVersion = '';
-
     }
 
     /**
@@ -68,7 +67,7 @@ class GetWorkload extends WorkloadModuleBase {
         const args = this.roundArguments;
         this.contractId = args.contractId;
 
-        lib.gen.auth.v1.auth_pb.Action.CREATE
+        lib.default.auth_pb
 
         this.contractVersion = args.contractVersion;
     }

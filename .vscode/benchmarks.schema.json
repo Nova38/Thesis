@@ -1,0 +1,419 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Benchmark",
+    "definitions": {
+        "Benchmark": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "test": {
+                    "$ref": "#/definitions/Test"
+                },
+                "monitors": {
+                    "$ref": "#/definitions/Monitors"
+                }
+            },
+            "required": [
+                "test"
+            ]
+    },
+        "Monitors": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "transaction": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Transaction"
+                    }
+                },
+                "resource": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Resource"
+                    }
+                }
+            },
+            "required": [
+                "resource"
+            ],
+            "title": "Monitors"
+        },
+        "Resource": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "module": {
+                    "$ref": "#/definitions/Module"
+                },
+                "options": {
+                    "$ref": "#/definitions/ResourceOptions"
+                }
+            },
+            "required": [
+                "module",
+                "options"
+            ],
+            "title": "Resource"
+        },
+        "ResourceOptions": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "interval": {
+                    "type": "integer"
+                },
+                "containers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "qt-uri-protocols": [
+                        "http"
+                    ]
+                },
+                "charting": {
+                    "$ref": "#/definitions/Charting"
+                },
+                "metrics": {
+                    "type":"string"
+                },
+                "processes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Process"
+                    }
+                }
+            },
+            "required": [],
+            "title": "ResourceOptions"
+        },
+        "Charting": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "polar": {
+                    "$ref": "#/definitions/Bar"
+                },
+                "bar": {
+                    "$ref": "#/definitions/Bar"
+                }
+            },
+            "required": [
+                "bar",
+                "polar"
+            ],
+            "title": "Charting"
+        },
+        "Bar": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "type":"string"
+                    }
+                }
+            },
+            "required": [
+                "metrics"
+            ],
+            "title": "Bar"
+        },
+        "Metrics": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "include": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "queries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Query"
+                    }
+                }
+            },
+            "required": [
+                "include",
+                "queries"
+            ],
+            "title": "Metrics"
+        },
+        "Query": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                   "type": "string"
+                },
+                "query": {
+                    "type": "string"
+                },
+                "step": {
+                    "type": "integer"
+                },
+
+
+                "multiplier": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "name",
+                "query",
+                "statistic",
+                "step"
+            ],
+            "title": "Query"
+        },
+        "Process": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "command": {
+                    "type": "string"
+                },
+                "arguments": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "arguments",
+                "command"
+            ],
+            "title": "Process"
+        },
+        "Transaction": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "module": {
+                    "type": "string"
+                },
+                "options": {
+                    "$ref": "#/definitions/TransactionOptions"
+                }
+            },
+            "required": [
+                "module"
+            ],
+            "title": "Transaction"
+        },
+        "TransactionOptions": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "pushInterval": {
+                    "type": "integer"
+                },
+                "pushUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "qt-uri-protocols": [
+                        "http"
+                    ]
+                },
+                "loggerModuleName": {
+                    "type": "string"
+                },
+                "messageLevel": {
+                    "type": "string"
+                }
+            },
+            "required": [],
+            "title": "TransactionOptions"
+        },
+        "Test": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "workers": {
+                    "$ref": "#/definitions/Workers"
+                },
+                "rounds": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Round"
+                    }
+                }
+            },
+            "required": [
+                "rounds",
+                "workers"
+            ],
+            "title": "Test"
+        },
+        "Round": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "contractId": {
+                    "type": "string"
+                },
+                "txDuration": {
+                    "type": "integer"
+                },
+                "rateControl": {
+                    "$ref": "#/definitions/RateControl"
+                },
+
+                "description": {
+                    "type": "string"
+                },
+                "chaincodeID": {
+                    "type": "string"
+                },
+                "txNumber": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "label",
+                "rateControl",
+                "workload"
+            ],
+            "title": "Round"
+        },
+        "RateControl": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "type": {
+                    "type":"string"
+                },
+                "opts": {
+                    "$ref": "#/definitions/RateControlOpts"
+                }
+            },
+            "required": [
+                "opts",
+                "type"
+            ],
+            "title": "RateControl"
+        },
+        "RateControlOpts": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "tps": {
+                    "type": "integer"
+                },
+                "transactionLoad": {
+                    "type": "integer"
+                },
+                "startingTps": {
+                    "type": "integer"
+                },
+                "finishingTps": {
+                    "type": "integer"
+                },
+                "weights": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "rateControllers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RateController"
+                    }
+                },
+                "startTps": {
+                    "type": "integer"
+                }
+            },
+            "required": [],
+            "title": "RateControlOpts"
+        },
+        "RateController": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "type": {
+                    "type":"string"
+                },
+                "opts": {
+                    "$ref": "#/definitions/RateControllerOpts"
+                }
+            },
+            "required": [
+                "opts",
+                "type"
+            ],
+            "title": "RateController"
+        },
+        "RateControllerOpts": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "tps": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "tps"
+            ],
+            "title": "RateControllerOpts"
+        },
+
+        "Arguments": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+
+            },
+            "required": [],
+            "title": "Arguments"
+        },
+
+        "Workers": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "number": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "number"
+            ],
+            "title": "Workers"
+        },
+        "Module": {
+            "type": "string",
+            "enum": [
+                "docker",
+                "prometheus",
+                "process"
+            ],
+            "title": "Module"
+        }
+
+    }
+}

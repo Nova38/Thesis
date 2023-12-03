@@ -6,13 +6,22 @@ All will be run with:
 
 (Collections are special and can only be created by an admin user)
 
+
+
+
 - no authentication
-- Identity based Authentication
-- Role based Authentication with no parents
-- Role based Authentication with parents
+- Identity-based Authentication
+- Role-based Authentication with no parents
+- Role-based Authentication with parents
 
 
 ### Types of Benchmarks
+
+
+### Things to Benchmark
+
+- DOS ing the collection
+
 
 ### Parameters:
 

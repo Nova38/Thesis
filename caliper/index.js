@@ -1,14 +1,21 @@
 'use strict'
-const l = require("hlf_tools");
+// check ts
+
+const hlf = require("hlf_tools");
 const { default: createJITI } = require("jiti");
 
-const jiti = require("jiti")(__filename);
-const hlf = import("hlf_tools");
+// const jiti = require("jiti")(__filename);
+// const hlf = await import("hlftools");
+
+hlf.utils.GlobalRegistry
+
+const item =new hlf.pb.common.generic.AuthorizeOperationRequest({})
+
+item.toJsonString({typeRegistry: hlf.utils.GlobalRegistry})
 
 
-let x = new  l.gen.auth.v1.auth_pb.Attribute()
 
 
 
 
-console.log(x.toJson())
+console.log(hlf.utils.GlobalRegistry)
