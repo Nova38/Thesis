@@ -25,9 +25,11 @@
 
 \section{Smart Contract Object Model}
 
+
 \subsection{Types of Items}
 
-The data model for the smart contract is designed around the key-value interface of the ledger and the fabric stubs  ability to store the state of object under composite keys. The composite keys support querying the world state by levels of hierarchical keys that are appended onto each other. The definition of the objects are done though a protobuf definition file, where the objects are messages that have been annotated with the Key Schema option message.
+
+The data model for the smart contract is designed around the key-value interface of the ledger and the fabric stubs  ability to store the state of object under composite keys. The composite keys support querying the world state by levels of hierarchal keys that are appended onto each other. The definition of the objects are done though a protobuf definition file, where the objects are messages that have been annotated with the KeySchema option message.
 % refracing needed here
 
 The objects that are managed by the smart contract are grouped into two sets primary objects and sub-item types. The primary objects are the objects types that are directly managed by the access control and the sub-items are used to manage metadata and auxiliary state of the primary objects. In the proof of concept implementation the two sub-item that are defined are the Hidden Transaction list and the Suggested Updates.
@@ -120,14 +122,6 @@ The smart contract is broken up into three stages. The first stage is responsibl
         SuggestionDelete           & Invoke           & Suggest Delete  \\
         SuggestionApprove          & Invoke           & Suggest Create
     \end{tblr}
-    \caption{Functions In Generic Collection Smart Contract}           % Caption
-    \label{tab:my-first-table}       % Label
+	\caption{Functions In Generic Collection Smart Contract}           % Caption
+	\label{tab:my-first-table}       % Label
 \end{table}
-
-
-% Center your table
-
-
-
-% \caption{Operations}           % Caption
-% \label{tab:my-first-table}       % Label
