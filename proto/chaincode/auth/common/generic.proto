@@ -103,7 +103,7 @@ service GenericService {
 
   rpc UnHideTx(UnHideTxRequest) returns (UnHideTxResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_HIDE_TX};
+    option (auth.operation) = {action: ACTION_UNHIDE_TX};
   }
 
 
@@ -146,7 +146,7 @@ service GenericService {
 
   rpc SuggestionApprove(SuggestionApproveRequest) returns (SuggestionApproveResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
-    option (auth.operation) = {action: ACTION_SUGGEST_APPROVE};
+    option (auth.operation) = {action: ACTION_SUGGEST_CREATE};
   }
 }
 

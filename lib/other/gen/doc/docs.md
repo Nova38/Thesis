@@ -609,9 +609,10 @@ Membership is used to store permissions for a user in a collection
 | ACTION_VIEW_HISTORY | 18 |  |
 | ACTION_VIEW_HIDDEN_TXS | 19 |  |
 | ACTION_HIDE_TX | 20 |  |
-| ACTION_REFERENCE_CREATE | 21 |  |
-| ACTION_REFERENCE_DELETE | 22 |  |
-| ACTION_REFERENCE_VIEW | 23 |  |
+| ACTION_UNHIDE_TX | 21 |  |
+| ACTION_REFERENCE_CREATE | 30 |  |
+| ACTION_REFERENCE_DELETE | 31 |  |
+| ACTION_REFERENCE_VIEW | 32 |  |
 
 
 

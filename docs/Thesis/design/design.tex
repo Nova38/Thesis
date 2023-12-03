@@ -4,7 +4,6 @@
 %     Use the chapterabstract environment, not the abstract environment, if you want to plant an abstract at the top of the chapter.
 % \end{chapterabstract}
 
-
 % \begin{quote}
 % If needed Here's a quote environment.
 % \end{quote}
@@ -22,23 +21,71 @@
 % \newpage
 
 % \includestandalone[width=.8\textwidth]{chap_1_figures/State}
+\cite{qinBlockchainbasedAccessControl2021}
 
 \section{Smart Contract Object Model}
 
 \subsection{Types of Items}
 
-The data model for the smart contract is designed around the key-value interface of the ledger and the fabric stubs  ability to store the state of object under composite keys. The composite keys support querying the world state by levels of hierarchal keys that are appended onto each other. The definition of the objects are done though a protobuf definition file, where the objects are messages that have been annotated with the KeySchema option message.
+The data model for the smart contract is designed around the key-value interface of the ledger and the fabric stubs  ability to store the state of object under composite keys. The composite keys support querying the world state by levels of hierarchical keys that are appended onto each other. The definition of the objects are done though a protobuf definition file, where the objects are messages that have been annotated with the Key Schema option message.
 % refracing needed here
 
 The objects that are managed by the smart contract are grouped into two sets primary objects and sub-item types. The primary objects are the objects types that are directly managed by the access control and the sub-items are used to manage metadata and auxiliary state of the primary objects. In the proof of concept implementation the two sub-item that are defined are the Hidden Transaction list and the Suggested Updates.
 
 
 %  Definitions of the keys
-All of primary objects have to have a collection Id property and then have the paths to the properties that make up the other attributes of the key listed in the key FieldMask property of the annotation.
+All of primary objects have to have a collection Id property and then have the paths to the properties that make up the other attributes of the key listed in the key Field-Mask property of the annotation. This allows for searching the collection for all of the objects of a given type, as well as allowing the objects to be searchable based on shared key components.
+
+The Sub key types are defined by they type of the subkey, the collection id, followed by the the primary object type and its key attributes. It can also optionaly included additional properties of the sub item appended to the end. This optional value is used in the demo implementation to store all of the suggestions for a given object at their own unique key, using the suggestion id property. The operations that write to the suggetsion sub-objects only every write to a single key, so this allow for allowing more than one tranaction to interact with diffrent suggestion object without locking all of them. It is still possible to reteive all of the suggestions for a given object by doing a ranged querey over the partial key.
+
+The hidden transaction list sub object on the other hand doesn't include any additional sub-key attributes. %we want it to invalidate operations that try to read the value of it if we end up modifing the read state of it
+
+
+% ### Item Keys
+%   When converted to its string form it will be:
+%    - `Key := <ITEM_TYPE>{COLLECTION_ID}{...ITEM_ID}`
+
+
+% #### SubKeys
+%   When converted to its string form it will be:
+%   `<SUB_ITEM_TYPE>{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}`
+
+%   - Examples:
+%       - Suggestion   := `<auth.Suggestion>    {COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}{SUGGESTION_ID}`
+%       - HiddenTxList := `<auth.HiddenTxList>  {COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}`
+
+
+\begin{table}
+
+    \centering                       % Center your table
+
+    \begin{tblr}
+        {
+        hline{1,Z} = {2pt},
+        hline{2} = {1pt},
+        hline{3-Y} = {},
+        vline{1,Z} = {},
+            }
+        % Your table
+        Object Type              & Collection ID    & Object Key Attributes&              \\
+        auth.Collection          & obj.CollectionId &                                    \\
+        auth.Role                & obj.CollectionId & obj.RoleId                         \\
+        auth.UserMembership      & obj.CollectionId & obj.mspId             & obj.UserId \\
+        auth.UserCollectionRoles & obj.CollectionId & obj.mspId             & obj.UserId \\
+    \end{tblr}
+    \caption{Functions In Generic Collection Smart Contract}           % Caption
+    \label{tab:my-first-table}       % Label
+\end{table}
+
+
+
+\[
+    PrimaryKey := <Item Type> CollectionID <...Item Key Attributes>
+\]
 
 
 \subsection[short]{Stages of Generic Object Contract}
-The smart contract is broken up into three stages. The first stage is responsible for defining functions that are exposed by the smart contract. This layer is responsible for initial validation and unpacking the requests arguments provided to the invocation of the smart contract. It is also responsible for calling the second stage function and then packing the item into its return format. The second stage is a wrapper around the fabric shim interface to the world state that defines defines the operations that can happen on primary objects and their sub-object domains. This layer is responsible for building the operation data structure by setting the action field biased on the function and then extracting the collection id, the type of the object, and potentially the paths that the action takes place on from the object and arguments passed into the function. This operation is then handed of to the third and final stage where the action is authorized. If the operation is authorized the second layer then calls the required chaincode stub functions to interact with the ledger.
+The smart contract is broken up into three stages. The first stage is responsible for defining functions that are exposed by the smart contract. This layer is responsible for initial validation and unpacking the requests arguments provided to the invocation of the smart contract. It is also responsible for calling the second stage function and then packing the item into its return format. The second stage is a wrapper around the fabric shim interface to the world state that defines defines the operations that can happen on primary objects and their sub-object domains. This layer is responsible for building the operation data structure by setting the action field biased on the function and then extracting the collection id, the type of the object, and potentially the paths that the action takes place on from the object and arguments passed into the function. This operation is then handed of to the third and final stage where the action is authorized. If the operation is authorized the second layer then calls the required chain code stub functions to interact with the ledger.
 
 
 
@@ -48,12 +95,12 @@ The smart contract is broken up into three stages. The first stage is responsibl
 
     \begin{tblr}
         {
-            hline{1,Z} = {2pt},
-            hline{2} = {1pt},
-            hline{3-Y} = {},
-            vline{1,Z} = {},
-        }
-             % Your table
+        hline{1,Z} = {2pt},
+        hline{2} = {1pt},
+        hline{3-Y} = {},
+        vline{1,Z} = {},
+            }
+        % Your table
         Function                   & Transaction Type & Action          \\
         Get                        & Query            & View            \\
         List                       & Query            & View            \\
@@ -73,12 +120,12 @@ The smart contract is broken up into three stages. The first stage is responsibl
         SuggestionDelete           & Invoke           & Suggest Delete  \\
         SuggestionApprove          & Invoke           & Suggest Create
     \end{tblr}
-	\caption{Functions In Generic Collection Smart Contract}           % Caption
-	\label{tab:my-first-table}       % Label
+    \caption{Functions In Generic Collection Smart Contract}           % Caption
+    \label{tab:my-first-table}       % Label
 \end{table}
 
 
- % Center your table
+% Center your table
 
 
 

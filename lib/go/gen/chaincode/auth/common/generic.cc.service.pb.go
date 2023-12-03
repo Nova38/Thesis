@@ -101,7 +101,7 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// UnHideTx
 	//
 	// # Operation:
-	//   - Domain: ACTION_HIDE_TX
+	//   - Domain: ACTION_REFERENCE_CREATE
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
 	// GetSuggestion
@@ -136,7 +136,7 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	// SuggestionApprove
 	//
 	// # Operation:
-	//   - Domain: ACTION_SUGGEST_APPROVE
+	//   - Domain: ACTION_SUGGEST_CREATE
 	SuggestionApprove(ctx T, req *SuggestionApproveRequest) (res *SuggestionApproveResponse, err error)
 }
 
@@ -226,9 +226,9 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 20,
 		}, nil
 	case "UnHideTx":
-		// action:ACTION_HIDE_TX
+		// action:ACTION_REFERENCE_CREATE
 		return &v1.Operation{
-			Action: 20,
+			Action: 21,
 		}, nil
 	case "GetSuggestion":
 		// action:ACTION_SUGGEST_VIEW
@@ -256,9 +256,9 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 16,
 		}, nil
 	case "SuggestionApprove":
-		// action:ACTION_SUGGEST_APPROVE
+		// action:ACTION_SUGGEST_CREATE
 		return &v1.Operation{
-			Action: 17,
+			Action: 15,
 		}, nil
 	default:
 		return nil, fmt.Errorf("No operation defined for " + txName)

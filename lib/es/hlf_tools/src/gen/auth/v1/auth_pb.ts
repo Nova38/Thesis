@@ -192,19 +192,24 @@ export enum Action {
   HIDE_TX = 20,
 
   /**
-   * @generated from enum value: ACTION_REFERENCE_CREATE = 21;
+   * @generated from enum value: ACTION_UNHIDE_TX = 21;
    */
-  REFERENCE_CREATE = 21,
+  UNHIDE_TX = 21,
 
   /**
-   * @generated from enum value: ACTION_REFERENCE_DELETE = 22;
+   * @generated from enum value: ACTION_REFERENCE_CREATE = 30;
    */
-  REFERENCE_DELETE = 22,
+  REFERENCE_CREATE = 30,
 
   /**
-   * @generated from enum value: ACTION_REFERENCE_VIEW = 23;
+   * @generated from enum value: ACTION_REFERENCE_DELETE = 31;
    */
-  REFERENCE_VIEW = 23,
+  REFERENCE_DELETE = 31,
+
+  /**
+   * @generated from enum value: ACTION_REFERENCE_VIEW = 32;
+   */
+  REFERENCE_VIEW = 32,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Action)
 proto3.util.setEnumType(Action, "auth.Action", [
@@ -221,9 +226,10 @@ proto3.util.setEnumType(Action, "auth.Action", [
   { no: 18, name: "ACTION_VIEW_HISTORY" },
   { no: 19, name: "ACTION_VIEW_HIDDEN_TXS" },
   { no: 20, name: "ACTION_HIDE_TX" },
-  { no: 21, name: "ACTION_REFERENCE_CREATE" },
-  { no: 22, name: "ACTION_REFERENCE_DELETE" },
-  { no: 23, name: "ACTION_REFERENCE_VIEW" },
+  { no: 21, name: "ACTION_UNHIDE_TX" },
+  { no: 30, name: "ACTION_REFERENCE_CREATE" },
+  { no: 31, name: "ACTION_REFERENCE_DELETE" },
+  { no: 32, name: "ACTION_REFERENCE_VIEW" },
 ]);
 
 /**
