@@ -352,6 +352,16 @@ function deployCCAAS() {
   fi
 }
 
+## Call the script to deploy a chaincode to the channel
+function deployMultiCCAAS() {
+  scripts/deployMultiCCAAS.sh.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CCAAS_DOCKER_RUN $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE $CCAAS_DOCKER_RUN
+
+  if [ $? -ne 0 ]; then
+    fatalln "Deploying chaincode-as-a-service failed"
+  fi
+}
+
+
 ## Call the script to package the chaincode
 function packageChaincode() {
 
@@ -657,6 +667,10 @@ elif [ "$MODE" == "deployCC" ]; then
 elif [ "$MODE" == "deployCCAAS" ]; then
   infoln "deploying chaincode-as-a-service on channel '${CHANNEL_NAME}'"
   deployCCAAS
+elif [ "$MODE" == "deployCCAAS_Mod" ]; then
+  infoln "deploying chaincode-as-a-service on channel '${CHANNEL_NAME}'"
+  deployCCAAS_Mod
+
 elif [ "$MODE" == "cc" ] && [ "$SUBCOMMAND" == "package" ]; then
   packageChaincode
 elif [ "$MODE" == "cc" ] && [ "$SUBCOMMAND" == "list" ]; then

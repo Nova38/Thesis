@@ -1,9 +1,6 @@
 FROM golang:1.21.4-bookworm AS build-env
 # ENV CORE_CHAINCODE_ID_NAME=biochain
 
-RUN go install github.com/go-delve/delve/cmd/dlv@latest
-
-
 
 WORKDIR /app/chaincode
 COPY . .
@@ -11,10 +8,9 @@ COPY . .
 # CMD ["/bin/bash"]
 
 RUN go build -gcflags="all=-N -l" -o /noauth
-# RUN ls /go
-
-RUN go get -d -v ./...
-RUN go install -v
+RUN ls /go
+# RUN go get -d -v ./...
+#RUN go install -v
 
 # FROM golang:1.21.4-bookworm AS debug-env
 

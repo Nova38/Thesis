@@ -20,11 +20,8 @@ require (
 require (
 	github.com/bufbuild/protovalidate-go v0.4.2
 	github.com/rs/zerolog v1.31.0
-	github.com/samber/slog-logrus/v2 v2.1.0
 	github.com/segmentio/golines v0.11.0
 )
-
-require github.com/samber/slog-common v0.11.0 // indirect
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
@@ -36,7 +33,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/sirupsen/logrus v1.9.3
+	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/mod v0.14.0 // indirect

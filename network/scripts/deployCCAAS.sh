@@ -115,7 +115,7 @@ buildDockerImages() {
     infoln "Building Chaincode-as-a-Service docker image '${CC_NAME}' '${CC_SRC_PATH}'"
     infoln "This may take several minutes..."
     set -x
-    ${CONTAINER_CLI} build -f $CC_SRC_PATH/Dockerfile -t ${CC_NAME}_ccaas_image:latest --build-arg CC_SERVER_PORT=9999 $CC_SRC_PATH >&log.txt
+    ${CONTAINER_CLI} build -f $CC_SRC_PATH/Dockerfile -t ${CC_NAME}_ccaas_image:latest --build-arg CC_SERVER_PORT=9999 ../ >&log.txt
     res=$?
     { set +x; } 2>/dev/null
     cat log.txt
@@ -134,8 +134,6 @@ startDockerContainer() {
     set -x
     ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \
                 --network fabric_test \
-                -p 40000:40000 \
-                -p 6060:6060 \
                 -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
                 -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
                 ${CC_NAME}_ccaas_image:latest
@@ -151,6 +149,11 @@ startDockerContainer() {
     verifyResult $res "Failed to start the container container '${CC_NAME}_ccaas_image:latest' "
     successln "Docker container started succesfully '${CC_NAME}_ccaas_image:latest'"
   else
+    cat > chaincode/${CC_NAME}.env << EOF
+CHAINCODE_ID=${PACKAGE_ID}
+CORE_CHAINCODE_ID_NAME=${PACKAGE_ID}
+CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT}
+EOF
 
     infoln "Not starting docker containers; these are the commands we would have run"
     infoln "    ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \

@@ -8,8 +8,6 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/thesis/lib/go/fabric/auth/common"
 	"github.com/nova38/thesis/lib/go/fabric/contracts/noauth"
-	sloglogrus "github.com/samber/slog-logrus/v2"
-	"github.com/sirupsen/logrus"
 )
 
 // _ "net/http/pprof"
@@ -32,7 +30,7 @@ import (
 func startPyrosope() {
 }
 
-func main() {
+func mainPro() {
 	// fmt.Println("Starting http for pprof")
 	// go func() {
 	// 	fmt.Println(http.ListenAndServe("0.0.0.0:6060", nil))
@@ -76,13 +74,8 @@ func main() {
 
 	// handler := log.New(os.Stderr)
 	// logger := slog.New(handler)
-	logrusLogger := logrus.New()
 
-	logger := slog.New(
-		sloglogrus.Option{Level: slog.LevelDebug, Logger: logrusLogger}.NewLogrusHandler(),
-	)
-
-	// logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	slog.SetDefault(logger)
 
