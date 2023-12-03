@@ -95,7 +95,26 @@
 \end{romanpages}
 
 
-
+\begin{tblr}{hlines, vlines}     % Your table
+    Function                   & Transaction Type & Action \\
+    Get                        & Query            & ACTION_VIEW     \\
+    List                       & Query            & ACTION_VIEW     \\
+    ListByCollection           & Query            & ACTION_VIEW         \\
+    ListByAttrs                & Query            & ACTION_VIEW        \\
+    Create                     & Invoke           & ACTION_CREATE        \\
+    Update                     & Invoke           & ACTION_UPDATE        \\
+    Delete                     & Invoke           & ACTION_DELETE        \\
+    GetHistory                 & Query            & ACTION_VIEW_HISTORY       \\
+    GetHiddenTx                & Query            & ACTION_VIEW_HIDDEN_TXS        \\
+    HideTx                     & Invoke           & ACTION_HIDE_TX        \\
+    UnHideTx                   & Invoke           & ACTION_UNHIDE_TX        \\
+    GetSuggestion              & Query            & ACTION_SUGGEST_VIEW        \\
+    SuggestionListByCollection & Query            & ACTION_SUGGEST_VIEW        \\
+    SuggestionByPartialKey     & Query            & ACTION_SUGGEST_VIEW       \\
+    SuggestionCreate           & Invoke           & ACTION_SUGGEST_CREATE       \\
+    SuggestionDelete           & Invoke           & ACTION_SUGGEST_DELETE        \\
+    SuggestionApprove          & Invoke           & ACTION_SUGGEST_CREATE        
+\end{tblr}     % Center your table
 % This is the main body of the document.
 
 \import{Introduction/}{Introduction}
