@@ -56,11 +56,10 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  * @return {Promise<TxStatus[]>}
  */
 async submitTransaction() {
+
+    const item = new hlf.pb.common.generic.DeleteRequest({arg.item})
+
     /** @type {PeerGateway.FabricRequestSettings}*/
-
-    const item = new hlf.pb.common.generic.DeleteRequest({})
-
-
     const myArgs = {
         contractId: this.contractId,
 
@@ -75,6 +74,7 @@ async submitTransaction() {
 
 
     const txStatus = await this.sutAdapter.sendRequests(myArgs);
+
     logger.info('txStatus', txStatus);
 
     return txStatus;

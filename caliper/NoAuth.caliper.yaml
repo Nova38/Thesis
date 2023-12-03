@@ -40,7 +40,7 @@ caliper:
     # Report file-related options
     report:
         # The absolute or workspace-relative path of the report file.
-        path: './out/report.html'
+        path: './out/noauth/report.html'
         # The options to pass to fs.writeFile
         options:
             flag: 'w'
@@ -61,7 +61,7 @@ caliper:
     # The file path for the user-level configuration file. Can be relative to the workspace.
     machineconfig:
     # Path to the benchmark workload file that describes the test workers(s), test rounds and monitor
-    benchconfig: ./benchmarks/NoAuth.yaml
+    benchconfig: ./benchmarks/NoAuth.bench.yaml
     # Path to the blockchain configuration file that contains information required to interact with the SUT
     networkconfig: ./networks/test-network.yaml
     # Configurations related to caliper test progress

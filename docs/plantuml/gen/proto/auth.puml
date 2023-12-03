@@ -1,0 +1,305 @@
+@startuml Auth_Protobuf
+namespace Auth_Protobuf {
+    class Action << (S,Aquamarine) >> {
+        + Enum() *Action
+        + String() string
+        + Descriptor() protoreflect.EnumDescriptor
+        + Type() protoreflect.EnumType
+        + Number() protoreflect.EnumNumber
+        + EnumDescriptor() ([]byte, []int)
+
+    }
+    class Attribute << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + MspId string
+        + Oid string
+        + Value string
+        + Polices *Polices
+        + Note string
+
+
+        + ItemType() string
+
+
+
+    }
+
+
+    class Collection << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + Name string
+        + AuthType AuthType
+        + ItemTypes []string
+        + Default *Polices
+
+
+        + ItemType() string
+        + KeyAttr() []string
+        + SetKeyAttr(attr []string)
+        + IsPrimary() bool
+        + SetKey(key *ItemKey)
+        + ItemKey() *ItemKey
+    }
+
+    class FullItem << (S,Aquamarine) >> {
+
+
+        + Item *Item
+        + History *History
+        + Suggestions []*Suggestion
+        + References []*Reference
+
+
+
+        + GetItem() *Item
+        + GetHistory() *History
+        + GetSuggestions() []*Suggestion
+        + GetReferences() []*Reference
+
+
+    }
+
+    class HiddenTx << (S,Aquamarine) >> {
+        + TxId string
+        + MspId string
+        + UserId string
+        + Timestamp *timestamppb.Timestamp
+        + Note string
+    }
+    class HiddenTxList << (S,Aquamarine) >> {
+        + PrimaryKey *ItemKey
+        + Txs []*HiddenTx
+        + ItemType() string
+    }
+
+    class History << (S,Aquamarine) >> {
+        + Entries []*HistoryEntry
+        + HiddenTxs *HiddenTxList
+    }
+    class HistoryEntry << (S,Aquamarine) >> {
+        + TxId string
+        + IsDelete bool
+        + IsHidden bool
+        + Timestamp *timestamppb.Timestamp
+        + Note string
+        + Value *anypb.Any
+    }
+
+    class Item << (S,Aquamarine) >> {
+
+
+        + Key *ItemKey
+        + Value *anypb.Any
+
+
+
+        + GetKey() *ItemKey
+        + GetValue() *anypb.Any
+
+
+    }
+    class ItemKey << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + ItemType string
+        + ItemIdParts []string
+
+
+
+        + GetCollectionId() string
+        + GetItemType() string
+        + GetItemIdParts() []string
+
+
+    }
+
+    class KeySchema << (S,Aquamarine) >> {
+
+
+        + ItemType string
+        + ItemKind ItemKind
+        + Keys *fieldmaskpb.FieldMask
+
+
+
+        + GetItemType() string
+        + GetItemKind() ItemKind
+        + GetKeys() *fieldmaskpb.FieldMask
+
+
+    }
+
+    class Operation << (S,Aquamarine) >> {
+
+
+        + Action Action
+        + CollectionId string
+        + ItemType string
+        + Paths *fieldmaskpb.FieldMask
+
+
+
+        + GetAction() Action
+        + GetCollectionId() string
+        + GetItemType() string
+        + GetPaths() *fieldmaskpb.FieldMask
+
+
+    }
+
+    class PathPolicy << (S,Aquamarine) >> {
+        + Path string
+        + FullPath string
+        + AllowSubPaths bool
+        + SubPaths <font color=blue>map</font>[string]*PathPolicy
+        + Actions []Action
+
+    }
+
+    class Polices << (S,Aquamarine) >> {
+        + ItemPolicies <font color=blue>map</font>[string]*PathPolicy
+        + DefaultPolicy *PathPolicy
+    }
+
+
+    class Reference << (S,Aquamarine) >> {
+        + Reference *ReferenceKey
+        + Item1 *Item
+        + Item2 *Item
+    }
+    class ReferenceKey << (S,Aquamarine) >> {
+
+
+        + Key1 *ItemKey
+        + Key2 *ItemKey
+
+
+        + ItemType() string
+
+        + GetKey1() *ItemKey
+        + GetKey2() *ItemKey
+    }
+
+
+    class Role << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + RoleId string
+        + Polices *Polices
+        + Note string
+        + ParentRoleIds []string
+
+
+        + ItemType() string
+        + KeyAttr() []string
+        + SetKeyAttr(attr []string)
+        + IsPrimary() bool
+        + SetKey(key *ItemKey)
+        + ItemKey() *ItemKey
+
+
+    }
+
+    class StateActivity << (S,Aquamarine) >> {
+
+
+        + TxId string
+        + MspId string
+        + UserId string
+        + Timestamp *timestamppb.Timestamp
+        + Note string
+
+
+
+        + GetTxId() string
+        + GetMspId() string
+        + GetUserId() string
+        + GetTimestamp() *timestamppb.Timestamp
+        + GetNote() string
+
+
+    }
+
+    class Suggestion << (S,Aquamarine) >> {
+
+
+        + PrimaryKey *ItemKey
+        + SuggestionId string
+        + Paths *fieldmaskpb.FieldMask
+        + Value *anypb.Any
+
+
+        + ItemType() string
+        + KeyAttr() []string
+        + SetKeyAttr(attr []string)
+        + IsSecondary() bool
+        + SetKey(key *ItemKey)
+        + ItemKey() *ItemKey
+    }
+
+
+
+    class User << (S,Aquamarine) >> {
+
+
+        + MspId string
+        + UserId string
+
+
+
+        + GetMspId() string
+        + GetUserId() string
+
+
+    }
+    class UserCollectionRoles << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + MspId string
+        + UserId string
+        + RoleIds []string
+        + Note string
+
+
+        + ItemType() string
+        + KeyAttr() []string
+        + SetKeyAttr(attr []string)
+        + IsPrimary() bool
+        + SetKey(key *ItemKey)
+        + ItemKey() *ItemKey
+    }
+
+    class UserMembership << (S,Aquamarine) >> {
+
+
+        + CollectionId string
+        + MspId string
+        + UserId string
+        + Polices *Polices
+        + Note string
+
+
+        + ItemType() string
+        + KeyAttr() []string
+        + SetKeyAttr(attr []string)
+        + IsPrimary() bool
+        + SetKey(key *ItemKey)
+        + ItemKey() *ItemKey
+
+
+
+    }
+
+
+}
+
+
+
+@enduml

@@ -74,16 +74,16 @@
             {"key":{}}
         ]
     },
-// History HistoryRequest
+// GetHistory GetHistoryRequest
     {
-        "invoke": "history",
+        "invoke": "getHistory",
         "args": [
             {"key":{}}
         ]
     },
-// HiddenTx HiddenTxRequest
+// GetHiddenTx GetHiddenTxRequest
     {
-        "invoke": "hiddenTx",
+        "invoke": "getHiddenTx",
         "args": [
             {"item":{"key":{},"value":{}}}
         ]
@@ -102,9 +102,9 @@
             {"key":{}}
         ]
     },
-// Suggestion SuggestionRequest
+// GetSuggestion GetSuggestionRequest
     {
-        "invoke": "suggestion",
+        "invoke": "getSuggestion",
         "args": [
             {"itemKey":{}}
         ]

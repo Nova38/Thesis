@@ -3,6 +3,9 @@
         "query": "org.hyperledger.fabric:GetMetadata",
         "args": [""]
     },
+    {
+
+    },
     // GetCurrentUser Empty
         {
             "invoke": "getCurrentUser",
@@ -22,7 +25,9 @@
         {
             "invoke": "Bootstrap",
             "args": [
-                {}
+                {
+
+                }
             ]
         },
         {

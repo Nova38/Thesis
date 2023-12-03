@@ -13,23 +13,32 @@
 #
 
 ---
+caliper:
+  report:
+    # The absolute or workspace-relative path of the report file.
+    path: './out/init_report.html'
+
 test:
   name: NoAuth
   description:
   workers:
-    number: 1
+    number: 5
   rounds:
   - label: Initialize
     contractId: noauth
-    txDuration: 2
+    txDuration: 10
     rateControl:
       type: fixed-rate
-      opts: { tps: 10 }
+      opts: { tps: 1 }
     workload:
-      module: benchmarks/workloads/Get.js
+      module: benchmarks/workloads/auth/noauth/test.js
       arguments:
         contractId: noauth
-        contractVersion: 0.1
+        failRate: 50
+
+
+
+
 
 
 monitors:
@@ -72,7 +81,7 @@ monitors:
         bar:
             metrics: [all]
       metrics:
-        include: [dev-.*, couch, peer, orderer]
+        include: [.*noauth_ccaas, couch, peer, orderer]
         queries:
         - name: Avg Memory (MB)
           query: 'sum(container_memory_rss{name=~".+"}) by (name)'

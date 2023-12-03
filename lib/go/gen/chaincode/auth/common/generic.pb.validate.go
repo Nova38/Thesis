@@ -2980,22 +2980,22 @@ var _ interface {
 	ErrorName() string
 } = DeleteResponseValidationError{}
 
-// Validate checks the field values on HistoryRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *HistoryRequest) Validate() error {
+// Validate checks the field values on GetHistoryRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GetHistoryRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HistoryRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in HistoryRequestMultiError,
-// or nil if none found.
-func (m *HistoryRequest) ValidateAll() error {
+// ValidateAll checks the field values on GetHistoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetHistoryRequestMultiError, or nil if none found.
+func (m *GetHistoryRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HistoryRequest) validate(all bool) error {
+func (m *GetHistoryRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3006,7 +3006,7 @@ func (m *HistoryRequest) validate(all bool) error {
 		switch v := interface{}(m.GetKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, HistoryRequestValidationError{
+				errors = append(errors, GetHistoryRequestValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3014,7 +3014,7 @@ func (m *HistoryRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, HistoryRequestValidationError{
+				errors = append(errors, GetHistoryRequestValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3023,7 +3023,7 @@ func (m *HistoryRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return HistoryRequestValidationError{
+			return GetHistoryRequestValidationError{
 				field:  "Key",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -3036,19 +3036,19 @@ func (m *HistoryRequest) validate(all bool) error {
 	// no validation rules for Bookmark
 
 	if len(errors) > 0 {
-		return HistoryRequestMultiError(errors)
+		return GetHistoryRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// HistoryRequestMultiError is an error wrapping multiple validation errors
-// returned by HistoryRequest.ValidateAll() if the designated constraints
+// GetHistoryRequestMultiError is an error wrapping multiple validation errors
+// returned by GetHistoryRequest.ValidateAll() if the designated constraints
 // aren't met.
-type HistoryRequestMultiError []error
+type GetHistoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HistoryRequestMultiError) Error() string {
+func (m GetHistoryRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3057,11 +3057,11 @@ func (m HistoryRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HistoryRequestMultiError) AllErrors() []error { return m }
+func (m GetHistoryRequestMultiError) AllErrors() []error { return m }
 
-// HistoryRequestValidationError is the validation error returned by
-// HistoryRequest.Validate if the designated constraints aren't met.
-type HistoryRequestValidationError struct {
+// GetHistoryRequestValidationError is the validation error returned by
+// GetHistoryRequest.Validate if the designated constraints aren't met.
+type GetHistoryRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3069,22 +3069,24 @@ type HistoryRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e HistoryRequestValidationError) Field() string { return e.field }
+func (e GetHistoryRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HistoryRequestValidationError) Reason() string { return e.reason }
+func (e GetHistoryRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HistoryRequestValidationError) Cause() error { return e.cause }
+func (e GetHistoryRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HistoryRequestValidationError) Key() bool { return e.key }
+func (e GetHistoryRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HistoryRequestValidationError) ErrorName() string { return "HistoryRequestValidationError" }
+func (e GetHistoryRequestValidationError) ErrorName() string {
+	return "GetHistoryRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e HistoryRequestValidationError) Error() string {
+func (e GetHistoryRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3096,14 +3098,14 @@ func (e HistoryRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHistoryRequest.%s: %s%s",
+		"invalid %sGetHistoryRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HistoryRequestValidationError{}
+var _ error = GetHistoryRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -3111,24 +3113,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HistoryRequestValidationError{}
+} = GetHistoryRequestValidationError{}
 
-// Validate checks the field values on HistoryResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *HistoryResponse) Validate() error {
+// Validate checks the field values on GetHistoryResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetHistoryResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HistoryResponse with the rules
+// ValidateAll checks the field values on GetHistoryResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// HistoryResponseMultiError, or nil if none found.
-func (m *HistoryResponse) ValidateAll() error {
+// GetHistoryResponseMultiError, or nil if none found.
+func (m *GetHistoryResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HistoryResponse) validate(all bool) error {
+func (m *GetHistoryResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3139,7 +3141,7 @@ func (m *HistoryResponse) validate(all bool) error {
 		switch v := interface{}(m.GetKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, HistoryResponseValidationError{
+				errors = append(errors, GetHistoryResponseValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3147,7 +3149,7 @@ func (m *HistoryResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, HistoryResponseValidationError{
+				errors = append(errors, GetHistoryResponseValidationError{
 					field:  "Key",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3156,7 +3158,7 @@ func (m *HistoryResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return HistoryResponseValidationError{
+			return GetHistoryResponseValidationError{
 				field:  "Key",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -3168,7 +3170,7 @@ func (m *HistoryResponse) validate(all bool) error {
 		switch v := interface{}(m.GetHistory()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, HistoryResponseValidationError{
+				errors = append(errors, GetHistoryResponseValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3176,7 +3178,7 @@ func (m *HistoryResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, HistoryResponseValidationError{
+				errors = append(errors, GetHistoryResponseValidationError{
 					field:  "History",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3185,7 +3187,7 @@ func (m *HistoryResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetHistory()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return HistoryResponseValidationError{
+			return GetHistoryResponseValidationError{
 				field:  "History",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -3194,19 +3196,19 @@ func (m *HistoryResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return HistoryResponseMultiError(errors)
+		return GetHistoryResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// HistoryResponseMultiError is an error wrapping multiple validation errors
-// returned by HistoryResponse.ValidateAll() if the designated constraints
+// GetHistoryResponseMultiError is an error wrapping multiple validation errors
+// returned by GetHistoryResponse.ValidateAll() if the designated constraints
 // aren't met.
-type HistoryResponseMultiError []error
+type GetHistoryResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HistoryResponseMultiError) Error() string {
+func (m GetHistoryResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3215,11 +3217,11 @@ func (m HistoryResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HistoryResponseMultiError) AllErrors() []error { return m }
+func (m GetHistoryResponseMultiError) AllErrors() []error { return m }
 
-// HistoryResponseValidationError is the validation error returned by
-// HistoryResponse.Validate if the designated constraints aren't met.
-type HistoryResponseValidationError struct {
+// GetHistoryResponseValidationError is the validation error returned by
+// GetHistoryResponse.Validate if the designated constraints aren't met.
+type GetHistoryResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3227,22 +3229,24 @@ type HistoryResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e HistoryResponseValidationError) Field() string { return e.field }
+func (e GetHistoryResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HistoryResponseValidationError) Reason() string { return e.reason }
+func (e GetHistoryResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HistoryResponseValidationError) Cause() error { return e.cause }
+func (e GetHistoryResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HistoryResponseValidationError) Key() bool { return e.key }
+func (e GetHistoryResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HistoryResponseValidationError) ErrorName() string { return "HistoryResponseValidationError" }
+func (e GetHistoryResponseValidationError) ErrorName() string {
+	return "GetHistoryResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e HistoryResponseValidationError) Error() string {
+func (e GetHistoryResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3254,14 +3258,14 @@ func (e HistoryResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHistoryResponse.%s: %s%s",
+		"invalid %sGetHistoryResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HistoryResponseValidationError{}
+var _ error = GetHistoryResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -3269,24 +3273,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HistoryResponseValidationError{}
+} = GetHistoryResponseValidationError{}
 
-// Validate checks the field values on HiddenTxRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *HiddenTxRequest) Validate() error {
+// Validate checks the field values on GetHiddenTxRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetHiddenTxRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HiddenTxRequest with the rules
+// ValidateAll checks the field values on GetHiddenTxRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// HiddenTxRequestMultiError, or nil if none found.
-func (m *HiddenTxRequest) ValidateAll() error {
+// GetHiddenTxRequestMultiError, or nil if none found.
+func (m *GetHiddenTxRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HiddenTxRequest) validate(all bool) error {
+func (m *GetHiddenTxRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3297,7 +3301,7 @@ func (m *HiddenTxRequest) validate(all bool) error {
 		switch v := interface{}(m.GetItem()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, HiddenTxRequestValidationError{
+				errors = append(errors, GetHiddenTxRequestValidationError{
 					field:  "Item",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3305,7 +3309,7 @@ func (m *HiddenTxRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, HiddenTxRequestValidationError{
+				errors = append(errors, GetHiddenTxRequestValidationError{
 					field:  "Item",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3314,7 +3318,7 @@ func (m *HiddenTxRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetItem()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return HiddenTxRequestValidationError{
+			return GetHiddenTxRequestValidationError{
 				field:  "Item",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -3323,19 +3327,19 @@ func (m *HiddenTxRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return HiddenTxRequestMultiError(errors)
+		return GetHiddenTxRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// HiddenTxRequestMultiError is an error wrapping multiple validation errors
-// returned by HiddenTxRequest.ValidateAll() if the designated constraints
+// GetHiddenTxRequestMultiError is an error wrapping multiple validation errors
+// returned by GetHiddenTxRequest.ValidateAll() if the designated constraints
 // aren't met.
-type HiddenTxRequestMultiError []error
+type GetHiddenTxRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HiddenTxRequestMultiError) Error() string {
+func (m GetHiddenTxRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3344,11 +3348,11 @@ func (m HiddenTxRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HiddenTxRequestMultiError) AllErrors() []error { return m }
+func (m GetHiddenTxRequestMultiError) AllErrors() []error { return m }
 
-// HiddenTxRequestValidationError is the validation error returned by
-// HiddenTxRequest.Validate if the designated constraints aren't met.
-type HiddenTxRequestValidationError struct {
+// GetHiddenTxRequestValidationError is the validation error returned by
+// GetHiddenTxRequest.Validate if the designated constraints aren't met.
+type GetHiddenTxRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3356,22 +3360,24 @@ type HiddenTxRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e HiddenTxRequestValidationError) Field() string { return e.field }
+func (e GetHiddenTxRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HiddenTxRequestValidationError) Reason() string { return e.reason }
+func (e GetHiddenTxRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HiddenTxRequestValidationError) Cause() error { return e.cause }
+func (e GetHiddenTxRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HiddenTxRequestValidationError) Key() bool { return e.key }
+func (e GetHiddenTxRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HiddenTxRequestValidationError) ErrorName() string { return "HiddenTxRequestValidationError" }
+func (e GetHiddenTxRequestValidationError) ErrorName() string {
+	return "GetHiddenTxRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e HiddenTxRequestValidationError) Error() string {
+func (e GetHiddenTxRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3383,14 +3389,14 @@ func (e HiddenTxRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHiddenTxRequest.%s: %s%s",
+		"invalid %sGetHiddenTxRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HiddenTxRequestValidationError{}
+var _ error = GetHiddenTxRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -3398,24 +3404,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HiddenTxRequestValidationError{}
+} = GetHiddenTxRequestValidationError{}
 
-// Validate checks the field values on HiddenTxResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *HiddenTxResponse) Validate() error {
+// Validate checks the field values on GetHiddenTxResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetHiddenTxResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on HiddenTxResponse with the rules
+// ValidateAll checks the field values on GetHiddenTxResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// HiddenTxResponseMultiError, or nil if none found.
-func (m *HiddenTxResponse) ValidateAll() error {
+// GetHiddenTxResponseMultiError, or nil if none found.
+func (m *GetHiddenTxResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *HiddenTxResponse) validate(all bool) error {
+func (m *GetHiddenTxResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3431,7 +3437,7 @@ func (m *HiddenTxResponse) validate(all bool) error {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, HiddenTxResponseValidationError{
+					errors = append(errors, GetHiddenTxResponseValidationError{
 						field:  fmt.Sprintf("HiddenTxs[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -3439,7 +3445,7 @@ func (m *HiddenTxResponse) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, HiddenTxResponseValidationError{
+					errors = append(errors, GetHiddenTxResponseValidationError{
 						field:  fmt.Sprintf("HiddenTxs[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -3448,7 +3454,7 @@ func (m *HiddenTxResponse) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return HiddenTxResponseValidationError{
+				return GetHiddenTxResponseValidationError{
 					field:  fmt.Sprintf("HiddenTxs[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -3459,19 +3465,19 @@ func (m *HiddenTxResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return HiddenTxResponseMultiError(errors)
+		return GetHiddenTxResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// HiddenTxResponseMultiError is an error wrapping multiple validation errors
-// returned by HiddenTxResponse.ValidateAll() if the designated constraints
-// aren't met.
-type HiddenTxResponseMultiError []error
+// GetHiddenTxResponseMultiError is an error wrapping multiple validation
+// errors returned by GetHiddenTxResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetHiddenTxResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m HiddenTxResponseMultiError) Error() string {
+func (m GetHiddenTxResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3480,11 +3486,11 @@ func (m HiddenTxResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m HiddenTxResponseMultiError) AllErrors() []error { return m }
+func (m GetHiddenTxResponseMultiError) AllErrors() []error { return m }
 
-// HiddenTxResponseValidationError is the validation error returned by
-// HiddenTxResponse.Validate if the designated constraints aren't met.
-type HiddenTxResponseValidationError struct {
+// GetHiddenTxResponseValidationError is the validation error returned by
+// GetHiddenTxResponse.Validate if the designated constraints aren't met.
+type GetHiddenTxResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3492,22 +3498,24 @@ type HiddenTxResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e HiddenTxResponseValidationError) Field() string { return e.field }
+func (e GetHiddenTxResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e HiddenTxResponseValidationError) Reason() string { return e.reason }
+func (e GetHiddenTxResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e HiddenTxResponseValidationError) Cause() error { return e.cause }
+func (e GetHiddenTxResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e HiddenTxResponseValidationError) Key() bool { return e.key }
+func (e GetHiddenTxResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e HiddenTxResponseValidationError) ErrorName() string { return "HiddenTxResponseValidationError" }
+func (e GetHiddenTxResponseValidationError) ErrorName() string {
+	return "GetHiddenTxResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e HiddenTxResponseValidationError) Error() string {
+func (e GetHiddenTxResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3519,14 +3527,14 @@ func (e HiddenTxResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sHiddenTxResponse.%s: %s%s",
+		"invalid %sGetHiddenTxResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = HiddenTxResponseValidationError{}
+var _ error = GetHiddenTxResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -3534,7 +3542,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = HiddenTxResponseValidationError{}
+} = GetHiddenTxResponseValidationError{}
 
 // Validate checks the field values on HideTxRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -4141,22 +4149,22 @@ var _ interface {
 	ErrorName() string
 } = UnHideTxResponseValidationError{}
 
-// Validate checks the field values on SuggestionRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *SuggestionRequest) Validate() error {
+// Validate checks the field values on GetSuggestionRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetSuggestionRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SuggestionRequest with the rules
+// ValidateAll checks the field values on GetSuggestionRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// SuggestionRequestMultiError, or nil if none found.
-func (m *SuggestionRequest) ValidateAll() error {
+// GetSuggestionRequestMultiError, or nil if none found.
+func (m *GetSuggestionRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SuggestionRequest) validate(all bool) error {
+func (m *GetSuggestionRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -4167,7 +4175,7 @@ func (m *SuggestionRequest) validate(all bool) error {
 		switch v := interface{}(m.GetItemKey()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionRequestValidationError{
+				errors = append(errors, GetSuggestionRequestValidationError{
 					field:  "ItemKey",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -4175,7 +4183,7 @@ func (m *SuggestionRequest) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionRequestValidationError{
+				errors = append(errors, GetSuggestionRequestValidationError{
 					field:  "ItemKey",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -4184,7 +4192,7 @@ func (m *SuggestionRequest) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetItemKey()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return SuggestionRequestValidationError{
+			return GetSuggestionRequestValidationError{
 				field:  "ItemKey",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -4195,19 +4203,19 @@ func (m *SuggestionRequest) validate(all bool) error {
 	// no validation rules for SuggestionId
 
 	if len(errors) > 0 {
-		return SuggestionRequestMultiError(errors)
+		return GetSuggestionRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// SuggestionRequestMultiError is an error wrapping multiple validation errors
-// returned by SuggestionRequest.ValidateAll() if the designated constraints
-// aren't met.
-type SuggestionRequestMultiError []error
+// GetSuggestionRequestMultiError is an error wrapping multiple validation
+// errors returned by GetSuggestionRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetSuggestionRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SuggestionRequestMultiError) Error() string {
+func (m GetSuggestionRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -4216,11 +4224,11 @@ func (m SuggestionRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SuggestionRequestMultiError) AllErrors() []error { return m }
+func (m GetSuggestionRequestMultiError) AllErrors() []error { return m }
 
-// SuggestionRequestValidationError is the validation error returned by
-// SuggestionRequest.Validate if the designated constraints aren't met.
-type SuggestionRequestValidationError struct {
+// GetSuggestionRequestValidationError is the validation error returned by
+// GetSuggestionRequest.Validate if the designated constraints aren't met.
+type GetSuggestionRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -4228,24 +4236,24 @@ type SuggestionRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e SuggestionRequestValidationError) Field() string { return e.field }
+func (e GetSuggestionRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SuggestionRequestValidationError) Reason() string { return e.reason }
+func (e GetSuggestionRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SuggestionRequestValidationError) Cause() error { return e.cause }
+func (e GetSuggestionRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SuggestionRequestValidationError) Key() bool { return e.key }
+func (e GetSuggestionRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SuggestionRequestValidationError) ErrorName() string {
-	return "SuggestionRequestValidationError"
+func (e GetSuggestionRequestValidationError) ErrorName() string {
+	return "GetSuggestionRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e SuggestionRequestValidationError) Error() string {
+func (e GetSuggestionRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -4257,14 +4265,14 @@ func (e SuggestionRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSuggestionRequest.%s: %s%s",
+		"invalid %sGetSuggestionRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SuggestionRequestValidationError{}
+var _ error = GetSuggestionRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -4272,24 +4280,24 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SuggestionRequestValidationError{}
+} = GetSuggestionRequestValidationError{}
 
-// Validate checks the field values on SuggestionResponse with the rules
+// Validate checks the field values on GetSuggestionResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *SuggestionResponse) Validate() error {
+func (m *GetSuggestionResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on SuggestionResponse with the rules
+// ValidateAll checks the field values on GetSuggestionResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// SuggestionResponseMultiError, or nil if none found.
-func (m *SuggestionResponse) ValidateAll() error {
+// GetSuggestionResponseMultiError, or nil if none found.
+func (m *GetSuggestionResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *SuggestionResponse) validate(all bool) error {
+func (m *GetSuggestionResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -4300,7 +4308,7 @@ func (m *SuggestionResponse) validate(all bool) error {
 		switch v := interface{}(m.GetSuggestion()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, SuggestionResponseValidationError{
+				errors = append(errors, GetSuggestionResponseValidationError{
 					field:  "Suggestion",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -4308,7 +4316,7 @@ func (m *SuggestionResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, SuggestionResponseValidationError{
+				errors = append(errors, GetSuggestionResponseValidationError{
 					field:  "Suggestion",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -4317,7 +4325,7 @@ func (m *SuggestionResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetSuggestion()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return SuggestionResponseValidationError{
+			return GetSuggestionResponseValidationError{
 				field:  "Suggestion",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -4326,19 +4334,19 @@ func (m *SuggestionResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return SuggestionResponseMultiError(errors)
+		return GetSuggestionResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// SuggestionResponseMultiError is an error wrapping multiple validation errors
-// returned by SuggestionResponse.ValidateAll() if the designated constraints
-// aren't met.
-type SuggestionResponseMultiError []error
+// GetSuggestionResponseMultiError is an error wrapping multiple validation
+// errors returned by GetSuggestionResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetSuggestionResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m SuggestionResponseMultiError) Error() string {
+func (m GetSuggestionResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -4347,11 +4355,11 @@ func (m SuggestionResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m SuggestionResponseMultiError) AllErrors() []error { return m }
+func (m GetSuggestionResponseMultiError) AllErrors() []error { return m }
 
-// SuggestionResponseValidationError is the validation error returned by
-// SuggestionResponse.Validate if the designated constraints aren't met.
-type SuggestionResponseValidationError struct {
+// GetSuggestionResponseValidationError is the validation error returned by
+// GetSuggestionResponse.Validate if the designated constraints aren't met.
+type GetSuggestionResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -4359,24 +4367,24 @@ type SuggestionResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e SuggestionResponseValidationError) Field() string { return e.field }
+func (e GetSuggestionResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e SuggestionResponseValidationError) Reason() string { return e.reason }
+func (e GetSuggestionResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e SuggestionResponseValidationError) Cause() error { return e.cause }
+func (e GetSuggestionResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e SuggestionResponseValidationError) Key() bool { return e.key }
+func (e GetSuggestionResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e SuggestionResponseValidationError) ErrorName() string {
-	return "SuggestionResponseValidationError"
+func (e GetSuggestionResponseValidationError) ErrorName() string {
+	return "GetSuggestionResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e SuggestionResponseValidationError) Error() string {
+func (e GetSuggestionResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -4388,14 +4396,14 @@ func (e SuggestionResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sSuggestionResponse.%s: %s%s",
+		"invalid %sGetSuggestionResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = SuggestionResponseValidationError{}
+var _ error = GetSuggestionResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -4403,7 +4411,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = SuggestionResponseValidationError{}
+} = GetSuggestionResponseValidationError{}
 
 // Validate checks the field values on SuggestionListRequest with the rules
 // defined in the proto definition for this message. If any rules are

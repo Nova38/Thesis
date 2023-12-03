@@ -56,11 +56,10 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  * @return {Promise<TxStatus[]>}
  */
 async submitTransaction() {
+
+    const item = new hlf.pb.common.generic.ListRequest({arg.item})
+
     /** @type {PeerGateway.FabricRequestSettings}*/
-
-    const item = new hlf.pb.common.generic.ListRequest({})
-
-
     const myArgs = {
         contractId: this.contractId,
 

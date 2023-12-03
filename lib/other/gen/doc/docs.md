@@ -51,14 +51,16 @@
     - [DeleteResponse](#auth-common-DeleteResponse)
     - [GetCurrentFullUserResponse](#auth-common-GetCurrentFullUserResponse)
     - [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse)
+    - [GetHiddenTxRequest](#auth-common-GetHiddenTxRequest)
+    - [GetHiddenTxResponse](#auth-common-GetHiddenTxResponse)
+    - [GetHistoryRequest](#auth-common-GetHistoryRequest)
+    - [GetHistoryResponse](#auth-common-GetHistoryResponse)
     - [GetRequest](#auth-common-GetRequest)
     - [GetResponse](#auth-common-GetResponse)
-    - [HiddenTxRequest](#auth-common-HiddenTxRequest)
-    - [HiddenTxResponse](#auth-common-HiddenTxResponse)
+    - [GetSuggestionRequest](#auth-common-GetSuggestionRequest)
+    - [GetSuggestionResponse](#auth-common-GetSuggestionResponse)
     - [HideTxRequest](#auth-common-HideTxRequest)
     - [HideTxResponse](#auth-common-HideTxResponse)
-    - [HistoryRequest](#auth-common-HistoryRequest)
-    - [HistoryResponse](#auth-common-HistoryResponse)
     - [ListByAttrsRequest](#auth-common-ListByAttrsRequest)
     - [ListByAttrsResponse](#auth-common-ListByAttrsResponse)
     - [ListByCollectionRequest](#auth-common-ListByCollectionRequest)
@@ -79,8 +81,6 @@
     - [SuggestionListByItemResponse](#auth-common-SuggestionListByItemResponse)
     - [SuggestionListRequest](#auth-common-SuggestionListRequest)
     - [SuggestionListResponse](#auth-common-SuggestionListResponse)
-    - [SuggestionRequest](#auth-common-SuggestionRequest)
-    - [SuggestionResponse](#auth-common-SuggestionResponse)
     - [UnHideTxRequest](#auth-common-UnHideTxRequest)
     - [UnHideTxResponse](#auth-common-UnHideTxResponse)
     - [UpdateRequest](#auth-common-UpdateRequest)
@@ -900,6 +900,70 @@ Create
 
 
 
+<a name="auth-common-GetHiddenTxRequest"></a>
+
+### GetHiddenTxRequest
+GetHiddenTx
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| item | [auth.Item](#auth-Item) |  |  |
+
+
+
+
+
+
+<a name="auth-common-GetHiddenTxResponse"></a>
+
+### GetHiddenTxResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| collection_id | [string](#string) |  |  |
+| hidden_txs | [auth.HiddenTx](#auth-HiddenTx) | repeated |  |
+
+
+
+
+
+
+<a name="auth-common-GetHistoryRequest"></a>
+
+### GetHistoryRequest
+GetHistory
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| include_hidden | [bool](#bool) |  |  |
+| bookmark | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="auth-common-GetHistoryResponse"></a>
+
+### GetHistoryResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [auth.ItemKey](#auth-ItemKey) |  | repeated auth. s = 1; |
+| history | [auth.History](#auth-History) |  |  |
+
+
+
+
+
+
 <a name="auth-common-GetRequest"></a>
 
 ### GetRequest
@@ -930,31 +994,31 @@ Get
 
 
 
-<a name="auth-common-HiddenTxRequest"></a>
+<a name="auth-common-GetSuggestionRequest"></a>
 
-### HiddenTxRequest
-HiddenTx
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
-
-
-
-
-
-
-<a name="auth-common-HiddenTxResponse"></a>
-
-### HiddenTxResponse
+### GetSuggestionRequest
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| hidden_txs | [auth.HiddenTx](#auth-HiddenTx) | repeated |  |
+| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| suggestion_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="auth-common-GetSuggestionResponse"></a>
+
+### GetSuggestionResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
 
 
 
@@ -987,39 +1051,6 @@ HiddenTx
 | ----- | ---- | ----- | ----------- |
 | key | [auth.ItemKey](#auth-ItemKey) |  |  |
 | hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |  |  |
-
-
-
-
-
-
-<a name="auth-common-HistoryRequest"></a>
-
-### HistoryRequest
-History
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| include_hidden | [bool](#bool) |  |  |
-| bookmark | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="auth-common-HistoryResponse"></a>
-
-### HistoryResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  | repeated auth. s = 1; |
-| history | [auth.History](#auth-History) |  |  |
 
 
 
@@ -1352,37 +1383,6 @@ List of a type
 
 
 
-<a name="auth-common-SuggestionRequest"></a>
-
-### SuggestionRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
-
-
-
-
-
-
-<a name="auth-common-SuggestionResponse"></a>
-
-### SuggestionResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
-
-
-
-
-
-
 <a name="auth-common-UnHideTxRequest"></a>
 
 ### UnHideTxRequest
@@ -1469,11 +1469,11 @@ List of a type
 | Create | [CreateRequest](#auth-common-CreateRequest) | [CreateResponse](#auth-common-CreateResponse) |  |
 | Update | [UpdateRequest](#auth-common-UpdateRequest) | [UpdateResponse](#auth-common-UpdateResponse) |  |
 | Delete | [DeleteRequest](#auth-common-DeleteRequest) | [DeleteResponse](#auth-common-DeleteResponse) |  |
-| History | [HistoryRequest](#auth-common-HistoryRequest) | [HistoryResponse](#auth-common-HistoryResponse) |  |
-| HiddenTx | [HiddenTxRequest](#auth-common-HiddenTxRequest) | [HiddenTxResponse](#auth-common-HiddenTxResponse) |  |
+| GetHistory | [GetHistoryRequest](#auth-common-GetHistoryRequest) | [GetHistoryResponse](#auth-common-GetHistoryResponse) |  |
+| GetHiddenTx | [GetHiddenTxRequest](#auth-common-GetHiddenTxRequest) | [GetHiddenTxResponse](#auth-common-GetHiddenTxResponse) |  |
 | HideTx | [HideTxRequest](#auth-common-HideTxRequest) | [HideTxResponse](#auth-common-HideTxResponse) |  |
 | UnHideTx | [UnHideTxRequest](#auth-common-UnHideTxRequest) | [UnHideTxResponse](#auth-common-UnHideTxResponse) |  |
-| Suggestion | [SuggestionRequest](#auth-common-SuggestionRequest) | [SuggestionResponse](#auth-common-SuggestionResponse) |  |
+| GetSuggestion | [GetSuggestionRequest](#auth-common-GetSuggestionRequest) | [GetSuggestionResponse](#auth-common-GetSuggestionResponse) |  |
 | SuggestionListByCollection | [SuggestionListByCollectionRequest](#auth-common-SuggestionListByCollectionRequest) | [SuggestionListByCollectionResponse](#auth-common-SuggestionListByCollectionResponse) |  |
 | SuggestionByPartialKey | [SuggestionByPartialKeyRequest](#auth-common-SuggestionByPartialKeyRequest) | [SuggestionByPartialKeyResponse](#auth-common-SuggestionByPartialKeyResponse) |  |
 | SuggestionCreate | [SuggestionCreateRequest](#auth-common-SuggestionCreateRequest) | [SuggestionCreateResponse](#auth-common-SuggestionCreateResponse) | ──────────────────────────────── Invoke ─────────────────────────────────────── |
