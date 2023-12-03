@@ -8,7 +8,7 @@
     "bind": "caliper bind --caliper-bind-sut fabric:2.4",
     "start": "node index.js",
     "launch": "caliper launch manager --Caliper-ProjectConfig caliper.yaml --caliper-workspace ./ --caliper-networkconfig networks/test-network.yaml  --caliper-benchconfig benchmarks/config.yaml  --caliper-flow-only-test",
-    "bench": "caliper launch manager --Caliper-ProjectConfig caliper.yaml "
+    "bench:noauth": "caliper launch manager --Caliper-ProjectConfig NoAuth.caliper.yaml "
   },
   "keywords": [],
   "author": "",

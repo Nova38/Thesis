@@ -147,11 +147,10 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  * @return {Promise<TxStatus[]>}
  */
 async submitTransaction() {
-    /** @type {PeerGateway.FabricRequestSettings}*/
 
     const item = new ${inputType}({arg.item})
 
-
+    /** @type {PeerGateway.FabricRequestSettings}*/
     const myArgs = {
         contractId: this.contractId,
 

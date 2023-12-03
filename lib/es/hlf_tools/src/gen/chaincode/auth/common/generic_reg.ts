@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 import { createRegistry } from "@bufbuild/protobuf";
 
 export const allMessages = [
@@ -29,16 +29,16 @@ export const allMessages = [
   UpdateResponse, 
   DeleteRequest, 
   DeleteResponse, 
-  HistoryRequest, 
-  HistoryResponse, 
-  HiddenTxRequest, 
-  HiddenTxResponse, 
+  GetHistoryRequest, 
+  GetHistoryResponse, 
+  GetHiddenTxRequest, 
+  GetHiddenTxResponse, 
   HideTxRequest, 
   HideTxResponse, 
   UnHideTxRequest, 
   UnHideTxResponse, 
-  SuggestionRequest, 
-  SuggestionResponse, 
+  GetSuggestionRequest, 
+  GetSuggestionResponse, 
   SuggestionListRequest, 
   SuggestionListResponse, 
   SuggestionListByCollectionRequest, 
@@ -77,16 +77,16 @@ export const registry = createRegistry(
   UpdateResponse, 
   DeleteRequest, 
   DeleteResponse, 
-  HistoryRequest, 
-  HistoryResponse, 
-  HiddenTxRequest, 
-  HiddenTxResponse, 
+  GetHistoryRequest, 
+  GetHistoryResponse, 
+  GetHiddenTxRequest, 
+  GetHiddenTxResponse, 
   HideTxRequest, 
   HideTxResponse, 
   UnHideTxRequest, 
   UnHideTxResponse, 
-  SuggestionRequest, 
-  SuggestionResponse, 
+  GetSuggestionRequest, 
+  GetSuggestionResponse, 
   SuggestionListRequest, 
   SuggestionListResponse, 
   SuggestionListByCollectionRequest, 

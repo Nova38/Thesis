@@ -19,18 +19,18 @@
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
-const lib = require('hlf_tools')
+const hlf = require('hlf_tools')
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-module');
 
 
 
 /**
  * Workload module for the benchmark round.
- * @type {GetWorkload}
+ * @type {CreateWorkload}
  * @property {string} contractId The name of the contract.
  * @property {string} contractVersion The version of the contract.
  */
-class GetWorkload extends WorkloadModuleBase {
+class CreateWorkload extends WorkloadModuleBase {
 
     /**
      * Initializes the workload module instance.
@@ -56,13 +56,7 @@ class GetWorkload extends WorkloadModuleBase {
         // const  i = import('../../lib')
         const args = this.roundArguments;
         this.contractId = args.contractId;
-        this.Collections = {};
-
-        this.reg = lib.utils.registry.Registry
-
-
-
-
+        this.numCollections = args.numCollections;
         this.contractVersion = args.contractVersion;
     }
 
@@ -71,15 +65,28 @@ class GetWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
+
+
+        const arg = new hlf.pb.common.generic.BootstrapRequest()
+        for (let i = 0; i < this.numCollections; i++) {
+            arg.collections.push(new hlf.pb.auth.Collection({
+                name: `collection${i}`,
+                authType: hlf.pb.auth.AuthType.NONE,
+                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName],
+                collectionId: `collection${i}`,
+                default: new hlf.pb.auth.PathPolicy(),
+            }))
+        }
+
+        // logger.info('this', this)
+        // logger.info('arg', arg);
+
         /** @type {PeerGateway.FabricRequestSettings}*/
-
-
-
         const myArgs = {
             contractId: this.contractId,
 
             contractFunction: 'Bootstrap',
-            contractArguments: [],
+            contractArguments: [arg.toJsonString({typeRegistry: hlf.utils.GlobalRegistry})],
             readOnly: false,
             invokerIdentity: "User1",
             invokerMspId: "Org1MSP",

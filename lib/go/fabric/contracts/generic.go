@@ -313,10 +313,10 @@ func (o ItemContractImpl) Delete(
 // ════════════════════════════════════ History ════════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-func (o ItemContractImpl) History(
+func (o ItemContractImpl) GetHistory(
 	ctx common.TxCtxInterface,
-	req *cc.HistoryRequest,
-) (res *cc.HistoryResponse, err error) {
+	req *cc.GetHistoryRequest,
+) (res *cc.GetHistoryResponse, err error) {
 	var (
 		obj common.ItemInterface
 		h   *authpb.History
@@ -337,16 +337,16 @@ func (o ItemContractImpl) History(
 		return nil, oops.Wrap(err)
 	}
 
-	return &cc.HistoryResponse{
+	return &cc.GetHistoryResponse{
 		Key:     req.GetKey(),
 		History: h,
 	}, nil
 }
 
-func (o ItemContractImpl) HiddenTx(
+func (o ItemContractImpl) GetHiddenTx(
 	ctx common.TxCtxInterface,
-	req *cc.HiddenTxRequest,
-) (res *cc.HiddenTxResponse, err error) {
+	req *cc.GetHiddenTxRequest,
+) (res *cc.GetHiddenTxResponse, err error) {
 	var (
 		obj  common.ItemInterface
 		hTxs *authpb.HiddenTxList
@@ -364,7 +364,7 @@ func (o ItemContractImpl) HiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	return &cc.HiddenTxResponse{
+	return &cc.GetHiddenTxResponse{
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		HiddenTxs:    hTxs.GetTxs(),
 	}, nil
@@ -435,10 +435,10 @@ func (o ItemContractImpl) UnHideTx(
 // ════════════════════════════════════ Suggestions ════════════════════════════════
 // ──────────────────────────────────── Query ──────────────────────────────────────
 
-func (o ItemContractImpl) Suggestion(
+func (o ItemContractImpl) GetSuggestion(
 	ctx common.TxCtxInterface,
-	req *cc.SuggestionRequest,
-) (res *cc.SuggestionResponse, err error) {
+	req *cc.GetSuggestionRequest,
+) (res *cc.GetSuggestionResponse, err error) {
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
@@ -453,7 +453,7 @@ func (o ItemContractImpl) Suggestion(
 		return nil, oops.Wrap(err)
 	}
 
-	return &cc.SuggestionResponse{
+	return &cc.GetSuggestionResponse{
 		Suggestion: sug,
 	}, nil
 }

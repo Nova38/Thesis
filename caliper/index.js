@@ -15,7 +15,7 @@ item.toJsonString({typeRegistry: hlf.utils.GlobalRegistry})
 
 
 
-
+hlf.pb.common.generic.BootstrapRequest
 
 
 console.log(hlf.utils.GlobalRegistry)

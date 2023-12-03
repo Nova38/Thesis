@@ -80,17 +80,17 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_DELETE
 	Delete(ctx T, req *DeleteRequest) (res *DeleteResponse, err error)
 
-	// History
+	// GetHistory
 	//
 	// # Operation:
 	//   - Domain: ACTION_VIEW_HISTORY
-	History(ctx T, req *HistoryRequest) (res *HistoryResponse, err error)
+	GetHistory(ctx T, req *GetHistoryRequest) (res *GetHistoryResponse, err error)
 
-	// HiddenTx
+	// GetHiddenTx
 	//
 	// # Operation:
 	//   - Domain: ACTION_VIEW_HIDDEN_TXS
-	HiddenTx(ctx T, req *HiddenTxRequest) (res *HiddenTxResponse, err error)
+	GetHiddenTx(ctx T, req *GetHiddenTxRequest) (res *GetHiddenTxResponse, err error)
 
 	// HideTx
 	//
@@ -104,11 +104,11 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_HIDE_TX
 	UnHideTx(ctx T, req *UnHideTxRequest) (res *UnHideTxResponse, err error)
 
-	// Suggestion
+	// GetSuggestion
 	//
 	// # Operation:
 	//   - Domain: ACTION_SUGGEST_VIEW
-	Suggestion(ctx T, req *SuggestionRequest) (res *SuggestionResponse, err error)
+	GetSuggestion(ctx T, req *GetSuggestionRequest) (res *GetSuggestionResponse, err error)
 
 	// SuggestionListByCollection
 	//
@@ -150,9 +150,9 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 		"List",
 		"ListByCollection",
 		"ListByAttrs",
-		"History",
-		"HiddenTx",
-		"Suggestion",
+		"GetHistory",
+		"GetHiddenTx",
+		"GetSuggestion",
 		"SuggestionListByCollection",
 		"SuggestionByPartialKey",
 	}
@@ -210,12 +210,12 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 13,
 		}, nil
-	case "History":
+	case "GetHistory":
 		// action:ACTION_VIEW_HISTORY
 		return &v1.Operation{
 			Action: 18,
 		}, nil
-	case "HiddenTx":
+	case "GetHiddenTx":
 		// action:ACTION_VIEW_HIDDEN_TXS
 		return &v1.Operation{
 			Action: 19,
@@ -230,7 +230,7 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		return &v1.Operation{
 			Action: 20,
 		}, nil
-	case "Suggestion":
+	case "GetSuggestion":
 		// action:ACTION_SUGGEST_VIEW
 		return &v1.Operation{
 			Action: 14,

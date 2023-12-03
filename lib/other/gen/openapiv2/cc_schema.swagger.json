@@ -181,9 +181,9 @@
         ]
       }
     },
-    "/auth.common.GenericService/HiddenTx": {
+    "/auth.common.GenericService/GetHiddenTx": {
       "post": {
-        "operationId": "GenericService_HiddenTx",
+        "operationId": "GenericService_GetHiddenTx",
         "responses": {
           "default": {
             "description": "An unexpected error response.",
@@ -198,7 +198,59 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/commonHiddenTxRequest"
+              "$ref": "#/definitions/commonGetHiddenTxRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/GetHistory": {
+      "post": {
+        "operationId": "GenericService_GetHistory",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonGetHistoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GenericService"
+        ]
+      }
+    },
+    "/auth.common.GenericService/GetSuggestion": {
+      "post": {
+        "operationId": "GenericService_GetSuggestion",
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonGetSuggestionRequest"
             }
           }
         ],
@@ -225,32 +277,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/commonHideTxRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/History": {
-      "post": {
-        "operationId": "GenericService_History",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonHistoryRequest"
             }
           }
         ],
@@ -329,32 +355,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/commonListByCollectionRequest"
-            }
-          }
-        ],
-        "tags": [
-          "GenericService"
-        ]
-      }
-    },
-    "/auth.common.GenericService/Suggestion": {
-      "post": {
-        "operationId": "GenericService_Suggestion",
-        "responses": {
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/commonSuggestionRequest"
             }
           }
         ],
@@ -1512,6 +1512,57 @@
         }
       }
     },
+    "commonGetHiddenTxRequest": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "$ref": "#/definitions/authItem"
+        }
+      },
+      "title": "GetHiddenTx"
+    },
+    "commonGetHiddenTxResponse": {
+      "type": "object",
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "hidden_txs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authHiddenTx"
+          }
+        }
+      }
+    },
+    "commonGetHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/authItemKey"
+        },
+        "include_hidden": {
+          "type": "boolean"
+        },
+        "bookmark": {
+          "type": "string"
+        }
+      },
+      "title": "GetHistory"
+    },
+    "commonGetHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/definitions/authItemKey",
+          "title": "repeated auth. s = 1;"
+        },
+        "history": {
+          "$ref": "#/definitions/authHistory"
+        }
+      }
+    },
     "commonGetRequest": {
       "type": "object",
       "properties": {
@@ -1530,27 +1581,22 @@
         }
       }
     },
-    "commonHiddenTxRequest": {
+    "commonGetSuggestionRequest": {
       "type": "object",
       "properties": {
-        "item": {
-          "$ref": "#/definitions/authItem"
-        }
-      },
-      "title": "HiddenTx"
-    },
-    "commonHiddenTxResponse": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string"
+        "item_key": {
+          "$ref": "#/definitions/authItemKey"
         },
-        "hidden_txs": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/authHiddenTx"
-          }
+        "suggestion_id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonGetSuggestionResponse": {
+      "type": "object",
+      "properties": {
+        "suggestion": {
+          "$ref": "#/definitions/authSuggestion"
         }
       }
     },
@@ -1574,33 +1620,6 @@
         },
         "hidden_txs": {
           "$ref": "#/definitions/authHiddenTxList"
-        }
-      }
-    },
-    "commonHistoryRequest": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "$ref": "#/definitions/authItemKey"
-        },
-        "include_hidden": {
-          "type": "boolean"
-        },
-        "bookmark": {
-          "type": "string"
-        }
-      },
-      "title": "History"
-    },
-    "commonHistoryResponse": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "$ref": "#/definitions/authItemKey",
-          "title": "repeated auth. s = 1;"
-        },
-        "history": {
-          "$ref": "#/definitions/authHistory"
         }
       }
     },
@@ -1945,25 +1964,6 @@
             "type": "object",
             "$ref": "#/definitions/authSuggestion"
           }
-        }
-      }
-    },
-    "commonSuggestionRequest": {
-      "type": "object",
-      "properties": {
-        "item_key": {
-          "$ref": "#/definitions/authItemKey"
-        },
-        "suggestion_id": {
-          "type": "string"
-        }
-      }
-    },
-    "commonSuggestionResponse": {
-      "type": "object",
-      "properties": {
-        "suggestion": {
-          "$ref": "#/definitions/authSuggestion"
         }
       }
     },

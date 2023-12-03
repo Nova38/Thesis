@@ -6,7 +6,7 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import type { JsonValue } from "@bufbuild/protobuf";
 import { Empty, IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetRequest, GetResponse, HiddenTxRequest, HiddenTxResponse, HideTxRequest, HideTxResponse, HistoryRequest, HistoryResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionRequest, SuggestionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -230,42 +230,42 @@ export class GenericServiceClient {
     }
 
     /**
-     * @generated from rpc auth.common.GenericService.History
+     * @generated from rpc auth.common.GenericService.GetHistory
      */
-    async history(request: HistoryRequest, evaluate: boolean ): Promise< HistoryResponse> {
+    async getHistory(request: GetHistoryRequest, evaluate: boolean ): Promise< GetHistoryResponse> {
         if (evaluate) {
             const promise = this.contract.evaluate(
-                "History",
+                "GetHistory",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         } else {
             const promise = this.contract.submit(
-                "History",
+                "GetHistory",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         }
         return promise.then(async (data) =>
-             HistoryResponse.fromJson(data as JsonValue)
+             GetHistoryResponse.fromJson(data as JsonValue)
         );
     }
 
     /**
-     * @generated from rpc auth.common.GenericService.HiddenTx
+     * @generated from rpc auth.common.GenericService.GetHiddenTx
      */
-    async hiddenTx(request: HiddenTxRequest, evaluate: boolean ): Promise< HiddenTxResponse> {
+    async getHiddenTx(request: GetHiddenTxRequest, evaluate: boolean ): Promise< GetHiddenTxResponse> {
         if (evaluate) {
             const promise = this.contract.evaluate(
-                "HiddenTx",
+                "GetHiddenTx",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         } else {
             const promise = this.contract.submit(
-                "HiddenTx",
+                "GetHiddenTx",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         }
         return promise.then(async (data) =>
-             HiddenTxResponse.fromJson(data as JsonValue)
+             GetHiddenTxResponse.fromJson(data as JsonValue)
         );
     }
 
@@ -310,22 +310,22 @@ export class GenericServiceClient {
     }
 
     /**
-     * @generated from rpc auth.common.GenericService.Suggestion
+     * @generated from rpc auth.common.GenericService.GetSuggestion
      */
-    async suggestion(request: SuggestionRequest, evaluate: boolean ): Promise< SuggestionResponse> {
+    async getSuggestion(request: GetSuggestionRequest, evaluate: boolean ): Promise< GetSuggestionResponse> {
         if (evaluate) {
             const promise = this.contract.evaluate(
-                "Suggestion",
+                "GetSuggestion",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         } else {
             const promise = this.contract.submit(
-                "Suggestion",
+                "GetSuggestion",
                 $request.toJsonString(this.jsonWriteOptions)
             )
         }
         return promise.then(async (data) =>
-             SuggestionResponse.fromJson(data as JsonValue)
+             GetSuggestionResponse.fromJson(data as JsonValue)
         );
     }
 
