@@ -149,11 +149,7 @@ startDockerContainer() {
     verifyResult $res "Failed to start the container container '${CC_NAME}_ccaas_image:latest' "
     successln "Docker container started succesfully '${CC_NAME}_ccaas_image:latest'"
   else
-    cat > chaincode/${CC_NAME}.env << EOF
-CHAINCODE_ID=${PACKAGE_ID}
-CORE_CHAINCODE_ID_NAME=${PACKAGE_ID}
-CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT}
-EOF
+
 
     infoln "Not starting docker containers; these are the commands we would have run"
     infoln "    ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \
