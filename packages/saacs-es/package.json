@@ -1,5 +1,5 @@
 {
-    "name": "@thesis/saacs-es",
+    "name": "saacs-es",
     "version": "0.0.0",
     "description": "",
     "sideEffects": false,
@@ -13,9 +13,6 @@
     },
     "directories": {
       "lib": "src/gen"
-    },
-    "resolutions": {
-        "@thesis/saacs-es": "workspace:*"
     },
 
     "main": "./dist/index.cjs",

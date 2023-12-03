@@ -11,6 +11,9 @@ dependencies:
   '@bufbuild/protoplugin':
     specifier: ^1.5.0
     version: 1.5.0
+  saacs-es:
+    specifier: workspace:^
+    version: link:../../saacs-es
 
 devDependencies:
   '@types/node':

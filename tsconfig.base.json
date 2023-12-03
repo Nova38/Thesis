@@ -1,8 +1,7 @@
 {
     "extends": "@tsconfig/node18/tsconfig.json",
     "compilerOptions": {
-    //   "moduleResolution": "Node",
-      "sourceMap": true,
+    //   "sourceMap": true,
       "esModuleInterop": true,
       "strict": true
     },

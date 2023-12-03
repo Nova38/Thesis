@@ -26,7 +26,7 @@ import { Empty, MethodKind, createDescriptorSet, createRegistryFromDescriptors }
 
 import * as fs from 'fs';
 
-import {} from "@thesis/saacs-es"
+import {pb} from "saacs-es"
 
 const registry = createRegistryFromDescriptors(
     fs.readFileSync("image.bin")

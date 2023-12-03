@@ -1,5 +1,5 @@
 {
-  "name": "@thesis/caliper-workspace",
+  "name": "caliper",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -20,7 +20,8 @@
     "@hyperledger/caliper-fabric": "^0.5.1-unstable",
     "@hyperledger/fabric-gateway": "^1.4.0",
     "@tsconfig/node18": "^18.2.2",
-    "jiti": "^1.21.0"
+    "jiti": "^1.21.0",
+    "saacs-es": "workspace:^"
   },
   "devDependencies": {
     "esbuild": "0.19.7",

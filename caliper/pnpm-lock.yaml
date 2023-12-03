@@ -23,12 +23,12 @@ dependencies:
   '@tsconfig/node18':
     specifier: ^18.2.2
     version: 18.2.2
-  hlf_tools:
-    specifier: link:..\lib\es\hlf_tools
-    version: link:../lib/es/hlf_tools
   jiti:
     specifier: ^1.21.0
     version: 1.21.0
+  saacs-es:
+    specifier: workspace:^
+    version: link:../packages/saacs-es
 
 devDependencies:
   esbuild:
