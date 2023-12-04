@@ -41,7 +41,6 @@ func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error
 }
 
 func AuthorizePathPolicy(pathPolicy *authpb.PathPolicy, op *authpb.Operation) bool {
-	// TODO: implement AuthorizePathPolicy
 
 	if pathPolicy.GetActions() != nil {
 

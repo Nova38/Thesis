@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nova38/thesis/packages/tree"
+	"github.com/nova38/thesis/packages/saacs/internal/tree"
 )
 
 // func printNode[T A]() func(node *tree.Node[T]) {

@@ -43,24 +43,6 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 	// Checks for validity against collection according to action type
 	switch op.GetAction() {
-	// Reference Actions must have both item type and secondary item type in collection reference types, and paths must be empty
-	case
-		authpb.Action_ACTION_REFERENCE_CREATE,
-		authpb.Action_ACTION_REFERENCE_DELETE,
-		authpb.Action_ACTION_REFERENCE_VIEW:
-
-		// found := slices.Contains(collection.GetReferenceTypes(), op.GetItemType())
-		// foundSecondary := slices.Contains(collection.GetReferenceTypes(), op.GetSecondaryItemType())
-
-		// if !found || !foundSecondary {
-		// 	return false, oops.Errorf(
-		// 		"Operation item type or secondary item type is not in collection reference types",
-		// 	)
-		// }
-
-		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
-			return false, oops.Errorf("Operation paths is not empty")
-		}
 
 	case
 		authpb.Action_ACTION_CREATE,
@@ -102,71 +84,6 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 	return true, nil
 }
-
-// // HandleOperation handles an operation
-// // Gets the collection of the operation and validates the operation against it
-// // Then sees if the default ACL of the collection allows the operation
-// // If so, returns true, otherwise returns false
-// func HandleCollectionOperation(
-// 	ctx common.TxCtxInterface,
-// 	op *authpb.Operation,
-// ) (auth bool, err error) {
-// 	ctx.GetLogger().Debug("HandleOperation", slog.Group("args", "op", op))
-
-// 	// Get Operation Collection
-// 	collection := &authpb.Collection{CollectionId: op.GetCollectionId()}
-
-// 	if key, err := common.MakePrimaryKey(collection); err != nil {
-// 		return false, oops.Wrap(err)
-// 	} else if err = state.Get(ctx, key, collection); err != nil {
-// 		oops.Wrap(err)
-// 	}
-
-// 	// Validate Operation is an operation of the collection
-// 	if _, err = ValidateOperation(collection, op); err != nil {
-// 		return false, oops.Wrap(err)
-// 	}
-
-// 	if collection.GetAuthType() == authpb.AuthType_AUTH_TYPE_NONE {
-// 		ctx.GetLogger().Info("Auth type is no auth, short circuiting")
-// 		return true, nil
-// 	}
-
-// 	// Get the default ACL of the collection
-// 	acl := collection.GetDefault()
-// 	if acl == nil {
-// 		return false, oops.Wrap(err)
-// 	}
-
-// 	// Check if the user is authorized to perform the given action on the given reference
-// 	if auth, err := AuthOp(ctx, op, acl); err != nil {
-// 	} else if !auth {
-// 		return false, oops.Wrap(common.UserPermissionDenied)
-// 	} else if auth {
-// 		return true, nil
-// 	}
-
-// 	policies := []*authpb.Polices{}
-
-// 	// Handle the extraction of the policies of diffrent auth types
-// 	switch collection.GetAuthType() {
-// 	case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
-// 		ctx.GetLogger().Error("Auth type Unspecified")
-// 		return false, oops.Wrap(common.UserPermissionDenied)
-
-// 	case authpb.AuthType_AUTH_TYPE_IDENTITY:
-// 		policy, err := GetMembershipACL(ctx, collection.GetCollectionId())
-// 		if err != nil {
-// 			return false, oops.Wrap(err)
-// 		}
-
-// 		policies = append(policies, policy)
-// 	case authpb.AuthType_AUTH_TYPE_ROLE:
-
-// 	}
-
-// 	return false, nil
-// }
 
 // --------------------------------------------------
 

@@ -6,12 +6,12 @@ import (
 	"log/slog"
 
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
-	cc "github.com/nova38/thesis/packages/saacs/genchaincode/auth/common"
+	cc "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
 	"github.com/nova38/thesis/packages/saacs/serializer"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/packages/fabric/auth/state"
 	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/auth/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )

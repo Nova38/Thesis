@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 
-	_ "github.com/nova38/thesis/packages/saacs/genchaincode/ccbio/schema/v0"
-	_ "github.com/nova38/thesis/packages/saacs/gensample/v0"
+	_ "github.com/nova38/thesis/packages/saacs/gen/biochain/v1"
+	_ "github.com/nova38/thesis/packages/saacs/gen/sample/v0"
 	"github.com/nova38/thesis/packages/saacs/serializer"
 
-	"github.com/nova38/thesis/packages/fabric/auth/state"
 	"github.com/nova38/thesis/packages/saacs/auth/common"
-	cc "github.com/nova38/thesis/packages/saacs/genchaincode/auth/common"
+	"github.com/nova38/thesis/packages/saacs/auth/state"
+	cc "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/samber/lo"
@@ -30,6 +30,33 @@ func BeforeTransaction(ctx *NoAuthCtx) (err error) {
 func BuildContract() *contractapi.ContractChaincode {
 	contract := new(NoAuthContract)
 	contract.BeforeTransaction = BeforeTransaction
+	contract.TransactionContextHandler = new(NoAuthCtx)
+
+	sm, err := contractapi.NewChaincode(contract)
+	if err != nil {
+		fmt.Printf("Error creating No Auth contract: %s", err)
+		panic(err)
+	}
+	sm.TransactionSerializer = &serializer.TxSerializer{}
+
+	return sm
+}
+
+func NoSubBeforeTransaction(ctx *NoAuthCtx) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	if err = ctx.HandelBefore(); err != nil {
+		return oops.Wrap(err)
+	}
+
+	ctx.BaseTxCtx.EnableHiddenTx = false
+	ctx.BaseTxCtx.EnableSuggestion = false
+
+	return nil
+}
+func NoSubBuildContract() *contractapi.ContractChaincode {
+	contract := new(NoAuthContract)
+	contract.BeforeTransaction = NoSubBeforeTransaction
 	contract.TransactionContextHandler = new(NoAuthCtx)
 
 	sm, err := contractapi.NewChaincode(contract)

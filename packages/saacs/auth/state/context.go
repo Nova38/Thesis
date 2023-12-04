@@ -25,9 +25,8 @@ var (
 )
 
 type (
-	RawLedger[T common.ItemInterface] struct {
-	}
-	TxItems struct {
+	RawLedger[T common.ItemInterface] struct{}
+	TxItems                           struct {
 		User *authpb.User
 		// Collection *authpb.Collection
 		Collections map[string]*authpb.Collection
@@ -38,6 +37,8 @@ type (
 	BaseTxCtx struct {
 		contractapi.TransactionContext
 		TxItems
+		EnableSuggestion bool
+		EnableHiddenTx   bool
 
 		Logger   *slog.Logger
 		PageSize int32
@@ -69,6 +70,9 @@ func (ctx *BaseTxCtx) HandelBefore() (err error) {
 		validator = v
 	}
 
+	ctx.EnableHiddenTx = true
+	ctx.EnableSuggestion = true
+
 	return nil
 }
 
@@ -96,7 +100,10 @@ func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
 		return false, oops.Wrap(err)
 	} else if v == nil && err == nil {
 		ctx.GetLogger().Info("Bootstrap not done")
-		ctx.GetStub().PutState(common.BootstrapKey, []byte("true"))
+		err := ctx.GetStub().PutState(common.BootstrapKey, []byte("true"))
+		if err != nil {
+			return false, oops.Wrap(err)
+		}
 
 		return false, nil
 	}
@@ -122,14 +129,14 @@ func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInter
 // Enabled by default, can be disabled through build flags
 // github.com/nova38/thesis/packages/saacs/auth/common.EnabledSuggestions = ""
 func (ctx *BaseTxCtx) EnabledSuggestions() bool {
-	return common.EnableSuggestion == common.EnableHiddenTxValue
+	return ctx.EnableSuggestion
 }
 
 // EnableHiddenTx returns true if the hidden tx feature is enabled,
 // Enabled by default, can be disabled through build flags
 // github.com/nova38/thesis/packages/saacs/auth/common.EnableHiddenTx = ""
 func (ctx *BaseTxCtx) EnabledHidden() bool {
-	return common.EnableHiddenTx == common.EnableHiddenTxValue
+	return ctx.EnableHiddenTx
 }
 
 func (ctx *BaseTxCtx) PostActionProcessing(

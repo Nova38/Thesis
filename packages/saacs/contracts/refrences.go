@@ -1,9 +1,9 @@
 package contracts
 
 import (
-	"github.com/nova38/thesis/packages/fabric/auth/state"
 	"github.com/nova38/thesis/packages/saacs/auth/common"
-	ccpb "github.com/nova38/thesis/packages/saacs/genchaincode/auth/common"
+	"github.com/nova38/thesis/packages/saacs/auth/state"
+	ccpb "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
 	"github.com/samber/oops"
 )
 

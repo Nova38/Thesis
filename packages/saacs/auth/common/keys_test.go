@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	sample "github.com/nova38/thesis/packages/saacs/gensample/v0"
+	sample "github.com/nova38/thesis/packages/saacs/gen/sample/v0"
 
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 )

@@ -2,7 +2,7 @@ package rbac
 
 // import (
 // 	"github.com/nova38/thesis/packages/saacs/auth/common"
-// 	"github.com/nova38/thesis/packages/fabric/auth/state"
+// 	"github.com/nova38/thesis/packages/saacs/auth/state"
 // 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 // 	"github.com/samber/oops"

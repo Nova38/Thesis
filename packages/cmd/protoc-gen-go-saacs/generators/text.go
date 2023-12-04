@@ -80,7 +80,7 @@ func (sv *TextGenerater) GenerateInterface(
 	ctx := g.QualifiedGoIdent(
 		protogen.GoIdent{
 			GoName:       "GenericTxCtxInterface",
-			GoImportPath: "github.com/nova38/thesis/packages/fabric/rbac",
+			GoImportPath: "github.com/nova38/thesis/packages/saacs/rbac",
 		},
 	)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")

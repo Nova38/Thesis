@@ -5,7 +5,6 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/rs/zerolog/log"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
@@ -89,10 +88,6 @@ func (n *Node[T]) getPath(p *Node[T], split []string) (node *Node[T]) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-func (n *Node[T]) Print() {
-	log.Print(&n)
-}
 
 // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 

@@ -1,8 +1,8 @@
 package contract
 
 import (
-	"github.com/nova38/thesis/packages/fabric/auth/state"
 	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/auth/state"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"

@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/nova38/thesis/packages/fabric/contracts/identity"
 	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/contracts/identity"
 )
 
 func main() {
