@@ -27,9 +27,17 @@ func init() {
 		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
 	}
 
-	authMode := flag.String("auth", "noauth", "auth mode: noauth, noauth-no-sub, roles, or identity")
+	mode := os.Getenv("AUTH_MODE")
+	if mode == "" {
+		authMode := flag.String("auth", "noauth", "auth mode: noauth, noauth-no-sub, roles, or identity")
+		if authMode == nil {
+			mode = "noauth"
+		} else {
+			mode = *authMode
+		}
+	}
 
-	switch *authMode {
+	switch mode {
 	case "noauth":
 		slog.Info("Using NoAuth Contract")
 		sm = noauth.BuildContract()
