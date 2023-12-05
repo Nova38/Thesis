@@ -110,6 +110,17 @@ func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
 
 }
 
+func (ctx *BaseTxCtx) GetUser() (user *authpb.User) {
+	user, err := ctx.GetUserId()
+	if err != nil {
+		panic(err)
+	}
+
+	ctx.User = user
+
+	return ctx.User
+}
+
 func (ctx *BaseTxCtx) LogError(err error) {
 	ctx.GetLogger().Error(err.Error(), slog.Any("error", err))
 }
@@ -117,7 +128,7 @@ func (ctx *BaseTxCtx) LogError(err error) {
 func (ctx *BaseTxCtx) ErrorBase() oops.OopsErrorBuilder {
 	return oops.OopsErrorBuilder{}.
 		In(ctx.GetFnName()).
-		User(ctx.User.GetUserId(), ctx.User.GetMspId())
+		User(ctx.GetUser().GetUserId(), ctx.GetUser().GetMspId())
 }
 
 func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInterface) {

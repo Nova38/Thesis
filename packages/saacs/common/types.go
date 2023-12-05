@@ -120,6 +120,9 @@ type (
 		// context
 		GetUserId() (user *v1.User, err error)
 
+		// GetUser Retrieves the user from the transaction context or panics
+		GetUser() (user *v1.User)
+
 		// GetUser Uses the ctx stub to get the user from the state
 		//
 		// # Requirements:
