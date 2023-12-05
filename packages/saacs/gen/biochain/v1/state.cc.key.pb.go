@@ -7,39 +7,85 @@ package v1
 
 import (
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	strings "strings"
 )
 
-func (m *Specimen) ItemType() string {
-	return "ccbio.schema.v0.Specimen"
+// ──────────────────────────────────────────────────
+// ccbio.schema.v0.Specimen
+// Primary Item
+
+// Domain Item
+func (m *Specimen) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *Specimen) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.SpecimenId = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
+}
+
+func (m *Specimen) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemKind:     2,
+		ItemType:     "ccbio.schema.v0.Specimen",
+		ItemKeyParts: m.KeyAttr(),
+	}
+	return key
+}
+
 func (m *Specimen) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetSpecimenId())
 	return attr
 }
-func (m *Specimen) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.SpecimenId = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *Specimen) ItemKind() v1.ItemKind {
+	return v1.ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *Specimen) IsPrimary() bool {
-	return true
+func (m *Specimen) ItemType() string {
+	return "ccbio.schema.v0.Specimen"
 }
-func (m *Specimen) SetKey(key *v1.ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
-	m.CollectionId = key.GetCollectionId()
-	return
-}
-func (m *Specimen) ItemKey() *v1.ItemKey {
-	key := &v1.ItemKey{
-		CollectionId: m.GetCollectionId(),
-		ItemType:     "ccbio.schema.v0.Specimen",
-		ItemIdParts:  m.KeyAttr(),
+
+func (m *Specimen) KeySchema() *v1.KeySchema {
+	return &v1.KeySchema{
+		ItemKind:   v1.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"specimen_id"}},
 	}
-	return key
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Specimen) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "ccbio.schema.v0.Specimen" + collectionId + sep
+		return k
+	}
+	k := sep + "ccbio.schema.v0.Specimen" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
 }

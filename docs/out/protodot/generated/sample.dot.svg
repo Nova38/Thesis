@@ -522,7 +522,7 @@
 <text text-anchor="start" x="956" y="-1464.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <text text-anchor="start" x="856.75" y="-1448.25" font-family="Ubuntu" font-size="10.00">[...]</text>
 <text text-anchor="start" x="877" y="-1448.25" font-family="Ubuntu" font-size="10.00">3</text>
-<text text-anchor="start" x="886.88" y="-1448.25" font-family="Ubuntu" font-size="10.00">item_id_parts</text>
+<text text-anchor="start" x="886.88" y="-1448.25" font-family="Ubuntu" font-size="10.00">item_key_parts</text>
 <polygon fill="#a6cee3" stroke="none" points="954,-1444.75 954,-1459.75 985,-1459.75 985,-1444.75 954,-1444.75"/>
 <text text-anchor="start" x="956" y="-1449.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <polygon fill="none" stroke="black" points="854,-1443.75 854,-1505.75 986,-1505.75 986,-1443.75 854,-1443.75"/>

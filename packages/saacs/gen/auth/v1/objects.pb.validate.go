@@ -60,6 +60,8 @@ func (m *ItemKey) validate(all bool) error {
 
 	// no validation rules for ItemType
 
+	// no validation rules for ItemKind
+
 	if len(errors) > 0 {
 		return ItemKeyMultiError(errors)
 	}

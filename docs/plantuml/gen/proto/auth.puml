@@ -107,13 +107,13 @@ namespace Auth_Protobuf {
 
         + CollectionId string
         + ItemType string
-        + ItemIdParts []string
+        + ItemKeyParts []string
 
 
 
         + GetCollectionId() string
         + GetItemType() string
-        + GetItemIdParts() []string
+        + GetItemKeyParts() []string
 
 
     }

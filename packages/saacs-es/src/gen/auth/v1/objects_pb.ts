@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Any, FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
-import { Action, AuthType } from "./auth_pb.js";
+import { Action, AuthType, ItemKind } from "./auth_pb.js";
 
 /**
  * Keys
@@ -41,9 +41,14 @@ export class ItemKey extends Message<ItemKey> {
   itemType = "";
 
   /**
-   * @generated from field: repeated string item_id_parts = 3;
+   * @generated from field: auth.ItemKind item_kind = 3;
    */
-  itemIdParts: string[] = [];
+  itemKind = ItemKind.UNSPECIFIED;
+
+  /**
+   * @generated from field: repeated string item_key_parts = 4;
+   */
+  itemKeyParts: string[] = [];
 
   constructor(data?: PartialMessage<ItemKey>) {
     super();
@@ -55,7 +60,8 @@ export class ItemKey extends Message<ItemKey> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "item_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 3, name: "item_kind", kind: "enum", T: proto3.getEnumType(ItemKind) },
+    { no: 4, name: "item_key_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ItemKey {

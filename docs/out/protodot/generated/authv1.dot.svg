@@ -481,7 +481,7 @@
 <text text-anchor="start" x="940" y="-381.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <text text-anchor="start" x="840.75" y="-365.25" font-family="Ubuntu" font-size="10.00">[...]</text>
 <text text-anchor="start" x="861" y="-365.25" font-family="Ubuntu" font-size="10.00">3</text>
-<text text-anchor="start" x="870.88" y="-365.25" font-family="Ubuntu" font-size="10.00">item_id_parts</text>
+<text text-anchor="start" x="870.88" y="-365.25" font-family="Ubuntu" font-size="10.00">item_key_parts</text>
 <polygon fill="#a6cee3" stroke="none" points="938,-361.75 938,-376.75 969,-376.75 969,-361.75 938,-361.75"/>
 <text text-anchor="start" x="940" y="-366.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <polygon fill="none" stroke="black" points="838,-360.75 838,-422.75 970,-422.75 970,-360.75 838,-360.75"/>

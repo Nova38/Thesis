@@ -18,7 +18,14 @@ const (
 	// loPackage      = protogen.GoImportPath("github.com/samber/lo")
 	// stringsPackage = protogen.GoImportPath("strings")
 
-	authPackage = protogen.GoImportPath("github.com/nova38/thesis/packages/saacs/gen/auth/v1")
+	authPackage = protogen.GoImportPath(
+		"github.com/nova38/thesis/packages/saacs/gen/auth/v1",
+	)
+
+	stringsPackages    = protogen.GoImportPath("strings")
+	fieldmaskpbPackage = protogen.GoImportPath("google.golang.org/protobuf/types/known/fieldmaskpb")
+	// protoreflectPackage = protogen.GoImportPath("google.golang.org/protobuf/reflect/protoreflect")
+	registryPackage = protogen.GoImportPath("google.golang.org/protobuf/reflect/protoregistry")
 )
 
 type KeyGenerator struct{}
@@ -61,193 +68,306 @@ func (kg *KeyGenerator) GenerateMessage(
 	msg *protogen.Message,
 ) (notUsed bool) {
 	keySchema := KeySchemaOptions(msg)
-	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
-	// SubItem := g.QualifiedGoIdent(authPackage.Ident("SubItem"))
+	ItemKind := g.QualifiedGoIdent(authPackage.Ident("ItemKind"))
+	KeySchemaImport := g.QualifiedGoIdent(authPackage.Ident("KeySchema"))
+	FieldMask := g.QualifiedGoIdent(fieldmaskpbPackage.Ident("FieldMask"))
+	stringJoin := g.QualifiedGoIdent(stringsPackages.Ident("Join"))
 
 	// ItemKind := GetItemKind(msg)
-	if keySchema == nil {
+	if keySchema == nil || keySchema.GetProperties() == nil {
 		return true
 	}
-	// // g.QualifiedGoIdent(protogen.GoIdent{GoName: "lo", GoImportPath: "github.com/samber/lo"})
 
-	{
-		ns := keySchema.GetItemType()
-		if ns == "" {
-			g.P("func (m *", msg.GoIdent.GoName, ") ItemType() string {")
-			g.P("	return \"", msg.Desc.FullName(), "\"")
-			g.P("}")
+	if !keySchema.GetProperties().IsValid(dynamicpb.NewMessage(msg.Desc)) {
+		g.P("// Invalid Key Schema")
+		g.P("// ", keySchema.GetProperties())
+		return true
+	}
+
+	g.P()
+	g.P("// ──────────────────────────────────────────────────")
+	g.P("// ", msg.Desc.FullName())
+
+	switch authpb.ItemKind(keySchema.GetItemKind().Number()) {
+	case authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM:
+		g.P("// Primary Item")
+		g.P()
+
+		GeneratePrimaryItem(gen, g, msg)
+	case authpb.ItemKind_ITEM_KIND_SUB_ITEM:
+		g.P("// Sub Item")
+		g.P()
+
+		GenerateSubItem(gen, g, msg)
+	}
+
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKind()", ItemKind, "{")
+	g.P("return ", ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()))
+	g.P("}")
+	g.P()
+
+	g.P("func (m *", msg.GoIdent.GoName, ") ItemType() string {")
+	g.P("	return \"", msg.Desc.FullName(), "\"")
+	g.P("}")
+	g.P()
+
+	// Return the key schema
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "KeySchema()", "(*", KeySchemaImport, ") {")
+	g.P("return &", KeySchemaImport, "{")
+	g.P("ItemKind: ", ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()), ",")
+
+	if keySchema.GetProperties().GetPaths() != nil &&
+		len(keySchema.GetProperties().GetPaths()) > 0 {
+		for i, f := range keySchema.GetProperties().GetPaths() {
+
+			switch {
+			case i == 0 && len(keySchema.GetProperties().GetPaths()) == 1:
+				g.P("Properties: &", FieldMask, "{ Paths: []string{\"", f, "\"}},")
+			case i == 0:
+				g.P("Properties: &", FieldMask, "{ Paths: []string{")
+				g.P("\"", f, "\",")
+			default:
+				g.P("\"", f, "\",")
+			}
+
+		}
+		if len(keySchema.GetProperties().GetPaths()) > 1 {
+			g.P("}},")
+		}
+	}
+
+	g.P("}")
+	g.P("}")
+	g.P("")
+
+	// Generate Composite Key for storage in the ledger
+
+	g.P(`
+    // StateKey - Returns a composite key for the state
+    // This follows the same structure as the chaincode stub library,
+    // Main difference is that it doesn't check the key for invalid characters
+
+
+    func (m *`, msg.GoIdent.GoName, `)  StateKey() (string) {
+
+        const sep = string(rune(0))
+
+        attrs := m.ItemKey().GetItemKeyParts()
+        if attrs == nil { panic("ItemKeyParts is nil")}
+
+        collectionId := m.ItemKey().GetCollectionId()
+        if collectionId == "" { panic("CollectionId is nil") }
+
+        if len(attrs) == 0 {
+            k :=  sep + "`, msg.Desc.FullName(), `" + collectionId + sep
+            return k
+        }
+        k :=  sep + "`, msg.Desc.FullName(), `" + collectionId + sep + `, stringJoin, `(attrs, sep)  + sep
+
+        return k
+    }
+    `)
+
+	return false
+}
+
+func GeneratePrimaryItem(
+	gen *protogen.Plugin,
+	g *protogen.GeneratedFile,
+	msg *protogen.Message,
+) {
+
+	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+	keySchema := KeySchemaOptions(msg)
+
+	g.P("// Domain Item")
+
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
+	g.P("m.SetKeyAttr(key.ItemKeyParts)")
+	g.P("m.CollectionId = key.GetCollectionId()")
+	g.P("return")
+	g.P(" }")
+	g.P()
+
+	g.P("// SetKeyAttr - Sets the key attributes, returns the number of extra attributes ")
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKeyAttr", "(attr []string) int {")
+	for i, f := range keySchema.GetProperties().GetPaths() {
+		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+		if field == nil {
+			continue
+		}
+
+		g.P("if len(attr) > ", i, " {")
+		g.P("m.", PathToSet(f), " = attr[", i, "]")
+		g.P("} else{ return 0 }")
+
+	}
+
+	g.P("return len(attr) - ", len(keySchema.GetProperties().GetPaths()))
+	g.P("}")
+	g.P()
+
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
+	g.P("key := &", ItemKey, "{")
+	g.P("CollectionId: m.GetCollectionId(),")
+	g.P("ItemKind: ", authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM.Number(), ",")
+	g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
+	g.P("ItemKeyParts: m.KeyAttr(),")
+	g.P("}")
+	g.P("return key")
+	g.P("}")
+	g.P()
+
+	g.P("func (m *", msg.GoIdent.GoName, ") ", "KeyAttr()", "[]string {")
+	g.P("attr := []string{}")
+
+	for _, f := range keySchema.GetProperties().GetPaths() {
+		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+		if field == nil {
+			continue
+		}
+		if field.IsList() {
+			g.P("//", f, "is a list")
+			g.P("attr = append(attr, m.", PathToGetter(f), "...)")
 		} else {
-			g.P("func (m *", msg.GoIdent.GoName, ") ItemType() string {")
-			g.P("	return \"", ns, "\"")
+			g.P("attr = append(attr, m.", PathToGetter(f), ")")
 		}
+
 	}
 
-	kp := keySchema.GetProperties()
-	od := keySchema.GetItemKind()
+	g.P("return attr")
+	g.P("}")
+	g.P()
 
-	// dCol := keySchema.GetDefaultCollectionId()
-	// ItemKind := GetItemKind()
+}
 
-	// sub := keySchema.GetSubItem()
-	// function for key
-	newMsg := dynamicpb.NewMessage(msg.Desc)
+func GenerateSubItem(
+	gen *protogen.Plugin,
+	g *protogen.GeneratedFile,
+	msg *protogen.Message,
+) {
 
-	if kp.IsValid(newMsg) {
-		rawPaths := kp.GetPaths()
+	g.Import("google.golang.org/protobuf/reflect/protoreflect")
+	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+	// ItemInterface := g.QualifiedGoIdent(authPackage.Ident("ItemInterface"))
+	GlobalTypes := g.QualifiedGoIdent(registryPackage.Ident("GlobalTypes"))
+	KeySchemaImport := g.QualifiedGoIdent(authPackage.Ident("KeySchema"))
+	// ProtoRegImport := g.QualifiedGoIdent(protoreflectPackage.Ident("protoreflect"))
+	ProtoReflectPackage := g.QualifiedGoIdent(
+		protogen.GoIdent{GoImportPath: "google.golang.org/protobuf/reflect/protoreflect"},
+	)
+	// ProtoReflect := g.QualifiedGoIdent()
+	ItemKind := g.QualifiedGoIdent(authPackage.Ident("ItemKind"))
 
-		// g.QualifiedGoIdent(stringsPackage.Ident("strings"))
-		// g.QualifiedGoIdent(errorsPackage.Ident("errors"))
+	keySchema := KeySchemaOptions(msg)
 
-		// g.P("func (m *", msg.GoIdent.GoName, ") KeyAttr() (map[string]string) {")
-		// g.P("attr := make(map[string]string)")
-		// for _, f := range rawPaths {
-		// 	field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+	g.P(`
+    func (m *`, msg.GoIdent.GoName, ") SetKey (key *", ItemKey, `) {
+        m.PrimaryKey = key
+	    return
+     }
+    `)
 
-		// 	if field == nil {
-		// 		continue
-		// 	}
-		// 	if field.IsList() {
-		// 		g.P("//", f, "is a list")
-		// 		// g.P("attr[\"", f, "\"] = strings.Join(m.", PathToGetter(f), ", \",\")")
-		// 		// Put the list entries in the map with felid of f and the index as the key
-		// 		g.P("for i, v := range m.", PathToGetter(f), " {")
-		// 		g.P("attr[\"", f, "\" + string(i)] = v")
-		// 		g.P("}")
+	g.P(`
+    func (m *`, msg.GoIdent.GoName, `) SetKeyAttr (attr []string) int {
 
-		// 	} else {
-		// 		g.P("attr[\"", f, "\"] = m.", PathToGetter(f))
-		// 	}
+        type ItemInterface interface {
+            KeySchema() *`, KeySchemaImport, `
+        }
 
-		// }
-		// g.P("return attr")
-		// g.P("}")
+        if m.PrimaryKey == nil {
+            m.PrimaryKey = &`, ItemKey, `{}
+        }
 
-		g.P("func (m *", msg.GoIdent.GoName, ") ", "KeyAttr()", "[]string {")
+        name := `, ProtoReflectPackage, `FullName(m.GetPrimaryKey().GetItemType())
 
-		g.P("attr := []string{}")
+        t, err :=`, GlobalTypes, `.FindMessageByName(name)
+        if err != nil {panic(err)}
 
-		// g.P("ok := lo.Try(func () error {")
+        item, ok := t.New().Interface().(ItemInterface)
+        if !ok {panic("Failed to cast to item interface")}
 
-		for _, f := range rawPaths {
-			field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+        primarySchema := item.KeySchema()
+        if primarySchema == nil {panic("Primary schema is nil")}
 
-			if field == nil {
-				continue
-			}
-			if field.IsList() {
-				g.P("//", f, "is a list")
-				g.P("attr = append(attr, m.", PathToGetter(f), "...)")
-			} else {
-				g.P("attr = append(attr, m.", PathToGetter(f), ")")
-			}
+        primaryAttrCount := len(primarySchema.GetProperties().GetPaths())
 
+        // just set the primary key attributes
+        if len(attr) <= primaryAttrCount {
+            m.GetPrimaryKey().ItemKeyParts = attr
+            return len(attr) - primaryAttrCount
+        }
+
+        remaining := len(attr) - primaryAttrCount
+
+        if remaining <= 0 { panic("There was a issue with the number of the attributes") }
+
+        attr = attr[remaining:]
+    `)
+	for i, f := range keySchema.GetProperties().GetPaths() {
+		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+		if field == nil {
+			continue
 		}
 
-		g.P("return attr")
-		g.P("}")
-
-		{ // Generate SetKeyAttr
-			g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKeyAttr", "(attr []string) {")
-			// check if there is more attributes than the key schema
-			// g.P("if len(attr) > ", len(rawPaths), " {")
-			// g.P("return ")
-			// g.P("}")
-
-			// g.P("for i, f := range attr {")
-			// g.P("field := m.")
-
-			// g.P("}")
-			// g.P("return nil")
-
-			// g.P("}")
-
-			for i, f := range rawPaths {
-				field := msg.Desc.Fields().ByName(protoreflect.Name(f))
-
-				if field == nil {
-					continue
-				}
-
-				g.P("if len(attr) > ", i, " {")
-				g.P("m.", PathToSet(f), " = attr[", i, "]")
-				g.P("} else{ return }")
-			}
-
-			g.P("return}")
-
-			// g.P("ok := lo.Try(func () error {")
-
-		}
-
-		{
-			//
-			// if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
-			//	g.P("// Global Item")
-			//	g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
-			//	g.P("	return true")
-			//	g.P("}")
-			//
-			//	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
-			//	g.P("m.SetKeyAttr(key.ItemIdParts)")
-			//	g.P("m.CollectionId = \"global\"")
-			//	g.P("return }")
-			//
-			//	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
-			//	g.P("key := &", ItemKey, "{")
-			//	g.P("CollectionId: \"global\",")
-			//	g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
-			//	g.P("ItemIdParts: m.KeyAttr(),")
-			//	g.P("}")
-			//	g.P("return key")
-			//	g.P("}")
-			//
-			//}
-
-			if authpb.ItemKind(
-				od.Number(),
-			) == authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
-				g.P("// Domain Item")
-				g.P("func (m *", msg.GoIdent.GoName, ") IsPrimary() (bool) {")
-				g.P("	return true")
-				g.P("}")
-
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
-				g.P("m.SetKeyAttr(key.ItemIdParts)")
-				g.P("m.CollectionId = key.GetCollectionId()")
-				g.P("return }")
-
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
-				g.P("key := &", ItemKey, "{")
-				g.P("CollectionId: m.GetCollectionId(),")
-				g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
-				g.P("ItemIdParts: m.KeyAttr(),")
-				g.P("}")
-				g.P("return key")
-				g.P("}")
-
-			}
-
-			if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_SUB_ITEM {
-				g.P("// Domain Item")
-				g.P("func (m *", msg.GoIdent.GoName, ") IsSecondary() (bool) {")
-				g.P("	return true")
-				g.P("}")
-
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
-				g.P("m.PrimaryKey = key")
-				g.P("return }")
-
-				g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
-				g.P("return m.GetPrimaryKey()")
-				g.P("}")
-
-			}
-
-		}
-
-		return false
+		g.P("if len(attr) > ", i, " {")
+		g.P("m.", PathToSet(f), " = attr[", i, "]")
+		g.P("} else{ return 0 }")
 	}
-	return true
+
+	g.P("return len(attr) - ", len(keySchema.GetProperties().GetPaths()), "}")
+
+	g.P(`
+
+    func (m *`, msg.GoIdent.GoName, `) ItemKey() (*`, ItemKey, `) {
+
+
+
+	    key := &`, ItemKey, `{
+            CollectionId: m.GetPrimaryKey().GetCollectionId(),
+            ItemKind: `, ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()), `,
+            ItemType: "`, string(msg.Desc.FullName()), `",
+            ItemKeyParts: []string{
+                m.GetPrimaryKey().GetItemType(),
+            },
+        }
+
+        key.ItemKeyParts = append(key.ItemKeyParts, m.GetPrimaryKey().GetItemKeyParts()...)
+        key.ItemKeyParts = append(key.ItemKeyParts, m.KeyAttr()...)
+        return key
+	}
+
+    `)
+	g.P()
+
+	g.P(`
+    func (m *`, msg.GoIdent.GoName, `) KeyAttr() []string {
+	    attr := []string{}
+        `,
+	)
+
+	for _, f := range keySchema.GetProperties().GetPaths() {
+		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+		if field == nil {
+			continue
+		}
+		if field.IsList() {
+			g.P("//", f, "is a list")
+			g.P("attr = append(attr, m.", PathToGetter(f), "...)")
+		} else {
+			g.P("attr = append(attr, m.", PathToGetter(f), ")")
+		}
+
+	}
+
+	g.P("return attr")
+	g.P("}")
+	g.P()
+
 }
 
 func PathToSet(path string) string {

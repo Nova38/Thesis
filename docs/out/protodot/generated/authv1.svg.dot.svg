@@ -548,7 +548,7 @@
 <text text-anchor="start" x="940" y="-166.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <text text-anchor="start" x="840.75" y="-150.25" font-family="Ubuntu" font-size="10.00">[...]</text>
 <text text-anchor="start" x="861" y="-150.25" font-family="Ubuntu" font-size="10.00">3</text>
-<text text-anchor="start" x="870.88" y="-150.25" font-family="Ubuntu" font-size="10.00">item_id_parts</text>
+<text text-anchor="start" x="870.88" y="-150.25" font-family="Ubuntu" font-size="10.00">item_key_parts</text>
 <polygon fill="#a6cee3" stroke="none" points="938,-146.75 938,-161.75 969,-161.75 969,-146.75 938,-146.75"/>
 <text text-anchor="start" x="940" y="-151.25" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <polygon fill="none" stroke="black" points="838,-145.75 838,-207.75 970,-207.75 970,-145.75 838,-145.75"/>

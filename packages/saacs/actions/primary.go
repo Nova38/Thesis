@@ -37,28 +37,33 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return oops.Wrap(err)
-	}
-
-	bytes, err := ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.KeyNotFound)
-	}
-	if err != nil {
-		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(err)
-	}
-
-	if err = json.Unmarshal(bytes, obj); err != nil {
+	if err := (state.Ledger[T]{}.PrimaryGet(ctx, obj)); err != nil {
 		return oops.Wrap(err)
 	}
 
 	return nil
+
+	// key, err := common.MakePrimaryKey(obj)
+	// if err != nil {
+	// 	return oops.Wrap(err)
+	// }
+
+	// bytes, err := ctx.GetStub().GetState(key)
+	// if bytes == nil && err == nil {
+	// 	return oops.
+	// 		With("Key", key, "ItemType", obj.ItemType()).
+	// 		Wrap(common.KeyNotFound)
+	// }
+	// if err != nil {
+	// 	return oops.
+	// 		With("Key", key, "ItemType", obj.ItemType()).
+	// 		Wrap(err)
+	// }
+
+	// if err = json.Unmarshal(bytes, obj); err != nil {
+	// 	return oops.Wrap(err)
+	// }
+
 }
 
 func PrimaryGetFull[T common.ItemInterface](
@@ -283,7 +288,6 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		if err != nil {
 			return oops.Wrap(err)
 		}
-
 		err = ctx.GetStub().PutState(hiddenKey, hiddenBytes)
 		if err != nil {
 			return oops.With(
@@ -315,20 +319,16 @@ func PrimaryUpdate[T common.ItemInterface](
 		return updated, oops.Wrap(common.UserPermissionDenied)
 	}
 
+	current, err := common.CloneItemWithKey(obj)
+	if err != nil {
+		return obj, oops.Wrap(err)
+	}
+
 	// Get the current item from the ledger
 	key, err := common.MakePrimaryKey(obj)
 	if err != nil {
 		return obj, err
 	}
-
-	current, ok := proto.Clone(obj).(T)
-	if !ok {
-		return obj, oops.With("Base Object", obj).Errorf("Error cloning object")
-	}
-
-	proto.Reset(current)
-
-	current.SetKey(obj.ItemKey())
 
 	if bytes, err := ctx.GetStub().GetState(key); err != nil {
 		return obj, oops.Wrap(err)

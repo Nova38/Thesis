@@ -7,107 +7,243 @@ package v0
 
 import (
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	strings "strings"
 )
 
-func (m *SimpleItem) ItemType() string {
-	return "sample.SimpleItem"
+// ──────────────────────────────────────────────────
+// sample.SimpleItem
+// Primary Item
+
+// Domain Item
+func (m *SimpleItem) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *SimpleItem) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.Id = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
+}
+
+func (m *SimpleItem) ItemKey() *v1.ItemKey {
+	key := &v1.ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemKind:     2,
+		ItemType:     "sample.SimpleItem",
+		ItemKeyParts: m.KeyAttr(),
+	}
+	return key
+}
+
 func (m *SimpleItem) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetId())
 	return attr
 }
-func (m *SimpleItem) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.Id = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *SimpleItem) ItemKind() v1.ItemKind {
+	return v1.ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *SimpleItem) IsPrimary() bool {
-	return true
+func (m *SimpleItem) ItemType() string {
+	return "sample.SimpleItem"
 }
-func (m *SimpleItem) SetKey(key *v1.ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
+
+func (m *SimpleItem) KeySchema() *v1.KeySchema {
+	return &v1.KeySchema{
+		ItemKind:   v1.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"id"}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *SimpleItem) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "sample.SimpleItem" + collectionId + sep
+		return k
+	}
+	k := sep + "sample.SimpleItem" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// sample.Group
+// Primary Item
+
+// Domain Item
+func (m *Group) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
 	m.CollectionId = key.GetCollectionId()
 	return
 }
-func (m *SimpleItem) ItemKey() *v1.ItemKey {
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *Group) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.GroupId = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
+}
+
+func (m *Group) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.SimpleItem",
-		ItemIdParts:  m.KeyAttr(),
+		ItemKind:     2,
+		ItemType:     "sample.Group",
+		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
-func (m *Group) ItemType() string {
-	return "sample.Group"
-}
+
 func (m *Group) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetGroupId())
 	return attr
 }
-func (m *Group) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.GroupId = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *Group) ItemKind() v1.ItemKind {
+	return v1.ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *Group) IsPrimary() bool {
-	return true
+func (m *Group) ItemType() string {
+	return "sample.Group"
 }
-func (m *Group) SetKey(key *v1.ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
+
+func (m *Group) KeySchema() *v1.KeySchema {
+	return &v1.KeySchema{
+		ItemKind:   v1.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"group_id"}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Group) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "sample.Group" + collectionId + sep
+		return k
+	}
+	k := sep + "sample.Group" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// sample.Book
+// Primary Item
+
+// Domain Item
+func (m *Book) SetKey(key *v1.ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
 	m.CollectionId = key.GetCollectionId()
 	return
 }
-func (m *Group) ItemKey() *v1.ItemKey {
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *Book) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.Isbn = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
+}
+
+func (m *Book) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Group",
-		ItemIdParts:  m.KeyAttr(),
+		ItemKind:     2,
+		ItemType:     "sample.Book",
+		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
-func (m *Book) ItemType() string {
-	return "sample.Book"
-}
+
 func (m *Book) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetIsbn())
 	return attr
 }
-func (m *Book) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.Isbn = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *Book) ItemKind() v1.ItemKind {
+	return v1.ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *Book) IsPrimary() bool {
-	return true
+func (m *Book) ItemType() string {
+	return "sample.Book"
 }
-func (m *Book) SetKey(key *v1.ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
-	m.CollectionId = key.GetCollectionId()
-	return
-}
-func (m *Book) ItemKey() *v1.ItemKey {
-	key := &v1.ItemKey{
-		CollectionId: m.GetCollectionId(),
-		ItemType:     "sample.Book",
-		ItemIdParts:  m.KeyAttr(),
+
+func (m *Book) KeySchema() *v1.KeySchema {
+	return &v1.KeySchema{
+		ItemKind:   v1.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"isbn"}},
 	}
-	return key
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Book) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "sample.Book" + collectionId + sep
+		return k
+	}
+	k := sep + "sample.Book" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
 }

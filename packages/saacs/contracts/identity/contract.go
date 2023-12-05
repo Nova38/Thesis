@@ -132,7 +132,7 @@ func (c *IdentiyContract) CreateCollection(
 
 	ctx.GetLogger().Info("Bootstraping", slog.Any("membership", membership))
 
-	state.RawLedger[*v1.UserMembership]{}.PrimaryCreate(ctx, membership)
+	lo.Must0(state.Ledger[*v1.UserMembership]{}.PrimaryCreate(ctx, membership))
 
 	return &cc.CreateCollectionResponse{Collection: col}, nil
 

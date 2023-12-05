@@ -10,12 +10,36 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func (l RawLedger[T]) PrimaryCreate(ctx common.TxCtxInterface, obj T) (err error) {
+func (l Ledger[T]) PrimaryGet(ctx common.TxCtxInterface, obj T) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	key, err := common.MakePrimaryKey(obj)
 	if err != nil {
 		return oops.Wrap(err)
+	}
+
+	if err := Get(ctx, key, obj); err != nil {
+		return oops.With(
+			"Key", key,
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
+	}
+
+	return nil
+}
+
+func (l Ledger[T]) PrimaryCreate(ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	key, err := common.MakePrimaryKey(obj)
+	if err != nil {
+		return oops.Wrap(err)
+	}
+
+	if Exists(ctx, key) {
+		return oops.
+			With("Key", key, "ItemType", obj.ItemType()).
+			Wrap(common.AlreadyExists)
 	}
 
 	if bytes, err := json.Marshal(obj); err != nil {
@@ -30,6 +54,10 @@ func (l RawLedger[T]) PrimaryCreate(ctx common.TxCtxInterface, obj T) (err error
 		hiddenKey, err := common.MakeHiddenKey(obj)
 		if err != nil {
 			return oops.Wrap(err)
+		}
+
+		if err := Put[T](ctx, key, obj); err != nil {
+			return oops.Hint("Failed to create hiddenTxList").Wrap(err)
 		}
 
 		hiddenBytes, err := json.Marshal(&authpb.HiddenTxList{

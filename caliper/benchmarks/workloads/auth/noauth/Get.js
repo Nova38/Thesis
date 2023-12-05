@@ -86,7 +86,7 @@ class GetWorkload extends WorkloadModuleBase {
                 type: hlf.pb.sample.SimpleItem.typeName,
                 key: new hlf.pb.auth.ItemKey({
 
-                itemIdParts: [
+                itemKeyParts: [
                     `item-${hlf.utils.factory.randomInt(1000)}`,
                 ],
                 collectionId: hlf.utils.factory.modCollectionId(
@@ -99,7 +99,7 @@ class GetWorkload extends WorkloadModuleBase {
             arg = new hlf.pb.common.generic.GetRequest({
                 key: new hlf.pb.auth.ItemKey({
                     type: hlf.pb.sample.SimpleItem.typeName,
-                    itemIdParts: [
+                    itemKeyParts: [
                         `item-${hlf.utils.factory.randomInt(1000)}`,
                     ],
                     collectionId: hlf.utils.factory.modCollectionId(
@@ -111,7 +111,7 @@ class GetWorkload extends WorkloadModuleBase {
             arg = new hlf.pb.common.generic.GetRequest({
                 key: new hlf.pb.auth.ItemKey({
                     type: hlf.pb.sample.Book.typeName,
-                    itemIdParts: [
+                    itemKeyParts: [
                         `book-${hlf.utils.factory.randomInt(1000)}`,
                     ],
                     collectionId: hlf.utils.factory.modCollectionId(

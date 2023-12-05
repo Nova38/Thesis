@@ -44,7 +44,7 @@ func TestMakeItemKeyAttr(t *testing.T) {
 			args: args{
 				key: &authpb.ItemKey{
 					CollectionId: "collection",
-					ItemIdParts:  []string{"id"},
+					ItemKeyParts: []string{"id"},
 				},
 			},
 			want: []string{
@@ -57,7 +57,7 @@ func TestMakeItemKeyAttr(t *testing.T) {
 			args: args{
 				key: &authpb.ItemKey{
 					CollectionId: "collection",
-					ItemIdParts:  []string{"id1", "id2"},
+					ItemKeyParts: []string{"id1", "id2"},
 				},
 			},
 			want: []string{

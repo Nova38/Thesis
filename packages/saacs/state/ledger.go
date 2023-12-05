@@ -40,7 +40,8 @@ func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (
 	return nil
 }
 
-func Put[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
+// Put puts the item into the ledger after json marshalling it
+func Put[T any](ctx common.TxCtxInterface, key string, obj T) (err error) {
 	var (
 		bytes []byte
 	)

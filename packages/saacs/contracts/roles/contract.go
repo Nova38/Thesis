@@ -151,10 +151,10 @@ func (c *RoleContract) CreateCollection(
 		slog.Any("role", role),
 		slog.Any("userRole", userRole),
 	)
-	if err = (state.RawLedger[*v1.Role]{}.PrimaryCreate(ctx, role)); err != nil {
+	if err = (state.Ledger[*v1.Role]{}.PrimaryCreate(ctx, role)); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = (state.RawLedger[*v1.UserCollectionRoles]{}.PrimaryCreate(ctx, userRole)); err != nil {
+	if err = (state.Ledger[*v1.UserCollectionRoles]{}.PrimaryCreate(ctx, userRole)); err != nil {
 		return nil, oops.Wrap(err)
 	}
 

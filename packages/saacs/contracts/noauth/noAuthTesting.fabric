@@ -103,7 +103,7 @@
                     "key":{
                         "itemType" : "sample.SimpleItem",
                         "collectionId":"SecondCollection",
-                        "itemIdParts":[ "332"]
+                        "itemKeyParts":[ "332"]
                     }
                 }
             ]
@@ -167,7 +167,7 @@
                 {"key":{
                     "itemType":"sample.SimpleItem",
                     "collectionId":"SecondCollection",
-                    "itemIdParts": ["332"],
+                    "itemKeyParts": ["332"],
                 }}
             ]
         },
@@ -178,7 +178,7 @@
                 {"key":{
                     "itemType":"sample.SimpleItem",
                     "collectionId":"SecondCollection",
-                    "itemIdParts": ["332"],
+                    "itemKeyParts": ["332"],
                 }}
             ]
         },

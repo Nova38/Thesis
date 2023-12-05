@@ -34,7 +34,9 @@ import "auth/v1/auth.proto";
 message ItemKey {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string item_type = 2 [(buf.validate.field).string.min_len = 1];
-  repeated string item_id_parts = 3 [(buf.validate.field).repeated = {
+  auth.ItemKind item_kind = 3;
+
+  repeated string item_key_parts = 4 [(buf.validate.field).repeated = {
     min_items: 1
   }];
 }
@@ -217,7 +219,9 @@ message HiddenTx {
 // Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 message HiddenTxList {
   option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-
+  option (key_schema).properties    = {
+    paths: []
+  };
   ItemKey primary_key = 1 [(buf.validate.field).required = true]; // The key that is used to store the item
   repeated HiddenTx txs = 4; // The list of hidden txs by tx_id
 }

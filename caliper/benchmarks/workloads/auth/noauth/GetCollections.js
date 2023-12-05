@@ -86,7 +86,7 @@ class GetWorkload extends WorkloadModuleBase {
                 type: hlf.pb.auth.Collection.typeName,
                 key: new hlf.pb.auth.ItemKey({
 
-                itemIdParts: [
+                itemKeyParts: [
                     `collection0`,
                 ],
                 collectionId: hlf.utils.factory.modCollectionId(

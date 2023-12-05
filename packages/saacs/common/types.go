@@ -21,27 +21,17 @@ type (
 
 	ItemInterface interface {
 		KeyAttr() (attr []string)
-		ItemKey() *authpb.ItemKey
+		SetKeyAttr(attr []string) int
+
 		SetKey(key *authpb.ItemKey)
-		SetKeyAttr(attr []string)
+		ItemKey() *authpb.ItemKey
+
 		ItemType() string
+		ItemKind() authpb.ItemKind
+
+		KeySchema() *authpb.KeySchema
 
 		proto.Message
-	}
-
-	PrimaryItemInterface interface {
-		ItemInterface
-		IsPrimary() bool
-	}
-
-	SubItemInterface interface {
-		ItemInterface
-		IsSecondary() bool
-	}
-
-	GlobalItemInterface interface {
-		ItemInterface
-		IsGlobal() bool
 	}
 
 	GenericTxCtxInterface interface {

@@ -5569,7 +5569,7 @@ namespace v1 {
 
         + CollectionId string
         + ObjectType string
-        + ObjectIdParts []string
+        + ObjectKeyParts []string
 
         - validate(all bool) error
 
@@ -5580,7 +5580,7 @@ namespace v1 {
         + Descriptor() ([]byte, []int)
         + GetCollectionId() string
         + GetObjectType() string
-        + GetObjectIdParts() []string
+        + GetObjectKeyParts() []string
         + MarshalJSON() ([]byte, error)
         + UnmarshalJSON(b []byte) error
         + Validate() error

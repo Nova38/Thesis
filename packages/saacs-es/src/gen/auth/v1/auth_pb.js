@@ -692,9 +692,9 @@ export class ItemKey extends Message {
      */
     itemType = "";
     /**
-     * @generated from field: repeated string item_id_parts = 3;
+     * @generated from field: repeated string item_key_parts = 3;
      */
-    itemIdParts = [];
+    itemKeyParts = [];
     constructor(data) {
         super();
         proto3.util.initPartial(data, this);
@@ -704,7 +704,7 @@ export class ItemKey extends Message {
     static fields = proto3.util.newFieldList(() => [
         { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
         { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-        { no: 3, name: "item_id_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+        { no: 3, name: "item_key_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     ]);
     static fromBinary(bytes, options) {
         return new ItemKey().fromBinary(bytes, options);

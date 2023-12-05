@@ -369,7 +369,7 @@ func SuggestionListByItem(
 		PrimaryKey: objKey,
 	}
 
-	num := len(objKey.GetItemIdParts()) + 2
+	num := len(objKey.GetItemKeyParts()) + 2
 
 	return PartialSuggestionList(ctx, s, num, bookmark)
 }

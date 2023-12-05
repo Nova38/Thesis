@@ -5,188 +5,589 @@
 
 package v1
 
-func (m *ReferenceKey) ItemType() string {
-	return "auth.ReferenceKey"
+import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoregistry "google.golang.org/protobuf/reflect/protoregistry"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	strings "strings"
+)
+
+// ──────────────────────────────────────────────────
+// auth.Collection
+// Primary Item
+
+// Domain Item
+func (m *Collection) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
+	m.CollectionId = key.GetCollectionId()
+	return
 }
-func (m *Collection) ItemType() string {
-	return "auth.Collection"
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *Collection) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.CollectionId = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
 }
+
+func (m *Collection) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemKind:     2,
+		ItemType:     "auth.Collection",
+		ItemKeyParts: m.KeyAttr(),
+	}
+	return key
+}
+
 func (m *Collection) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetCollectionId())
 	return attr
 }
-func (m *Collection) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.CollectionId = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *Collection) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *Collection) IsPrimary() bool {
-	return true
+func (m *Collection) ItemType() string {
+	return "auth.Collection"
 }
-func (m *Collection) SetKey(key *ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
+
+func (m *Collection) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind:   ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"collection_id"}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Collection) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.Collection" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.Collection" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// auth.Role
+// Primary Item
+
+// Domain Item
+func (m *Role) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
 	m.CollectionId = key.GetCollectionId()
 	return
 }
-func (m *Collection) ItemKey() *ItemKey {
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *Role) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.RoleId = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
+}
+
+func (m *Role) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.Collection",
-		ItemIdParts:  m.KeyAttr(),
+		ItemKind:     2,
+		ItemType:     "auth.Role",
+		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
-func (m *Role) ItemType() string {
-	return "auth.Role"
-}
+
 func (m *Role) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetRoleId())
 	return attr
 }
-func (m *Role) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.RoleId = attr[0]
-	} else {
-		return
-	}
-	return
+
+func (m *Role) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *Role) IsPrimary() bool {
-	return true
+func (m *Role) ItemType() string {
+	return "auth.Role"
 }
-func (m *Role) SetKey(key *ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
+
+func (m *Role) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind:   ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"role_id"}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Role) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.Role" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.Role" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// Invalid Key Schema
+// paths:"msp_id" paths:"oid" paths:"role_id"
+
+// ──────────────────────────────────────────────────
+// auth.UserMembership
+// Primary Item
+
+// Domain Item
+func (m *UserMembership) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
 	m.CollectionId = key.GetCollectionId()
 	return
 }
-func (m *Role) ItemKey() *ItemKey {
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *UserMembership) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.MspId = attr[0]
+	} else {
+		return 0
+	}
+	if len(attr) > 1 {
+		m.UserId = attr[1]
+	} else {
+		return 0
+	}
+	return len(attr) - 2
+}
+
+func (m *UserMembership) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.Role",
-		ItemIdParts:  m.KeyAttr(),
+		ItemKind:     2,
+		ItemType:     "auth.UserMembership",
+		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
-func (m *Attribute) ItemType() string {
-	return "auth.Attribute"
-}
-func (m *UserMembership) ItemType() string {
-	return "auth.UserMembership"
-}
+
 func (m *UserMembership) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
 }
-func (m *UserMembership) SetKeyAttr(attr []string) {
+
+func (m *UserMembership) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_PRIMARY_ITEM
+}
+
+func (m *UserMembership) ItemType() string {
+	return "auth.UserMembership"
+}
+
+func (m *UserMembership) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind: ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{
+			"msp_id",
+			"user_id",
+		}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *UserMembership) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.UserMembership" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.UserMembership" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// auth.UserCollectionRoles
+// Primary Item
+
+// Domain Item
+func (m *UserCollectionRoles) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *UserCollectionRoles) SetKeyAttr(attr []string) int {
 	if len(attr) > 0 {
 		m.MspId = attr[0]
 	} else {
-		return
+		return 0
 	}
 	if len(attr) > 1 {
 		m.UserId = attr[1]
 	} else {
-		return
+		return 0
 	}
-	return
+	return len(attr) - 2
 }
 
-// Domain Item
-func (m *UserMembership) IsPrimary() bool {
-	return true
-}
-func (m *UserMembership) SetKey(key *ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
-	m.CollectionId = key.GetCollectionId()
-	return
-}
-func (m *UserMembership) ItemKey() *ItemKey {
+func (m *UserCollectionRoles) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.UserMembership",
-		ItemIdParts:  m.KeyAttr(),
+		ItemKind:     2,
+		ItemType:     "auth.UserCollectionRoles",
+		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
-func (m *UserCollectionRoles) ItemType() string {
-	return "auth.UserCollectionRoles"
-}
+
 func (m *UserCollectionRoles) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
 }
-func (m *UserCollectionRoles) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.MspId = attr[0]
-	} else {
-		return
-	}
-	if len(attr) > 1 {
-		m.UserId = attr[1]
-	} else {
-		return
-	}
-	return
+
+func (m *UserCollectionRoles) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-// Domain Item
-func (m *UserCollectionRoles) IsPrimary() bool {
-	return true
-}
-func (m *UserCollectionRoles) SetKey(key *ItemKey) {
-	m.SetKeyAttr(key.ItemIdParts)
-	m.CollectionId = key.GetCollectionId()
-	return
-}
-func (m *UserCollectionRoles) ItemKey() *ItemKey {
-	key := &ItemKey{
-		CollectionId: m.GetCollectionId(),
-		ItemType:     "auth.UserCollectionRoles",
-		ItemIdParts:  m.KeyAttr(),
-	}
-	return key
-}
-func (m *Suggestion) ItemType() string {
-	return "auth.Suggestion"
-}
-func (m *Suggestion) KeyAttr() []string {
-	attr := []string{}
-	attr = append(attr, m.GetSuggestionId())
-	return attr
-}
-func (m *Suggestion) SetKeyAttr(attr []string) {
-	if len(attr) > 0 {
-		m.SuggestionId = attr[0]
-	} else {
-		return
-	}
-	return
+func (m *UserCollectionRoles) ItemType() string {
+	return "auth.UserCollectionRoles"
 }
 
-// Domain Item
-func (m *Suggestion) IsSecondary() bool {
-	return true
+func (m *UserCollectionRoles) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind: ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{
+			"msp_id",
+			"user_id",
+		}},
+	}
 }
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *UserCollectionRoles) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.UserCollectionRoles" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.UserCollectionRoles" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// auth.Suggestion
+// Sub Item
+
 func (m *Suggestion) SetKey(key *ItemKey) {
 	m.PrimaryKey = key
 	return
 }
-func (m *Suggestion) ItemKey() *ItemKey {
-	return m.GetPrimaryKey()
+
+func (m *Suggestion) SetKeyAttr(attr []string) int {
+
+	type ItemInterface interface {
+		KeySchema() *KeySchema
+	}
+
+	if m.PrimaryKey == nil {
+		m.PrimaryKey = &ItemKey{}
+	}
+
+	name := protoreflect.FullName(m.GetPrimaryKey().GetItemType())
+
+	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
+	if err != nil {
+		panic(err)
+	}
+
+	item, ok := t.New().Interface().(ItemInterface)
+	if !ok {
+		panic("Failed to cast to item interface")
+	}
+
+	primarySchema := item.KeySchema()
+	if primarySchema == nil {
+		panic("Primary schema is nil")
+	}
+
+	primaryAttrCount := len(primarySchema.GetProperties().GetPaths())
+
+	// just set the primary key attributes
+	if len(attr) <= primaryAttrCount {
+		m.GetPrimaryKey().ItemKeyParts = attr
+		return len(attr) - primaryAttrCount
+	}
+
+	remaining := len(attr) - primaryAttrCount
+
+	if remaining <= 0 {
+		panic("There was a issue with the number of the attributes")
+	}
+
+	attr = attr[remaining:]
+
+	if len(attr) > 0 {
+		m.SuggestionId = attr[0]
+	} else {
+		return 0
+	}
+	return len(attr) - 1
 }
+
+func (m *Suggestion) ItemKey() *ItemKey {
+
+	key := &ItemKey{
+		CollectionId: m.GetPrimaryKey().GetCollectionId(),
+		ItemKind:     ItemKind_ITEM_KIND_SUB_ITEM,
+		ItemType:     "auth.Suggestion",
+		ItemKeyParts: []string{
+			m.GetPrimaryKey().GetItemType(),
+		},
+	}
+
+	key.ItemKeyParts = append(key.ItemKeyParts, m.GetPrimaryKey().GetItemKeyParts()...)
+	key.ItemKeyParts = append(key.ItemKeyParts, m.KeyAttr()...)
+	return key
+}
+
+func (m *Suggestion) KeyAttr() []string {
+	attr := []string{}
+
+	attr = append(attr, m.GetSuggestionId())
+	return attr
+}
+
+func (m *Suggestion) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_SUB_ITEM
+}
+
+func (m *Suggestion) ItemType() string {
+	return "auth.Suggestion"
+}
+
+func (m *Suggestion) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind:   ItemKind_ITEM_KIND_SUB_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{"suggestion_id"}},
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *Suggestion) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.Suggestion" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.Suggestion" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
+// auth.HiddenTxList
+// Sub Item
+
+func (m *HiddenTxList) SetKey(key *ItemKey) {
+	m.PrimaryKey = key
+	return
+}
+
+func (m *HiddenTxList) SetKeyAttr(attr []string) int {
+
+	type ItemInterface interface {
+		KeySchema() *KeySchema
+	}
+
+	if m.PrimaryKey == nil {
+		m.PrimaryKey = &ItemKey{}
+	}
+
+	name := protoreflect.FullName(m.GetPrimaryKey().GetItemType())
+
+	t, err := protoregistry.GlobalTypes.FindMessageByName(name)
+	if err != nil {
+		panic(err)
+	}
+
+	item, ok := t.New().Interface().(ItemInterface)
+	if !ok {
+		panic("Failed to cast to item interface")
+	}
+
+	primarySchema := item.KeySchema()
+	if primarySchema == nil {
+		panic("Primary schema is nil")
+	}
+
+	primaryAttrCount := len(primarySchema.GetProperties().GetPaths())
+
+	// just set the primary key attributes
+	if len(attr) <= primaryAttrCount {
+		m.GetPrimaryKey().ItemKeyParts = attr
+		return len(attr) - primaryAttrCount
+	}
+
+	remaining := len(attr) - primaryAttrCount
+
+	if remaining <= 0 {
+		panic("There was a issue with the number of the attributes")
+	}
+
+	attr = attr[remaining:]
+
+	return len(attr) - 0
+}
+
+func (m *HiddenTxList) ItemKey() *ItemKey {
+
+	key := &ItemKey{
+		CollectionId: m.GetPrimaryKey().GetCollectionId(),
+		ItemKind:     ItemKind_ITEM_KIND_SUB_ITEM,
+		ItemType:     "auth.HiddenTxList",
+		ItemKeyParts: []string{
+			m.GetPrimaryKey().GetItemType(),
+		},
+	}
+
+	key.ItemKeyParts = append(key.ItemKeyParts, m.GetPrimaryKey().GetItemKeyParts()...)
+	key.ItemKeyParts = append(key.ItemKeyParts, m.KeyAttr()...)
+	return key
+}
+
+func (m *HiddenTxList) KeyAttr() []string {
+	attr := []string{}
+
+	return attr
+}
+
+func (m *HiddenTxList) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_SUB_ITEM
+}
+
 func (m *HiddenTxList) ItemType() string {
 	return "auth.HiddenTxList"
+}
+
+func (m *HiddenTxList) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind: ItemKind_ITEM_KIND_SUB_ITEM,
+	}
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+
+func (m *HiddenTxList) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.HiddenTxList" + collectionId + sep
+		return k
+	}
+	k := sep + "auth.HiddenTxList" + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
 }

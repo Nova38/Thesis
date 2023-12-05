@@ -9,6 +9,8 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
+// ──────────────────────────────── Item Utils ──────────────────────────────────────────
+
 // ItemKeyToItemType Does not populate the item's key
 func ItemKeyToItemType(key *authpb.ItemKey) (item ItemInterface, err error) {
 	if key == nil {
@@ -38,7 +40,7 @@ func ItemKeyToItem(key *authpb.ItemKey) (item ItemInterface, err error) {
 		return nil, oops.Wrap(err)
 	}
 
-	if key.GetItemIdParts() == nil {
+	if key.GetItemKeyParts() == nil {
 		return nil, oops.Errorf("ItemKey is nil")
 	}
 

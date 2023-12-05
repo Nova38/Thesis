@@ -76,7 +76,7 @@
 <text text-anchor="start" x="1468" y="-2816.56" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <text text-anchor="start" x="1368.75" y="-2800.56" font-family="Ubuntu" font-size="10.00">[...]</text>
 <text text-anchor="start" x="1389" y="-2800.56" font-family="Ubuntu" font-size="10.00">3</text>
-<text text-anchor="start" x="1398.88" y="-2800.56" font-family="Ubuntu" font-size="10.00">item_id_parts</text>
+<text text-anchor="start" x="1398.88" y="-2800.56" font-family="Ubuntu" font-size="10.00">item_key_parts</text>
 <polygon fill="#a6cee3" stroke="none" points="1466,-2797.06 1466,-2812.06 1497,-2812.06 1497,-2797.06 1466,-2797.06"/>
 <text text-anchor="start" x="1468" y="-2801.56" font-family="Ubuntu" font-style="italic" font-size="10.00">string</text>
 <polygon fill="none" stroke="black" points="1366,-2796.06 1366,-2858.06 1498,-2858.06 1498,-2796.06 1366,-2796.06"/>

@@ -24,7 +24,7 @@ func KeyExists(ctx TxCtxInterface, key string) bool {
 func MakeItemKeyAttr(key *authpb.ItemKey) []string {
 	return append(
 		[]string{key.GetCollectionId()},
-		key.GetItemIdParts()...,
+		key.GetItemKeyParts()...,
 	)
 }
 
@@ -46,7 +46,7 @@ func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
 func MakePrimaryKeyAttr[T ItemInterface](obj T) (attr []string) {
 	return append(
 		[]string{obj.ItemKey().GetCollectionId()},
-		obj.ItemKey().GetItemIdParts()...,
+		obj.ItemKey().GetItemKeyParts()...,
 	)
 }
 
@@ -66,14 +66,14 @@ func MakeSubKeyAtter[T ItemInterface](obj T) (attr []string) {
 			obj.ItemKey().GetCollectionId(),
 			obj.ItemKey().GetItemType(),
 		},
-		obj.ItemKey().GetItemIdParts()...,
+		obj.ItemKey().GetItemKeyParts()...,
 	)
 }
 
 func MakeSubItemKeyAtter(key *authpb.ItemKey) (attr []string) {
 	return append(
 		[]string{key.GetCollectionId(), key.GetItemType()},
-		key.GetItemIdParts()...,
+		key.GetItemKeyParts()...,
 	)
 }
 
@@ -147,11 +147,11 @@ func MakeRefKeyAttrs(
 	var a, b []string
 
 	if ref.GetKey1() != nil {
-		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
+		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemKeyParts()...)
 		a = MakeSubItemKeyAtter(ref.GetKey1())
 	}
 	if ref.GetKey2() != nil {
-		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
+		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemKeyParts()...)
 		b = MakeSubItemKeyAtter(ref.GetKey2())
 	}
 	refKey1 = slices.Clone(a)
@@ -176,11 +176,11 @@ func MakeRefKeys(
 	var a, b, k1, k2 []string
 
 	if ref.GetKey1() != nil {
-		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemIdParts()...)
+		// a = append([]string{ref.Key_1.GetCollectionId(), ref.GetKey_1().GetItemType()}, ref.GetKey_1().GetItemKeyParts()...)
 		a = MakeSubItemKeyAtter(ref.GetKey1())
 	}
 	if ref.GetKey2() != nil {
-		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemIdParts()...)
+		// b = append([]string{ref.GetKey_2().GetItemType()}, ref.GetKey_2().GetItemKeyParts()...)
 		b = MakeSubItemKeyAtter(ref.GetKey2())
 	}
 
