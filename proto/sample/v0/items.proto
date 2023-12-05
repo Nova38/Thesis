@@ -22,8 +22,8 @@ message Group {
   option (auth.key_schema).properties            = {
     paths: [  "group_id" ]
   };
-  string collection_id = 1;
-  string group_id = 2;
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string group_id = 2 [(buf.validate.field).string.min_len = 1];
   SimpleItem item1 = 3;
   SimpleItem item2 = 4;
 }

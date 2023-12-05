@@ -3,6 +3,7 @@ syntax = "proto3";
 package auth.common;
 
 import "auth/v1/auth.proto";
+import "auth/v1/objects.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/field_mask.proto";

@@ -7,6 +7,9 @@
 package common
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -14,8 +17,6 @@ import (
 	_ "google.golang.org/protobuf/types/descriptorpb"
 	_ "google.golang.org/protobuf/types/known/emptypb"
 	_ "google.golang.org/protobuf/types/known/fieldmaskpb"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
