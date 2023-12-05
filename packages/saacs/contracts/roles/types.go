@@ -1,9 +1,10 @@
 package roles
 
 import (
-	common "github.com/nova38/thesis/packages/saacs/auth/common"
-	"github.com/nova38/thesis/packages/saacs/auth/state"
-	"github.com/nova38/thesis/packages/saacs/contracts"
+	"github.com/nova38/thesis/packages/saacs/common"
+	"github.com/nova38/thesis/packages/saacs/contracts/base"
+	"github.com/nova38/thesis/packages/saacs/state"
+
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	cc "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
 )
@@ -15,7 +16,7 @@ type (
 	}
 
 	RoleContract struct {
-		contracts.ItemContractImpl
+		base.ItemContractImpl
 	}
 )
 

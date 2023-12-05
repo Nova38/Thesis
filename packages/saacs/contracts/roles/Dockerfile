@@ -14,7 +14,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/roles -v ./lib/go/fabric/contracts/roles/bin/main.go
+RUN go build -o bin/roles -v ./packages/saacs/roles/bin/main.go
 
 
 

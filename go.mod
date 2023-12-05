@@ -17,7 +17,10 @@ require (
 	google.golang.org/protobuf v1.31.0
 )
 
-require github.com/bufbuild/protovalidate-go v0.4.3
+require (
+	github.com/bufbuild/protovalidate-go v0.4.3
+	github.com/stretchr/testify v1.8.4
+)
 
 require (
 	github.com/pkg/errors v0.9.1 // indirect
@@ -28,6 +31,7 @@ require (
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
@@ -45,6 +49,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/oklog/ulid/v2 v2.1.0 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

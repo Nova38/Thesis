@@ -3,13 +3,37 @@
 import { Any, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 
 
+export function randomUser(){
+    const users = ['User1', 'User2', 'User3', 'User4', 'User5', 'Admin']
+    return users[Math.floor(Math.random() * users.length)];
+}
+
+export function modCollectionId(numCollections: number, mod: number){
+    const collections = []
+    for (let i = 0; i < numCollections; i++) {
+        collections.push(`collection${i}`)
+    }
+    return collections[mod % numCollections];
+}
+
+export function randomCollection(numCollections: number){
+
+    const collections = []
+    for (let i = 0; i < numCollections; i++) {
+        collections.push(`Collection${i}`)
+    }
+    return collections[Math.floor(Math.random() * collections.length)];
+}
 
 
 export function BuildCollection(types: any[]) {
 
 
 }
-
+export function randomInt( max: number): number {
+    // faker.seed(seed);
+    return Math.random() * max;
+}
 
 
 

@@ -1,5 +1,5 @@
 'use strict';
-const hlf = require('hlf_tools')
+const hlf = require('saacs-es')
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('noauth-workload');
 
 

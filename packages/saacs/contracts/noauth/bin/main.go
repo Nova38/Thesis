@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/nova38/thesis/packages/saacs/auth/common"
+	"github.com/nova38/thesis/packages/saacs/common"
 	"github.com/nova38/thesis/packages/saacs/contracts/noauth"
 )
 

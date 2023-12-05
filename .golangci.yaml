@@ -8,10 +8,26 @@ linters:
     - decorder
     - unused
     - dupl
+    - importas
     # - exhaustruct
     - gosec
     - importas
     - unconvert
+    - wastedassign
+    - usestdlibvars
+    - thelper
+    - tenv
+    - sloglint
+    - misspell
+    - govet
+
+
+  # exclude-rules:
+  #   # Loosen requirements on test harness
+  #   - path: go/v2/internal/cmd/
+  #     linters:
+  #       - forbidigo
+  #       - errorlint
   staticcheck:
 
 #     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
@@ -31,6 +47,18 @@ run:
 
 
 linters-settings:
+
+  linters-settings:
+    alias:
+      - pkg: 	"github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+        alias: 	"authpb"
+
+  # govet:
+  #   enable-all: true
+
+  sloglint:
+      args-on-sep-lines: true
+
   errcheck:
     # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
     # Such cases aren't reported by default.
@@ -44,9 +72,11 @@ linters-settings:
       # The maximal code complexity to report.
       # Default: 10
       max-complexity: 12
+  protogetter:
+        skip-any-generated: true
 
   revive:
-    #       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#var-naming
+    #       # https://github.com/mgechev/revive/blob/master/RULES_DES`CRIPTIONS.md#var-naming
     rules:
 
       - name: var-naming

@@ -3,10 +3,10 @@ package roles
 import (
 	"log/slog"
 
-	"github.com/nova38/thesis/packages/saacs/auth/common"
-	"github.com/nova38/thesis/packages/saacs/auth/policy"
-	"github.com/nova38/thesis/packages/saacs/auth/state"
+	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	"github.com/nova38/thesis/packages/saacs/policy"
+	"github.com/nova38/thesis/packages/saacs/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
@@ -97,7 +97,11 @@ func (ctx *RolesTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	return false, nil
 }
 
-func (ctx *RolesTxCtx) checkParents(roles []*authpb.Role, checked []string, op *authpb.Operation) (bool, []string, error) {
+func (ctx *RolesTxCtx) checkParents(
+	roles []*authpb.Role,
+	checked []string,
+	op *authpb.Operation,
+) (bool, []string, error) {
 
 	parents := []string{}
 

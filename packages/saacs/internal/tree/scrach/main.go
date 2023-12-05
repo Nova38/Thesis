@@ -51,7 +51,7 @@ func main() {
 
 	// t.AddPath("z.z", &A{name: "zap"})
 	fmt.Printf("a.b: %s \n", t.GetPath("a.b").Value)
-	b.name = "bnew"
+	b.name = "new"
 	fmt.Printf("a.b: %s \n", t.GetPath("a.b").Value)
 
 	err = t.AddPath("a.b", b)
@@ -66,12 +66,15 @@ func main() {
 				node.Value = new(A)
 			}
 			node.Value.name = "new"
-			slog.Info("Final", "node", slog.AnyValue(node), slog.Any("value", node.Value))
+			slog.Info("Final",
+				slog.Any("node", node),
+				slog.Any("value", node.Value),
+			)
 			return node.Path
 		},
 	)
 
-	t.Print()
+	// t.Print()
 	slog.Info("Final", " %+v", t.GetPath("a.b").Value)
 	// t.Print()
 }

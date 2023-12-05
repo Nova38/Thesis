@@ -23,10 +23,6 @@ func (d *WrapperGen) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
-	//for _, msg := range file.Messages {
-	//	d.GenerateMessage(g, msg)
-	//}
-
 	v := &Visitor{
 		file: file,
 		gen:  gen,

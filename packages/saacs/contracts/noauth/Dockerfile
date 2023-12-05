@@ -1,7 +1,7 @@
 FROM golang:1.21.4-bookworm as builder
 
 
-WORKDIR /app
+WORKDIR /
 
 COPY . .
 
@@ -14,15 +14,15 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/noauth -v ./lib/go/fabric/contracts/noauth/bin/main.go
+RUN go build -o bin/noauth -v ./packages/saacs/contracts/noauth/bin/main.go
 
 
 
 FROM golang:1.21.4-bookworm
 
-WORKDIR /app
+WORKDIR /
 
-COPY --from=builder /app/bin/ .
+COPY --from=builder /bin/ .
 
 EXPOSE 9999
 # CMD [ "/bin/sh" ]

@@ -82,10 +82,15 @@
         "contractapi",
         "descriptorpb",
         "golines",
+        "noauth",
         "oneof",
         "pdfauthor",
         "pdfsubject",
+        "protogen",
+        "protoreflect",
+        "saacs",
         "segmentio",
+        "Sfixed",
         "spydra",
         "urlcolor"
     ],
@@ -102,6 +107,7 @@
     },
     "explorerExclude.backup": {},
     "editor.minimap.enabled": false,
+    "cSpell.enabled": true,
     // "plantuml.server": "http://localhost:8888",
     // "plantuml.render": "PlantUMLServer",
 

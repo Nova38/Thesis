@@ -13,20 +13,84 @@
 #
 
 ---
-caliper:
-  report:
-    # The absolute or workspace-relative path of the report file.
-    path: './out/init_report.html'
 
 test:
   name: NoAuth
   description:
   workers:
-    number: 5
+    number: 1
   rounds:
-  - label: Initialize
+  # - label: Bootstrap
+  #   contractId: noauth
+  #   txNumber: 1
+  #   rateControl:
+  #     type: fixed-rate
+  #     opts: { tps: 1 }
+  #   workload:
+  #     module: benchmarks/workloads/auth/noauth/Bootstrap.js
+  #     arguments:
+  #       contractId: noauth
+  #       numCollections: 10
+
+  - label: CreateItem
     contractId: noauth
     txDuration: 10
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 10 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Create.js
+      arguments:
+        contractId: noauth
+        numCollections: 10
+        type: simple
+
+  - label: GetItem
+    contractId: noauth
+    txDuration: 10
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 10 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Get.js
+      arguments:
+        contractId: noauth
+        numCollections: 10
+        type: simple
+
+
+  - label: CreateBook
+    contractId: noauth
+    txDuration: 10
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 5 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Create.js
+      arguments:
+        contractId: noauth
+        type: book
+        numCollections: 10
+
+
+  - label: GetBook
+    contractId: noauth
+    txDuration: 10
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 5 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Get.js
+      arguments:
+        contractId: noauth
+        numCollections: 10
+        type: book
+
+
+
+  - label: TestTx
+    contractId: noauth
+    txDuration: 20
     rateControl:
       type: fixed-rate
       opts: { tps: 1 }
@@ -35,9 +99,6 @@ test:
       arguments:
         contractId: noauth
         failRate: 50
-
-
-
 
 
 

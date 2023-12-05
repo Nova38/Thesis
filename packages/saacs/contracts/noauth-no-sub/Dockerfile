@@ -15,10 +15,8 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build \
-    -ldflags="-X 'github.com/nova38/thesis/packages/saacs/auth/common.EnableHiddenTx=0 '" \
-    -ldflags="-X 'github.com/nova38/thesis/packages/saacs/auth/common.EnabledSuggestions=0 '" \
-    -o bin/noauth-no-sub-items  -v /app/lib/go/fabric/contracts/noauth/bin/main.go
+RUN go build -o bin/noauth-no-sub-items -v ./packages/saacs/contracts/bin/main.go
+
 
 FROM golang:1.21.4-bookworm
 
@@ -27,5 +25,6 @@ WORKDIR /app
 COPY --from=builder /app/bin/ .
 
 EXPOSE 9999
+ENV AUTH_MODE=noauth-no-sub
 # CMD [ "/bin/sh" ]
 CMD ["/app/noauth-no-sub-items"]

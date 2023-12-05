@@ -151,11 +151,17 @@ func (n *Node[T]) addGroupMap(prefix, group string) {
 // addGroupEntries adds a subentry for each member of the group
 func (n *Node[T]) addGroupEntries(prefix string, entries []AddEntry[T]) {
 
-	slog.Info("Making The Maps Entries", "prefix", prefix, "entries", entries)
+	slog.Info("Making The Maps Entries",
+		"prefix", prefix,
+		"entries", entries,
+	)
 	for _, entry := range entries {
 		n.addGroupMap(prefix, entry.Path)
 	}
 
-	slog.Info("Adding Entries", "prefix", prefix, "entries", entries)
+	slog.Info("Adding Entries",
+		"prefix", prefix,
+		"entries", entries,
+	)
 
 }

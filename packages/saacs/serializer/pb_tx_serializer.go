@@ -55,7 +55,7 @@ func (s *TxSerializer) ToString(
 	var str string
 
 	if t.Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
-		fmt.Println("protobuf message")
+		// fmt.Println("protobuf message")
 		fmt.Println(v.Interface())
 
 		bytes, err := json.Marshal(v.Interface())

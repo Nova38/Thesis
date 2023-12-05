@@ -16,11 +16,13 @@
 
 
 
+const { Any, createRegistry } = require('@bufbuild/protobuf');
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
-const hlf = require('hlf_tools')
+const hlf = require('saacs-es')
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-module');
+
 
 
 
@@ -58,6 +60,8 @@ class CreateWorkload extends WorkloadModuleBase {
         this.contractId = args.contractId;
         this.numCollections = args.numCollections;
         this.contractVersion = args.contractVersion;
+        this.type = args.type;
+
     }
 
     /**
@@ -65,18 +69,43 @@ class CreateWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
+        let obj = null;
+        let arg = null
+        if (!this.type){
+            logger.error('unknown type', this.args)
+            obj = new hlf.pb.sample.SimpleItem({
+                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
 
-
-        const arg = new hlf.pb.common.generic.BootstrapRequest()
-        for (let i = 0; i < this.numCollections; i++) {
-            arg.collections.push(new hlf.pb.auth.Collection({
-                name: `collection${i}`,
-                authType: hlf.pb.auth.AuthType.NONE,
-                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName],
-                collectionId: `collection${i}`,
-                default: new hlf.pb.auth.PathPolicy(),
-            }))
+                id: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
+            })
         }
+        if (this.type == "simple"){
+            obj = new hlf.pb.sample.SimpleItem({
+                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
+
+                id: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
+            })
+        }else if (this.type == "book"){
+            obj = new hlf.pb.sample.Book({
+                isbn: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
+                author: `${this.workerIndex}`,
+                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
+            })
+
+        } else {
+            logger.error('unknown type', this.args)
+
+            obj = new hlf.pb.sample.SimpleItem({
+                id: `item-${hlf.utils.factory.randomInt(1000)}`,
+                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
+            })
+
+        }
+
+        arg = new hlf.pb.common.generic.CreateRequest({
+            item: new hlf.pb.auth.Item()
+        })
+        arg.item.value = Any.pack(obj)
 
         // logger.info('this', this)
         // logger.info('arg', arg);
@@ -85,19 +114,17 @@ class CreateWorkload extends WorkloadModuleBase {
         const myArgs = {
             contractId: this.contractId,
 
-            contractFunction: 'Bootstrap',
-            contractArguments: [arg.toJsonString({typeRegistry: hlf.utils.GlobalRegistry})],
+            contractFunction: 'Create',
+            contractArguments: [arg.toJsonString({typeRegistry: createRegistry(...hlf.pb.sample.allMessages)})],
             readOnly: false,
             invokerIdentity: "User1",
             invokerMspId: "Org1MSP",
         };
 
 
-        const txStatus = await this.sutAdapter.sendRequests(myArgs);
 
-        logger.info('txStatus', txStatus);
 
-        return txStatus;
+        return await this.sutAdapter.sendRequests(myArgs);;
     }
 }
 
@@ -106,7 +133,7 @@ class CreateWorkload extends WorkloadModuleBase {
  * @return {WorkloadModuleInterface}
  */
 function createWorkloadModule() {
-    return new GetWorkload();
+    return new CreateWorkload();
 }
 
 module.exports.createWorkloadModule = createWorkloadModule;

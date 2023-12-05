@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/nova38/thesis/packages/saacs/auth/common"
-	"github.com/nova38/thesis/packages/saacs/auth/state"
+	"github.com/nova38/thesis/packages/saacs/common"
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	cc "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
 	"github.com/nova38/thesis/packages/saacs/serializer"
+	"github.com/nova38/thesis/packages/saacs/state"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/samber/lo"

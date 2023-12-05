@@ -38,10 +38,6 @@ func (sg *ServiceGenerator) GenerateFile(
 	g.P("package ", file.GoPackageName)
 	g.P()
 
-	//for _, msg := range file.Messages {
-	//	//sv.GenerateMessage(gen, g, msg)
-	//}
-
 	if file.Services == nil {
 		g.Skip()
 	}
@@ -104,7 +100,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 		protogen.GoIdent{
 			GoName: "GenericTxCtxInterface",
 
-			GoImportPath: "github.com/nova38/thesis/packages/saacs/auth/common",
+			GoImportPath: "github.com/nova38/thesis/packages/saacs/common",
 		},
 	)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")
@@ -128,7 +124,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 			mComments += "// No operation defined for " + m.GoName + "\n"
 		} else if op != nil {
 			mComments += "// # Operation: \n"
-			mComments += "//   - Domain: " + op.Action.String() + "\n"
+			mComments += "//   - Domain: " + op.GetAction().String() + "\n"
 			// mComments += "//   - Action: " + op.ItemTypeName + "\n"
 		}
 
@@ -229,7 +225,7 @@ func GenerateOperationLookup(
 			)
 		} else if op != nil {
 			g.P("return &", opImport, "{")
-			g.P("Action: ", op.Action.Number(), ",")
+			g.P("Action: ", op.GetAction().Number(), ",")
 			// if op.ItemTypeName != "" {
 			// 	g.P("ItemTypeName: ", op.ItemTypeName, ",")
 			// }

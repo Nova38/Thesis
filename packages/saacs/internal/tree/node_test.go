@@ -1,9 +1,9 @@
 package tree
 
-type Holder struct {
-	name  string
-	valid bool
-}
+// type Holder struct {
+// 	name  string
+// 	valid bool
+// }
 
 // func TestNode_AddPath(t *testing.T) {
 

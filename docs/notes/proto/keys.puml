@@ -1,4 +1,4 @@
 @startebnf
-PrimaryKey = "Object Type", ?u\00?, "Collection Id",  {?u\00?, "object property"};
-SubKey = "SubObject Type", ?u\00?,  "Collection Id", ?u\00?,  "Object Type", {?u\00?, "Object Property"},  {?u\00?, "SubObject Property"};
+PrimaryKey = "Object Type", ??, "Collection Id",  {??, "object property"};
+SubKey = "SubObject Type", ??,  "Collection Id", ??,  "Object Type", {??, "Object Property"},  {??, "SubObject Property"};
 @endebnf

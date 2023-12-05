@@ -10,8 +10,8 @@ import (
 	"github.com/nova38/thesis/packages/saacs/serializer"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/thesis/packages/saacs/auth/common"
-	"github.com/nova38/thesis/packages/saacs/auth/state"
+	"github.com/nova38/thesis/packages/saacs/common"
+	"github.com/nova38/thesis/packages/saacs/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
@@ -44,7 +44,7 @@ func BuildContract() *contractapi.ContractChaincode {
 }
 
 // ═════════════════════════════════════════════
-// Additonal Functions for the NoAuthContract
+// Additional Functions for the NoAuthContract
 // ═════════════════════════════════════════════
 
 func (c *RoleContract) Bootstrap(
@@ -58,7 +58,7 @@ func (c *RoleContract) Bootstrap(
 		return nil, oops.Errorf("Invalid context")
 	}
 
-	ctx.GetLogger().Info("NoAuthContract.Boostrap")
+	ctx.GetLogger().Info("NoAuthContract.Bootstrap")
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -104,7 +104,7 @@ func (c *RoleContract) CreateCollection(
 	// Add the auth types to the collection
 	role := &v1.Role{
 		CollectionId: col.GetCollectionId(),
-		RoleId:       "superadmin",
+		RoleId:       "manager",
 		Polices: &v1.Polices{
 			ItemPolicies: map[string]*v1.PathPolicy{},
 			DefaultPolicy: &v1.PathPolicy{
@@ -137,7 +137,7 @@ func (c *RoleContract) CreateCollection(
 		CollectionId: col.GetCollectionId(),
 		MspId:        user.GetMspId(),
 		UserId:       user.GetUserId(),
-		RoleIds:      []string{"superadmin"},
+		RoleIds:      []string{"manager"},
 	}
 
 	col.ItemTypes = append(col.GetItemTypes(), []string{role.ItemType(), userRole.ItemType()}...)
@@ -147,9 +147,16 @@ func (c *RoleContract) CreateCollection(
 
 	lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
 
-	ctx.GetLogger().Info("Bootstraping", slog.Any("role", role), slog.Any("userRole", userRole))
-	state.RawLedger[*v1.Role]{}.PrimaryCreate(ctx, role)
-	state.RawLedger[*v1.UserCollectionRoles]{}.PrimaryCreate(ctx, userRole)
+	ctx.GetLogger().Info("Bootstrapping",
+		slog.Any("role", role),
+		slog.Any("userRole", userRole),
+	)
+	if err = (state.RawLedger[*v1.Role]{}.PrimaryCreate(ctx, role)); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if err = (state.RawLedger[*v1.UserCollectionRoles]{}.PrimaryCreate(ctx, userRole)); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	return &cc.CreateCollectionResponse{Collection: col}, nil
 }

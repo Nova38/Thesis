@@ -19,18 +19,18 @@
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
-const hlf = require('hlf_tools')
+const hlf = require('saacs-es')
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-module');
 
 
 
 /**
  * Workload module for the benchmark round.
- * @type {GetWorkload}
+ * @type {CreateWorkload}
  * @property {string} contractId The name of the contract.
  * @property {string} contractVersion The version of the contract.
  */
-class GetWorkload extends WorkloadModuleBase {
+class BootstrapWorkload extends WorkloadModuleBase {
 
     /**
      * Initializes the workload module instance.
@@ -106,7 +106,7 @@ class GetWorkload extends WorkloadModuleBase {
  * @return {WorkloadModuleInterface}
  */
 function createWorkloadModule() {
-    return new GetWorkload();
+    return new BootstrapWorkload();
 }
 
 module.exports.createWorkloadModule = createWorkloadModule;

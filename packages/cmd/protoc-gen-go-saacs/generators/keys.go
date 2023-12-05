@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	errorsPackage  = protogen.GoImportPath("errors")
-	loPackage      = protogen.GoImportPath("github.com/samber/lo")
-	stringsPackage = protogen.GoImportPath("strings")
+	// errorsPackage  = protogen.GoImportPath("errors")
+	// loPackage      = protogen.GoImportPath("github.com/samber/lo")
+	// stringsPackage = protogen.GoImportPath("strings")
 
 	authPackage = protogen.GoImportPath("github.com/nova38/thesis/packages/saacs/gen/auth/v1")
 )
@@ -109,7 +109,7 @@ func (kg *KeyGenerator) GenerateMessage(
 		// 	if field.IsList() {
 		// 		g.P("//", f, "is a list")
 		// 		// g.P("attr[\"", f, "\"] = strings.Join(m.", PathToGetter(f), ", \",\")")
-		// 		// Put the list entries in the map with feild of f and the index as the key
+		// 		// Put the list entries in the map with felid of f and the index as the key
 		// 		g.P("for i, v := range m.", PathToGetter(f), " {")
 		// 		g.P("attr[\"", f, "\" + string(i)] = v")
 		// 		g.P("}")
@@ -181,7 +181,7 @@ func (kg *KeyGenerator) GenerateMessage(
 
 		{
 			//
-			//if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
+			// if authpb.ItemKind(od.Number()) == authpb.ItemKind_ITEM_KIND_GLOBAL_ITEM {
 			//	g.P("// Global Item")
 			//	g.P("func (m *", msg.GoIdent.GoName, ") IsGlobal() (bool) {")
 			//	g.P("	return true")
@@ -244,16 +244,6 @@ func (kg *KeyGenerator) GenerateMessage(
 			}
 
 		}
-
-		//g.P("func (m *", msg.GoIdent.GoName, ") ", "FlatKey()", "(string) {")
-		//g.P("attr, err := m.Key()")
-		//g.P("if err != nil {")
-		//g.P("return \"\"")
-		//g.P("}")
-		//// remove the first element which is the collection id
-		//g.P("attr = attr[1:]")
-		//g.P("return strings.Join(attr, \"-\")")
-		//g.P("}")
 
 		return false
 	}

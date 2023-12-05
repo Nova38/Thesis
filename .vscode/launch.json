@@ -21,7 +21,7 @@
         "debugAdapter": "dlv-dap",
 
         "isCaas": true,
-        "program": "${workspaceFolder}/lib/go/fabric/contracts/noauth/bin/main.go",
+        "program": "${workspaceFolder}/packages/saacs/contracts/noauth/bin/main.go",
         "console": "integratedTerminal",
         "env": {
             // "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG:kvledger,lockbasedtxmgr,ledgerstorage,stateleveldb,statecouchdb,couchdb=debug"

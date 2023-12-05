@@ -40,4 +40,4 @@ tasks:
     cmds:
       - for: ["noauth", "noauth-no-sub","identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
-        cmd: bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp ../lib/go/fabric/contracts/{{ .ITEM }}/ "
+        cmd: bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp ../packages/saacs/contracts/{{ .ITEM }}/ "

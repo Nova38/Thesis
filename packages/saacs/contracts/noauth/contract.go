@@ -8,9 +8,9 @@ import (
 	_ "github.com/nova38/thesis/packages/saacs/gen/sample/v0"
 	"github.com/nova38/thesis/packages/saacs/serializer"
 
-	"github.com/nova38/thesis/packages/saacs/auth/common"
-	"github.com/nova38/thesis/packages/saacs/auth/state"
+	"github.com/nova38/thesis/packages/saacs/common"
 	cc "github.com/nova38/thesis/packages/saacs/gen/chaincode/common"
+	"github.com/nova38/thesis/packages/saacs/state"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/samber/lo"
@@ -70,7 +70,7 @@ func NoSubBuildContract() *contractapi.ContractChaincode {
 }
 
 // ═════════════════════════════════════════════
-// Additonal Functions for the NoAuthContract
+// Additional Functions for the NoAuthContract
 // ═════════════════════════════════════════════
 
 // NoAuthContract is the contract for the NoAuth chaincode
@@ -80,7 +80,7 @@ func (c *NoAuthContract) Bootstrap(
 ) (res *cc.BootstrapResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	ctx.GetLogger().Info("NoAuthContract.Boostrap")
+	ctx.GetLogger().Info("NoAuthContract.Bootstrap")
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
