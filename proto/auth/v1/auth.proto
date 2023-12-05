@@ -202,7 +202,7 @@ message Operation {
 // This message is the tree node for operations on the state item
 message PathPolicy {
   // The path is a sub path of a field mask
-  string path = 1 ;
+  string path = 1;
   string full_path = 2 ;
 
   bool allow_sub_paths = 3;
@@ -255,9 +255,11 @@ message Polices {
           - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
 */
 message ItemKey {
-  string collection_id = 1;
-  string item_type = 2;
-  repeated string item_id_parts = 3;
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string item_type = 2 [(buf.validate.field).string.min_len = 1];
+  repeated string item_id_parts = 3 [(buf.validate.field).repeated = {
+    min_items: 1
+  }];
 }
 
 // Reference Keys
@@ -328,7 +330,7 @@ message Suggestion {
   ItemKey primary_key = 1  [(buf.validate.field).required = true];
   string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
   google.protobuf.FieldMask paths = 5 [(buf.validate.field).required = true];
-  google.protobuf.Any value = 6 ;
+  google.protobuf.Any value = 6  [(buf.validate.field).required = true];
 }
 
 message HiddenTx {
@@ -350,8 +352,8 @@ message HiddenTxList {
 // Used to return the values of the items that are referenced
 message Reference {
   ReferenceKey reference = 1;
-  Item item1 = 2;
-  Item item2 = 3;
+  Item item1 = 2  [(buf.validate.field).required = true];
+  Item item2 = 3   [(buf.validate.field).required = true];
 }
 
 // ═════════════════════════════════════════════════════════════════════════════════

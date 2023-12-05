@@ -1670,3 +1670,4 @@ export class UserCollectionRoles extends Message<UserCollectionRoles> {
     return proto3.util.equals(UserCollectionRoles, a, b);
   }
 }
+

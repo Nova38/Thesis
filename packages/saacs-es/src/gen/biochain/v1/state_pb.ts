@@ -616,3 +616,4 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
     return proto3.util.equals(Specimen_Grant, a, b);
   }
 }
+
