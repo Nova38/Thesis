@@ -3,28 +3,11 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, KeySchema, Operation, PathPolicy, Polices, Reference, ReferenceKey, Role, StateActivity, Suggestion, User, UserCollectionRoles, UserMembership } from "./auth_pb.js";
+import { KeySchema, Operation, StateActivity, User } from "./auth_pb.js";
 
 export const allMessages = [
   User, 
   KeySchema, 
   StateActivity, 
   Operation, 
-  PathPolicy, 
-  Polices, 
-  ItemKey, 
-  ReferenceKey, 
-  Item, 
-  FullItem, 
-  HistoryEntry, 
-  History, 
-  Suggestion, 
-  HiddenTx, 
-  HiddenTxList, 
-  Reference, 
-  Collection, 
-  Role, 
-  Attribute, 
-  UserMembership, 
-  UserCollectionRoles, 
 ];

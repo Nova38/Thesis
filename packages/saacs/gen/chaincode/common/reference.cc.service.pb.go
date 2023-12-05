@@ -7,7 +7,6 @@ package common
 
 import (
 	fmt "fmt"
-
 	common "github.com/nova38/thesis/packages/saacs/common"
 	v1 "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 )

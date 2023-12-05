@@ -5,7 +5,8 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
-import { Collection, HiddenTx, HiddenTxList, History, Item, ItemKey, Operation, Suggestion, User, UserCollectionRoles, UserMembership } from "../../auth/v1/auth_pb.js";
+import { Operation, User } from "../../auth/v1/auth_pb.js";
+import { Collection, HiddenTx, HiddenTxList, History, Item, ItemKey, Suggestion, UserCollectionRoles, UserMembership } from "../../auth/v1/objects_pb.js";
 
 /**
  * @generated from message auth.common.GetCurrentUserResponse

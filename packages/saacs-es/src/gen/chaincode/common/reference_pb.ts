@@ -5,7 +5,7 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
-import { ItemKey, Reference, ReferenceKey } from "../../auth/v1/auth_pb.js";
+import { ItemKey, Reference, ReferenceKey } from "../../auth/v1/objects_pb.js";
 
 /**
  * ════════════════════════════════ References ═════════════════════════════════════
