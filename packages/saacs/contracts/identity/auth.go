@@ -3,7 +3,6 @@ package identity
 import (
 	"log/slog"
 
-	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/policy"
 	"github.com/nova38/thesis/packages/saacs/state"
@@ -33,10 +32,9 @@ func (ctx *IdentityTxCtx) GetUserMembership(
 		UserId:       user.GetMspId(),
 	}
 
-	if key, err := common.MakePrimaryKey(membership); err != nil {
+	err = (state.Ledger[*authpb.UserMembership]{}.PrimaryGet(ctx, membership))
+	if err != nil {
 		return nil, oops.Wrap(err)
-	} else if err = state.Get(ctx, key, membership); err != nil {
-		return nil, err
 	}
 
 	ctx.CollectionMemberships[collectionId] = membership

@@ -585,7 +585,7 @@ func (o ItemContractImpl) SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	if updated, err := common.PackItem(*u); err != nil {
+	if updated, err := common.PackItem(u); err != nil {
 		return nil, oops.Wrap(err)
 	} else {
 		res = &cc.SuggestionApproveResponse{

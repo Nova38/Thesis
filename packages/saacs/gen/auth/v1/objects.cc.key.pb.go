@@ -67,6 +67,8 @@ func (m *Collection) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Collection) StateKey() string {
 
@@ -83,10 +85,10 @@ func (m *Collection) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.Collection" + collectionId + sep
+		k := sep + "auth.Collection" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.Collection" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.Collection" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -146,6 +148,8 @@ func (m *Role) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Role) StateKey() string {
 
@@ -162,10 +166,10 @@ func (m *Role) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.Role" + collectionId + sep
+		k := sep + "auth.Role" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.Role" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.Role" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -237,6 +241,8 @@ func (m *UserMembership) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *UserMembership) StateKey() string {
 
@@ -253,10 +259,10 @@ func (m *UserMembership) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.UserMembership" + collectionId + sep
+		k := sep + "auth.UserMembership" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.UserMembership" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.UserMembership" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -325,6 +331,8 @@ func (m *UserCollectionRoles) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *UserCollectionRoles) StateKey() string {
 
@@ -341,10 +349,10 @@ func (m *UserCollectionRoles) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.UserCollectionRoles" + collectionId + sep
+		k := sep + "auth.UserCollectionRoles" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.UserCollectionRoles" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.UserCollectionRoles" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -450,6 +458,8 @@ func (m *Suggestion) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Suggestion) StateKey() string {
 
@@ -466,10 +476,10 @@ func (m *Suggestion) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.Suggestion" + collectionId + sep
+		k := sep + "auth.Suggestion" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.Suggestion" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.Suggestion" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -568,6 +578,8 @@ func (m *HiddenTxList) KeySchema() *KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *HiddenTxList) StateKey() string {
 
@@ -584,10 +596,10 @@ func (m *HiddenTxList) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.HiddenTxList" + collectionId + sep
+		k := sep + "auth.HiddenTxList" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.HiddenTxList" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.HiddenTxList" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }

@@ -10,7 +10,7 @@ import (
 // UTIL Functions
 
 // Returns true if the key exists in the ledger
-func Exists(ctx common.TxCtxInterface, key string) bool {
+func KeyExists(ctx common.TxCtxInterface, key string) bool {
 	bytes, err := ctx.GetStub().GetState(key)
 	if bytes == nil && err == nil {
 		return false
@@ -19,15 +19,20 @@ func Exists(ctx common.TxCtxInterface, key string) bool {
 	return err == nil
 }
 
+func Exists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) bool {
+	key := obj.StateKey()
+	return KeyExists(ctx, key)
+}
+
 // Get returns the item from the ledger
 func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
 	bytes, err := ctx.GetStub().GetState(key)
+
 	if bytes == nil && err == nil {
 		return oops.
 			With("Key", key, "ItemType", obj.ItemType()).
 			Wrap(common.KeyNotFound)
-	}
-	if err != nil {
+	} else if err != nil {
 		return oops.
 			With("Key", key, "ItemType", obj.ItemType()).
 			Wrap(err)
@@ -41,16 +46,27 @@ func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (
 }
 
 // Put puts the item into the ledger after json marshalling it
-func Put[T any](ctx common.TxCtxInterface, key string, obj T) (err error) {
-	var (
-		bytes []byte
-	)
+func Put[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 
-	if bytes, err = json.Marshal(obj); err != nil {
-		return err
+	if bytes, err := json.Marshal(obj); err != nil {
+		return oops.Wrap(err)
+	} else {
+		err := ctx.GetStub().PutState(obj.StateKey(), bytes)
+		if err != nil {
+			return err
+		}
 	}
 
-	return ctx.GetStub().PutState(key, bytes)
+	return nil
+}
+func Delete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+	key := obj.StateKey()
+
+	if err = ctx.GetStub().DelState(key); err != nil {
+		return oops.Wrap(err)
+	}
+
+	return nil
 }
 
 // ════════════════════════════════════════════════════════

@@ -15,6 +15,14 @@ tasks:
       - docker-compose -f ./explorer/docker-compose.yaml up -d
       - docker-compose -f ./prometheus-grafana/docker-compose.yaml up -d
       # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
+  up:podman:
+    env:
+      CONTAINER_CLI: podman
+    cmds:
+          - bash -c "CONTAINER_CLI=podman ./network.sh up createChannel -ca -s couchdb -c mychannel"
+          - python ./scripts/build_configs.py
+          - podman compose -f ./explorer/docker-compose.yaml up -d
+          - podman compose -f ./prometheus-grafana/docker-compose.yaml up -d
   down:
     cmds:
 

@@ -31,6 +31,8 @@ type (
 
 		KeySchema() *authpb.KeySchema
 
+		StateKey() string
+
 		proto.Message
 	}
 

@@ -3,7 +3,6 @@ package roles
 import (
 	"log/slog"
 
-	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/policy"
 	"github.com/nova38/thesis/packages/saacs/state"
@@ -166,12 +165,7 @@ func (ctx *RolesTxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error)
 		RoleIds:      []string{},
 	}
 
-	// roles := []*authpb.Role{}
-	key, err := common.MakePrimaryKey(userRoles)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if err = state.Get(ctx, key, userRoles); err != nil {
+	if err := (state.Ledger[*authpb.UserCollectionRoles]{}.PrimaryGet(ctx, userRoles)); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -192,11 +186,9 @@ func (ctx *RolesTxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
 		role := &authpb.Role{
 			RoleId: roleId,
 		}
-		key, err := common.MakePrimaryKey(role)
+
+		err := state.Ledger[*authpb.Role]{}.PrimaryGet(ctx, role)
 		if err != nil {
-			return nil, oops.Wrap(err)
-		}
-		if err = state.Get(ctx, key, role); err != nil {
 			return nil, oops.Wrap(err)
 		}
 
@@ -222,11 +214,8 @@ func (ctx *RolesTxCtx) getNewParents(checked []string, parents []string) ([]*aut
 		role := &authpb.Role{
 			RoleId: roleId,
 		}
-		key, err := common.MakePrimaryKey(role)
-		if err != nil {
-			return nil, oops.Wrap(err)
-		}
-		if err = state.Get(ctx, key, role); err != nil {
+
+		if err := (state.Ledger[*authpb.Role]{}.PrimaryGet(ctx, role)); err != nil {
 			return nil, oops.Wrap(err)
 		}
 

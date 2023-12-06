@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"encoding/json"
 	"log/slog"
 	"strconv"
 
@@ -42,27 +41,6 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 	}
 
 	return nil
-
-	// key, err := common.MakePrimaryKey(obj)
-	// if err != nil {
-	// 	return oops.Wrap(err)
-	// }
-
-	// bytes, err := ctx.GetStub().GetState(key)
-	// if bytes == nil && err == nil {
-	// 	return oops.
-	// 		With("Key", key, "ItemType", obj.ItemType()).
-	// 		Wrap(common.KeyNotFound)
-	// }
-	// if err != nil {
-	// 	return oops.
-	// 		With("Key", key, "ItemType", obj.ItemType()).
-	// 		Wrap(err)
-	// }
-
-	// if err = json.Unmarshal(bytes, obj); err != nil {
-	// 	return oops.Wrap(err)
-	// }
 
 }
 
@@ -242,23 +220,15 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		Paths:        nil,
 	}}
 
-	auth, err := ctx.Authorize(ops)
-
-	if err != nil {
+	if auth, err := ctx.Authorize(ops); err != nil {
 		return oops.Wrap(err)
 	} else if !auth {
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	key, err := common.MakePrimaryKey(obj)
-
-	if err != nil {
-		return oops.Wrap(err)
-	}
-
-	if state.Exists(ctx, key) {
+	if state.KeyExists(ctx, obj.StateKey()) {
 		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
+			With("Key", obj.StateKey(), "ItemType", obj.ItemType()).
 			Wrap(common.AlreadyExists)
 	}
 
@@ -266,35 +236,8 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		return oops.Wrap(err)
 	}
 
-	if bytes, err := json.Marshal(obj); err != nil {
-		return oops.Hint("Failed To Marshal").Wrap(err)
-	} else {
-		if err := ctx.GetStub().PutState(key, bytes); err != nil {
-			return oops.With("key", key).Wrap(err)
-		}
-	}
-
-	if ctx.EnabledHidden() {
-		hiddenKey, err := common.MakeHiddenKey(obj)
-		if err != nil {
-			return oops.Wrap(err)
-		}
-		hidden := authpb.HiddenTxList{
-			PrimaryKey: obj.ItemKey(),
-			Txs:        []*authpb.HiddenTx{},
-		}
-		hiddenBytes, err := json.Marshal(&hidden)
-
-		if err != nil {
-			return oops.Wrap(err)
-		}
-		err = ctx.GetStub().PutState(hiddenKey, hiddenBytes)
-		if err != nil {
-			return oops.With(
-				"Key", hiddenKey,
-				"ItemType", obj.ItemType(),
-			).Wrap(err)
-		}
+	if err := (state.Ledger[T]{}.PrimaryPut(ctx, obj)); err != nil {
+		return oops.Wrap(err)
 	}
 
 	return nil
@@ -307,44 +250,43 @@ func PrimaryUpdate[T common.ItemInterface](
 ) (updated T, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	auth, err := ctx.Authorize([]*authpb.Operation{{
+	ops := []*authpb.Operation{{
 		Action:       authpb.Action_ACTION_UPDATE,
 		CollectionId: obj.ItemKey().GetCollectionId(),
 		ItemType:     obj.ItemType(),
 		Paths:        mask,
-	}})
-	if err != nil {
-		return updated, oops.Wrap(err)
+	}}
+
+	if auth, err := ctx.Authorize(ops); err != nil {
+		return updated, ctx.ErrorBase().
+			With("operation", ops).
+			Wrap(err)
 	} else if !auth {
-		return updated, oops.Wrap(common.UserPermissionDenied)
+		return updated, ctx.ErrorBase().
+			With("operation", ops).
+			Wrap(common.UserPermissionDenied)
 	}
 
 	current, err := common.CloneItemWithKey(obj)
 	if err != nil {
-		return obj, oops.Wrap(err)
+		return obj, ctx.ErrorBase().Hint("Object Cloning").Wrap(err)
 	}
 
-	// Get the current item from the ledger
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return obj, err
-	}
-
-	if bytes, err := ctx.GetStub().GetState(key); err != nil {
-		return obj, oops.Wrap(err)
-	} else if err = json.Unmarshal(bytes, current); err != nil {
-		return obj, oops.Wrap(err)
+	if err = (state.Ledger[T]{}.PrimaryGet(ctx, obj)); err != nil {
+		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
 	// Update the item
 	fmutils.Filter(obj, mask.GetPaths())
 	proto.Merge(current, obj)
+	//
 
-	// Put the item back into the ledger
-	if bytes, err := json.Marshal(current); err != nil {
-		return current, oops.Wrap(err)
-	} else if err := ctx.GetStub().PutState(key, bytes); err != nil {
-		return current, oops.Wrap(err)
+	if err := ctx.PostActionProcessing(current, ops); err != nil {
+		return obj, ctx.ErrorBase().Wrap(err)
+	}
+
+	if err = (state.Ledger[T]{}.PrimaryPut(ctx, current)); err != nil {
+		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
 	return current, nil
@@ -364,35 +306,30 @@ func PrimaryDelete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 	if err != nil {
 		return oops.Wrap(err)
 	} else if !auth {
-		return oops.Wrap(common.UserPermissionDenied)
+		return ctx.ErrorBase().Wrap(common.UserPermissionDenied)
 	}
-
-	// if err := referenceDeleteByItem(ctx, obj.ItemKey()); err != nil {
-	// 	return oops.Wrap(err)
-	// }
-	// Should we delete the object refs in other collections? (there shouldn't be any except for users)
 
 	if ctx.EnabledSuggestions() {
 		if err := deleteSuggestionsByItem(ctx, obj.ItemKey()); err != nil {
-			return oops.Wrap(err)
+			return ctx.ErrorBase().Wrap(err)
 		}
 	}
 
 	if ctx.EnabledHidden() {
 		if hiddenKey, err := common.MakeHiddenKey(obj); err != nil {
-			return oops.Wrap(err)
+			return ctx.ErrorBase().Wrap(err)
 		} else if hiddenKey != "" {
 			if err := ctx.GetStub().DelState(hiddenKey); err != nil {
-				return oops.Wrap(err)
+				return ctx.ErrorBase().Wrap(err)
 			}
 		}
-
 	}
 
-	if key, err := common.MakePrimaryKey(obj); err != nil {
-		return oops.Wrap(err)
-	} else if err := ctx.GetStub().DelState(key); err != nil {
-		return oops.In("Primary").With("key", key).Wrap(err)
+	if err := state.Delete(ctx, obj); err != nil {
+		return ctx.ErrorBase().
+			In("Primary").
+			With("key", obj.ItemKey(), "state key", obj.StateKey()).
+			Wrap(err)
 	}
 
 	return nil
@@ -406,10 +343,7 @@ func deleteSuggestionsByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (er
 		return oops.Wrap(err)
 	}
 	for _, s := range sList {
-
-		if sKey, err := common.MakeItemKeySuggestion(key, s.GetSuggestionId()); err != nil {
-			return oops.Wrap(err)
-		} else if err := ctx.GetStub().DelState(sKey); err != nil {
+		if err := state.Delete(ctx, s); err != nil {
 			return oops.Wrap(err)
 		}
 	}

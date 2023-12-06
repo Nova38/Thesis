@@ -10,6 +10,7 @@ import (
 	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	"github.com/nova38/thesis/packages/saacs/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
@@ -66,6 +67,10 @@ func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("CreateSuggestion", "suggestion:", s)
 
+	if ctx.Validate(s) != nil {
+		return ctx.ErrorBase().Wrap(err)
+	}
+
 	// Authorize the operation
 	op := &authpb.Operation{
 		Action:       authpb.Action_ACTION_SUGGEST_CREATE,
@@ -81,33 +86,25 @@ func SuggestionCreate(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 
 	// Extract the item from the suggestion
 
-	if pKey, err := common.MakeItemKeyPrimary(s.GetPrimaryKey()); err != nil {
-		return oops.Wrap(err)
-	} else if !common.KeyExists(ctx, pKey) {
+	if exists := state.KeyExists(ctx, common.MakeStateKey(s.GetPrimaryKey())); !exists {
 		return oops.
-			With("suggestion ID",
-				s.GetSuggestionId(), "Key", pKey,
-				"ItemType").
+			With(
+				"suggestion ID", s.GetSuggestionId(),
+				"Primary Key", s.GetPrimaryKey(),
+			).
 			Wrap(common.KeyNotFound)
-
 	}
 
-	// Make the suggestion key
-	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
-	if err != nil {
+	if exists := state.Exists(ctx, s); exists {
 		return oops.
-			Hint("Make Item Suggestion Key Failed").
-			With("Primary Key", s.GetPrimaryKey()).
-			Wrap(err)
+			With(
+				"suggestion ID", s.GetSuggestionId(),
+				"Primary Key", s.GetPrimaryKey(),
+			).
+			Wrap(common.AlreadyExists)
 	}
 
-	bytes, err := json.Marshal(s)
-	if err != nil {
-		return oops.Hint("Json Marshal Faild").Wrap(err)
-	}
-
-	return ctx.GetStub().PutState(sKey, bytes)
-	// Check if the item exists, if it does not, return error
+	return state.Put(ctx, s)
 
 }
 
@@ -115,11 +112,8 @@ func SuggestionDelete(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("DeleteSuggestion", "suggestion:", s)
 
-	// Authorize Viewing and Retrieving the suggestion
-	if err = GetSuggestion(ctx, s); err != nil {
-		return oops.
-			Hint("Failed to be able to read suggestions").
-			Wrap(err)
+	if ctx.Validate(s) != nil {
+		return ctx.ErrorBase().Wrap(err)
 	}
 
 	op := &authpb.Operation{
@@ -135,27 +129,22 @@ func SuggestionDelete(ctx common.TxCtxInterface, s *authpb.Suggestion) (err erro
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
-	if err != nil {
-		return oops.Wrap(err)
-	}
-
-	return ctx.GetStub().DelState(sKey)
+	return state.Delete(ctx, s)
 }
 
 func SuggestionApprove(
 	ctx common.TxCtxInterface,
 	s *authpb.Suggestion,
-) (updated *common.ItemInterface, err error) {
+) (updated common.ItemInterface, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 	ctx.GetLogger().Debug("ApproveSuggestion", "suggestion:", s)
 
 	// Authorize Viewing and Retrieving the suggestion
-	if err = GetSuggestion(ctx, s); err != nil {
-		return nil, oops.Wrap(err)
+	if ctx.Validate(s) != nil {
+		return nil, ctx.ErrorBase().Wrap(err)
 	}
-	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
-	if err != nil {
+
+	if err = GetSuggestion(ctx, s); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -167,8 +156,14 @@ func SuggestionApprove(
 	}
 
 	// Authorize the operation
-	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-		return nil, oops.Wrap(common.UserPermissionDenied)
+	if auth, err := ctx.Authorize([]*authpb.Operation{op}); err != nil {
+		return nil, oops.
+			With("Operation", op).
+			Wrap(err)
+	} else if !auth {
+		return nil, oops.
+			With("Operation", op).
+			Wrap(common.UserPermissionDenied)
 	}
 
 	// Process the Update
@@ -186,25 +181,27 @@ func SuggestionApprove(
 
 	// Apply the mask to the Updating item
 	// fmutils.Overwrite(primary, update, s.GetPaths().GetPaths())
+
+	// todo: check if the properties include a change to the key
+
 	fmutils.Filter(primary, s.GetPaths().GetPaths())
 	proto.Merge(primary, update)
-	pKey, err := common.MakePrimaryKey(primary)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if bytes, err := json.Marshal(primary); err != nil {
-		return nil, oops.Wrap(err)
-	} else if err = ctx.GetStub().PutState(pKey, bytes); err != nil {
-		return nil, oops.Wrap(err)
+
+	// update the primary object
+	if err = state.Put(ctx, primary); err != nil {
+		return nil, oops.
+			With("Primary", primary, "Suggestion", s).
+			Wrap(err)
 	}
 
 	// Delete the suggestion
-
-	if err = ctx.GetStub().DelState(sKey); err != nil {
-		return nil, oops.Wrap(err)
+	if err = state.Delete(ctx, s); err != nil {
+		return nil, oops.
+			With("Suggestion", s).
+			Wrap(err)
 	}
 
-	return &primary, nil
+	return primary, nil
 }
 
 // ──────────────────────────────────────────────────
@@ -232,21 +229,10 @@ func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) 
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	sKey, err := common.MakeItemKeySuggestion(s.GetPrimaryKey(), s.GetSuggestionId())
-	if err != nil {
-		return oops.Wrap(err)
-	}
-
-	if bytes, err := ctx.GetStub().GetState(sKey); err != nil {
-		return oops.Wrap(err)
-	} else if bytes == nil && err == nil {
+	if err := state.Get(ctx, s.StateKey(), s); err != nil {
 		return oops.
-			With("suggestion ID",
-				s.GetSuggestionId(), "Key", sKey,
-				"ItemType").
-			Wrap(common.KeyNotFound)
-	} else if err := json.Unmarshal(bytes, s); err != nil {
-		return oops.Hint("Json Unmarshal Failed").Wrap(err)
+			With("Suggestion", s).
+			Wrap(err)
 	}
 
 	return nil

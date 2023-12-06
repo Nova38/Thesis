@@ -66,6 +66,8 @@ func (m *SimpleItem) KeySchema() *v1.KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *SimpleItem) StateKey() string {
 
@@ -82,10 +84,10 @@ func (m *SimpleItem) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "sample.SimpleItem" + collectionId + sep
+		k := sep + "sample.SimpleItem" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "sample.SimpleItem" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "sample.SimpleItem" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -145,6 +147,8 @@ func (m *Group) KeySchema() *v1.KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Group) StateKey() string {
 
@@ -161,10 +165,10 @@ func (m *Group) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "sample.Group" + collectionId + sep
+		k := sep + "sample.Group" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "sample.Group" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "sample.Group" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }
@@ -224,6 +228,8 @@ func (m *Book) KeySchema() *v1.KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Book) StateKey() string {
 
@@ -240,10 +246,10 @@ func (m *Book) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "sample.Book" + collectionId + sep
+		k := sep + "sample.Book" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "sample.Book" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "sample.Book" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }

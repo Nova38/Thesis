@@ -1,6 +1,7 @@
 package state
 
 import (
+	"encoding/json"
 	"testing"
 
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
@@ -77,7 +78,7 @@ func TestUnmarshalPrimary(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			gotItem := new(authpb.UserMembership)
 
-			err := UnmarshalPrimary(tt.args.bytes, gotItem)
+			err := json.Unmarshal(tt.args.bytes, gotItem)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UnmarshalNewPrimary() error = %v, wantErr %v", err, tt.wantErr)
 				return

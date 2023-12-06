@@ -2,61 +2,53 @@ package common
 
 import (
 	"slices"
+	"strings"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/samber/oops"
 )
 
-func KeyExists(ctx TxCtxInterface, key string) bool {
-	bytes, err := ctx.GetStub().GetState(key)
-	if bytes == nil && err == nil {
-		return false
+// ─────────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────────
+
+// MakeStateKey creates a composite key from the given attributes
+// Key should be {<ITEM_TYPE>}{COLLECTION_ID}{...ITEM_ID}
+// Panics if ItemType or CollectionId is nil or an empty string
+func MakeStateKey(objKey *authpb.ItemKey) (key string) {
+	const sep = string(rune(0))
+
+	attrs := objKey.GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
 	}
 
-	return err == nil
-}
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// ─────────────────────────────────────────────────────────────────────────────────
-
-// MakeItemKeyAttr creates a composite key from the given attributes
-func MakeItemKeyAttr(key *authpb.ItemKey) []string {
-	return append(
-		[]string{key.GetCollectionId()},
-		key.GetItemKeyParts()...,
-	)
-}
-
-// MakeItemKeyPrimary
-func MakeItemKeyPrimary(key *authpb.ItemKey) (itemKey string, err error) {
-	if key == nil {
-		return "", oops.Errorf("Invalid item key")
+	collectionId := objKey.GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
 	}
 
-	return shim.CreateCompositeKey(
-		key.GetItemType(),
-		MakeItemKeyAttr(key),
-	)
+	key = sep + objKey.GetItemType() + sep + collectionId + sep
+
+	if len(attrs) == 0 {
+		return key
+	}
+	key = key + strings.Join(attrs, sep) + sep
+
+	return key
+}
+
+func KeyToSubKey(objKey *authpb.ItemKey, subType string) (subKey *authpb.ItemKey) {
+	subKey = &authpb.ItemKey{
+		ItemType:     subType,
+		CollectionId: objKey.GetCollectionId(),
+		ItemKeyParts: objKey.GetItemKeyParts(),
+	}
+
+	return subKey
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
-
-// MakePrimaryKeyAttr creates a composite key from the given attributes
-func MakePrimaryKeyAttr[T ItemInterface](obj T) (attr []string) {
-	return append(
-		[]string{obj.ItemKey().GetCollectionId()},
-		obj.ItemKey().GetItemKeyParts()...,
-	)
-}
-
-// MakePrimaryKey creates a composite key from the given attributes
-func MakePrimaryKey[T ItemInterface](obj T) (key string, err error) {
-	return shim.CreateCompositeKey(
-		obj.ItemKey().GetItemType(),
-		MakePrimaryKeyAttr(obj),
-	)
-}
 
 // ─────────────────────────────────────────────────────────────────────────────────
 
@@ -110,23 +102,14 @@ func MakeSuggestionPrimaryKey[T ItemInterface](
 	)
 }
 
-func MakeSuggestionKey[T ItemInterface](
-	suggestion *authpb.Suggestion,
-) (suggestionKey string, err error) {
-	return shim.CreateCompositeKey(
-		SuggestionItemType,
-		append(MakeSubItemKeyAtter(suggestion.GetPrimaryKey()), suggestion.GetSuggestionId()),
-	)
-}
-
 func MakeItemKeySuggestion(
 	objKey *authpb.ItemKey,
 	suggestionId string,
-) (suggestionKey string, err error) {
-	return shim.CreateCompositeKey(
-		SuggestionItemType,
-		append(MakeSubItemKeyAtter(objKey), suggestionId),
-	)
+) (suggestionKey string) {
+	subKey := KeyToSubKey(objKey, SuggestionItemType)
+	subKey.ItemKeyParts = append(subKey.GetItemKeyParts(), suggestionId)
+
+	return MakeStateKey(subKey)
 }
 
 func MakeItemKeySuggestionKeyAttr(

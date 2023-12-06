@@ -1,7 +1,6 @@
 package noauth
 
 import (
-	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/policy"
 	"github.com/nova38/thesis/packages/saacs/state"
@@ -33,18 +32,11 @@ func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 		} else {
 			col := &authpb.Collection{CollectionId: op.GetCollectionId()}
 
-			key, err := common.MakePrimaryKey(col)
+			err := state.Ledger[*authpb.Collection]{}.PrimaryGet(ctx, col)
 			if err != nil {
-				return false, oops.With("Collection", col).Wrap(err)
-			}
-			if err := state.Get(ctx, key, col); err != nil {
-				ctx.Logger.Warn("collection not found",
-					"collection", key,
-					"err", err,
-					"op", op.String(),
-				)
 				return false, oops.Wrap(err)
 			}
+
 			collections[op.GetCollectionId()] = col
 			policy.ValidateOperation(col, op)
 		}

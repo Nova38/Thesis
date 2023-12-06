@@ -280,7 +280,7 @@ func ReferencesExist(
 	}
 
 	// See if key1 exists
-	if !state.Exists(ctx, k1) || !state.Exists(ctx, k2) {
+	if !state.KeyExists(ctx, k1) || !state.KeyExists(ctx, k2) {
 		ctx.GetLogger().
 			Info("References for objects already exists with given keys does not exist", slog.Group("keys", "Key1", k1, "Key2", k2))
 		return false, oops.Wrap(common.KeyNotFound)
@@ -332,23 +332,26 @@ func referencedObjectsExist(
 	reference *authpb.ReferenceKey,
 ) (exists bool, err error) {
 	// See if the objects exist
-	k1, err := common.MakeItemKeyPrimary(reference.GetKey1())
-	if err != nil {
+
+	err1, ok := lo.TryWithErrorValue(func() error {
+
+		k1 := common.MakeStateKey(reference.GetKey1())
+		k2 := common.MakeStateKey(reference.GetKey1())
+
+		if !state.KeyExists(ctx, k1) || !state.KeyExists(ctx, k2) {
+			ctx.GetLogger().
+				Info("Items with given keys does not exist", slog.Group("keys", "Key1", k1, "Key2", k2))
+			return oops.Wrap(common.KeyNotFound)
+		}
+
+		return nil
+	})
+
+	if err, errOk := err1.(oops.OopsError); !errOk {
 		return false, oops.Wrap(err)
 	}
 
-	k2, err := common.MakeItemKeyPrimary(reference.GetKey2())
-	if err != nil {
-		return false, oops.Wrap(err)
-	}
-
-	if !state.Exists(ctx, k1) || !state.Exists(ctx, k2) {
-		ctx.GetLogger().
-			Info("Items with given keys does not exist", slog.Group("keys", "Key1", k1, "Key2", k2))
-		return false, oops.Wrap(common.KeyNotFound)
-	}
-
-	return true, nil
+	return ok, oops.Wrap(err)
 }
 
 // referenceGetPacked gets the referenced objects for the given reference key
@@ -361,47 +364,20 @@ func referenceGetPacked(
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
-	k1, err := common.MakePrimaryKey(item1)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-	if err = state.Get(ctx, k1, item1); err != nil {
+
+	if err := state.Get(ctx, item1.StateKey(), item1); err != nil {
 		ctx.GetLogger().Error("Error getting item1",
 			slog.Any("ref", ref),
 			slog.Group("item1", item1))
 		return nil, oops.With("ref", ref).Wrap(err)
 	}
 
-	k2, err := common.MakePrimaryKey(item2)
-	if err != nil {
-		return nil, oops.Wrap(err)
-	}
-
-	if err = state.Get(ctx, k2, item2); err != nil {
-		ctx.GetLogger().Error("Error getting item2",
+	if err := state.Get(ctx, item2.StateKey(), item2); err != nil {
+		ctx.GetLogger().Error("Error getting item1",
 			slog.Any("ref", ref),
-			slog.Group("item2", item1))
-		return nil, oops.Wrap(err)
+			slog.Group("item1", item2))
+		return nil, oops.With("ref", ref).Wrap(err)
 	}
 
 	return common.PackReference(key, item1, item2)
 }
-
-// // referenceDeleteByItem deletes all the references for the given item
-// func referenceDeleteByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (err error) {
-// 	// Get all the references for the given item
-
-// 	refs, _, err := ReferenceKeysByItem(ctx, key, "")
-// 	if err != nil {
-// 		return oops.Wrap(err)
-// 	}
-// 	ctx.GetLogger().Debug("referenceDeleteByItem", slog.Group("To Delete", "refs", refs))
-
-// 	for _, ref := range refs {
-// 		if err = ReferenceDelete(ctx, ref); err != nil {
-// 			return oops.Wrap(err)
-// 		}
-// 	}
-
-// 	return nil
-// }

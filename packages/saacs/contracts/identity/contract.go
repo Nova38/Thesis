@@ -1,7 +1,6 @@
 package identity
 
 import (
-	"encoding/json"
 	"fmt"
 	"log/slog"
 
@@ -84,8 +83,7 @@ func (c *IdentiyContract) CreateCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	colKey := lo.Must(common.MakePrimaryKey(col))
-	if state.Exists(ctx, colKey) {
+	if state.Exists(ctx, col) {
 		return nil, oops.Errorf("Collection already exists")
 	}
 
@@ -126,13 +124,15 @@ func (c *IdentiyContract) CreateCollection(
 	col.ItemTypes = append(col.GetItemTypes(), []string{membership.ItemType()}...)
 	col.ItemTypes = lo.Uniq(col.GetItemTypes())
 
-	colBytes := lo.Must(json.Marshal(col))
-
-	lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
+	// state.Put(ctx, col)
+	if err = (state.Ledger[*v1.Collection]{}.PrimaryCreate(ctx, col)); err != nil {
+		return nil, oops.Wrap(err)
+	}
+	if err = (state.Ledger[*v1.UserMembership]{}.PrimaryCreate(ctx, membership)); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
 	ctx.GetLogger().Info("Bootstraping", slog.Any("membership", membership))
-
-	lo.Must0(state.Ledger[*v1.UserMembership]{}.PrimaryCreate(ctx, membership))
 
 	return &cc.CreateCollectionResponse{Collection: col}, nil
 

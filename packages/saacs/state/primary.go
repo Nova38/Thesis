@@ -5,7 +5,6 @@ import (
 
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
-	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 )
@@ -13,14 +12,29 @@ import (
 func (l Ledger[T]) PrimaryGet(ctx common.TxCtxInterface, obj T) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return oops.Wrap(err)
+	if err := Get(ctx, obj.StateKey(), obj); err != nil {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
 	}
 
-	if err := Get(ctx, key, obj); err != nil {
+	return nil
+}
+
+func (l Ledger[T]) PrimaryPut(ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	if obj.ItemKind() != authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
 		return oops.With(
-			"Key", key,
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(common.Runtime)
+	}
+
+	if err := Put(ctx, obj); err != nil {
+		return oops.With(
+			"Key", obj.StateKey(),
 			"ItemType", obj.ItemType(),
 		).Wrap(err)
 	}
@@ -31,59 +45,82 @@ func (l Ledger[T]) PrimaryGet(ctx common.TxCtxInterface, obj T) (err error) {
 func (l Ledger[T]) PrimaryCreate(ctx common.TxCtxInterface, obj T) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return oops.Wrap(err)
+	if obj.ItemKind() != authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(common.Runtime)
 	}
 
-	if Exists(ctx, key) {
+	if err := Put[T](ctx, obj); err != nil {
 		return oops.
-			With("Key", key, "ItemType", obj.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
-
-	if bytes, err := json.Marshal(obj); err != nil {
-		return oops.Hint("Failed To Marshal").Wrap(err)
-	} else {
-		if err := ctx.GetStub().PutState(key, bytes); err != nil {
-			return oops.With("key", key).Wrap(err)
-		}
+			With("Key", obj.StateKey(),
+				"ItemType", obj.ItemType(),
+				"obj", obj).
+			Hint("Failed to create object").Wrap(err)
 	}
 
 	if ctx.EnabledHidden() {
-		hiddenKey, err := common.MakeHiddenKey(obj)
-		if err != nil {
-			return oops.Wrap(err)
-		}
-
-		if err := Put[T](ctx, key, obj); err != nil {
-			return oops.Hint("Failed to create hiddenTxList").Wrap(err)
-		}
-
-		hiddenBytes, err := json.Marshal(&authpb.HiddenTxList{
+		hiddenTxList := &authpb.HiddenTxList{
 			PrimaryKey: obj.ItemKey(),
 			Txs:        []*authpb.HiddenTx{},
-		})
-
-		if err != nil {
-			return oops.Wrap(err)
 		}
 
-		if err = ctx.GetStub().PutState(hiddenKey, hiddenBytes); err != nil {
-			return oops.With(
-				"Key", hiddenKey,
-				"ItemType", obj.ItemType(),
-			).Wrap(err)
+		if err := Put[*authpb.HiddenTxList](ctx, hiddenTxList); err != nil {
+			return oops.
+				With("Object Key", obj.StateKey(),
+					"HiddenTxList Key", hiddenTxList.StateKey(),
+				).
+				Hint("Failed to create hiddenTxList").Wrap(err)
 		}
 	}
 
 	return nil
 }
 
-func UnmarshalPrimary[T common.ItemInterface](bytes []byte, obj T) (err error) {
-	return json.Unmarshal(bytes, obj)
+func (l Ledger[T]) PrimaryDelete(ctx common.TxCtxInterface, obj T) (err error) {
+	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	if obj.ItemKind() != authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(common.Runtime)
+	}
+
+	if err := Delete(ctx, obj); err != nil {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
+	}
+
+	if ctx.EnabledHidden() {
+		hiddenTxList := &authpb.HiddenTxList{
+			PrimaryKey: obj.ItemKey(),
+		}
+
+		if err := Delete(ctx, hiddenTxList); err != nil {
+			return oops.
+				With("Object Key", obj.StateKey(),
+					"HiddenTxList Key", hiddenTxList.StateKey(),
+				).
+				Hint("Failed to delete hiddenTxList").Wrap(err)
+		}
+	}
+
+	return nil
 }
+
 func UnmarshalNewPrimary[T common.ItemInterface](bytes []byte, base T) (item T, err error) {
+
+	if base.ItemKind() != authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM {
+		return base, oops.With(
+			"Key", base.StateKey(),
+			"ItemType", base.ItemType(),
+		).Wrap(common.Runtime)
+	}
+
 	item, ok := proto.Clone(base).(T)
 	if !ok {
 		return item, oops.Errorf("Failed to clone")
@@ -94,11 +131,4 @@ func UnmarshalNewPrimary[T common.ItemInterface](bytes []byte, base T) (item T, 
 		return item, oops.Wrap(err)
 	}
 	return item, nil
-}
-
-// PrimaryExists returns true if the item exists in the ledger
-func PrimaryExists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) bool {
-
-	key := lo.Must(common.MakePrimaryKey(obj))
-	return common.KeyExists(ctx, key)
 }

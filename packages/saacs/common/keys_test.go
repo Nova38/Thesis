@@ -48,7 +48,6 @@ func TestMakeItemKeyAttr(t *testing.T) {
 				},
 			},
 			want: []string{
-				"collection",
 				"id",
 			},
 		},
@@ -61,7 +60,6 @@ func TestMakeItemKeyAttr(t *testing.T) {
 				},
 			},
 			want: []string{
-				"collection",
 				"id1",
 				"id2",
 			},
@@ -69,7 +67,7 @@ func TestMakeItemKeyAttr(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MakeItemKeyAttr(tt.args.key); !reflect.DeepEqual(got, tt.want) {
+			if got := tt.args.key.GetItemKeyParts(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("MakeItemKeyAttr() = %v, want %v", got, tt.want)
 			}
 		})
@@ -90,11 +88,11 @@ func TestMakeItemKeyPrimary(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotItemKey, err := MakeItemKeyPrimary(tt.args.key)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("MakeItemKeyPrimary() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			gotItemKey := MakeStateKey(tt.args.key)
+			// if (err != nil) != tt.wantErr {
+			// 	t.Errorf("MakeItemKeyPrimary() error = %v, wantErr %v", err, tt.wantErr)
+			// 	return
+			// }
 			if gotItemKey != tt.wantItemKey {
 				t.Errorf("MakeItemKeyPrimary() = %v, want %v", gotItemKey, tt.wantItemKey)
 			}
@@ -115,7 +113,7 @@ func TestMakePrimaryKeyAttr(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotAttr := MakePrimaryKeyAttr(tt.args.obj); !reflect.DeepEqual(
+			if gotAttr := tt.args.obj.ItemKey().GetItemKeyParts(); !reflect.DeepEqual(
 				gotAttr,
 				tt.wantAttr,
 			) {
@@ -139,11 +137,8 @@ func TestMakePrimaryKey(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotKey, err := MakePrimaryKey(tt.args.obj)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("MakePrimaryKey() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			gotKey := tt.args.obj.StateKey()
+
 			if gotKey != tt.wantKey {
 				t.Errorf("MakePrimaryKey() = %v, want %v", gotKey, tt.wantKey)
 			}
@@ -267,37 +262,6 @@ func TestMakeSuggestionKey(t *testing.T) {
 			if gotSuggestionKey != tt.wantSuggestionKey {
 				t.Errorf(
 					"MakeSuggestionPrimaryKey() = %v, want %v",
-					gotSuggestionKey,
-					tt.wantSuggestionKey,
-				)
-			}
-		})
-	}
-}
-
-func TestMakeItemKeySuggestion(t *testing.T) {
-	type args struct {
-		objKey       *authpb.ItemKey
-		suggestionId string
-	}
-	tests := []struct {
-		name              string
-		args              args
-		wantSuggestionKey string
-		wantErr           bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			gotSuggestionKey, err := MakeItemKeySuggestion(tt.args.objKey, tt.args.suggestionId)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("MakeItemKeySuggestion() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if gotSuggestionKey != tt.wantSuggestionKey {
-				t.Errorf(
-					"MakeItemKeySuggestion() = %v, want %v",
 					gotSuggestionKey,
 					tt.wantSuggestionKey,
 				)

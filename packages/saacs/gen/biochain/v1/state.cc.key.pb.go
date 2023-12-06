@@ -66,6 +66,8 @@ func (m *Specimen) KeySchema() *v1.KeySchema {
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
 func (m *Specimen) StateKey() string {
 
@@ -82,10 +84,10 @@ func (m *Specimen) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "ccbio.schema.v0.Specimen" + collectionId + sep
+		k := sep + "ccbio.schema.v0.Specimen" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "ccbio.schema.v0.Specimen" + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "ccbio.schema.v0.Specimen" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }

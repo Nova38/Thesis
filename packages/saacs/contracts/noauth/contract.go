@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	_ "github.com/nova38/thesis/packages/saacs/gen/biochain/v1"
 	_ "github.com/nova38/thesis/packages/saacs/gen/sample/v0"
 	"github.com/nova38/thesis/packages/saacs/serializer"
@@ -96,11 +97,11 @@ func (c *NoAuthContract) Bootstrap(
 	}
 
 	for _, col := range req.GetCollections() {
-		colKey := lo.Must(common.MakePrimaryKey(col))
 
-		colBytes := lo.Must(json.Marshal(col))
-
-		lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
+		err := state.Ledger[*authpb.Collection]{}.PrimaryCreate(ctx, col)
+		if err != nil {
+			return nil, ctx.ErrorBase().Wrap(err)
+		}
 
 	}
 
@@ -136,14 +137,15 @@ func (c *NoAuthContract) CreateCollection(
 
 	col := req.GetCollection()
 
-	colKey := lo.Must(common.MakePrimaryKey(col))
-	if state.Exists(ctx, colKey) {
-		return nil, oops.Errorf("Collection already exists")
+	if ctx.Validate(col) != nil {
+		return nil, ctx.ErrorBase().Wrap(err)
 	}
 
-	colBytes := lo.Must(json.Marshal(col))
+	err = state.Ledger[*authpb.Collection]{}.PrimaryCreate(ctx, col)
 
-	lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
+	if err != nil {
+		return nil, ctx.ErrorBase().Wrap(err)
+	}
 
 	return &cc.CreateCollectionResponse{Collection: col}, nil
 }

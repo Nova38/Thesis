@@ -6,6 +6,7 @@ import (
 
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	"github.com/nova38/thesis/packages/saacs/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
@@ -27,26 +28,31 @@ func GetHiddenTxs[T common.ItemInterface](
 		return nil, "", nil
 	}
 
-	if key, err = common.MakeHiddenKey(obj); err != nil {
-		return nil, key, oops.With("Object", obj).Wrap(err)
+	// state, err := ctx.GetStub().GetState(key)
+	// if err != nil {
+	// 	return nil, key, err
+	// }
+
+	list = &authpb.HiddenTxList{
+		PrimaryKey: &authpb.ItemKey{
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     common.HiddenItemType,
+			ItemKind:     authpb.ItemKind_ITEM_KIND_SUB_ITEM,
+			ItemKeyParts: []string{
+				obj.ItemKey().GetItemType(),
+			},
+		},
+		Txs: []*authpb.HiddenTx{},
 	}
+	list.PrimaryKey.ItemKeyParts = append(
+		list.GetPrimaryKey().GetItemKeyParts(),
+		obj.ItemKey().GetItemKeyParts()...)
 
-	if !common.KeyExists(ctx, key) {
-		return nil, key, oops.Wrap(common.KeyNotFound)
-	}
-
-	state, err := ctx.GetStub().GetState(key)
-	if err != nil {
-		return nil, key, err
-	}
-
-	list = &authpb.HiddenTxList{}
-
-	if err = json.Unmarshal(state, list); err != nil {
+	if err := state.Get(ctx, list.StateKey(), list); err != nil {
 		return nil, key, oops.Wrap(err)
 	}
 
-	return list, key, nil
+	return list, list.StateKey(), nil
 }
 
 func GetHistory[T common.ItemInterface](
@@ -237,10 +243,7 @@ func getHistory[T common.ItemInterface](
 ) (history *authpb.History, err error) {
 	// defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	key, err := common.MakePrimaryKey(obj)
-	if err != nil {
-		return nil, oops.With("Object", obj).Wrap(err)
-	}
+	key := obj.StateKey()
 
 	history = &authpb.History{
 		Entries: []*authpb.HistoryEntry{},

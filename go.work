@@ -1,5 +1,3 @@
 go 1.21.4
 
 use .
-
-// use apps/chaincode/auth/noauth

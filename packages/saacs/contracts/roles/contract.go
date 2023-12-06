@@ -1,7 +1,6 @@
 package roles
 
 import (
-	"encoding/json"
 	"fmt"
 	"log/slog"
 
@@ -94,8 +93,7 @@ func (c *RoleContract) CreateCollection(
 		return nil, oops.Wrap(err)
 	}
 
-	colKey := lo.Must(common.MakePrimaryKey(col))
-	if state.Exists(ctx, colKey) {
+	if state.Exists(ctx, col) {
 		return nil, oops.Errorf("Collection already exists")
 	}
 
@@ -143,20 +141,21 @@ func (c *RoleContract) CreateCollection(
 	col.ItemTypes = append(col.GetItemTypes(), []string{role.ItemType(), userRole.ItemType()}...)
 	col.ItemTypes = lo.Uniq(col.GetItemTypes())
 
-	colBytes := lo.Must(json.Marshal(col))
+	if err = (state.Ledger[*v1.Collection]{}.PrimaryCreate(ctx, col)); err != nil {
+		return nil, oops.Wrap(err)
+	}
 
-	lo.Must0(ctx.GetStub().PutState(colKey, colBytes), "PutCollection")
-
-	ctx.GetLogger().Info("Bootstrapping",
-		slog.Any("role", role),
-		slog.Any("userRole", userRole),
-	)
 	if err = (state.Ledger[*v1.Role]{}.PrimaryCreate(ctx, role)); err != nil {
 		return nil, oops.Wrap(err)
 	}
 	if err = (state.Ledger[*v1.UserCollectionRoles]{}.PrimaryCreate(ctx, userRole)); err != nil {
 		return nil, oops.Wrap(err)
 	}
+
+	ctx.GetLogger().Info("Bootstrapping",
+		slog.Any("role", role),
+		slog.Any("userRole", userRole),
+	)
 
 	return &cc.CreateCollectionResponse{Collection: col}, nil
 }

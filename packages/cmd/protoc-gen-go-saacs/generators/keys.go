@@ -162,10 +162,10 @@ func (kg *KeyGenerator) GenerateMessage(
         if collectionId == "" { panic("CollectionId is nil") }
 
         if len(attrs) == 0 {
-            k :=  sep + "`, msg.Desc.FullName(), `" + collectionId + sep
+            k :=  sep + "`, msg.Desc.FullName(), `"+ sep + collectionId + sep
             return k
         }
-        k :=  sep + "`, msg.Desc.FullName(), `" + collectionId + sep + `, stringJoin, `(attrs, sep)  + sep
+        k :=  sep + "`, msg.Desc.FullName(), `"+ sep + collectionId + sep + `, stringJoin, `(attrs, sep)  + sep
 
         return k
     }
