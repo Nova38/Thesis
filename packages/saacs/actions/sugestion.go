@@ -1,19 +1,10 @@
 package actions
 
 import (
-	"encoding/json"
-	"fmt"
-	"log/slog"
-	"strconv"
-
-	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/state"
-	"github.com/samber/lo"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
 )
 
 // ════════════════════════════════════════════════════════
@@ -128,27 +119,30 @@ func SuggestionApprove(
 	}
 
 	// Process the Update
-	primary, err := common.ItemKeyToItem(s.GetPrimaryKey())
+	src, err := common.ItemKeyToItem(s.GetPrimaryKey())
 	if err != nil {
 		return nil, oops.Wrap(err)
-	} else if err = PrimaryGet(ctx, primary); err != nil {
+	} else if err = PrimaryGet(ctx, src); err != nil {
 		return nil, oops.Hint("Shouldn't be possible").Wrap(common.KeyNotFound)
 	}
 
-	update, err := s.GetValue().UnmarshalNew()
+	v, err := s.GetValue().UnmarshalNew()
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	// todo: check if the properties include a change to the key
+	update, ok := v.(common.ItemInterface)
+	if !ok {
+		return nil, oops.Wrap(common.ItemInvalid)
+	}
 
-	fmutils.Filter(primary, s.GetPaths().GetPaths())
-	proto.Merge(primary, update)
+	// Update the primary object
+	updated, err = common.UpdateItem(s.GetPaths(), src, update)
 
 	// update the primary object
-	if err = state.Put(ctx, primary); err != nil {
+	if err = state.Put(ctx, updated); err != nil {
 		return nil, oops.
-			With("Primary", primary, "Suggestion", s).
+			With("Primary", src, "Suggestion", s).
 			Wrap(err)
 	}
 
@@ -159,7 +153,7 @@ func SuggestionApprove(
 			Wrap(err)
 	}
 
-	return primary, nil
+	return updated, nil
 }
 
 // ──────────────────────────────────────────────────
@@ -213,77 +207,12 @@ func PartialSuggestionList(
 		ItemType:     s.GetPrimaryKey().GetItemType(),
 		Paths:        nil,
 	}
-
 	// Authorize the operation
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if s.GetPrimaryKey() == nil {
-		return nil, "", oops.Wrap(common.ItemInvalid)
-	}
-
-	attr := common.MakeItemKeySuggestionKeyAttr(s.GetPrimaryKey(), "")
-	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ItemInvalid
-	}
-
-	// attr = append([]string{common.SuggestionItemType}, attr...)
-	// Extract the attributes to search for
-	// attr = attr[:len(attr)-numAttr]
-
-	attr = lo.DropRight(attr, numAttr)
-
-	ctx.GetLogger().
-		Info("GetPartialSuggestedKeyList",
-			slog.Group(
-				"Key", "ItemType", common.SuggestionItemType,
-				slog.Int("numAttr", numAttr),
-				slog.Any("attr", attr),
-				slog.Group(
-					"Paged",
-					"Bookmark", bookmark,
-					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
-				),
-			),
-		)
-
-	results, metadata, err := ctx.GetStub().
-		GetStateByPartialCompositeKeyWithPagination(
-			common.SuggestionItemType,
-			attr,
-			ctx.GetPageSize(),
-			bookmark,
-		)
-	if err != nil {
-		return nil, "", err
-	}
-	defer func(results shim.StateQueryIteratorInterface) {
-		err := results.Close()
-		if err != nil {
-			ctx.GetLogger().Error("GetPartialSuggestedKeyList", "Error", err)
-		}
-	}(results)
-
-	for results.HasNext() {
-		queryResponse, err := results.Next()
-		if err != nil {
-			return nil, "", err
-		}
-		sug := new(authpb.Suggestion)
-
-		if err := json.Unmarshal(queryResponse.GetValue(), sug); err != nil {
-			return nil, "", err
-		}
-
-		list = append(list, sug)
-	}
-
-	if metadata == nil {
-		return nil, "", fmt.Errorf("metadata is nil")
-	}
-
-	return list, metadata.GetBookmark(), nil
+	return state.GetPartialKeyList(ctx, s, numAttr, bookmark)
 }
 
 // Get Full Suggestion List, for the collection

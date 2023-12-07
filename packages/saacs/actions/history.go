@@ -9,7 +9,6 @@ import (
 	"github.com/nova38/thesis/packages/saacs/state"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
 
 	"google.golang.org/protobuf/types/known/anypb"
 )
@@ -257,12 +256,6 @@ func getHistory[T common.ItemInterface](
 	}
 	defer ctx.CloseQueryIterator(resultIterator)
 
-	base, ok := proto.Clone(obj).(T)
-	if !ok {
-		return nil, oops.Errorf("Error cloning object")
-	}
-	proto.Reset(base)
-
 	for resultIterator.HasNext() {
 		queryResponse, err := resultIterator.Next()
 		if err != nil {
@@ -294,7 +287,10 @@ func getHistory[T common.ItemInterface](
 			}
 
 		}
-		tmp := proto.Clone(base)
+		tmp, ok := obj.ProtoReflect().New().Interface().(T)
+		if !ok {
+			return nil, oops.Errorf("Error cloning object")
+		}
 
 		if queryResponse.GetValue() == nil {
 			break

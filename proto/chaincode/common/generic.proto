@@ -49,6 +49,11 @@ service GenericService {
     option (auth.operation) = {action: ACTION_VIEW};
   }
 
+  rpc GetFull(GetFullRequest) returns (GetFullResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_VIEW};
+  }
+
   rpc List(ListRequest) returns (ListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
@@ -217,6 +222,11 @@ message GetRequest {
 
 message GetResponse {
   auth.Item item = 1;
+}
+
+message GetFullRequest {
+  auth.ItemKey key = 1;
+  bool show_hidden = 2;
 }
 
 // List of a type

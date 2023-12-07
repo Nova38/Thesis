@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/state"
@@ -41,8 +40,43 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 func PrimaryGetFull[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
+	showHidden bool,
 ) (fullItem *authpb.FullItem, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
+
+	ops := []*authpb.Operation{
+		{
+			Action:       authpb.Action_ACTION_VIEW,
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
+			Paths:        nil,
+		},
+		{
+			Action:       authpb.Action_ACTION_SUGGEST_VIEW,
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
+			Paths:        nil,
+		},
+		{
+			Action:       authpb.Action_ACTION_VIEW_HISTORY,
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
+			Paths:        nil,
+		},
+	}
+
+	if showHidden {
+		ops = append(ops, &authpb.Operation{
+			Action:       authpb.Action_ACTION_VIEW_HIDDEN_TXS,
+			CollectionId: obj.ItemKey().GetCollectionId(),
+			ItemType:     obj.ItemType(),
+			Paths:        nil,
+		})
+	}
+
+	if auth, err := ctx.Authorize(ops); !auth || err != nil {
+		return nil, ctx.ErrorBase().Wrap(common.UserPermissionDenied)
+	}
 
 	// l := &Ledger[T]{ctx: ctx}
 	fullItem = &authpb.FullItem{}
@@ -170,26 +204,31 @@ func PrimaryUpdate[T common.ItemInterface](
 			Wrap(common.UserPermissionDenied)
 	}
 
-	current := common.NewItem[T]()
+	current, ok := obj.ProtoReflect().New().Interface().(T)
+	if !ok {
+		return updated, ctx.ErrorBase().
+			With("operation", ops).
+			Wrap(common.ItemInvalid)
+	}
+	proto.Reset(current)
 
 	if err = state.Get(ctx, obj); err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
-	// Update the item
-	fmutils.Filter(obj, mask.GetPaths())
-	proto.Merge(current, obj)
-	//
-
-	if err := ctx.PostActionProcessing(current, ops); err != nil {
+	val, err := common.UpdateItem(mask, current, obj)
+	if err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
-	if err = state.Put(ctx, current); err != nil {
+	if err = ctx.PostActionProcessing(val, ops); err != nil {
+		return obj, ctx.ErrorBase().Wrap(err)
+	}
+	if err = state.Put(ctx, val); err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
-	return current, nil
+	return val, nil
 
 }
 

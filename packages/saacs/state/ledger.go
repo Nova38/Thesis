@@ -9,7 +9,6 @@ import (
 	"github.com/nova38/thesis/packages/saacs/common"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/encoding/protojson"
 )
 
 // UTIL Functions
@@ -207,14 +206,18 @@ func GetPartialKeyList[T common.ItemInterface](
 	}(results)
 
 	for results.HasNext() {
-		var tmpObj T
+
+		tmpObj, ok := obj.ProtoReflect().New().Interface().(T)
+		if !ok {
+			return nil, "", oops.Errorf("Error cloning object")
+		}
 
 		queryResponse, err := results.Next()
 		if err != nil || queryResponse == nil {
 			return nil, "", oops.Wrapf(err, "Error getting next item")
 		}
 
-		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
+		if err = json.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
 			return nil, "", oops.Wrap(err)
 		}
 

@@ -15,23 +15,23 @@ plugins:
       out: packages/saacs/gen
       opt:
           - paths=source_relative
-
     - plugin: go-saacs
       out: packages/saacs/gen
-      opt: [paths=source_relative]
-
+      opt:
+        - paths=source_relative
     - plugin: buf.build/bufbuild/validate-go
       out: packages/saacs/gen
       opt:
-          - paths=source_relative
-
+        - paths=source_relative
     - plugin: buf.build/community/mitchellh-go-json:v1.1.0
       out: packages/saacs/gen
       opt:
-          - paths=source_relative
-          - emit_defaults=true
-          # - orig_name=true
-          - enums_as_ints=true
+        - paths=source_relative
+        - emit_defaults=true
+        - enums_as_ints=true
+
+
+
 
 
     - plugin: buf.build/bufbuild/es:v1.3.1
