@@ -13,7 +13,6 @@ func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error
 	// Check to see if there is a policy that matches the operation object type
 	// We assume that the more specific policy would be more permisive
 	if policy.GetItemPolicies() != nil {
-
 		if itemPolicy, ok := policy.GetItemPolicies()[op.GetItemType()]; ok {
 			if AuthorizePathPolicy(itemPolicy, op) {
 				slog.Debug("Operation is allowed on specific policy")

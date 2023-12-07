@@ -6,14 +6,13 @@ import { Any, EnumType, IMessageTypeRegistry,  MessageType, ServiceType, createR
 import * as auth_pb from "../gen/auth/v1/index.js"
 import * as common_pb from "../gen/chaincode/common/index.js"
 import * as ccbio from "../gen/biochain/v1/index.js"
-import { sample } from "../gen/index.js";
+import { auth, sample } from "../gen/index.js";
 
 export type Registry = IMessageTypeRegistry
 
 
 export const GlobalRegistry:  IMessageTypeRegistry= createRegistry(
-    auth_pb.Polices,
-    ...auth_pb.allMessages,
+    ...auth_pb.auth.allMessages,
     ...common_pb.generic.allMessages,
     ...common_pb.reference.allMessages,
     ...ccbio.allMessages,

@@ -23,6 +23,21 @@ const logger = require("@hyperledger/caliper-core").CaliperUtils.getLogger(
     "my-module"
 );
 
+function typeName(type) {
+    if (!type) {
+        return hlf.pb.sample.SimpleItem.typeName;
+
+    }else  if (type == "simple") {
+        return hlf.pb.sample.SimpleItem.typeName;
+    } else if (type == "book") {
+        return hlf.pb.sample.Book.typeName;
+    }
+
+    return hlf.pb.sample.SimpleItem.typeName
+
+}
+
+
 /**
  * Workload module for the benchmark round.
  * @type {CreateWorkload}
@@ -69,58 +84,44 @@ class GetWorkload extends WorkloadModuleBase {
         const args = this.roundArguments;
         this.contractId = args.contractId;
         this.numCollections = args.numCollections;
-        this.contractVersion = args.contractVersion;
+        this.perCollection = args.perCollection;
         this.type = args.type;
+        this.contractVersion = args.contractVersion;
+
+        this.nextNumByCol = {};
+        for (let i = 0; i < this.numCollections; i++) {
+            this.nextNumByCol[i] = 0;
+        }
+
+        this.ColMap = hlf.utils.factory.BuildWorkloadItemKeys({
+            numCollections: args.numCollections,
+            numItems: args.perCollection,
+            typeName: args.type,
+            workerIndex: workerIndex,
+        });
+
+        logger.info('this.ColMap', this.ColMap);
+
     }
+
+
 
     /**
      * Assemble TXs for the round.
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
-        let arg = null;
-        if (!this.type) {
-            logger.error("unknown type", this.args);
 
-            arg = new hlf.pb.common.generic.GetRequest({
-                type: hlf.pb.sample.SimpleItem.typeName,
-                key: new hlf.pb.auth.ItemKey({
+        let col = hlf.utils.factory.randomInt(this.numCollections);
+        let key = this.ColMap[col][this.nextNumByCol[col]];
 
-                itemKeyParts: [
-                    `item-${hlf.utils.factory.randomInt(1000)}`,
-                ],
-                collectionId: hlf.utils.factory.modCollectionId(
-                    this.numCollections,
-                    this.workerIndex
-                ),
-                }),
-            });
-        } else if (this.type == "simple") {
-            arg = new hlf.pb.common.generic.GetRequest({
-                key: new hlf.pb.auth.ItemKey({
-                    type: hlf.pb.sample.SimpleItem.typeName,
-                    itemKeyParts: [
-                        `item-${hlf.utils.factory.randomInt(1000)}`,
-                    ],
-                    collectionId: hlf.utils.factory.modCollectionId(
-                        this.numCollections
-                    ),
-                }),
-            });
-        } else if (this.type == "book") {
-            arg = new hlf.pb.common.generic.GetRequest({
-                key: new hlf.pb.auth.ItemKey({
-                    type: hlf.pb.sample.Book.typeName,
-                    itemKeyParts: [
-                        `book-${hlf.utils.factory.randomInt(1000)}`,
-                    ],
-                    collectionId: hlf.utils.factory.modCollectionId(
-                        this.numCollections,
-                        this.workerIndex
-                    ),
-                }),
-            });
-        }
+        this.nextNumByCol[col] = (this.nextNum + 1) % this.perCollection;
+
+        const arg = new hlf.pb.common.generic.GetRequest({
+            type: key.itemType,
+            key: key,
+        });
+
 
         // logger.info('this', this)
         logger.info('arg', arg);

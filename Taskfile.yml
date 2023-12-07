@@ -8,6 +8,10 @@ includes:
     taskfile: ./network/Taskfile.yml
     dir: ./network
 
+  caliper:
+    taskfile: ./caliper/Taskfile.yml
+    dir: ./caliper
+
 tasks:
   install:
     cmds:
@@ -20,6 +24,7 @@ tasks:
       - buf generate
   gen:all:
     watch: true
+
 
     # sources:
     #   - "./lib/proto/rbac/rbac.proto"
@@ -36,11 +41,9 @@ tasks:
   #   cmd:
 
 
-  gen-lib:
-    vars:
-      template: buf-lib-gen.yaml
-    cmds:
-      - buf generate --template "${template}"
+  build:es-stub:
+    cmd: cd ./packages/saacs-es && pnpm run stub
+
 
   go:format:
     cmds:

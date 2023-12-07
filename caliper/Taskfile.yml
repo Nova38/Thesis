@@ -1,0 +1,16 @@
+version: "3"
+tasks:
+  bootstrap:noauth:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      -  pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.boot.yaml -caliper-report-path=./out/noauth/boot-report.html
+
+  launch:noauth:
+    cmds:
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.bench.yaml  --caliper-report-path=./out/noauth/bench-report.html
+  test:
+    cmds:
+      - echo "Testing..."
+  deploy:
+    cmds:
+      - echo "Deploying..."

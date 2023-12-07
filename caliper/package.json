@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
     "bind": "caliper bind --caliper-bind-sut fabric:2.4",
     "start": "node index.js",
-    "launch": "caliper launch manager --Caliper-ProjectConfig caliper.yaml --caliper-workspace ./ --caliper-networkconfig networks/test-network.yaml  --caliper-benchconfig benchmarks/config.yaml  --caliper-flow-only-test",
-    "bench:noauth": "caliper launch manager --Caliper-ProjectConfig NoAuth.caliper.yaml "
+    "t": "ts-node t.ts",
+    "launch-old": "caliper launch manager --Caliper-ProjectConfig caliper.yaml --caliper-workspace ./ --caliper-networkconfig networks/test-network.yaml  --caliper-benchconfig benchmarks/config.yaml  --caliper-flow-only-test",
+    "echo": "echo %npm_config_varname%"  ,
+    "argument": "echo \"The value of --foo is '${npm_config_foo}'\"",
+    "launch": "caliper launch manager  --Caliper-ProjectConfig caliper.yaml ",
+    "bench:noauth": "caliper launch manager "
   },
   "keywords": [],
   "author": "",

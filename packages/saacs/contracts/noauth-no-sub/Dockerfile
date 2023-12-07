@@ -15,7 +15,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/noauth-no-sub-items -v ./packages/saacs/contracts/bin/main.go
+RUN go build -o bin/noauth-no-sub-items -v ./packages/saacs/bin/main.go
 
 
 FROM golang:1.21.4-bookworm

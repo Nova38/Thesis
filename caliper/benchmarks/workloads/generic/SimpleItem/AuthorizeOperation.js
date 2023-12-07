@@ -4,7 +4,7 @@
 const {WorkloadModuleBase} = require('@hyperledger/caliper-core');
 const ConnectorBase = require('@hyperledger/caliper-core/lib/common/core/connector-base');
 const PeerGateway = require('@hyperledger/caliper-fabric/lib/connector-versions/peer-gateway/PeerGateway');
-const hlf = require('hlf_tools')
+const hlf = require('saacs-es')
 const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('workload');
 
 

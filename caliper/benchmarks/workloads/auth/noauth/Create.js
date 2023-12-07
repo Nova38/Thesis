@@ -56,12 +56,27 @@ class CreateWorkload extends WorkloadModuleBase {
     async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext) {
         await super.initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArguments, sutAdapter, sutContext);
         // const  i = import('../../lib')
+
         const args = this.roundArguments;
         this.contractId = args.contractId;
         this.numCollections = args.numCollections;
-        this.contractVersion = args.contractVersion;
+        this.perCollection = args.perCollection;
         this.type = args.type;
+        this.contractVersion = args.contractVersion;
 
+        this.nextNumByCol = [];
+        for (let i = 0; i < this.numCollections; i++) {
+            this.nextNumByCol[i] = 0;
+        }
+
+        this.ColMap = hlf.utils.factory.BuildWorkloadItem({
+            numCollections: args.numCollections,
+            numItems: args.perCollection,
+            typeName: args.type,
+            workerIndex: workerIndex,
+        });
+
+        logger.info('this.ColMap', this.ColMap);
     }
 
     /**
@@ -69,53 +84,38 @@ class CreateWorkload extends WorkloadModuleBase {
      * @return {Promise<TxStatus[]>}
      */
     async submitTransaction() {
-        let obj = null;
-        let arg = null
-        if (!this.type){
-            logger.error('unknown type', this.args)
-            obj = new hlf.pb.sample.SimpleItem({
-                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
 
-                id: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
-            })
-        }
-        if (this.type == "simple"){
-            obj = new hlf.pb.sample.SimpleItem({
-                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
 
-                id: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
-            })
-        }else if (this.type == "book"){
-            obj = new hlf.pb.sample.Book({
-                isbn: `item-${this.workerIndex}-${hlf.utils.factory.randomInt(1000)}`,
-                author: `${this.workerIndex}`,
-                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
-            })
 
-        } else {
-            logger.error('unknown type', this.args)
+        let colNum = hlf.utils.factory.randomInt(this.numCollections);
+        logger.info('colNum', colNum);
+        // logger.info('this.ColMap[colNum]', this.ColMap[colNum]);
+        logger.info(`Next Number ${this.nextNumByCol[colNum]}`)
+        // logger.info(`Next Number ${this.nextNumByCol[colNum]}`)
 
-            obj = new hlf.pb.sample.SimpleItem({
-                id: `item-${hlf.utils.factory.randomInt(1000)}`,
-                collectionId: hlf.utils.factory.modCollectionId(this.numCollections,this.workerIndex),
-            })
+        let obj = this.ColMap[colNum][this.nextNumByCol[colNum]];
+        logger.info('obj', obj);
 
+        this.nextNumByCol[colNum] = this.nextNumByCol[colNum] + 1
+        if (this.nextNumByCol[colNum] >= this.perCollection)
+        {
+            this.nextNumByCol[colNum] = 0;
         }
 
-        arg = new hlf.pb.common.generic.CreateRequest({
-            item: new hlf.pb.auth.Item()
-        })
-        arg.item.value = Any.pack(obj)
+
+        let arg = hlf.utils.factory.ToCreateRequestString(obj);
+        logger.info('arg', arg);
+
 
         // logger.info('this', this)
-        // logger.info('arg', arg);
+        logger.info('arg', arg);
 
         /** @type {PeerGateway.FabricRequestSettings}*/
         const myArgs = {
             contractId: this.contractId,
 
             contractFunction: 'Create',
-            contractArguments: [arg.toJsonString({typeRegistry: createRegistry(...hlf.pb.sample.allMessages)})],
+            contractArguments: [arg],
             readOnly: false,
             invokerIdentity: "User1",
             invokerMspId: "Org1MSP",

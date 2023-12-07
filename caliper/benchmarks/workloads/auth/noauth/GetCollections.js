@@ -83,8 +83,8 @@ class GetWorkload extends WorkloadModuleBase {
             logger.error("unknown type", this.args);
 
             arg = new hlf.pb.common.generic.GetRequest({
-                type: hlf.pb.auth.Collection.typeName,
-                key: new hlf.pb.auth.ItemKey({
+                type: hlf.pb.auth.objects.Collection.typeName,
+                key: new hlf.pb.auth.objects.ItemKey({
 
                 itemKeyParts: [
                     `collection0`,

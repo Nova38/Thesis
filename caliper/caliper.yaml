@@ -15,7 +15,7 @@
 caliper:
     # Report file-related options
     report:
-        path: './out/noauth/report.html'
+        path: './out/report.html'
         # The options to pass to fs.writeFile
         options:
             flag: 'w'
@@ -28,7 +28,6 @@ caliper:
             transparency: 0.6
     workspace: './'
     projectconfig: ./caliper.yaml
-    benchconfig: ./benchmarks/NoAuth.bench.yaml
     networkconfig: ./networks/test-network.yaml
 
     # Configurations related to caliper test progress

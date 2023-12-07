@@ -42,7 +42,6 @@ const protocGenReg = createEcmaScriptPlugin({
 
 runNodeJs(protocGenReg);
 
-
 function* getAllTypes(
     desc: DescFile | DescMessage,
 ): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
@@ -67,17 +66,53 @@ function* getAllTypes(
     }
 }
 
+function* getAllMessages(
+    desc: DescFile | DescMessage,
+): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
+    switch (desc.kind) {
+        case "file":
+            for (const message of desc.messages) {
+                yield message;
+                yield* getAllTypes(message);
+            }
+            yield* desc.enums;
+            yield* desc.services;
+            yield* desc.extensions;
+            break;
+        case "message":
+            for (const message of desc.nestedMessages) {
+                yield message;
+                yield* getAllTypes(message);
+            }
+            yield* desc.nestedEnums;
+            yield* desc.nestedExtensions;
+            break;
+    }
+}
+
+
 function generateTs(schema: Schema) {
     generateGateway(schema);
     generateFabricTest(schema);
 
     generateRegistry(schema);
     generateIndex(schema);
+
+
 }
 
 
 
 function generateIndex(schema: Schema) {
+
+    // export * as auth from './auth/v1/index.js'
+    // export * as common from './chaincode/common/index.js'
+    // export * as ccbio from './biochain/v1/index.js'
+    // export * as sample from './sample/v0/index.js'
+
+    // let baseIndexFile = schema.generateFile("index.ts");
+    // b.print(`export * from "./index_pb_reg.js"`)
+    // baseIndexFile.print(`// ${schema.files.length} files`)
 
     const folders = new Map<string, string[]>();
 
@@ -94,17 +129,17 @@ function generateIndex(schema: Schema) {
         }
 
 
-        const f = schema.generateFile(file.name + "index.ts");
+        const f = schema.generateFile(folder + "index_" + base + "_pb.ts");
 
-        f.preamble(file);
+        // f.preamble(file);
         if (file.messages.length > 0) {
             f.print(`export * from "./${base}_pb.js"`)
-            f.print(`export * from "./${base}_reg.js"`)
+            f.print(`export * from "./${base}_pb_reg.js"`)
         }
 
         if (file.services.length > 0) {
 
-            f.print(`export * from "./${base}_gateway"`)
+            f.print(`export * from "./${base}_pb_gateway"`)
         }
     }
 
@@ -113,17 +148,24 @@ function generateIndex(schema: Schema) {
 
         if (files.length == 1) {
             const file = files[0]
-            f.print(`export * from "./${file}index.js"`)
+            f.print(`export * from "./index_${file}_pb.js"`)
 
         }
         else {
             files.forEach((file) => {
-                f.print(`export * as ${file} from "./${file}index.js"`)
+                f.print(`export * as ${file} from "./index_${file}_pb.js"`)
             })
         }
 
+        // folder.split("/").forEach((file) => {
+        //     if (file != "" && !file.match(/^v[0-9]/) && !file.match(/^chaincode/)) {
+        //         baseIndexFile.print(`export * as ${folder} from "./${folder}index.js"`)
+        //     }
 
-    })
+        // // baseIndexFile.print(`export * as ${files} from "./${folder}index.js"`)
+        // })
+
+})
 
     //  // remove the last part of the path
     //  const f = schema.generateFile(folder + "index.ts");
@@ -174,11 +216,41 @@ function getKeySchema(schema: Schema) {
 }
 
 
+// function genTypes(schema: Schema) {
+//     let des: DescMessage[] | undefined;
+
+//     for (const file of schema.files) {
+//         for (const descType of getAllTypes(file)) {
+//             if (descType.kind == "message") {
+//                 if (des == undefined) {
+//                     des = [descType]
+//                 } else {
+//                     des.push(descType)
+//                 }
+//             }
+//         }
+//     }
+
+//     let f = schema.generateFile("types_pb.ts");
+
+//     if (des == undefined) {
+//         return
+//     }
+
+//     for (const msg of des) {
+//         f.print(`export class ${msg.name} extends Message {`)
+//         for (const field of msg.fields) {
+//             f.print(`    ${field.name}: ${field.kind};`)
+//         }
+//         f.print(`}`)
+//     }
+// }
+
 
 function generateRegistry(schema: Schema) {
     for (const file of schema.files) {
-        const f = schema.generateFile(file.name + "_reg.ts");
-        f.preamble(file);
+        const f = schema.generateFile(file.name + "_pb_reg.ts");
+        // f.preamble(file);
         const createRegistry = f.import("createRegistry", "@bufbuild/protobuf");
         const {
             Message,
@@ -287,7 +359,7 @@ function generateGateway(schema: Schema) {
 
 
     for (const file of schema.files) {
-        const f = schema.generateFile(file.name + "_gateway.ts");
+        const f = schema.generateFile(file.name + "_pb_gateway.ts");
 
         const contract = f.import("Contract", "@hyperledger/fabric-gateway");
         const registry = f.import("IMessageTypeRegistry", "@bufbuild/protobuf");

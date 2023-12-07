@@ -1,2 +1,2 @@
-export * as auth from "./authindex.js"
-export * as objects from "./objectsindex.js"
+export * as auth from "./index_auth_pb.js"
+export * as objects from "./index_objects_pb.js"

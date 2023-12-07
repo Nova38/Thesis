@@ -22,6 +22,7 @@ extend google.protobuf.MessageOptions {
   KeySchema key_schema = 54599;
 }
 
+
 // ═════════════════════════════════════════════
 // Enums
 // ═════════════════════════════════════════════
