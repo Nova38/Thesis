@@ -5,7 +5,7 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
-var Policies = map[string]authpb.Operation{
+var _ = map[string]authpb.Operation{
 	"Create Collection": {
 		Action:       authpb.Action_ACTION_CREATE,
 		CollectionId: "collection_id",

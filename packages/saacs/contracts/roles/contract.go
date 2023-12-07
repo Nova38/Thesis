@@ -30,7 +30,7 @@ func BeforeTransaction(ctx common.TxCtxInterface) (err error) {
 func BuildContract() *contractapi.ContractChaincode {
 	contract := new(RoleContract)
 	contract.BeforeTransaction = BeforeTransaction
-	contract.TransactionContextHandler = new(RolesTxCtx)
+	contract.TransactionContextHandler = new(TxCtx)
 
 	sm, err := contractapi.NewChaincode(contract)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *RoleContract) Bootstrap(
 ) (res *cc.BootstrapResponse, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	ctx, ok := ctx.(*RolesTxCtx)
+	ctx, ok := ctx.(*TxCtx)
 	if !ok {
 		return nil, oops.Errorf("Invalid context")
 	}
@@ -74,7 +74,7 @@ func (c *RoleContract) Bootstrap(
 
 	for _, col := range req.GetCollections() {
 
-		c.CreateCollection(ctx, &cc.CreateCollectionRequest{Collection: col})
+		lo.Must0(c.CreateCollection(ctx, &cc.CreateCollectionRequest{Collection: col}))
 	}
 
 	return &cc.BootstrapResponse{Success: true}, nil

@@ -1,7 +1,7 @@
 package generators
 
 import (
-	auth_pb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
@@ -21,7 +21,7 @@ const (
 
 type ServiceGenerator struct{}
 
-func (sg *ServiceGenerator) GenerateFile(
+func (sv *ServiceGenerator) GenerateFile(
 	gen *protogen.Plugin,
 	file *protogen.File,
 ) (*protogen.GeneratedFile, error) {
@@ -42,9 +42,9 @@ func (sg *ServiceGenerator) GenerateFile(
 		g.Skip()
 	}
 
-	for _, sv := range file.Services {
+	for _, service := range file.Services {
 		// g.P("type AuthContractImpl struct{}")
-		sg.GenerateService(gen, g, sv)
+		sv.GenerateService(gen, g, service)
 
 		// sg.GenerateGoGatewayHandler(gen, g, sv)
 	}
@@ -118,7 +118,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 			mComments += "// " + m.GoName + "\n // \n"
 		}
 
-		op, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_Operation).(*auth_pb.Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), authpb.E_Operation).(*authpb.Operation)
 
 		if !ok {
 			mComments += "// No operation defined for " + m.GoName + "\n"
@@ -171,13 +171,13 @@ func (sv *ServiceGenerator) GenerateStructEvaluateTransactions(
 	var fns []string
 
 	for _, m := range v.Methods {
-		tt, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_TransactionType).(auth_pb.TransactionType)
+		tt, ok := proto.GetExtension(m.Desc.Options(), authpb.E_TransactionType).(authpb.TransactionType)
 
 		if !ok {
 			continue
 		}
 
-		if tt == auth_pb.TransactionType_TRANSACTION_TYPE_QUERY {
+		if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
 			fns = append(fns, m.GoName)
 		}
 	}
@@ -212,7 +212,7 @@ func GenerateOperationLookup(
 	g.P("switch txName {")
 	for _, m := range v.Methods {
 		g.P("case \"", m.GoName, "\":")
-		op, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_Operation).(*auth_pb.Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), authpb.E_Operation).(*authpb.Operation)
 		g.P("//", op)
 		if !ok {
 			g.P("// No operation defined for ", m.GoName)
@@ -271,14 +271,14 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 
 		in := m.Input.GoIdent.GoName
 		out := m.Output.GoIdent.GoName
-		tt, ok := proto.GetExtension(m.Desc.Options(), auth_pb.E_TransactionType).(auth_pb.TransactionType)
+		tt, ok := proto.GetExtension(m.Desc.Options(), authpb.E_TransactionType).(authpb.TransactionType)
 
 		if !ok {
 			continue
 		}
 		if in == "Empty" {
 			g.P("func (s *", v.GoName, "Handler)", m.GoName, "( )(out *", out, "){")
-			if tt == auth_pb.TransactionType_TRANSACTION_TYPE_QUERY {
+			if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
 				g.P(
 					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName+\":",
 					m.GoName,
@@ -295,7 +295,7 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 			g.P("return nil")
 			g.P("}")
 
-			if tt == auth_pb.TransactionType_TRANSACTION_TYPE_QUERY {
+			if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
 				g.P(
 					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName\":",
 					m.GoName, "\", string(inBytes) )")

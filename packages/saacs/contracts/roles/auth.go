@@ -10,7 +10,7 @@ import (
 	"github.com/samber/oops"
 )
 
-func (ctx *RolesTxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
+func (ctx *TxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Authenticate")
 
 	for _, op := range ops {
@@ -25,7 +25,7 @@ func (ctx *RolesTxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 	return true, nil
 }
 
-func (ctx *RolesTxCtx) authorized(op *authpb.Operation) (bool, error) {
+func (ctx *TxCtx) authorized(op *authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info(op.String())
 
 	// Handle special case of creating a collection
@@ -96,13 +96,13 @@ func (ctx *RolesTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	return false, nil
 }
 
-func (ctx *RolesTxCtx) checkParents(
+func (ctx *TxCtx) checkParents(
 	roles []*authpb.Role,
 	checked []string,
 	op *authpb.Operation,
 ) (bool, []string, error) {
 
-	parents := []string{}
+	var parents []string
 
 	for _, role := range roles {
 		parents = append(parents, role.GetParentRoleIds()...)
@@ -140,7 +140,7 @@ func (ctx *RolesTxCtx) checkParents(
 	return false, checked, nil
 }
 
-func (ctx *RolesTxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
+func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 
 	if collectionId == "" {
 		return nil, oops.Errorf("collectionId is empty")
@@ -165,7 +165,7 @@ func (ctx *RolesTxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error)
 		RoleIds:      []string{},
 	}
 
-	if err := (state.Ledger[*authpb.UserCollectionRoles]{}.PrimaryGet(ctx, userRoles)); err != nil {
+	if err := state.Get(ctx, userRoles); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -179,16 +179,15 @@ func (ctx *RolesTxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error)
 	return roles, nil
 }
 
-func (ctx *RolesTxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
-	roles := []*authpb.Role{}
+func (ctx *TxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
+	var roles []*authpb.Role
 
 	for _, roleId := range roleIds {
 		role := &authpb.Role{
 			RoleId: roleId,
 		}
 
-		err := state.Ledger[*authpb.Role]{}.PrimaryGet(ctx, role)
-		if err != nil {
+		if err := state.Get(ctx, role); err != nil {
 			return nil, oops.Wrap(err)
 		}
 
@@ -198,7 +197,7 @@ func (ctx *RolesTxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
 	return roles, nil
 }
 
-func (ctx *RolesTxCtx) getNewParents(checked []string, parents []string) ([]*authpb.Role, error) {
+func (ctx *TxCtx) getNewParents(checked []string, parents []string) ([]*authpb.Role, error) {
 
 	parents = lo.Uniq(parents)
 
@@ -208,14 +207,14 @@ func (ctx *RolesTxCtx) getNewParents(checked []string, parents []string) ([]*aut
 		return nil, nil
 	}
 
-	roles := []*authpb.Role{}
+	var roles []*authpb.Role
 
 	for _, roleId := range unckecked {
 		role := &authpb.Role{
 			RoleId: roleId,
 		}
 
-		if err := (state.Ledger[*authpb.Role]{}.PrimaryGet(ctx, role)); err != nil {
+		if err := state.Get(ctx, role); err != nil {
 			return nil, oops.Wrap(err)
 		}
 
@@ -224,115 +223,3 @@ func (ctx *RolesTxCtx) getNewParents(checked []string, parents []string) ([]*aut
 
 	return roles, nil
 }
-
-// func (ctx *RolesTxCtx) getRoleParent(checked []string, role *authpb.Role) ([]*authpb.Role, []string, error) {
-// 	if role.GetParentRoleIds() == nil || len(role.GetParentRoleIds()) == 0 {
-// 		return nil, nil, nil
-// 	}
-
-// 	parents := []*authpb.Role{}
-
-// 	newIds, already := lo.Difference(role.GetParentRoleIds(), checked)
-
-// 	ctx.Logger.Debug("New Parrent Roles", "newIds", newIds)
-// 	ctx.Logger.Debug("Already Checked", "already", already)
-
-// 	for _, parrentId := range role.GetParentRoleIds() {
-
-// 		parent := &authpb.Role{
-// 			CollectionId: role.GetCollectionId(),
-// 			RoleId:       parrentId,
-// 		}
-
-// 		parrentKey, err := common.MakePrimaryKey(parent)
-// 		if err != nil {
-// 			return nil, nil, oops.Wrap(err)
-// 		}
-
-// 		ctx.Logger.Debug("Parrent Key", "parrentKey", parrentKey)
-// 		if err := state.Get(ctx, parrentKey, parent); err != nil {
-// 			return nil, nil, oops.Wrap(err)
-// 		}
-
-// 		parents = append(parents, parent)
-// 	}
-
-// 	ids := lo.Union(checked, role.GetParentRoleIds())
-
-// 	return parents, ids, nil
-// }
-
-// // checkRoles recursively checks the roles and their parents,
-// // it keeps track of the roles that have already been checked to avoid inheritance loops
-// func (ctx *RolesTxCtx) checkRoles(unchecked []*authpb.Role, checked []string, op *authpb.Operation) (bool, []string, error) {
-// 	if len(unchecked) == 0 {
-// 		return false, nil, nil
-// 	}
-
-// 	// Check last batch of roles
-// 	for _, role := range unchecked {
-// 		ctx.Logger.Info("Role", "role", role)
-// 		if auth, err := policy.AuthorizedPolicy(role.GetPolices(), op); err != nil {
-// 			return false, nil, oops.Wrap(err)
-// 		} else if auth {
-// 			ctx.Logger.Info("User is authorized by role")
-// 			return true, nil, nil
-// 		}
-
-// 		// Add the role to the checked list
-// 		checked = append(checked, role.GetRoleId())
-// 	}
-
-// 	// Get the roles parents
-
-// 	parentRoles := []*authpb.Role{}
-
-// 	fetched := slices.Clone(checked)
-
-//     lo.ForEach(unchecked, func(role *authpb.Role, i int) {
-//         parents, newIds, err := ctx.getRoleParent(fetched, role)
-//         if err != nil {
-
-// 	for _, role := range unchecked {
-// 		var parents []*authpb.Role
-// 		parents, roleIds, err = ctx.getRoleParent(roleIds, role)
-// 		if err != nil {
-// 			return false, oops.Wrap(err)
-// 		}
-// 		parentRoles = append(parentRoles, parents...)
-// 	}
-
-// 	// Add the role to the checked list
-// 	checked = append(checked, role.GetRoleId())
-
-// 	// Check the role's parents
-// 	for _, parrentId := range role.GetParentRoleIds() {
-
-// 		parent := &authpb.Role{
-// 			CollectionId: role.GetCollectionId(),
-// 			RoleId:       parrentId,
-// 		}
-
-// 		parrentKey, err := common.MakePrimaryKey(parent)
-// 		if err != nil {
-// 			return false, oops.Wrap(err)
-// 		}
-
-// 		ctx.Logger.Debug("Parrent Key", "parrentKey", parrentKey)
-// 		if err := state.Get(ctx, parrentKey, parent); err != nil {
-// 			return false, oops.Wrap(err)
-// 		}
-
-// 		if auth, err := policy.AuthorizedPolicy(parent.GetPolices(), op); err != nil {
-// 			return false, oops.Wrap(err)
-// 		} else if auth {
-// 			ctx.Logger.Info("User is authorized by role")
-// 			return true, nil
-// 		}
-
-// 		// Add the role to the checked list
-// 		checked = append(checked, parent.GetRoleId())
-// 	}
-
-// 	return false, nil
-// }

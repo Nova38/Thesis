@@ -4,7 +4,6 @@ package ccbio.schema.v0;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/field_mask.proto";
 
 // import "hlf/key.proto";
 // import "rbac/rbac.proto";

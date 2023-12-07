@@ -21,45 +21,6 @@ import (
 // ════════════════════════════════════════════════════════
 
 // ──────────────────────────────────────────────────
-// Helpers
-// ──────────────────────────────────────────────────
-
-// type SuggestionHandler struct {
-//	suggestionKey string
-//	objKey        string
-//	obj           common.ItemInterface
-//	suggestion    *authpb.Suggestion
-//	bytes         []byte
-//}
-
-// SuggestionToItem converts a suggestion to an item
-
-// func (s SuggestionHandler) Extract(sug *authpb.Suggestion) (err error) {
-//	if sug == nil {
-//		return oops.In("Extract").Errorf("Suggestion is nil")
-//	}
-//	s.suggestion = sug
-//
-//	if s.obj, err = common.SuggestionToItem(s.suggestion); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	if s.objKey, err = common.MakePrimaryKey(s.obj); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	if s.suggestionKey, err = common.MakeSuggestionPrimaryKey(s.obj, s.suggestion.GetSuggestionId()); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	if s.bytes, err = json.Marshal(s.obj); err != nil {
-//		return oops.Wrap(err)
-//	}
-//
-//	return nil
-//}
-
-// ──────────────────────────────────────────────────
 // Invoke Suggested Functions
 // ──────────────────────────────────────────────────
 
@@ -179,9 +140,6 @@ func SuggestionApprove(
 		return nil, oops.Wrap(err)
 	}
 
-	// Apply the mask to the Updating item
-	// fmutils.Overwrite(primary, update, s.GetPaths().GetPaths())
-
 	// todo: check if the properties include a change to the key
 
 	fmutils.Filter(primary, s.GetPaths().GetPaths())
@@ -229,7 +187,7 @@ func GetSuggestion(ctx common.TxCtxInterface, s *authpb.Suggestion) (err error) 
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if err := state.Get(ctx, s.StateKey(), s); err != nil {
+	if err := state.GetFromKey(ctx, s.StateKey(), s); err != nil {
 		return oops.
 			With("Suggestion", s).
 			Wrap(err)

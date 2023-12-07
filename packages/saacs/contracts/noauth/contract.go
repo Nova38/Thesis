@@ -18,7 +18,7 @@ import (
 	"github.com/samber/oops"
 )
 
-func BeforeTransaction(ctx *NoAuthCtx) (err error) {
+func BeforeTransaction(ctx *Ctx) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {
@@ -29,9 +29,9 @@ func BeforeTransaction(ctx *NoAuthCtx) (err error) {
 }
 
 func BuildContract() *contractapi.ContractChaincode {
-	contract := new(NoAuthContract)
+	contract := new(Contract)
 	contract.BeforeTransaction = BeforeTransaction
-	contract.TransactionContextHandler = new(NoAuthCtx)
+	contract.TransactionContextHandler = new(Ctx)
 
 	sm, err := contractapi.NewChaincode(contract)
 	if err != nil {
@@ -43,7 +43,7 @@ func BuildContract() *contractapi.ContractChaincode {
 	return sm
 }
 
-func NoSubBeforeTransaction(ctx *NoAuthCtx) (err error) {
+func NoSubBeforeTransaction(ctx *Ctx) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
 	if err = ctx.HandelBefore(); err != nil {
@@ -56,9 +56,9 @@ func NoSubBeforeTransaction(ctx *NoAuthCtx) (err error) {
 	return nil
 }
 func NoSubBuildContract() *contractapi.ContractChaincode {
-	contract := new(NoAuthContract)
+	contract := new(Contract)
 	contract.BeforeTransaction = NoSubBeforeTransaction
-	contract.TransactionContextHandler = new(NoAuthCtx)
+	contract.TransactionContextHandler = new(Ctx)
 
 	sm, err := contractapi.NewChaincode(contract)
 	if err != nil {
@@ -75,7 +75,7 @@ func NoSubBuildContract() *contractapi.ContractChaincode {
 // ═════════════════════════════════════════════
 
 // NoAuthContract is the contract for the NoAuth chaincode
-func (c *NoAuthContract) Bootstrap(
+func (c *Contract) Bootstrap(
 	ctx common.TxCtxInterface,
 	req *cc.BootstrapRequest,
 ) (res *cc.BootstrapResponse, err error) {
@@ -109,14 +109,14 @@ func (c *NoAuthContract) Bootstrap(
 }
 
 // Test is a function that returns true
-func (c *NoAuthContract) Test(ctx *NoAuthCtx) (bool, error) {
+func (c *Contract) Test(ctx *Ctx) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Test")
 
 	return true, nil
 }
 
 // TestFail is a function that returns false and and error
-func (c *NoAuthContract) TestFail(ctx *NoAuthCtx) (v bool, err error) {
+func (c *Contract) TestFail(ctx *Ctx) (v bool, err error) {
 
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
@@ -128,7 +128,7 @@ func (c *NoAuthContract) TestFail(ctx *NoAuthCtx) (v bool, err error) {
 	return false, e
 }
 
-func (c *NoAuthContract) CreateCollection(
+func (c *Contract) CreateCollection(
 	ctx common.TxCtxInterface,
 	req *cc.CreateCollectionRequest,
 ) (res *cc.CreateCollectionResponse, err error) {

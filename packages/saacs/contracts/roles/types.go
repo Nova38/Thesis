@@ -10,7 +10,7 @@ import (
 )
 
 type (
-	RolesTxCtx struct {
+	TxCtx struct {
 		state.BaseTxCtx
 		UserRoles map[string][]*authpb.Role
 	}
@@ -22,7 +22,7 @@ type (
 
 // type checking
 var (
-	_ common.TxCtxInterface = (*RolesTxCtx)(
+	_ common.TxCtxInterface = (*TxCtx)(
 		nil,
 	) // _ contracts.ItemContractInterface = (*IdentiyContract)(nil)
 	// see if ItemContractImpl implements the interface GenericServiceInterface

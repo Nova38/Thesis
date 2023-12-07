@@ -14,7 +14,7 @@ import (
 // ═════════════════════════════════════════════
 
 type (
-	IdentityTxCtx struct {
+	TxCtx struct {
 		state.BaseTxCtx
 		CollectionMemberships map[string]*authpb.UserMembership
 	}
@@ -24,6 +24,6 @@ type (
 )
 
 var (
-	_ common.TxCtxInterface                               = (*IdentityTxCtx)(nil)
+	_ common.TxCtxInterface                               = (*TxCtx)(nil)
 	_ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*IdentiyContract)(nil)
 )

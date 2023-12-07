@@ -2,9 +2,14 @@ package state
 
 import (
 	"encoding/json"
+	"log/slog"
+	"strconv"
 
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/thesis/packages/saacs/common"
+	"github.com/samber/lo"
 	"github.com/samber/oops"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 // UTIL Functions
@@ -20,12 +25,11 @@ func KeyExists(ctx common.TxCtxInterface, key string) bool {
 }
 
 func Exists[T common.ItemInterface](ctx common.TxCtxInterface, obj T) bool {
-	key := obj.StateKey()
-	return KeyExists(ctx, key)
+	return KeyExists(ctx, obj.StateKey())
 }
 
-// Get returns the item from the ledger
-func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
+// GetFromKey returns the item from the ledger
+func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (err error) {
 	bytes, err := ctx.GetStub().GetState(key)
 
 	if bytes == nil && err == nil {
@@ -39,7 +43,61 @@ func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (
 	}
 
 	if err = json.Unmarshal(bytes, obj); err != nil {
-		return oops.Wrap(err)
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
+	}
+
+	return nil
+}
+
+// Get returns the item from the ledger
+func Get[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+
+	bytes, err := ctx.GetStub().GetState(obj.StateKey())
+
+	if bytes == nil && err == nil {
+		return oops.
+			With(
+				"Key", obj.StateKey(),
+				"ItemType", obj.ItemType(),
+				"ItemKey", obj.ItemKey(),
+			).
+			Wrap(common.KeyNotFound)
+	} else if err != nil {
+		return oops.
+			With(
+				"Key", obj.StateKey(),
+				"ItemType", obj.ItemType(),
+				"ItemKey", obj.ItemKey(),
+			).
+			Wrap(err)
+	}
+
+	if err = json.Unmarshal(bytes, obj); err != nil {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
+	}
+
+	return nil
+}
+
+func Insert[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
+	if exists := Exists(ctx, obj); exists {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(common.AlreadyExists)
+	}
+
+	if err := Put[T](ctx, obj); err != nil {
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
 	}
 
 	return nil
@@ -49,21 +107,30 @@ func Get[T common.ItemInterface](ctx common.TxCtxInterface, key string, obj T) (
 func Put[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 
 	if bytes, err := json.Marshal(obj); err != nil {
-		return oops.Wrap(err)
+		return oops.Hint("Failed to Marshal").With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
 	} else {
 		err := ctx.GetStub().PutState(obj.StateKey(), bytes)
 		if err != nil {
-			return err
+			return oops.With(
+				"Key", obj.StateKey(),
+				"ItemType", obj.ItemType(),
+			).Wrap(err)
 		}
 	}
-
 	return nil
 }
+
 func Delete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 	key := obj.StateKey()
 
 	if err = ctx.GetStub().DelState(key); err != nil {
-		return oops.Wrap(err)
+		return oops.With(
+			"Key", obj.StateKey(),
+			"ItemType", obj.ItemType(),
+		).Wrap(err)
 	}
 
 	return nil
@@ -87,83 +154,75 @@ func Delete[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error
 // GetPartialKeyList returns a list of items of type T
 // T must implement StateItem interface
 // numAttr is the number of attributes in the key to search for
-// func (l *Ledger[T]) GetPartialKeyList(
-// 	obj T,
-// 	numAttr int,
-// 	bookmark string,
-// ) (list []*T, mk string, err error) {
-// 	// obj = []*T{}
-// 	l.ctx.GetLogger().Info("GetPartialKeyList")
+func GetPartialKeyList[T common.ItemInterface](
+	ctx common.TxCtxInterface,
+	obj T,
+	numAttr int,
+	bookmark string,
+) (list []T, mk string, err error) {
+	// obj = []*T{}
+	ctx.GetLogger().Info("GetPartialKeyList")
 
-// 	var (
-// 		itemtype = obj.ItemType()
-// 		attr     = obj.KeyAttr()
-// 	)
+	var (
+		itemtype = obj.ItemType()
+		attr     = obj.KeyAttr()
+	)
 
-// 	if len(attr) == 0 || len(attr) < numAttr {
-// 		return nil, "", common.ItemInvalid
-// 	}
+	if len(attr) == 0 || len(attr) < numAttr {
+		return nil, "", oops.Wrap(common.ItemInvalid)
+	}
 
-// 	// Extract the attributes to search for
-// 	// attr = attr[:len(attr)-numAttr]
-// 	attr = lo.DropRight(attr, numAttr)
+	// Extract the attributes to search for
+	attr = lo.DropRight(attr, numAttr)
 
-// 	l.ctx.GetLogger().
-// 		Info("GetPartialKeyList",
-// 			slog.Group(
-// 				"Key", "ItemType", itemtype,
-// 				slog.Int("numAttr", numAttr),
-// 				slog.Any("attr", attr),
-// 				slog.Group(
-// 					"Paged",
-// 					"Bookmark", bookmark,
-// 					"PageSize", strconv.Itoa(int(l.ctx.GetPageSize())),
-// 				),
-// 			),
-// 		)
+	ctx.GetLogger().
+		Debug("GetPartialKeyList",
+			slog.Group(
+				"Key", "ItemType", itemtype,
+				slog.Int("numAttr", numAttr),
+				slog.Any("attr", attr),
+				slog.Group(
+					"Paged",
+					"Bookmark", bookmark,
+					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
+				),
+			),
+		)
 
-// 	results, meta, err := l.ctx.GetStub().
-// 		GetStateByPartialCompositeKeyWithPagination(
-// 			obj.ItemKey().GetItemType(),
-// 			attr,
-// 			l.ctx.GetPageSize(),
-// 			bookmark,
-// 		)
-// 	if err != nil {
-// 		return nil, "", err
-// 	}
-// 	defer func(results shim.StateQueryIteratorInterface) {
-// 		err := results.Close()
-// 		if err != nil {
-// 			l.ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
-// 		}
-// 	}(results)
+	results, meta, err := ctx.GetStub().
+		GetStateByPartialCompositeKeyWithPagination(
+			obj.ItemKey().GetItemType(),
+			attr,
+			ctx.GetPageSize(),
+			bookmark,
+		)
+	if err != nil {
+		return nil, "", err
+	}
+	defer func(results shim.StateQueryIteratorInterface) {
+		err := results.Close()
+		if err != nil {
+			ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
+		}
+	}(results)
 
-// 	for results.HasNext() {
-// 		queryResponse, err := results.Next()
-// 		if err != nil {
-// 			return nil, "", oops.Wrapf(err, "Error getting next item")
-// 		}
+	for results.HasNext() {
+		var tmpObj T
 
-// 		if queryResponse == nil {
-// 			return nil, "", oops.Errorf("queryResponse is nil")
-// 		}
+		queryResponse, err := results.Next()
+		if err != nil || queryResponse == nil {
+			return nil, "", oops.Wrapf(err, "Error getting next item")
+		}
 
-// 		var tmpObj T
+		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
+			return nil, "", oops.Wrap(err)
+		}
 
-// 		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
-// 		// 	return nil, "", oops.Wrap(err)
-// 		// }
+		list = append(list, tmpObj)
+	}
 
-// 		if err = protojson.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
-// 			return nil, "", oops.Wrap(err)
-// 		}
-
-// 		list = append(list, &obj)
-// 	}
-
-// 	return list, meta.GetBookmark(), nil
-// }
+	return list, meta.GetBookmark(), nil
+}
 
 // ════════════════════════════════════════════════════════
 // Raw Functions

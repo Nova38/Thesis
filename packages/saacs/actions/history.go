@@ -28,11 +28,6 @@ func GetHiddenTxs[T common.ItemInterface](
 		return nil, "", nil
 	}
 
-	// state, err := ctx.GetStub().GetState(key)
-	// if err != nil {
-	// 	return nil, key, err
-	// }
-
 	list = &authpb.HiddenTxList{
 		PrimaryKey: &authpb.ItemKey{
 			CollectionId: obj.ItemKey().GetCollectionId(),
@@ -48,7 +43,7 @@ func GetHiddenTxs[T common.ItemInterface](
 		list.GetPrimaryKey().GetItemKeyParts(),
 		obj.ItemKey().GetItemKeyParts()...)
 
-	if err := state.Get(ctx, list.StateKey(), list); err != nil {
+	if err := state.GetFromKey(ctx, list.StateKey(), list); err != nil {
 		return nil, key, oops.Wrap(err)
 	}
 

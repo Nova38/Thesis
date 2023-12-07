@@ -1,22 +1,25 @@
 package common
 
 import (
-	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
+	"encoding/json"
+	"reflect"
+
+	"github.com/samber/lo"
 )
 
 // ──────────────────────────────── Item Utils ──────────────────────────────────────────
-func CloneItemWithKey[T ItemInterface](item T) (clone T, err error) {
-	clone, ok := proto.Clone(item).(T)
+
+func NewItem[T any]() T {
+	var i T
+	item, ok := reflect.New(reflect.TypeOf(i).Elem()).Interface().(T)
 	if !ok {
-		return clone, oops.
-			With("Base Object", item).
-			Errorf("Error cloning object")
+		panic("not ok")
 	}
+	return item
+}
 
-	proto.Reset(clone)
-
-	clone.SetKey(item.ItemKey())
-
-	return clone, nil
+func UnmarshalNew[T any](bytes []byte) (item T, err error) {
+	value := new(T)
+	err = json.Unmarshal(bytes, value)
+	return lo.FromPtr(value), err
 }

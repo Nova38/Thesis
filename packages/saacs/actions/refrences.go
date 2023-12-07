@@ -333,25 +333,16 @@ func referencedObjectsExist(
 ) (exists bool, err error) {
 	// See if the objects exist
 
-	err1, ok := lo.TryWithErrorValue(func() error {
+	k1 := common.MakeStateKey(reference.GetKey1())
+	k2 := common.MakeStateKey(reference.GetKey1())
 
-		k1 := common.MakeStateKey(reference.GetKey1())
-		k2 := common.MakeStateKey(reference.GetKey1())
-
-		if !state.KeyExists(ctx, k1) || !state.KeyExists(ctx, k2) {
-			ctx.GetLogger().
-				Info("Items with given keys does not exist", slog.Group("keys", "Key1", k1, "Key2", k2))
-			return oops.Wrap(common.KeyNotFound)
-		}
-
-		return nil
-	})
-
-	if err, errOk := err1.(oops.OopsError); !errOk {
-		return false, oops.Wrap(err)
+	if !state.KeyExists(ctx, k1) || !state.KeyExists(ctx, k2) {
+		ctx.GetLogger().
+			Info("Items with given keys does not exist", slog.Group("keys", "Key1", k1, "Key2", k2))
+		return false, oops.Wrap(common.KeyNotFound)
 	}
 
-	return ok, oops.Wrap(err)
+	return true, oops.Wrap(err)
 }
 
 // referenceGetPacked gets the referenced objects for the given reference key
@@ -365,14 +356,14 @@ func referenceGetPacked(
 		return nil, oops.Wrap(err)
 	}
 
-	if err := state.Get(ctx, item1.StateKey(), item1); err != nil {
+	if err := state.GetFromKey(ctx, item1.StateKey(), item1); err != nil {
 		ctx.GetLogger().Error("Error getting item1",
 			slog.Any("ref", ref),
 			slog.Group("item1", item1))
 		return nil, oops.With("ref", ref).Wrap(err)
 	}
 
-	if err := state.Get(ctx, item2.StateKey(), item2); err != nil {
+	if err := state.GetFromKey(ctx, item2.StateKey(), item2); err != nil {
 		ctx.GetLogger().Error("Error getting item1",
 			slog.Any("ref", ref),
 			slog.Group("item1", item2))

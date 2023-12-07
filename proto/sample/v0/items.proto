@@ -4,7 +4,6 @@ package sample;
 
 import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
-import "google/protobuf/timestamp.proto";
 
 message SimpleItem {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;

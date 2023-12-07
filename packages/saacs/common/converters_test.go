@@ -11,13 +11,11 @@ func TestItemKeyToItemType(t *testing.T) {
 	type args struct {
 		key *authpb.ItemKey
 	}
-	tests := []struct {
+	var tests []struct {
 		name     string
 		args     args
 		wantItem ItemInterface
 		wantErr  bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -37,13 +35,11 @@ func TestItemKeyToItem(t *testing.T) {
 	type args struct {
 		key *authpb.ItemKey
 	}
-	tests := []struct {
+	var tests []struct {
 		name     string
 		args     args
 		wantItem ItemInterface
 		wantErr  bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -63,13 +59,11 @@ func TestUnPackItem(t *testing.T) {
 	type args struct {
 		obj *authpb.Item
 	}
-	tests := []struct {
+	var tests []struct {
 		name     string
 		args     args
 		wantItem ItemInterface
 		wantErr  bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -89,13 +83,11 @@ func TestPackItem(t *testing.T) {
 	type args struct {
 		item ItemInterface
 	}
-	tests := []struct {
+	var tests []struct {
 		name    string
 		args    args
 		wantObj *authpb.Item
 		wantErr bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -115,13 +107,11 @@ func TestListItemToProtos(t *testing.T) {
 	type args struct {
 		list []ItemInterface
 	}
-	tests := []struct {
+	var tests []struct {
 		name     string
 		args     args
 		wantObjs []*authpb.Item
 		wantErr  bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -141,13 +131,11 @@ func TestItemToSuggestion(t *testing.T) {
 	type args struct {
 		obj ItemInterface
 	}
-	tests := []struct {
+	var tests []struct {
 		name           string
 		args           args
 		wantSuggestion *authpb.Suggestion
 		wantErr        bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -167,13 +155,11 @@ func TestSuggestionToItem(t *testing.T) {
 	type args struct {
 		s *authpb.Suggestion
 	}
-	tests := []struct {
+	var tests []struct {
 		name    string
 		args    args
 		wantObj ItemInterface
 		wantErr bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -193,14 +179,12 @@ func TestReferenceKeyToItems(t *testing.T) {
 	type args struct {
 		ref *authpb.ReferenceKey
 	}
-	tests := []struct {
+	var tests []struct {
 		name      string
 		args      args
 		wantItem1 ItemInterface
 		wantItem2 ItemInterface
 		wantErr   bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -225,13 +209,11 @@ func TestPackReference(t *testing.T) {
 		item1 ItemInterface
 		item2 ItemInterface
 	}
-	tests := []struct {
+	var tests []struct {
 		name          string
 		args          args
 		wantReference *authpb.Reference
 		wantErr       bool
-	}{
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

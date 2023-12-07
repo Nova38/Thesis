@@ -7,7 +7,7 @@ import (
 	"github.com/samber/oops"
 )
 
-func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
+func (ctx *Ctx) Authorize(ops []*authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info("NoAuthContract.Authenticate")
 
 	collections := map[string]*authpb.Collection{}
@@ -32,13 +32,17 @@ func (ctx *NoAuthCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 		} else {
 			col := &authpb.Collection{CollectionId: op.GetCollectionId()}
 
-			err := state.Ledger[*authpb.Collection]{}.PrimaryGet(ctx, col)
-			if err != nil {
+			if err := state.Get(ctx, col); err != nil {
 				return false, oops.Wrap(err)
 			}
 
 			collections[op.GetCollectionId()] = col
-			policy.ValidateOperation(col, op)
+
+			if valid, err := policy.ValidateOperation(col, op); err != nil {
+				return false, oops.Wrap(err)
+			} else if !valid {
+				return false, nil
+			}
 		}
 	}
 

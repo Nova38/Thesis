@@ -30,7 +30,7 @@ func BeforeTransaction(ctx common.TxCtxInterface) (err error) {
 func BuildContract() *contractapi.ContractChaincode {
 	contract := new(IdentiyContract)
 	contract.BeforeTransaction = BeforeTransaction
-	contract.TransactionContextHandler = new(IdentityTxCtx)
+	contract.TransactionContextHandler = new(TxCtx)
 
 	sm, err := contractapi.NewChaincode(contract)
 	if err != nil {
@@ -64,7 +64,7 @@ func (c *IdentiyContract) Bootstrap(
 	}
 
 	for _, col := range req.GetCollections() {
-		c.CreateCollection(ctx, &cc.CreateCollectionRequest{Collection: col})
+		lo.Must0(c.CreateCollection(ctx, &cc.CreateCollectionRequest{Collection: col}))
 
 	}
 

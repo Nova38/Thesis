@@ -40,6 +40,21 @@ func TestMakePrimaryKeyAttr(t *testing.T) {
 			},
 			wantKey: "\u0000auth.Role\u0000ColId\u0000RoleId\u0000",
 		},
+		{
+			name: "Suggestion Item",
+			args: args{
+				obj: &authpb.Suggestion{
+					PrimaryKey: &authpb.ItemKey{
+						CollectionId: "ColId",
+						ItemType:     "auth.Role",
+						ItemKind:     authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+						ItemKeyParts: []string{"RoleId"},
+					},
+					SuggestionId: "SuggestionId",
+				},
+			},
+			wantKey: "\u0000auth.Suggestion\u0000ColId\u0000auth.Role\u0000RoleId\u0000SuggestionId\u0000",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

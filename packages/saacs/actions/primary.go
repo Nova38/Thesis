@@ -1,18 +1,12 @@
 package actions
 
 import (
-	"log/slog"
-	"strconv"
-
-	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/mennanov/fmutils"
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/state"
 
-	"github.com/samber/lo"
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
@@ -36,7 +30,7 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if err := (state.Ledger[T]{}.PrimaryGet(ctx, obj)); err != nil {
+	if err := state.Get(ctx, obj); err != nil {
 		return oops.Wrap(err)
 	}
 
@@ -73,13 +67,6 @@ func PrimaryGetFull[T common.ItemInterface](
 		return nil, oops.Wrap(err)
 	}
 
-	// // Get the References
-	// refKeys, _, err := ReferencesByItem(ctx, obj.ItemKey(), "")
-	// if err != nil {
-	// 	return nil, oops.Wrap(err)
-	// }
-	// fullItem.References = refKeys
-
 	return fullItem, nil
 }
 
@@ -102,85 +89,7 @@ func PrimaryByPartialKey[T common.ItemInterface](
 		return nil, "", oops.Wrap(common.UserPermissionDenied)
 	}
 
-	var (
-		itemType = obj.ItemType()
-		attr     = obj.KeyAttr()
-	)
-
-	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", common.ItemInvalid
-	}
-
-	// Extract the attributes to search for
-	// attr = attr[:len(attr)-numAttr]
-	attr = lo.DropRight(attr, numAttr)
-
-	ctx.GetLogger().
-		Info("GetPartialKeyList",
-			slog.Group(
-				"Key", "ItemType", itemType,
-				slog.Int("numAttr", numAttr),
-				slog.Any("attr", attr),
-				slog.Group(
-					"Paged",
-					"Bookmark", bookmark,
-					"PageSize", strconv.Itoa(int(ctx.GetPageSize())),
-				),
-			),
-		)
-
-	results, meta, err := ctx.GetStub().
-		GetStateByPartialCompositeKeyWithPagination(
-			obj.ItemKey().GetItemType(),
-			attr,
-			ctx.GetPageSize(),
-			bookmark,
-		)
-	if err != nil {
-		return nil, "", err
-	}
-	defer func(results shim.StateQueryIteratorInterface) {
-		err := results.Close()
-		if err != nil {
-			ctx.GetLogger().Error("GetPartialKeyList", "Error", err)
-		}
-	}(results)
-
-	base, ok := proto.Clone(obj).(T)
-	if !ok {
-		return nil, "", oops.With("Base Object", obj).Errorf("Error cloning object")
-	}
-	proto.Reset(base)
-
-	for results.HasNext() {
-		queryResponse, err := results.Next()
-		if err != nil {
-			return nil, "", oops.Wrapf(err, "Error getting next item")
-		}
-		if queryResponse == nil {
-			return nil, "", oops.Errorf("queryResponse is nil")
-		}
-		if queryResponse.GetValue() == nil {
-			break
-		}
-		// if err := json.Unmarshal(queryResponse.GetValue(), obj); err != nil {
-		// 	return nil, "", oops.Wrap(err)
-		// }
-		// var tmpObj
-		item, ok := proto.Clone(base).(T)
-		if !ok {
-			return nil, "", oops.With("Base Object", base).Errorf("Error cloning object")
-		}
-
-		if err = protojson.Unmarshal(queryResponse.GetValue(), item); err != nil {
-			return nil, "", oops.Wrap(err)
-		}
-
-		list = append(list, item)
-	}
-
-	return list, meta.GetBookmark(), nil
-	// l.GetPartialKeyList(obj, numAttr, bookmark)
+	return state.GetPartialKeyList(ctx, obj, numAttr, bookmark)
 }
 
 func PrimaryList[T common.ItemInterface](
@@ -226,17 +135,11 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if state.KeyExists(ctx, obj.StateKey()) {
-		return oops.
-			With("Key", obj.StateKey(), "ItemType", obj.ItemType()).
-			Wrap(common.AlreadyExists)
-	}
-
 	if err := ctx.PostActionProcessing(obj, ops); err != nil {
 		return oops.Wrap(err)
 	}
 
-	if err := (state.Ledger[T]{}.PrimaryPut(ctx, obj)); err != nil {
+	if err := state.Insert(ctx, obj); err != nil {
 		return oops.Wrap(err)
 	}
 
@@ -267,12 +170,9 @@ func PrimaryUpdate[T common.ItemInterface](
 			Wrap(common.UserPermissionDenied)
 	}
 
-	current, err := common.CloneItemWithKey(obj)
-	if err != nil {
-		return obj, ctx.ErrorBase().Hint("Object Cloning").Wrap(err)
-	}
+	current := common.NewItem[T]()
 
-	if err = (state.Ledger[T]{}.PrimaryGet(ctx, obj)); err != nil {
+	if err = state.Get(ctx, obj); err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
@@ -285,7 +185,7 @@ func PrimaryUpdate[T common.ItemInterface](
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
-	if err = (state.Ledger[T]{}.PrimaryPut(ctx, current)); err != nil {
+	if err = state.Put(ctx, current); err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
 
@@ -349,62 +249,3 @@ func deleteSuggestionsByItem(ctx common.TxCtxInterface, key *authpb.ItemKey) (er
 	}
 	return nil
 }
-
-// func PrimaryDeleteFromKey(ctx TxCtxInterface, key *authpb.ItemKey) (obj *authpb.Item, err error) {
-// 	k, err := MakeItemKeyPrimary(key)
-// 	if err != nil {
-// 		return obj, oops.Wrap(err)
-// 	}
-
-// 	bytes, err := ctx.GetStub().GetState(k)
-
-// 	if bytes == nil && err == nil {
-// 		return nil, oops.Wrap(common.KeyNotFound)
-// 	}
-
-// 	if err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-
-// 	obj = &authpb.Item{}
-// 	if err = json.Unmarshal(bytes, obj); err != nil {
-// 		return nil, oops.Wrap(err)
-// 	}
-
-// 	// obj, err = l.GetFromKey(k)
-// 	// if err != nil {
-// 	// 	return obj, oops.Wrap(err)
-// 	// }
-
-// 	// err = PrimaryDelete(ctx, obj)
-// 	// if err != nil {
-// 	// 	return obj, oops.Wrap(err)
-// 	// }
-
-// 	return obj, nil
-// }
-//
-// func PrimaryGetFromKey[T common.ItemInterface](ctx TxCtxInterface, key *authpb.ItemKey) (obj T, err error) {
-//	l := &Ledger[T]{ctx: ctx}
-//	op := &authpb.Operation{
-//		Action:       authpb.Action_ACTION_VIEW,
-//		CollectionId: key.GetCollectionId(),
-//		ItemType:   key.GetItemType(),
-//		Paths:        nil,
-//	}
-//	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-//		return obj, oops.Wrap(common.UserPermissionDenied)
-//	}
-//
-//	k, err := MakeItemKeyPrimary(key)
-//	if err != nil {
-//		return obj, oops.Wrap(err)
-//	}
-//
-//	obj, err = l.GetFromKey(k)
-//	if err != nil {
-//		return obj, oops.Wrap(err)
-//	}
-//
-//	return obj, l.Get(obj)
-//}

@@ -9,7 +9,7 @@ import (
 	"github.com/samber/oops"
 )
 
-func (ctx *IdentityTxCtx) GetUserMembership(
+func (ctx *TxCtx) GetUserMembership(
 	collectionId string,
 ) (*authpb.UserMembership, error) {
 
@@ -32,8 +32,7 @@ func (ctx *IdentityTxCtx) GetUserMembership(
 		UserId:       user.GetMspId(),
 	}
 
-	err = (state.Ledger[*authpb.UserMembership]{}.PrimaryGet(ctx, membership))
-	if err != nil {
+	if err = state.Get(ctx, membership); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -44,7 +43,7 @@ func (ctx *IdentityTxCtx) GetUserMembership(
 
 // ──────────────────────────────── Query ────────────────────────────────────────
 
-func (ctx *IdentityTxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
+func (ctx *TxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 
 	ctx.GetLogger().Info("NoAuthContract.Authenticate")
 
@@ -60,7 +59,7 @@ func (ctx *IdentityTxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
 	return true, nil
 }
 
-func (ctx *IdentityTxCtx) authorized(op *authpb.Operation) (bool, error) {
+func (ctx *TxCtx) authorized(op *authpb.Operation) (bool, error) {
 	ctx.GetLogger().Info(op.String())
 
 	// Handle special case of creating a collection

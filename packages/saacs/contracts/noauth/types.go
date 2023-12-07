@@ -9,16 +9,16 @@ import (
 )
 
 type (
-	NoAuthContract struct {
+	Contract struct {
 		base.ItemContractImpl
 	}
 
-	NoAuthCtx struct {
+	Ctx struct {
 		state.BaseTxCtx
 	}
 )
 
 var (
-	_ common.TxCtxInterface                               = (*NoAuthCtx)(nil)
-	_ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*NoAuthContract)(nil)
+	_ common.TxCtxInterface                               = (*Ctx)(nil)
+	_ ccpb.GenericServiceInterface[common.TxCtxInterface] = (*Contract)(nil)
 )

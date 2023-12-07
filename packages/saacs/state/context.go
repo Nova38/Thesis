@@ -167,7 +167,7 @@ func (ctx *BaseTxCtx) GetCollection(collectionId string) (col *authpb.Collection
 
 	col = &authpb.Collection{CollectionId: collectionId}
 
-	if err := Get(ctx, col.StateKey(), col); err != nil {
+	if err := GetFromKey(ctx, col.StateKey(), col); err != nil {
 		return nil, oops.Wrap(err)
 	}
 

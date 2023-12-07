@@ -11,7 +11,7 @@ import (
 func (l Ledger[T]) SubItemGet(ctx common.TxCtxInterface, obj T) (err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
-	if err := Get(ctx, obj.StateKey(), obj); err != nil {
+	if err := GetFromKey(ctx, obj.StateKey(), obj); err != nil {
 		return oops.With(
 			"Key", obj.StateKey(),
 			"ItemType", obj.ItemType(),

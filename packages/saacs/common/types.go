@@ -20,6 +20,8 @@ type (
 	ExtractorFunc func(ctx TxCtxInterface, msg interface{}) (interface{}, error)
 
 	ItemInterface interface {
+
+		// KeyAttr - Returns the key attributes for the item
 		KeyAttr() (attr []string)
 		SetKeyAttr(attr []string) int
 
@@ -27,10 +29,21 @@ type (
 		ItemKey() *authpb.ItemKey
 
 		ItemType() string
+
+		// ItemKind - Returns the item kind
+		//
+		// The valid types are:
+		//  - Primary
+		//  - SubItem (Suggestions and HiddenTxLists)
 		ItemKind() authpb.ItemKind
 
+		// KeySchema - Returns the key schema for the item
 		KeySchema() *authpb.KeySchema
 
+		// StateKey - Returns the state key for the item
+		// This is equivalent to calling MakeStateKey on the ItemKey.
+		// It Implements the construction of a composite key just like
+		// the CreateCompositeKey function from the shim package
 		StateKey() string
 
 		proto.Message
