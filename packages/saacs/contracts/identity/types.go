@@ -16,7 +16,7 @@ import (
 type (
 	TxCtx struct {
 		state.BaseTxCtx
-		CollectionMemberships map[string]*authpb.UserMembership
+		CollectionMemberships map[string]*authpb.UserDirectMembership
 	}
 	IdentiyContract struct {
 		contracts.ItemContractImpl

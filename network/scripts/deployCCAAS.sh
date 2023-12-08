@@ -127,22 +127,71 @@ buildDockerImages() {
   fi
 }
 
+buildBaseDocker(){
+    if [ "$CCAAS_DOCKER_RUN" = "true" ]; then
+    # build the docker container
+    infoln "Building Chaincode-as-a-Service docker image '${CC_NAME}' '${CC_SRC_PATH}'"
+    infoln "This may take several minutes..."
+    set -x
+    ${CONTAINER_CLI} build -f $CC_SRC_PATH/Dockerfile -t saacs_ccaas:latest --build-arg CC_SERVER_PORT=9999 ../ >&log.txt
+    res=$?
+    { set +x; } 2>/dev/null
+    cat log.txt
+    verifyResult $res "Docker build of chaincode-as-a-service container failed"
+    successln "Docker image '${CC_NAME}_ccaas_image:latest' built succesfully"
+    fi
+}
+
+
+stopDockerContainer(){
+    if [ "$CCAAS_DOCKER_RUN" = "true" ]; then
+    infoln "stoping the Chaincode-as-a-Service docker container..."
+    ${CONTAINER_CLI} stop peer0org1_${CC_NAME}_ccaas
+    ${CONTAINER_CLI} stop peer0org2_${CC_NAME}_ccaas
+fi
+}
+
+writeDockerRestart(){
+cat > ./cc_restart/${CC_NAME}.sh <<EOF
+#!/bin/bash
+#
+    ${CONTAINER_CLI} stop peer0org1_${CC_NAME}_ccaas
+    ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \
+                    --network fabric_test \
+                    -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
+                    -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
+                    -e AUTH_MODE=${CC_NAME} \
+                    saacs_ccaas:latest
+
+    ${CONTAINER_CLI} stop peer0org2_${CC_NAME}_ccaas
+    ${CONTAINER_CLI} run --rm -d --name peer0org2_${CC_NAME}_ccaas \
+                    --network fabric_test \
+                    -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
+                    -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
+                    -e AUTH_MODE=${CC_NAME} \
+                    saacs_ccaas:latest
+EOF
+
+}
+
 startDockerContainer() {
   # start the docker container
   if [ "$CCAAS_DOCKER_RUN" = "true" ]; then
     infoln "Starting the Chaincode-as-a-Service docker container..."
     set -x
     ${CONTAINER_CLI} run --rm -d --name peer0org1_${CC_NAME}_ccaas  \
-                --network fabric_test \
-                -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
-                -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
-                ${CC_NAME}_ccaas_image:latest
+                    --network fabric_test \
+                    -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
+                    -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
+                    -e AUTH_MODE=${CC_NAME} \
+                    saacs_ccaas:latest
 
-    ${CONTAINER_CLI} run  --rm -d --name peer0org2_${CC_NAME}_ccaas \
-                  --network fabric_test \
-                  -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
-                  -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
-                    ${CC_NAME}_ccaas_image:latest
+    ${CONTAINER_CLI} run --rm -d --name peer0org2_${CC_NAME}_ccaas \
+                    --network fabric_test \
+                    -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
+                    -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
+                    -e AUTH_MODE=${CC_NAME} \
+                    saacs_ccaas:latest
     res=$?
     { set +x; } 2>/dev/null
     cat log.txt
@@ -162,12 +211,12 @@ startDockerContainer() {
                   -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
                   -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
                     ${CC_NAME}_ccaas_image:latest"
-
+    echo
   fi
 }
 
 # Build the docker image
-buildDockerImages
+buildBaseDocker
 
 ## package the chaincode
 packageChaincode
@@ -205,6 +254,10 @@ commitChaincodeDefinition 1 2
 ## query on both orgs to see that the definition committed successfully
 queryCommitted 1
 queryCommitted 2
+
+# Stop the docker containers
+# stopDockerContainer
+writeDockerRestart
 
 # start the container
 startDockerContainer

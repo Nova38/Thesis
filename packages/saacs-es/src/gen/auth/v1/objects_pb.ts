@@ -384,9 +384,9 @@ export class Attribute extends Message<Attribute> {
 /**
  * Membership is used to store permissions for a user in a collection
  *
- * @generated from message auth.UserMembership
+ * @generated from message auth.UserDirectMembership
  */
-export class UserMembership extends Message<UserMembership> {
+export class UserDirectMembership extends Message<UserDirectMembership> {
   /**
    * The collection that the user is a member of
    *
@@ -420,13 +420,13 @@ export class UserMembership extends Message<UserMembership> {
    */
   note = "";
 
-  constructor(data?: PartialMessage<UserMembership>) {
+  constructor(data?: PartialMessage<UserDirectMembership>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "auth.UserMembership";
+  static readonly typeName = "auth.UserDirectMembership";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -435,20 +435,20 @@ export class UserMembership extends Message<UserMembership> {
     { no: 6, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserMembership {
-    return new UserMembership().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserDirectMembership {
+    return new UserDirectMembership().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserMembership {
-    return new UserMembership().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserDirectMembership {
+    return new UserDirectMembership().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserMembership {
-    return new UserMembership().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserDirectMembership {
+    return new UserDirectMembership().fromJsonString(jsonString, options);
   }
 
-  static equals(a: UserMembership | PlainMessage<UserMembership> | undefined, b: UserMembership | PlainMessage<UserMembership> | undefined): boolean {
-    return proto3.util.equals(UserMembership, a, b);
+  static equals(a: UserDirectMembership | PlainMessage<UserDirectMembership> | undefined, b: UserDirectMembership | PlainMessage<UserDirectMembership> | undefined): boolean {
+    return proto3.util.equals(UserDirectMembership, a, b);
   }
 }
 
@@ -1004,6 +1004,13 @@ export class Polices extends Message<Polices> {
    */
   defaultPolicy?: PathPolicy;
 
+  /**
+   * The types that are excluded from the default policy
+   *
+   * @generated from field: repeated string default_excluded_types = 3;
+   */
+  defaultExcludedTypes: string[] = [];
+
   constructor(data?: PartialMessage<Polices>) {
     super();
     proto3.util.initPartial(data, this);
@@ -1014,6 +1021,7 @@ export class Polices extends Message<Polices> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "item_policies", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
     { no: 2, name: "default_policy", kind: "message", T: PathPolicy },
+    { no: 3, name: "default_excluded_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Polices {

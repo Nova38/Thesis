@@ -11,12 +11,12 @@ import (
 func TestUnmarshalPrimary(t *testing.T) {
 	type args struct {
 		bytes []byte
-		// obj   *authpb.UserMembership
+		// obj   *authpb.UserDirectMembership
 	}
 	tests := []struct {
 		name     string
 		args     args
-		wantItem *authpb.UserMembership
+		wantItem *authpb.UserDirectMembership
 		wantErr  bool
 	}{{
 		name: "",
@@ -25,7 +25,7 @@ func TestUnmarshalPrimary(t *testing.T) {
 				`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
 			),
 		},
-		wantItem: &authpb.UserMembership{
+		wantItem: &authpb.UserDirectMembership{
 			CollectionId: "",
 			MspId:        "msp_id",
 			UserId:       "user_id",
@@ -35,7 +35,7 @@ func TestUnmarshalPrimary(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotItem := new(authpb.UserMembership)
+			gotItem := new(authpb.UserDirectMembership)
 
 			err := json.Unmarshal(tt.args.bytes, gotItem)
 			if (err != nil) != tt.wantErr {

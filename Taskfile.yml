@@ -40,6 +40,16 @@ tasks:
   # gen:esImage:
   #   cmd:
 
+  cc:reload:
+    cmds:
+      - go mod tidy
+      - task: build:cc-docker
+      - task: network:ccaas redeploy
+
+
+
+  build:cc-docker:
+    cmd: docker build -t saacs_ccass:latest -f ./packages/saacs/Dockerfile .
 
   build:es-stub:
     cmd: cd ./packages/saacs-es && pnpm run stub

@@ -19,6 +19,8 @@ require (
 
 require (
 	github.com/bufbuild/protovalidate-go v0.4.3
+	github.com/grafana/pyroscope-go v1.0.4
+	github.com/grafana/pyroscope-go/godeltaprof v0.1.4
 	github.com/stretchr/testify v1.8.4
 )
 

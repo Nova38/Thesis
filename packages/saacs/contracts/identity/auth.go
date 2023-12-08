@@ -9,12 +9,12 @@ import (
 	"github.com/samber/oops"
 )
 
-func (ctx *TxCtx) GetUserMembership(
+func (ctx *TxCtx) GetUserDirectMembership(
 	collectionId string,
-) (*authpb.UserMembership, error) {
+) (*authpb.UserDirectMembership, error) {
 
 	if ctx.CollectionMemberships == nil {
-		ctx.CollectionMemberships = make(map[string]*authpb.UserMembership)
+		ctx.CollectionMemberships = make(map[string]*authpb.UserDirectMembership)
 	}
 
 	if membership, ok := ctx.CollectionMemberships[collectionId]; ok {
@@ -26,7 +26,7 @@ func (ctx *TxCtx) GetUserMembership(
 		return nil, err
 	}
 
-	membership := &authpb.UserMembership{
+	membership := &authpb.UserDirectMembership{
 		CollectionId: collectionId,
 		MspId:        user.GetUserId(),
 		UserId:       user.GetMspId(),
@@ -103,7 +103,7 @@ func (ctx *TxCtx) authorized(op *authpb.Operation) (bool, error) {
 	// ═════════════════════════════════════════════
 
 	// Get the user membership
-	membership, err := ctx.GetUserMembership(op.GetCollectionId())
+	membership, err := ctx.GetUserDirectMembership(op.GetCollectionId())
 	if err != nil {
 		return false, oops.Wrap(err)
 	}

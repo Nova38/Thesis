@@ -1360,6 +1360,266 @@ var _ interface {
 	ErrorName() string
 } = GetResponseValidationError{}
 
+// Validate checks the field values on GetFullRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *GetFullRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFullRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in GetFullRequestMultiError,
+// or nil if none found.
+func (m *GetFullRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFullRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetKey()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFullRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFullRequestValidationError{
+					field:  "Key",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetKey()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFullRequestValidationError{
+				field:  "Key",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for ShowHidden
+
+	if len(errors) > 0 {
+		return GetFullRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFullRequestMultiError is an error wrapping multiple validation errors
+// returned by GetFullRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GetFullRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFullRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFullRequestMultiError) AllErrors() []error { return m }
+
+// GetFullRequestValidationError is the validation error returned by
+// GetFullRequest.Validate if the designated constraints aren't met.
+type GetFullRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFullRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFullRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFullRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFullRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFullRequestValidationError) ErrorName() string { return "GetFullRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetFullRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFullRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFullRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFullRequestValidationError{}
+
+// Validate checks the field values on GetFullResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *GetFullResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetFullResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetFullResponseMultiError, or nil if none found.
+func (m *GetFullResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetFullResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetFullItem()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetFullResponseValidationError{
+					field:  "FullItem",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetFullResponseValidationError{
+					field:  "FullItem",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFullItem()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetFullResponseValidationError{
+				field:  "FullItem",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetFullResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetFullResponseMultiError is an error wrapping multiple validation errors
+// returned by GetFullResponse.ValidateAll() if the designated constraints
+// aren't met.
+type GetFullResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetFullResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetFullResponseMultiError) AllErrors() []error { return m }
+
+// GetFullResponseValidationError is the validation error returned by
+// GetFullResponse.Validate if the designated constraints aren't met.
+type GetFullResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetFullResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetFullResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetFullResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetFullResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetFullResponseValidationError) ErrorName() string { return "GetFullResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetFullResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetFullResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetFullResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetFullResponseValidationError{}
+
 // Validate checks the field values on ListRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.

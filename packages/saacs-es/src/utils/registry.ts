@@ -54,7 +54,7 @@ export function build() {
 //     auth_pb.Item,
 //     auth_pb.ItemKey,
 //     auth_pb.KeySchema,
-//     auth_pb.UserMembership,
+//     auth_pb.UserDirectMembership,
 //     auth_pb.Operation,
 //     auth_pb.PathPolicy,
 //     auth_pb.Reference,

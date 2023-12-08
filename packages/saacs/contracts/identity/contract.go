@@ -89,8 +89,22 @@ func (c *IdentiyContract) CreateCollection(
 
 	col.AuthType = v1.AuthType_AUTH_TYPE_IDENTITY
 
+	// Make Sure the auth types are in the collection
+	authTypes := []string{
+		common.CollectionItemType,
+		common.UserDirectMembershipItemType,
+	}
+	col.ItemTypes = append(col.GetItemTypes(), authTypes...)
+	col.ItemTypes = lo.Uniq(col.GetItemTypes()) // Deduplicate the item types
+
+	// Exclude the auth types from the default policy
+	col.Default.DefaultExcludedTypes = append(
+		col.GetDefault().GetDefaultExcludedTypes(),
+		authTypes...)
+	col.Default.DefaultExcludedTypes = lo.Uniq(col.GetDefault().GetDefaultExcludedTypes())
+
 	// Add the auth types to the collection
-	membership := &v1.UserMembership{
+	membership := &v1.UserDirectMembership{
 		CollectionId: col.GetCollectionId(),
 		MspId:        user.GetMspId(),
 		UserId:       user.GetUserId(),
@@ -128,7 +142,7 @@ func (c *IdentiyContract) CreateCollection(
 	if err = (state.Ledger[*v1.Collection]{}.PrimaryCreate(ctx, col)); err != nil {
 		return nil, oops.Wrap(err)
 	}
-	if err = (state.Ledger[*v1.UserMembership]{}.PrimaryCreate(ctx, membership)); err != nil {
+	if err = (state.Ledger[*v1.UserDirectMembership]{}.PrimaryCreate(ctx, membership)); err != nil {
 		return nil, oops.Wrap(err)
 	}
 

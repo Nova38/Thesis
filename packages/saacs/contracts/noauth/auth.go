@@ -7,7 +7,10 @@ import (
 	"github.com/samber/oops"
 )
 
-func (ctx *Ctx) Authorize(ops []*authpb.Operation) (bool, error) {
+func (ctx *Ctx) Authorize(ops []*authpb.Operation) (auth bool, err error) {
+
+	// ────────────────────────────────── profile ──────────────────────────────────────
+
 	ctx.GetLogger().Info("NoAuthContract.Authenticate")
 
 	collections := map[string]*authpb.Collection{}
@@ -17,32 +20,28 @@ func (ctx *Ctx) Authorize(ops []*authpb.Operation) (bool, error) {
 
 		if op.GetItemType() == "auth.Collection" {
 			if op.GetAction() == authpb.Action_ACTION_CREATE {
-				return true, nil
+				auth = true
+				err = nil
+				return
 			}
 		}
 
 		if col, ok := collections[op.GetCollectionId()]; ok {
-			valid, err := policy.ValidateOperation(col, op)
-			if err != nil {
-				return false, oops.Wrap(err)
-			}
-			if !valid {
-				return false, nil
-			}
+			return policy.ValidateOperation(col, op)
+
 		} else {
 			col := &authpb.Collection{CollectionId: op.GetCollectionId()}
 
-			if err := state.Get(ctx, col); err != nil {
-				return false, oops.Wrap(err)
+			if err = state.Get(ctx, col); err != nil {
+				auth = false
+				err = oops.Wrap(err)
+				return
 			}
 
 			collections[op.GetCollectionId()] = col
 
-			if valid, err := policy.ValidateOperation(col, op); err != nil {
-				return false, oops.Wrap(err)
-			} else if !valid {
-				return false, nil
-			}
+			return policy.ValidateOperation(col, op)
+
 		}
 	}
 

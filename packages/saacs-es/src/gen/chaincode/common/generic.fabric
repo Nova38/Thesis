@@ -32,6 +32,13 @@
             {"key":{}}
         ]
     },
+// GetFull GetFullRequest
+    {
+        "invoke": "getFull",
+        "args": [
+            {"key":{}}
+        ]
+    },
 // List ListRequest
     {
         "invoke": "list",

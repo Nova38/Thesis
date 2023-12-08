@@ -99,6 +99,20 @@ func (c *RoleContract) CreateCollection(
 
 	col.AuthType = v1.AuthType_AUTH_TYPE_ROLE
 
+	// Make Sure the auth types are in the collection
+	authTypes := []string{
+		common.CollectionItemType,
+		common.RoleItemType,
+		common.UserCollectionRolesItemType,
+	}
+	col.ItemTypes = append(col.GetItemTypes(), authTypes...)
+	col.ItemTypes = lo.Uniq(col.GetItemTypes()) // Deduplicate the item types
+
+	col.Default.DefaultExcludedTypes = append(
+		col.GetDefault().GetDefaultExcludedTypes(),
+		authTypes...)
+	col.Default.DefaultExcludedTypes = lo.Uniq(col.GetDefault().GetDefaultExcludedTypes())
+
 	// Add the auth types to the collection
 	role := &v1.Role{
 		CollectionId: col.GetCollectionId(),
@@ -127,6 +141,7 @@ func (c *RoleContract) CreateCollection(
 					v1.Action_ACTION_REFERENCE_VIEW,
 				},
 			},
+			// Exclude the auth types from the default policy
 		},
 		Note:          "Default Admin Role",
 		ParentRoleIds: []string{},

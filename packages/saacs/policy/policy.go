@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+	"github.com/samber/lo"
 )
 
 func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error) {
@@ -25,6 +26,13 @@ func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error
 	// Fallback to the default policy if their is one.
 	//  Check the default policy to see if their is a general perm that satisfies the request
 	if policy.GetDefaultPolicy() != nil {
+		if policy.GetDefaultExcludedTypes() != nil {
+			if lo.Contains(policy.GetDefaultExcludedTypes(), op.GetItemType()) {
+				slog.Debug("Operation is not allowed on default policy")
+				return false, nil
+			}
+
+		}
 		if AuthorizePathPolicy(policy.GetDefaultPolicy(), op) {
 			slog.Debug("Operation is allowed on default policy")
 			return true, nil

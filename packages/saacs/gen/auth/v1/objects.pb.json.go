@@ -104,7 +104,7 @@ func (msg *Attribute) UnmarshalJSON(b []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler
-func (msg *UserMembership) MarshalJSON() ([]byte, error) {
+func (msg *UserDirectMembership) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
@@ -113,7 +113,7 @@ func (msg *UserMembership) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *UserMembership) UnmarshalJSON(b []byte) error {
+func (msg *UserDirectMembership) UnmarshalJSON(b []byte) error {
 	return protojson.UnmarshalOptions{
 		DiscardUnknown: false,
 	}.Unmarshal(b, msg)

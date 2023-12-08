@@ -178,18 +178,18 @@ func (m *Role) StateKey() string {
 // paths:"msp_id" paths:"oid" paths:"role_id"
 
 // ──────────────────────────────────────────────────
-// auth.UserMembership
+// auth.UserDirectMembership
 // Primary Item
 
 // Domain Item
-func (m *UserMembership) SetKey(key *ItemKey) {
+func (m *UserDirectMembership) SetKey(key *ItemKey) {
 	m.SetKeyAttr(key.ItemKeyParts)
 	m.CollectionId = key.GetCollectionId()
 	return
 }
 
 // SetKeyAttr - Sets the key attributes, returns the number of extra attributes
-func (m *UserMembership) SetKeyAttr(attr []string) int {
+func (m *UserDirectMembership) SetKeyAttr(attr []string) int {
 	if len(attr) > 0 {
 		m.MspId = attr[0]
 	} else {
@@ -203,32 +203,32 @@ func (m *UserMembership) SetKeyAttr(attr []string) int {
 	return len(attr) - 2
 }
 
-func (m *UserMembership) ItemKey() *ItemKey {
+func (m *UserDirectMembership) ItemKey() *ItemKey {
 	key := &ItemKey{
 		CollectionId: m.GetCollectionId(),
 		ItemKind:     2,
-		ItemType:     "auth.UserMembership",
+		ItemType:     "auth.UserDirectMembership",
 		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
 }
 
-func (m *UserMembership) KeyAttr() []string {
+func (m *UserDirectMembership) KeyAttr() []string {
 	attr := []string{}
 	attr = append(attr, m.GetMspId())
 	attr = append(attr, m.GetUserId())
 	return attr
 }
 
-func (m *UserMembership) ItemKind() ItemKind {
+func (m *UserDirectMembership) ItemKind() ItemKind {
 	return ItemKind_ITEM_KIND_PRIMARY_ITEM
 }
 
-func (m *UserMembership) ItemType() string {
-	return "auth.UserMembership"
+func (m *UserDirectMembership) ItemType() string {
+	return "auth.UserDirectMembership"
 }
 
-func (m *UserMembership) KeySchema() *KeySchema {
+func (m *UserDirectMembership) KeySchema() *KeySchema {
 	return &KeySchema{
 		ItemKind: ItemKind_ITEM_KIND_PRIMARY_ITEM,
 		Properties: &fieldmaskpb.FieldMask{Paths: []string{
@@ -244,7 +244,7 @@ func (m *UserMembership) KeySchema() *KeySchema {
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
 
-func (m *UserMembership) StateKey() string {
+func (m *UserDirectMembership) StateKey() string {
 
 	const sep = string(rune(0))
 
@@ -259,10 +259,10 @@ func (m *UserMembership) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "auth.UserMembership" + sep + collectionId + sep
+		k := sep + "auth.UserDirectMembership" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "auth.UserMembership" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "auth.UserDirectMembership" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }

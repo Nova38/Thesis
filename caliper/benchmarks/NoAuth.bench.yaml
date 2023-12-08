@@ -26,68 +26,68 @@ test:
 
   - label: CreateItem
     contractId: noauth
-    txNumber: 200
+    txNumber: 2000
     rateControl:
       type: fixed-rate
-      opts: { tps: 10 }
+      opts: { tps: 30 }
     workload:
       module: benchmarks/workloads/auth/noauth/Create.js
       arguments: &ItemSettings
         contractId: noauth
         numCollections: 10
-        perCollection: 20
+        perCollection: 2000
         type: simple
 
 
-  # - label: GetItem
-  #   contractId: noauth
-  #   txNumber: 200
-  #   rateControl:
-  #     type: fixed-rate
-  #     opts: { tps: 10 }
-  #   workload:
-  #     module: benchmarks/workloads/auth/noauth/Get.js
-  #     arguments: *ItemSettings
+  - label: GetItem
+    contractId: noauth
+    txNumber: 200
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 30 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Get.js
+      arguments: *ItemSettings
 
 
-  # - label: CreateBook
-  #   contractId: noauth
-  #   txNumber: 200
-  #   rateControl:
-  #     type: fixed-rate
-  #     opts: { tps: 10 }
-  #   workload:
-  #     module: benchmarks/workloads/auth/noauth/Create.js
-  #     arguments: &BookSettings
-  #       contractId: noauth
-  #       type: book
-  #       numCollections: 10
-  #       perCollection: 20
+  - label: CreateBook
+    contractId: noauth
+    txNumber: 200
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 30 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Create.js
+      arguments: &BookSettings
+        contractId: noauth
+        type: book
+        numCollections: 10
+        perCollection: 200
 
 
-  # - label: GetBook
-  #   contractId: noauth
-  #   txNumber: 200
-  #   rateControl:
-  #     type: fixed-rate
-  #     opts: { tps: 5 }
-  #   workload:
-  #     module: benchmarks/workloads/auth/noauth/Get.js
-  #     arguments: *BookSettings
+  - label: GetBook
+    contractId: noauth
+    txNumber: 2000
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 30 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/Get.js
+      arguments: *BookSettings
 
 
 
-  # - label: TestTx
-  #   contractId: noauth
-  #   txDuration: 20
-  #   rateControl:
-  #     type: fixed-rate
-  #     opts: { tps: 1 }
-  #   workload:
-  #     module: benchmarks/workloads/auth/noauth/test.js
-  #     arguments:
-  #       contractId: noauth
-  #       failRate: 50
+  - label: TestTx
+    contractId: noauth
+    txDuration: 20
+    rateControl:
+      type: fixed-rate
+      opts: { tps: 10 }
+    workload:
+      module: benchmarks/workloads/auth/noauth/test.js
+      arguments:
+        contractId: noauth
+        failRate: 50
 
 
 
@@ -131,41 +131,31 @@ monitors:
         bar:
             metrics: [all]
       metrics:
-        include: [.*noauth_ccaas, couch, peer, orderer]
+        include: [.*]
         queries:
-        - name: Avg Memory (MB)
-          query: 'sum(container_memory_rss{name=~".+"}) by (name)'
-          step: 10
-          label: name
-          statistic: avg
-          multiplier: 0.000001
-        - name:   CPU (%)
-          query: sum(rate(container_cpu_usage_seconds_total{name=~".+"}[1m])) by (name)
-          step: 10
-          label: name
-          statistic: avg
-          multiplier: 100
-        - name: Network In (MB)
-          query: sum(rate(container_network_receive_bytes_total{name=~".+"}[1m])) by (name)
-          step: 10
-          label: name
-          statistic: sum
-          multiplier: 0.000001
-        - name: Network Out (MB)
-          query: sum(rate(container_network_transmit_bytes_total{name=~".+"}[1m])) by (name)
-          step: 10
-          label: name
-          statistic: sum
-          multiplier: 0.000001
-        - name: Disc Write (MB)
-          query: sum(rate(container_fs_writes_bytes_total{name=~".+"}[1m])) by (name)
-          step: 10
-          label: name
-          statistic: sum
-          multiplier: 0.000001
-        - name: Disc Read (MB)
-          query: sum(rate(container_fs_reads_bytes_total{name=~".+"}[1m])) by (name)
-          step: 10
-          label: name
-          statistic: sum
-          multiplier: 0.000001
+          - name: Avg Shim Requests
+            query: 'avg(chaincode_shim_requests_received{chaincode=~"noauth.*"}) by (type)'
+            step: 1
+            label: type
+            statistic: avg
+            multiplier: 1
+          - name: Min Shim Request Duration
+            query: min(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
+            step: 1
+            label: type
+            statistic: min
+          - name: Max Shim Request Duration
+            query: max(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
+            step: 1
+            label: type
+            statistic: max
+          - name: Avg Shim Request Duration
+            query: avg(chaincode_shim_request_duration{chaincode=~"noauth.*"})
+            step: 1
+            label: instance
+            statistic: avg
+          - name: Avg Shim Request Duration by type
+            query: avg(chaincode_shim_request_duration_bucket{chaincode=~"noauth.*"})  by (type)
+            step: 1
+            label: type
+            statistic: avg

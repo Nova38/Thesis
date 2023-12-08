@@ -35,7 +35,7 @@ var _ = map[string]authpb.Operation{
 	"Edit User Membership": {
 		Action:       authpb.Action_ACTION_REFERENCE_CREATE,
 		CollectionId: "collection_id",
-		ItemType:     "auth.UserMembership",
+		ItemType:     "auth.UserDirectMembership",
 		Paths:        &fieldmaskpb.FieldMask{},
 	},
 }

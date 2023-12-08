@@ -19,6 +19,13 @@ import "auth/v1/auth.proto";
 // Specimen
 // ────────────────────────────────────────────────--
 
+message Researcher {
+  string first_name = 1;
+  string last_name = 2;
+  string middle_name = 3;
+}
+
+
 message Specimen {
 
   option (auth.key_schema).properties   = {paths: ["specimen_id"]};
@@ -30,7 +37,7 @@ message Specimen {
     string field_number                       = 3;
     string tissue_number                      = 4;
     string cataloger                          = 5;
-    string collector                          = 6;
+    repeated Researcher collector             = 6;
     string determiner                         = 7;
     google.protobuf.Timestamp field_date      = 8;
     google.protobuf.Timestamp catalog_date    = 9;
@@ -109,8 +116,6 @@ message Specimen {
   map<string, Image> images         = 7  ;
   map<string, Loan> loans           = 10 ;
   map<string, Grant> grants         = 11 ;
-
-
 }
 
 

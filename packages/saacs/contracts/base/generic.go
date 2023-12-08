@@ -109,10 +109,38 @@ func (o ItemContractImpl) Get(
 	}
 }
 
+func (o ItemContractImpl) GetFull(
+	ctx common.TxCtxInterface,
+	req *cc.GetFullRequest,
+) (res *cc.GetFullResponse, err error) {
+
+	// Validate the request
+	if err = ctx.Validate(req); err != nil {
+		ctx.LogError(err)
+		return nil, oops.Wrap(err)
+	}
+
+	item, err := common.ItemKeyToItemType(req.GetKey())
+	if err != nil {
+		ctx.LogError(err)
+		return nil, oops.Wrap(err)
+	}
+
+	full, err := actions.PrimaryGetFull(ctx, item, req.GetShowHidden())
+	if err != nil {
+		ctx.LogError(err)
+		return nil, oops.Wrap(err)
+	}
+
+	return &cc.GetFullResponse{FullItem: full}, nil
+
+}
+
 func (o ItemContractImpl) List(
 	ctx common.TxCtxInterface,
 	req *cc.ListRequest,
 ) (res *cc.ListResponse, err error) {
+
 	// Validate the request
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
