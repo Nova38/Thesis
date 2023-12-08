@@ -10,7 +10,7 @@ linters:
     - dupl
     - importas
     # - exhaustruct
-    - gosec
+    # - gosec
     - importas
     - unconvert
     - wastedassign

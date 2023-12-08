@@ -6,6 +6,11 @@ const (
 	HiddenItemType     = "auth.HiddenTxList"
 	SuggestionItemType = "auth.Suggestion"
 	ReferenceItemType  = "auth.Reference"
+	CollectionItemType = "auth.Collection"
+
+	RoleItemType                 = "auth.Role"
+	UserDirectMembershipItemType = "auth.UserDirectMembership"
+	UserCollectionRolesItemType  = "auth.UserCollectionRoles"
 
 	BootstrapKey = "bootstrap"
 

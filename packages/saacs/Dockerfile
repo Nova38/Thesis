@@ -14,7 +14,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/noauth -v ./packages/saacs/contracts/noauth/bin/main.go
+RUN go build -o saacs -v ./packages/saacs/bin/main.go
 
 
 
@@ -22,8 +22,8 @@ FROM golang:1.21.4-bookworm
 
 WORKDIR /
 
-COPY --from=builder /bin/ .
+COPY --from=builder / .
 
 EXPOSE 9999
 # CMD [ "/bin/sh" ]
-CMD ["./noauth"]
+CMD ["./saacs"]

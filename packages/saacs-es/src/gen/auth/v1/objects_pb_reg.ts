@@ -1,4 +1,4 @@
-import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, PathPolicy, Polices, Reference, ReferenceKey, Role, Suggestion, UserCollectionRoles, UserMembership } from "./objects_pb.js";
+import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, PathPolicy, Polices, Reference, ReferenceKey, Role, Suggestion, UserCollectionRoles, UserDirectMembership } from "./objects_pb.js";
 
 export const allMessages = [
   ItemKey, 
@@ -7,7 +7,7 @@ export const allMessages = [
   Collection, 
   Role, 
   Attribute, 
-  UserMembership, 
+  UserDirectMembership, 
   UserCollectionRoles, 
   Suggestion, 
   HiddenTx, 

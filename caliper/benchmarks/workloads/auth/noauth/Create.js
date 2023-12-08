@@ -88,13 +88,13 @@ class CreateWorkload extends WorkloadModuleBase {
 
 
         let colNum = hlf.utils.factory.randomInt(this.numCollections);
-        logger.info('colNum', colNum);
+        // logger.info('colNum', colNum);
         // logger.info('this.ColMap[colNum]', this.ColMap[colNum]);
-        logger.info(`Next Number ${this.nextNumByCol[colNum]}`)
+        // logger.info(`Next Number ${this.nextNumByCol[colNum]}`)
         // logger.info(`Next Number ${this.nextNumByCol[colNum]}`)
 
         let obj = this.ColMap[colNum][this.nextNumByCol[colNum]];
-        logger.info('obj', obj);
+        // logger.info('obj', obj);
 
         this.nextNumByCol[colNum] = this.nextNumByCol[colNum] + 1
         if (this.nextNumByCol[colNum] >= this.perCollection)
@@ -104,11 +104,11 @@ class CreateWorkload extends WorkloadModuleBase {
 
 
         let arg = hlf.utils.factory.ToCreateRequestString(obj);
-        logger.info('arg', arg);
+        // logger.info('arg', arg);
 
 
         // logger.info('this', this)
-        logger.info('arg', arg);
+        // logger.info('arg', arg);
 
         /** @type {PeerGateway.FabricRequestSettings}*/
         const myArgs = {

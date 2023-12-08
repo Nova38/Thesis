@@ -5,7 +5,7 @@ tasks:
       - echo "Bootstrapping no auth..."
       -  pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.boot.yaml -caliper-report-path=./out/noauth/boot-report.html
 
-  launch:noauth:
+  bench:noauth:
     cmds:
       - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.bench.yaml  --caliper-report-path=./out/noauth/bench-report.html
   test:

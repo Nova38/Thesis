@@ -1,4 +1,4 @@
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 export const allMessages = [
   GetCurrentUserResponse, 
@@ -11,6 +11,8 @@ export const allMessages = [
   CreateCollectionResponse, 
   GetRequest, 
   GetResponse, 
+  GetFullRequest, 
+  GetFullResponse, 
   ListRequest, 
   ListResponse, 
   ListByCollectionRequest, 

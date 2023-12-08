@@ -169,7 +169,7 @@ service GenericService {
     bool registered = 2;
 
     repeated auth.UserCollectionRoles user_collection_roles = 3;
-    repeated auth.UserMembership user_memberships = 4;
+    repeated auth.UserDirectMembership user_memberships = 4;
   }
 
   message AuthorizeOperationRequest {
@@ -228,6 +228,11 @@ message GetFullRequest {
   auth.ItemKey key = 1;
   bool show_hidden = 2;
 }
+message GetFullResponse {
+  auth.FullItem full_item = 1;
+}
+
+
 
 // List of a type
 message ListRequest {

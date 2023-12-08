@@ -8,6 +8,55 @@ import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
 
 /**
+ * @generated from message ccbio.schema.v0.Researcher
+ */
+export class Researcher extends Message<Researcher> {
+  /**
+   * @generated from field: string first_name = 1;
+   */
+  firstName = "";
+
+  /**
+   * @generated from field: string last_name = 2;
+   */
+  lastName = "";
+
+  /**
+   * @generated from field: string middle_name = 3;
+   */
+  middleName = "";
+
+  constructor(data?: PartialMessage<Researcher>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v0.Researcher";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "first_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "last_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "middle_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Researcher {
+    return new Researcher().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Researcher {
+    return new Researcher().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Researcher {
+    return new Researcher().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Researcher | PlainMessage<Researcher> | undefined, b: Researcher | PlainMessage<Researcher> | undefined): boolean {
+    return proto3.util.equals(Researcher, a, b);
+  }
+}
+
+/**
  * @generated from message ccbio.schema.v0.Specimen
  */
 export class Specimen extends Message<Specimen> {
@@ -122,9 +171,9 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   cataloger = "";
 
   /**
-   * @generated from field: string collector = 6;
+   * @generated from field: repeated ccbio.schema.v0.Researcher collector = 6;
    */
-  collector = "";
+  collector: Researcher[] = [];
 
   /**
    * @generated from field: string determiner = 7;
@@ -169,7 +218,7 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
     { no: 3, name: "field_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "tissue_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "cataloger", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "collector", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "collector", kind: "message", T: Researcher, repeated: true },
     { no: 7, name: "determiner", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 8, name: "field_date", kind: "message", T: Timestamp },
     { no: 9, name: "catalog_date", kind: "message", T: Timestamp },

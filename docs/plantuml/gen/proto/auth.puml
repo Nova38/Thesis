@@ -276,7 +276,7 @@ namespace Auth_Protobuf {
         + ItemKey() *ItemKey
     }
 
-    class UserMembership << (S,Aquamarine) >> {
+    class UserDirectMembership << (S,Aquamarine) >> {
 
 
         + CollectionId string

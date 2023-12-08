@@ -31,21 +31,21 @@ tasks:
       - bash -c "./network.sh down"
   t:
     cmd: bash -c "ls -l ../apps/chaincode/auth/noauth"
-  noauth:debug:
-    cmds:
-      # - pwd
-      # - bash -c "ls -l ../"
-      - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth -ccaasdocker false"
 
-  noauth:deploy:
-    cmds:
-      - bash -c "pwd"
-
-      - bash -c "./network.sh deployCCAAS -ccn test -ccp ../apps/chaincode/auth/noauth"
 
   ccaas:multi:
 
     cmds:
       - for: ["noauth", "noauth-no-sub","identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
-        cmd: bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp ../packages/saacs/contracts/{{ .ITEM }}/ "
+        cmd: bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp ../packages/saacs/ "
+
+
+  build:cc:
+    cmd: docker build -t saacs_ccass:latest -f ../packages/saacs/Dockerfile --build-arg CC_SERVER_PORT=9999 ../
+
+  ccaas:redeploy:
+    cmds:
+      - for: ["noauth", "noauth-no-sub","identity", "roles"]
+        # cmd: bash -c "echo {{ .ITEM }}"
+        cmd: bash -c " ./cc_restart/{{ .ITEM }}.sh "

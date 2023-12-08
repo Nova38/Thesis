@@ -3,7 +3,7 @@ logging {
   format = "logfmt"
 }
 
-pyroscope.write "example" {
+pyroscope.write "saacs" {
   // Send metrics to a locally running Pyroscope instance.
   endpoint {
     url = "http://pyroscope:4040"
@@ -15,7 +15,7 @@ pyroscope.write "example" {
     // }
   }
   external_labels = {
-    "env" = "example",
+    "env" = "saacs",
   }
 }
 
@@ -24,11 +24,19 @@ pyroscope.write "example" {
 
 pyroscope.scrape "default_settings" {
   targets    = [
-    { "__address__" = "peer0org1_test_ccaas:6060", "service_name" = "example_service" } ,
+    { "__address__" = "peer0org1_noauth_ccaas:6060",         "service_name" = "noauth_ccaas"},
+    { "__address__" = "peer0org1_noauth-no-sub_ccaas:6060",  "service_name" = "noauth-no-sub_ccaas"},
+    { "__address__" = "peer0org1_roles_ccaas:6060",          "service_name" = "roles_ccaas"},
+    { "__address__" = "peer0org1_identity_ccaas:6060",       "service_name" = "identity_ccaas"},
+    { "__address__" = "peer0org2_noauth_ccaas:6060",         "service_name" = "noauth_ccaas"},
+    { "__address__" = "peer0org2_noauth-no-sub_ccaas:6060",  "service_name" = "noauth-no-sub_ccaas"},
+    { "__address__" = "peer0org2_roles_ccaas:6060",          "service_name" = "roles_ccaas" },
+    { "__address__" = "peer0org2_identity_ccaas:6060",       "service_name" = "identity_ccaas"},
+
   ]
 
 
-  forward_to = [pyroscope.write.example.receiver]
+  forward_to = [pyroscope.write.saacs.receiver]
   profiling_config {
     profile.goroutine {
       enabled = true

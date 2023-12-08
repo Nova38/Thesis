@@ -6,7 +6,7 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import type { JsonValue } from "@bufbuild/protobuf";
 import { Empty, IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
  * @generated from service auth.common.GenericService
@@ -106,6 +106,26 @@ export class GenericServiceClient {
         }
         return promise.then(async (data) =>
              GetResponse.fromJson(data as JsonValue)
+        );
+    }
+
+    /**
+     * @generated from rpc auth.common.GenericService.GetFull
+     */
+    async getFull(request: GetFullRequest, evaluate: boolean ): Promise< GetFullResponse> {
+        if (evaluate) {
+            const promise = this.contract.evaluate(
+                "GetFull",
+                $request.toJsonString(this.jsonWriteOptions)
+            )
+        } else {
+            const promise = this.contract.submit(
+                "GetFull",
+                $request.toJsonString(this.jsonWriteOptions)
+            )
+        }
+        return promise.then(async (data) =>
+             GetFullResponse.fromJson(data as JsonValue)
         );
     }
 

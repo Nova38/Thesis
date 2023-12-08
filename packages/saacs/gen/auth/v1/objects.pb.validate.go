@@ -857,22 +857,22 @@ var _ interface {
 	ErrorName() string
 } = AttributeValidationError{}
 
-// Validate checks the field values on UserMembership with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *UserMembership) Validate() error {
+// Validate checks the field values on UserDirectMembership with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *UserDirectMembership) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on UserMembership with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UserMembershipMultiError,
-// or nil if none found.
-func (m *UserMembership) ValidateAll() error {
+// ValidateAll checks the field values on UserDirectMembership with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UserDirectMembershipMultiError, or nil if none found.
+func (m *UserDirectMembership) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *UserMembership) validate(all bool) error {
+func (m *UserDirectMembership) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -889,7 +889,7 @@ func (m *UserMembership) validate(all bool) error {
 		switch v := interface{}(m.GetPolices()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserMembershipValidationError{
+				errors = append(errors, UserDirectMembershipValidationError{
 					field:  "Polices",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -897,7 +897,7 @@ func (m *UserMembership) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, UserMembershipValidationError{
+				errors = append(errors, UserDirectMembershipValidationError{
 					field:  "Polices",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -906,7 +906,7 @@ func (m *UserMembership) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetPolices()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return UserMembershipValidationError{
+			return UserDirectMembershipValidationError{
 				field:  "Polices",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -917,19 +917,19 @@ func (m *UserMembership) validate(all bool) error {
 	// no validation rules for Note
 
 	if len(errors) > 0 {
-		return UserMembershipMultiError(errors)
+		return UserDirectMembershipMultiError(errors)
 	}
 
 	return nil
 }
 
-// UserMembershipMultiError is an error wrapping multiple validation errors
-// returned by UserMembership.ValidateAll() if the designated constraints
-// aren't met.
-type UserMembershipMultiError []error
+// UserDirectMembershipMultiError is an error wrapping multiple validation
+// errors returned by UserDirectMembership.ValidateAll() if the designated
+// constraints aren't met.
+type UserDirectMembershipMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m UserMembershipMultiError) Error() string {
+func (m UserDirectMembershipMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -938,11 +938,11 @@ func (m UserMembershipMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m UserMembershipMultiError) AllErrors() []error { return m }
+func (m UserDirectMembershipMultiError) AllErrors() []error { return m }
 
-// UserMembershipValidationError is the validation error returned by
-// UserMembership.Validate if the designated constraints aren't met.
-type UserMembershipValidationError struct {
+// UserDirectMembershipValidationError is the validation error returned by
+// UserDirectMembership.Validate if the designated constraints aren't met.
+type UserDirectMembershipValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -950,22 +950,24 @@ type UserMembershipValidationError struct {
 }
 
 // Field function returns field value.
-func (e UserMembershipValidationError) Field() string { return e.field }
+func (e UserDirectMembershipValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e UserMembershipValidationError) Reason() string { return e.reason }
+func (e UserDirectMembershipValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e UserMembershipValidationError) Cause() error { return e.cause }
+func (e UserDirectMembershipValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e UserMembershipValidationError) Key() bool { return e.key }
+func (e UserDirectMembershipValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e UserMembershipValidationError) ErrorName() string { return "UserMembershipValidationError" }
+func (e UserDirectMembershipValidationError) ErrorName() string {
+	return "UserDirectMembershipValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e UserMembershipValidationError) Error() string {
+func (e UserDirectMembershipValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -977,14 +979,14 @@ func (e UserMembershipValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sUserMembership.%s: %s%s",
+		"invalid %sUserDirectMembership.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = UserMembershipValidationError{}
+var _ error = UserDirectMembershipValidationError{}
 
 var _ interface {
 	Field() string
@@ -992,7 +994,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = UserMembershipValidationError{}
+} = UserDirectMembershipValidationError{}
 
 // Validate checks the field values on UserCollectionRoles with the rules
 // defined in the proto definition for this message. If any rules are

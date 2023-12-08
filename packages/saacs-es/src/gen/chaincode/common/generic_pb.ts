@@ -6,7 +6,7 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
 import { Operation, User } from "../../auth/v1/auth_pb.js";
-import { Collection, HiddenTx, HiddenTxList, History, Item, ItemKey, Suggestion, UserCollectionRoles, UserMembership } from "../../auth/v1/objects_pb.js";
+import { Collection, FullItem, HiddenTx, HiddenTxList, History, Item, ItemKey, Suggestion, UserCollectionRoles, UserDirectMembership } from "../../auth/v1/objects_pb.js";
 
 /**
  * @generated from message auth.common.GetCurrentUserResponse
@@ -71,9 +71,9 @@ export class GetCurrentFullUserResponse extends Message<GetCurrentFullUserRespon
   userCollectionRoles: UserCollectionRoles[] = [];
 
   /**
-   * @generated from field: repeated auth.UserMembership user_memberships = 4;
+   * @generated from field: repeated auth.UserDirectMembership user_memberships = 4;
    */
-  userMemberships: UserMembership[] = [];
+  userMemberships: UserDirectMembership[] = [];
 
   constructor(data?: PartialMessage<GetCurrentFullUserResponse>) {
     super();
@@ -86,7 +86,7 @@ export class GetCurrentFullUserResponse extends Message<GetCurrentFullUserRespon
     { no: 1, name: "user", kind: "message", T: User },
     { no: 2, name: "registered", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 3, name: "user_collection_roles", kind: "message", T: UserCollectionRoles, repeated: true },
-    { no: 4, name: "user_memberships", kind: "message", T: UserMembership, repeated: true },
+    { no: 4, name: "user_memberships", kind: "message", T: UserDirectMembership, repeated: true },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCurrentFullUserResponse {
@@ -403,6 +403,86 @@ export class GetResponse extends Message<GetResponse> {
 
   static equals(a: GetResponse | PlainMessage<GetResponse> | undefined, b: GetResponse | PlainMessage<GetResponse> | undefined): boolean {
     return proto3.util.equals(GetResponse, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.GetFullRequest
+ */
+export class GetFullRequest extends Message<GetFullRequest> {
+  /**
+   * @generated from field: auth.ItemKey key = 1;
+   */
+  key?: ItemKey;
+
+  /**
+   * @generated from field: bool show_hidden = 2;
+   */
+  showHidden = false;
+
+  constructor(data?: PartialMessage<GetFullRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.GetFullRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "key", kind: "message", T: ItemKey },
+    { no: 2, name: "show_hidden", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFullRequest {
+    return new GetFullRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFullRequest {
+    return new GetFullRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFullRequest {
+    return new GetFullRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFullRequest | PlainMessage<GetFullRequest> | undefined, b: GetFullRequest | PlainMessage<GetFullRequest> | undefined): boolean {
+    return proto3.util.equals(GetFullRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.common.GetFullResponse
+ */
+export class GetFullResponse extends Message<GetFullResponse> {
+  /**
+   * @generated from field: auth.FullItem full_item = 1;
+   */
+  fullItem?: FullItem;
+
+  constructor(data?: PartialMessage<GetFullResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.GetFullResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "full_item", kind: "message", T: FullItem },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetFullResponse {
+    return new GetFullResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetFullResponse {
+    return new GetFullResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetFullResponse {
+    return new GetFullResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetFullResponse | PlainMessage<GetFullResponse> | undefined, b: GetFullResponse | PlainMessage<GetFullResponse> | undefined): boolean {
+    return proto3.util.equals(GetFullResponse, a, b);
   }
 }
 

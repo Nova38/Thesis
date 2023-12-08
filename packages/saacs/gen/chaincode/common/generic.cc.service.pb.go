@@ -44,6 +44,12 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_VIEW
 	Get(ctx T, req *GetRequest) (res *GetResponse, err error)
 
+	// GetFull
+	//
+	// # Operation:
+	//   - Domain: ACTION_VIEW
+	GetFull(ctx T, req *GetFullRequest) (res *GetFullResponse, err error)
+
 	// List
 	//
 	// # Operation:
@@ -147,6 +153,7 @@ func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 	return []string{
 		"GetCurrentUser",
 		"Get",
+		"GetFull",
 		"List",
 		"ListByCollection",
 		"ListByAttrs",
@@ -176,6 +183,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 			Action: 1,
 		}, nil
 	case "Get":
+		// action:ACTION_VIEW
+		return &v1.Operation{
+			Action: 10,
+		}, nil
+	case "GetFull":
 		// action:ACTION_VIEW
 		return &v1.Operation{
 			Action: 10,
