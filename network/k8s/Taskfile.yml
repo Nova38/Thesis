@@ -1,0 +1,281 @@
+version: 3
+vars:
+  BASE_DOMAIN: localho.st
+  ADMIN_ENROLL_ID: admin
+  NAMESPACE: default
+  CA_NAMESPACE: default
+
+  ORGS: org1 org2
+  PEERS: peer0 peer1
+
+  ENROLL_ID: enroll
+  ENROLL_SECRET: enrollpw
+
+  PEER_CAPACITY: 5Gi
+  CA_CAPACITY: 2Gi
+
+  OUT_DIR: ./out
+
+  SERVICE_PATCH: ./configs/hlf/service-monitor-patch.yaml
+
+tasks:
+  init:kind:
+    cmd: kind create cluster --config=./configs/kind.yaml
+
+  init:prometheus:
+    dir: ./deps/kube-prometheus
+    cmds:
+      - kubectl create -f manifests/setup
+      - kubectl create -f manifests/
+  init:hlf-operator:
+    cmds:
+      - helm repo add kfs https://kfsoftware.github.io/hlf-helm-charts --force-update
+      - helm install hlf-operator --version=1.9.2 -- kfs/hlf-operator
+
+  init:istio:
+    cmds:
+      - kubectl create namespace istio-system
+      - istioctl operator init
+      - kubectl apply -f  ./configs/istio.yaml
+
+  init:dns-config:
+    vars:
+      CLUSTER_IP:
+        sh: kubectl -n istio-system get svc istio-ingressgateway -o json | jq -r .spec.clusterIP
+    cmds:
+      - bash -c "sed 's/{CLUSTER_IP}/{{.CLUSTER_IP}}/g' ./configs/dns.yaml" | kubectl apply -f -
+
+  # _____________________________________________________________
+  # Fabric:Init
+  # _____________________________________________________________
+
+  fabric:init:
+    cmds:
+      - task: fabric:init:orderer
+      - task: fabric:init:orderers
+      - for: { var: ORG, as: ORG }
+        task: fabric:init:org
+        vars:
+          ORG: "{{.ORG}}"
+
+      # - task: fabric:init:channel
+
+
+
+
+  # _____________________________________________________________
+  # Fabric:Install
+  # _____________________________________________________________
+
+  fabric:init:org:
+    requires:
+      vars:
+        - ORG
+    vars:
+      CA_URL: "{{.ORG}}-ca.{{.BASE_DOMAIN}}"
+      CA_NAME: "{{.ORG}}-ca"
+      MSPID: "{{.ORG}}MSP"
+    cmds:
+      - task: fabric:init:ca
+      - task: fabric:init:peers
+
+  fabric:init:orderer:
+    vars:
+      CA_URL: ord-ca.{{.BASE_DOMAIN}}
+      CA_NAME: ord-ca{{.NAMESPACE}}
+    cmds:
+      - task: fabric:create:ca
+        vars:
+          CA_NAME: ord-ca
+
+      - kubectl hlf ordnode create
+        --image=$ORDERER_IMAGE
+        --version=$ORDERER_VERSION
+        --storage-class=standard
+        --enroll-id=orderer
+        --mspid=OrdererMSP
+        --enroll-pw=ordererpw
+        --capacity=2Gi
+        --name=ord-node1
+        --ca-name=ord-ca.default
+        --hosts=orderer0-ord.localho.st
+        --istio-port=443
+
+      - kubectl wait --timeout=180s --all
+        --for=condition=Running
+        fabricorderernodes.hlf.kungfusoftware.es
+
+      - kubectl hlf inspect
+        -o OrdererMSP
+        --output {{.OUT_DIR}}/ordservice/ordservice.yaml
+
+      # Enroll the admin user
+      - task: fabric:create:user
+        vars:
+          USER: admin
+          CA_NAME: ord-ca
+          SECRET: adminpw
+          TYPE: admin
+          MSPID: OrdererMSP
+
+
+        # # register
+        # kubectl hlf ca register --name=ord-ca --user=admin --secret=adminpw \
+        #     --type=admin --enroll-id enroll --enroll-secret=enrollpw --mspid=OrdererMSP
+
+        # # enroll
+
+        # kubectl hlf ca enroll --name=ord-ca --namespace=default \
+        #     --user=admin --secret=adminpw --mspid OrdererMSP \
+        #     --ca-name tlsca  --output orderermsp.yaml
+  # _____________________________________________________________
+  # Fabric:create:ca
+  fabric:create:ca:
+    internal: true
+    cmds:
+      - kubectl hlf ca create
+        --storage-class=standard
+        --capacity={{.CA_CAPACITY}}
+        --enroll-id={{.ENROLL_ID}}
+        --enroll-pw={{.ENROLL_SECRET}}
+        --name={{.CA_NAME}}
+        --image={{.CA_IMAGE}}
+        --hosts={{.CA_URL}}
+        --version={{.CA_VERSION}}
+
+      - kubectl patch fabriccas.hlf.kungfusoftware.es
+        "{{.CA_NAME}}"
+        --patch-file={{.SERVICE_PATCH}}
+        --type=merge
+
+  # _____________________________________________________________
+  # Fabric:Create:User
+  fabric:create:user:
+    requires:
+      vars:
+        - USER
+        - CA_NAME
+        - SECRET
+        - TYPE
+        - MSPID
+        - ORG
+
+    cmds:
+      - task: fabric:create:user:register
+      - task: fabric:create:user:enroll
+
+
+  fabric:create:user:register:
+    internal: true
+    requires:
+      vars:
+        - USER
+        - CA_NAME
+        - SECRET
+        - TYPE
+        - MSPID
+    cmds:
+      - kubectl hlf ca register
+        --enroll-id {{.ENROLL_ID}}
+        --enroll-secret={{.ENROLL_SECRET}}
+        --user={{.USER}}
+        --name={{.CA_NAME}}
+        --secret={{.SECRET}}
+        --type={{.TYPE}}
+        --mspid {{.MSPID}}
+
+  fabric:create:user:enroll:
+    internal: true
+    requires:
+      vars:
+        - ORG
+        - USER
+        - CA_NAME
+        - SECRET
+        - TYPE
+        - MSPID
+    cmds:
+      - kubectl hlf ca register
+        --enroll-id {{.ENROLL_ID}}
+        --enroll-secret={{.ENROLL_SECRET}}
+        --user={{.USER}}
+        --name={{.CA_NAME}}
+        --secret={{.SECRET}}
+        --type={{.TYPE}}
+        --mspid {{.MSPID}}
+        --output {{.OUT_DIR}}/{{.ORG}}/{{.USER}}.yaml
+
+
+
+  # _____________________________________________________________
+  # Fabric:Create:Org
+  # _____________________________________________________________
+
+  fabric:create:org:peers:
+    internal: true
+    cmds:
+      - task: fabric:create:user:register
+        vars:
+          TYPE: peer
+          USER: peer
+          SECRET: peerpw
+          MSPID: "{{.MSPID}}"
+          CA_NAME: "{{.CA_NAME}}"
+
+      - for: { var: PEERS, as: PEER }
+        task: fabric:create:peer
+        vars:
+          PEER: "{{.PEER}}"
+          ORG: "{{.ORG}}"
+          MSPID: "{{.MSPID}}"
+          CA_NAME: "{{.ORG}}-ca.{{.NAMESPACE}}"
+          PEER_NAME: "{{.PEER}}-{{.ORG}}"
+          PEER_URL: "{{.PEER}}-{{.ORG}}.{{.BASE_DOMAIN}}"
+
+
+  fabric:create:peer:
+    internal: true
+    requires:
+      vars:
+        - PEER
+        - ORG
+        - MSPID
+        - CA_NAME
+        - PEER_NAME
+        - PEER_URL
+        - SERVICE_PATCH
+        - PEER_CAPACITY
+        - PEER_VERSION
+        - PEER_IMAGE
+    cmds:
+      - echo "{{.PEER_NAME}} {{.PEER_URL}}"
+      - kubectl hlf peer create
+        --statedb=couchdb
+        --enroll-id=peer
+        --enroll-pw=peerpw
+        --capacity={{.PEER_CAPACITY}}
+        --storage-class=standard
+        --name={{.PEER_NAME}}
+        --hosts={{.PEER_URL}}
+        --mspid={{.MSPID}}
+        --version={{.PEER_VERSION}}
+        --ca-name={{.CA_NAME}}
+        --image={{.PEER_IMAGE}}
+
+      - kubectl patch fabricpeers.hlf.kungfusoftware.es
+        "{{.PEER_NAME}}"
+        --type=merge
+        --patch-file={{.SERVICE_PATCH}}
+
+  # _____________________________________________________________
+  # Fabric:uninstall
+  # _____________________________________________________________
+
+  fabric:uninstall:
+    cmds:
+      - kubectl delete fabricorderernodes.hlf.kungfusoftware.es --all-namespaces --all
+      - kubectl delete fabricpeers.hlf.kungfusoftware.es --all-namespaces --all
+      - kubectl delete fabriccas.hlf.kungfusoftware.es --all-namespaces --all
+      - kubectl delete fabricchaincode.hlf.kungfusoftware.es --all-namespaces --all
+      - kubectl delete fabricmainchannels --all-namespaces --all
+      - kubectl delete fabricfollowerchannels --all-namespaces --all

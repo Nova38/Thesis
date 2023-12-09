@@ -1,0 +1,7 @@
+spec:
+  serviceMonitor:
+    enabled: true
+    interval: 10s
+    labels: {}
+    sampleLimit: 0
+    scrapeTimeout: 10s

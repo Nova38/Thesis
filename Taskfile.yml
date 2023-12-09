@@ -1,12 +1,17 @@
 version: 3
 dotenv:
-  - ""
+  - '.env'
+  - './network/k8s/.env'
 
 includes:
+
 
   network:
     taskfile: ./network/Taskfile.yml
     dir: ./network
+  k8s:
+    taskfile: ./network/k8s/Taskfile.yml
+    dir: ./network/k8s
 
   caliper:
     taskfile: ./caliper/Taskfile.yml
@@ -14,6 +19,9 @@ includes:
 
 tasks:
   install:
+    desc: |
+      Install all the protoc plugins
+
     cmds:
 #      - go install ./tools/cmd/protoc-gen-cckey
       - go install ./packages/cmd/protoc-gen-go-saacs
