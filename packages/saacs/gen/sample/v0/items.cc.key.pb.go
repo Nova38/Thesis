@@ -63,6 +63,14 @@ func (m *SimpleItem) KeySchema() *v1.KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *SimpleItem) NewFromKey(key *v1.ItemKey) *SimpleItem {
+	item := &SimpleItem{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
@@ -144,6 +152,14 @@ func (m *Group) KeySchema() *v1.KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *Group) NewFromKey(key *v1.ItemKey) *Group {
+	item := &Group{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
@@ -223,6 +239,14 @@ func (m *Book) KeySchema() *v1.KeySchema {
 		ItemKind:   v1.ItemKind_ITEM_KIND_PRIMARY_ITEM,
 		Properties: &fieldmaskpb.FieldMask{Paths: []string{"isbn"}},
 	}
+}
+
+// NewFromKey - Creates a new item from a key
+func (m *Book) NewFromKey(key *v1.ItemKey) *Book {
+	item := &Book{}
+	item.SetKey(key)
+
+	return item
 }
 
 // StateKey - Returns a composite key for the state

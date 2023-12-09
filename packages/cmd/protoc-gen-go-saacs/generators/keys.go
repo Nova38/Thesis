@@ -140,6 +140,22 @@ func (kg *KeyGenerator) GenerateMessage(
 	g.P("}")
 	g.P("")
 
+	{
+		ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+		g.P(`
+            // NewFromKey - Creates a new item from a key
+            func (m *`, msg.GoIdent.GoName, `) NewFromKey(key *`, ItemKey, `)  (* `, msg.GoIdent.GoName, `) {
+                item := &`, msg.GoIdent.GoName, `{}
+                item.SetKey(key)
+
+                return item
+            }
+
+
+        `)
+
+	}
+
 	// Generate Composite Key for storage in the ledger
 
 	g.P(`
@@ -183,66 +199,73 @@ func GeneratePrimaryItem(
 	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
 	keySchema := KeySchemaOptions(msg)
 
-	g.P("// Domain Item")
-
-	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
-	g.P("m.SetKeyAttr(key.ItemKeyParts)")
-	g.P("m.CollectionId = key.GetCollectionId()")
-	g.P("return")
-	g.P(" }")
-	g.P()
-
-	g.P("// SetKeyAttr - Sets the key attributes, returns the number of extra attributes ")
-	g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKeyAttr", "(attr []string) int {")
-	for i, f := range keySchema.GetProperties().GetPaths() {
-		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
-
-		if field == nil {
-			continue
-		}
-
-		g.P("if len(attr) > ", i, " {")
-		g.P("m.", PathToSet(f), " = attr[", i, "]")
-		g.P("} else{ return 0 }")
-
+	{
+		g.P("// Domain Item")
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKey", "(key *", ItemKey, ") {")
+		g.P("m.SetKeyAttr(key.ItemKeyParts)")
+		g.P("m.CollectionId = key.GetCollectionId()")
+		g.P("return")
+		g.P(" }")
+		g.P()
 	}
 
-	g.P("return len(attr) - ", len(keySchema.GetProperties().GetPaths()))
-	g.P("}")
-	g.P()
+	{
+		g.P("// SetKeyAttr - Sets the key attributes, returns the number of extra attributes ")
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "SetKeyAttr", "(attr []string) int {")
+		for i, f := range keySchema.GetProperties().GetPaths() {
+			field := msg.Desc.Fields().ByName(protoreflect.Name(f))
 
-	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
-	g.P("key := &", ItemKey, "{")
-	g.P("CollectionId: m.GetCollectionId(),")
-	g.P("ItemKind: ", authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM.Number(), ",")
-	g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
-	g.P("ItemKeyParts: m.KeyAttr(),")
-	g.P("}")
-	g.P("return key")
-	g.P("}")
-	g.P()
+			if field == nil {
+				continue
+			}
 
-	g.P("func (m *", msg.GoIdent.GoName, ") ", "KeyAttr()", "[]string {")
-	g.P("attr := []string{}")
+			g.P("if len(attr) > ", i, " {")
+			g.P("m.", PathToSet(f), " = attr[", i, "]")
+			g.P("} else{ return 0 }")
 
-	for _, f := range keySchema.GetProperties().GetPaths() {
-		field := msg.Desc.Fields().ByName(protoreflect.Name(f))
-
-		if field == nil {
-			continue
-		}
-		if field.IsList() {
-			g.P("//", f, "is a list")
-			g.P("attr = append(attr, m.", PathToGetter(f), "...)")
-		} else {
-			g.P("attr = append(attr, m.", PathToGetter(f), ")")
 		}
 
+		g.P("return len(attr) - ", len(keySchema.GetProperties().GetPaths()))
+		g.P("}")
+		g.P()
 	}
 
-	g.P("return attr")
-	g.P("}")
-	g.P()
+	{
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
+		g.P("key := &", ItemKey, "{")
+		g.P("CollectionId: m.GetCollectionId(),")
+		g.P("ItemKind: ", authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM.Number(), ",")
+		g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
+		g.P("ItemKeyParts: m.KeyAttr(),")
+		g.P("}")
+		g.P("return key")
+		g.P("}")
+		g.P()
+	}
+
+	{
+		g.P("func (m *", msg.GoIdent.GoName, ") ", "KeyAttr()", "[]string {")
+		g.P("attr := []string{}")
+
+		for _, f := range keySchema.GetProperties().GetPaths() {
+			field := msg.Desc.Fields().ByName(protoreflect.Name(f))
+
+			if field == nil {
+				continue
+			}
+			if field.IsList() {
+				g.P("//", f, "is a list")
+				g.P("attr = append(attr, m.", PathToGetter(f), "...)")
+			} else {
+				g.P("attr = append(attr, m.", PathToGetter(f), ")")
+			}
+
+		}
+
+		g.P("return attr")
+		g.P("}")
+		g.P()
+	}
 
 }
 

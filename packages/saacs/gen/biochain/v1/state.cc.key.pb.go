@@ -63,6 +63,14 @@ func (m *Specimen) KeySchema() *v1.KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *Specimen) NewFromKey(key *v1.ItemKey) *Specimen {
+	item := &Specimen{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters

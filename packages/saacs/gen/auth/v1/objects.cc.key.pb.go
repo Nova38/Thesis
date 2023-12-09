@@ -64,6 +64,14 @@ func (m *Collection) KeySchema() *KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *Collection) NewFromKey(key *ItemKey) *Collection {
+	item := &Collection{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
@@ -143,6 +151,14 @@ func (m *Role) KeySchema() *KeySchema {
 		ItemKind:   ItemKind_ITEM_KIND_PRIMARY_ITEM,
 		Properties: &fieldmaskpb.FieldMask{Paths: []string{"role_id"}},
 	}
+}
+
+// NewFromKey - Creates a new item from a key
+func (m *Role) NewFromKey(key *ItemKey) *Role {
+	item := &Role{}
+	item.SetKey(key)
+
+	return item
 }
 
 // StateKey - Returns a composite key for the state
@@ -238,6 +254,14 @@ func (m *UserDirectMembership) KeySchema() *KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *UserDirectMembership) NewFromKey(key *ItemKey) *UserDirectMembership {
+	item := &UserDirectMembership{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
@@ -326,6 +350,14 @@ func (m *UserCollectionRoles) KeySchema() *KeySchema {
 			"user_id",
 		}},
 	}
+}
+
+// NewFromKey - Creates a new item from a key
+func (m *UserCollectionRoles) NewFromKey(key *ItemKey) *UserCollectionRoles {
+	item := &UserCollectionRoles{}
+	item.SetKey(key)
+
+	return item
 }
 
 // StateKey - Returns a composite key for the state
@@ -455,6 +487,14 @@ func (m *Suggestion) KeySchema() *KeySchema {
 	}
 }
 
+// NewFromKey - Creates a new item from a key
+func (m *Suggestion) NewFromKey(key *ItemKey) *Suggestion {
+	item := &Suggestion{}
+	item.SetKey(key)
+
+	return item
+}
+
 // StateKey - Returns a composite key for the state
 // This follows the same structure as the chaincode stub library,
 // Main difference is that it doesn't check the key for invalid characters
@@ -573,6 +613,14 @@ func (m *HiddenTxList) KeySchema() *KeySchema {
 	return &KeySchema{
 		ItemKind: ItemKind_ITEM_KIND_SUB_ITEM,
 	}
+}
+
+// NewFromKey - Creates a new item from a key
+func (m *HiddenTxList) NewFromKey(key *ItemKey) *HiddenTxList {
+	item := &HiddenTxList{}
+	item.SetKey(key)
+
+	return item
 }
 
 // StateKey - Returns a composite key for the state
