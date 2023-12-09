@@ -19,6 +19,26 @@
   file = {C:\Users\devcs\Zotero\storage\AA7KIEZH\Androulaki et al. - 2018 - Hyperledger Fabric A Distributed Operating System.pdf}
 }
 
+@misc{chackoWhyMyBlockchain2021,
+  title = {Why {{Do My Blockchain Transactions Fail}}? {{A Study}} of {{Hyperledger Fabric}} ({{Extended}} Version)*},
+  shorttitle = {Why {{Do My Blockchain Transactions Fail}}?},
+  author = {Chacko, Jeeta Ann and Mayer, Ruben and Jacobsen, Hans-Arno},
+  year = {2021},
+  month = mar,
+  number = {arXiv:2103.04681},
+  eprint = {2103.04681},
+  primaryclass = {cs},
+  publisher = {{arXiv}},
+  url = {http://arxiv.org/abs/2103.04681},
+  urldate = {2023-12-09},
+  abstract = {Permissioned blockchain systems promise to provide both decentralized trust and privacy. Hyperledger Fabric is currently one of the most wide-spread permissioned blockchain systems and is heavily promoted both in industry and academia. Due to its optimistic concurrency model, the transaction failure rates in Fabric can become a bottleneck. While there is active research to reduce failures, there is a lack of understanding on their root cause and, consequently, a lack of guidelines on how to configure Fabric optimally for different scenarios. To close this gap, in this paper, we first introduce a formal definition of the different types of transaction failures in Fabric. Then, we develop a comprehensive testbed and benchmarking system, HyperLedgerLab, along with four different chaincodes that represent realistic use cases and a chaincode/workload generator. Using HyperLedgerLab, we conduct exhaustive experiments to analyze the impact of different parameters of Fabric such as block size, endorsement policies, and others, on transaction failures. We further analyze three recently proposed optimizations from the literature, Fabric++, Streamchain and FabricSharp, and evaluate under which conditions they reduce the failure rates. Finally, based on our results, we provide recommendations for Fabric practitioners on how to configure the system and also propose new research directions.},
+  archiveprefix = {arxiv},
+  langid = {english},
+  keywords = {Computer Science - Databases,{Computer Science - Distributed, Parallel, and Cluster Computing}},
+  note = {Comment: This is an extended version of an upcoming publication at ACM SIGMOD 2021. Please cite the original SIGMOD version},
+  file = {C:\Users\devcs\Zotero\storage\L8XCCIRS\Chacko et al. - 2021 - Why Do My Blockchain Transactions Fail A Study of.pdf}
+}
+
 @article{chouImplementingMultichainFramework2023,
   title = {Implementing a Multichain Framework Using Hyperledger for Supply Chain Transparency in a Dynamic Partnership: {{A}} Feasibility Study},
   shorttitle = {Implementing a Multichain Framework Using Hyperledger for Supply Chain Transparency in a Dynamic Partnership},
@@ -248,6 +268,25 @@
   file = {C:\Users\devcs\Zotero\storage\T3FWGVZH\Qin et al. - 2021 - A Blockchain-based access control scheme with mult.pdf}
 }
 
+@inproceedings{ruanLedgerViewAccessControlViews2022,
+  title = {{{LedgerView}}: {{Access-Control Views}} on {{Hyperledger Fabric}}},
+  shorttitle = {{{LedgerView}}},
+  booktitle = {Proceedings of the 2022 {{International Conference}} on {{Management}} of {{Data}}},
+  author = {Ruan, Pingcheng and Kanza, Yaron and Ooi, Beng Chin and Srivastava, Divesh},
+  year = {2022},
+  month = jun,
+  pages = {2218--2231},
+  publisher = {{ACM}},
+  address = {{Philadelphia PA USA}},
+  doi = {10.1145/3514221.3526046},
+  url = {https://dl.acm.org/doi/10.1145/3514221.3526046},
+  urldate = {2023-12-09},
+  abstract = {We present LedgerView{\textemdash}a system that adds access control views to permissioned blockchains. The approach is motivated by an AT\&T application of tracking refurbished devices. A blockchain is a decentralized tamper-resistant ledger managed by a group of peers. It is used in many applications for storing and sharing sensitive information, e.g., monetary transactions, health records, personal documents, etc. But in blockchain, all the peers see all the stored transactions, while in some applications, access to sensitive information should be limited, that is, concealed from peers and users who do not have proper access permissions. In database management systems, sets of records that are visible to some users and concealed from others are defined by views, but existing blockchain systems lack such access-control capabilities. Thus, in this paper, we introduce access-control views for Hyperledger Fabric. We present two types of views{\textemdash}revocable and irrevocable, according to whether access to sensitive information can or cannot be revoked. We explain how to implement the two types of view by using cryptographic hash functions and encryption keys, and we show how to support Role-Based Access Control (RBAC). Experiments with supply chain transactions illustrate the incurred costs of the views in LedgerView, including latency, transaction rate and storage overhead.},
+  isbn = {978-1-4503-9249-5},
+  langid = {english},
+  file = {C:\Users\devcs\Zotero\storage\8SJV4BTB\Ruan et al. - 2022 - LedgerView Access-Control Views on Hyperledger Fa.pdf}
+}
+
 @article{sarfarazAccessChainAccessControl2023,
   title = {{{AccessChain}}: {{An}} Access Control Framework to Protect Data Access in Blockchain Enabled Supply Chain},
   shorttitle = {{{AccessChain}}},
@@ -264,6 +303,25 @@
   abstract = {In recent years, supply chains have evolved into huge ecosystems, demanding trust, provenance, and data privacy. Since blockchain technology (BCT) allows for the development of a distributed environment, it is ideal for supply chain management (SCM) applications. However, concerns regarding data privacy have impeded the development of blockchains. Despite the fact that some blockchains can restrict participants from reading and/or writing data, blockchain's transparency makes protecting sensitive data challenging. To solve the data privacy challenge, this paper proposes a framework, AccessChain, that is an SCM access control framework that is based on an attribute-based access control (ABAC) model that restricts access to competing parties while allowing for network scalability. This proposed AccessChain model has two types of ledgers in its system: local and global. Local ledgers are used to store business contracts between stakeholders and the attribute-based access control model management, whereas the global ledger is used to record transaction data. AccessChain can enable decentralized, fine-grained and dynamic access control management in SCM when combined with the ABAC model and BCT. This paper's experimental results illustrate that high throughput can be achieved in a large-scale request environment while maintaining data privacy and sustaining a scalable network. {\textcopyright} 2023 The Author(s). Published by Elsevier B.V. This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).},
   langid = {english},
   file = {C:\Users\devcs\Zotero\storage\9HG5QQ26\Sarfaraz et al. - 2023 - AccessChain An access control framework to protec.pdf}
+}
+
+@inproceedings{sharmaBlurringLinesBlockchains2019,
+  title = {Blurring the {{Lines}} between {{Blockchains}} and {{Database Systems}}: The {{Case}} of {{Hyperledger Fabric}}},
+  shorttitle = {Blurring the {{Lines}} between {{Blockchains}} and {{Database Systems}}},
+  booktitle = {Proceedings of the 2019 {{International Conference}} on {{Management}} of {{Data}}},
+  author = {Sharma, Ankur and Schuhknecht, Felix Martin and Agrawal, Divya and Dittrich, Jens},
+  year = {2019},
+  month = jun,
+  pages = {105--122},
+  publisher = {{ACM}},
+  address = {{Amsterdam Netherlands}},
+  doi = {10.1145/3299869.3319883},
+  url = {https://dl.acm.org/doi/10.1145/3299869.3319883},
+  urldate = {2023-12-09},
+  abstract = {Within the last few years, a countless number of blockchain systems have emerged on the market, each one claiming to revolutionize the way of distributed transaction processing in one way or the other. Many blockchain features, such as byzantine fault tolerance, are indeed valuable additions in modern environments. However, despite all the hype around the technology, many of the challenges that blockchain systems have to face are fundamental transaction management problems. These are largely shared with traditional database systems, which have been around for decades already.},
+  isbn = {978-1-4503-5643-5},
+  langid = {english},
+  file = {C:\Users\devcs\Zotero\storage\HPP3VKF9\Sharma et al. - 2019 - Blurring the Lines between Blockchains and Databas.pdf}
 }
 
 @article{sharmaNovelHyperledgerBlockchainenabled2023,
@@ -315,7 +373,7 @@
   urldate = {2023-11-27},
   abstract = {Block-chain-based Identity and access management framework is a promising solution to privacy and security issues raised during the exchange of patient data in the healthcare industry. This technology ensures the confidentiality and integrity of sensitive information by providing a decentralized and immutable ledger. In our research, we propose an identity and access management system that employs Hyper-ledger Fabric and OAuth 2.0 for improved security and scalability. This combination allows for transparency and immutability of user transactions and minimizes the risk of fraud and unauthorized access. Additionally, Hyper-ledger Fabric's privacy, security, and scalability features enable granular access control to sensitive information, while OAuth 2.0 authorizes only trusted third-party applications to access specific data on the Fabric network. The proposed approach can handle large volumes of data and support multiple applications, thus providing a secure and scalable solution for managing access to the Fabric network. Moreover, our solution employs Role-based access control based on the patient's role, ensuring privacy and confidentiality. Our statistical analysis demonstrates that the proposed approach can efficiently and securely manage patient identity and access, potentially transforming the healthcare industry by enhancing data interoperability, reducing fraud and errors, and improving patient privacy and security. Furthermore, our solution can facilitate compliance with regulatory requirements such as HIPAA and GDPR.},
   langid = {english},
-  note = {Focuses on},
+  note = {Focuses on providing auth for of chain access},
   file = {C:\Users\devcs\Zotero\storage\3DJM6T78\Sutradhar et al. - 2024 - Enhancing identity and access management using Hyp.pdf}
 }
 
