@@ -46,7 +46,7 @@ tasks:
       - task: network:ccaas:redeploy
 
   cc:build:
-    cmd: docker build -t saacs_ccass:latest -f ./packages/saacs/Dockerfile .
+    cmd: docker build -t saacs_ccaas:latest -f ./packages/saacs/Dockerfile .
 
   build:es-stub:
     cmd: cd ./packages/saacs-es && pnpm run stub
@@ -57,7 +57,8 @@ tasks:
 
   fabric:getMetadata:
     cmds:
-      - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
+      - peer chaincode query -C default -n Thesis -c
+        '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
   default:
     sources:

@@ -12,7 +12,7 @@ func (msg *Researcher) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -28,7 +28,7 @@ func (msg *Specimen) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -44,7 +44,7 @@ func (msg *Specimen_Primary) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -60,7 +60,7 @@ func (msg *Specimen_Secondary) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -76,7 +76,7 @@ func (msg *Specimen_Taxon) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -92,7 +92,7 @@ func (msg *Specimen_Georeference) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -108,7 +108,7 @@ func (msg *Specimen_Image) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -124,7 +124,7 @@ func (msg *Specimen_Loan) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -140,7 +140,7 @@ func (msg *Specimen_Grant) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 

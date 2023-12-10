@@ -137,7 +137,7 @@ func main() {
 
 	}
 
-	slog.Info("Starting Chaincode")
+	slog.Info("Starting the Chaincode")
 
 	if name := os.Getenv("CHAINCODE_NAME"); name != "" {
 		sm.Info.Contact.Name = name

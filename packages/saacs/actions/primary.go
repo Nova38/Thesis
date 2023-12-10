@@ -1,12 +1,13 @@
 package actions
 
 import (
+	"log/slog"
+
 	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/nova38/thesis/packages/saacs/state"
 
 	"github.com/samber/oops"
-	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
@@ -204,17 +205,30 @@ func PrimaryUpdate[T common.ItemInterface](
 			Wrap(common.UserPermissionDenied)
 	}
 
+	ctx.GetLogger().Info("obj key: %v")
+
+	// current, ok := proto.Clone(obj).(T)
+
 	current, ok := obj.ProtoReflect().New().Interface().(T)
 	if !ok {
 		return updated, ctx.ErrorBase().
 			With("operation", ops).
 			Wrap(common.ItemInvalid)
 	}
-	proto.Reset(current)
+	current.SetKey(obj.ItemKey())
 
-	if err = state.Get(ctx, obj); err != nil {
+	// ctx.GetLogger().Info("current: %v", current)
+
+	if err = state.Get(ctx, current); err != nil {
 		return obj, ctx.ErrorBase().Wrap(err)
 	}
+
+	ctx.GetLogger().Info("Update Spec => ",
+		slog.Any("obj", obj),
+		slog.Any("key", obj.ItemType()),
+		slog.Any("mask", mask),
+		slog.Any("current", current),
+	)
 
 	val, err := common.UpdateItem(mask, current, obj)
 	if err != nil {

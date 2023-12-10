@@ -30,7 +30,7 @@ const logger = require('@hyperledger/caliper-core').CaliperUtils.getLogger('my-m
  * @property {string} contractId The name of the contract.
  * @property {string} contractVersion The version of the contract.
  */
-class BootstrapWorkload extends WorkloadModuleBase {
+class CreateCollectionWorkload extends WorkloadModuleBase {
 
     /**
      * Initializes the workload module instance.
@@ -67,7 +67,7 @@ class BootstrapWorkload extends WorkloadModuleBase {
     async submitTransaction() {
 
 
-        const arg = new hlf.pb.common.generic.BootstrapRequest()
+        const arg = new hlf.pb.common.generic.CreateCollectionRequest()
         for (let i = 0; i < this.numCollections; i++) {
             arg.collections.push(new hlf.pb.auth.objects.Collection({
                 name: `collection${i}`,
@@ -85,7 +85,7 @@ class BootstrapWorkload extends WorkloadModuleBase {
         const myArgs = {
             contractId: this.contractId,
 
-            contractFunction: 'Bootstrap',
+            contractFunction: 'CreateCollection',
             contractArguments: [arg.toJsonString({typeRegistry: hlf.utils.GlobalRegistry})],
             readOnly: false,
             invokerIdentity: "User1",
@@ -106,7 +106,7 @@ class BootstrapWorkload extends WorkloadModuleBase {
  * @return {WorkloadModuleInterface}
  */
 function createWorkloadModule() {
-    return new BootstrapWorkload();
+    return new CreateCollectionWorkload();
 }
 
 module.exports.createWorkloadModule = createWorkloadModule;

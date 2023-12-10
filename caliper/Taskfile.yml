@@ -3,14 +3,32 @@ tasks:
   bootstrap:noauth:
     cmds:
       - echo "Bootstrapping no auth..."
-      -  pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.boot.yaml -caliper-report-path=./out/noauth/boot-report.html
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.boot.yaml
+        -caliper-report-path=./out/noauth/boot-report.html
+
+  bootstrap:noauth-nosub:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth-NoSub.boot.yaml
+        -caliper-report-path=./out/noauth-nosub/boot-report.html
+
+  bootstrap:role:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/Role.boot.yaml
+        -caliper-report-path=./out/role/boot-report.html
 
   bench:noauth:
     cmds:
-      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.bench.yaml  --caliper-report-path=./out/noauth/bench-report.html
-  test:
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.bench.yaml
+        --caliper-report-path=./out/noauth/bench-report.html
+
+  bench:noauth:dos:
     cmds:
-      - echo "Testing..."
-  deploy:
+      - pnpm run launch --caliper-benchconfig=benchmarks/AC-DOS.yaml
+        --caliper-report-path=./out/noauth/dos-report.html
+
+  bench:noauth-nosub:dos:
     cmds:
-      - echo "Deploying..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/AC-DOS.yaml
+        --caliper-report-path=./out/noauth/dos-report.html

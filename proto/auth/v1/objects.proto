@@ -2,43 +2,39 @@ syntax = "proto3";
 
 package auth;
 
+import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/any.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
-import "auth/v1/auth.proto";
-
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 /* Keys
-   ─────────────────────────────────────────────────────────────────────────────────────
-  Item Keys
-    When converted to its string form it will be:
-    - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
+    ─────────────────────────────────────────────────────────────────────────────────────
+   Item Keys
+     When converted to its string form it will be:
+     - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
 
-  Reference Keys
-    Used to store references to items for case like a user having a role
-    When converted to its string form it will be:
-    {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+   Reference Keys
+     Used to store references to items for case like a user having a role
+     When converted to its string form it will be:
+     {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
 
 
-  SubKeys
-    When converted to its string form it will be:
-    {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
-        Examples
-          - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
-          - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
+   SubKeys
+     When converted to its string form it will be:
+     {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
+         Examples
+           - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+           - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
 */
 message ItemKey {
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string item_type = 2 [(buf.validate.field).string.min_len = 1];
   auth.ItemKind item_kind = 3;
 
-  repeated string item_key_parts = 4 [(buf.validate.field).repeated = {
-    min_items: 1
-  }];
+  repeated string item_key_parts = 4 [(buf.validate.field).repeated = {min_items: 1}];
 }
 
 message Item {
@@ -63,11 +59,6 @@ message ReferenceKey {
   ItemKey key2 = 2;
 }
 
-
-
-
-
-
 // ═════════════════════════════════════════════════════════════════════════════════
 // Collection Items
 // ═════════════════════════════════════════════════════════════════════════════════
@@ -79,7 +70,7 @@ message ReferenceKey {
 // key := {COLLECTION}{COLLECTION_ID}
 message Collection {
   option (key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (key_schema).properties   = {
+  option (key_schema).properties = {
     paths: ["collection_id"]
   };
 
@@ -102,7 +93,7 @@ message Collection {
 
 message Role {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties   = {
+  option (auth.key_schema).properties = {
     paths: ["role_id"]
   };
 
@@ -119,7 +110,7 @@ message Role {
 // users certificate for a given msp
 message Attribute {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties   = {
+  option (auth.key_schema).properties = {
     paths: [
       "msp_id",
       "oid",
@@ -138,14 +129,13 @@ message Attribute {
   // The Permission that the user will have if they have the attribute
   Polices polices = 5 [(buf.validate.field).required = true];
 
-  string note = 6 ;
-
+  string note = 6;
 }
 
 // Membership is used to store permissions for a user in a collection
 message UserDirectMembership {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties   = {
+  option (auth.key_schema).properties = {
     paths: [
       "msp_id",
       "user_id"
@@ -153,7 +143,7 @@ message UserDirectMembership {
   };
 
   // The collection that the user is a member of
-  string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   // The msp of the organization that the user's certificate is from
   string msp_id = 2 [(buf.validate.field).string.min_len = 1];
   // The id of the user from the certificate
@@ -161,13 +151,37 @@ message UserDirectMembership {
   // The Permissions that the user will have
   Polices polices = 4 [(buf.validate.field).required = true];
 
-  string note = 6 ;
+  string note = 6;
+}
 
+message UserEmbeddedRoles {
+  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (auth.key_schema).properties = {
+    paths: [
+      "msp_id",
+      "user_id"
+    ]
+  };
+
+  string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  // The msp of the organization that the user's certificate is from
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user from the certificate
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  // The roles that the user has in the collection
+  // key is the collection id
+  // value is the list of rolesIds
+  map<string, RoleList> roles = 4;
+}
+
+message RoleList {
+  repeated string role_id = 1;
 }
 
 message UserCollectionRoles {
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties   = {
+  option (auth.key_schema).properties = {
     paths: [
       "msp_id",
       "user_id"
@@ -175,11 +189,11 @@ message UserCollectionRoles {
   };
 
   // The collection that the user is a member of
-  string collection_id = 1 [(buf.validate.field).string.const = "global"];
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   // The msp of the organization that the user's certificate is from
   string msp_id = 2 [(buf.validate.field).string.min_len = 1];
   // The id of the user from the certificate
-  string user_id = 3 [(buf.validate.field).required = true];
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
 
   // The roles that the user has in the collection
   repeated string role_ids = 4 [(buf.validate.field).repeated = {
@@ -198,14 +212,14 @@ message UserCollectionRoles {
 // {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
 message Suggestion {
   option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-  option (key_schema).properties    = {
+  option (key_schema).properties = {
     paths: ["suggestion_id"]
   };
 
-  ItemKey primary_key = 1  [(buf.validate.field).required = true];
+  ItemKey primary_key = 1 [(buf.validate.field).required = true];
   string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
   google.protobuf.FieldMask paths = 5 [(buf.validate.field).required = true];
-  google.protobuf.Any value = 6  [(buf.validate.field).required = true];
+  google.protobuf.Any value = 6 [(buf.validate.field).required = true];
 }
 
 message HiddenTx {
@@ -219,7 +233,7 @@ message HiddenTx {
 // Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 message HiddenTxList {
   option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
-  option (key_schema).properties    = {
+  option (key_schema).properties = {
     paths: []
   };
   ItemKey primary_key = 1 [(buf.validate.field).required = true]; // The key that is used to store the item
@@ -229,21 +243,16 @@ message HiddenTxList {
 // Used to return the values of the items that are referenced
 message Reference {
   ReferenceKey reference = 1;
-  Item item1 = 2  [(buf.validate.field).required = true];
-  Item item2 = 3   [(buf.validate.field).required = true];
+  Item item1 = 2 [(buf.validate.field).required = true];
+  Item item2 = 3 [(buf.validate.field).required = true];
 }
-
-
-
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Collection Item Wrapper Types
 // ═════════════════════════════════════════════════════════════════════════════
 
-
-
 message FullItem {
-  Item item = 1       [(buf.validate.field).required = true];
+  Item item = 1 [(buf.validate.field).required = true];
   History history = 2 [(buf.validate.field).required = true];
   repeated Suggestion suggestions = 3;
   repeated Reference references = 4;
@@ -269,7 +278,6 @@ message History {
   HiddenTxList hidden_txs = 2;
 }
 
-
 // ═════════════════════════════════════════════
 // Access Control
 // ═════════════════════════════════════════════
@@ -278,7 +286,7 @@ message History {
 message PathPolicy {
   // The path is a sub path of a field mask
   string path = 1;
-  string full_path = 2 ;
+  string full_path = 2;
 
   bool allow_sub_paths = 3;
   // The key is a valid sub path in the type of state item

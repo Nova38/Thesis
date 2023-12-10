@@ -12,7 +12,7 @@ func (msg *User) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -28,7 +28,7 @@ func (msg *KeySchema) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -44,7 +44,7 @@ func (msg *StateActivity) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 
@@ -60,7 +60,7 @@ func (msg *Operation) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   false,
+		UseProtoNames:   true,
 	}.Marshal(msg)
 }
 

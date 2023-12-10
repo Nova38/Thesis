@@ -1,13 +1,12 @@
 version: 3
 
-
 tasks:
   where:
     cmds:
       - pwd
   # network_setup:
-    # cmds:
-      # -  network.sh -ca up createChannel
+  # cmds:
+  # -  network.sh -ca up createChannel
   up:
     cmds:
       - bash -c "./network.sh up createChannel -ca -s couchdb -c mychannel"
@@ -19,33 +18,35 @@ tasks:
     env:
       CONTAINER_CLI: podman
     cmds:
-          - bash -c "CONTAINER_CLI=podman ./network.sh up createChannel -ca -s couchdb -c mychannel"
-          - python ./scripts/build_configs.py
-          - podman compose -f ./explorer/docker-compose.yaml up -d
-          - podman compose -f ./prometheus-grafana/docker-compose.yaml up -d
+      - bash -c "CONTAINER_CLI=podman ./network.sh up createChannel -ca -s
+        couchdb -c mychannel"
+      - python ./scripts/build_configs.py
+      - podman compose -f ./explorer/docker-compose.yaml up -d
+      - podman compose -f ./prometheus-grafana/docker-compose.yaml up -d
   down:
     cmds:
-
       - docker-compose -f ./explorer/docker-compose.yaml down -v
       - docker-compose -f ./prometheus-grafana/docker-compose.yaml down -v
       - bash -c "./network.sh down"
-  t:
-    cmd: bash -c "ls -l ../apps/chaincode/auth/noauth"
 
+  create:channel:
+    cmd: bash -c "network.sh createChannel -c {{.CLI_ARGS}}"
 
-  ccaas:multi:
-
+  cc:multi:
     cmds:
-      - for: ["noauth", "noauth-no-sub","identity", "roles"]
+      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
-        cmd: bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp ../packages/saacs/ "
-
+        cmd:
+          bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp
+          ../packages/saacs/ "
 
   build:cc:
-    cmd: docker build -t saacs_ccass:latest -f ../packages/saacs/Dockerfile --build-arg CC_SERVER_PORT=9999 ../
+    cmd:
+      docker build -t saacs_ccass:latest -f ../packages/saacs/Dockerfile
+      --build-arg CC_SERVER_PORT=9999 ../
 
-  ccaas:redeploy:
+  cc:redeploy:
     cmds:
-      - for: ["noauth", "noauth-no-sub","identity", "roles"]
+      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd: bash -c " ./cc_restart/{{ .ITEM }}.sh "

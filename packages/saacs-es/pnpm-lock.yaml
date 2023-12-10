@@ -11,6 +11,9 @@ dependencies:
   '@bufbuild/protoplugin':
     specifier: ^1.5.0
     version: 1.5.0
+  '@grpc/grpc-js':
+    specifier: ^1.9.12
+    version: 1.9.12
   '@hyperledger/fabric-gateway':
     specifier: ^1.4.0
     version: 1.4.0
