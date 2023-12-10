@@ -152,7 +152,7 @@
                     </tr>
 
                     <tr>
-                         <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>31.3</td>
+                         <td>Bootstrap</td> <td>1</td> <td>0</td> <td>Infinity</td> <td>2.17</td> <td>2.17</td> <td>2.17</td> <td>0.5</td>
                     </tr>
                 </table>
             </div>
@@ -170,7 +170,7 @@
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>31.3</td>
+                                     <td>Bootstrap</td> <td>1</td> <td>0</td> <td>Infinity</td> <td>2.17</td> <td>2.17</td> <td>2.17</td> <td>0.5</td>
                                 </tr>
                             </table>
                         <h3>Resource utilization for Bootstrap</h3>
@@ -182,22 +182,19 @@
                                          <th>Metric</th> <th>Prometheus Query</th> <th>Name</th> <th>Value</th>
                                     </tr>
                                     <tr>
-                                         <td>Avg Shim Requests</td> <td>avg(chaincode_shim_requests_received{chaincode&#x3D;~&quot;noauth.*&quot;}) by (type)</td> <td>GET_STATE</td> <td>6.90e+3</td>
+                                         <td>Avg Shim Requests</td> <td>avg(chaincode_shim_requests_received{chaincode&#x3D;~&quot;noauth.*&quot;}) </td> <td>unknown</td> <td>11.0</td>
                                     </tr>
                                     <tr>
-                                         <td></td> <td></td> <td>PUT_STATE</td> <td>2.30e+3</td>
+                                         <td>Min Shim Request Duration</td> <td>min(chaincode_shim_request_duration_sum{chaincode&#x3D;~&quot;noauth.*&quot;}) by (type)</td> <td>unknown</td> <td>0.000687</td>
                                     </tr>
                                     <tr>
-                                         <td>Min Shim Request Duration</td> <td>min(chaincode_shim_request_duration_sum{chaincode&#x3D;~&quot;noauth.*&quot;}) by (type)</td> <td>unknown</td> <td>0.114</td>
+                                         <td>Max Shim Request Duration</td> <td>max(chaincode_shim_request_duration_sum{chaincode&#x3D;~&quot;noauth.*&quot;}) by (type)</td> <td>unknown</td> <td>0.00109</td>
                                     </tr>
                                     <tr>
-                                         <td>Max Shim Request Duration</td> <td>max(chaincode_shim_request_duration_sum{chaincode&#x3D;~&quot;noauth.*&quot;}) by (type)</td> <td>unknown</td> <td>0.237</td>
+                                         <td>Avg Shim Request Duration by type</td> <td>avg(chaincode_shim_request_duration_bucket{chaincode&#x3D;~&quot;noauth.*&quot;})  by (type)</td> <td>GET_STATE</td> <td>0.750</td>
                                     </tr>
                                     <tr>
-                                         <td>Avg Shim Request Duration by type</td> <td>avg(chaincode_shim_request_duration_bucket{chaincode&#x3D;~&quot;noauth.*&quot;})  by (type)</td> <td>GET_STATE</td> <td>6.90e+3</td>
-                                    </tr>
-                                    <tr>
-                                         <td></td> <td></td> <td>PUT_STATE</td> <td>2.30e+3</td>
+                                         <td></td> <td></td> <td>PUT_STATE</td> <td>21.0</td>
                                     </tr>
                                 </table>
                                 </tr>

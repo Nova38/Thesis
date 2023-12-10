@@ -453,6 +453,106 @@ export class UserDirectMembership extends Message<UserDirectMembership> {
 }
 
 /**
+ * @generated from message auth.UserEmbeddedRoles
+ */
+export class UserEmbeddedRoles extends Message<UserEmbeddedRoles> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * The msp of the organization that the user's certificate is from
+   *
+   * @generated from field: string msp_id = 2;
+   */
+  mspId = "";
+
+  /**
+   * The id of the user from the certificate
+   *
+   * @generated from field: string user_id = 3;
+   */
+  userId = "";
+
+  /**
+   * The roles that the user has in the collection
+   * key is the collection id
+   * value is the list of rolesIds
+   *
+   * @generated from field: map<string, auth.RoleList> roles = 4;
+   */
+  roles: { [key: string]: RoleList } = {};
+
+  constructor(data?: PartialMessage<UserEmbeddedRoles>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.UserEmbeddedRoles";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "roles", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: RoleList} },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UserEmbeddedRoles {
+    return new UserEmbeddedRoles().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): UserEmbeddedRoles {
+    return new UserEmbeddedRoles().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): UserEmbeddedRoles {
+    return new UserEmbeddedRoles().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: UserEmbeddedRoles | PlainMessage<UserEmbeddedRoles> | undefined, b: UserEmbeddedRoles | PlainMessage<UserEmbeddedRoles> | undefined): boolean {
+    return proto3.util.equals(UserEmbeddedRoles, a, b);
+  }
+}
+
+/**
+ * @generated from message auth.RoleList
+ */
+export class RoleList extends Message<RoleList> {
+  /**
+   * @generated from field: repeated string role_id = 1;
+   */
+  roleId: string[] = [];
+
+  constructor(data?: PartialMessage<RoleList>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.RoleList";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "role_id", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): RoleList {
+    return new RoleList().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): RoleList {
+    return new RoleList().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): RoleList {
+    return new RoleList().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: RoleList | PlainMessage<RoleList> | undefined, b: RoleList | PlainMessage<RoleList> | undefined): boolean {
+    return proto3.util.equals(RoleList, a, b);
+  }
+}
+
+/**
  * @generated from message auth.UserCollectionRoles
  */
 export class UserCollectionRoles extends Message<UserCollectionRoles> {

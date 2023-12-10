@@ -1,0 +1,18 @@
+test:
+  name: NoAuth
+  description:
+  workers:
+    number: 1
+
+  rounds:
+    - label: "1% chance of updating the collection auth object"
+      contractId: &contract noauth
+      txDuration: &duration 20
+      rateControl: &rate
+        type: fixed-rate
+        opts: { tps: 10 }
+      workload:
+        module: &module benchmarks/workloads/dos.js
+        arguments:
+          updateAuthChance: .01
+          chaincodeID: *contract

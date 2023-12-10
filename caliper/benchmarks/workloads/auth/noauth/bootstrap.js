@@ -72,7 +72,7 @@ class BootstrapWorkload extends WorkloadModuleBase {
             arg.collections.push(new hlf.pb.auth.objects.Collection({
                 name: `collection${i}`,
                 authType: hlf.pb.auth.auth.AuthType.NONE,
-                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName],
+                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName, hlf.pb.auth.objects.Collection.typeName],
                 collectionId: `collection${i}`,
                 default: new hlf.pb.auth.objects.PathPolicy(),
             }))

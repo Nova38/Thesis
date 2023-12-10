@@ -1,6 +1,8 @@
-import { assert, describe, expect, it } from "vitest";
+import { assert, beforeAll, describe, expect, it } from "vitest";
 
 describe("suite name", () => {
+    beforeAll(() => {});
+
     it("foo", () => {
         assert.equal(Math.sqrt(4), 2);
     });
