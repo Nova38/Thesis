@@ -3,6 +3,7 @@ package policy
 import (
 	"slices"
 
+	"github.com/nova38/thesis/packages/saacs/common"
 	authpb "github.com/nova38/thesis/packages/saacs/gen/auth/v1"
 	"github.com/samber/oops"
 )
@@ -15,6 +16,7 @@ import (
 // - Collection item types is not nil and not empty
 // - Checks per the type of action (see below)
 func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (bool, error) {
+
 	// Sanity checks
 	if collection == nil || op == nil {
 		return false, oops.Errorf("Collection or Operation is nil")
@@ -33,7 +35,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 		return false, oops.Errorf("Collection item types is empty")
 
 	case op.GetCollectionId() == "":
-		return false, oops.Errorf("Operation collection id is empty")
+		return false, oops.With("op", op).Errorf("Operation collection id is empty")
 	case op.GetItemType() == "":
 		return false, oops.Errorf("Operation item type is empty")
 	case op.GetAction() == authpb.Action_ACTION_UNSPECIFIED:
@@ -41,7 +43,12 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 	}
 
+	if op.GetItemType() == common.CollectionItemType {
+		return true, nil
+	}
+
 	// Check to see if the operation item type is in the collection item types
+
 	if !slices.Contains(collection.GetItemTypes(), op.GetItemType()) {
 		return false, oops.Errorf(
 			"Operation item type %v is not in collection %v item types",
@@ -64,14 +71,6 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
 			return false, oops.Errorf("Operation paths is not empty")
 		}
-
-		// Actions who might have paths
-		// case
-		// 	authpb.Action_ACTION_UPDATE,
-		// 	authpb.Action_ACTION_VIEW,
-		// 	authpb.Action_ACTION_SUGGEST_CREATE,
-		// 	authpb.Action_ACTION_SUGGEST_DELETE,
-		// 	authpb.Action_ACTION_SUGGEST_APPROVE:
 
 	}
 

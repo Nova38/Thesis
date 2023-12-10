@@ -1,11 +1,9 @@
 version: 3
 dotenv:
-  - '.env'
-  - './network/k8s/.env'
+  - ".env"
+  - "./network/k8s/.env"
 
 includes:
-
-
   network:
     taskfile: ./network/Taskfile.yml
     dir: ./network
@@ -23,7 +21,7 @@ tasks:
       Install all the protoc plugins
 
     cmds:
-#      - go install ./tools/cmd/protoc-gen-cckey
+      #      - go install ./tools/cmd/protoc-gen-cckey
       - go install ./packages/cmd/protoc-gen-go-saacs
   gen:cmd:
     deps:
@@ -32,10 +30,6 @@ tasks:
       - buf generate
   gen:all:
     watch: true
-
-
-    # sources:
-    #   - "./lib/proto/rbac/rbac.proto"
     cmds:
       - buf generate
 
@@ -44,56 +38,28 @@ tasks:
       - rm -rf ./lib/go/gen/chaincode/*
       - rm -rf ./lib/go/gen/*
       - rm -rf ./lib/es/gen/*
-      - rm -rf ./apps/api/lib/gen/*
-  # gen:esImage:
-  #   cmd:
 
   cc:reload:
     cmds:
       - go mod tidy
-      - task: build:cc-docker
-      - task: network:ccaas redeploy
+      - task: cc:build
+      - task: network:ccaas:redeploy
 
-
-
-  build:cc-docker:
+  cc:build:
     cmd: docker build -t saacs_ccass:latest -f ./packages/saacs/Dockerfile .
 
   build:es-stub:
     cmd: cd ./packages/saacs-es && pnpm run stub
 
-
   go:format:
     cmds:
       - golines --ignore-generated  . -w
-  go:vendor:
-    dir: ./apps/chaincode/auth/noauth
-    cmds:
-      - go mod vendor
-
-  go:RunSample:
-    cmd: go run ./apps/chaincode/sample
-
-
-  build:chaincode:
-    cmds:
-      - go build -o ./apps/chaincode/sample/sample ./apps/chaincode/sample
-      - GOOS=linux go build  -gcflags="all=-N -l" -o noauth
 
   fabric:getMetadata:
     cmds:
       - peer chaincode query -C default -n Thesis -c '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
-
-
-  # network:extract:
-  #   cmds:
-  #     # - wsl bash -c "find \'$base_path\' -type d -name \'keystore\' -exec find {} -maxdepth 1 -type f \; -exec echo \'Found file: {}\" \;"
-
-
-
   default:
-    watch: true
     sources:
       - "proto/**/*"
       # - "tools/**/*"
@@ -101,5 +67,3 @@ tasks:
     cmds:
       - buf build -o image.bin
       - buf generate
-
-# ./network.sh cc query -c mychannel -ccn noauth_v0 -ccqc '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
