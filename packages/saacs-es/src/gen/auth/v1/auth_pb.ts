@@ -55,6 +55,11 @@ export enum AuthType {
    * @generated from enum value: AUTH_TYPE_IDENTITY = 3;
    */
   IDENTITY = 3,
+
+  /**
+   * @generated from enum value: AUTH_TYPE_EMBEDDED_ROLE = 4;
+   */
+  EMBEDDED_ROLE = 4,
 }
 // Retrieve enum metadata with: proto3.getEnumType(AuthType)
 proto3.util.setEnumType(AuthType, "auth.AuthType", [
@@ -62,6 +67,7 @@ proto3.util.setEnumType(AuthType, "auth.AuthType", [
   { no: 1, name: "AUTH_TYPE_NONE" },
   { no: 2, name: "AUTH_TYPE_ROLE" },
   { no: 3, name: "AUTH_TYPE_IDENTITY" },
+  { no: 4, name: "AUTH_TYPE_EMBEDDED_ROLE" },
 ]);
 
 /**

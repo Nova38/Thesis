@@ -37,6 +37,7 @@ enum AuthType {
   AUTH_TYPE_NONE = 1;
   AUTH_TYPE_ROLE = 2;
   AUTH_TYPE_IDENTITY = 3;
+  AUTH_TYPE_EMBEDDED_ROLE = 4;
 }
 
 enum ItemKind {
