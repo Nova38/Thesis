@@ -292,6 +292,104 @@ func (m *UserDirectMembership) StateKey() string {
 }
 
 // ──────────────────────────────────────────────────
+// auth.UserEmbeddedRoles
+// Primary Item
+
+// Domain Item
+func (m *UserEmbeddedRoles) SetKey(key *ItemKey) {
+	m.SetKeyAttr(key.ItemKeyParts)
+	m.CollectionId = key.GetCollectionId()
+	return
+}
+
+// SetKeyAttr - Sets the key attributes, returns the number of extra attributes
+func (m *UserEmbeddedRoles) SetKeyAttr(attr []string) int {
+	if len(attr) > 0 {
+		m.MspId = attr[0]
+	} else {
+		return 0
+	}
+	if len(attr) > 1 {
+		m.UserId = attr[1]
+	} else {
+		return 0
+	}
+	return len(attr) - 2
+}
+
+func (m *UserEmbeddedRoles) ItemKey() *ItemKey {
+	key := &ItemKey{
+		CollectionId: m.GetCollectionId(),
+		ItemKind:     2,
+		ItemType:     "auth.UserEmbeddedRoles",
+		ItemKeyParts: m.KeyAttr(),
+	}
+	return key
+}
+
+func (m *UserEmbeddedRoles) KeyAttr() []string {
+	attr := []string{}
+	attr = append(attr, m.GetMspId())
+	attr = append(attr, m.GetUserId())
+	return attr
+}
+
+func (m *UserEmbeddedRoles) ItemKind() ItemKind {
+	return ItemKind_ITEM_KIND_PRIMARY_ITEM
+}
+
+func (m *UserEmbeddedRoles) ItemType() string {
+	return "auth.UserEmbeddedRoles"
+}
+
+func (m *UserEmbeddedRoles) KeySchema() *KeySchema {
+	return &KeySchema{
+		ItemKind: ItemKind_ITEM_KIND_PRIMARY_ITEM,
+		Properties: &fieldmaskpb.FieldMask{Paths: []string{
+			"msp_id",
+			"user_id",
+		}},
+	}
+}
+
+// NewFromKey - Creates a new item from a key
+func (m *UserEmbeddedRoles) NewFromKey(key *ItemKey) *UserEmbeddedRoles {
+	item := &UserEmbeddedRoles{}
+	item.SetKey(key)
+
+	return item
+}
+
+// StateKey - Returns a composite key for the state
+// This follows the same structure as the chaincode stub library,
+// Main difference is that it doesn't check the key for invalid characters
+//
+// Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
+
+func (m *UserEmbeddedRoles) StateKey() string {
+
+	const sep = string(rune(0))
+
+	attrs := m.ItemKey().GetItemKeyParts()
+	if attrs == nil {
+		panic("ItemKeyParts is nil")
+	}
+
+	collectionId := m.ItemKey().GetCollectionId()
+	if collectionId == "" {
+		panic("CollectionId is nil")
+	}
+
+	if len(attrs) == 0 {
+		k := sep + "auth.UserEmbeddedRoles" + sep + collectionId + sep
+		return k
+	}
+	k := sep + "auth.UserEmbeddedRoles" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
+
+	return k
+}
+
+// ──────────────────────────────────────────────────
 // auth.UserCollectionRoles
 // Primary Item
 

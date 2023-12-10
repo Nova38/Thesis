@@ -11,6 +11,7 @@ const (
 	RoleItemType                 = "auth.Role"
 	UserDirectMembershipItemType = "auth.UserDirectMembership"
 	UserCollectionRolesItemType  = "auth.UserCollectionRoles"
+	UserEmbeddedRoles            = "auth.UserEmbeddedRoles"
 
 	BootstrapKey = "bootstrap"
 
