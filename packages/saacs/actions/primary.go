@@ -26,7 +26,7 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 		Paths:        nil,
 	}
 	if auth, err := ctx.Authorize([]*authpb.Operation{op}); !auth || err != nil {
-		return oops.Wrap(common.UserPermissionDenied)
+		return ctx.ErrorBase().Wrap(common.UserPermissionDenied)
 	}
 
 	if err := state.Get(ctx, obj); err != nil {

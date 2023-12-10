@@ -141,6 +141,15 @@ func (c *Contract) CreateCollection(
 		return nil, ctx.ErrorBase().Wrap(err)
 	}
 
+	// Make Sure the auth types are in the collection
+	authTypes := []string{
+		common.CollectionItemType,
+		common.RoleItemType,
+		common.UserCollectionRolesItemType,
+	}
+	col.ItemTypes = append(col.GetItemTypes(), authTypes...)
+	col.ItemTypes = lo.Uniq(col.GetItemTypes()) // Deduplicate the item types
+
 	err = state.Ledger[*authpb.Collection]{}.PrimaryCreate(ctx, col)
 
 	if err != nil {
