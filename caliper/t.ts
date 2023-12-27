@@ -22,8 +22,3 @@ let j = a.toJsonString({typeRegistry: reg})
 
 
 console.log(j)
-
-
-let b = utils.factory.BuildCreateRequestString(v)
-
-console.log(b)

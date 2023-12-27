@@ -10,7 +10,7 @@ const { randomInt } = require("crypto");
 const users = ["User1", "User2", "User3", "User4", "User5", "Admin"];
 
 function randomTime(){
-    return `${Date.now()}-${process.hrtime.bigint()}`
+    return `${Date.now()}-${process.hrtime.bigint()}-${randomInt(0, 1000)}`
 }
 
 

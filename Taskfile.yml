@@ -7,9 +7,9 @@ includes:
   network:
     taskfile: ./network/Taskfile.yml
     dir: ./network
-  k8s:
-    taskfile: ./network/k8s/Taskfile.yml
-    dir: ./network/k8s
+  # k8s:
+  #   taskfile: ./network/k8s/Taskfile.yml
+  #   dir: ./network/k8Hi
 
   caliper:
     taskfile: ./caliper/Taskfile.yml
@@ -46,19 +46,19 @@ tasks:
       - task: network:ccaas:redeploy
 
   cc:build:
-    cmd: docker build -t saacs_ccaas:latest -f ./packages/saacs/Dockerfile .
+    cmd: docker build -t nova38/saacs:latest -f ./packages/saacs/Dockerfile .
 
   build:es-stub:
     cmd: cd ./packages/saacs-es && pnpm run stub
 
-  go:format:
-    cmds:
-      - golines --ignore-generated  . -w
+  # go:format:
+  #   cmds:
+  #     - golines --ignore-generated  . -w
 
-  fabric:getMetadata:
-    cmds:
-      - peer chaincode query -C default -n Thesis -c
-        '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
+  # fabric:getMetadata:
+  #   cmds:
+  #     - peer chaincode query -C default -n Thesis -c
+  #       '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
 
   default:
     sources:

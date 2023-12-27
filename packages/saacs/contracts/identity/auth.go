@@ -28,8 +28,8 @@ func (ctx *TxCtx) GetUserDirectMembership(
 
 	membership := &authpb.UserDirectMembership{
 		CollectionId: collectionId,
-		MspId:        user.GetUserId(),
-		UserId:       user.GetMspId(),
+		MspId:        user.GetMspId(),
+		UserId:       user.GetUserId(),
 	}
 
 	if err = state.Get(ctx, membership); err != nil {
