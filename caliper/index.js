@@ -39,7 +39,7 @@ function randomUpdateArgs() {
     });
 }
 
-console.log(randomUpdateArgs());
+// console.log(randomUpdateArgs());
 
 function randomNewBookArgs() {
     let args = new hlf.pb.common.generic.CreateRequest({
@@ -59,4 +59,19 @@ function randomNewBookArgs() {
     });
 }
 
-console.log(randomNewBookArgs());
+// console.log(randomNewBookArgs());
+
+
+function makeUpdates(){
+    let items = hlf.utils.factory.BuildWorkloadSuggestionsOne({
+        collectionId: "collection0",
+        numItems: 100,
+        numSuggestions: 100,
+        typeName: "auth.Collection",
+        workerIndex: 2,
+    });
+
+    return items
+}
+
+console.log(makeUpdates());

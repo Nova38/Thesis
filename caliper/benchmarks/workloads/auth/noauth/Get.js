@@ -88,19 +88,16 @@ class GetWorkload extends WorkloadModuleBase {
         this.type = args.type;
         this.contractVersion = args.contractVersion;
 
-        this.nextNumByCol = {};
-        for (let i = 0; i < this.numCollections; i++) {
-            this.nextNumByCol[i] = 0;
-        }
+        this.nextNum = 0;
 
-        this.ColMap = hlf.utils.factory.BuildWorkloadItemKeys({
+
+        this.ItemList = hlf.utils.factory.BuildWorkloadItemKeys({
             numCollections: args.numCollections,
             numItems: args.perCollection,
             typeName: args.type,
             workerIndex: workerIndex,
         });
 
-        logger.info('this.ColMap', this.ColMap);
 
     }
 
@@ -113,9 +110,9 @@ class GetWorkload extends WorkloadModuleBase {
     async submitTransaction() {
 
         let col = hlf.utils.factory.randomInt(this.numCollections);
-        let key = this.ColMap[col][this.nextNumByCol[col]];
+        let key = this.items[col]
 
-        this.nextNumByCol[col] = (this.nextNum + 1) % this.perCollection;
+        this.nextNum = (this.nextNum + 1) % this.numItems
 
         const arg = new hlf.pb.common.generic.GetRequest({
             type: key.itemType,

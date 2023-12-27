@@ -1,14 +1,15 @@
 {
     "include": [
         "src",
-        "build.config.ts"
+        "build.config.ts",
+        "playground/api"
     ],
     "compilerOptions": {
         "lib": [
-            "es2023"
+            "es2022"
         ],
         "resolveJsonModule": true,
-        "module": "node16",
+        "module": "nodenext",
         "target": "es2022",
         "strict": true,
         "esModuleInterop": true,

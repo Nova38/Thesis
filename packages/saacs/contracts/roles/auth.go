@@ -161,7 +161,7 @@ func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 	userRoles := &authpb.UserCollectionRoles{
 		CollectionId: collectionId,
 		MspId:        user.GetMspId(),
-		UserId:       user.GetMspId(),
+		UserId:       user.GetUserId(),
 		RoleIds:      []string{},
 	}
 
@@ -169,7 +169,7 @@ func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 		return nil, oops.Wrap(err)
 	}
 
-	roles, err := ctx.getRoles(userRoles.GetRoleIds())
+	roles, err := ctx.getRoles(collectionId, userRoles.GetRoleIds())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
@@ -179,12 +179,13 @@ func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 	return roles, nil
 }
 
-func (ctx *TxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
+func (ctx *TxCtx) getRoles(collectionId string, roleIds []string) ([]*authpb.Role, error) {
 	var roles []*authpb.Role
 
 	for _, roleId := range roleIds {
 		role := &authpb.Role{
-			RoleId: roleId,
+			CollectionId: collectionId,
+			RoleId:       roleId,
 		}
 
 		if err := state.Get(ctx, role); err != nil {

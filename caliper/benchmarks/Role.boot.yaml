@@ -14,21 +14,21 @@
 
 ---
 test:
-  name: NoAuth
+  name: Role auth bootstrap
   description:
   workers:
     number: 1
   rounds:
     - label: Bootstrap
-      contractId: role
+      contractId: roles
       txNumber: 1
       rateControl:
         type: fixed-rate
         opts: { tps: 1 }
       workload:
-        module: benchmarks/workloads/auth/noauth/Bootstrap.js
+        module: benchmarks/workloads/auth/role/Bootstrap.js
         arguments:
-          contractId: noauth
+          contractId: roles
           numCollections: 10
 monitors:
   transaction:
