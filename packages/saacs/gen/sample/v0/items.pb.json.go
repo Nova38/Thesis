@@ -12,7 +12,7 @@ func (msg *SimpleItem) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -28,7 +28,7 @@ func (msg *Group) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 
@@ -44,7 +44,7 @@ func (msg *Book) MarshalJSON() ([]byte, error) {
 	return protojson.MarshalOptions{
 		UseEnumNumbers:  true,
 		EmitUnpopulated: true,
-		UseProtoNames:   true,
+		UseProtoNames:   false,
 	}.Marshal(msg)
 }
 

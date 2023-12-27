@@ -161,7 +161,7 @@ func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 	userRoles := &authpb.UserCollectionRoles{
 		CollectionId: collectionId,
 		MspId:        user.GetMspId(),
-		UserId:       user.GetMspId(),
+		UserId:       user.GetUserId(),
 		RoleIds:      []string{},
 	}
 

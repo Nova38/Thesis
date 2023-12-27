@@ -33,7 +33,6 @@ plugins:
       - paths=source_relative
       - emit_defaults=true
       - enums_as_ints=true
-      - orig_name=true
 
   - plugin: buf.build/bufbuild/es:v1.3.1
     out: packages/saacs-es/src/gen

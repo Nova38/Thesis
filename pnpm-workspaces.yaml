@@ -1,5 +1,5 @@
-
 packages:
-  - './packages/**'
-  - './caliper'
-  - 'packages/cmd/protoc-gen-es-saacs'
+  - "./packages/**"
+  - "./caliper"
+  - "packages/cmd/protoc-gen-es-saacs"
+  - "packages/saacs-web"

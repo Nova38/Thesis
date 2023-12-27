@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "build": "unbuild",
+    "api": "ts-node ./src/api/main.ts",
     "dev": "vitest dev",
     "play": "jiti playground",
     "prepack": "pnpm run build",

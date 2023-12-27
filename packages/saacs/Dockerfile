@@ -22,8 +22,10 @@ FROM golang:1.21.4-bookworm
 
 WORKDIR /
 
-COPY --from=builder / .
+COPY --from=builder /saacs .
 
 EXPOSE 9999
+ENV AUTH_MODE=roles
+
 # CMD [ "/bin/sh" ]
 CMD ["./saacs"]

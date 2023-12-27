@@ -53,23 +53,19 @@
             "identity" : "Org1Admin"
         },
     // CreateCollection CreateCollectionRequest
+
+
         {
             "invoke": "create",
             "args": [
-                {"item":{
-                    "key":{},
-                    "value":{
-                        "@type":"type.googleapis.com/auth.Collection",
+                {
+                    "item":{
+                        "key":{
+                        "itemType" : "sample.SimpleItem",
                         "collectionId":"SecondCollection",
-                    }
-                }}
-            ]
-        },
-        {
-            "invoke": "create",
-            "args": [
-                {"item":{
-                    "key":{},
+
+                        "itemKeyParts":[ "332"]
+                        },
                     "value":{
                         "@type":"type.googleapis.com/auth.Collection",
 

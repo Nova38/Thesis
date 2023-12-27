@@ -1,0 +1,43 @@
+# Roles
+
+collection:
+  collection_id: biochain
+  name: BioChain
+  auth_type: AUTH_TYPE_ROLE
+  item_types:
+    - auth.Role
+    - auth.UserCollectionRoles
+    - ccbio.schema.v0.Specimen
+  default_policy:
+    path: "."
+    allow_subpaths: false
+    actions:
+      - ACTION_VIEW
+
+roles:
+  - role_id: admin
+    collection_id: biochain
+    policys:
+      default_policy:
+        path: "."
+        allow_subpaths: false
+        actions:
+          - ACTION_UNSPECIFIED
+          - ACTION_UTILITY
+          - ACTION_VIEW
+          - ACTION_CREATE
+          - ACTION_UPDATE
+          - ACTION_DELETE
+          - ACTION_SUGGEST_VIEW
+          - ACTION_SUGGEST_CREATE
+          - ACTION_SUGGEST_DELETE
+          - ACTION_SUGGEST_APPROVE
+          - ACTION_VIEW_HISTORY
+          - ACTION_VIEW_HIDDEN_TXS
+          - ACTION_HIDE_TX
+          - ACTION_UNHIDE_TX
+          - ACTION_REFERENCE_CREATE
+          - ACTION_REFERENCE_DELETE
+          - ACTION_REFERENCE_VIEW
+
+  - role_id: student

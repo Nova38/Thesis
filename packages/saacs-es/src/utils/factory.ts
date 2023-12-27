@@ -1,10 +1,11 @@
 // import { Author } from "../gen/chaincode/sample/v0/items_pb";
 
-import { Any, AnyMessage, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
+import { Any, AnyMessage, FieldMask, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 import { Item, ItemKey } from "../gen/auth/v1/objects_pb.js";
 import { Book, SimpleItem } from "../gen/sample/v0/items_pb.js";
 import { CreateRequest } from "../gen/chaincode/common/generic_pb.js";
 import { auth, sample } from "../gen/index.js";
+import { pb } from "../index.js";
 
 export function ShortToFullTypeName(type: any) {
     if (!type) {
@@ -19,6 +20,123 @@ export function ShortToFullTypeName(type: any) {
     return SimpleItem.typeName
 
 }
+
+export function BuildWorkloadItemKeysOne(arg: {numItems: number,collectionId:string ,typeName: string, workerIndex: number}) {
+
+    let itemList = []
+
+    for (let j = 0; j < arg.numItems; j++) {
+        let id = `worker:${arg.workerIndex}-item:${j}`;
+        let key = new ItemKey({
+            itemType: ShortToFullTypeName(arg.typeName),
+            itemKeyParts: [id],
+            collectionId:   arg.collectionId
+        })
+        itemList.push(key);
+    }
+
+    return itemList;
+}
+export function BuildWorkloadItemOne(arg: {numItems: number, collectionId:string, typeName: string, workerIndex: number}) {
+
+    let itemList = []
+
+    for (let j = 0; j < arg.numItems; j++) {
+        let id = `worker:${arg.workerIndex}-item:${j}`;
+        let key = new ItemKey({
+            itemType: ShortToFullTypeName(arg.typeName),
+            itemKeyParts: [id],
+            collectionId: arg.collectionId
+        })
+        if (arg.typeName == "book" ) {
+            itemList.push( new Book({
+                collectionId: arg.collectionId,
+                isbn: id,
+                author: "author",
+                language: "en",
+                bookTitle: "title",
+                description: "description",
+                year: 2023,
+                publisher: "publisher",
+            }))
+
+        }else  {
+            itemList.push( new SimpleItem({
+                collectionId: arg.collectionId,
+                id: id,
+                quantity: j,
+                name: `item:${j}`,
+            }))
+        }
+
+    }
+
+    return itemList;
+
+}
+
+
+
+
+
+export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestions: number, collectionId:string, typeName: string, workerIndex: number}) {
+
+    let suggestionList = []
+
+    for (let j = 0; j < arg.numItems; j++) {
+        for (let k = 0; k < arg.numSuggestions; k++) {
+            let id = `worker:${arg.workerIndex}-item:${j}`;
+            let key = new ItemKey({
+                itemType: ShortToFullTypeName(arg.typeName),
+                itemKeyParts: [id],
+                collectionId: arg.collectionId
+            })
+            if (arg.typeName == "book" ) {
+                let b = new Book({
+                    collectionId: arg.collectionId,
+                    isbn: id,
+                    author: "author",
+                    language: "en",
+                    bookTitle: "title",
+                    description: "description",
+                    year: 2023 + k,
+                    publisher: "publisher",
+                })
+                suggestionList.push( new pb.auth.objects.Suggestion({
+                    value: Any.pack(b),
+                    primaryKey: key,
+                    suggestionId: `suggestion:${k}`,
+                    paths: new FieldMask({
+                        paths: ["year"]
+                    })
+
+                }) )
+
+            }else  {
+                let item = new SimpleItem({
+                    collectionId: arg.collectionId,
+                    id: id,
+                    quantity: j,
+                    name: `item:${j* k}`,
+                })
+                suggestionList.push( new pb.auth.objects.Suggestion({
+                    value: Any.pack(item),
+                    primaryKey: key,
+                    suggestionId: `suggestion:${k}`,
+                    paths: new FieldMask({
+                        paths: ["name"]
+                    })
+
+                }) )
+                       }
+    }
+    }
+
+    return suggestionList;
+
+}
+
+
 
 
 

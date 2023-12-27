@@ -94,7 +94,7 @@ function* getAllMessages(
 }
 
 function generateTs(schema: Schema) {
-    generateGateway(schema);
+    // generateGateway(schema);
     generateFabricTest(schema);
 
     generateRegistry(schema);
@@ -133,9 +133,9 @@ function generateIndex(schema: Schema) {
             f.print(`export * from "./${base}_pb_reg.js"`);
         }
 
-        if (file.services.length > 0) {
-            f.print(`export * from "./${base}_pb_gateway.js"`);
-        }
+        // if (file.services.length > 0) {
+        //     f.print(`export * from "./${base}_pb_gateway.js"`);
+        // }
     }
 
     folders.forEach((files, folder) => {
@@ -374,28 +374,52 @@ function generateGateway(schema: Schema) {
                 if (method.methodKind === MethodKind.Unary) {
                     f.print();
                     f.print(makeJsDoc(method, "    "));
-                    f.print`    async ${localName(method)}(request: ${
-                        method.input
-                    }, evaluate: boolean ): Promise< ${method.output}> {`;
-                    f.print`        if (evaluate) {`;
-                    f.print`            const results = utf8Decoder.decode(`;
-                    f.print`                await this.contract.evaluateTransaction(`;
-                    f.print`                ${literalString(method.name)},`;
-                    f.print`                request.toJsonString(this.jsonWriteOptions)`;
-                    f.print`            )`;
-                    f.print`            )`;
-                    f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
-                    f.print`        } else {`;
-                    f.print`            const results = utf8Decoder.decode(`;
-                    f.print`                    await this.contract.submitTransaction(`;
-                    f.print`                ${literalString(method.name)},`;
-                    f.print`                request.toJsonString(this.jsonWriteOptions)`;
-                    f.print`            )`;
-                    f.print`            )`;
-                    f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
-                    f.print`        }`;
 
-                    f.print`    }`;
+                    if (method.input.typeName == "google.protobuf.Empty") {
+                        f.print`    async ${localName(method)}(evaluate: boolean): Promise< ${method.output}> {`;
+                        f.print`        if (evaluate) {`;
+                        f.print`            const results = utf8Decoder.decode(`;
+                        f.print`                await this.contract.evaluateTransaction(`;
+                        f.print`                ${literalString(method.name)}`;
+                        f.print`            )`;
+                        f.print`            )`;
+                        f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+                        f.print`        } else {`;
+                        f.print`            const results = utf8Decoder.decode(`;
+                        f.print`                    await this.contract.submitTransaction(`;
+                        f.print`                ${literalString(method.name)}`;
+                        f.print`            )`;
+                        f.print`            )`;
+                        f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+                        f.print`        }`;
+
+                        f.print`    }`;
+                    } else {
+                        f.print`    async ${localName(method)}(request: ${
+                            method.input
+                        }, evaluate: boolean ): Promise< ${method.output}> {`;
+                        f.print`        if (evaluate) {`;
+                        f.print`            const results = utf8Decoder.decode(`;
+                        f.print`                await this.contract.evaluateTransaction(`;
+                        f.print`                ${literalString(method.name)},`;
+                        f.print`                request.toJsonString(this.jsonWriteOptions)`;
+                        f.print`            )`;
+                        f.print`            )`;
+                        f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+                        f.print`        } else {`;
+                        f.print`            const results = utf8Decoder.decode(`;
+                        f.print`                    await this.contract.submitTransaction(`;
+                        f.print`                ${literalString(method.name)},`;
+                        f.print`                request.toJsonString(this.jsonWriteOptions)`;
+                        f.print`            )`;
+                        f.print`            )`;
+                        f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+                        f.print`        }`;
+
+                        f.print`    }`;
+                    }
+
+
                 }
             }
             f.print`}`;

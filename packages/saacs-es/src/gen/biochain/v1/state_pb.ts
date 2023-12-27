@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { Message, proto3 } from "@bufbuild/protobuf";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
 
 /**
@@ -181,24 +181,29 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   determiner = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp field_date = 8;
+   * @generated from field: string field_date = 8;
    */
-  fieldDate?: Timestamp;
+  fieldDate = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp catalog_date = 9;
+   * @generated from field: string catalog_date = 9;
    */
-  catalogDate?: Timestamp;
+  catalogDate = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp determined_date = 10;
+   * @generated from field: string determined_date = 10;
    */
-  determinedDate?: Timestamp;
+  determinedDate = "";
 
   /**
    * @generated from field: string determined_reason = 11;
    */
   determinedReason = "";
+
+  /**
+   * @generated from field: string original_date = 12;
+   */
+  originalDate = "";
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -220,10 +225,11 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
     { no: 5, name: "cataloger", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 6, name: "collector", kind: "message", T: Researcher, repeated: true },
     { no: 7, name: "determiner", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 8, name: "field_date", kind: "message", T: Timestamp },
-    { no: 9, name: "catalog_date", kind: "message", T: Timestamp },
-    { no: 10, name: "determined_date", kind: "message", T: Timestamp },
+    { no: 8, name: "field_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 9, name: "catalog_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 10, name: "determined_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 11, name: "determined_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 12, name: "original_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -249,22 +255,47 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
  */
 export class Specimen_Secondary extends Message<Specimen_Secondary> {
   /**
-   * @generated from field: string preparation = 3;
+   * @generated from field: ccbio.schema.v0.Specimen.Secondary.SEX sex = 1;
+   */
+  sex = Specimen_Secondary_SEX.SEX_UNDEFINED;
+
+  /**
+   * @generated from field: ccbio.schema.v0.Specimen.Secondary.AGE age = 2;
+   */
+  age = Specimen_Secondary_AGE.AGE_UNDEFINED;
+
+  /**
+   * @generated from field: double weight = 3;
+   */
+  weight = 0;
+
+  /**
+   * @generated from field: string weight_units = 4;
+   */
+  weightUnits = "";
+
+  /**
+   * @generated from field: string preparation = 5;
    */
   preparation = "";
 
   /**
-   * @generated from field: string condition = 4;
+   * @generated from field: string condition = 6;
    */
   condition = "";
 
   /**
-   * @generated from field: string notes = 5;
+   * @generated from field: string molt = 7;
+   */
+  molt = "";
+
+  /**
+   * @generated from field: string notes = 8;
    */
   notes = "";
 
   /**
-   * @generated from field: auth.StateActivity last_modified = 20;
+   * @generated from field: auth.StateActivity last_modified = 9;
    */
   lastModified?: StateActivity;
 
@@ -276,10 +307,15 @@ export class Specimen_Secondary extends Message<Specimen_Secondary> {
   static readonly runtime: typeof proto3 = proto3;
   static readonly typeName = "ccbio.schema.v0.Specimen.Secondary";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 3, name: "preparation", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "condition", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 20, name: "last_modified", kind: "message", T: StateActivity },
+    { no: 1, name: "sex", kind: "enum", T: proto3.getEnumType(Specimen_Secondary_SEX) },
+    { no: 2, name: "age", kind: "enum", T: proto3.getEnumType(Specimen_Secondary_AGE) },
+    { no: 3, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 4, name: "weight_units", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "preparation", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "condition", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 7, name: "molt", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 8, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 9, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Specimen_Secondary {
@@ -298,6 +334,96 @@ export class Specimen_Secondary extends Message<Specimen_Secondary> {
     return proto3.util.equals(Specimen_Secondary, a, b);
   }
 }
+
+/**
+ * @generated from enum ccbio.schema.v0.Specimen.Secondary.SEX
+ */
+export enum Specimen_Secondary_SEX {
+  /**
+   * @generated from enum value: SEX_UNDEFINED = 0;
+   */
+  SEX_UNDEFINED = 0,
+
+  /**
+   * @generated from enum value: SEX_UNKNOWN = 1;
+   */
+  SEX_UNKNOWN = 1,
+
+  /**
+   * @generated from enum value: SEX_ATYPICAL = 2;
+   */
+  SEX_ATYPICAL = 2,
+
+  /**
+   * @generated from enum value: SEX_MALE = 3;
+   */
+  SEX_MALE = 3,
+
+  /**
+   * @generated from enum value: SEX_FEMALE = 4;
+   */
+  SEX_FEMALE = 4,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Specimen_Secondary_SEX)
+proto3.util.setEnumType(Specimen_Secondary_SEX, "ccbio.schema.v0.Specimen.Secondary.SEX", [
+  { no: 0, name: "SEX_UNDEFINED" },
+  { no: 1, name: "SEX_UNKNOWN" },
+  { no: 2, name: "SEX_ATYPICAL" },
+  { no: 3, name: "SEX_MALE" },
+  { no: 4, name: "SEX_FEMALE" },
+]);
+
+/**
+ * Secondary.age -field with limited options: NEST, EMBRYO_EGG, CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
+ *
+ * @generated from enum ccbio.schema.v0.Specimen.Secondary.AGE
+ */
+export enum Specimen_Secondary_AGE {
+  /**
+   * @generated from enum value: AGE_UNDEFINED = 0;
+   */
+  AGE_UNDEFINED = 0,
+
+  /**
+   * @generated from enum value: AGE_UNKNOWN = 1;
+   */
+  AGE_UNKNOWN = 1,
+
+  /**
+   * @generated from enum value: AGE_NEST = 2;
+   */
+  AGE_NEST = 2,
+
+  /**
+   * @generated from enum value: AGE_EMBRYO_EGG = 3;
+   */
+  AGE_EMBRYO_EGG = 3,
+
+  /**
+   * @generated from enum value: AGE_CHICK_SUBADULT = 4;
+   */
+  AGE_CHICK_SUBADULT = 4,
+
+  /**
+   * @generated from enum value: AGE_ADULT = 5;
+   */
+  AGE_ADULT = 5,
+
+  /**
+   * @generated from enum value: AGE_CONTINGENT = 6;
+   */
+  AGE_CONTINGENT = 6,
+}
+// Retrieve enum metadata with: proto3.getEnumType(Specimen_Secondary_AGE)
+proto3.util.setEnumType(Specimen_Secondary_AGE, "ccbio.schema.v0.Specimen.Secondary.AGE", [
+  { no: 0, name: "AGE_UNDEFINED" },
+  { no: 1, name: "AGE_UNKNOWN" },
+  { no: 2, name: "AGE_NEST" },
+  { no: 3, name: "AGE_EMBRYO_EGG" },
+  { no: 4, name: "AGE_CHICK_SUBADULT" },
+  { no: 5, name: "AGE_ADULT" },
+  { no: 6, name: "AGE_CONTINGENT" },
+]);
 
 /**
  * @generated from message ccbio.schema.v0.Specimen.Taxon
@@ -424,9 +550,65 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
   habitat = "";
 
   /**
-   * @generated from field: repeated string notes = 8;
+   * Georeference.continent -string 32 characters
+   *
+   * @generated from field: string continent = 8;
    */
-  notes: string[] = [];
+  continent = "";
+
+  /**
+   * Georeference.locationRemarks -string 100-1k characters
+   *
+   * @generated from field: string location_remarks = 9;
+   */
+  locationRemarks = "";
+
+  /**
+   * Georeference.coordinateUncercaintyInMeters -integer 7 digits
+   *
+   * @generated from field: int32 coordinate_uncertainty_in_meters = 10;
+   */
+  coordinateUncertaintyInMeters = 0;
+
+  /**
+   * Georeference.georeferenceBy -string 64 characters
+   *
+   * @generated from field: string georeference_by = 11;
+   */
+  georeferenceBy = "";
+
+  /**
+   * Georeference.georeferenceDate -string MM/DD/YYYY
+   *
+   * @generated from field: string georeference_date = 12;
+   */
+  georeferenceDate = "";
+
+  /**
+   * Georeference.georeferenceProtocol -string 256 chars (weblink)
+   *
+   * @generated from field: string georeference_protocol = 13;
+   */
+  georeferenceProtocol = "";
+
+  /**
+   * Georeference.geodeticDatum -string 16 characters
+   *
+   * @generated from field: string geodetic_datum = 14;
+   */
+  geodeticDatum = "";
+
+  /**
+   * Georeference.footprintWKT -string 10-100k characters
+   *
+   * @generated from field: string footprint_wkt = 15;
+   */
+  footprintWkt = "";
+
+  /**
+   * @generated from field: string notes = 19;
+   */
+  notes = "";
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -448,7 +630,15 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
     { no: 5, name: "latitude", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 6, name: "longitude", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 7, name: "habitat", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 8, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 8, name: "continent", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 9, name: "location_remarks", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 10, name: "coordinate_uncertainty_in_meters", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 11, name: "georeference_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 12, name: "georeference_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 13, name: "georeference_protocol", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 14, name: "geodetic_datum", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 15, name: "footprint_wkt", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 19, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -557,9 +747,9 @@ export class Specimen_Loan extends Message<Specimen_Loan> {
   loanedTo = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp loaned_date = 5;
+   * @generated from field: string loaned_date = 5;
    */
-  loanedDate?: Timestamp;
+  loanedDate = "";
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -578,7 +768,7 @@ export class Specimen_Loan extends Message<Specimen_Loan> {
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "loaned_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "loaned_to", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "loaned_date", kind: "message", T: Timestamp },
+    { no: 5, name: "loaned_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -624,9 +814,9 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
   grantedTo = "";
 
   /**
-   * @generated from field: google.protobuf.Timestamp granted_date = 5;
+   * @generated from field: string granted_date = 5;
    */
-  grantedDate?: Timestamp;
+  grantedDate = "";
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -645,7 +835,7 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "granted_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "granted_to", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "granted_date", kind: "message", T: Timestamp },
+    { no: 5, name: "granted_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 

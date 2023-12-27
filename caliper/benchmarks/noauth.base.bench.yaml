@@ -1,0 +1,190 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+---
+test:
+  name: Role Benchmarks
+  description:
+  workers:
+    number: 3
+  rounds:
+    - label: CreateItem
+      contractId: noauth
+      txNumber: 2000
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/Create.js
+        arguments: &ItemSettings
+          contractId: noauth
+          numItems: 2000
+          type: simple
+
+    - label: GetItem
+      contractId: noauth
+      txNumber: 200
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/Get.js
+        arguments: *ItemSettings
+
+    - label: GetAllItems
+      contractId: noauth
+      txNumber: 20
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/GetList.js
+        arguments: *ItemSettings
+
+    - label: "create item suggestions"
+      contractId: noauth
+      txNumber: 200
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/CreateSuggestions.js
+        arguments: &ItemSuggestionSettings
+          contractId: noauth
+          type: simple
+          numItems: 200
+          numSuggestions: 10
+
+    - label: CreateBook
+      contractId: noauth
+      txNumber: 200
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/Create.js
+        arguments: &BookSettings
+          contractId: noauth
+          type: book
+          numItems: 200
+
+    - label: GetBook
+      contractId: noauth
+      txNumber: 2000
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/Get.js
+        arguments: *BookSettings
+
+    - label: GetAllBooks
+      contractId: noauth
+      txNumber: 20
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/role/GetList.js
+        arguments: *BookSettings
+
+    - label: createbooksuggestions
+      contractId: noauth
+      txNumber: 200
+      rateControl:
+        type: fixed-rate
+        opts: { tps: 30 }
+      workload:
+        module: benchmarks/workloads/auth/noauth/CreateSuggestions.js
+        arguments: &BookSuggestionSettings
+          contractId: noauth
+          type: book
+          numItems: 200
+          numSuggestions: 10
+
+monitors:
+  transaction:
+    - module: prometheus-push
+      options:
+        pushInterval: 5000
+        pushUrl: "http://localhost:9091"
+    - module: prometheus
+    - module: logging
+      options:
+        loggerModuleName: txinfo
+        messageLevel: info
+  resource:
+    - module: docker
+      options:
+        interval: 5
+        containers:
+          - /orderer.example.com
+
+          - /peer0.org1.example.com
+          - /couchdb1
+          - /peer0org1_identity_ccaas
+          - /peer0org1_role_ccaas
+          - /peer0org1_roles_ccaas
+
+          - /peer0.org2.example.com
+          - /couchdb2
+          - /peer0org2_identity_ccaas
+          - /peer0org2_role_ccaas
+          - /peer0org2_roles_ccaas
+
+    - module: prometheus
+      options:
+        url: "http://localhost:9090"
+        charting:
+          polar:
+            metrics: [all]
+          bar:
+            metrics: [all]
+        metrics:
+          include: [.*]
+          queries:
+            - name: Avg Shim Requests
+              query:
+                'avg(chaincode_shim_requests_received{chaincode=~"role.*"}) by
+                (type)'
+              step: 1
+              label: type
+              statistic: avg
+              multiplier: 1
+            - name: Min Shim Request Duration
+              query:
+                min(chaincode_shim_request_duration_sum{chaincode=~"role.*"}) by
+                (type)
+              step: 1
+              label: type
+              statistic: min
+            - name: Max Shim Request Duration
+              query:
+                max(chaincode_shim_request_duration_sum{chaincode=~"role.*"}) by
+                (type)
+              step: 1
+              label: type
+              statistic: max
+            - name: Avg Shim Request Duration
+              query: avg(chaincode_shim_request_duration{chaincode=~"role.*"})
+              step: 1
+              label: instance
+              statistic: avg
+            - name: Avg Shim Request Duration by type
+              query:
+                avg(chaincode_shim_request_duration_bucket{chaincode=~"role.*"})  by
+                (type)
+              step: 1
+              label: type
+              statistic: avg
