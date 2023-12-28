@@ -3,41 +3,41 @@ managed:
   enabled: true
 
   go_package_prefix:
-    default: github.com/nova38/thesis/packages/saacs/gen
+    default: github.com/nova38/thesis/pkg/saacs/gen
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
 
 plugins:
   - plugin: buf.build/protocolbuffers/go
-    out: packages/saacs/gen
+    out: pkg/saacs/gen
     opt:
       - paths=source_relative
   - plugin: go-saacs
-    out: packages/saacs/gen
+    out: pkg/saacs/gen
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/validate-go
-    out: packages/saacs/gen
+    out: pkg/saacs/gen
     opt:
       - paths=source_relative
 
   - plugin: buf.build/community/mitchellh-go-json:v1.1.0
-    out: packages/saacs/gen
+    out: pkg/saacs/gen
     opt:
       - paths=source_relative
       - emit_defaults=true
       - enums_as_ints=true
 
   - plugin: buf.build/bufbuild/es:v1.3.1
-    out: packages/saacs-es/src/gen
+    out: pkg/saacs-es/src/gen
     opt: target=ts
 
   - plugin: protoc-gen-es-saacs
-    path: ["tsx", "packages/cmd/protoc-gen-es-saacs/src/main.ts"]
+    path: ["tsx", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
     opt: target=ts
-    out: packages/saacs-es/src/gen
+    out: pkg/saacs-es/src/gen
     strategy: all
 # #
 #     - plugin: protoc-gen-es-tools

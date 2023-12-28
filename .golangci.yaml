@@ -50,7 +50,7 @@ linters-settings:
 
   linters-settings:
     alias:
-      - pkg: 	"github.com/nova38/thesis/packages/saacs/gen/auth/v1"
+      - pkg: 	"github.com/nova38/thesis/pkg/saacs/gen/auth/v1"
         alias: 	"authpb"
 
   # govet:
