@@ -14,7 +14,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o saacs -v ./pkg/saacs/bin/main.go
+RUN go build -o saacs -v ./pkg/chaincode/bin/main.go
 
 
 

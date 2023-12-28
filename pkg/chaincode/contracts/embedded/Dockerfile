@@ -14,7 +14,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/roles -v ./pkg/saacs/roles/bin/main.go
+RUN go build -o bin/roles -v ./pkg/chaincode/roles/bin/main.go
 
 
 
