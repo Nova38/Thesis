@@ -35,6 +35,141 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on Date with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Date) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Date with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in DateMultiError, or nil if none found.
+func (m *Date) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Date) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Verbatim
+
+	if all {
+		switch v := interface{}(m.GetTimestamp()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, DateValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, DateValidationError{
+					field:  "Timestamp",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetTimestamp()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return DateValidationError{
+				field:  "Timestamp",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Year
+
+	// no validation rules for Month
+
+	// no validation rules for Day
+
+	if len(errors) > 0 {
+		return DateMultiError(errors)
+	}
+
+	return nil
+}
+
+// DateMultiError is an error wrapping multiple validation errors returned by
+// Date.ValidateAll() if the designated constraints aren't met.
+type DateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DateMultiError) AllErrors() []error { return m }
+
+// DateValidationError is the validation error returned by Date.Validate if the
+// designated constraints aren't met.
+type DateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DateValidationError) ErrorName() string { return "DateValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDate.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DateValidationError{}
+
 // Validate checks the field values on Researcher with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -565,15 +700,123 @@ func (m *Specimen_Primary) validate(all bool) error {
 
 	// no validation rules for Determiner
 
-	// no validation rules for FieldDate
+	if all {
+		switch v := interface{}(m.GetFieldDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "FieldDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "FieldDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFieldDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_PrimaryValidationError{
+				field:  "FieldDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
-	// no validation rules for CatalogDate
+	if all {
+		switch v := interface{}(m.GetCatalogDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "CatalogDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "CatalogDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCatalogDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_PrimaryValidationError{
+				field:  "CatalogDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
-	// no validation rules for DeterminedDate
+	if all {
+		switch v := interface{}(m.GetDeterminedDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "DeterminedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "DeterminedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDeterminedDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_PrimaryValidationError{
+				field:  "DeterminedDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for DeterminedReason
 
-	// no validation rules for OriginalDate
+	if all {
+		switch v := interface{}(m.GetOriginalDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "OriginalDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_PrimaryValidationError{
+					field:  "OriginalDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOriginalDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_PrimaryValidationError{
+				field:  "OriginalDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if all {
 		switch v := interface{}(m.GetLastModified()).(type) {
@@ -1018,7 +1261,34 @@ func (m *Specimen_Georeference) validate(all bool) error {
 
 	// no validation rules for GeoreferenceBy
 
-	// no validation rules for GeoreferenceDate
+	if all {
+		switch v := interface{}(m.GetGeoreferenceDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_GeoreferenceValidationError{
+					field:  "GeoreferenceDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_GeoreferenceValidationError{
+					field:  "GeoreferenceDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGeoreferenceDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_GeoreferenceValidationError{
+				field:  "GeoreferenceDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for GeoreferenceProtocol
 
@@ -1304,7 +1574,34 @@ func (m *Specimen_Loan) validate(all bool) error {
 
 	// no validation rules for LoanedTo
 
-	// no validation rules for LoanedDate
+	if all {
+		switch v := interface{}(m.GetLoanedDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LoanedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_LoanValidationError{
+					field:  "LoanedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetLoanedDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_LoanValidationError{
+				field:  "LoanedDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if all {
 		switch v := interface{}(m.GetLastModified()).(type) {
@@ -1443,7 +1740,34 @@ func (m *Specimen_Grant) validate(all bool) error {
 
 	// no validation rules for GrantedTo
 
-	// no validation rules for GrantedDate
+	if all {
+		switch v := interface{}(m.GetGrantedDate()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "GrantedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, Specimen_GrantValidationError{
+					field:  "GrantedDate",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetGrantedDate()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Specimen_GrantValidationError{
+				field:  "GrantedDate",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if all {
 		switch v := interface{}(m.GetLastModified()).(type) {

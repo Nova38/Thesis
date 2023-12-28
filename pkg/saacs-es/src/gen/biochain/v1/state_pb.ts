@@ -4,8 +4,73 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
+import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
+
+/**
+ * ────────────────────────────────────────────────--
+ * Specimen
+ * ────────────────────────────────────────────────--
+ *
+ * @generated from message ccbio.schema.v0.Date
+ */
+export class Date extends Message<Date> {
+  /**
+   * @generated from field: string verbatim = 1;
+   */
+  verbatim = "";
+
+  /**
+   * @generated from field: google.protobuf.Timestamp timestamp = 2;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * @generated from field: int32 year = 3;
+   */
+  year = 0;
+
+  /**
+   * @generated from field: string month = 4;
+   */
+  month = "";
+
+  /**
+   * @generated from field: int32 day = 5;
+   */
+  day = 0;
+
+  constructor(data?: PartialMessage<Date>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "ccbio.schema.v0.Date";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "verbatim", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 3, name: "year", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 4, name: "month", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "day", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Date {
+    return new Date().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Date {
+    return new Date().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Date {
+    return new Date().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Date | PlainMessage<Date> | undefined, b: Date | PlainMessage<Date> | undefined): boolean {
+    return proto3.util.equals(Date, a, b);
+  }
+}
 
 /**
  * @generated from message ccbio.schema.v0.Researcher
@@ -181,19 +246,19 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   determiner = "";
 
   /**
-   * @generated from field: string field_date = 8;
+   * @generated from field: ccbio.schema.v0.Date field_date = 8;
    */
-  fieldDate = "";
+  fieldDate?: Date;
 
   /**
-   * @generated from field: string catalog_date = 9;
+   * @generated from field: ccbio.schema.v0.Date catalog_date = 9;
    */
-  catalogDate = "";
+  catalogDate?: Date;
 
   /**
-   * @generated from field: string determined_date = 10;
+   * @generated from field: ccbio.schema.v0.Date determined_date = 10;
    */
-  determinedDate = "";
+  determinedDate?: Date;
 
   /**
    * @generated from field: string determined_reason = 11;
@@ -201,9 +266,9 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   determinedReason = "";
 
   /**
-   * @generated from field: string original_date = 12;
+   * @generated from field: ccbio.schema.v0.Date original_date = 12;
    */
-  originalDate = "";
+  originalDate?: Date;
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -225,11 +290,11 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
     { no: 5, name: "cataloger", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 6, name: "collector", kind: "message", T: Researcher, repeated: true },
     { no: 7, name: "determiner", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 8, name: "field_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 9, name: "catalog_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 10, name: "determined_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 8, name: "field_date", kind: "message", T: Date },
+    { no: 9, name: "catalog_date", kind: "message", T: Date },
+    { no: 10, name: "determined_date", kind: "message", T: Date },
     { no: 11, name: "determined_reason", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 12, name: "original_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 12, name: "original_date", kind: "message", T: Date },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -580,9 +645,9 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
   /**
    * Georeference.georeferenceDate -string MM/DD/YYYY
    *
-   * @generated from field: string georeference_date = 12;
+   * @generated from field: ccbio.schema.v0.Date georeference_date = 12;
    */
-  georeferenceDate = "";
+  georeferenceDate?: Date;
 
   /**
    * Georeference.georeferenceProtocol -string 256 chars (weblink)
@@ -634,7 +699,7 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
     { no: 9, name: "location_remarks", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 10, name: "coordinate_uncertainty_in_meters", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 11, name: "georeference_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 12, name: "georeference_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 12, name: "georeference_date", kind: "message", T: Date },
     { no: 13, name: "georeference_protocol", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 14, name: "geodetic_datum", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 15, name: "footprint_wkt", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -747,9 +812,9 @@ export class Specimen_Loan extends Message<Specimen_Loan> {
   loanedTo = "";
 
   /**
-   * @generated from field: string loaned_date = 5;
+   * @generated from field: ccbio.schema.v0.Date loaned_date = 5;
    */
-  loanedDate = "";
+  loanedDate?: Date;
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -768,7 +833,7 @@ export class Specimen_Loan extends Message<Specimen_Loan> {
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "loaned_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "loaned_to", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "loaned_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "loaned_date", kind: "message", T: Date },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 
@@ -814,9 +879,9 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
   grantedTo = "";
 
   /**
-   * @generated from field: string granted_date = 5;
+   * @generated from field: ccbio.schema.v0.Date granted_date = 5;
    */
-  grantedDate = "";
+  grantedDate?: Date;
 
   /**
    * @generated from field: auth.StateActivity last_modified = 20;
@@ -835,7 +900,7 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
     { no: 2, name: "description", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "granted_by", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "granted_to", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "granted_date", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "granted_date", kind: "message", T: Date },
     { no: 20, name: "last_modified", kind: "message", T: StateActivity },
   ]);
 

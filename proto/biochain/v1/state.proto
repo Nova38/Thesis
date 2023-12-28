@@ -6,14 +6,20 @@ package ccbio.schema.v0;
 // import "rbac/rbac.proto";
 import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
-// import "google/protobuf/timestamp.proto";
+import "google/protobuf/timestamp.proto";
 
 // option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
 
 // ────────────────────────────────────────────────--
 // Specimen
 // ────────────────────────────────────────────────--
-
+message Date {
+  string verbatim = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  int32 year = 3;
+  string month = 4;
+  int32 day = 5;
+}
 message Researcher {
   string first_name = 1;
   string last_name = 2;
@@ -34,11 +40,11 @@ message Specimen {
     string cataloger = 5;
     repeated Researcher collector = 6;
     string determiner = 7;
-    string field_date = 8;
-    string catalog_date = 9;
-    string determined_date = 10;
+    Date field_date = 8;
+    Date catalog_date = 9;
+    Date determined_date = 10;
     string determined_reason = 11;
-    string original_date = 12;
+    Date original_date = 12;
     auth.StateActivity last_modified = 20;
   }
 
@@ -103,7 +109,7 @@ message Specimen {
     // Georeference.georeferenceBy -string 64 characters
     string georeference_by = 11;
     // Georeference.georeferenceDate -string MM/DD/YYYY
-    string georeference_date = 12;
+    Date georeference_date = 12;
     // Georeference.georeferenceProtocol -string 256 chars (weblink)
     string georeference_protocol = 13;
     // Georeference.geodeticDatum -string 16 characters
@@ -129,7 +135,7 @@ message Specimen {
     string description = 2;
     string loaned_by = 3;
     string loaned_to = 4;
-    string loaned_date = 5;
+    Date loaned_date = 5;
 
     auth.StateActivity last_modified = 20;
   }
@@ -139,7 +145,7 @@ message Specimen {
     string description = 2;
     string granted_by = 3;
     string granted_to = 4;
-    string granted_date = 5;
+    Date granted_date = 5;
     auth.StateActivity last_modified = 20;
   }
 
