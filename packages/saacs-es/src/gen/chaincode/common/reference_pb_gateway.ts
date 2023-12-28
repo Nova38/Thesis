@@ -23,8 +23,8 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.Reference
      */
+// 2
     async reference(request: ReferenceRequest, evaluate: boolean ): Promise< ReferenceResponse> {
-        if (evaluate) {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "Reference",
@@ -32,22 +32,13 @@ export class ReferenceServiceClient {
             )
             )
             return ReferenceResponse.fromJsonString(results, {typeRegistry: this.registry});
-        } else {
-            const results = utf8Decoder.decode(
-                    await this.contract.submitTransaction(
-                "Reference",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceResponse.fromJsonString(results, {typeRegistry: this.registry});
-        }
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByItem
      */
+// 2
     async referenceByItem(request: ReferenceByItemRequest, evaluate: boolean ): Promise< ReferenceByItemResponse> {
-        if (evaluate) {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ReferenceByItem",
@@ -55,22 +46,13 @@ export class ReferenceServiceClient {
             )
             )
             return ReferenceByItemResponse.fromJsonString(results, {typeRegistry: this.registry});
-        } else {
-            const results = utf8Decoder.decode(
-                    await this.contract.submitTransaction(
-                "ReferenceByItem",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceByItemResponse.fromJsonString(results, {typeRegistry: this.registry});
-        }
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByPartialKey
      */
+// 2
     async referenceByPartialKey(request: ReferenceByPartialKeyRequest, evaluate: boolean ): Promise< ReferenceByPartialKeyResponse> {
-        if (evaluate) {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ReferenceByPartialKey",
@@ -78,60 +60,33 @@ export class ReferenceServiceClient {
             )
             )
             return ReferenceByPartialKeyResponse.fromJsonString(results, {typeRegistry: this.registry});
-        } else {
-            const results = utf8Decoder.decode(
-                    await this.contract.submitTransaction(
-                "ReferenceByPartialKey",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceByPartialKeyResponse.fromJsonString(results, {typeRegistry: this.registry});
-        }
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceCreate
      */
+// 1
     async referenceCreate(request: ReferenceCreateRequest, evaluate: boolean ): Promise< ReferenceCreateResponse> {
-        if (evaluate) {
             const results = utf8Decoder.decode(
-                await this.contract.evaluateTransaction(
+                await this.contract.submitTransaction(
                 "ReferenceCreate",
                 request.toJsonString(this.jsonWriteOptions)
             )
             )
             return ReferenceCreateResponse.fromJsonString(results, {typeRegistry: this.registry});
-        } else {
-            const results = utf8Decoder.decode(
-                    await this.contract.submitTransaction(
-                "ReferenceCreate",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceCreateResponse.fromJsonString(results, {typeRegistry: this.registry});
-        }
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceDelete
      */
+// 1
     async referenceDelete(request: ReferenceDeleteRequest, evaluate: boolean ): Promise< ReferenceDeleteResponse> {
-        if (evaluate) {
             const results = utf8Decoder.decode(
-                await this.contract.evaluateTransaction(
+                await this.contract.submitTransaction(
                 "ReferenceDelete",
                 request.toJsonString(this.jsonWriteOptions)
             )
             )
             return ReferenceDeleteResponse.fromJsonString(results, {typeRegistry: this.registry});
-        } else {
-            const results = utf8Decoder.decode(
-                    await this.contract.submitTransaction(
-                "ReferenceDelete",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceDeleteResponse.fromJsonString(results, {typeRegistry: this.registry});
-        }
     }
 }

@@ -25,7 +25,7 @@ WORKDIR /
 COPY --from=builder /saacs .
 
 EXPOSE 9999
-ENV AUTH_MODE=roles
+# ENV AUTH_MODE=roles
 
 # CMD [ "/bin/sh" ]
 CMD ["./saacs"]
