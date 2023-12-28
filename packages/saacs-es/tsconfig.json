@@ -18,4 +18,7 @@
         "moduleResolution": "node16",
         "noEmit": false
     },
+    "ts-node": {
+        "esm": true
+    },
 }

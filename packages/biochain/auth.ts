@@ -13,7 +13,9 @@ function readFile(name: string): Object {
     // [ true, false, 'maybe', null ]
     const __filename = fileURLToPath(import.meta.url);
     // const currentDirectory = __dirname;
-    const filePath = path.join(__filename, name);
+    // get the current directory
+    const currentDirectory = path.dirname(__filename);
+    const filePath = path.join(currentDirectory, name);
     const file = fs.readFileSync(filePath, "utf8");
     return YAML.parse(file);
 }
@@ -103,32 +105,8 @@ async function Register(
         return await SetIdentity(username, password, signKey, key, mspId, name);
     }
 }
-// for (let user of users) {
-//     console.log(user);
 
-//     const data: any = user[1];
 
-//     // const res = await Register(
-//     //     data.name,
-//     //     user[0],
-//     //     data.password,
-//     //     data.key.pem,
-//     //     data.cert.pem,
-//     //     "Org1MSP"
-//     // );
-
-//     const res = await SetIdentity(
-//         user[0],
-//         data.password,
-//         data.key.pem,
-//         data.cert.pem,
-//         "Org1MSP",
-//         data.name
-//     );
-
-//     console.log(res);
-// }
-// await Login("admin_1", "HBN8dfz3tvm_nmx");
 let users = Object.entries(readFile("merged.yml").organizations.Org1MSP.users);
 
 await GetFullUser(users[0][0], users[0][1].password);
