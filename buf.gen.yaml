@@ -3,7 +3,7 @@ managed:
   enabled: true
 
   go_package_prefix:
-    default: github.com/nova38/thesis/pkg/saacs/gen
+    default: github.com/nova38/saacs/pkg/chaincode/gen
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
