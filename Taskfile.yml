@@ -22,7 +22,7 @@ tasks:
 
     cmds:
       #      - go install ./tools/cmd/protoc-gen-cckey
-      - go install ./packages/cmd/protoc-gen-go-saacs
+      - go install ./pkg/cmd/protoc-gen-go-saacs
   gen:cmd:
     deps:
       - install
@@ -46,10 +46,10 @@ tasks:
       - task: network:ccaas:redeploy
 
   cc:build:
-    cmd: docker build -t nova38/saacs:latest -f ./packages/saacs/Dockerfile .
+    cmd: docker build -t nova38/saacs:latest -f ./pkg/saacs/Dockerfile .
 
   build:es-stub:
-    cmd: cd ./packages/saacs-es && pnpm run stub
+    cmd: cd ./pkg/saacs-es && pnpm run stub
 
   # go:format:
   #   cmds:
