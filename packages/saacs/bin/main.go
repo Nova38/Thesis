@@ -13,10 +13,14 @@ import (
 	_ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+
 	"github.com/nova38/thesis/packages/saacs/common"
 	"github.com/nova38/thesis/packages/saacs/contracts/identity"
 	"github.com/nova38/thesis/packages/saacs/contracts/noauth"
 	"github.com/nova38/thesis/packages/saacs/contracts/roles"
+
+	_ "github.com/nova38/thesis/packages/saacs/gen/biochain/v1"
+	_ "github.com/nova38/thesis/packages/saacs/gen/sample/v0"
 )
 
 var (
