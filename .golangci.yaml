@@ -1,6 +1,5 @@
 linters:
   enable:
-    # - cyclop
     - revive
     - ginkgolinter
     - gocritic
@@ -9,8 +8,6 @@ linters:
     - unused
     - dupl
     - importas
-    # - exhaustruct
-    # - gosec
     - importas
     - unconvert
     - wastedassign
@@ -21,43 +18,32 @@ linters:
     - misspell
     - govet
 
-
   # exclude-rules:
   #   # Loosen requirements on test harness
   #   - path: go/v2/internal/cmd/
   #     linters:
   #       - forbidigo
   #       - errorlint
-  staticcheck:
 
 #     # SAxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
 #     # Default: ["*"]
 #     checks: ["all"]
 run:
   timeout: "1m"
-  issue-exit-code: 1
   tests: true
   concurrency: 4
   skip-dirs-use-default: true
   allow-parallel-runners: false
-  go: "1.21.3"
+  go: "1.21.4"
   skip-dirs:
     - apps/chaincode/ccbio/v1
 
-
-
 linters-settings:
-
-  linters-settings:
-    alias:
-      - pkg: 	"github.com/nova38/thesis/pkg/saacs/gen/auth/v1"
-        alias: 	"authpb"
-
   # govet:
   #   enable-all: true
 
   sloglint:
-      args-on-sep-lines: true
+    args-on-sep-lines: true
 
   errcheck:
     # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
@@ -69,21 +55,20 @@ linters-settings:
     # Default: false
     check-blank: true
   cyclop:
-      # The maximal code complexity to report.
-      # Default: 10
-      max-complexity: 12
+    # The maximal code complexity to report.
+    # Default: 10
+    max-complexity: 12
   protogetter:
-        skip-any-generated: true
+    skip-any-generated: true
 
   revive:
     #       # https://github.com/mgechev/revive/blob/master/RULES_DES`CRIPTIONS.md#var-naming
     rules:
-
       - name: var-naming
         severity: warning
         disabled: false
         arguments:
-          - ["ID","id"] # AllowList
+          - ["ID", "id"] # AllowList
           - ["VM"] # DenyList
           - - upperCaseConst: true
 #     # Maximum number of open files at the same time.
@@ -231,10 +216,10 @@ linters-settings:
 #         severity: warning
 #         disabled: false
 #       # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-return
-      # - name: error-return
-      #   severity: warning
-      #   disabled: false
-      # # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-strings
+# - name: error-return
+#   severity: warning
+#   disabled: false
+# # https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#error-strings
 #       - name: error-strings
 #         severity: warning
 #         disabled: false
