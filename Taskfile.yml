@@ -46,7 +46,7 @@ tasks:
       - task: network:ccaas:redeploy
 
   cc:build:
-    cmd: docker build -t nova38/saacs:latest -f ./pkg/saacs/Dockerfile .
+    cmd: docker build -t nova38/saacs:latest -f ./pkg/chaincode/Dockerfile .
 
   build:es-stub:
     cmd: cd ./pkg/saacs-es && pnpm run stub
