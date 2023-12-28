@@ -10,21 +10,21 @@ managed:
 
 plugins:
   - plugin: buf.build/protocolbuffers/go
-    out: pkg/saacs/gen
+    out: pkg/chaincode/gen
     opt:
       - paths=source_relative
   - plugin: go-saacs
-    out: pkg/saacs/gen
+    out: pkg/chaincode/gen
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/validate-go
-    out: pkg/saacs/gen
+    out: pkg/chaincode/gen
     opt:
       - paths=source_relative
 
   - plugin: buf.build/community/mitchellh-go-json:v1.1.0
-    out: pkg/saacs/gen
+    out: pkg/chaincode/gen
     opt:
       - paths=source_relative
       - emit_defaults=true
@@ -39,7 +39,7 @@ plugins:
     opt: target=ts
     out: pkg/saacs-es/src/gen
     strategy: all
-# #
+#
 #     - plugin: protoc-gen-es-tools
 #       path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/workload_templates.ts"]
 #       opt: target=ts
