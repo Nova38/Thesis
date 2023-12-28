@@ -14,7 +14,7 @@ RUN go env -w GOPRIVATE=github.com/nova38/*
 
 
 
-RUN go build -o bin/identity        -v ./pkg/saacs/contracts/identity/bin/main.go
+RUN go build -o bin/identity        -v ./pkg/chaincode/contracts/identity/bin/main.go
 
 
 FROM golang:1.21.4-bookworm
