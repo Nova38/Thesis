@@ -8,7 +8,7 @@ import "auth/v1/auth.proto";
 import "buf/validate/validate.proto";
 // import "google/protobuf/timestamp.proto";
 
-// option go_package = "github.com/nova38/Thesis/gen/lib/biochain/ccbio/schema/v1;schemav1";
+// option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
 
 // ────────────────────────────────────────────────--
 // Specimen

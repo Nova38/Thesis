@@ -1,7 +1,7 @@
 package generators
 
 import (
-	authpb "github.com/nova38/thesis/pkg/saacs/gen/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
@@ -100,7 +100,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 		protogen.GoIdent{
 			GoName: "GenericTxCtxInterface",
 
-			GoImportPath: "github.com/nova38/thesis/pkg/saacs/common",
+			GoImportPath: "github.com/nova38/saacs/pkg/chaincode/common",
 		},
 	)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")
@@ -201,7 +201,7 @@ func GenerateOperationLookup(
 	opImport := g.QualifiedGoIdent(
 		protogen.GoIdent{
 			GoName:       "Operation",
-			GoImportPath: "github.com/nova38/thesis/pkg/saacs/gen/auth/v1",
+			GoImportPath: "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1",
 		},
 	)
 	// fmtImport := (protogen.GoIdent{GoImportPath: "fmt"})
