@@ -7,7 +7,7 @@ repos:
       - id: end-of-file-fixer
         exclude: |
           (?x)^(
-          packages/saacs-es/src/gen/.*|
+          pkg/saacs-es/src/gen/.*|
           lib/other/.* |
           lib/other/doc/.*
           )$
@@ -15,7 +15,7 @@ repos:
       - id: trailing-whitespace
         exclude: |
           (?x)^(
-          packages/saacs-es/src/gen/.*|
+          pkg/saacs-es/src/gen/.*|
           lib/other/.* |
           lib/other/doc/.*
           )$

@@ -1,7 +1,7 @@
 packages:
-  - "./packages/*"
-  - "./packages/cmd/*"
+  - "./pkg/*"
+  - "./pkg/cmd/*"
   - ./caliper
-  - packages/cmd/protoc-gen-es-saacs
-  - packages/saacs-web
-  - packages/biochain
+  - pkg/cmd/protoc-gen-es-saacs
+  - pkg/saacs-web
+  - pkg/biochain

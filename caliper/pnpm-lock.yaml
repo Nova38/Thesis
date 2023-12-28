@@ -28,7 +28,7 @@ dependencies:
     version: 1.21.0
   saacs-es:
     specifier: workspace:^
-    version: link:../packages/saacs-es
+    version: link:../pkg/saacs-es
 
 devDependencies:
   esbuild:
