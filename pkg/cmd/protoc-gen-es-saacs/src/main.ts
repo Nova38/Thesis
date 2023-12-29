@@ -23,6 +23,7 @@ import { registry } from "./utils";
 import { generateRegistry } from "./generators/registry";
 import { generateIndex } from "./generators/indexs";
 import { generateGateway } from "./generators/gateway";
+import { generateKeySchema } from "./generators/keys";
 
 const protocGenReg = createEcmaScriptPlugin({
     name: "protoc-gen-reg",
@@ -39,6 +40,7 @@ function generateTs(schema: Schema) {
 
     generateRegistry(schema);
     generateIndex(schema);
+    generateKeySchema(schema);
 }
 
 function populateFields(message: AnyMessage): AnyMessage {

@@ -439,7 +439,7 @@ type GetRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  auth.Item item = 3;
+	// auth.Item item = 3;
 	Key *v1.ItemKey `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 }
 
@@ -639,7 +639,7 @@ type ListRequest struct {
 
 	Bookmark string `protobuf:"bytes,1,opt,name=bookmark,proto3" json:"bookmark,omitempty"`
 	Limit    uint32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
-	//  auth.Item item = 3;
+	// auth.Item item = 3;
 	Key *v1.ItemKey `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
 }
 
@@ -1523,7 +1523,7 @@ type HideTxRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  auth.Item item = 1;
+	// auth.Item item = 1;
 	Key      *v1.ItemKey  `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	HiddenTx *v1.HiddenTx `protobuf:"bytes,2,opt,name=hidden_tx,json=hiddenTx,proto3" json:"hidden_tx,omitempty"`
 }
@@ -1634,7 +1634,7 @@ type UnHideTxRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  auth.Item item = 1;
+	// auth.Item item = 1;
 	Key  *v1.ItemKey `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
 	TxId string      `protobuf:"bytes,2,opt,name=tx_id,json=txId,proto3" json:"tx_id,omitempty"`
 }
