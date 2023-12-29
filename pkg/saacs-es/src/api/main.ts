@@ -1,67 +1,88 @@
-import users from "./users.json" assert { type: "json" };
-import connectionProfile from "../../../../network/organizations/peerOrganizations/org1.example.com/connection-org1.json" assert { type: "json" };
-import * as grpc from "@grpc/grpc-js";
-import * as crypto from "crypto";
-import { connect, Identity, signers } from "@hyperledger/fabric-gateway";
-import { promises as fs } from "fs";
-import { TextDecoder } from "util";
+import { BuildGateway, GetGateway, GetService } from "./builder.js";
+import { Any, Message, createRegistry } from "@bufbuild/protobuf";
 import { GenericServiceClient } from "../gen/chaincode/common/generic_pb_gateway.js";
-import { createRegistry } from "@bufbuild/protobuf";
+import {
+    BootstrapRequest,
+    GetRequest,
+    ListByCollectionRequest,
+} from "../gen/chaincode/common/generic_pb.js";
+import { Collection, ItemKey, Role } from "../gen/auth/v1/objects_pb.js";
+import { Action, AuthType } from "../gen/auth/v1/auth_pb.js";
+import { GlobalRegistry } from "../utils/registry.js";
 
-const certPath = (path: string) => `../../${path}`;
+async function main() {
+    // const network = await gw.gateway.getNetwork("mychannel");
+    // const contract = await network.getContract("roles");
+    // const service = new GenericServiceClient(contract, createRegistry());
 
-async function newGRPCClient() {
-    const peer = connectionProfile.peers["peer0.org1.example.com"];
-    const tlsCredentials = grpc.credentials.createSsl(
-        Buffer.from(peer.tlsCACerts.pem),
-    );
-
-    return new grpc.Client(peer.url.split("//")[1], tlsCredentials, {
-        "grpc.ssl_target_name_override":
-            peer.grpcOptions["ssl-target-name-override"],
+    const { service } = await GetService({
+        userIdex: 0,
+        channel: "mychannel",
+        contractName: "roles",
     });
-}
 
-const client = await newGRPCClient();
+    const r1 = await service.getCurrentUser();
+    console.log(r1);
+    // let bootstrapRequest = new BootstrapRequest({
+    //     collections: [
+    //         new Collection({
+    //             name: "TestCollection",
+    //             collectionId: "TestCollection",
+    //             itemTypes: ["sample"],
+    //             default: {},
+    //             authType: AuthType.ROLE,
+    //         }),
+    //     ],
+    // });
 
-async function BuildGateway(userIdex: number) {
-    const credentials = await fs.readFile(
-        certPath(users.identities[0].clientSignedCert),
+    // const bootstrap = await service.bootstrap(bootstrapRequest);
+    // console.log(bootstrap);
+
+    const response = await service.get(
+        new GetRequest({
+            key: new ItemKey({
+                collectionId: "TestCollection",
+                itemType: "auth.Collection",
+                itemKeyParts: ["collection_id"],
+            }),
+        }),
     );
-    console.log(credentials.toString());
-    const identity: Identity = { mspId: "Org1MSP", credentials };
+    console.log(response);
+    let c = new Collection();
+    response.item?.value?.unpackTo(c);
+    console.log(c);
 
-    const privateKeyPem = await fs.readFile(
-        certPath(users.identities[0].clientPrivateKey),
+    const response2 = await service.get(
+        new GetRequest({
+            key: new ItemKey({
+                collectionId: "TestCollection",
+                itemType: "auth.Role",
+                itemKeyParts: ["manager"],
+            }),
+        }),
     );
-    const privateKey = crypto.createPrivateKey(privateKeyPem);
-    const signer = signers.newPrivateKeySigner(privateKey);
+    console.log(response2);
+    let r = new Role();
+    response2.item?.value?.unpackTo(r);
+    console.log(r);
 
-    console.log("client", client);
+    const role = new Role({
+        collectionId: "TestCollection",
+        roleId: "TestRole",
+        note: "This is a test role",
+        parentRoleIds: [],
+        polices: {
+            defaultPolicy: {
+                actions: [Action.VIEW],
+                allowSubPaths: false,
+                path: "",
+            },
+        },
+    });
 
-    const gateway = connect({ client, identity, signer });
+    const r3 = await service.create({});
 
-    return gateway;
+    console.log("hello world");
 }
 
-function BuildContract(contractName: string, contract: any) {
-    const service = new GenericServiceClient(contract, createRegistry());
-    return service;
-}
-
-const gateway = await BuildGateway(0);
-try {
-    const network = gateway.getNetwork("mychannel");
-    const contract = network.getContract("roles");
-
-    const service = new GenericServiceClient(contract, createRegistry());
-
-    const result = await service.getCurrentUser();
-
-    console.log(result);
-
-    // service.create()
-} finally {
-    gateway.close();
-    client.close();
-}
+main();

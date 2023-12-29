@@ -34,6 +34,10 @@ plugins:
     out: pkg/saacs-es/src/gen
     opt: target=ts
 
+  - plugin: buf.build/bufbuild/es:v1.3.1
+    out: pkg/cmd/protoc-gen-es-saacs/src/gen
+    opt: target=ts
+
   - plugin: protoc-gen-es-saacs
     path: ["tsx", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
     opt: target=ts

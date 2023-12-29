@@ -27,8 +27,7 @@ export class GenericServiceClient {
      *
      * @generated from rpc auth.common.GenericService.GetCurrentUser
      */
-// 2
-    async getCurrentUser(): Promise< GetCurrentUserResponse> {
+    async getCurrentUser(): Promise<GetCurrentUserResponse> {
         const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "GetCurrentUser"
@@ -42,8 +41,7 @@ export class GenericServiceClient {
      *
      * @generated from rpc auth.common.GenericService.Bootstrap
      */
-// 1
-    async bootstrap(request: BootstrapRequest, evaluate: boolean ): Promise< BootstrapResponse> {
+    async bootstrap(request: BootstrapRequest ): Promise<BootstrapResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "Bootstrap",
@@ -56,8 +54,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.AuthorizeOperation
      */
-// 1
-    async authorizeOperation(request: AuthorizeOperationRequest, evaluate: boolean ): Promise< AuthorizeOperationResponse> {
+    async authorizeOperation(request: AuthorizeOperationRequest ): Promise<AuthorizeOperationResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "AuthorizeOperation",
@@ -70,8 +67,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.Get
      */
-// 2
-    async get(request: GetRequest, evaluate: boolean ): Promise< GetResponse> {
+    async get(request: GetRequest ): Promise<GetResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "Get",
@@ -84,8 +80,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.GetFull
      */
-// 2
-    async getFull(request: GetFullRequest, evaluate: boolean ): Promise< GetFullResponse> {
+    async getFull(request: GetFullRequest ): Promise<GetFullResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "GetFull",
@@ -98,8 +93,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.List
      */
-// 2
-    async list(request: ListRequest, evaluate: boolean ): Promise< ListResponse> {
+    async list(request: ListRequest ): Promise<ListResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "List",
@@ -112,8 +106,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.ListByCollection
      */
-// 2
-    async listByCollection(request: ListByCollectionRequest, evaluate: boolean ): Promise< ListByCollectionResponse> {
+    async listByCollection(request: ListByCollectionRequest ): Promise<ListByCollectionResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ListByCollection",
@@ -126,8 +119,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.ListByAttrs
      */
-// 2
-    async listByAttrs(request: ListByAttrsRequest, evaluate: boolean ): Promise< ListByAttrsResponse> {
+    async listByAttrs(request: ListByAttrsRequest ): Promise<ListByAttrsResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ListByAttrs",
@@ -140,8 +132,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.Create
      */
-// 1
-    async create(request: CreateRequest, evaluate: boolean ): Promise< CreateResponse> {
+    async create(request: CreateRequest ): Promise<CreateResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "Create",
@@ -154,8 +145,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.Update
      */
-// 1
-    async update(request: UpdateRequest, evaluate: boolean ): Promise< UpdateResponse> {
+    async update(request: UpdateRequest ): Promise<UpdateResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "Update",
@@ -168,8 +158,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.Delete
      */
-// 1
-    async delete(request: DeleteRequest, evaluate: boolean ): Promise< DeleteResponse> {
+    async delete(request: DeleteRequest ): Promise<DeleteResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "Delete",
@@ -182,8 +171,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.GetHistory
      */
-// 2
-    async getHistory(request: GetHistoryRequest, evaluate: boolean ): Promise< GetHistoryResponse> {
+    async getHistory(request: GetHistoryRequest ): Promise<GetHistoryResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "GetHistory",
@@ -196,8 +184,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.GetHiddenTx
      */
-// 2
-    async getHiddenTx(request: GetHiddenTxRequest, evaluate: boolean ): Promise< GetHiddenTxResponse> {
+    async getHiddenTx(request: GetHiddenTxRequest ): Promise<GetHiddenTxResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "GetHiddenTx",
@@ -210,8 +197,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.HideTx
      */
-// 1
-    async hideTx(request: HideTxRequest, evaluate: boolean ): Promise< HideTxResponse> {
+    async hideTx(request: HideTxRequest ): Promise<HideTxResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "HideTx",
@@ -224,8 +210,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.UnHideTx
      */
-// 1
-    async unHideTx(request: UnHideTxRequest, evaluate: boolean ): Promise< UnHideTxResponse> {
+    async unHideTx(request: UnHideTxRequest ): Promise<UnHideTxResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "UnHideTx",
@@ -238,8 +223,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.GetSuggestion
      */
-// 2
-    async getSuggestion(request: GetSuggestionRequest, evaluate: boolean ): Promise< GetSuggestionResponse> {
+    async getSuggestion(request: GetSuggestionRequest ): Promise<GetSuggestionResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "GetSuggestion",
@@ -252,8 +236,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.SuggestionListByCollection
      */
-// 2
-    async suggestionListByCollection(request: SuggestionListByCollectionRequest, evaluate: boolean ): Promise< SuggestionListByCollectionResponse> {
+    async suggestionListByCollection(request: SuggestionListByCollectionRequest ): Promise<SuggestionListByCollectionResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "SuggestionListByCollection",
@@ -266,8 +249,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.SuggestionByPartialKey
      */
-// 2
-    async suggestionByPartialKey(request: SuggestionByPartialKeyRequest, evaluate: boolean ): Promise< SuggestionByPartialKeyResponse> {
+    async suggestionByPartialKey(request: SuggestionByPartialKeyRequest ): Promise<SuggestionByPartialKeyResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "SuggestionByPartialKey",
@@ -282,8 +264,7 @@ export class GenericServiceClient {
      *
      * @generated from rpc auth.common.GenericService.SuggestionCreate
      */
-// 1
-    async suggestionCreate(request: SuggestionCreateRequest, evaluate: boolean ): Promise< SuggestionCreateResponse> {
+    async suggestionCreate(request: SuggestionCreateRequest ): Promise<SuggestionCreateResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "SuggestionCreate",
@@ -296,8 +277,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.SuggestionDelete
      */
-// 1
-    async suggestionDelete(request: SuggestionDeleteRequest, evaluate: boolean ): Promise< SuggestionDeleteResponse> {
+    async suggestionDelete(request: SuggestionDeleteRequest ): Promise<SuggestionDeleteResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "SuggestionDelete",
@@ -310,8 +290,7 @@ export class GenericServiceClient {
     /**
      * @generated from rpc auth.common.GenericService.SuggestionApprove
      */
-// 1
-    async suggestionApprove(request: SuggestionApproveRequest, evaluate: boolean ): Promise< SuggestionApproveResponse> {
+    async suggestionApprove(request: SuggestionApproveRequest ): Promise<SuggestionApproveResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "SuggestionApprove",
