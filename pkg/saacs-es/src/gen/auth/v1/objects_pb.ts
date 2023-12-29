@@ -13,13 +13,13 @@ import { Action, AuthType, ItemKind } from "./auth_pb.js";
  * Item Keys
  * When converted to its string form it will be:
  * - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
- * 
+ *
  * Reference Keys
  * Used to store references to items for case like a user having a role
  * When converted to its string form it will be:
  * {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
- * 
- * 
+ *
+ *
  * SubKeys
  * When converted to its string form it will be:
  * {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
@@ -176,7 +176,7 @@ export class ReferenceKey extends Message<ReferenceKey> {
  * Collection
  * ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
  * Note that the types of items are stored in the default ACLEntry
- * 
+ *
  * key := {COLLECTION}{COLLECTION_ID}
  *
  * @generated from message auth.Collection

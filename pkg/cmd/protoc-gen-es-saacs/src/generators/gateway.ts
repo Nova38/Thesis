@@ -13,6 +13,7 @@ import type {
     DescExtension,
     DescFile,
     DescMessage,
+    DescMethod,
     DescService,
     FileDescriptorSet,
 } from "@bufbuild/protobuf";
@@ -71,47 +72,47 @@ function generateFile(schema: Schema, file: DescFile) {
         f.print`    }`;
         f.print();
         for (const method of service.methods) {
-            if (method.methodKind === MethodKind.Unary) {
-                f.print();
-                f.print(f.jsDoc(method, "    "));
-                const tt: TransactionType | undefined = findCustomEnumOption(
-                    method,
-                    50556
-                );
-                f.print(`// ${tt}`);
-
-                const callMethod =
-                    tt == TransactionType.INVOKE
-                        ? "submitTransaction"
-                        : "evaluateTransaction";
-
-                if (method.input.typeName == "google.protobuf.Empty") {
-                    f.print`    async ${localName(method)}(): Promise< ${
-                        method.output
-                    }> {`;
-                    f.print`        const results = utf8Decoder.decode(`;
-                    f.print`                await this.contract.${callMethod}(`;
-                    f.print`                ${f.string(method.name)}`;
-                    f.print`            )`;
-                    f.print`        )`;
-                    f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
-                    f.print`    }`;
-                } else {
-                    f.print`    async ${localName(method)}(request: ${
-                        method.input
-                    }, evaluate: boolean ): Promise< ${method.output}> {`;
-                    f.print`            const results = utf8Decoder.decode(`;
-                    f.print`                await this.contract.${callMethod}(`;
-                    f.print`                ${f.string(method.name)},`;
-                    f.print`                request.toJsonString(this.jsonWriteOptions)`;
-                    f.print`            )`;
-                    f.print`            )`;
-                    f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
-
-                    f.print`    }`;
-                }
-            }
+            genMethod(method, f);
         }
         f.print`}`;
+    }
+}
+
+function genMethod(method: DescMethod, f: GeneratedFile) {
+    if (method.methodKind === MethodKind.Unary) {
+        f.print();
+        f.print(f.jsDoc(method, "    "));
+        const tt = findCustomEnumOption(method, 50556);
+
+        const callMethod =
+            tt == TransactionType.INVOKE
+                ? "submitTransaction"
+                : "evaluateTransaction";
+
+        if (method.input.typeName == "google.protobuf.Empty") {
+            f.print`    async ${localName(method)}(): Promise<${
+                method.output
+            }> {`;
+            f.print`        const results = utf8Decoder.decode(`;
+            f.print`                await this.contract.${callMethod}(`;
+            f.print`                ${f.string(method.name)}`;
+            f.print`            )`;
+            f.print`        )`;
+            f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+            f.print`    }`;
+        } else {
+            f.print`    async ${localName(method)}(request: ${
+                method.input
+            } ): Promise<${method.output}> {`;
+            f.print`            const results = utf8Decoder.decode(`;
+            f.print`                await this.contract.${callMethod}(`;
+            f.print`                ${f.string(method.name)},`;
+            f.print`                request.toJsonString(this.jsonWriteOptions)`;
+            f.print`            )`;
+            f.print`            )`;
+            f.print`            return ${method.output}.fromJsonString(results, {typeRegistry: this.registry});`;
+
+            f.print`    }`;
+        }
     }
 }

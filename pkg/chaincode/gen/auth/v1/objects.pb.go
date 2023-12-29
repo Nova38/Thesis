@@ -26,23 +26,22 @@ const (
 )
 
 // Keys
-//─────────────────────────────────────────────────────────────────────────────────────
-//Item Keys
-//When converted to its string form it will be:
-//- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
+// ─────────────────────────────────────────────────────────────────────────────────────
+// Item Keys
+// When converted to its string form it will be:
+// - Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}
 //
-//Reference Keys
-//Used to store references to items for case like a user having a role
-//When converted to its string form it will be:
-//{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
+// Reference Keys
+// Used to store references to items for case like a user having a role
+// When converted to its string form it will be:
+// {Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
 //
-//
-//SubKeys
-//When converted to its string form it will be:
-//{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
-//Examples
-//- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
-//- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
+// SubKeys
+// When converted to its string form it will be:
+// {SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}
+// Examples
+// - Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+// - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
 type ItemKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -176,7 +175,7 @@ type ReferenceKey struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  string reference_type = 2;
+	// string reference_type = 2;
 	Key1 *ItemKey `protobuf:"bytes,1,opt,name=key1,proto3" json:"key1,omitempty"`
 	Key2 *ItemKey `protobuf:"bytes,2,opt,name=key2,proto3" json:"key2,omitempty"`
 }

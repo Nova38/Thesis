@@ -23,8 +23,7 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.Reference
      */
-// 2
-    async reference(request: ReferenceRequest, evaluate: boolean ): Promise< ReferenceResponse> {
+    async reference(request: ReferenceRequest ): Promise<ReferenceResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "Reference",
@@ -37,8 +36,7 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByItem
      */
-// 2
-    async referenceByItem(request: ReferenceByItemRequest, evaluate: boolean ): Promise< ReferenceByItemResponse> {
+    async referenceByItem(request: ReferenceByItemRequest ): Promise<ReferenceByItemResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ReferenceByItem",
@@ -51,8 +49,7 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByPartialKey
      */
-// 2
-    async referenceByPartialKey(request: ReferenceByPartialKeyRequest, evaluate: boolean ): Promise< ReferenceByPartialKeyResponse> {
+    async referenceByPartialKey(request: ReferenceByPartialKeyRequest ): Promise<ReferenceByPartialKeyResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.evaluateTransaction(
                 "ReferenceByPartialKey",
@@ -65,8 +62,7 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceCreate
      */
-// 1
-    async referenceCreate(request: ReferenceCreateRequest, evaluate: boolean ): Promise< ReferenceCreateResponse> {
+    async referenceCreate(request: ReferenceCreateRequest ): Promise<ReferenceCreateResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "ReferenceCreate",
@@ -79,8 +75,7 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceDelete
      */
-// 1
-    async referenceDelete(request: ReferenceDeleteRequest, evaluate: boolean ): Promise< ReferenceDeleteResponse> {
+    async referenceDelete(request: ReferenceDeleteRequest ): Promise<ReferenceDeleteResponse> {
             const results = utf8Decoder.decode(
                 await this.contract.submitTransaction(
                 "ReferenceDelete",
