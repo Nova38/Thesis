@@ -45,6 +45,14 @@ tasks:
       - task: cc:build
       - task: network:ccaas:redeploy
 
+  cc:multi:
+    cmds:
+      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
+        # cmd: bash -c "echo {{ .ITEM }}"
+        cmd:
+          bash -c "cd ./network && ./network.sh deployCCAAS -ccn {{ .ITEM }}
+          -ccp ../pkg/chaincode/ "
+
   cc:build:
     cmd: docker build -t nova38/saacs:latest -f ./pkg/chaincode/Dockerfile .
 
