@@ -14,7 +14,7 @@
                 'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
         }"
     />
-
+    <QBar></QBar>
     <QBtn
         label="Click me"
         @click="() => $q.notify({ message: 'Hello there', color: 'primary' })"

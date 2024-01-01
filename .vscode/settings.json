@@ -20,6 +20,7 @@
         //     // "url": "./gen/schema.json"
         // }
     ],
+    "nuxtr.monorepoMode.DirectoryName": "pkg/saacs-web",
     "spellright.language": [
         "en"
     ],
