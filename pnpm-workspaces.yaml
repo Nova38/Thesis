@@ -4,4 +4,5 @@ packages:
   - ./caliper
   - pkg/cmd/protoc-gen-es-saacs
   - pkg/saacs-web
+  - pkg/saacs-es
   - pkg/biochain

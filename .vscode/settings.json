@@ -78,11 +78,15 @@
         "ABAC",
         "anypb",
         "authpb",
+        "autogrow",
         "cckey",
         "contractapi",
         "descriptorpb",
         "golines",
+        "heroicons",
+        "iconify",
         "noauth",
+        "nuxtjs",
         "oneof",
         "pdfauthor",
         "pdfsubject",
@@ -92,6 +96,7 @@
         "segmentio",
         "Sfixed",
         "spydra",
+        "tailwindcss",
         "urlcolor"
     ],
     "files.exclude": {
@@ -108,6 +113,23 @@
     "explorerExclude.backup": {},
     "editor.minimap.enabled": false,
     "cSpell.enabled": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "[vue]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        },
+    },
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        },
+    },
+    "[typescript][vue]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        }
+    }
     // "plantuml.server": "http://localhost:8888",
     // "plantuml.render": "PlantUMLServer",
 }

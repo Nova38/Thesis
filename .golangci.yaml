@@ -56,8 +56,8 @@ linters-settings:
     # The maximal code complexity to report.
     # Default: 10
     max-complexity: 12
-  protogetter:
-    skip-any-generated: true
+  # protogetter:
+  #   skip-any-generated: true
 
   revive:
     #       # https://github.com/mgechev/revive/blob/master/RULES_DES`CRIPTIONS.md#var-naming

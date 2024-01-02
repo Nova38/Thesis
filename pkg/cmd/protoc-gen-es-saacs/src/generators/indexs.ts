@@ -30,9 +30,9 @@ export function generateIndex(schema: Schema) {
             f.print(`export * from "./${base}_pb_reg.js"`);
         }
 
-        // if (file.services.length > 0) {
-        //     f.print(`export * from "./${base}_pb_gateway.js"`);
-        // }
+        if (file.services.length > 0) {
+            f.print(`export * from "./${base}_pb_gateway.js"`);
+        }
     }
 
     folders.forEach((files, folder) => {

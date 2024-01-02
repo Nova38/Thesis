@@ -43,6 +43,9 @@ plugins:
     opt: target=ts
     out: pkg/saacs-es/src/gen
     strategy: all
+
+
+
 #
 #     - plugin: protoc-gen-es-tools
 #       path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/workload_templates.ts"]

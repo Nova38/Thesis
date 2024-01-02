@@ -21,17 +21,7 @@ tasks:
       Install all the protoc plugins
 
     cmds:
-      #      - go install ./tools/cmd/protoc-gen-cckey
       - go install ./pkg/cmd/protoc-gen-go-saacs
-  gen:cmd:
-    deps:
-      - install
-    cmds:
-      - buf generate
-  gen:all:
-    watch: true
-    cmds:
-      - buf generate
 
   gen:clean:
     cmds:
