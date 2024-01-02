@@ -89,12 +89,26 @@ func (c *RoleContract) CreateCollection(
 
 	col := req.GetCollection()
 	user, err := ctx.GetUserId()
+
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	if state.Exists(ctx, col) {
 		return nil, oops.Errorf("Collection already exists")
+	}
+
+	if col.GetDefault() == nil {
+		col.Default = &v1.Polices{
+			DefaultPolicy: &v1.PathPolicy{
+				Path:          "",
+				FullPath:      "",
+				AllowSubPaths: false,
+				Actions: []v1.Action{
+					v1.Action_ACTION_VIEW,
+				},
+			},
+		}
 	}
 
 	col.AuthType = v1.AuthType_AUTH_TYPE_ROLE

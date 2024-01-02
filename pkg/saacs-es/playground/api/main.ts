@@ -1,4 +1,4 @@
-import users from "./users.json" assert { type: 'json' };
+import users from "./users.json" assert { type: "json" };
 
 import * as grpc from "@grpc/grpc-js";
 import * as crypto from "crypto";
@@ -8,7 +8,7 @@ import { TextDecoder } from "util";
 import { pb } from "../../src/index.js";
 import { createRegistry } from "@bufbuild/protobuf";
 
-async function  main() {
+async function main() {
     console.log("Hello world");
     const GenericServiceClient = pb.common.generic.GenericServiceClient;
 
@@ -34,7 +34,6 @@ async function  main() {
         const gateway = connect({ identity, signer, client });
 
         return gateway;
-
     }
 
     function BuildContract(contractName: string, contract: any) {
@@ -43,15 +42,12 @@ async function  main() {
     }
     // console.log();
 
-
     const gateway = await BuildGateway(0);
     try {
         const network = gateway.getNetwork("channelName");
         const contract = network.getContract("chaincodeName");
 
         const service = new GenericServiceClient(contract, createRegistry());
-
-
 
         let x = await service.getCurrentUser(true);
         console.log(x);
@@ -61,5 +57,4 @@ async function  main() {
         gateway.close();
         client.close();
     }
-
 }

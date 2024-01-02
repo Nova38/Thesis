@@ -9,6 +9,26 @@
             "types": "./dist/index.d.ts",
             "import": "./dist/index.mjs",
             "require": "./dist/index.cjs"
+        },
+        "./gen/auth/v1": {
+            "types": "./dist/gen/auth/v1/index.d.ts",
+            "import": "./dist/gen/auth/v1/index.mjs",
+            "require": "./dist/gen/auth/v1/index.cjs"
+        },
+        "./gen/biochain/v1": {
+            "types": "./dist/gen/biochain/v1/index.d.ts",
+            "import": "./dist/gen/biochain/v1/index.mjs",
+            "require": "./dist/gen/biochain/v1/index.cjs"
+        },
+        "./gen/chaincode/common/": {
+            "types": "./dist/gen/chaincode/common/index.d.ts",
+            "import": "./dist/gen/chaincode/common/index.mjs",
+            "require": "./dist/gen/chaincode/common/index.cjs"
+        },
+        "./gen/sample/v0/": {
+            "types": "./dist/gen/sample/v0/index.d.ts",
+            "import": "./dist/gen/sample/v0/index.mjs",
+            "require": "./dist/gen/sample/v0/index.cjs"
         }
     },
     "directories": {
@@ -23,6 +43,7 @@
     "scripts": {
         "build": "unbuild",
         "api": "ts-node ./src/api/main.ts",
+        "timport": "ts-node ./src/api/specimens.ts",
         "dev": "vitest dev",
         "play": "jiti playground",
         "prepack": "pnpm run build",
@@ -41,8 +62,8 @@
         "vitest": "^0.34.6"
     },
     "dependencies": {
-        "@bufbuild/protobuf": "^1.5.0",
-        "@bufbuild/protoplugin": "^1.5.0",
+        "@bufbuild/protobuf": "^1.6.0",
+        "@bufbuild/protoplugin": "^1.6.0",
         "@grpc/grpc-js": "^1.9.12",
         "@hyperledger-labs/weft": "0.2.2",
         "@hyperledger/fabric-gateway": "^1.4.0"

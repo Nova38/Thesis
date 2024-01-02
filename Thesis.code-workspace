@@ -2,6 +2,10 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "name": "Web",
+            "path": "./pkg/saacs-web"
         }
     ]
 }

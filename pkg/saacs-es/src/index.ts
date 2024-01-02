@@ -8,3 +8,8 @@ import * as utilsts from "./utils/index.js";
 
 export const utils = utilsts.utils;
 export const pb = genindexts;
+
+export * as auth from "./gen/auth/v1/index.js";
+export * as common from "./gen/chaincode/common/index.js";
+export * as ccbio from "./gen/biochain/v1/index.js";
+export * as sample from "./gen/sample/v0/index.js";
