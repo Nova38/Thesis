@@ -108,9 +108,9 @@ func (c *EmbededContract) CreateCollection(
 	col.ItemTypes = append(col.GetItemTypes(), authTypes...)
 	col.ItemTypes = lo.Uniq(col.GetItemTypes()) // Deduplicate the item types
 
-	col.Default.DefaultExcludedTypes = append(
-		col.GetDefault().GetDefaultExcludedTypes(),
-		authTypes...)
+	// col.Default.DefaultExcludedTypes = append(
+	// 	col.GetDefault().GetDefaultExcludedTypes(),
+	// 	authTypes...)
 	col.Default.DefaultExcludedTypes = lo.Uniq(col.GetDefault().GetDefaultExcludedTypes())
 
 	// Add the auth types to the collection

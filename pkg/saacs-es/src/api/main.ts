@@ -52,35 +52,35 @@ async function main() {
     response.item?.value?.unpackTo(c);
     console.log(c);
 
-    const response2 = await service.get(
-        new GetRequest({
-            key: new ItemKey({
-                collectionId: "TestCollection",
-                itemType: "auth.Role",
-                itemKeyParts: ["manager"],
-            }),
-        }),
-    );
-    console.log(response2);
-    let r = new Role();
-    response2.item?.value?.unpackTo(r);
-    console.log(r);
+    // const response2 = await service.get(
+    //     new GetRequest({
+    //         key: new ItemKey({
+    //             collectionId: "TestCollection",
+    //             itemType: "auth.Role",
+    //             itemKeyParts: ["manager"],
+    //         }),
+    //     }),
+    // );
+    // console.log(response2);
+    // let r = new Role();
+    // response2.item?.value?.unpackTo(r);
+    // console.log(r);
 
-    const role = new Role({
-        collectionId: "TestCollection",
-        roleId: "TestRole",
-        note: "This is a test role",
-        parentRoleIds: [],
-        polices: {
-            defaultPolicy: {
-                actions: [Action.VIEW],
-                allowSubPaths: false,
-                path: "",
-            },
-        },
-    });
+    // const role = new Role({
+    //     collectionId: "TestCollection",
+    //     roleId: "TestRole",
+    //     note: "This is a test role",
+    //     parentRoleIds: [],
+    //     polices: {
+    //         defaultPolicy: {
+    //             actions: [Action.VIEW],
+    //             allowSubPaths: false,
+    //             path: "",
+    //         },
+    //     },
+    // });
 
-    const r3 = await service.create({});
+    // const r3 = await service.create({});
 
     console.log("hello world");
 }

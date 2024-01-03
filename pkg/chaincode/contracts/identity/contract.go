@@ -98,9 +98,9 @@ func (c *IdentiyContract) CreateCollection(
 	col.ItemTypes = lo.Uniq(col.GetItemTypes()) // Deduplicate the item types
 
 	// Exclude the auth types from the default policy
-	col.Default.DefaultExcludedTypes = append(
-		col.GetDefault().GetDefaultExcludedTypes(),
-		authTypes...)
+	// col.Default.DefaultExcludedTypes = append(
+	// 	col.GetDefault().GetDefaultExcludedTypes(),
+	// 	authTypes...)
 	col.Default.DefaultExcludedTypes = lo.Uniq(col.GetDefault().GetDefaultExcludedTypes())
 
 	// Add the auth types to the collection

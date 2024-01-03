@@ -38,12 +38,14 @@
     },
     "dependencies": {
         "@bufbuild/protobuf": "^1.6.0",
+        "@formkit/nuxt": "^1.4.0",
         "@hyperledger/fabric-gateway": "^1.4.0",
         "@iconify-json/heroicons": "^1.1.19",
         "@iconify-json/material-symbols": "^1.1.68",
         "@iconify-json/mdi": "^1.1.63",
         "@iconify-json/simple-icons": "^1.1.86",
         "@nuxtjs/eslint-module": "^4.1.0",
+        "@nuxtjs/tailwindcss": "^6.10.3",
         "saacs-es": "link:..\\saacs-es"
     }
 }

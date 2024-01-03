@@ -35,21 +35,7 @@ tasks:
   create:channel:
     cmd: bash -c "network.sh createChannel -c {{.CLI_ARGS}}"
 
-  cc:multi:
-    cmds:
-      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
-        # cmd: bash -c "echo {{ .ITEM }}"
-        cmd:
-          bash -c "./network.sh deployCCAAS -ccn {{ .ITEM }} -ccp
-          ../pkg/chaincode/ "
-
   build:cc:
     cmd:
       docker build -t saacs_ccass:latest -f ../pkg/chaincode/Dockerfile
       --build-arg CC_SERVER_PORT=9999 ../
-
-  cc:redeploy:
-    cmds:
-      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
-        # cmd: bash -c "echo {{ .ITEM }}"
-        cmd: bash -c " ./cc_restart/{{ .ITEM }}.sh "

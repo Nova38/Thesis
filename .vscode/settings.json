@@ -20,10 +20,16 @@
         //     // "url": "./gen/schema.json"
         // }
     ],
-    "nuxtr.monorepoMode.DirectoryName": "pkg/saacs-web",
+    "nuxtr.monorepoMode.DirectoryName": "pkg/web",
     "spellright.language": [
         "en"
     ],
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
     "spellright.documentTypes": [
         "markdown",
         "latex",
