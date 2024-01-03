@@ -1,6 +1,6 @@
 import { Contract } from "@hyperledger/fabric-gateway";
 import { IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCollectionsListResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 const utf8Decoder = new TextDecoder();
 /**
@@ -9,11 +9,12 @@ const utf8Decoder = new TextDecoder();
 export class GenericServiceClient {
     private contract: Contract;
     private jsonWriteOptions:Partial<JsonWriteStringOptions> = {};
-    private registry: IMessageTypeRegistry;
+    registry: IMessageTypeRegistry;
 
     constructor(contract: Contract, registry: IMessageTypeRegistry) {
         this.contract = contract;
         this.registry = registry;
+        this.jsonWriteOptions.typeRegistry = registry
     }
 
 
@@ -62,6 +63,18 @@ export class GenericServiceClient {
             )
             )
             return AuthorizeOperationResponse.fromJsonString(results, {typeRegistry: this.registry});
+    }
+
+    /**
+     * @generated from rpc auth.common.GenericService.GetCollectionsList
+     */
+    async getCollectionsList(): Promise<GetCollectionsListResponse> {
+        const results = utf8Decoder.decode(
+                await this.contract.evaluateTransaction(
+                "GetCollectionsList"
+            )
+        )
+            return GetCollectionsListResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 
     /**

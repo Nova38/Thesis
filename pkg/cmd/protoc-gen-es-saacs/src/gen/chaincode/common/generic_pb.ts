@@ -181,6 +181,43 @@ export class AuthorizeOperationResponse extends Message<AuthorizeOperationRespon
 }
 
 /**
+ * @generated from message auth.common.GetCollectionsListResponse
+ */
+export class GetCollectionsListResponse extends Message<GetCollectionsListResponse> {
+  /**
+   * @generated from field: repeated auth.Collection collections = 1;
+   */
+  collections: Collection[] = [];
+
+  constructor(data?: PartialMessage<GetCollectionsListResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.common.GetCollectionsListResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collections", kind: "message", T: Collection, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetCollectionsListResponse {
+    return new GetCollectionsListResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetCollectionsListResponse {
+    return new GetCollectionsListResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetCollectionsListResponse {
+    return new GetCollectionsListResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetCollectionsListResponse | PlainMessage<GetCollectionsListResponse> | undefined, b: GetCollectionsListResponse | PlainMessage<GetCollectionsListResponse> | undefined): boolean {
+    return proto3.util.equals(GetCollectionsListResponse, a, b);
+  }
+}
+
+/**
  * @generated from message auth.common.BootstrapRequest
  */
 export class BootstrapRequest extends Message<BootstrapRequest> {
@@ -1013,6 +1050,8 @@ export class DeleteResponse extends Message<DeleteResponse> {
 
 /**
  * GetHistory
+ *
+ *  auth.Item item = 1;
  *
  * @generated from message auth.common.GetHistoryRequest
  */

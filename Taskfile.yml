@@ -51,6 +51,14 @@ tasks:
         -v
       - bash -c "cd ./network && ./network.sh down"
 
+  net:restart:
+    desc: |
+      Restart the network
+
+    cmds:
+      - task: net:down
+      - task: net:up
+
   cc:reload:
     cmds:
       - go mod tidy
@@ -85,8 +93,8 @@ tasks:
 
   # fabric:getMetadata:
   #   cmds:
-  #     - peer chaincode query -C default -n Thesis -c
-  #       '{"Args":["org.hyperledger.fabric:GetMetadata"]}'
+  #     - bash -c "cd network && peer chaincode query -C default -n Thesis -c
+  #       '{"Args":["org.hyperledger.fabric:GetMetadata"]}' "
 
   default:
     sources:

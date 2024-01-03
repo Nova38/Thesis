@@ -38,6 +38,14 @@ type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
 	//   - Domain: ACTION_UTILITY
 	AuthorizeOperation(ctx T, req *AuthorizeOperationRequest) (res *AuthorizeOperationResponse, err error)
 
+	// GetCollectionsList
+	//
+	// # Operation:
+	//   - Domain: ACTION_VIEW
+	//
+	// req is empty
+	GetCollectionsList(ctx T) (res *GetCollectionsListResponse, err error)
+
 	// Get
 	//
 	// # Operation:
@@ -152,6 +160,7 @@ type GenericServiceBase struct {
 func (s *GenericServiceBase) GetEvaluateTransactions() []string {
 	return []string{
 		"GetCurrentUser",
+		"GetCollectionsList",
 		"Get",
 		"GetFull",
 		"List",
@@ -181,6 +190,11 @@ func GenericServiceGetTxOperation(txName string) (op *v1.Operation, err error) {
 		// action:ACTION_UTILITY
 		return &v1.Operation{
 			Action: 1,
+		}, nil
+	case "GetCollectionsList":
+		// action:ACTION_VIEW
+		return &v1.Operation{
+			Action: 10,
 		}, nil
 	case "Get":
 		// action:ACTION_VIEW

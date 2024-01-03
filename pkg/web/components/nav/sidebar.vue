@@ -126,10 +126,10 @@ const colLinks = computed(() => {
   if (!data.value) {
     return [];
   }
-
-  return data.value.map((collection) => {
+  console.log(data.value);
+  return data.value.collections.map((collection) => {
     return {
-      label: collection.name,
+      label: collection.collectionId,
       to: `/collection-${collection.collectionId}`,
     };
   });

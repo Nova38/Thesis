@@ -12,11 +12,12 @@ const utf8Decoder = new TextDecoder();
 export class ReferenceServiceClient {
     private contract: Contract;
     private jsonWriteOptions:Partial<JsonWriteStringOptions> = {};
-    private registry: IMessageTypeRegistry;
+    registry: IMessageTypeRegistry;
 
     constructor(contract: Contract, registry: IMessageTypeRegistry) {
         this.contract = contract;
         this.registry = registry;
+        this.jsonWriteOptions.typeRegistry = registry
     }
 
 

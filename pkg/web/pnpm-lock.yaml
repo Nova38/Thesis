@@ -32,6 +32,9 @@ dependencies:
   nuxt-icon:
     specifier: ^0.6.8
     version: 0.6.8(nuxt@3.9.0)(vite@5.0.10)(vue@3.4.3)
+  saacs-es:
+    specifier: link:..\saacs-es
+    version: link:../saacs-es
   zod:
     specifier: ^3.22.4
     version: 3.22.4

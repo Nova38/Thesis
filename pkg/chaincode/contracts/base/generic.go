@@ -1,6 +1,9 @@
 package base
 
 import (
+	"encoding/json"
+
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"github.com/nova38/saacs/pkg/chaincode/actions"
 	"github.com/nova38/saacs/pkg/chaincode/common"
@@ -36,6 +39,66 @@ func (o ItemContractImpl) GetCurrentUser(
 	}
 
 	return res, err
+}
+
+func (o ItemContractImpl) GetCollectionsList(
+	ctx common.TxCtxInterface,
+) (res *cc.GetCollectionsListResponse, err error) {
+
+	ctx.GetLogger().Info("GetCollectionsList")
+
+	col := &authpb.Collection{}
+
+	results, err := ctx.GetStub().
+		GetStateByPartialCompositeKey(
+			col.ItemType(),
+			[]string{},
+		)
+	if err != nil {
+		ctx.GetLogger().Info("error")
+
+		ctx.LogError(err)
+		return nil, oops.Wrap(err)
+	}
+	ctx.GetLogger().Info("No error")
+	defer func(results shim.StateQueryIteratorInterface) {
+		err := results.Close()
+		if err != nil {
+			ctx.GetLogger().Error("GetCollectionsList", "Error", err)
+		}
+	}(results)
+
+	res = &cc.GetCollectionsListResponse{
+		Collections: []*authpb.Collection{},
+	}
+
+	for results.HasNext() {
+
+		tmp := &authpb.Collection{}
+
+		queryResponse, err := results.Next()
+		if err != nil || queryResponse == nil {
+			return nil, oops.Wrapf(err, "Error getting next item")
+		}
+
+		if err = json.Unmarshal(queryResponse.GetValue(), tmp); err != nil {
+			return nil, oops.Wrap(err)
+		}
+
+		ctx.GetLogger().Info("GetCollectionsList", "tmp", tmp)
+
+		res.Collections = append(res.GetCollections(), tmp)
+	}
+
+	// list, _, err := state.GetPartialKeyList(ctx, col, 0, "")
+	// if err != nil {
+	// 	ctx.LogError(err)
+	// 	return nil, oops.Wrap(err)
+	// }
+
+	ctx.GetLogger().Info("GetCollectionsList", "results", results)
+
+	return res, nil
 }
 
 // ──────────────────────────────────── Invoke ─────────────────────────────────────
