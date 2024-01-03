@@ -43,7 +43,7 @@
     "scripts": {
         "build": "unbuild",
         "api": "ts-node ./src/api/main.ts",
-        "timport": "ts-node ./src/api/specimens.ts",
+        "specimen": "ts-node ./src/api/specimens.ts",
         "dev": "vitest dev",
         "play": "jiti playground",
         "prepack": "pnpm run build",
@@ -66,7 +66,9 @@
         "@bufbuild/protoplugin": "^1.6.0",
         "@grpc/grpc-js": "^1.9.12",
         "@hyperledger-labs/weft": "0.2.2",
-        "@hyperledger/fabric-gateway": "^1.4.0"
+        "@hyperledger/fabric-gateway": "^1.4.0",
+        "csv": "^6.3.6",
+        "radash": "^11.0.0"
     },
     "packageManager": "pnpm@8.10.0"
 }

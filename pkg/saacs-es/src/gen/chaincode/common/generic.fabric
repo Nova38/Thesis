@@ -25,6 +25,13 @@
             {"operation":{"paths":""}}
         ]
     },
+// GetCollectionsList Empty
+    {
+        "invoke": "getCollectionsList",
+        "args": [
+            {}
+        ]
+    },
 // Get GetRequest
     {
         "invoke": "get",

@@ -6,8 +6,8 @@ import "auth/v1/auth.proto";
 import "auth/v1/objects.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/descriptor.proto";
-import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
 
 // import "google/protobuf/any.proto";
 
@@ -34,7 +34,10 @@ service GenericService {
     option (auth.operation) = {action: ACTION_UTILITY};
   }
 
-
+  rpc GetCollectionsList(google.protobuf.Empty) returns (GetCollectionsListResponse) {
+    option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (auth.operation) = {action: ACTION_VIEW};
+  }
 
   // rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
   //   option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
@@ -68,7 +71,6 @@ service GenericService {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
   }
-
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
 
@@ -112,12 +114,8 @@ service GenericService {
     option (auth.operation) = {action: ACTION_UNHIDE_TX};
   }
 
-
-
-
   // ════════════════════════════════ Suggestions ══════════════════════════════════
   // ──────────────────────────────── Query ────────────────────────────────────────
-
 
   rpc GetSuggestion(GetSuggestionRequest) returns (GetSuggestionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
@@ -156,67 +154,59 @@ service GenericService {
   }
 }
 
+// ══════════════════════════════════ Helper ═════════════════════════════════════
+// ────────────────────────────────── Query ──────────────────────────────────────
 
-  // ══════════════════════════════════ Helper ═════════════════════════════════════
-  // ────────────────────────────────── Query ──────────────────────────────────────
+message GetCurrentUserResponse {
+  auth.User user = 1;
+  bool registered = 2;
+}
+message GetCurrentFullUserResponse {
+  auth.User user = 1;
+  bool registered = 2;
 
-  message GetCurrentUserResponse {
-    auth.User user = 1;
-    bool registered = 2;
-  }
-  message GetCurrentFullUserResponse {
-    auth.User user = 1;
-    bool registered = 2;
+  repeated auth.UserCollectionRoles user_collection_roles = 3;
+  repeated auth.UserDirectMembership user_memberships = 4;
+}
 
-    repeated auth.UserCollectionRoles user_collection_roles = 3;
-    repeated auth.UserDirectMembership user_memberships = 4;
-  }
+message AuthorizeOperationRequest {
+  auth.Operation operation = 1;
+}
 
-  message AuthorizeOperationRequest {
-    auth.Operation operation = 1;
-  }
+message AuthorizeOperationResponse {
+  bool authorized = 1;
+}
 
+message GetCollectionsListResponse {
+  repeated auth.Collection collections = 1;
+}
 
-  message AuthorizeOperationResponse {
-    bool authorized = 1;
-  }
+// ──────────────────────────────── Invoke ───────────────────────────────────────
 
+message BootstrapRequest {
+  repeated auth.Collection collections = 1;
+}
 
-  // ──────────────────────────────── Invoke ───────────────────────────────────────
+message BootstrapResponse {
+  bool success = 1;
+}
 
+// ──────────────────────────────── Invoke ───────────────────────────────────────
 
-
-
-  message BootstrapRequest {
-    repeated auth.Collection collections = 1;
-  }
-
-  message BootstrapResponse {
-    bool success = 1;
-  }
-
-  // ──────────────────────────────── Invoke ───────────────────────────────────────
-
-  message CreateCollectionRequest{
-    auth.Collection collection = 1;
-  }
-  message CreateCollectionResponse{
-    auth.Collection collection = 1;
-  }
-
-
-
-
-
+message CreateCollectionRequest {
+  auth.Collection collection = 1;
+}
+message CreateCollectionResponse {
+  auth.Collection collection = 1;
+}
 
 // ══════════════════════════════ Generic Item ════════════════════════════════════
 // ────────────────────────────── Query ───────────────────────────────────────-
 
 // Get
 message GetRequest {
-//  auth.Item item = 3;
+  //  auth.Item item = 3;
   auth.ItemKey key = 1;
-
 }
 
 message GetResponse {
@@ -231,15 +221,12 @@ message GetFullResponse {
   auth.FullItem full_item = 1;
 }
 
-
-
 // List of a type
 message ListRequest {
   string bookmark = 1;
   uint32 limit = 2;
-//  auth.Item item = 3;
-   auth.ItemKey key = 3;
-
+  //  auth.Item item = 3;
+  auth.ItemKey key = 3;
 }
 message ListResponse {
   string bookmark = 1;
@@ -249,7 +236,7 @@ message ListResponse {
 message ListByCollectionRequest {
   string bookmark = 1;
   uint32 limit = 2;
-//  auth.Item item = 3;
+  //  auth.Item item = 3;
 
   auth.ItemKey key = 3;
 }
@@ -269,8 +256,6 @@ message ListByAttrsResponse {
   string bookmark = 1;
   repeated auth.Item items = 2;
 }
-
-
 
 // ──────────────────────────────── Invoke ───────────────────────────────────────
 // Create
@@ -303,13 +288,11 @@ message DeleteResponse {
 
 // GetHistory
 message GetHistoryRequest {
-
   //  auth.Item item = 1;
 
   auth.ItemKey key = 1;
   bool include_hidden = 2;
   string bookmark = 3;
-
 }
 
 message GetHistoryResponse {
@@ -330,7 +313,7 @@ message GetHiddenTxResponse {
 // ──────────────────────────────── Invoke ─────────────────────────────────────────
 
 message HideTxRequest {
-//  auth.Item item = 1;
+  //  auth.Item item = 1;
   auth.ItemKey key = 1;
   auth.HiddenTx hidden_tx = 2;
 }
@@ -340,7 +323,7 @@ message HideTxResponse {
 }
 
 message UnHideTxRequest {
-//  auth.Item item = 1;
+  //  auth.Item item = 1;
   auth.ItemKey key = 3;
   string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
@@ -348,7 +331,6 @@ message UnHideTxResponse {
   auth.ItemKey key = 1;
   auth.HiddenTxList hidden_txs = 2;
 }
-
 
 // ════════════════════════════════ Suggestions ════════════════════════════════════
 // ──────────────────────────────── Query ──────────────────────────────────────────

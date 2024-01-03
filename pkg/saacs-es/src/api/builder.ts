@@ -14,10 +14,23 @@ import * as crypto from "crypto";
 
 import { promises as fs } from "fs";
 
-import { createRegistry } from "@bufbuild/protobuf";
+import { createRegistry, IMessageTypeRegistry } from "@bufbuild/protobuf";
 import { GenericServiceClient } from "../gen/chaincode/common/generic_pb_gateway.js";
-import { GlobalRegistry } from "../utils/registry.js";
+// import { auth, ccbio, common, sample } from "../index.js";
 
+import { auth, objects } from "../gen/auth/v1/index.js";
+import { generic, reference } from "../gen/chaincode/common/index.js";
+import { ccbio } from "../gen/index.js";
+import { sample } from "../gen/index.js"
+
+export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
+    ...auth.allMessages,
+    ...objects.allMessages,
+    ...generic.allMessages,
+    ...reference.allMessages,
+    ...ccbio.allMessages,
+    ...sample.allMessages,
+);
 export const CLIENT = await newGRPCClient();
 
 export async function newGRPCClient() {
@@ -90,7 +103,14 @@ export const GetService = async ({
 
     const network = await connection.gateway.getNetwork(channel);
     const contract = await network.getContract(contractName);
-    const service = new GenericServiceClient(contract, GlobalRegistry);
+    const service = new GenericServiceClient(contract, createRegistry(
+        ...auth.allMessages,
+        ...objects.allMessages,
+        ...generic.allMessages,
+        ...reference.allMessages,
+        ...ccbio.allMessages,
+        ...sample.allMessages,
+    ));
     return {
         connection,
         contract,

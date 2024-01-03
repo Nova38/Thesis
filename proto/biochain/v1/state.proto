@@ -38,7 +38,7 @@ message Specimen {
     string field_number = 3;
     string tissue_number = 4;
     string cataloger = 5;
-    repeated Researcher collector = 6;
+    string collector = 6;
     string determiner = 7;
     Date field_date = 8;
     Date catalog_date = 9;

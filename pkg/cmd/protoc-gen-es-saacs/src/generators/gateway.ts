@@ -64,11 +64,12 @@ function generateFile(schema: Schema, file: DescFile) {
         f.print`export class ${localServiceName}Client {`;
         f.print`    private contract: ${contract};`;
         f.print`    private jsonWriteOptions:Partial<${jsonWriteOptions}> = {};`;
-        f.print`    private registry: ${registry};`;
+        f.print`    registry: ${registry};`;
         f.print();
         f.print`    constructor(contract: ${contract}, registry: ${registry}) {`;
         f.print`        this.contract = contract;`;
         f.print`        this.registry = registry;`;
+        f.print`        this.jsonWriteOptions.typeRegistry = registry`;
         f.print`    }`;
         f.print();
         for (const method of service.methods) {

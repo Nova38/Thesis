@@ -664,39 +664,7 @@ func (m *Specimen_Primary) validate(all bool) error {
 
 	// no validation rules for Cataloger
 
-	for idx, item := range m.GetCollector() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, Specimen_PrimaryValidationError{
-						field:  fmt.Sprintf("Collector[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, Specimen_PrimaryValidationError{
-						field:  fmt.Sprintf("Collector[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return Specimen_PrimaryValidationError{
-					field:  fmt.Sprintf("Collector[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
+	// no validation rules for Collector
 
 	// no validation rules for Determiner
 

@@ -1,6 +1,13 @@
 import { pb } from "saacs-es";
+import { common, auth } from "saacs-es";
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  const cc = await useChaincode(event);
+
+  const result = await cc.service.getCollectionsList();
+
+  return result;
+
   const cols = [
     new pb.auth.objects.Collection({
       collectionId: "Test 1",

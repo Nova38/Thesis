@@ -236,9 +236,9 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
   cataloger = "";
 
   /**
-   * @generated from field: repeated ccbio.schema.v0.Researcher collector = 6;
+   * @generated from field: string collector = 6;
    */
-  collector: Researcher[] = [];
+  collector = "";
 
   /**
    * @generated from field: string determiner = 7;
@@ -288,7 +288,7 @@ export class Specimen_Primary extends Message<Specimen_Primary> {
     { no: 3, name: "field_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "tissue_number", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 5, name: "cataloger", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "collector", kind: "message", T: Researcher, repeated: true },
+    { no: 6, name: "collector", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 7, name: "determiner", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 8, name: "field_date", kind: "message", T: Date },
     { no: 9, name: "catalog_date", kind: "message", T: Date },
