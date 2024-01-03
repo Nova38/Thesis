@@ -4,11 +4,18 @@ export default defineNuxtConfig({
         "@vueuse/nuxt",
         "@pinia/nuxt",
         "@nuxt/ui",
-        "nuxt-quasar-ui",
+        // "nuxt-quasar-ui",
         "@nuxtjs/tailwindcss",
         "@nuxt/test-utils/module",
         "@nuxtjs/eslint-module",
+        "@formkit/nuxt",
     ],
+
+    formkit: {
+        // Experimental support for auto loading (see note):
+        autoImport: true,
+    },
+
     nitro: {
         storage: {
             ".data:auth": { driver: "fs", base: "./.data/auth" },
@@ -41,7 +48,7 @@ export default defineNuxtConfig({
         fabric: {
             chaincode: {
                 channel: "mychannel",
-                chaincode: "saacs",
+                chaincode: "roles",
             },
             peer: {
                 url: "grpcs://localhost:7051",
