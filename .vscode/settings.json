@@ -88,6 +88,7 @@
         "cckey",
         "contractapi",
         "descriptorpb",
+        "formkit",
         "golines",
         "heroicons",
         "iconify",
@@ -102,6 +103,7 @@
         "segmentio",
         "Sfixed",
         "spydra",
+        "SUBADULT",
         "tailwindcss",
         "urlcolor"
     ],

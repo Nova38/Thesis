@@ -1,10 +1,10 @@
-// import { useChaincode } from "~/server/utils/useChaincode";
-import { common, auth } from "saacs-es";
+import { common, auth, ccbio } from "saacs-es";
 import { z } from "zod";
 
 const querySchema = z.object({
   collectionId: z.string(),
 });
+
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event);
 
@@ -14,17 +14,28 @@ export default defineEventHandler(async (event) => {
   console.log(query);
   if (!query.success) throw query.error.issues;
 
-  const result = await cc.service.get(
-    new common.generic.GetRequest({
+  console.log("1");
+
+  const result = await cc.service.listByAttrs(
+    new common.generic.ListByAttrsRequest({
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
-        itemType: "auth.Collection",
+        itemType: ccbio.Specimen.typeName,
         itemKeyParts: [query.data.collectionId],
       }),
+      numAttrs: 0,
     }),
   );
+  console.log("2");
 
-  const c = new auth.objects.Collection();
-  result.item?.value?.unpackTo(c);
-  return c;
+  // console.log(result);
+  const specimen = result.items.map((i) => {
+    const s = new ccbio.Specimen();
+    i.value?.unpackTo(s);
+    return s.toJson({ emitDefaultValues: true });
+  });
+
+  // console.log(specimen);
+
+  return specimen;
 });

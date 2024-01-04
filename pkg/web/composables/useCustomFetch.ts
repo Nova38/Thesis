@@ -14,7 +14,7 @@ export function useCustomFetch<T>(
     // url, method, headers, etc. - this should be used with care as the key
     // is how Nuxt decides how responses should be deduplicated between
     // client and server
-    key: url,
+    // key: url,
 
     // set user token if connected
     headers: userAuth.value

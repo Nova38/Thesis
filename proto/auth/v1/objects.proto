@@ -34,7 +34,7 @@ message ItemKey {
   string item_type = 2 [(buf.validate.field).string.min_len = 1];
   auth.ItemKind item_kind = 3;
 
-  repeated string item_key_parts = 4 [(buf.validate.field).repeated = {min_items: 1}];
+  repeated string item_key_parts = 4;
 }
 
 message Item {

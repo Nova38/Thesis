@@ -140,7 +140,7 @@ func ByCollection[T common.ItemInterface](
 	obj T,
 	bookmark string,
 ) (list []T, mk string, err error) {
-	return PrimaryByPartialKey(ctx, obj, 1, bookmark)
+	return PrimaryByPartialKey(ctx, obj, 0, bookmark)
 }
 
 // ──────────────────────────────────────────────────
@@ -170,7 +170,7 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		return oops.Wrap(common.UserPermissionDenied)
 	}
 
-	if err := ctx.PostActionProcessing(obj, ops); err != nil {
+	if err = ctx.PostActionProcessing(obj, ops); err != nil {
 		return oops.Wrap(err)
 	}
 

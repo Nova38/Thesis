@@ -71,6 +71,7 @@ export async function updateUserByUsername(
   const storage = useStorage(".data:auth");
   const user = await findUserByUsername(username);
   const key = getUserKey(user.username!);
+
   return await storage.setItem(key, {
     ...user,
     ...updates,

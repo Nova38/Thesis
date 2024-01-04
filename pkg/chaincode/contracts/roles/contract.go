@@ -43,7 +43,7 @@ func BuildContract() *contractapi.ContractChaincode {
 }
 
 // ═════════════════════════════════════════════
-// Additional Functions for the NoAuthContract
+// Additional Functions for the Roles
 // ═════════════════════════════════════════════
 
 func (c *RoleContract) Bootstrap(
@@ -57,7 +57,7 @@ func (c *RoleContract) Bootstrap(
 		return nil, oops.Errorf("Invalid context")
 	}
 
-	ctx.GetLogger().Info("NoAuthContract.Bootstrap")
+	ctx.GetLogger().Info("Roles.Bootstrap")
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)

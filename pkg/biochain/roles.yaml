@@ -7,7 +7,7 @@ collection:
   item_types:
     - auth.Role
     - auth.UserCollectionRoles
-    - ccbio.schema.v0.Specimen
+    - biochain.Specimen
   default_policy:
     path: "."
     allow_subpaths: false

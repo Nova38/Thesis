@@ -57,16 +57,16 @@ export async function newGRPCClient() {
 }
 
 const BuildIdentity = async (event: H3Event) => {
-  const session = await useSession<AuthSession>(event, sessionConfig);
-
-  if (!session.data.username) {
-    throw createError({
-      message: "Not Authorized",
-      statusCode: 401,
-    });
-  }
-
   try {
+    const session = await useSession<AuthSession>(event, sessionConfig);
+
+    if (!session.data.username) {
+      throw createError({
+        message: "Not Authorized",
+        statusCode: 401,
+      });
+    }
+
     const user = await findUserByUsername(session.data.username);
     const identity = userToIdentity(user);
     const { privateKey } = userToPrivateKey(user);

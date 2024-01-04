@@ -2,21 +2,29 @@
   <div>
     <!-- <Testtable /> -->
     <!-- <SpecimenTable /> -->
-
-    <QTable></QTable>
+    <div>
+      <QBtn @click="() => refresh"></QBtn>
+    </div>
+    <QTable> </QTable>
+    <pre wrap>{{ data }}</pre>
   </div>
 </template>
 
 <script lang="ts" setup>
 // const links = useBreadcrumbLinks();
+const route = useRoute();
+// const { data, pending, error, refresh } = useFetch(
+//   `/api/cc/specimens/list?collectionId=${route.params.collectionId}`,
+// );
 
-import { z } from "zod";
-
-z.object({
-  id: z.string(),
-  name: z.string(),
-  age: z.number(),
-});
+const { data, pending, error, refresh } = useCustomFetch(
+  `/api/cc/specimens/list?collectionId=${route.params.collectionId}`,
+  {
+    query: {
+      collectionId: route.params.collectionId,
+    },
+  },
+);
 </script>
 
 <style></style>
