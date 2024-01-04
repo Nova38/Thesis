@@ -11,8 +11,8 @@ import (
 )
 
 func (ctx *TxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
-	ctx.GetLogger().Info("NoAuthContract.Authenticate")
-
+	ctx.GetLogger().Info("Roles.Authenticate")
+	ctx.GetLogger().Info("Roles.Authenticate", slog.Group("auth", "ops", ops))
 	for _, op := range ops {
 		if auth, err := ctx.authorized(op); err != nil {
 			return false, oops.Wrap(err)

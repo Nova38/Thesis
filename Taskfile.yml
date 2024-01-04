@@ -40,6 +40,7 @@ tasks:
       - python ./network/scripts/build_configs.py
       - docker-compose -f ./network/explorer/docker-compose.yaml up -d
       - docker-compose -f ./network/prometheus-grafana/docker-compose.yaml up -d
+      - task: cc:deploy:biochain
 
   net:down:
     desc: |
@@ -68,6 +69,7 @@ tasks:
   cc:deploy:
     desc: Deploy chaincode to the channel and start the chaincode container
     cmds:
+      - buf generate
       - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd:
@@ -80,6 +82,17 @@ tasks:
       - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd: bash -c "cd ./network && ./cc_restart/{{ .ITEM }}.sh "
+
+  cc:deploy:biochain:
+    desc: Deploy chaincode to the channel and start the chaincode container
+    cmds:
+      - buf generate
+      - cmd:
+          bash -c "cd ./network && ./network.sh deployCCAAS -ccn roles -ccp
+          ../pkg/chaincode/ "
+  cc:redeploy:biochain:
+    desc: Deploy chaincode to the channel and start the chaincode container
+    cmd: bash -c "cd ./network && ./cc_restart/roles.sh "
 
   cc:build:
     cmd: docker build -t nova38/saacs:latest -f ./pkg/chaincode/Dockerfile .

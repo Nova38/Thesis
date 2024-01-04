@@ -3,7 +3,7 @@
 // - protoc-gen-cckey v0.0.1
 // source: biochain/v1/state.proto
 
-package v1
+package biochainv1
 
 import (
 	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
@@ -12,7 +12,7 @@ import (
 )
 
 // ──────────────────────────────────────────────────
-// ccbio.schema.v0.Specimen
+// biochain.v1.Specimen
 // Primary Item
 
 // Domain Item
@@ -36,7 +36,7 @@ func (m *Specimen) ItemKey() *v1.ItemKey {
 	key := &v1.ItemKey{
 		CollectionId: m.GetCollectionId(),
 		ItemKind:     2,
-		ItemType:     "ccbio.schema.v0.Specimen",
+		ItemType:     "biochain.v1.Specimen",
 		ItemKeyParts: m.KeyAttr(),
 	}
 	return key
@@ -53,7 +53,7 @@ func (m *Specimen) ItemKind() v1.ItemKind {
 }
 
 func (m *Specimen) ItemType() string {
-	return "ccbio.schema.v0.Specimen"
+	return "biochain.v1.Specimen"
 }
 
 func (m *Specimen) KeySchema() *v1.KeySchema {
@@ -92,10 +92,10 @@ func (m *Specimen) StateKey() string {
 	}
 
 	if len(attrs) == 0 {
-		k := sep + "ccbio.schema.v0.Specimen" + sep + collectionId + sep
+		k := sep + "biochain.v1.Specimen" + sep + collectionId + sep
 		return k
 	}
-	k := sep + "ccbio.schema.v0.Specimen" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
+	k := sep + "biochain.v1.Specimen" + sep + collectionId + sep + strings.Join(attrs, sep) + sep
 
 	return k
 }

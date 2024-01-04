@@ -1,11 +1,11 @@
 export default eventHandler(async (event) => {
-  const { username, chainkey } = await readBody(event);
-
+  const { credentials, key } = await readBody(event);
+  const { data } = await requireAuthSession(event);
   // eslint-disable-next-line no-console
-  console.log(username, chainkey);
+  // console.log(username, credentials);
 
-  await updateUserByUsername(username, { chainKey: chainkey });
+  await updateUserByUsername(data.username, { credentials, key });
   return {
-    message: "Successfully registered!",
+    message: "Successfully Updated",
   };
 });

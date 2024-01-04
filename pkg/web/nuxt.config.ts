@@ -1,12 +1,23 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [// "@nuxt/ui",
-  "@formkit/nuxt", "nuxt-quasar-ui", "@vueuse/nuxt", "@nuxtjs/tailwindcss", "@nuxtjs/eslint-module", "nuxt-icon", "@pinia/nuxt"],
+  modules: [
+    // "@nuxt/ui",
+    "@formkit/nuxt",
+    "nuxt-quasar-ui",
+    "@vueuse/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/eslint-module",
+    "nuxt-icon",
+    "@pinia/nuxt",
+  ],
   css: ["~/assets/css/main.css"],
+  devServer: {
+    port: 8000,
+  },
 
   formkit: {
     // Experimental support for auto loading (see note):
-    autoImport: true,
+    // autoImport: true,
   },
 
   nitro: {

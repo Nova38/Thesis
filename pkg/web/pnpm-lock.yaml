@@ -35,6 +35,9 @@ dependencies:
   saacs-es:
     specifier: link:..\saacs-es
     version: link:../saacs-es
+  uncrypto:
+    specifier: ^0.1.3
+    version: 0.1.3
   zod:
     specifier: ^3.22.4
     version: 3.22.4

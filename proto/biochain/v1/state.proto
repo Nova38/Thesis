@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ccbio.schema.v0;
+package biochain.v1;
 
 // import "hlf/key.proto";
 // import "rbac/rbac.proto";
@@ -150,7 +150,7 @@ message Specimen {
   }
 
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string specimen_id = 2 [(buf.validate.field).string.uuid = true];
+  string specimen_id = 2 [(buf.validate.field).string.min_len = 1];
   Primary primary = 3 [(buf.validate.field).required = true];
   Secondary secondary = 4 [(buf.validate.field).required = true];
   Taxon taxon = 5 [(buf.validate.field).required = true];
@@ -158,6 +158,8 @@ message Specimen {
   map<string, Image> images = 7;
   map<string, Loan> loans = 10;
   map<string, Grant> grants = 11;
+  auth.StateActivity last_modified = 20;
+
 }
 
 // message SuggestedUpdate {

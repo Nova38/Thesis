@@ -13,6 +13,7 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"github.com/nova38/saacs/pkg/chaincode/common"
+	"github.com/nova38/saacs/pkg/chaincode/internal/biochain"
 
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 )
@@ -153,6 +154,11 @@ func (ctx *BaseTxCtx) PostActionProcessing(
 	item common.ItemInterface,
 	ops []*authpb.Operation,
 ) (err error) {
+
+	if err := biochain.SpecimenPostActionProcessing(ctx, item, ops); err != nil {
+		return oops.Wrap(err)
+	}
+
 	return nil
 }
 

@@ -24,7 +24,7 @@ type (
 var (
 	_ common.TxCtxInterface = (*TxCtx)(
 		nil,
-	) // _ contracts.ItemContractInterface = (*IdentiyContract)(nil)
+	) // _ contracts.ItemContractInterface = (*IdentityContract)(nil)
 	// see if ItemContractImpl implements the interface GenericServiceInterface
 	_ cc.GenericServiceInterface[common.TxCtxInterface] = (*RoleContract)(nil)
 )

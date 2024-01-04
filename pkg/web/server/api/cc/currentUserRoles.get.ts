@@ -1,5 +1,5 @@
-// import { useChaincode } from "~/server/utils/useChaincode";
-import { common, auth } from "saacs-es";
+import { PlainMessage } from "@bufbuild/protobuf";
+import { auth, common } from "saacs-es";
 import { z } from "zod";
 
 const querySchema = z.object({
@@ -7,24 +7,28 @@ const querySchema = z.object({
 });
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event);
-
   const query = await getValidatedQuery(event, (body) =>
     querySchema.safeParse(body),
   );
   console.log(query);
   if (!query.success) throw query.error.issues;
 
+  const { user } = await cc.service.getCurrentUser();
+  if (!user) throw new Error("User not found");
+
   const result = await cc.service.get(
     new common.generic.GetRequest({
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
-        itemType: "auth.Collection",
-        itemKeyParts: [query.data.collectionId],
+        itemType: auth.objects.UserCollectionRoles.typeName,
+        itemKeyParts: [user.mspId, user.userId],
       }),
     }),
   );
+  console.log(result);
 
-  const c = new auth.objects.Collection();
-  result.item?.value?.unpackTo(c);
-  return c;
+  const role = new auth.objects.UserCollectionRoles();
+  result.item?.value?.unpackTo(role);
+
+  return role;
 });
