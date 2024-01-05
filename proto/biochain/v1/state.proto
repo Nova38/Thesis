@@ -5,10 +5,29 @@ package biochain.v1;
 // import "hlf/key.proto";
 // import "rbac/rbac.proto";
 import "auth/v1/auth.proto";
+import "auth/v1/objects.proto";
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 // option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
+message SpecimenHistory {
+  repeated SpecimenHistoryEntry entries = 1;
+  auth.HiddenTxList hidden_txs = 2;
+}
+message SpecimenHistoryEntry {
+  // The transaction id that caused the change
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  // Whether the item was deleted
+  bool is_delete = 2;
+  // Whether the transaction was hidden
+  bool is_hidden = 3;
+  // The timestamp of the change
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  // A note about the change
+  string note = 5;
+  // The value of the item
+  Specimen value = 6;
+}
 
 // ────────────────────────────────────────────────--
 // Specimen
@@ -67,12 +86,16 @@ message Specimen {
       AGE_CONTINGENT = 6;
     }
 
+    message Preparation {
+      string verbatim = 1;
+    }
+
     SEX sex = 1;
     AGE age = 2;
     double weight = 3;
     string weight_units = 4;
 
-    string preparation = 5;
+    map<string, Preparation> preparations = 5;
     string condition = 6;
     string molt = 7;
     string notes = 8;
@@ -96,8 +119,8 @@ message Specimen {
     string state_province = 2;
     string county = 3;
     string locality = 4;
-    string latitude = 5;
-    string longitude = 6;
+    double latitude = 5;
+    double longitude = 6;
     string habitat = 7;
 
     //Georeference.continent -string 32 characters
@@ -159,7 +182,6 @@ message Specimen {
   map<string, Loan> loans = 10;
   map<string, Grant> grants = 11;
   auth.StateActivity last_modified = 20;
-
 }
 
 // message SuggestedUpdate {

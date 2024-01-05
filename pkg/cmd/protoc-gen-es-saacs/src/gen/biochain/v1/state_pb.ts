@@ -5,7 +5,132 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { HiddenTxList } from "../../auth/v1/objects_pb.js";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
+
+/**
+ * option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
+ *
+ * @generated from message biochain.v1.SpecimenHistory
+ */
+export class SpecimenHistory extends Message<SpecimenHistory> {
+  /**
+   * @generated from field: repeated biochain.v1.SpecimenHistoryEntry entries = 1;
+   */
+  entries: SpecimenHistoryEntry[] = [];
+
+  /**
+   * @generated from field: auth.HiddenTxList hidden_txs = 2;
+   */
+  hiddenTxs?: HiddenTxList;
+
+  constructor(data?: PartialMessage<SpecimenHistory>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.SpecimenHistory";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "entries", kind: "message", T: SpecimenHistoryEntry, repeated: true },
+    { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenHistory {
+    return new SpecimenHistory().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenHistory {
+    return new SpecimenHistory().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenHistory {
+    return new SpecimenHistory().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenHistory | PlainMessage<SpecimenHistory> | undefined, b: SpecimenHistory | PlainMessage<SpecimenHistory> | undefined): boolean {
+    return proto3.util.equals(SpecimenHistory, a, b);
+  }
+}
+
+/**
+ * @generated from message biochain.v1.SpecimenHistoryEntry
+ */
+export class SpecimenHistoryEntry extends Message<SpecimenHistoryEntry> {
+  /**
+   * The transaction id that caused the change
+   *
+   * @generated from field: string tx_id = 1;
+   */
+  txId = "";
+
+  /**
+   * Whether the item was deleted
+   *
+   * @generated from field: bool is_delete = 2;
+   */
+  isDelete = false;
+
+  /**
+   * Whether the transaction was hidden
+   *
+   * @generated from field: bool is_hidden = 3;
+   */
+  isHidden = false;
+
+  /**
+   * The timestamp of the change
+   *
+   * @generated from field: google.protobuf.Timestamp timestamp = 4;
+   */
+  timestamp?: Timestamp;
+
+  /**
+   * A note about the change
+   *
+   * @generated from field: string note = 5;
+   */
+  note = "";
+
+  /**
+   * The value of the item
+   *
+   * @generated from field: biochain.v1.Specimen value = 6;
+   */
+  value?: Specimen;
+
+  constructor(data?: PartialMessage<SpecimenHistoryEntry>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.SpecimenHistoryEntry";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "is_delete", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 3, name: "is_hidden", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "timestamp", kind: "message", T: Timestamp },
+    { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "value", kind: "message", T: Specimen },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenHistoryEntry {
+    return new SpecimenHistoryEntry().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenHistoryEntry {
+    return new SpecimenHistoryEntry().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenHistoryEntry {
+    return new SpecimenHistoryEntry().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenHistoryEntry | PlainMessage<SpecimenHistoryEntry> | undefined, b: SpecimenHistoryEntry | PlainMessage<SpecimenHistoryEntry> | undefined): boolean {
+    return proto3.util.equals(SpecimenHistoryEntry, a, b);
+  }
+}
 
 /**
  * ────────────────────────────────────────────────--
@@ -346,9 +471,9 @@ export class Specimen_Secondary extends Message<Specimen_Secondary> {
   weightUnits = "";
 
   /**
-   * @generated from field: string preparation = 5;
+   * @generated from field: map<string, biochain.v1.Specimen.Secondary.Preparation> preparations = 5;
    */
-  preparation = "";
+  preparations: { [key: string]: Specimen_Secondary_Preparation } = {};
 
   /**
    * @generated from field: string condition = 6;
@@ -382,7 +507,7 @@ export class Specimen_Secondary extends Message<Specimen_Secondary> {
     { no: 2, name: "age", kind: "enum", T: proto3.getEnumType(Specimen_Secondary_AGE) },
     { no: 3, name: "weight", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 4, name: "weight_units", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "preparation", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "preparations", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen_Secondary_Preparation} },
     { no: 6, name: "condition", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 7, name: "molt", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 8, name: "notes", kind: "scalar", T: 9 /* ScalarType.STRING */ },
@@ -497,6 +622,43 @@ proto3.util.setEnumType(Specimen_Secondary_AGE, "biochain.v1.Specimen.Secondary.
 ]);
 
 /**
+ * @generated from message biochain.v1.Specimen.Secondary.Preparation
+ */
+export class Specimen_Secondary_Preparation extends Message<Specimen_Secondary_Preparation> {
+  /**
+   * @generated from field: string verbatim = 1;
+   */
+  verbatim = "";
+
+  constructor(data?: PartialMessage<Specimen_Secondary_Preparation>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.Specimen.Secondary.Preparation";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "verbatim", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Specimen_Secondary_Preparation {
+    return new Specimen_Secondary_Preparation().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Specimen_Secondary_Preparation {
+    return new Specimen_Secondary_Preparation().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Specimen_Secondary_Preparation {
+    return new Specimen_Secondary_Preparation().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Specimen_Secondary_Preparation | PlainMessage<Specimen_Secondary_Preparation> | undefined, b: Specimen_Secondary_Preparation | PlainMessage<Specimen_Secondary_Preparation> | undefined): boolean {
+    return proto3.util.equals(Specimen_Secondary_Preparation, a, b);
+  }
+}
+
+/**
  * @generated from message biochain.v1.Specimen.Taxon
  */
 export class Specimen_Taxon extends Message<Specimen_Taxon> {
@@ -606,14 +768,14 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
   locality = "";
 
   /**
-   * @generated from field: string latitude = 5;
+   * @generated from field: double latitude = 5;
    */
-  latitude = "";
+  latitude = 0;
 
   /**
-   * @generated from field: string longitude = 6;
+   * @generated from field: double longitude = 6;
    */
-  longitude = "";
+  longitude = 0;
 
   /**
    * @generated from field: string habitat = 7;
@@ -698,8 +860,8 @@ export class Specimen_Georeference extends Message<Specimen_Georeference> {
     { no: 2, name: "state_province", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 3, name: "county", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "locality", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "latitude", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 6, name: "longitude", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "latitude", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
+    { no: 6, name: "longitude", kind: "scalar", T: 1 /* ScalarType.DOUBLE */ },
     { no: 7, name: "habitat", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 8, name: "continent", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 9, name: "location_remarks", kind: "scalar", T: 9 /* ScalarType.STRING */ },

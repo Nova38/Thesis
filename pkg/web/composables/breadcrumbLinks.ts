@@ -4,6 +4,7 @@ export const useBreadcrumbLinks = () => {
   const route = useRoute();
   const links = computed(() => {
     const paths = route.path.split("/").filter((p) => p);
+    console.log(route);
 
     const items: BreadcrumbLink[] = [
       {
@@ -17,7 +18,21 @@ export const useBreadcrumbLinks = () => {
     if (route.params?.collectionId) {
       items.push({
         label: `Collection: ${route.params.collectionId}`,
-        to: `/collection-${route.params.collectionId}`,
+        to: `/collection/${route.params.collectionId}`,
+        // material-symbols:collections-bookmark-outline-rounded
+        icon: "i-material-symbols-collections-bookmark-outline-rounded",
+      });
+    }
+    if (paths.find((p) => p === "SpecimenTable")) {
+      // items.push({
+      //     label: `Specimen`,
+      //     to: `/specimen`,
+      //     icon: "i-heroicons-moon",
+      // });
+
+      items.push({
+        label: `Specimen Table`,
+        to: `/collection/${route.params.collectionId}/SpecimenTable`,
         // material-symbols:collections-bookmark-outline-rounded
         icon: "i-material-symbols-collections-bookmark-outline-rounded",
       });
@@ -40,6 +55,8 @@ export const useBreadcrumbLinks = () => {
         });
       }
     }
+
+    // items.push({
 
     console.log("items", items);
     console.log("paths", paths);

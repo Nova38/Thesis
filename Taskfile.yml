@@ -100,6 +100,12 @@ tasks:
   build:es-stub:
     cmd: cd ./pkg/saacs-es && pnpm run stub
 
+  es:run:
+    dir: ./pkg/saacs-es
+    cmd: pnpm run api
+  build:es:
+    dir: ./pkg/saacs-es
+    cmd: pnpm run build
   # go:format:
   #   cmds:
   #     - golines --ignore-generated  . -w
@@ -117,3 +123,4 @@ tasks:
     cmds:
       - buf build -o image.bin
       - buf generate
+      - task: build:es

@@ -1,0 +1,144 @@
+{
+  "protoc": {
+    "options": [
+      "--proto_path=${workspaceFolder}",
+      "--proto_path=${userHome}/.cache/buf/v1/module/data/"
+    ]
+  },
+  "spellright.language": [
+    "en"
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "Log",
+    "go"
+  ],
+  "spellright.parserByClass": {
+    "Log": {
+      "parser": "code"
+    }
+  },
+  // Add to VS Code settings.js file
+  "cSpell.languageSettings": [
+    // GoLang settings
+    {
+      "languageId": "go",
+      // Turn off compound words, because it is only checking strings.
+      "allowCompoundWords": false,
+      // Only check comments and strings
+      "includeRegExpList": [
+        "CStyleComment",
+        "string"
+      ],
+      // Exclude imports, because they are also strings.
+      "ignoreRegExpList": [
+        // ignore mulltiline imports
+        "import\\s*\\((.|[\r\n])*?\\)",
+        // ignore single line imports
+        "import\\s*.*\".*?\"",
+        // ignore go generate directive
+        "//\\s*go:generate.*",
+        // ignore nolint directive
+        "//\\s*nolint:.*"
+      ]
+    }
+  ],
+  "cSpell.enableFiletypes": [
+    "!json",
+    "!yaml",
+    "proto3"
+  ],
+  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
+  "todo-tree.general.showActivityBarBadge": true,
+  "todo-tree.tree.buttons.export": false,
+  "todo-tree.general.statusBar": "current file",
+  "todo-tree.tree.showBadges": true,
+  "todo-tree.tree.disableCompactFolders": true,
+  "todo-tree.tree.showCountsInTree": false,
+  "todo-tree.tree.scanMode": "workspace only",
+  "cSpell.words": [
+    "ABAC",
+    "anypb",
+    "authpb",
+    "autogrow",
+    "cckey",
+    "contractapi",
+    "defu",
+    "descriptorpb",
+    "formkit",
+    "golines",
+    "heroicons",
+    "iconify",
+    "noauth",
+    "nuxtjs",
+    "oneof",
+    "pdfauthor",
+    "pdfsubject",
+    "protogen",
+    "protoreflect",
+    "saacs",
+    "segmentio",
+    "Sfixed",
+    "spydra",
+    "SUBADULT",
+    "tailwindcss",
+    "urlcolor"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".task/*.*": true,
+    "**/.idea": true,
+    "**/.task": true
+  },
+  "explorerExclude.backup": {},
+  "editor.minimap.enabled": false,
+  "cSpell.enabled": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+  },
+  "[typescript][vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "ui:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "/\\*ui\\*/\\s*{([^;]*)}",
+      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+    ]
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "ui"
+  ]
+  // "plantuml.server": "http://localhost:8888",
+  // "plantuml.render": "PlantUMLServer",
+}

@@ -1,86 +1,81 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    // "@nuxt/ui",
-    "@formkit/nuxt",
-    "nuxt-quasar-ui",
-    "@vueuse/nuxt",
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/eslint-module",
-    "nuxt-icon",
-    "@pinia/nuxt",
-  ],
   css: ["~/assets/css/main.css"],
   devServer: {
     port: 8000,
   },
-
-  formkit: {
-    // Experimental support for auto loading (see note):
-    // autoImport: true,
-  },
-
-  nitro: {
-    storage: {
-      ".data:auth": { driver: "fs", base: "./.data/auth" },
-    },
-  },
   devtools: {
     enabled: true,
-
     timeline: {
       enabled: true,
     },
   },
-  ssr: false,
-  // ui: {
-  //     icons: ["heroicons", "material-symbols", "simple-icons"],
-  // },
-
+  formkit: {},
+  imports: {
+    dirs: ["composables/cc/**"],
+  },
+  modules: [
+    "@formkit/nuxt",
+    "nuxt-quasar-ui",
+    "@vueuse/nuxt",
+    "@nuxtjs/eslint-module",
+    "nuxt-icon",
+    "@pinia/nuxt",
+    "@nuxtjs/tailwindcss",
+    "nuxt-radash",
+    "@nuxt/test-utils/module",
+  ],
+  nitro: {
+    storage: {
+      ".data:auth": {
+        base: "./.data/auth",
+        driver: "fs",
+      },
+    },
+  },
   quasar: {
     components: {
       defaults: {
         QInput: {},
       },
     },
-    config: {},
-
-    extras: {
-      fontIcons: [
-        "themify",
-        // 'line-awesome',
-        // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
-        "material-icons", // optional, you are not bound to it
-      ],
-      font: "roboto-font",
+    config: {
+      loadingBar: {
+        color: "secondary",
+        position: "bottom",
+        size: "4px",
+      },
     },
-    plugins: ["LoadingBar"],
+    extras: {
+      font: "roboto-font",
+      fontIcons: ["themify", "material-icons"],
+    },
+    plugins: ["LoadingBar", "Notify"],
   },
-
   runtimeConfig: {
     auth: {
       password: "password",
     },
     fabric: {
       chaincode: {
-        channel: "mychannel",
         chaincode: "roles",
+        channel: "mychannel",
       },
       peer: {
-        url: "grpcs://localhost:7051",
-        tlsCACerts: {
-          pem: "",
-        },
         grpcOptions: {
           "ssl-target-name-override": "peer0.org1.example.com",
         },
+        tlsCACerts: {
+          pem: "",
+        },
+        url: "grpcs://localhost:7051",
       },
       public: {
-        mspId: "Org1MSP",
         credentials: "",
         key: "",
+        mspId: "Org1MSP",
       },
     },
   },
+  ssr: false,
 });

@@ -1,46 +1,5 @@
 <template>
   <div>
-    <UVerticalNavigation :links="baseLinks" :ui="{}" />
-    <UDivider
-      :ui="{
-        size: 'lg',
-      }"
-    />
-    <UAccordion :items="colLinks" :default-open="true" multiple>
-      <template #item="{ item }">
-        <div class="pl-3">
-          <UVerticalNavigation
-            :links="[
-              {
-                label: 'Dashboard',
-                to: `/collection-${item.label}/`,
-
-                icon: 'i-heroicons-home',
-              },
-              {
-                label: 'Specimen Table',
-                to: `/collection-${item.label}/SpecimenTable`,
-                icon: 'i-heroicons-square-3-stack-3d',
-              },
-              {
-                // NewSpecimen
-                label: 'New Specimen',
-                to: `/collection-${item.label}/NewSpecimen`,
-                icon: 'i-heroicons-plus-circle',
-              },
-            ]"
-            :ui="{
-              active:
-                'text-primary-500 dark:text-primary-400 border-current font-semibold',
-              inactive:
-                'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
-            }"
-          />
-        </div>
-      </template>
-    </UAccordion>
-    <!-- <QCard class="p-> -->
-    <!-- <QCardSection> -->
     <div v-for="col in colLinks" :key="col.label" class="p-2">
       <QExpansionItem
         expand-separator
@@ -61,7 +20,7 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection-' + col.label + '/SpecimenTable/'"
+              :to="'/collection/' + col.label + '/SpecimenTable/'"
             >
               <q-item-section avatar>
                 <q-icon color="primary" name="ti-view-list-alt" />
@@ -69,7 +28,7 @@
 
               <q-item-section>Specimen Table</q-item-section>
             </q-item>
-            <q-item v-ripple clickable :to="'/collection-' + col.label">
+            <q-item v-ripple clickable :to="'/collection/' + col.label">
               <q-item-section avatar>
                 <q-icon color="primary" name="ti-dashboard" />
               </q-item-section>
@@ -80,7 +39,7 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection-' + col.label + '/NewSpecimen/'"
+              :to="'/collection/' + col.label + '/Specimen/New'"
               class=""
             >
               <q-item-section avatar>
@@ -93,7 +52,7 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection-' + col.label + '/import'"
+              :to="'/collection/' + col.label + '/import'"
             >
               <q-item-section avatar>
                 <q-icon color="primary" name="ti-import" />
