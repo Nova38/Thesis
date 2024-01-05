@@ -1,8 +1,9 @@
 import type { H3Event } from "h3";
 import { sessionConfig } from "./session";
-import { User, userToIdentity, userToPrivateKey } from "./db";
+import { User } from "./db";
 import { connect, signers } from "@hyperledger/fabric-gateway";
 import * as grpc from "@grpc/grpc-js";
+import * as crypto from "crypto";
 
 import { auth, ccbio, sample, common } from "saacs-es";
 import { IMessageTypeRegistry, createRegistry } from "@bufbuild/protobuf";
@@ -38,6 +39,34 @@ export interface FabricConfig {
 }
 
 export const fabricConfig: FabricConfig = useRuntimeConfig().fabric || {};
+export function userToIdentity(user: User) {
+  if (!user.mspId || !user.credentials) {
+    throw createError({
+      message: "Users mspId or signCert not found!",
+      statusCode: 404,
+    });
+  }
+
+  return {
+    mspId: user.mspId,
+    credentials: Buffer.from(user.credentials),
+  };
+}
+
+export function userToPrivateKey(user: User) {
+  if (!user.key) {
+    throw createError({
+      message: "Users private key not found!",
+      statusCode: 404,
+    });
+  }
+
+  const privateKey = crypto.createPrivateKey(user.key);
+
+  return {
+    privateKey,
+  };
+}
 
 export async function newGRPCClient() {
   const tlsCredentials = grpc.credentials.createSsl(
@@ -79,6 +108,7 @@ const BuildIdentity = async (event: H3Event) => {
   } catch (error) {
     const publicUser: User = {
       id: "",
+      userId: "",
       createdAt: "",
       username: "",
       password: "",
