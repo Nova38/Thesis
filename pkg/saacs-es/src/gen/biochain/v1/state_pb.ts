@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
 import { HiddenTxList } from "../../auth/v1/objects_pb.js";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
 
@@ -129,6 +129,49 @@ export class SpecimenHistoryEntry extends Message<SpecimenHistoryEntry> {
 
   static equals(a: SpecimenHistoryEntry | PlainMessage<SpecimenHistoryEntry> | undefined, b: SpecimenHistoryEntry | PlainMessage<SpecimenHistoryEntry> | undefined): boolean {
     return proto3.util.equals(SpecimenHistoryEntry, a, b);
+  }
+}
+
+/**
+ * @generated from message biochain.v1.SpecimenUpdate
+ */
+export class SpecimenUpdate extends Message<SpecimenUpdate> {
+  /**
+   * @generated from field: biochain.v1.Specimen specimen = 1;
+   */
+  specimen?: Specimen;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask mask = 2;
+   */
+  mask?: FieldMask;
+
+  constructor(data?: PartialMessage<SpecimenUpdate>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.SpecimenUpdate";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimen", kind: "message", T: Specimen },
+    { no: 2, name: "mask", kind: "message", T: FieldMask },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenUpdate {
+    return new SpecimenUpdate().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenUpdate {
+    return new SpecimenUpdate().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenUpdate {
+    return new SpecimenUpdate().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenUpdate | PlainMessage<SpecimenUpdate> | undefined, b: SpecimenUpdate | PlainMessage<SpecimenUpdate> | undefined): boolean {
+    return proto3.util.equals(SpecimenUpdate, a, b);
   }
 }
 

@@ -1,18 +1,27 @@
 <template>
   <div>
-    <QCard class="p-4">
-      TimeLine
-      <q-timeline v-if="history" dense color="secondary">
+    <QBar class="flex flex-row text-lg items-center justify-center">
+      Specimen History
+    </QBar>
+    <QCard class="p-4 flex flex-col justify-center">
+      <QTimeline v-if="history" dense>
         <template v-for="tx in history.entries" :key="tx.txId">
-          <SpecimenTimelineEntry :entry="tx" />
+          <SpecimenTimelineEntry :entry="tx" :can-hide="props.canHide" />
         </template>
-      </q-timeline>
+      </QTimeline>
     </QCard>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { auth, ccbio } from "saacs-es";
+import { ccbio } from "saacs-es";
+
+const props = defineProps({
+  canHide: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const history = defineModel("history", {
   default: () => new ccbio.SpecimenHistory(),

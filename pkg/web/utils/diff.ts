@@ -1,11 +1,149 @@
 import { diff } from "ohash";
 import { FieldMask } from "@bufbuild/protobuf";
+import { snakeCase } from "scule";
+import { crush } from "radash";
+
+export type diffOp = "added" | "removed" | "updated";
+export const toMask = (p: string) =>
+  p
+    .split(".")
+    .map((i) => snakeCase(i))
+    .join(".");
+
+export const diffCrush = (base: any, updated: any, excludePaths: string[]) => {
+  const b: Record<string, any> = crush(toValue(base) ?? {});
+  const u: Record<string, any> = crush(toValue(updated) ?? {});
+
+  const differences: Record<string, any>[] = [];
+  const paths: string[] = [];
+  for (const key in b) {
+    if (excludePaths.includes(key)) continue;
+    if (b[key] !== u[key]) {
+      differences.push({
+        key,
+        values: { base: b[key], updated: u[key] },
+        type: "updated",
+      });
+      paths.push(toMask(key));
+    }
+    // if (!(key in u) && b[key] !== undefined) {
+    //   differences.push({
+    //     key,
+    //     values: { base: b[key] },
+    //     type: "removed",
+    //   });
+    //   paths.push(toMask(key));
+    // }
+  }
+
+  for (const key in u) {
+    if (excludePaths.includes(key)) continue;
+
+    if (!(key in b) && u[key] !== undefined) {
+      differences.push({
+        key,
+        value: { values: { updated: u[key] } },
+        type: "added",
+      });
+      paths.push(toMask(key));
+    }
+  }
+
+  const mask = new FieldMask({ paths });
+
+  return { differences, paths, mask };
+};
 
 export const diffToFieldMaskPath = (base: any, updated: any) => {
-  const paths = diff(base, updated).map((d) => d.key);
+  const paths = diff(base, updated, {
+    excludeKeys: (key: string) => {
+      if (key.startsWith("_")) return true;
+      if (key === "dep") return true;
 
-  const mask = new FieldMask();
-  mask.paths = paths;
+      return false;
+    },
+  }).map((d) =>
+    d.key
+      .split(".")
+      .map((i) => snakeCase(i))
+      .join("."),
+  );
 
-  return { paths };
+  // const t = JSON.stringify({
+  //   paths,
+  // });
+
+  const mask = new FieldMask({ paths });
+
+  // const mask = FieldMask.fromJson();
+
+  return { mask };
 };
+
+// export const SpecimenToForm = (specimen: any) => {
+//   let data: any = set(
+//     specimen,
+//     "primary.DeterminedDateTimestamp",
+//     specimen?.primary?.determinedDate?.timestamp
+//       ?.toDate()
+//       .toLocaleDateString("en-US"),
+//   );
+//   data = set(
+//     data,
+//     "primary.OriginalDateTimestamp",
+//     specimen?.primary?.originalDate?.timestamp
+//       ?.toDate()
+//       .toLocaleDateString("en-US"),
+//   );
+//   data = set(
+//     data,
+//     "primary.FieldDateTimestamp",
+//     specimen?.primary?.fieldDate?.timestamp
+//       ?.toDate()
+//       .toLocaleDateString("en-US"),
+//   );
+//   data = set(
+//     data,
+//     "primary.FieldDateTimestamp",
+//     specimen?.primary?.fieldDate?.timestamp
+//       ?.toDate()
+//       .toLocaleDateString("en-US"),
+//   );
+//   return data;
+// };
+// export const FormToSpecimen = (specimen: ccbio.Specimen) => {
+//   const DeterminedDateTimestamp = get<string>(
+//     specimen,
+//     "primary.DeterminedDateTimestamp",
+//   );
+//   if (DeterminedDateTimestamp && specimen.primary) {
+//     const date = new Date(DeterminedDateTimestamp);
+//     if (!specimen.primary.determinedDate)
+//       specimen.primary.determinedDate = new ccbio.Date();
+//     specimen.primary.determinedDate.timestamp = Timestamp.fromDate(date);
+//   }
+
+//   const OriginalDateTimestamp = get<string>(
+//     specimen,
+//     "primary.OriginalDateTimestamp",
+//   );
+//   if (OriginalDateTimestamp && specimen.primary) {
+//     const date = new Date(OriginalDateTimestamp);
+//     if (!specimen.primary.determinedDate)
+//       specimen.primary.determinedDate = new ccbio.Date();
+//     specimen.primary.determinedDate.timestamp = Timestamp.fromDate(date);
+//   }
+
+//   const FieldDateTimestamp = get<string>(
+//     specimen,
+//     "primary.FieldDateTimestamp",
+//   );
+//   if (FieldDateTimestamp && specimen.primary) {
+//     const date = new Date(FieldDateTimestamp);
+//     if (!specimen.primary.determinedDate)
+//       specimen.primary.determinedDate = new ccbio.Date();
+//     specimen.primary.determinedDate.timestamp = Timestamp.fromDate(date);
+//   }
+
+//   return specimen;
+// };

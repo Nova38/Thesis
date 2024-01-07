@@ -11,6 +11,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/internal/biochain"
@@ -245,13 +246,20 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 		return nil, oops.Errorf("Failed to get timestamp: %w", err)
 	}
 
-	return &authpb.StateActivity{
+	mod = &authpb.StateActivity{
 		UserId: user.GetUserId(),
 		MspId:  user.GetMspId(),
 		// Note:      fmt.Sprintf("User %v modified the state", user.GetName()),
-		TxId:      ctx.GetStub().GetTxID(),
-		Timestamp: timestamp,
-	}, nil
+		TxId: ctx.GetStub().GetTxID(),
+		Timestamp: &timestamppb.Timestamp{
+			Seconds: timestamp.GetSeconds(),
+			Nanos:   timestamp.GetNanos(),
+		},
+	}
+
+	ctx.Logger.Info("MakeLastModified", slog.Any("mod", mod))
+
+	return mod, nil
 }
 
 // ═════════════════════════════════════════════

@@ -36,8 +36,13 @@ export default defineNuxtConfig({
   quasar: {
     components: {
       defaults: {
-        QInput: {},
+        QInput: {
+          outlined: true,
+          dense: true,
+          stackLabel: true,
+        },
       },
+      deepDefaults: true,
     },
     config: {
       loadingBar: {
@@ -52,28 +57,37 @@ export default defineNuxtConfig({
     },
     plugins: ["LoadingBar", "Notify"],
   },
+  appConfig: {
+    apiEndpoint: process.env.NUXT_API_URL,
+  },
   runtimeConfig: {
     auth: {
-      password: "password",
+      password: process.env.NUXT_AUTH_PASSWORD || "",
     },
     fabric: {
       chaincode: {
-        chaincode: "roles",
-        channel: "mychannel",
+        chaincode: process.env.NUXT_CHAINCODE_CHAINCODE || "",
+        channel: process.env.NUXT_CHAINCODE_CHANNEL || "",
       },
       peer: {
         grpcOptions: {
-          "ssl-target-name-override": "peer0.org1.example.com",
+          "ssl-target-name-override":
+            process.env.NUXT_FABRIC_PEER_GRPC_OPTIONS || "",
         },
         tlsCACerts: {
-          pem: "",
+          pem: process.env.NUXT_FABRIC_PEER_TLS_CA_CERTS_PEM || "",
         },
-        url: "grpcs://localhost:7051",
+        url: process.env.NUXT_FABRIC_PEER_URL || "",
       },
       public: {
-        credentials: "",
-        key: "",
-        mspId: "Org1MSP",
+        credentials: process.env.NUXT_FABRIC_PUBLIC_CREDENTIALS || "",
+        key: process.env.NUXT_FABRIC_PUBLIC_KEY || "",
+        mspId: process.env.NUXT_FABRIC_PUBLIC_MSPID || "",
+      },
+    },
+    public: {
+      api: {
+        url: process.env.NUXT_API_URL,
       },
     },
   },

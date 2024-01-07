@@ -1,4 +1,4 @@
-import { common, auth, ccbio } from "saacs-es";
+import { common, ccbio } from "saacs-es";
 import { Any } from "@bufbuild/protobuf";
 import { z } from "zod";
 
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     const unpacked = new ccbio.Specimen();
     result.item?.value?.unpackTo(unpacked);
 
-    console.log({ unpacked });
+    // console.log({ unpacked });
 
     return {
       unpacked,

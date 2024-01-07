@@ -28,7 +28,11 @@
 
               <q-item-section>Specimen Table</q-item-section>
             </q-item>
-            <q-item v-ripple clickable :to="'/collection/' + col.label">
+            <q-item
+              v-ripple
+              clickable
+              :to="`/collection/${col.label}/AccessControl`"
+            >
               <q-item-section avatar>
                 <q-icon color="primary" name="ti-dashboard" />
               </q-item-section>
@@ -71,7 +75,11 @@
 </template>
 
 <script lang="ts" setup>
-const { data, pending, error } = await useFetch(
+// const { data, pending, error } = await useFetch(
+//   "/api/cc/collections/listCollections",
+// );
+
+const { data, pending, error } = await useCustomFetch(
   "/api/cc/collections/listCollections",
 );
 
@@ -93,24 +101,6 @@ const colLinks = computed(() => {
     };
   });
 });
-
-const baseLinks = [
-  {
-    label: "Home",
-    icon: "i-heroicons-home",
-    to: "/",
-  },
-  {
-    label: "Collections",
-    icon: "i-heroicons-collection",
-    to: "/Collections",
-  },
-  {
-    label: "New Collection",
-    icon: "i-heroicons-square-3-stack-3d",
-    to: "/",
-  },
-];
 </script>
 
 <style></style>

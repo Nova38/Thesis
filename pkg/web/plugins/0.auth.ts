@@ -6,8 +6,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     return {};
   }
 
-  const { data: session, refresh: updateSession } =
-    await useFetch<AuthSession>("/api/auth/session");
+  const { data: session, refresh: refreshSession } =
+    await useCustomFetch<AuthSession>("/api/auth/session");
+
+  const updateSession = async () => {
+    const tmp = await refreshSession();
+    console.log(tmp);
+    username.value = session.value?.username ?? "";
+    loggedIn.value = !!username.value;
+  };
 
   const username = useState("username", () => {
     return session.value?.username;
@@ -58,8 +65,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       auth: {
         username,
         session,
-        redirectTo,
         updateSession,
+        loggedIn,
+        redirectTo,
+        refreshSession,
       },
     },
   };

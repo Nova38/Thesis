@@ -1,4 +1,3 @@
-// @vitest-environment nuxt
 import { test, expect } from "vitest";
 
 test("foo", () => {

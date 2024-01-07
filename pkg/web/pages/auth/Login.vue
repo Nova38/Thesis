@@ -1,44 +1,70 @@
 <template>
-  <QCard class="p-4">
-    <FormKit
-      id="registration-example"
-      v-slot="{ value }"
-      type="form"
-      :form-class="submitted ? 'hide' : 'show'"
-      submit-label="Register"
-      :actions="false"
-      @submit="submitHandler"
-    >
-      <h1 class="text-2xl font-bold mb-2">Login!</h1>
-
-      <div class="flex flex-row gap-4">
-        <FormKit
-          type="text"
-          name="username"
-          label="Username"
-          placeholder=""
-          validation="required"
+  <q-form @submit="submit(form.username, form.password)">
+    <q-card class="flex flex-row gap-2 p-4 items-center">
+      <q-input v-model="form.username" label="Username" />
+      <!-- <q-input type="password" v-model="form.password" label="Password" /> -->
+      <q-input
+        v-model="form.password"
+        :type="isPwd ? 'password' : 'text'"
+        label="Password"
+      >
+        <template #append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+      <q-card-actions align="right">
+        <q-btn
+          type="submit"
+          :loading="submitting"
+          color="primary"
+          label="Login"
         />
-        <FormKit
-          type="password"
-          name="password"
-          label="Password"
-          validation="required|"
-          placeholder=""
-        />
-      </div>
-
-      <FormKit type="submit" label="Login" class="" />
-      <pre wrap>{{ value }}</pre>
-    </FormKit>
-  </QCard>
+      </q-card-actions>
+    </q-card>
+  </q-form>
 </template>
 
-<script setup lang="ts">
-const submitHandler = async (data) => {
-  // Let's pretend this is an ajax request:
-  await new Promise((r) => setTimeout(r, 1000));
+<script lang="ts" setup>
+const $q = useQuasar();
+const form = ref({
+  username: "",
+  password: "",
+});
 
-  await authLogin(data.username, data.password);
+const router = useRouter();
+
+const submitting = ref(false);
+
+const isPwd = ref(true);
+
+// const that = this;
+
+const submit = async (username: string, password: string) => {
+  submitting.value = true;
+  const res = await authLogin(username, password)
+    .then(() => {
+      submitting.value = false;
+      $q.notify({
+        type: "positive",
+        message: "Login successful",
+      });
+
+      router.push("/").catch((err) => {
+        console.log(err);
+      });
+    })
+    .catch((err) => {
+      submitting.value = false;
+      console.log(err);
+      $q.notify({
+        type: "negative",
+        message: "Login failed",
+      });
+    });
+  console.log(res);
 };
 </script>
