@@ -276,7 +276,7 @@ async function AddSpecimen() {
             originalDate: {},
         },
         secondary: {
-            preparations: [],
+            preparations: {},
         },
         taxon: {},
         grants: {},
@@ -486,10 +486,10 @@ async function AddUserRoles() {
 }
 
 async function Bootstrap() {
-    // await MakeCollection();
+    await MakeCollection();
     // await ListCollections();
-    // await AddRoles();
-    // await ListRoles();
+    await AddRoles();
+    await ListRoles();
     await AddUserRoles();
 
     // await AddSpecimen();

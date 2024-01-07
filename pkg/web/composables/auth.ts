@@ -8,20 +8,28 @@ const useLoggedIn = useState("loggedIn");
 
 export const authLogin = async (username: string, password: string) => {
   try {
-    useCustomFetch("/api/auth/login", {
+    const result = await useCustomFetch("/api/auth/login", {
       method: "POST",
       body: {
         username,
         password,
       },
     });
+    console.log(result);
+    if (result.error.value) {
+      // useError;
+      throw result.error.value;
+    }
+    useLoggedIn.value = true;
     useAuth().redirectTo.value = null;
     await useAuth().updateSession();
     await navigateTo(useAuth().redirectTo.value || "/");
-    useLoggedIn.value = true;
+
+    return result;
   } catch (e) {
     console.log(e);
-    return e;
+    createError(e ?? {});
+    throw e;
   }
 };
 
@@ -40,6 +48,6 @@ export const authLogout = async () => {
   await $fetch("/api/auth/logout", {
     method: "POST",
   });
-  await useAuth().updateSession();
   useLoggedIn.value = false;
+  await useAuth().updateSession();
 };

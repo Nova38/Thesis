@@ -7,6 +7,7 @@ package biochain.v1;
 import "auth/v1/auth.proto";
 import "auth/v1/objects.proto";
 import "buf/validate/validate.proto";
+import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
 // option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
@@ -27,6 +28,11 @@ message SpecimenHistoryEntry {
   string note = 5;
   // The value of the item
   Specimen value = 6;
+}
+
+message SpecimenUpdate {
+  Specimen specimen = 1 [(buf.validate.field).required = true];
+  google.protobuf.FieldMask mask = 2 [(buf.validate.field).required = true];
 }
 
 // ────────────────────────────────────────────────--

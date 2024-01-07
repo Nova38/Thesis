@@ -366,6 +366,164 @@ var _ interface {
 	ErrorName() string
 } = SpecimenHistoryEntryValidationError{}
 
+// Validate checks the field values on SpecimenUpdate with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SpecimenUpdate) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SpecimenUpdate with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SpecimenUpdateMultiError,
+// or nil if none found.
+func (m *SpecimenUpdate) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SpecimenUpdate) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetSpecimen()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SpecimenUpdateValidationError{
+					field:  "Specimen",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SpecimenUpdateValidationError{
+					field:  "Specimen",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSpecimen()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SpecimenUpdateValidationError{
+				field:  "Specimen",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetMask()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, SpecimenUpdateValidationError{
+					field:  "Mask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, SpecimenUpdateValidationError{
+					field:  "Mask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMask()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SpecimenUpdateValidationError{
+				field:  "Mask",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return SpecimenUpdateMultiError(errors)
+	}
+
+	return nil
+}
+
+// SpecimenUpdateMultiError is an error wrapping multiple validation errors
+// returned by SpecimenUpdate.ValidateAll() if the designated constraints
+// aren't met.
+type SpecimenUpdateMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SpecimenUpdateMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SpecimenUpdateMultiError) AllErrors() []error { return m }
+
+// SpecimenUpdateValidationError is the validation error returned by
+// SpecimenUpdate.Validate if the designated constraints aren't met.
+type SpecimenUpdateValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpecimenUpdateValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpecimenUpdateValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpecimenUpdateValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpecimenUpdateValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpecimenUpdateValidationError) ErrorName() string { return "SpecimenUpdateValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SpecimenUpdateValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpecimenUpdate.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpecimenUpdateValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpecimenUpdateValidationError{}
+
 // Validate checks the field values on Date with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
 // encountered is returned, or nil if there are no violations.

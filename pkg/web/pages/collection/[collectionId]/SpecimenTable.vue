@@ -35,9 +35,13 @@
           </template> -->
           <template #body-cell-View="props">
             <q-td :props="props">
+              <!-- <QBtn @click="navigate(props.row.specimenId)" /> -->
               <div class="">
                 <NuxtLink
-                  :to="`/collection/${props.row.collectionId}/Specimen/View-${props.row.specimenId}`"
+                  :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
+                    props.row.specimenId
+                  }`"
+                  :no-prefetch="true"
                 >
                   <Icon name="carbon:launch" />
                   Open
@@ -60,6 +64,12 @@ const route = useRoute();
 // const { data, pending, error, refresh } = useFetch(
 //   `/api/cc/specimens/list?collectionId=${route.params.collectionId}`,
 // );
+
+// function navigate(specimenId: string) {
+//   return navigateTo({
+//     path: `/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${specimenId}`,
+//   });
+// }
 
 const filter = ref("");
 
@@ -134,7 +144,7 @@ const colDefs = ref([
   },
 ]);
 
-const { data, pending, error, refresh } = await useCustomFetch<
+const { data, pending, error } = await useCustomFetch<
   PlainMessage<ccbio.Specimen>[]
 >(`/api/cc/specimens/list`, {
   query: {
@@ -144,14 +154,14 @@ const { data, pending, error, refresh } = await useCustomFetch<
 </script>
 
 <style>
-td:last-child {
+/* td:last-child {
   text-align: right;
   color: red;
   background: #eee;
   position: sticky;
   z-index: 1;
   right: 0;
-}
+} */
 /* th:last-child {
   background: #eee;
   position: sticky;

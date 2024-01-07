@@ -9,6 +9,4 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-const route = useRoute();
-</script>
+<script lang="ts" setup></script>

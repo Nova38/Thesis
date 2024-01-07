@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   console.log(query);
   if (!query.success) throw query.error.issues;
 
-  console.log("1");
+  // console.log("1");
 
   const result = await cc.service.listByAttrs(
     new common.generic.ListByAttrsRequest({
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
       numAttrs: 0,
     }),
   );
-  console.log("2");
+  // console.log("2");
 
   // console.log(result);
   const specimen = result.items.map((i) => {

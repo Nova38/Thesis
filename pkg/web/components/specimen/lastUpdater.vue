@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div>Dashboard {{ $route.params.collectionId }}</div>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts" setup></script>

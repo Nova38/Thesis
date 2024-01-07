@@ -1,10 +1,5 @@
-export const useCollectionId = computed<string | null>(() => {
-  if (useRoute().params.collectionId) {
-    return useRoute().params.collectionId;
-  }
-  return null;
-});
+export const useRouteCollectionId = useRoute().params?.collectionId.toString();
 
-export const useUseCollection = () => {
-  return ref();
-};
+export const useRouteCollection = useState("RouteCollection", () => {
+  useRoute().params?.collectionId.toString();
+});

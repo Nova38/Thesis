@@ -4,7 +4,6 @@ export const useBreadcrumbLinks = () => {
   const route = useRoute();
   const links = computed(() => {
     const paths = route.path.split("/").filter((p) => p);
-    console.log(route);
 
     const items: BreadcrumbLink[] = [
       {
@@ -18,25 +17,25 @@ export const useBreadcrumbLinks = () => {
     if (route.params?.collectionId) {
       items.push({
         label: `Collection: ${route.params.collectionId}`,
-        to: `/collection/${route.params.collectionId}`,
-        // material-symbols:collections-bookmark-outline-rounded
-        icon: "i-material-symbols-collections-bookmark-outline-rounded",
-      });
-    }
-    if (paths.find((p) => p === "SpecimenTable")) {
-      // items.push({
-      //     label: `Specimen`,
-      //     to: `/specimen`,
-      //     icon: "i-heroicons-moon",
-      // });
-
-      items.push({
-        label: `Specimen Table`,
         to: `/collection/${route.params.collectionId}/SpecimenTable`,
         // material-symbols:collections-bookmark-outline-rounded
         icon: "i-material-symbols-collections-bookmark-outline-rounded",
       });
     }
+    // if (paths.find((p) => p === "SpecimenTable")) {
+    //   // items.push({
+    //   //     label: `Specimen`,
+    //   //     to: `/specimen`,
+    //   //     icon: "i-heroicons-moon",
+    //   // });
+
+    //   items.push({
+    //     label: `Specimen Table`,
+    //     to: `/collection/${route.params.collectionId}/SpecimenTable`,
+    //     // material-symbols:collections-bookmark-outline-rounded
+    //     icon: "i-material-symbols-collections-bookmark-outline-rounded",
+    //   });
+    // }
 
     // Handle the Specimen route
     if (paths.find((p) => p === "Specimen")) {
@@ -50,7 +49,7 @@ export const useBreadcrumbLinks = () => {
         // See if we have a speciemen id
         items.push({
           label: `Specimen: ${route.params.specimenId}`,
-          to: `/specimen/view-${route.params.specimenId}`,
+          to: `/collection/${route.params.collectionId}/specimen/view-${route.params.specimenId}`,
           icon: "i-heroicons-moon",
         });
       }

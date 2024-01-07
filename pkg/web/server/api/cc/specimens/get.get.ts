@@ -1,5 +1,4 @@
-import { common, auth, ccbio } from "saacs-es";
-import { Any } from "@bufbuild/protobuf";
+import { common, ccbio } from "saacs-es";
 import { z } from "zod";
 
 const querySchema = z.object({
@@ -14,10 +13,10 @@ export default defineEventHandler(async (event) => {
     querySchema.safeParse(body),
   );
   if (!r.success) throw r.error.issues;
-  console.log({ data: r.data });
+  // console.log({ data: r.data });
 
   // const r = bodySchema.parse(b);
-  console.log(r);
+  // console.log(r);
 
   const result = await cc.service.get(
     new common.generic.GetRequest({
@@ -29,10 +28,10 @@ export default defineEventHandler(async (event) => {
     }),
   );
 
-  console.log(result);
+  // console.log(result);
   const unpacked = new ccbio.Specimen();
   result.item?.value?.unpackTo(unpacked);
 
-  console.log({ unpacked });
+  // console.log({ unpacked });
   return unpacked;
 });

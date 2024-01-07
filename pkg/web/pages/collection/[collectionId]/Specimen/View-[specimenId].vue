@@ -1,92 +1,189 @@
 <template>
   <div class="flex flex-row gap-4 p-4">
+    <!-- <QBtn label="Log Diff" @click="logDiff" /> -->
     <div class="basis-size-3/4 min-w-lg">
-      <FormKit
-        id="SpecimenForm"
-        v-slot="{ value }"
-        type="form"
-        :value="data"
-        :actions="false"
-        :disabled="mode === 'view'"
-        @submit="submitHandler"
-      >
-        <SpecimenForm :specimen="value">
+      <div v-if="spec.data">
+        <SpecimenForm
+          :specimen="dirty"
+          :enable-edit="mode != 'view'"
+          :header-color="toModeColor(mode)"
+        >
           <template #Header>
             <div>
-              <QBar :class="modeColor">
-                <div>
-                  Current Mode: <QChip>{{ mode }}</QChip>
-                </div>
+              <QBar :class="modeColor" class="p-2">
+                <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
 
                 <q-space />
-                <q-btn @click="() => (mode = 'view')">
+                <q-btn
+                  :class="toModeColor('view')"
+                  @click="() => (mode = 'view')"
+                >
                   View
                   <q-tooltip>Set the current mode to View</q-tooltip>
                 </q-btn>
-                <q-btn name="Update" @click="() => (mode = 'update')">
+                <q-btn
+                  name="Update"
+                  :class="toModeColor('update')"
+                  @click="() => (mode = 'update')"
+                >
                   Update
                   <q-tooltip>Set the current mode to Update</q-tooltip>
                 </q-btn>
-                <q-btn @click="() => (mode = 'suggest')">
+                <q-btn
+                  :class="toModeColor('suggest')"
+                  @click="() => (mode = 'suggest')"
+                >
                   Suggest Update
                   <q-tooltip>Set the current mode to Suggest Update</q-tooltip>
                 </q-btn>
               </QBar>
+              <QSeparator class="bg-black" />
             </div>
           </template>
-          <template #footer>
-            <div class="">
-              <FormKit type="submit" />
+          <template #Footer>
+            <div class="flex flex-col">
+              <QBtn
+                v-if="mode !== 'view'"
+                :label="mode === 'update' ? 'Update' : 'Suggest Update'"
+                :class="modeColor"
+                class="flex-grow"
+                @click="submitHandler"
+              />
             </div>
           </template>
         </SpecimenForm>
-
-        <!-- <pre wrap>{{ new ccbio.Specimen(value) }}</pre> -->
-        <pre wrap>{{ diffToFieldMaskPath(value, data) }}</pre>
-      </FormKit>
+      </div>
     </div>
 
-    <div>
-      <SpecimenTimeline :history="history.data.value" class="basis-size-1/4" />
+    <div class="flex flex-col gap-4">
+      <SpecimenTimeline
+        :history="history"
+        :can-hide="$auth.loggedIn || false"
+        class="basis-size-1/4"
+      />
+      <QCard>
+        <QBar class="flex flex-row text-lg items-center justify-center">
+          Suggestions
+        </QBar>
+        <QCard> hi </QCard>
+      </QCard>
     </div>
-    <div></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { auth, ccbio } from "saacs-es";
-import { diff } from "ohash";
-
-// const specimen =  useGetSpecimen();
+import { ccbio } from "saacs-es";
+import { createRegistry, Timestamp } from "@bufbuild/protobuf";
 const route = useRoute();
 
-const { data } = await useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
-  key: specimenIdKey(),
+const dirty = ref(MakeEmptySpecimen());
+
+const cur = ref(MakeEmptySpecimen());
+const history = ref(new ccbio.SpecimenHistory());
+
+const spec = useNuxtData(
+  makeSpecimenKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
+);
+
+const modeCapitalized = computed(
+  () => mode.value[0].toUpperCase() + mode.value.slice(1),
+);
+
+// await callOnce(async () => {
+//   console.log("This will only be logged once");
+//   console.log({
+//     c: route.params?.collectionId.toString(),
+//     s: route.params?.specimenId.toString(),
+//   });
+//   websiteConfig.value = await $fetch("/api/cc/specimens/get", {
+//     query: {
+//       collectionId: toValue(route.params?.collectionId.toString()),
+//       specimenId: toValue(route.params?.specimenId.toString()),
+//     },
+//   });
+// });
+
+const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
+  key: makeSpecimenKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
 
   query: {
-    collectionId: route.params.collectionId,
-    specimenId: route.params.specimenId,
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
+  },
+  onResponse: async ({ response }) => {
+    console.log("current", response._data);
+    dirty.value.fromJson(response._data);
+    cur.value.fromJson(response._data);
+    console.log(dirty.value);
   },
 });
 
-const mode: Ref<FormMode> = ref<FormMode>("view");
+const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
+  key: makeSpecimenHistoryKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
+
+  query: {
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
+  },
+  onResponse: async ({ response }) => {
+    console.log("history", response._data);
+    history.value.fromJson(response._data);
+    console.log(history.value);
+  },
+});
+
+// const logDiff = () => {
+//   console.log({
+//     diff: diff(crush(dirty.value), crush(cur.value)),
+//   });
+// };
+
+const mode: Ref<FormMode> = ref("view");
 const modeColor = computed(() => toModeColor(mode.value));
 
-const history = await useGetSpecimenHistory();
+// const history = await useGetSpecimenHistory();
 
-const submitHandler = async (value: ccbio.Specimen) => {
-  console.log("submitHandler", value);
+const submitHandler = async () => {
+  const oldMode = mode.value;
+  try {
+    mode.value = "view";
+    // const specimen = new ccbio.Specimen(getCurrent.data.value ?? {});
 
-  const response = await useCustomFetch(`/api/cc/specimens/create`, {
-    method: "POST",
-    body: JSON.stringify(value),
-  });
-  console.log("response", response);
+    const { differences, mask } = diffCrush(toValue(cur), toValue(dirty), [
+      "lastModified",
+    ]);
+    console.log({ differences });
+
+    const req = new ccbio.SpecimenUpdate({
+      specimen: dirty.value,
+      mask,
+    });
+
+    const response = await useCustomFetch(`/api/cc/specimens/update`, {
+      method: "POST",
+      body: req.toJsonString({
+        typeRegistry: createRegistry(ccbio.Specimen, Timestamp),
+      }),
+    });
+    console.log("response", toValue(response.data));
+    // dirty.value.fromJson(response.data);
+    getHistory.refresh();
+    getCurrent.refresh();
+    console.log("current", toValue(getCurrent.data));
+  } catch (error) {
+    mode.value = oldMode;
+    console.error(error);
+  }
 };
 </script>
 
-<style>
-.formkit-outer {
-  margin: var(0);
-}
-</style>
+<style></style>
