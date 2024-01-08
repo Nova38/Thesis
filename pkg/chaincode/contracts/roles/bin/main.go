@@ -5,7 +5,6 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/charmbracelet/log"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/contracts/roles"
@@ -14,9 +13,8 @@ import (
 func main() {
 
 	fmt.Println("Starting BioChain")
-	handler := log.New(os.Stderr)
 
-	logger := slog.New(handler)
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	slog.SetDefault(logger)
 

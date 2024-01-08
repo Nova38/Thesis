@@ -43,7 +43,7 @@
     "scripts": {
         "build": "unbuild",
         "api": "ts-node ./src/api/main.ts",
-        "specimen": "ts-node ./src/api/specimens.ts",
+        "csv": "ts-node ./src/api/specimens.ts",
         "dev": "vitest dev",
         "play": "jiti playground",
         "prepack": "pnpm run build",
@@ -68,7 +68,11 @@
         "@hyperledger-labs/weft": "0.2.2",
         "@hyperledger/fabric-gateway": "^1.4.0",
         "csv": "^6.3.6",
-        "radash": "^11.0.0"
+        "csv-parser": "^3.0.0",
+        "radash": "^11.0.0",
+        "runtypes": "^6.7.0",
+        "xlsx": "^0.18.5",
+        "zod": "^3.22.4"
     },
     "packageManager": "pnpm@8.10.0"
 }

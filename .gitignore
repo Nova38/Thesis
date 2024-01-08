@@ -2853,3 +2853,7 @@ pkg/.output/public/_nuxt/builds/latest.json
 pkg/.output/public/_nuxt/builds/meta/e10d59e7-ba64-4b51-ae9a-221d8fe2bcfc.json
 pkg/.output/public/auth/Login/index.html
 pkg/.output/public/auth/RegisterPage/index.html
+pkg/saacs-es/src/api/ku_orn_database_great_plains_pre_1970_NoDups.csv
+pkg/biochain/import/ku_orn_cov.json
+pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json
+pkg/saacs-es/failed.json

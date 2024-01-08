@@ -26,10 +26,14 @@ import { Specimen } from "../gen/biochain/v1/index.js";
 import { construct, omit, random } from "radash";
 import { auth, ccbio } from "../index.js";
 // read object from file at ../sample/biochain/orn.json
+import z from "zod";
+import { Timestamp, FieldMask } from "@bufbuild/protobuf";
 
-const collectionId = "KU-Zoology";
+const collectionId = "ku_orn";
+// const collectionId = "KU-Zoology";
+const utf8Decoder = new TextDecoder();
 
-// import orn from "../sample/biochain/orn.json" assert { type: "json" };
+// import orn from "../../../biochain/import/ku_orn_cov.json" assert { type: "json" };
 
 // import { GlobalRegistry } from "";
 
@@ -362,6 +366,7 @@ async function ListSpecimens() {
                 itemKeyParts: [collectionId],
             }),
             numAttrs: 0,
+            limit: 1,
         }),
     );
 
@@ -374,35 +379,6 @@ async function ListSpecimens() {
     console.log(response);
 }
 
-// async function GetUserRolesList(numAttrs: number) {
-//     const { service, connection, contract } = await GetService({
-//         userIdex: 0,
-//         channel: "mychannel",
-//         contractName: "roles",
-//     });
-
-//     const result = await service.listByAttrs(
-//         new ListByAttrsRequest({
-//             key: new ItemKey({
-//                 collectionId: collectionId,
-//                 itemType: UserCollectionRoles.typeName,
-//                 itemKeyParts: [
-//                     "Org1MSP",
-//                     "eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049Y2Eub3JnMS5leGFtcGxlLmNvbSxPPW9yZzEuZXhhbXBsZS5jb20sTD1EdXJoYW0sU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUw==",
-//                 ],
-//             }),
-//             numAttrs: numAttrs,
-//         }),
-//     );
-//     const roles: any[] = [];
-//     for (const item of result.items) {
-//         const role = new UserCollectionRoles();
-//         item.value?.unpackTo(role);
-//         roles.push(role);
-//     }
-//     // response.item?.value?.unpackTo(roles);
-//     console.log(roles);
-// }
 async function GetUserRoles() {
     const { service, connection, contract } = await GetService({
         userIdex: 0,
@@ -429,42 +405,6 @@ async function GetUserRoles() {
     console.log(roles);
 }
 
-// function convertSpecimen(o: any) {
-//     o["secondary.weight.units"] = o["secondary.weightUnits"];
-
-//     const i = omit(o, ["index", "secondary.weight.units"]);
-//     console.log(i);
-//     const c =construct(i)
-//     console.log(c);
-
-//     return c;
-// }
-
-// async function importSpecimen() {
-
-//     // get first 5 specimens from orn
-// const specimens = orn.slice(0, 5).map(convertSpecimen);
-
-//     console.log(specimens);
-
-//     // // create request
-//     // const req = new CreateRequest({
-//     //     items: anySpecimens.map((a) => {
-//     //         return { value: a };
-//     //     }),
-//     // });
-
-//     // // add to collection
-//     // const { service, connection, contract } = await GetService({
-//     //     userIdex: 0,
-//     //     channel: "mychannel",
-//     //     contractName: "roles",
-//     // });
-
-//     // const response = await service.create(req);
-//     // console.log(response);
-// }
-
 async function ListCollections() {
     const { service, connection, contract } = await GetService({
         userIdex: 0,
@@ -487,21 +427,25 @@ async function AddUserRoles() {
 
 async function Bootstrap() {
     await MakeCollection();
-    // await ListCollections();
-    await AddRoles();
+    // await AddRoles();
     await ListRoles();
     await AddUserRoles();
 
-    // await AddSpecimen();
+    // await ListCollections();
+    await AddSpecimen();
     // await ListSpecimens();
     await GetUserRoles();
 }
 
 async function main() {
-    Bootstrap();
+    // collectionId = "KU-Zoology";
+    // await Bootstrap();
+    await AddSpecimen();
+
+    await ListCollections();
+    await ListSpecimens();
     // await getCurrentUser();
     // await MakeCollection();
-    // await ListCollections();
     // await AddRoles();
     // await AddSpecimen();
     // await ListRoles();

@@ -1,0 +1,8 @@
+- targetFile: ./src/runtypes.ts
+  sourceTypes:
+    # Source types can also be a list
+    - file: ./src/types.ts
+      type: Foo
+
+    - file: ./json/my-json-schema.json # You can even use JSON schema files!!
+      type: [ExampleType, AnotherExampleType] # You may use an array of types

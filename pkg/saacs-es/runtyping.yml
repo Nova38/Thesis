@@ -1,0 +1,8 @@
+- targetFile: ./src/runtypes.ts
+  sourceTypes:
+    # Source types can also be a list
+    - file: ./dist/shared/saacs-es.015eac92.d.ts
+      type: index_Specimen_Grant
+
+    # - file: ./json/my-json-schema.json # You can even use JSON schema files!!
+    #   type: [ExampleType, AnotherExampleType] # You may use an array of types
