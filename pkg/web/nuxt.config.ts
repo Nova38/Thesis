@@ -10,12 +10,10 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  formkit: {},
   imports: {
     dirs: ["composables/cc/**"],
   },
   modules: [
-    "@formkit/nuxt",
     "nuxt-quasar-ui",
     "@vueuse/nuxt",
     "@nuxtjs/eslint-module",
