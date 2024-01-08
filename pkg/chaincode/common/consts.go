@@ -18,5 +18,5 @@ const (
 	// ──────────────────────────────────────────────────────────
 
 	// DefaultPageSize is the default page size for paginated queries
-	DefaultPageSize int32 = 10000
+	DefaultPageSize int32 = 1000
 )

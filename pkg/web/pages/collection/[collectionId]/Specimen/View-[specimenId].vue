@@ -61,19 +61,21 @@
         :can-hide="$auth.loggedIn || false"
         class="basis-size-1/4"
       />
-      <QCard>
+      <QCard v-if="false">
         <QBar class="flex flex-row text-lg items-center justify-center">
           Suggestions
         </QBar>
-        <QCard> hi </QCard>
       </QCard>
     </div>
+    <QCard> {</QCard>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ccbio } from "saacs-es";
 import { createRegistry, Timestamp } from "@bufbuild/protobuf";
+import { keys } from "radash";
+
 const route = useRoute();
 
 const dirty = ref(MakeEmptySpecimen());
@@ -120,6 +122,7 @@ const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
     console.log("current", response._data);
     dirty.value.fromJson(response._data);
     cur.value.fromJson(response._data);
+    console.log(keys(response._data));
     console.log(dirty.value);
   },
 });

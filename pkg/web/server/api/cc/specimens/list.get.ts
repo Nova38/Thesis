@@ -3,6 +3,8 @@ import { z } from "zod";
 
 const querySchema = z.object({
   collectionId: z.string(),
+  limit: z.number().optional(),
+  bookmark: z.string().optional(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -24,18 +26,20 @@ export default defineEventHandler(async (event) => {
         itemKeyParts: [query.data.collectionId],
       }),
       numAttrs: 0,
+      limit: query.data.limit ?? 1000,
+      bookmark: query.data.bookmark ?? "",
     }),
   );
   // console.log("2");
 
   // console.log(result);
-  const specimen = result.items.map((i) => {
+  const specimenMap: Record<string, any> = {};
+
+  result.items.forEach((i) => {
     const s = new ccbio.Specimen();
     i.value?.unpackTo(s);
-    return s.toJson({ emitDefaultValues: true });
+    specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true });
   });
 
-  // console.log(specimen);
-
-  return specimen;
+  return { specimenMap, bookmark: result.bookmark };
 });

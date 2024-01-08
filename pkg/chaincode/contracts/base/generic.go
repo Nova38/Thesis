@@ -85,8 +85,6 @@ func (o ItemContractImpl) GetCollectionsList(
 			return nil, oops.Wrap(err)
 		}
 
-		ctx.GetLogger().Info("GetCollectionsList", "tmp", tmp)
-
 		res.Collections = append(res.GetCollections(), tmp)
 	}
 
@@ -95,8 +93,6 @@ func (o ItemContractImpl) GetCollectionsList(
 	// 	ctx.LogError(err)
 	// 	return nil, oops.Wrap(err)
 	// }
-
-	ctx.GetLogger().Info("GetCollectionsList", "results", results)
 
 	return res, nil
 }
@@ -210,6 +206,11 @@ func (o ItemContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
+	if req.GetLimit() != 0 {
+		ctx.GetLogger().Info("Limit is not 0", "limit", req.GetLimit())
+		ctx.SetPageSize(int32(req.GetLimit()))
+	}
+
 	item, err := common.ItemKeyToItemType(req.GetKey())
 	if err != nil {
 		ctx.LogError(err)
@@ -244,6 +245,12 @@ func (o ItemContractImpl) ListByCollection(
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
+
+	if req.GetLimit() != 0 {
+		ctx.GetLogger().Info("Limit is not 0", "limit", req.GetLimit())
+		ctx.SetPageSize(int32(req.GetLimit()))
+	}
+
 	item, err := common.ItemKeyToItemType(req.GetKey())
 	if err != nil {
 		ctx.LogError(err)
@@ -251,7 +258,14 @@ func (o ItemContractImpl) ListByCollection(
 	}
 	item.SetKey(&authpb.ItemKey{CollectionId: req.GetKey().GetCollectionId()})
 
-	list, mk, err := actions.PrimaryList(ctx, item, req.GetBookmark())
+	// list, mk, err := actions.PrimaryList(ctx, item, req.GetBookmark())
+	list, mk, err := actions.PrimaryByPartialKey(
+		ctx,
+		item,
+		int(0),
+		req.GetBookmark(),
+	)
+
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -278,6 +292,11 @@ func (o ItemContractImpl) ListByAttrs(
 	if err = ctx.Validate(req); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
+	}
+
+	if req.GetLimit() != 0 {
+		ctx.GetLogger().Info("Limit is not 0", "limit", req.GetLimit())
+		ctx.SetPageSize(int32(req.GetLimit()))
 	}
 
 	item, err := common.ItemKeyToItem(req.GetKey())
