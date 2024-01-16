@@ -97,6 +97,12 @@ tasks:
   cc:build:
     cmd: docker build -t nova38/saacs:latest -f ./pkg/chaincode/Dockerfile .
 
+  build:cc:push:
+    cmds:
+      - task: cc:build
+      - docker tag nova38/saacs:latest nova38/saacs:latest
+      - docker push nova38/saacs:latest
+
   build:es-stub:
     cmd: cd ./pkg/saacs-es && pnpm run stub
 
@@ -106,6 +112,30 @@ tasks:
   build:es:
     dir: ./pkg/saacs-es
     cmd: pnpm run build
+
+  deploy:prod:api:
+    dir: ./pkg/web
+    env:
+      vars:
+        NUXT_API_URL: "https://api-biochain.ittc.ku.edu"
+    cmds:
+      - pnpm exec nuxi cleanup
+      - pnpm run build:prod
+      - ssh wisdom  "rm -rf /home/t312a008/projects/server/*"
+      # - scp -r .output/* wisdom:/home/t312a008/projects/server
+
+  deploy:prod:static:
+    dir: ./pkg/web
+    env:
+      vars:
+        NUXT_API_URL: https://api-biochain.ittc.ku.edu
+
+    cmds:
+      - pnpm exec nuxi cleanup
+      - pnpm run build:prod-static
+      - ssh wisdom  "rm -rf /projects/biochain/website/*"
+      - scp -r .output/public/ wisdom:/projects/biochain/website/
+
   # go:format:
   #   cmds:
   #     - golines --ignore-generated  . -w

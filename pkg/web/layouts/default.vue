@@ -49,14 +49,14 @@
       <q-page-container>
         <div class="p-2">
           <NuxtLoadingIndicator />
-          <NuxtErrorBoundary>
-            <slot name="content"> </slot>
+          <slot name="content"> </slot>
+          <!-- <NuxtErrorBoundary> -->
 
-            <!-- ... -->
-            <template #error="{ error }">
-              <p>An error occurred: {{ error }}</p>
-            </template>
-          </NuxtErrorBoundary>
+          <!-- ... -->
+          <!-- <template #error="{ error }"> -->
+          <!-- <p>An error occurred: {{ error }}</p> -->
+          <!-- </template> -->
+          <!-- </NuxtErrorBoundary> -->
         </div>
       </q-page-container>
     </q-layout>

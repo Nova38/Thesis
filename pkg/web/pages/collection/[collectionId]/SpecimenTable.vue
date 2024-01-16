@@ -5,18 +5,18 @@
 
     <QCard>
       <q-inner-loading
-        :showing="loading"
+        :showing="store.Loading"
         label="Please wait..."
         label-class="text-teal"
         label-style="font-size: 1.1em"
       />
       <div>
         <QTable
-          :rows="rows"
+          :rows="store.SpecimenList"
           :columns="colDef"
           bordered
           class="max-h-max"
-          :row-key="(row) => row.specimenId"
+          :row-key="(row: PlainMessage<ccbio.Specimen>) => row.specimenId"
           flat
           dense
           title="Specimens"
@@ -34,7 +34,7 @@
               flat
               color="primary"
               class="q-mr-sm"
-              @click="reload"
+              @click="store.Reload"
             />
             <q-select
               v-model="visibleColumns"
@@ -93,19 +93,14 @@
 
 <script lang="ts" setup>
 import type { PlainMessage } from "@bufbuild/protobuf";
+import type { QTableProps } from "nuxt-quasar-ui/dist/runtime/adapter";
 import { ccbio } from "saacs-es";
-import { defu } from "defu";
 
-// const links = useBreadcrumbLinks();
-const route = useRoute();
+const store = useCollectionsStore();
 
-const bookmark = ref("");
-const keyedRows = useState<Record<string, PlainMessage<ccbio.Specimen>>>(
-  `collectionId${route.params.collectionId}`,
-  () => ({}),
-);
-
-const rows = ref<PlainMessage<ccbio.Specimen>>();
+callOnce(() => {
+  store.Reload();
+});
 
 // const { data, pending, error, refresh } = useFetch(
 //   `/api/cc/specimens/list?collectionId=${route.params.collectionId}`,
@@ -119,83 +114,7 @@ const rows = ref<PlainMessage<ccbio.Specimen>>();
 
 const filter = ref("");
 
-const oldcolDefs = ref([
-  {
-    label: "Full Record",
-    name: "View",
-    field: "specimenId",
-    align: "right",
-    required: true,
-    headerClasses: "w-4",
-  },
-  {
-    label: "Specimen ID",
-    name: "SpecimenID",
-    field: "specimenId",
-    sortable: true,
-  },
-  {
-    label: "Catalog Number",
-    name: "Primary_CatalogNumber",
-    align: "left",
-    field: (row: PlainMessage<ccbio.Specimen>) =>
-      row.primary?.catalogNumber ?? "",
-    sortable: true,
-  },
-  {
-    label: "Genus",
-    name: "Taxon_Genus",
-    align: "left",
-
-    field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.genus ?? "",
-    sortable: true,
-  },
-  {
-    label: "Species",
-    name: "Taxon_Species",
-    align: "left",
-
-    field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.species ?? "",
-    sortable: true,
-  },
-  {
-    label: "Country",
-    align: "left",
-
-    name: "Georeference_Country",
-    field: (row: PlainMessage<ccbio.Specimen>) =>
-      row.georeference?.country ?? "",
-    sortable: true,
-  },
-  {
-    label: "State/Province",
-    align: "left",
-
-    name: "Georeference_StateProvince",
-    field: (row: PlainMessage<ccbio.Specimen>) =>
-      row.georeference?.stateProvince ?? "",
-    sortable: true,
-  },
-  {
-    label: "Locality",
-    align: "left",
-
-    name: "Georeference_Locality",
-    field: (row: PlainMessage<ccbio.Specimen>) =>
-      row.georeference?.locality ?? "",
-  },
-  {
-    label: "Field Date",
-    name: "Primary_FieldDate",
-    align: "left",
-
-    field: (row: PlainMessage<ccbio.Specimen>) =>
-      row.primary?.fieldDate?.verbatim ?? "",
-    required: true,
-  },
-]);
-
-const colDef = ref([
+const colDef = ref<QTableProps["columns"]>([
   {
     label: "Full Record",
     name: "View",
@@ -252,7 +171,7 @@ const colDef = ref([
   },
   {
     name: "collector",
-    Label: "Collector",
+    label: "Collector",
     field: (row: PlainMessage<ccbio.Specimen>) => row.primary?.collector ?? "",
     sortable: true,
     align: "left",
@@ -275,6 +194,7 @@ const colDef = ref([
 
   {
     name: "Determined Date",
+    label: "Determined Date",
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.determinedDate?.verbatim ?? "",
     sortable: true,
@@ -283,7 +203,7 @@ const colDef = ref([
 
   {
     name: "determinedReason",
-    Label: "Determined Reason",
+    label: "Determined Reason",
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.determinedReason ?? "",
     sortable: true,
@@ -300,7 +220,7 @@ const colDef = ref([
 
   {
     name: "sex",
-    Label: "Sex",
+    label: "Sex",
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.sex ?? "",
     sortable: true,
     align: "left",
@@ -547,92 +467,6 @@ const visibleColumns = ref([
   "locality",
   "Field Date",
 ]);
-
-const endBookmark = "'\u0000biochain.v1.Specimen\u0000ku_orn\u0000'";
-
-const loading = ref(true);
-
-async function loadBatch() {
-  loading.value = true;
-  let lastBookmark = bookmark.value;
-  while (bookmark.value !== endBookmark) {
-    console.log("loadBatch", bookmark.value, lastBookmark);
-    lastBookmark = bookmark.value;
-    const v = await loadRows();
-    if (v.error.value) {
-      console.log(v.error);
-      break;
-    }
-    if (lastBookmark === bookmark.value) {
-      console.log("no change", bookmark.value, lastBookmark);
-      break;
-    }
-  }
-  loading.value = false;
-}
-
-callOnce(loadBatch);
-
-async function reload() {
-  bookmark.value = "";
-  keyedRows.value = {};
-  rows.value = [];
-  await loadBatch();
-}
-
-async function loadRows() {
-  console.log("loadRows", route.params.collectionId, bookmark.value);
-  return await useCustomFetch<PlainMessage<ccbio.Specimen>[]>(
-    `/api/cc/specimens/list`,
-    {
-      key: `collectionId${route.params.collectionId}-bookmark${bookmark.value}`,
-      query: {
-        collectionId: route.params.collectionId,
-        bookmark: bookmark.value,
-      },
-      onResponse: async ({ response }) => {
-        console.log("history", response._data);
-        bookmark.value = response._data?.bookmark ?? "";
-        console.log(bookmark.value);
-        keyedRows.value = defu(keyedRows.value, response._data?.specimenMap);
-        rows.value = Object.values(keyedRows.value);
-      },
-    },
-  );
-}
-
-// const { data, pending, error, refresh, execute } = await useCustomFetch<
-//   PlainMessage<ccbio.Specimen>[]
-// >(`/api/cc/specimens/list`, {
-//   query: {
-//     collectionId: route.params.collectionId,
-//     bookmark: bookmark.value,
-//   },
-//   onResponse: async ({ response }) => {
-//     console.log("history", response._data);
-//     bookmark.value = response._data?.bookmark ?? "";
-//     console.log(bookmark.value);
-//     keyedRows.value = defu(keyedRows.value, response._data?.specimenMap);
-//     console.log(keyedRows.value);
-//     rows.value = Object.values(keyedRows.value);
-//     console.log(rows.value);
-//   },
-// });
 </script>
 
-<style>
-/* td:last-child {
-  text-align: right;
-  color: red;
-  background: #eee;
-  position: sticky;
-  z-index: 1;
-  right: 0;
-} */
-/* th:last-child {
-  background: #eee;
-  position: sticky;
-  z-index: 1;
-  right: 0;
-} */
-</style>
+<style></style>

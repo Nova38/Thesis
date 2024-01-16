@@ -1,9 +1,4 @@
-import {
-    BuildGateway,
-    GetGateway,
-    GetService,
-    GlobalRegistry,
-} from "./builder.js";
+import { GetService } from "./builder-remote.js";
 import { Any, Message, createRegistry } from "@bufbuild/protobuf";
 import { GenericServiceClient } from "../gen/chaincode/common/generic_pb_gateway.js";
 import {
@@ -175,9 +170,11 @@ const delay = (m: any) => new Promise((resolve) => setTimeout(resolve, m));
 
 async function ImportSpecimens() {
     const { service, connection, contract } = await GetService({
-        userIdex: 0,
-        channel: "mychannel",
-        contractName: "roles",
+        username: "me",
+        // userIdex: 0,
+        channel: "demo",
+        // channel: "mychannel",
+        contractName: "a",
     });
 
     const output: string[] = [];

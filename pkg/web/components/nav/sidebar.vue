@@ -56,13 +56,24 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection/' + col.label + '/import'"
+              :to="'/collection/' + col.label + '/Specimen/import'"
             >
               <q-item-section avatar>
                 <q-icon color="primary" name="ti-import" />
               </q-item-section>
 
               <q-item-section>Bulk Import</q-item-section>
+            </q-item>
+            <q-item
+              v-ripple
+              clickable
+              :to="'/collection/' + col.label + '/Specimen/update'"
+            >
+              <q-item-section avatar>
+                <q-icon color="primary" name="ti-import" />
+              </q-item-section>
+
+              <q-item-section>Bulk Update</q-item-section>
             </q-item>
           </q-card-section>
         </q-card>

@@ -7,7 +7,7 @@ import { defu } from "defu";
 import path from "path";
 import { exit } from "process";
 
-const baseurl = "https://api-biochain.ittc.ku.edu";
+const baseurl = "https://api-biochain.ittc.ku.edu/api";
 
 function readFile(name: string): Object {
     // [ true, false, 'maybe', null ]
@@ -49,20 +49,24 @@ async function GetFullUser(
 }
 
 async function Signup(
-    name: string,
     username: string,
-    password: string
+    password: string,
+    credentials: string,
+    key: string,
+    mspId: string
 ): Promise<string> {
-    const res = await ofetch(`${baseurl + "/auth/signup"}`, {
+    const res = await ofetch(`${baseurl + "/auth/register"}`, {
         method: "POST",
         body: JSON.stringify({
             username: username,
             password: password,
-            name: name,
+            credentials: credentials,
+            key: key,
+            mspId: mspId,
         }),
     });
 
-    return res.access_token;
+    return res;
 }
 
 async function SetIdentity(
@@ -106,7 +110,21 @@ async function Register(
     }
 }
 
+async function main() {
+    let users = Object.entries(
+        readFile("merged.yml").organizations.Org1MSP.users
+    );
 
-let users = Object.entries(readFile("merged.yml").organizations.Org1MSP.users);
+    users.forEach((user) => {
+        console.log(
+            user["username"],
+            user["password"],
+            user["credentials"],
+            user["key"],
+            user["mspId"]
+        );
+        console.log(res);
+    });
+}
 
-await GetFullUser(users[0][0], users[0][1].password);
+// await GetFullUser(users[0][0], users[0][1].password);

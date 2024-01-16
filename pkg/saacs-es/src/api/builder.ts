@@ -21,7 +21,7 @@ import { GenericServiceClient } from "../gen/chaincode/common/generic_pb_gateway
 import { auth, objects } from "../gen/auth/v1/index.js";
 import { generic, reference } from "../gen/chaincode/common/index.js";
 import { ccbio } from "../gen/index.js";
-import { sample } from "../gen/index.js"
+import { sample } from "../gen/index.js";
 
 export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
     ...auth.allMessages,
@@ -59,15 +59,20 @@ export function BuildContract(contract: any) {
 const GetIdentity = async ({ userIdex }: { userIdex: number }) => {
     const certPath = (path: string) => `../../${path}`;
 
-    const credentials = await fs.readFile(
-        certPath(users.identities[0].clientSignedCert),
-    );
+    const user = users.identities[userIdex];
+
+    const credentials = await fs.readFile(certPath(user.clientSignedCert));
     const identity: Identity = { mspId: "Org1MSP", credentials };
 
-    const privateKeyPem = await fs.readFile(
-        certPath(users.identities[0].clientPrivateKey),
-    );
+    const privateKeyPem = await fs.readFile(certPath(user.clientPrivateKey));
+
     const privateKey = crypto.createPrivateKey(privateKeyPem);
+    console.log("Identity:", {
+        user,
+        creds: credentials.toString(),
+        // identity,
+        private: privateKeyPem.toString(),
+    });
     const signer = signers.newPrivateKeySigner(privateKey);
 
     return { identity, signer };
@@ -82,6 +87,8 @@ export const GetGateway = async ({ userIdex }: { userIdex: number }) => {
     return {
         gateway,
         client,
+        identity,
+        signer,
         [Symbol.asyncDispose]: async () => {
             console.log("closing gateway");
             await gateway.close();
@@ -103,14 +110,17 @@ export const GetService = async ({
 
     const network = await connection.gateway.getNetwork(channel);
     const contract = await network.getContract(contractName);
-    const service = new GenericServiceClient(contract, createRegistry(
-        ...auth.allMessages,
-        ...objects.allMessages,
-        ...generic.allMessages,
-        ...reference.allMessages,
-        ...ccbio.allMessages,
-        ...sample.allMessages,
-    ));
+    const service = new GenericServiceClient(
+        contract,
+        createRegistry(
+            ...auth.allMessages,
+            ...objects.allMessages,
+            ...generic.allMessages,
+            ...reference.allMessages,
+            ...ccbio.allMessages,
+            ...sample.allMessages,
+        ),
+    );
     return {
         connection,
         contract,

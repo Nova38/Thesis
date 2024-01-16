@@ -4,12 +4,9 @@ import (
 	"flag"
 	"log/slog"
 	"os"
-	"runtime"
 
-	"net/http"
 	_ "net/http/pprof"
 
-	"github.com/grafana/pyroscope-go"
 	_ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -29,7 +26,7 @@ var (
 	// protoscopePullEnabled = true
 
 	protoscopeMode = "PULL"
-	authMode       = "noauth"
+	authMode       = "roles"
 	sm             *contractapi.ContractChaincode
 )
 
@@ -73,7 +70,7 @@ func init() {
 		slog.Info("Using Identity Contract")
 		sm = identity.BuildContract()
 	default:
-
+		sm = roles.BuildContract()
 	}
 
 	slog.Info("Using Auth Mode", "mode", authMode)
@@ -82,64 +79,64 @@ func init() {
 }
 
 func main() {
-	if protoscopeMode == "PULL" {
-		slog.Info("Starting Profiling Server")
-		go func() {
-			err := http.ListenAndServe(":6060", nil)
-			if err != nil {
-				slog.Error("Failed to start profiling server", err)
-			}
-		}()
-	} else if protoscopeMode == "PUSH" {
+	// if protoscopeMode == "PULL" {
+	// 	slog.Info("Starting Profiling Server")
+	// 	go func() {
+	// 		err := http.ListenAndServe(":6060", nil)
+	// 		if err != nil {
+	// 			slog.Error("Failed to start profiling server", err)
+	// 		}
+	// 	}()
+	// } else if protoscopeMode == "PUSH" {
 
-		rate := 5
-		runtime.SetBlockProfileRate(rate)
-		runtime.SetMutexProfileFraction(rate)
+	// 	rate := 5
+	// 	runtime.SetBlockProfileRate(rate)
+	// 	runtime.SetMutexProfileFraction(rate)
 
-		slog.Info("Starting Protoscope")
-		// These 2 lines are only required if you're using mutex or block profiling
-		// Read the explanation below for how to set these rates:
-		runtime.SetMutexProfileFraction(5)
-		runtime.SetBlockProfileRate(5)
+	// 	slog.Info("Starting Protoscope")
+	// 	// These 2 lines are only required if you're using mutex or block profiling
+	// 	// Read the explanation below for how to set these rates:
+	// 	runtime.SetMutexProfileFraction(5)
+	// 	runtime.SetBlockProfileRate(5)
 
-		_, err := pyroscope.Start(pyroscope.Config{
-			ApplicationName: "saacs",
+	// 	_, err := pyroscope.Start(pyroscope.Config{
+	// 		ApplicationName: "saacs",
 
-			// replace this with the address of pyroscope server
-			ServerAddress: "http://pyroscope:4040",
+	// 		// replace this with the address of pyroscope server
+	// 		ServerAddress: "http://pyroscope:4040",
 
-			// you can disable logging by setting this to nil
-			Logger: nil,
+	// 		// you can disable logging by setting this to nil
+	// 		Logger: nil,
 
-			// you can provide static tags via a map:
-			Tags: map[string]string{
-				"hostname":               os.Getenv("HOSTNAME"),
-				"AuthMode":               authMode,
-				"ChaincodeId":            config.CCID,
-				"ChaincodeServerAddress": config.Address,
-			},
+	// 		// you can provide static tags via a map:
+	// 		Tags: map[string]string{
+	// 			"hostname":               os.Getenv("HOSTNAME"),
+	// 			"AuthMode":               authMode,
+	// 			"ChaincodeId":            config.CCID,
+	// 			"ChaincodeServerAddress": config.Address,
+	// 		},
 
-			ProfileTypes: []pyroscope.ProfileType{
-				// these profile types are enabled by default:
-				pyroscope.ProfileCPU,
-				pyroscope.ProfileAllocObjects,
-				pyroscope.ProfileAllocSpace,
-				pyroscope.ProfileInuseObjects,
-				pyroscope.ProfileInuseSpace,
+	// 		ProfileTypes: []pyroscope.ProfileType{
+	// 			// these profile types are enabled by default:
+	// 			pyroscope.ProfileCPU,
+	// 			pyroscope.ProfileAllocObjects,
+	// 			pyroscope.ProfileAllocSpace,
+	// 			pyroscope.ProfileInuseObjects,
+	// 			pyroscope.ProfileInuseSpace,
 
-				// these profile types are optional:
-				pyroscope.ProfileGoroutines,
-				pyroscope.ProfileMutexCount,
-				pyroscope.ProfileMutexDuration,
-				pyroscope.ProfileBlockCount,
-				pyroscope.ProfileBlockDuration,
-			},
-		})
-		if err != nil {
-			slog.Warn("pyroscope failed to start", "error", err)
-		}
+	// 			// these profile types are optional:
+	// 			pyroscope.ProfileGoroutines,
+	// 			pyroscope.ProfileMutexCount,
+	// 			pyroscope.ProfileMutexDuration,
+	// 			pyroscope.ProfileBlockCount,
+	// 			pyroscope.ProfileBlockDuration,
+	// 		},
+	// 	})
+	// 	if err != nil {
+	// 		slog.Warn("pyroscope failed to start", "error", err)
+	// 	}
 
-	}
+	// }
 
 	slog.Info("Starting the Chaincode")
 
