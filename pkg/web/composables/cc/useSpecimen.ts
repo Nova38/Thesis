@@ -64,3 +64,10 @@ export const useCreateSpecimen = (specimen: PlainMessage<ccbio.Specimen>) => {
     body: new ccbio.Specimen(specimen).toJsonString(),
   });
 };
+
+export const useUpdateSpecimen = (specimen: PlainMessage<ccbio.Specimen>) => {
+  return useCustomFetch(`/api/cc/specimens/update`, {
+    method: "POST",
+    body: new ccbio.Specimen(specimen).toJsonString(),
+  });
+};

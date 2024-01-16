@@ -3,6 +3,7 @@ package serializer
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"reflect"
 
 	"github.com/hyperledger/fabric-contract-api-go/metadata"
@@ -28,7 +29,9 @@ func (s *TxSerializer) FromString(
 	// Check to see if the type is a protobuf message
 
 	if objType.Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
-		fmt.Println("protobuf message")
+		// fmt.Println("protobuf message")
+		slog.Default().Info("protobuf message", objType, param)
+
 		obj := reflect.New(objType)
 
 		err := json.Unmarshal([]byte(param), obj.Interface())

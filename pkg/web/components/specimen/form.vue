@@ -526,10 +526,13 @@ const secondaryAgeOptions = [
                 :disable="!props.enableEdit"
               />
               <q-input
-                v-model="specimen.georeference.coordinateUncertaintyInMeters"
+                v-model.number="
+                  specimen.georeference.coordinateUncertaintyInMeters
+                "
                 class="col m-1"
                 label="Coordinate Uncertainty In Meters"
                 :disable="!props.enableEdit"
+                number
               />
             </div>
             <div class="row justify-evenly mb-1">

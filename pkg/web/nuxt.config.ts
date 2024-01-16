@@ -12,14 +12,31 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: ["composables/cc/**"],
+    presets: [
+      {
+        from: "protobuf-es",
+        imports: ["PlainMessage"],
+      },
+      {
+        from: "saacs-es",
+        imports: ["auth", "ccbio"],
+      },
+      {
+        from: "defu",
+        imports: ["defu"],
+      },
+    ],
+  },
+  ui: {
+    global: true,
+    icons: {},
   },
   modules: [
     "nuxt-quasar-ui",
+    "@nuxt/ui",
     "@vueuse/nuxt",
     "@nuxtjs/eslint-module",
-    "nuxt-icon",
     "@pinia/nuxt",
-    "@nuxtjs/tailwindcss",
     "nuxt-radash",
     "@nuxt/test-utils/module",
   ],
@@ -31,6 +48,8 @@ export default defineNuxtConfig({
       },
     },
   },
+  sourcemap: true,
+
   quasar: {
     components: {
       defaults: {
@@ -56,7 +75,8 @@ export default defineNuxtConfig({
     plugins: ["LoadingBar", "Notify"],
   },
   appConfig: {
-    apiEndpoint: process.env.NUXT_API_URL,
+    apiEndpoint:
+      process.env.NUXT_API_URL || "https://api-biochain.ittc.ku.edu/",
   },
   runtimeConfig: {
     auth: {
@@ -90,4 +110,19 @@ export default defineNuxtConfig({
     },
   },
   ssr: false,
+  routeRules: {
+    "/api/**": {
+      // enable CORS
+      cors: true, // if enabled, also needs cors-preflight-request.ts Nitro middleware to answer CORS preflight requests
+      headers: {
+        // CORS headers
+        "Access-Control-Allow-Origin": "*", // 'http://example:6006', has to be set to the requesting domain that you want to send the credentials back to
+        "Access-Control-Allow-Methods": "*", // 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "*", // 'Origin, Content-Type, Accept, Authorization, X-Requested-With'
+        "Access-Control-Expose-Headers": "*",
+        // 'Access-Control-Max-Age': '7200', // 7200 = caching 2 hours (Chromium default), https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age#directives
+      },
+    },
+  },
 });

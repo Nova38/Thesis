@@ -269,16 +269,24 @@ func (ctx *BaseTxCtx) MakeLastModified() (mod *authpb.StateActivity, err error) 
 func (ctx *BaseTxCtx) GetUserId() (user *authpb.User, err error) {
 	// Extract The info from the Client ID
 	id := ctx.GetClientIdentity()
-
+	// cert, err := id.GetX509Certificate()
+	// if err != nil {
+	// return nil, oops.Errorf("failed to get user certificate from CID: %s", err)
+	// }
 	userId, err := id.GetID()
 	if err != nil {
-		return nil, oops.Errorf("failed to get user certificate from CID: %s", err)
+		return nil, oops.Errorf("failed to get user ID from CID: %s", err)
 	}
 
 	mspId, err := id.GetMSPID()
 	if err != nil {
 		return nil, oops.Errorf("failed to get user ID from CID: %s", err)
 	}
+
+	// ctx.Logger.Info("GetUserId",
+	// 	slog.Any("cert", cert),
+	// 	slog.Any("userId", userId),
+	// 	slog.Any("mspId", mspId))
 
 	return &authpb.User{MspId: mspId, UserId: userId}, nil
 }

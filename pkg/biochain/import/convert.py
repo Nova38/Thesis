@@ -167,7 +167,7 @@ with open("ku_orn_database_great_plains_pre_1970_NoDups.csv", "r") as csv_file:
             age_list.add(raw_age)
             row["secondary.age"] = 0
 
-        row["collectionId"] = "ku_orn"
+        row["collectionId"] = "KU Ornithology Great Plains"
         row["specimenId"] = str(uuid.uuid5(UUID_NAMESPACE, row["index"]))
 
         data_list.append(row)
@@ -175,7 +175,9 @@ with open("ku_orn_database_great_plains_pre_1970_NoDups.csv", "r") as csv_file:
 
 print(f"{sex_list=}")
 
-print(f"{age_list=}")
+# print(f"{age_list=}")
+for item in age_list:
+    print(item)
 
 with open("ku_orn_database_great_plains_pre_1970_NoDups.json", "w") as json_file:
     # Write the list to the json file

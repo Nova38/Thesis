@@ -50,6 +50,19 @@ async function getCurrentUser() {
     return r1;
 }
 
+async function getUser(id: number) {
+    const { service, connection, contract } = await GetService({
+        userIdex: id,
+        channel: "mychannel",
+        contractName: "roles",
+    });
+
+    const response = await service.getCurrentUser();
+    console.log({ id, response, connection });
+
+    return { response, cred: connection.identity.credentials.toString() };
+}
+
 async function MakeCollection() {
     // const network = await gw.gateway.getNetwork("mychannel");
     // const contract = await network.getContract("roles");
@@ -114,6 +127,7 @@ async function MakeCollection() {
             },
         }),
     });
+    console.log(collectionRequest.toJsonString());
 
     const response1 = await contract.submitTransaction(
         "CreateCollection",
@@ -405,6 +419,36 @@ async function GetUserRoles() {
     console.log(roles);
 }
 
+async function ListALlUserIds() {
+    for (let i = 0; i < 5; i++) {
+        const { service, connection, contract } = await GetService({
+            userIdex: i,
+            channel: "mychannel",
+            contractName: "roles",
+        });
+
+        const user = await service.getCurrentUser();
+
+        console.log("UserResponse:", { i, user });
+        if (!user) {
+            throw new Error("no user");
+        }
+
+        // const response = await service.get(
+        //     new GetRequest({
+        //         key: {
+        //             collectionId: collectionId,
+        //             itemType: "auth.UserCollectionRoles",
+        //             itemKeyParts: [user.mspId, user.userId],
+        //         },
+        //     }),
+        // );
+        // let roles = new UserCollectionRoles();
+        // response.item?.value?.unpackTo(roles);
+        // console.log(roles);
+    }
+}
+
 async function ListCollections() {
     const { service, connection, contract } = await GetService({
         userIdex: 0,
@@ -437,13 +481,41 @@ async function Bootstrap() {
     await GetUserRoles();
 }
 
+async function fuckthis() {
+    const r1 = await getUser(0);
+    const r2 = await getUser(1);
+    const r3 = await getUser(2);
+    const r4 = await getUser(3);
+    const r5 = await getUser(4);
+    // const r6 = await getUser(5);
+
+    const certs = [r1.cred, r2.cred, r3.cred, r4.cred, r5.cred];
+    const ids = [
+        r1.response.user?.userId,
+        r2.response.user?.userId,
+        r3.response.user?.userId,
+        r4.response.user?.userId,
+        r5.response.user?.userId,
+    ];
+
+    console.log({ certs, ids });
+
+    const UIds = [...new Set(ids)];
+    // const UCerts = [...new Set(certs)];
+    console.log({ UIds });
+}
+
 async function main() {
     // collectionId = "KU-Zoology";
     // await Bootstrap();
-    await AddSpecimen();
+    // await AddSpecimen();
+    // await MakeCollection();
+    // await ListALlUserIds();
+    await fuckthis();
+    // await GetUserRoles();
 
-    await ListCollections();
-    await ListSpecimens();
+    // await ListCollections();
+    // await ListSpecimens();
     // await getCurrentUser();
     // await MakeCollection();
     // await AddRoles();
