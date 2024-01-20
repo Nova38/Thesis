@@ -1,21 +1,21 @@
-import type { UseFetchOptions } from "#app";
-import { defu } from "defu";
+import { defu } from 'defu'
+import type { UseFetchOptions } from '#app'
 
 export function useCustomFetch<T>(
   url: string | (() => string),
   options: UseFetchOptions<T> = {},
 ) {
-  const config = useRuntimeConfig();
-  const appConfig = useAppConfig();
+  const config = useRuntimeConfig()
+  const appConfig = useAppConfig()
   console.log({
     appconfig: appConfig.api,
     base: config.baseUrl,
     public: config.public.api.url,
-  });
-  console.log(config.public.api.url || "/api");
+  })
+  console.log(config.public.api.url || '/api')
   const defaults: UseFetchOptions<T> = {
-    baseURL: config.public.api.url || "/api",
-    //config.public.api.url ?? config.app.baseURL,
+    baseURL: config.public.api.url || '/api',
+    // config.public.api.url ?? config.app.baseURL,
     // this overrides the default key generation, which includes a hash of
     // url, method, headers, etc. - this should be used with care as the key
     // is how Nuxt decides how responses should be deduplicated between
@@ -29,13 +29,13 @@ export function useCustomFetch<T>(
     },
 
     onRequest() {
-      LoadingBar.start();
-      LoadingBar.stop();
+      LoadingBar.start()
+      LoadingBar.stop()
     },
-  };
+  }
 
   // for nice deep defaults, please use unjs/defu
-  const params = defu(options, defaults);
+  const params = defu(options, defaults)
 
-  return useFetch(url, params);
+  return useFetch(url, params)
 }

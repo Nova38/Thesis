@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from "saacs-es";
-
-const sectionHeaderClass = "text-center section-header bg-gray-200";
+import { ccbio } from 'saacs-es'
 
 const props = defineProps({
   showEditOptions: {
@@ -30,101 +28,106 @@ const props = defineProps({
   },
   headerColor: {
     type: String,
-    default: toModeColor("view"),
+    default: toModeColor('view'),
   },
-});
+})
 
-const specimen = defineModel("specimen", {
+const sectionHeaderClass = 'text-center section-header bg-gray-200'
+
+const specimen = defineModel('specimen', {
   default: () => new ccbio.Specimen(),
-});
+})
 
 function addPreparation(name: string) {
-  if (!specimen?.value) return;
-  if (!specimen?.value?.secondary) {
-    specimen.value.secondary = new ccbio.Specimen_Secondary();
-  }
-  if (!specimen?.value?.secondary?.preparations) {
-    specimen.value.secondary.preparations = {};
-  }
-  specimen.value.secondary.preparations[name] =
-    new ccbio.Specimen_Secondary_Preparation();
+  if (!specimen?.value)
+    return
+  if (!specimen?.value?.secondary)
+    specimen.value.secondary = new ccbio.Specimen_Secondary()
+
+  if (!specimen?.value?.secondary?.preparations)
+    specimen.value.secondary.preparations = {}
+
+  specimen.value.secondary.preparations[name]
+    = new ccbio.Specimen_Secondary_Preparation()
 }
 
 function addLoan(name: string) {
-  if (!specimen?.value) return;
-  if (!specimen?.value?.loans) {
-    specimen.value.loans = {};
-  }
+  if (!specimen?.value)
+    return
+  if (!specimen?.value?.loans)
+    specimen.value.loans = {}
+
   specimen.value.loans[name] = new ccbio.Specimen_Loan({
     id: name,
-  });
+  })
 }
 
 function addGrant(name: string) {
-  if (!specimen?.value) return;
-  if (!specimen?.value?.grants) {
-    specimen.value.grants = {};
-  }
-  specimen.value.grants[name] = new ccbio.Specimen_Grant({});
+  if (!specimen?.value)
+    return
+  if (!specimen?.value?.grants)
+    specimen.value.grants = {}
+
+  specimen.value.grants[name] = new ccbio.Specimen_Grant({})
 }
-const newPreparationName = ref("");
-const newLoanName = ref("");
-const newGrantName = ref("");
+const newPreparationName = ref('')
+const newLoanName = ref('')
+const newGrantName = ref('')
 // ^?
 
 const secondarySexOptions = [
   {
-    label: "",
+    label: '',
     value: ccbio.Specimen_Secondary_SEX.SEX_UNDEFINED,
   },
   {
-    label: "Unknown",
+    label: 'Unknown',
     value: ccbio.Specimen_Secondary_SEX.SEX_UNKNOWN,
   },
   {
-    label: "Atypical",
+    label: 'Atypical',
     value: ccbio.Specimen_Secondary_SEX.SEX_ATYPICAL,
   },
   {
-    label: "Male",
+    label: 'Male',
     value: ccbio.Specimen_Secondary_SEX.SEX_MALE,
   },
   {
-    label: "Female",
+    label: 'Female',
     value: ccbio.Specimen_Secondary_SEX.SEX_FEMALE,
   },
-];
+]
 
 const secondaryAgeOptions = [
   {
-    label: "",
+    label: '',
     value: ccbio.Specimen_Secondary_AGE.AGE_UNDEFINED,
   },
   {
-    label: "Unknown",
+    label: 'Unknown',
     value: ccbio.Specimen_Secondary_AGE.AGE_UNKNOWN,
   },
   {
-    label: "Nest",
+    label: 'Nest',
     value: ccbio.Specimen_Secondary_AGE.AGE_NEST,
   },
   {
-    label: "Embryo Egg",
+    label: 'Embryo Egg',
     value: ccbio.Specimen_Secondary_AGE.AGE_EMBRYO_EGG,
   },
   {
-    label: "Chick SubAdult",
+    label: 'Chick SubAdult',
     value: ccbio.Specimen_Secondary_AGE.AGE_CHICK_SUBADULT,
   },
   {
-    label: "Adult",
+    label: 'Adult',
     value: ccbio.Specimen_Secondary_AGE.AGE_ADULT,
   },
   {
-    label: "Age Contingent",
+    label: 'Age Contingent',
     value: ccbio.Specimen_Secondary_AGE.AGE_CONTINGENT,
   },
-];
+]
 </script>
 
 <template>
@@ -133,7 +136,10 @@ const secondaryAgeOptions = [
 
     <QCardSection :class="headerColor">
       <div class="row">
-        <div v-if="specimen?.taxon" class="text-2xl">
+        <div
+          v-if="specimen?.taxon"
+          class="text-2xl"
+        >
           <span v-if="specimen?.taxon?.genus">
             {{ specimen.taxon.genus }}
           </span>
@@ -153,33 +159,36 @@ const secondaryAgeOptions = [
               color="accent"
               square
               class="text-white"
-              :label="'Catalog Number: ' + specimen?.primary?.catalogNumber"
+              :label="`Catalog Number: ${specimen?.primary?.catalogNumber}`"
             />
             <q-chip
               v-if="specimen.primary.tissueNumber"
               color="accent"
               class="text-white"
               square
-              :label="'Tissue Number: ' + specimen?.primary.tissueNumber"
+              :label="`Tissue Number: ${specimen?.primary.tissueNumber}`"
             />
           </div>
         </div>
       </div>
     </QCardSection>
-    <div class="flex flex-row" :class="headerColor">
+    <div
+      class="flex flex-row"
+      :class="headerColor"
+    >
       <q-chip
         v-if="specimen.collectionId"
         color="primary"
         class="text-white flex-grow"
         square
-        :label="'Collection ID: ' + specimen.collectionId"
+        :label="`Collection ID: ${specimen.collectionId}`"
       />
       <q-chip
         v-if="specimen.specimenId"
         color="primary"
         class="text-white flex-grows"
         square
-        :label="'Specimen ID: ' + specimen.specimenId"
+        :label="`Specimen ID: ${specimen.specimenId}`"
       />
     </div>
 
@@ -193,7 +202,10 @@ const secondaryAgeOptions = [
       >
         <QCard>
           <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
-            <template v-for="(_, key) in specimen.taxon" :key="key">
+            <template
+              v-for="(_, key) in specimen.taxon"
+              :key="key"
+            >
               <QInput
                 v-if="specimen.taxon && typeof specimen.taxon[key] === 'string'"
                 v-model="specimen.taxon[key]"
@@ -204,7 +216,9 @@ const secondaryAgeOptions = [
             </template>
           </QCardSection>
           <div class="m-4">
-            <q-item-label overline><b>Last Updated At</b></q-item-label>
+            <q-item-label overline>
+              <b>Last Updated At</b>
+            </q-item-label>
             <q-item-label class="text-bold">
               {{ specimen?.primary?.lastModified?.timestamp }}
             </q-item-label>
@@ -252,7 +266,10 @@ const secondaryAgeOptions = [
                 :disable="!props.enableEdit"
               />
             </div>
-            <QExpansionItem label="Catalog Date" class="DateExpansion">
+            <QExpansionItem
+              label="Catalog Date"
+              class="DateExpansion"
+            >
               <QCardSection
                 v-if="specimen?.primary?.catalogDate"
                 class="DateSection"
@@ -306,7 +323,10 @@ const secondaryAgeOptions = [
                 :disable="!props.enableEdit"
               />
             </div>
-            <QExpansionItem label="Determined Date" class="DateExpansion mx-4">
+            <QExpansionItem
+              label="Determined Date"
+              class="DateExpansion mx-4"
+            >
               <QCardSection
                 v-if="specimen?.primary?.determinedDate"
                 class="DateSection"
@@ -361,7 +381,10 @@ const secondaryAgeOptions = [
               />
             </div>
 
-            <QExpansionItem label="Field Date" class="DateExpansion">
+            <QExpansionItem
+              label="Field Date"
+              class="DateExpansion"
+            >
               <QCardSection
                 v-if="specimen?.primary?.fieldDate"
                 class="DateSection"
@@ -465,7 +488,10 @@ const secondaryAgeOptions = [
         :header-class="sectionHeaderClass"
       >
         <q-card>
-          <q-card-section v-if="specimen?.georeference" class="my-1">
+          <q-card-section
+            v-if="specimen?.georeference"
+            class="my-1"
+          >
             <div class="row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.continent"
@@ -556,7 +582,10 @@ const secondaryAgeOptions = [
               />
             </div>
 
-            <QExpansionItem label="Georeference Date" class="DateExpansion">
+            <QExpansionItem
+              label="Georeference Date"
+              class="DateExpansion"
+            >
               <QCardSection
                 v-if="specimen?.georeference?.georeferenceDate"
                 class="DateSection"
@@ -643,7 +672,10 @@ const secondaryAgeOptions = [
         :header-class="sectionHeaderClass"
       >
         <q-card>
-          <q-card-section v-if="specimen?.secondary" class="my-1">
+          <q-card-section
+            v-if="specimen?.secondary"
+            class="my-1"
+          >
             <div class="flex flex-row justify-evenly mb-1 gap-1">
               <q-input
                 v-model="specimen.secondary.molt"
@@ -709,12 +741,24 @@ const secondaryAgeOptions = [
             </div>
           </q-card-section>
           <QCard>
-            <QCardSection label="Preparation" class="ml-4">
+            <QCardSection
+              label="Preparation"
+              class="ml-4"
+            >
               <div class="flex flex-row gap-2">
-                <div class="font-bold">Preparations:</div>
+                <div class="font-bold">
+                  Preparations:
+                </div>
 
-                <div v-if="props.enableEdit" class="ml-auto">
-                  <q-btn push color="primary" label="New Preparation">
+                <div
+                  v-if="props.enableEdit"
+                  class="ml-auto"
+                >
+                  <q-btn
+                    push
+                    color="primary"
+                    label="New Preparation"
+                  >
                     <q-popup-proxy class="">
                       <div class="flex flex-row gap-2 items-center p-2">
                         <QInput
@@ -746,7 +790,10 @@ const secondaryAgeOptions = [
                   :label="`Preparation: ${key}`"
                   :disable="!props.enableEdit"
                 >
-                  <template v-if="props.enableEdit" #append>
+                  <template
+                    v-if="props.enableEdit"
+                    #append
+                  >
                     <q-icon
                       name="cancel"
                       class="cursor-pointer"
@@ -787,7 +834,11 @@ const secondaryAgeOptions = [
                     class="flex-grow my-1"
                     :disable="!props.enableEdit"
                   />
-                  <QBtn label="Add" class="h-2" @click="addLoan(newLoanName)" />
+                  <QBtn
+                    label="Add"
+                    class="h-2"
+                    @click="addLoan(newLoanName)"
+                  />
                 </div>
                 <!-- </q-banner> -->
               </q-popup-proxy>
@@ -798,7 +849,10 @@ const secondaryAgeOptions = [
               class="flex flex-col gap-2 p-2"
             >
               <template v-if="specimen.loans[key]">
-                <QChip :label="`Loan ID: ${key}`" class="flex-grow" />
+                <QChip
+                  :label="`Loan ID: ${key}`"
+                  class="flex-grow"
+                />
 
                 <div class="flex flex-row gap-4">
                   <QInput
@@ -829,8 +883,7 @@ const secondaryAgeOptions = [
                   class="max-h-4 bg-red-300"
                   label="Delete Loan"
                   @click="delete specimen.loans[key]"
-                >
-                </QBtn>
+                />
               </template>
             </QCard>
           </QCardSection>
@@ -909,8 +962,7 @@ const secondaryAgeOptions = [
                   class="max-h-4 bg-red-300"
                   label="Delete Loan"
                   @click="delete specimen.grants[key]"
-                >
-                </QBtn>
+                />
               </template>
             </QCard>
           </QCardSection>
@@ -919,7 +971,9 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-card-section v-if="showUpdater">
-        <q-item-label overline><b>Last Updater</b></q-item-label>
+        <q-item-label overline>
+          <b>Last Updater</b>
+        </q-item-label>
         <q-item-label class="text-bold">
           {{ specimen.lastModified?.timestamp }}
         </q-item-label>

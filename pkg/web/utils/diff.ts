@@ -1,30 +1,32 @@
-import { diff } from "ohash";
-import { FieldMask } from "@bufbuild/protobuf";
-import { snakeCase } from "scule";
-import { crush } from "radash";
+import { diff } from 'ohash'
+import { FieldMask } from '@bufbuild/protobuf'
+import { snakeCase } from 'scule'
+import { crush } from 'radash'
 
-export type diffOp = "added" | "removed" | "updated";
-export const toMask = (p: string) =>
-  p
-    .split(".")
-    .map((i) => snakeCase(i))
-    .join(".");
+export type diffOp = 'added' | 'removed' | 'updated'
+export function toMask(p: string) {
+  return p
+    .split('.')
+    .map(i => snakeCase(i))
+    .join('.')
+}
 
-export const diffCrush = (base: any, updated: any, excludePaths: string[]) => {
-  const b: Record<string, any> = crush(toValue(base) ?? {});
-  const u: Record<string, any> = crush(toValue(updated) ?? {});
+export function diffCrush(base: any, updated: any, excludePaths: string[]) {
+  const b: Record<string, any> = crush(toValue(base) ?? {})
+  const u: Record<string, any> = crush(toValue(updated) ?? {})
 
-  const differences: Record<string, any>[] = [];
-  const paths: string[] = [];
+  const differences: Record<string, any>[] = []
+  const paths: string[] = []
   for (const key in b) {
-    if (excludePaths.includes(key)) continue;
+    if (excludePaths.includes(key))
+      continue
     if (b[key] !== u[key]) {
       differences.push({
         key,
         values: { base: b[key], updated: u[key] },
-        type: "updated",
-      });
-      paths.push(toMask(key));
+        type: 'updated',
+      })
+      paths.push(toMask(key))
     }
     // if (!(key in u) && b[key] !== undefined) {
     //   differences.push({
@@ -37,48 +39,51 @@ export const diffCrush = (base: any, updated: any, excludePaths: string[]) => {
   }
 
   for (const key in u) {
-    if (excludePaths.includes(key)) continue;
+    if (excludePaths.includes(key))
+      continue
 
     if (!(key in b) && u[key] !== undefined) {
       differences.push({
         key,
         value: { values: { updated: u[key] } },
-        type: "added",
-      });
-      paths.push(toMask(key));
+        type: 'added',
+      })
+      paths.push(toMask(key))
     }
   }
 
-  const mask = new FieldMask({ paths });
+  const mask = new FieldMask({ paths })
 
-  return { differences, paths, mask };
-};
+  return { differences, paths, mask }
+}
 
-export const diffToFieldMaskPath = (base: any, updated: any) => {
+export function diffToFieldMaskPath(base: any, updated: any) {
   const paths = diff(base, updated, {
     excludeKeys: (key: string) => {
-      if (key.startsWith("_")) return true;
-      if (key === "dep") return true;
+      if (key.startsWith('_'))
+        return true
+      if (key === 'dep')
+        return true
 
-      return false;
+      return false
     },
-  }).map((d) =>
+  }).map(d =>
     d.key
-      .split(".")
-      .map((i) => snakeCase(i))
-      .join("."),
-  );
+      .split('.')
+      .map(i => snakeCase(i))
+      .join('.'),
+  )
 
   // const t = JSON.stringify({
   //   paths,
   // });
 
-  const mask = new FieldMask({ paths });
+  const mask = new FieldMask({ paths })
 
   // const mask = FieldMask.fromJson();
 
-  return { mask };
-};
+  return { mask }
+}
 
 // export const SpecimenToForm = (specimen: any) => {
 //   let data: any = set(

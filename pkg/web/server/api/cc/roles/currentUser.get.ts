@@ -1,7 +1,7 @@
-import { useChaincode } from "~/server/utils/useChaincode";
+import { useChaincode } from '~/server/utils/useChaincode'
 
 export default defineEventHandler(async (event) => {
-  const cc = await useChaincode(event);
+  const cc = await useChaincode(event)
 
-  return cc.service.getCurrentUser();
-});
+  return cc.service.getCurrentUser()
+})

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* __placeholder__ */
-import type { ICellRendererParams } from "@ag-grid-community/core";
+import type { ICellRendererParams } from '@ag-grid-community/core'
 
 // import { defineProps, defineEmits } from 'vue';
 // /**
@@ -8,8 +8,8 @@ import type { ICellRendererParams } from "@ag-grid-community/core";
 //  */
 
 const props = defineProps<{
-  params: ICellRendererParams;
-}>();
+  params: ICellRendererParams
+}>()
 
 // const props = defineProps<{
 //   params: {
@@ -23,16 +23,16 @@ const props = defineProps<{
 function btnClickedHandler() {
   // alert(`open modal:${props.params.value}}`);
 
-  console.log("hi");
-  console.log(props.params.data);
+  console.log('hi')
+  console.log(props.params.data)
 
   useRouter().push({
-    name: "collection-specimen",
+    name: 'collection-specimen',
     params: {
       collectionId: props.params.data.collection_id,
       specimenId: props.params.data.id,
     },
-  });
+  })
 
   // const collectionId = currentSpecimen.collection_id;
   // const specimenId = props.params.value;
@@ -50,8 +50,7 @@ function btnClickedHandler() {
         props.params.value.data.id
       }`"
       :no-prefetch="true"
-    >
-    </NuxtLink>
+    />
   </div>
   <!-- <q-btn @click="btnClickedHandler(param)">
     <q-icon name="edit" />

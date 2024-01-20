@@ -1,6 +1,39 @@
+<script lang="ts" setup>
+// const { data, pending, error } = await useFetch(
+//   "/api/cc/collections/listCollections",
+// );
+
+const { data, pending, error } = await useCustomFetch(
+  '/api/cc/collections/listCollections',
+)
+
+const colLinks = computed(() => {
+  if (pending.value)
+    return []
+
+  if (error.value)
+    return []
+
+  if (!data.value)
+    return []
+
+  console.log(data.value)
+  return data.value.collections.map((collection) => {
+    return {
+      label: collection.collectionId,
+      to: `/collection-${collection.collectionId}`,
+    }
+  })
+})
+</script>
+
 <template>
   <div>
-    <div v-for="col in colLinks" :key="col.label" class="p-2">
+    <div
+      v-for="col in colLinks"
+      :key="col.label"
+      class="p-2"
+    >
       <QExpansionItem
         expand-separator
         icon="ti-agenda"
@@ -20,10 +53,13 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection/' + col.label + '/SpecimenTable/'"
+              :to="`/collection/${col.label}/SpecimenTable/`"
             >
               <q-item-section avatar>
-                <q-icon color="primary" name="ti-view-list-alt" />
+                <q-icon
+                  color="primary"
+                  name="ti-view-list-alt"
+                />
               </q-item-section>
 
               <q-item-section>Specimen Table</q-item-section>
@@ -34,7 +70,10 @@
               :to="`/collection/${col.label}/AccessControl`"
             >
               <q-item-section avatar>
-                <q-icon color="primary" name="ti-dashboard" />
+                <q-icon
+                  color="primary"
+                  name="ti-dashboard"
+                />
               </q-item-section>
 
               <q-item-section> Access Control </q-item-section>
@@ -43,11 +82,14 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection/' + col.label + '/Specimen/New'"
+              :to="`/collection/${col.label}/Specimen/New`"
               class=""
             >
               <q-item-section avatar>
-                <q-icon color="primary" name="ti-plus" />
+                <q-icon
+                  color="primary"
+                  name="ti-plus"
+                />
               </q-item-section>
 
               <q-item-section>New Specimen</q-item-section>
@@ -56,10 +98,13 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection/' + col.label + '/Specimen/import'"
+              :to="`/collection/${col.label}/Specimen/import`"
             >
               <q-item-section avatar>
-                <q-icon color="primary" name="ti-import" />
+                <q-icon
+                  color="primary"
+                  name="ti-import"
+                />
               </q-item-section>
 
               <q-item-section>Bulk Import</q-item-section>
@@ -67,10 +112,13 @@
             <q-item
               v-ripple
               clickable
-              :to="'/collection/' + col.label + '/Specimen/update'"
+              :to="`/collection/${col.label}/Specimen/update`"
             >
               <q-item-section avatar>
-                <q-icon color="primary" name="ti-import" />
+                <q-icon
+                  color="primary"
+                  name="ti-import"
+                />
               </q-item-section>
 
               <q-item-section>Bulk Update</q-item-section>
@@ -84,34 +132,5 @@
         </QCard> -->
   </div>
 </template>
-
-<script lang="ts" setup>
-// const { data, pending, error } = await useFetch(
-//   "/api/cc/collections/listCollections",
-// );
-
-const { data, pending, error } = await useCustomFetch(
-  "/api/cc/collections/listCollections",
-);
-
-const colLinks = computed(() => {
-  if (pending.value) {
-    return [];
-  }
-  if (error.value) {
-    return [];
-  }
-  if (!data.value) {
-    return [];
-  }
-  console.log(data.value);
-  return data.value.collections.map((collection) => {
-    return {
-      label: collection.collectionId,
-      to: `/collection-${collection.collectionId}`,
-    };
-  });
-});
-</script>
 
 <style></style>

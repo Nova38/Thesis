@@ -1,10 +1,10 @@
 // vitest.config.ts
 // import { fileURLToPath } from "node:url";
-import { defineVitestConfig } from "@nuxt/test-utils/config";
+import { defineVitestConfig } from '@nuxt/test-utils/config'
 
 export default defineVitestConfig({
   test: {
-    includeSource: ["src/**/*.{js,ts}"],
+    includeSource: ['src/**/*.{js,ts}'],
 
     // environment: "nuxt",
     // you can optionally set Nuxt-specific environment options
@@ -17,4 +17,4 @@ export default defineVitestConfig({
     //   }
     // }
   },
-});
+})

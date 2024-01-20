@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 const userSchema = z.object({
   username: z.string(),
@@ -6,26 +6,26 @@ const userSchema = z.object({
   credentials: z.string().optional(),
   key: z.string().optional(),
   mspId: z.string().optional(),
-});
+})
 
 export default eventHandler(async (event) => {
-  const body = await readValidatedBody(event, (body) =>
-    userSchema.safeParse(body),
-  );
+  const body = await readValidatedBody(event, body =>
+    userSchema.safeParse(body))
 
-  if (!body.success) throw body.error.issues;
-  const { username, password, credentials, key, mspId } = body.data;
+  if (!body.success)
+    throw body.error.issues
+  const { username, password, credentials, key, mspId } = body.data
 
   const result = await createUser({
-    username: username,
+    username,
     password: await hash(password),
-    credentials: credentials,
-    key: key,
-    mspId: mspId,
-  });
+    credentials,
+    key,
+    mspId,
+  })
 
   return {
     value: result,
-    message: "Successfully registered!",
-  };
-});
+    message: 'Successfully registered!',
+  }
+})
