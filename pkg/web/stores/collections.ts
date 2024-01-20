@@ -1,29 +1,25 @@
 // import { defineStore } from "pinia";
 
-import { auth, ccbio } from "saacs-es";
-import { C } from "saacs-es/dist/shared/saacs-es.1e75680d";
-
-export const useCollectionsStore = defineStore("Collections", () => {
+export const useCollectionsStore = defineStore('Collections', () => {
   const CollectionId = () => {
-    return useRoute().params.collectionId ?? "";
-  };
+    return useRoute().params.collectionId ?? ''
+  }
 
-  const Collection = computed(() => {});
+  const Collection = computed(() => {})
 
-  const Bookmark = ref<string>();
-  const Loading = ref(true);
+  const Bookmark = ref<string>()
+  const Loading = ref(true)
 
-  const SpecimenList = ref<PlainSpecimen[]>([]);
-  const SpecimenMap = ref<Record<string, PlainSpecimen>>();
-  const SpecimenCatalogNumbers = ref<string[]>();
+  const SpecimenList = ref<PlainSpecimen[]>([])
+  const SpecimenMap = ref<Record<string, PlainSpecimen>>()
+  const SpecimenCatalogNumbers = ref<string[]>()
 
-  const SpecimenUUIDs = ref<string[]>();
+  const SpecimenUUIDs = ref<string[]>()
 
   function GetSpecimenFromCatalogNumber(catalogNumber: string) {
     for (const s of SpecimenList.value) {
-      if (s.primary.catalogNumber === catalogNumber) {
-        return s;
-      }
+      if (s.primary.catalogNumber === catalogNumber)
+        return s
     }
   }
 
@@ -31,18 +27,18 @@ export const useCollectionsStore = defineStore("Collections", () => {
     uuids,
     catalogNumbers,
   }: {
-    uuids?: string[];
-    catalogNumbers?: string[];
+    uuids?: string[]
+    catalogNumbers?: string[]
   }) {
     if (uuids) {
-      SpecimenList.value = SpecimenList.value?.filter((s) =>
+      SpecimenList.value = SpecimenList.value?.filter(s =>
         uuids.includes(s.specimenId),
-      );
+      )
     }
     if (catalogNumbers) {
-      SpecimenList.value = SpecimenList.value?.filter((s) =>
+      SpecimenList.value = SpecimenList.value?.filter(s =>
         catalogNumbers.includes(s.primary.catalogNumber),
-      );
+      )
     }
   }
 
@@ -54,43 +50,43 @@ export const useCollectionsStore = defineStore("Collections", () => {
         bookmark: Bookmark.value,
       },
       onResponse: async ({ response }) => {
-        console.log("history", response._data);
-        Bookmark.value = response._data?.bookmark ?? "";
-        console.log(Bookmark.value);
+        console.log('history', response._data)
+        Bookmark.value = response._data?.bookmark ?? ''
+        console.log(Bookmark.value)
         SpecimenMap.value = defu(
           SpecimenMap.value,
           response._data?.specimenMap,
-        );
-        SpecimenList.value = Object.values(SpecimenMap.value);
+        )
+        SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          (s) => s.primary.catalogNumber,
-        );
-        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId);
+          s => s.primary.catalogNumber,
+        )
+        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
       },
-    });
+    })
   }
 
   async function LoadFull() {
-    Loading.value = true;
-    let lastBookmark = "-";
+    Loading.value = true
+    let lastBookmark = '-'
     while (Bookmark.value !== lastBookmark && Bookmark.value) {
-      console.log("loadBatch", Bookmark.value, lastBookmark);
-      lastBookmark = Bookmark.value;
-      const v = await LoadRows();
+      console.log('loadBatch', Bookmark.value, lastBookmark)
+      lastBookmark = Bookmark.value
+      const v = await LoadRows()
       if (v.error.value) {
-        console.log(v.error);
-        break;
+        console.log(v.error)
+        break
       }
       if (lastBookmark === Bookmark.value) {
-        console.log("no change", Bookmark.value, lastBookmark);
-        break;
+        console.log('no change', Bookmark.value, lastBookmark)
+        break
       }
     }
-    Loading.value = false;
+    Loading.value = false
   }
 
   async function FullListLoad() {
-    Loading.value = true;
+    Loading.value = true
     return await useCustomFetch<PlainSpecimen[]>(`/api/cc/specimens/fullList`, {
       key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
       query: {
@@ -98,35 +94,35 @@ export const useCollectionsStore = defineStore("Collections", () => {
         bookmark: Bookmark.value,
       },
       onResponse: async ({ response }) => {
-        console.log("history", response._data);
-        Bookmark.value = response._data?.bookmark ?? "";
-        console.log(Bookmark.value);
+        console.log('history', response._data)
+        Bookmark.value = response._data?.bookmark ?? ''
+        console.log(Bookmark.value)
         SpecimenMap.value = defu(
           SpecimenMap.value,
           response._data?.specimenMap,
-        );
-        SpecimenList.value = Object.values(SpecimenMap.value);
+        )
+        SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          (s) => s.primary.catalogNumber,
-        );
-        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId);
-        Loading.value = false;
+          s => s.primary.catalogNumber,
+        )
+        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
+        Loading.value = false
       },
-    });
+    })
   }
 
   async function isUsedUUID(uuid: string) {
-    return SpecimenUUIDs?.value?.includes(uuid) || false;
+    return SpecimenUUIDs?.value?.includes(uuid) || false
   }
 
   async function Reload() {
-    console.log("reloading");
-    console.log(CollectionId());
-    Bookmark.value = "";
-    SpecimenMap.value = {};
-    SpecimenList.value = [];
-    console.log(useRoute().params.collectionId);
-    await FullListLoad();
+    console.log('reloading')
+    console.log(CollectionId())
+    Bookmark.value = ''
+    SpecimenMap.value = {}
+    SpecimenList.value = []
+    console.log(useRoute().params.collectionId)
+    await FullListLoad()
   }
 
   return {
@@ -143,5 +139,5 @@ export const useCollectionsStore = defineStore("Collections", () => {
     LoadRows,
     Reload,
     FullListLoad,
-  };
-});
+  }
+})

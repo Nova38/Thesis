@@ -1,3 +1,32 @@
+<script lang="ts" setup>
+// const crumb = [
+//     {
+//         label: "Home",
+//         icon: "i-heroicons-home",
+//         to: "/",
+//     },
+//     {
+//         label: "Navigation",
+//         icon: "i-heroicons-square-3-stack-3d",
+//     },
+//     {
+//         label: "Breadcrumb",
+//         icon: "i-heroicons-link",
+//     },
+// ];
+const crumb = useBreadcrumbLinks()
+const leftDrawerOpen = ref(true)
+
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+LoadingBar.setDefaults({
+  color: 'purple',
+  size: '15px',
+  position: 'bottom',
+})
+</script>
+
 <template>
   <div>
     <q-layout view="Hhh Lpr lFf">
@@ -13,9 +42,15 @@
           />
           <span class="w-4" />
           <div class="flex flex-row items-center">
-            <template v-for="item in crumb" :key="item.label">
+            <template
+              v-for="item in crumb"
+              :key="item.label"
+            >
               <span class="px-2">
-                <Icon name="uil:angle-right" size="2em" />
+                <Icon
+                  name="uil:angle-right"
+                  size="2em"
+                />
               </span>
               <NuxtLink
                 :to="item.to"
@@ -49,7 +84,7 @@
       <q-page-container>
         <div class="p-2">
           <NuxtLoadingIndicator />
-          <slot name="content"> </slot>
+          <slot name="content" />
           <!-- <NuxtErrorBoundary> -->
 
           <!-- ... -->
@@ -62,34 +97,5 @@
     </q-layout>
   </div>
 </template>
-
-<script lang="ts" setup>
-// const crumb = [
-//     {
-//         label: "Home",
-//         icon: "i-heroicons-home",
-//         to: "/",
-//     },
-//     {
-//         label: "Navigation",
-//         icon: "i-heroicons-square-3-stack-3d",
-//     },
-//     {
-//         label: "Breadcrumb",
-//         icon: "i-heroicons-link",
-//     },
-// ];
-const crumb = useBreadcrumbLinks();
-const leftDrawerOpen = ref(true);
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
-LoadingBar.setDefaults({
-  color: "purple",
-  size: "15px",
-  position: "bottom",
-});
-</script>
 
 <style></style>

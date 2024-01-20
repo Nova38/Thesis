@@ -1,11 +1,11 @@
+<script lang="ts" setup></script>
+
 <template>
   <div>
     <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
     <!-- {{ crush(MakeEmptySpecimen()) }} -->
   </div>
 </template>
-
-<script lang="ts" setup></script>
 
 <style></style>
 

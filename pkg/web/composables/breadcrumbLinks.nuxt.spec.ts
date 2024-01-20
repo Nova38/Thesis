@@ -1,6 +1,6 @@
-import { test, expect } from "vitest";
+import { expect, it } from 'vitest'
 
-test("foo", () => {
-  expect(1 + 1).toBe(2);
-  expect(2 + 4).toBe(6);
-});
+it('foo', () => {
+  expect(1 + 1).toBe(2)
+  expect(2 + 4).toBe(6)
+})

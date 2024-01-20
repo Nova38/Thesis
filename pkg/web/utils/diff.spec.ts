@@ -1,12 +1,12 @@
-import { ccbio } from "saacs-es";
-import { test, expect } from "vitest";
+import { ccbio } from 'saacs-es'
+import { expect, it } from 'vitest'
 
-test("foo", () => {
-  console.log("foo");
+it('foo', () => {
+  console.log('foo')
 
   const a = new ccbio.Specimen({
-    collectionId: "foo",
-    specimenId: "bar",
+    collectionId: 'foo',
+    specimenId: 'bar',
     georeference: {},
     images: {},
     secondary: {
@@ -16,19 +16,21 @@ test("foo", () => {
     grants: {},
     taxon: {},
     primary: {
-      catalogNumber: "foo",
+      catalogNumber: 'foo',
     },
-  });
+  })
 
-  const b = a.clone();
+  const b = a.clone()
 
-  if (!b.taxon) return;
-  if (!b.primary) return;
-  b.taxon.family = "bar";
-  b.primary.catalogNumber = "bar";
+  if (!b.taxon)
+    return
+  if (!b.primary)
+    return
+  b.taxon.family = 'bar'
+  b.primary.catalogNumber = 'bar'
 
-  const fm = diffToFieldMaskPath(a, b);
-  console.log(fm.mask);
-  expect(1 + 1).toBe(2);
-  expect(2 + 4).toBe(6);
-});
+  const fm = diffToFieldMaskPath(a, b)
+  console.log(fm.mask)
+  expect(1 + 1).toBe(2)
+  expect(2 + 4).toBe(6)
+})

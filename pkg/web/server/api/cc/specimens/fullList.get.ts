@@ -1,23 +1,23 @@
-import { common, auth, ccbio } from "saacs-es";
-import { z } from "zod";
+import { auth, ccbio, common } from 'saacs-es'
+import { z } from 'zod'
 
 const querySchema = z.object({
   collectionId: z.string(),
   limit: z.number().optional(),
-});
+})
 
 export default defineEventHandler(async (event) => {
-  const cc = await useChaincode(event);
+  const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, (body) =>
-    querySchema.safeParse(body),
-  );
-  console.log(query);
-  if (!query.success) throw query.error.issues;
+  const query = await getValidatedQuery(event, body =>
+    querySchema.safeParse(body))
+  console.log(query)
+  if (!query.success)
+    throw query.error.issues
 
-  let bookmark = "";
-  let lastBookmark = "-";
-  const specimenMap: Record<string, any> = {};
+  let bookmark = ''
+  let lastBookmark = '-'
+  const specimenMap: Record<string, any> = {}
 
   while (bookmark !== lastBookmark) {
     const result = await cc.service.listByAttrs(
@@ -29,21 +29,21 @@ export default defineEventHandler(async (event) => {
         }),
         numAttrs: 0,
         limit: query.data.limit ?? 1000,
-        bookmark: bookmark ?? "",
+        bookmark: bookmark ?? '',
       }),
-    );
-    lastBookmark = bookmark;
-    bookmark = result.bookmark;
+    )
+    lastBookmark = bookmark
+    bookmark = result.bookmark
 
     result.items.forEach((i) => {
-      const s = new ccbio.Specimen();
-      i.value?.unpackTo(s);
-      specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true });
-    });
+      const s = new ccbio.Specimen()
+      i.value?.unpackTo(s)
+      specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
+    })
 
     if (lastBookmark === bookmark) {
-      console.log("no change", bookmark, lastBookmark);
-      break;
+      console.log('no change', bookmark, lastBookmark)
+      break
     }
   }
   // console.log("1");
@@ -52,5 +52,5 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
 
-  return { specimenMap, bookmark: bookmark };
-});
+  return { specimenMap, bookmark }
+})

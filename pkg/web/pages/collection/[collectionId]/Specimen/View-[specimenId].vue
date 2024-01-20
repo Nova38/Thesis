@@ -1,3 +1,122 @@
+<script lang="ts" setup>
+import { ccbio } from 'saacs-es'
+import { Timestamp, createRegistry } from '@bufbuild/protobuf'
+import { keys } from 'radash'
+
+const route = useRoute()
+
+const dirty = ref(MakeEmptySpecimen())
+
+const cur = ref(MakeEmptySpecimen())
+const history = ref(new ccbio.SpecimenHistory())
+
+const spec = useNuxtData(
+  makeSpecimenKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
+)
+
+const modeCapitalized = computed(
+  () => mode.value[0].toUpperCase() + mode.value.slice(1),
+)
+
+// await callOnce(async () => {
+//   console.log("This will only be logged once");
+//   console.log({
+//     c: route.params?.collectionId.toString(),
+//     s: route.params?.specimenId.toString(),
+//   });
+//   websiteConfig.value = await $fetch("/api/cc/specimens/get", {
+//     query: {
+//       collectionId: toValue(route.params?.collectionId.toString()),
+//       specimenId: toValue(route.params?.specimenId.toString()),
+//     },
+//   });
+// });
+
+const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
+  key: makeSpecimenKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
+
+  query: {
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
+  },
+  onResponse: async ({ response }) => {
+    console.log('current', response._data)
+    dirty.value.fromJson(response._data)
+    cur.value.fromJson(response._data)
+    console.log(keys(response._data))
+    console.log(dirty.value)
+  },
+})
+
+const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
+  key: makeSpecimenHistoryKey(
+    route.params?.collectionId.toString(),
+    route.params?.specimenId.toString(),
+  ),
+
+  query: {
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
+  },
+  onResponse: async ({ response }) => {
+    console.log('history', response._data)
+    history.value.fromJson(response._data)
+    console.log(history.value)
+  },
+})
+
+// const logDiff = () => {
+//   console.log({
+//     diff: diff(crush(dirty.value), crush(cur.value)),
+//   });
+// };
+
+const mode: Ref<FormMode> = ref('view')
+const modeColor = computed(() => toModeColor(mode.value))
+
+// const history = await useGetSpecimenHistory();
+
+async function submitHandler() {
+  const oldMode = mode.value
+  try {
+    mode.value = 'view'
+    // const specimen = new ccbio.Specimen(getCurrent.data.value ?? {});
+
+    const { differences, mask } = diffCrush(toValue(cur), toValue(dirty), [
+      'lastModified',
+    ])
+    console.log({ differences })
+
+    const req = new ccbio.SpecimenUpdate({
+      specimen: dirty.value,
+      mask,
+    })
+
+    const response = await useCustomFetch(`/api/cc/specimens/update`, {
+      method: 'POST',
+      body: req.toJsonString({
+        typeRegistry: createRegistry(ccbio.Specimen, Timestamp),
+      }),
+    })
+    console.log('response', toValue(response.data))
+    // dirty.value.fromJson(response.data);
+    getHistory.refresh()
+    getCurrent.refresh()
+    console.log('current', toValue(getCurrent.data))
+  }
+  catch (error) {
+    mode.value = oldMode
+    console.error(error)
+  }
+}
+</script>
+
 <template>
   <div class="flex flex-row gap-4 p-4">
     <!-- <QBtn label="Log Diff" @click="logDiff" /> -->
@@ -10,8 +129,13 @@
         >
           <template #Header>
             <div>
-              <QBar :class="modeColor" class="p-2">
-                <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
+              <QBar
+                :class="modeColor"
+                class="p-2"
+              >
+                <div class="font-bold">
+                  Current Mode: {{ modeCapitalized }}
+                </div>
 
                 <q-space />
                 <q-btn
@@ -70,123 +194,5 @@
     <QCard> {</QCard>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ccbio } from "saacs-es";
-import { createRegistry, Timestamp } from "@bufbuild/protobuf";
-import { keys } from "radash";
-
-const route = useRoute();
-
-const dirty = ref(MakeEmptySpecimen());
-
-const cur = ref(MakeEmptySpecimen());
-const history = ref(new ccbio.SpecimenHistory());
-
-const spec = useNuxtData(
-  makeSpecimenKey(
-    route.params?.collectionId.toString(),
-    route.params?.specimenId.toString(),
-  ),
-);
-
-const modeCapitalized = computed(
-  () => mode.value[0].toUpperCase() + mode.value.slice(1),
-);
-
-// await callOnce(async () => {
-//   console.log("This will only be logged once");
-//   console.log({
-//     c: route.params?.collectionId.toString(),
-//     s: route.params?.specimenId.toString(),
-//   });
-//   websiteConfig.value = await $fetch("/api/cc/specimens/get", {
-//     query: {
-//       collectionId: toValue(route.params?.collectionId.toString()),
-//       specimenId: toValue(route.params?.specimenId.toString()),
-//     },
-//   });
-// });
-
-const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
-  key: makeSpecimenKey(
-    route.params?.collectionId.toString(),
-    route.params?.specimenId.toString(),
-  ),
-
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
-  onResponse: async ({ response }) => {
-    console.log("current", response._data);
-    dirty.value.fromJson(response._data);
-    cur.value.fromJson(response._data);
-    console.log(keys(response._data));
-    console.log(dirty.value);
-  },
-});
-
-const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
-  key: makeSpecimenHistoryKey(
-    route.params?.collectionId.toString(),
-    route.params?.specimenId.toString(),
-  ),
-
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
-  onResponse: async ({ response }) => {
-    console.log("history", response._data);
-    history.value.fromJson(response._data);
-    console.log(history.value);
-  },
-});
-
-// const logDiff = () => {
-//   console.log({
-//     diff: diff(crush(dirty.value), crush(cur.value)),
-//   });
-// };
-
-const mode: Ref<FormMode> = ref("view");
-const modeColor = computed(() => toModeColor(mode.value));
-
-// const history = await useGetSpecimenHistory();
-
-const submitHandler = async () => {
-  const oldMode = mode.value;
-  try {
-    mode.value = "view";
-    // const specimen = new ccbio.Specimen(getCurrent.data.value ?? {});
-
-    const { differences, mask } = diffCrush(toValue(cur), toValue(dirty), [
-      "lastModified",
-    ]);
-    console.log({ differences });
-
-    const req = new ccbio.SpecimenUpdate({
-      specimen: dirty.value,
-      mask,
-    });
-
-    const response = await useCustomFetch(`/api/cc/specimens/update`, {
-      method: "POST",
-      body: req.toJsonString({
-        typeRegistry: createRegistry(ccbio.Specimen, Timestamp),
-      }),
-    });
-    console.log("response", toValue(response.data));
-    // dirty.value.fromJson(response.data);
-    getHistory.refresh();
-    getCurrent.refresh();
-    console.log("current", toValue(getCurrent.data));
-  } catch (error) {
-    mode.value = oldMode;
-    console.error(error);
-  }
-};
-</script>
 
 <style></style>

@@ -1,24 +1,20 @@
-import type { ParseResult } from "papaparse";
-import Papa from "papaparse";
-import { crush, get, set, keys } from "radash";
-import { ccbio } from "saacs-es";
-import { randomUUID } from "uncrypto";
+import type { ParseResult } from 'papaparse'
+import Papa from 'papaparse'
 
-export const useImportCSV = (file: Ref<File | any>) => {
-  const data = ref<ParseResult<Record<string, string>>>();
-  const headers = ref<string[]>([]);
+export function useImportCSV(file: Ref<File | any>) {
+  const data = ref<ParseResult<Record<string, string>>>()
+  const headers = ref<string[]>([])
 
-  if (!file || !file.value) {
-    return;
-  }
+  if (!file || !file.value)
+    return
 
   Papa.parse(toValue(file), {
     // worker: true,
     header: true,
     complete: (results: ParseResult<Record<string, string>>) => {
-      console.log(results);
+      console.log(results)
     },
-  });
+  })
 
-  return ref(data);
-};
+  return ref(data)
+}

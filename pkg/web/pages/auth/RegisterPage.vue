@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <q-page
     padding
@@ -6,5 +8,3 @@
     <!-- <pre>{{ form }}</pre> -->
   </q-page>
 </template>
-
-<script setup lang="ts"></script>

@@ -1,7 +1,5 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-import { useCollectionsStore } from "./collections";
-
-export const useUpdatingStore = defineStore("Updating", () => {
-  return {};
-});
+export const useUpdatingStore = defineStore('Updating', () => {
+  return {}
+})

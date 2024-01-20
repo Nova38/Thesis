@@ -1,25 +1,6 @@
-<template>
-  <div>
-    <div>
-      <SpecimenForm :specimen="specimen">
-        <template #Footer>
-          <div>
-            <QBtn label="Submit" @click="submitHandler" />
-          </div>
-        </template>
-      </SpecimenForm>
-
-      <!-- <pre wrap>{{ value }}</pre> -->
-    </div>
-    <div>
-      <pre wrap>{{ specimen }}</pre>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { ccbio } from "saacs-es";
-import { randomUUID } from "uncrypto";
+import { ccbio } from 'saacs-es'
+import { randomUUID } from 'uncrypto'
 
 //    ^?
 
@@ -46,18 +27,40 @@ const specimen = ref(
     specimenId: randomUUID(),
     taxon: {},
   }),
-);
+)
 
-const submitHandler = async () => {
+async function submitHandler() {
   // console.log("submitHandler", value);
 
-  const response = await useCreateSpecimen(specimen.value);
-  console.log("response", response);
+  const response = await useCreateSpecimen(specimen.value)
+  console.log('response', response)
 
   useRouter().push(
     `/collection/${useRouteCollectionId}/specimen/View-${specimen.value.specimenId}`,
-  );
-};
+  )
+}
 </script>
+
+<template>
+  <div>
+    <div>
+      <SpecimenForm :specimen="specimen">
+        <template #Footer>
+          <div>
+            <QBtn
+              label="Submit"
+              @click="submitHandler"
+            />
+          </div>
+        </template>
+      </SpecimenForm>
+
+      <!-- <pre wrap>{{ value }}</pre> -->
+    </div>
+    <div>
+      <pre wrap>{{ specimen }}</pre>
+    </div>
+  </div>
+</template>
 
 <style></style>

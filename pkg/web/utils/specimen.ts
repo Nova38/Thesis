@@ -1,14 +1,12 @@
-import { ccbio } from "saacs-es";
-import z from "zod";
-import { Timestamp, FieldMask } from "@bufbuild/protobuf";
+import { ccbio } from 'saacs-es'
+import z from 'zod'
+import { Timestamp } from '@bufbuild/protobuf'
 
-import { objectify } from "radash";
+export type PlainSpecimen = typeof PlainMessage<ccbio.Specimen>
 
-export type PlainSpecimen = typeof PlainMessage<ccbio.Specimen>;
-
-export const MakeEmptySpecimen = () => {
+export function MakeEmptySpecimen() {
   return new ccbio.Specimen({
-    collectionId: "",
+    collectionId: '',
     primary: {
       catalogDate: {},
       determinedDate: {},
@@ -24,49 +22,49 @@ export const MakeEmptySpecimen = () => {
     grants: {},
     taxon: {},
     loans: {},
-  });
-};
+  })
+}
 
-export type ProtoDate = z.infer<typeof ProtoDate>;
+export type ProtoDate = z.infer<typeof ProtoDate>
 export const ProtoDate = z.object({
   verbatim: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform((d) => Timestamp.fromDate(d))
+    .transform(d => Timestamp.fromDate(d))
     .optional(),
   year: z.coerce.number().optional(),
   month: z.string().trim().optional(),
   day: z.coerce.number().optional(),
-});
+})
 
-export type LastModified = z.infer<typeof LastModified>;
+export type LastModified = z.infer<typeof LastModified>
 export const LastModified = z.object({
   txId: z.string().trim().optional(),
   mspId: z.string().trim().optional(),
   userId: z.string().trim().optional(),
-  timestamp: z.coerce.date().transform((d) => Timestamp.fromDate(d)),
+  timestamp: z.coerce.date().transform(d => Timestamp.fromDate(d)),
   note: z.string().trim().optional(),
-});
+})
 
 const sex = z.enum([
-  "SEX_UNDEFINED",
-  "SEX_UNKNOWN",
-  "SEX_ATYPICAL",
-  "SEX_MALE",
-  "SEX_FEMALE",
-]);
+  'SEX_UNDEFINED',
+  'SEX_UNKNOWN',
+  'SEX_ATYPICAL',
+  'SEX_MALE',
+  'SEX_FEMALE',
+])
 
 const age = z.enum([
-  "AGE_UNDEFINED",
-  "AGE_UNKNOWN",
-  "AGE_NEST",
-  "AGE_EMBRYO_EGG",
-  "AGE_CHICK_SUBADULT",
-  "AGE_ADULT",
-  "AGE_CONTINGENT",
-]);
+  'AGE_UNDEFINED',
+  'AGE_UNKNOWN',
+  'AGE_NEST',
+  'AGE_EMBRYO_EGG',
+  'AGE_CHICK_SUBADULT',
+  'AGE_ADULT',
+  'AGE_CONTINGENT',
+])
 
-const empty_taxon = new ccbio.Specimen_Taxon({});
+const empty_taxon = new ccbio.Specimen_Taxon({})
 
 export const Specimen = z.object({
   collectionId: z.string().trim(),
@@ -105,14 +103,14 @@ export const Specimen = z.object({
   }),
   taxon: z
     .object({
-      kingdom: z.string().trim().default(""),
-      phylum: z.string().trim().default(""),
-      class: z.string().trim().default(""),
-      order: z.string().trim().default(""),
-      family: z.string().trim().default(""),
-      genus: z.string().trim().default(""),
-      species: z.string().trim().default(""),
-      subspecies: z.string().trim().default(""),
+      kingdom: z.string().trim().default(''),
+      phylum: z.string().trim().default(''),
+      class: z.string().trim().default(''),
+      order: z.string().trim().default(''),
+      family: z.string().trim().default(''),
+      genus: z.string().trim().default(''),
+      species: z.string().trim().default(''),
+      subspecies: z.string().trim().default(''),
       lastModified: LastModified.optional(),
     })
     .default({}),
@@ -171,14 +169,14 @@ export const Specimen = z.object({
     )
     .default({}),
   lastModified: LastModified.optional(),
-});
+})
 
-export const reqSpeciemn = Specimen.required();
+export const reqSpeciemn = Specimen.required()
 
 export function zodToProto(raw: z.infer<typeof Specimen>) {
   // const parsed = ;
 
-  const proto = new ccbio.Specimen();
+  const proto = new ccbio.Specimen()
 }
 
 export function parseFromFlat(raw: object) {

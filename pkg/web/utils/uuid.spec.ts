@@ -1,6 +1,5 @@
-import { ccbio } from "saacs-es";
-import { test, expect } from "vitest";
+import { it } from 'vitest'
 
-test("uuid", () => {
-  console.log(CatNumToUUID("foo"));
-});
+it('uuid', () => {
+  console.log(CatNumToUUID('foo'))
+})
