@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   devServer: {
     port: 8000,
+    https: true,
   },
   devtools: {
     enabled: true,
@@ -35,7 +36,9 @@ export default defineNuxtConfig({
     "nuxt-quasar-ui",
     "@nuxt/ui",
     "@vueuse/nuxt",
-    "@nuxtjs/eslint-module",
+    "nuxt-module-eslint-config",
+
+    // "@nuxtjs/eslint-module",
     "@pinia/nuxt",
     "nuxt-radash",
     "@nuxt/test-utils/module",
@@ -48,6 +51,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   sourcemap: true,
 
   quasar: {
@@ -78,6 +82,7 @@ export default defineNuxtConfig({
     apiEndpoint:
       process.env.NUXT_API_URL || "https://api-biochain.ittc.ku.edu/",
   },
+
   runtimeConfig: {
     auth: {
       password: process.env.NUXT_AUTH_PASSWORD || "",

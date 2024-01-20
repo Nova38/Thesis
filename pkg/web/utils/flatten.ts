@@ -100,3 +100,41 @@ const structure = {
   loans: {},
   grants: {},
 };
+
+export type Mapping<OldType, NewType> = {
+  oldKey: keyof OldType;
+  newKey: keyof NewType;
+  transform?: (value: OldType[keyof OldType]) => NewType[keyof NewType];
+};
+
+// export function transformObject1<OldType extends NewType, NewType>(
+//   obj: OldType,
+//   mappings: Mapping<OldType, NewType>[],
+//   transformFn?: (value: OldType[keyof OldType]) => NewType[keyof NewType],
+// ): NewType {
+//   return mappings.reduce((newObj, mapping) => {
+//     const value = obj[mapping.oldKey];
+//     newObj[mapping.newKey] = mapping.transform
+//       ? mapping.transform(value)
+//       : transformFn
+//         ? transformFn(value)
+//         : value;
+//     return newObj;
+//   }, {} as NewType);
+// }
+
+export function transformObject<OldType, NewType>(
+  obj: OldType,
+  mappings: Mapping<OldType, NewType>[],
+  transformFn: (value: OldType[keyof OldType]) => NewType[keyof NewType] = (
+    value,
+  ) => value as any,
+): NewType {
+  return mappings.reduce((newObj, mapping) => {
+    const value = obj[mapping.oldKey];
+    newObj[mapping.newKey] = mapping.transform
+      ? mapping.transform(value)
+      : transformFn(value);
+    return newObj;
+  }, {} as NewType);
+}

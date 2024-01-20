@@ -108,17 +108,22 @@
   "cSpell.enabled": true,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "eslint.experimental.useFlatConfig": true,
+  "prettier.enable": false,
   "[vue]": {
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
   },
   "[typescript]": {
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
   },
   "[typescript][vue]": {
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }

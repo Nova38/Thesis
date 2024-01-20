@@ -4,14 +4,9 @@
       <QCardSection>
         <p class="font-bold">Bulk Update Specimens</p>
       </QCardSection>
-      <q-card-section>
-        <h2>Select CSV file to import from</h2>
-        <q-file v-model="file" outlined accept=".csv">
-          <template #prepend>
-            <q-icon name="attach_file" />
-          </template>
-        </q-file>
-      </q-card-section>
+
+      <CsvFile :csv="csv" />
+
       <QCardSection class="flex flex-row items-center gap-2 justify-center">
         <QTable dense :hide-bottom="true" :rows="SexOptions" />
         <QTable
@@ -135,10 +130,10 @@ import {
   type PlainMessage,
 } from "@bufbuild/protobuf";
 
-const file = ref<File | null>(null);
-
 type ExistStatus = "new" | "pre-existing";
 type status = "new" | "loading" | "success" | "error";
+
+const csv: Ref<Record<string, string>[]> = ref([]);
 
 export interface RowMeta {
   uuid: string;
@@ -310,7 +305,7 @@ watch(file, (file) => {
         }
 
         const catNum: string | undefined = value["primary.catalogNumber"];
-        if (catNum) {
+        if (catNum !== undefined) {
           // console.log(CatNumToUUID(catNum));
           value["specimenId"] = CatNumToUUID(catNum);
           RowMeta.value[index].uuid = CatNumToUUID(catNum);

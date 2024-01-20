@@ -1,16 +1,12 @@
 // import { defineStore } from "pinia";
 
 import { auth, ccbio } from "saacs-es";
+import { C } from "saacs-es/dist/shared/saacs-es.1e75680d";
 
 export const useCollectionsStore = defineStore("Collections", () => {
-  const CollectionId =
-    useNuxtApp().$router.currentRoute.value.params.collectionId;
-  const c = computed(() => {
+  const CollectionId = () => {
     return useRoute().params.collectionId ?? "";
-  });
-  const cN = computed(() => {
-    return useNuxtApp().$router.currentRoute.value.params.collectionId ?? "";
-  });
+  };
 
   const Collection = computed(() => {});
 
@@ -52,9 +48,9 @@ export const useCollectionsStore = defineStore("Collections", () => {
 
   async function LoadRows() {
     return await useCustomFetch<PlainSpecimen[]>(`/api/cc/specimens/list`, {
-      key: `collectionId${CollectionId}-bookmark${Bookmark.value}`,
+      key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
       query: {
-        collectionId: CollectionId,
+        collectionId: CollectionId(),
         bookmark: Bookmark.value,
       },
       onResponse: async ({ response }) => {
@@ -93,20 +89,47 @@ export const useCollectionsStore = defineStore("Collections", () => {
     Loading.value = false;
   }
 
+  async function FullListLoad() {
+    Loading.value = true;
+    return await useCustomFetch<PlainSpecimen[]>(`/api/cc/specimens/fullList`, {
+      key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
+      query: {
+        collectionId: CollectionId(),
+        bookmark: Bookmark.value,
+      },
+      onResponse: async ({ response }) => {
+        console.log("history", response._data);
+        Bookmark.value = response._data?.bookmark ?? "";
+        console.log(Bookmark.value);
+        SpecimenMap.value = defu(
+          SpecimenMap.value,
+          response._data?.specimenMap,
+        );
+        SpecimenList.value = Object.values(SpecimenMap.value);
+        SpecimenCatalogNumbers.value = SpecimenList.value.map(
+          (s) => s.primary.catalogNumber,
+        );
+        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId);
+        Loading.value = false;
+      },
+    });
+  }
+
   async function isUsedUUID(uuid: string) {
     return SpecimenUUIDs?.value?.includes(uuid) || false;
   }
 
   async function Reload() {
+    console.log("reloading");
+    console.log(CollectionId());
     Bookmark.value = "";
     SpecimenMap.value = {};
     SpecimenList.value = [];
-    await LoadFull();
+    console.log(useRoute().params.collectionId);
+    await FullListLoad();
   }
 
   return {
-    c,
-    cN,
     CollectionId,
     Collection,
     Bookmark,
@@ -119,5 +142,6 @@ export const useCollectionsStore = defineStore("Collections", () => {
     GetSpecimenFromCatalogNumber,
     LoadRows,
     Reload,
+    FullListLoad,
   };
 });
