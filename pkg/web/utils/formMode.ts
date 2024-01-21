@@ -1,10 +1,10 @@
 export type FormMode =
+  | 'create'
   | 'disabled'
-  | 'view'
   | 'edit'
   | 'suggest'
   | 'update'
-  | 'create'
+  | 'view'
 
 export function toModeColor(mode: FormMode) {
   switch (mode) {
