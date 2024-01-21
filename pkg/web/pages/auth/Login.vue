@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 const $q = useQuasar()
 const form = ref({
-  username: '',
   password: '',
+  username: '',
 })
 
 const router = useRouter()
@@ -19,8 +19,8 @@ async function submit(username: string, password: string) {
     .then(() => {
       submitting.value = false
       $q.notify({
-        type: 'positive',
         message: 'Login successful',
+        type: 'positive',
       })
 
       router.push('/').catch((err) => {
@@ -31,8 +31,8 @@ async function submit(username: string, password: string) {
       submitting.value = false
       console.log(err)
       $q.notify({
-        type: 'negative',
         message: 'Login failed',
+        type: 'negative',
       })
     })
   console.log(res)
@@ -62,10 +62,10 @@ async function submit(username: string, password: string) {
       </q-input>
       <q-card-actions align="right">
         <q-btn
-          type="submit"
           :loading="submitting"
           color="primary"
           label="Login"
+          type="submit"
         />
       </q-card-actions>
     </q-card>

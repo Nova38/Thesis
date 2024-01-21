@@ -1,28 +1,30 @@
 <script setup lang="ts">
 import type { ParseResult } from 'papaparse'
-import Papa from 'papaparse'
-import { crush, get, keys, set } from 'radash'
-import { ccbio } from 'saacs-es'
+
 import {
   type PlainMessage,
   Timestamp,
   createRegistry,
 } from '@bufbuild/protobuf'
+import Papa from 'papaparse'
+import { crush, get, keys, set } from 'radash'
+import { ccbio } from 'saacs-es'
+
 import ImportTable from './ImportTable.vue'
 
 type ExistStatus = 'new' | 'pre-existing'
-type status = 'new' | 'loading' | 'success' | 'error'
+type status = 'error' | 'loading' | 'new' | 'success'
 
 const csv: Ref<Record<string, string>[]> = ref([])
 
 export interface RowMeta {
-  uuid: string
   catalogNumber?: string
-  status: status
-  exist: ExistStatus
-  statusMessage?: string
   currentSpecimen?: ccbio.Specimen
   differences?: Record<string, any>
+  exist: ExistStatus
+  status: status
+  statusMessage?: string
+  uuid: string
 }
 const SexOptions = [
   { label: 'SEX_UNKNOWN', value: 1 },
@@ -153,8 +155,6 @@ watch(file, (file) => {
     return
 
   Papa.parse(file, {
-    // worker: true,
-    header: true,
     complete: (results: ParseResult<Record<string, string>>) => {
       headers.value = results.meta.fields || []
       headers.value.unshift('exists')
@@ -172,10 +172,10 @@ watch(file, (file) => {
 
       rawData.value = results.data.map((value: any, index: any) => {
         RowMeta.value[index] = {
-          uuid: '',
-          status: 'new',
           exist: 'new',
+          status: 'new',
           statusMessage: '',
+          uuid: '',
         }
 
         if (Object.prototype.hasOwnProperty.call(value, ''))
@@ -200,10 +200,10 @@ watch(file, (file) => {
           return reactifyObject(
             Object.assign(
               {
-                specimenId: CatNumToUUID(catNum),
                 collectionId: useRoute().params.collectionId.toString(),
-                status: 'new',
                 exist: 'pre-existing',
+                specimenId: CatNumToUUID(catNum),
+                status: 'new',
               },
               value,
             ),
@@ -219,8 +219,8 @@ watch(file, (file) => {
             Object.assign(
               {
                 collectionId: useRoute().params.collectionId.toString(),
-                status: 'new',
                 exist: 'new',
+                status: 'new',
               },
               value,
             ),
@@ -230,6 +230,8 @@ watch(file, (file) => {
       console.log('Imported Data')
       console.table(RowMeta.value)
     },
+    // worker: true,
+    header: true,
   })
 })
 
@@ -245,8 +247,8 @@ function makeHeaders() {
 
   for (const key of FilteredSpecimenKeys) {
     flat.push({
-      label: key,
       field: (row: any) => get(row, key),
+      label: key,
     })
   }
   return flat
@@ -353,7 +355,7 @@ async function SpecimenUpdate(
   specimen: PlainMessage<ccbio.Specimen>,
   curSpecimen: PlainMessage<ccbio.Specimen>,
 ): Promise<RowMeta> {
-  console.log({ specimen, curSpecimen })
+  console.log({ curSpecimen, specimen })
 
   const { differences, mask } = diffCrush(
     toValue(specimen),
@@ -362,33 +364,33 @@ async function SpecimenUpdate(
   )
 
   const req = new ccbio.SpecimenUpdate({
-    specimen: new ccbio.Specimen(Specimen.parse(specimen)),
     mask,
+    specimen: new ccbio.Specimen(Specimen.parse(specimen)),
   })
 
   try {
     const res = await useCustomFetch(`/api/cc/specimens/update`, {
-      method: 'POST',
       body: req.toJsonString({
         typeRegistry: createRegistry(ccbio.Specimen, Timestamp),
       }),
+      method: 'POST',
     })
     console.log(res)
     return {
-      uuid: specimen.specimenId,
-      status: 'success',
-      exist: 'new',
-      statusMessage: 'Uploaded Successfully',
       differences,
+      exist: 'new',
+      status: 'success',
+      statusMessage: 'Uploaded Successfully',
+      uuid: specimen.specimenId,
     }
   }
   catch (err: any) {
     return {
-      uuid: specimen.specimenId,
-      status: 'error',
-      exist: 'new',
-      statusMessage: err.message,
       differences,
+      exist: 'new',
+      status: 'error',
+      statusMessage: err.message,
+      uuid: specimen.specimenId,
     }
   }
 }
@@ -429,49 +431,49 @@ function statusToChipColor(status: status) {
 
       <QCardSection class="flex flex-row items-center gap-2 justify-center">
         <QTable
-          dense
           :hide-bottom="true"
           :rows="SexOptions"
+          dense
         />
         <QTable
-          dense
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
           :rows="AgeOptions"
+          dense
         />
       </QCardSection>
       <q-card-section>
         <q-table
           v-model:selected="RowsSelected"
-          dense
           :rows="rawData"
+          dense
           row-key="index"
           selection="multiple"
         >
           <template #body-cell-exist="props">
             <QTd :props="props">
               <UBadge
-                :label="RowMeta[props.rowIndex].exist"
                 :color="existToChipColor(RowMeta[props.rowIndex].exist)"
+                :label="RowMeta[props.rowIndex].exist"
               />
             </QTd>
           </template>
           <template #body-cell-status="props">
             <q-td :props="props">
               <UPopover
-                mode="hover"
                 :popper="{ adaptive: true }"
+                mode="hover"
               >
                 <UBadge
-                  :label="RowMeta[props.rowIndex].status"
                   :color="statusToChipColor(RowMeta[props.rowIndex].status)"
+                  :label="RowMeta[props.rowIndex].status"
                 />
                 <q-circular-progress
                   v-if="RowMeta[props.rowIndex].status == 'loading'"
+                  color="warn"
                   indeterminate
                   rounded
                   size="15px"
-                  color="warn"
                 />
                 <template
                   v-if="RowMeta[props.rowIndex].statusMessage != ''"
@@ -494,24 +496,23 @@ function statusToChipColor(status: status) {
           Current Selected Specimen Values
         </div>
         <QTable
-          dense
-          :rows="selectedCurrent"
           :columns="MappingHeaders"
+          :rows="selectedCurrent"
+          dense
         />
       </UCard>
 
       <ImportTable
-        :possessed-data="possessedData"
-        :MappingHeaders="MappingHeaders"
-        :specimen-mapping="specimenMapping"
-        :sorted-import-headers="sortedImportHeaders"
         :clear-key="clearKey"
+        :possessed-data="possessedData"
+        :sorted-import-headers="sortedImportHeaders"
+        :specimen-mapping="specimenMapping"
       />
       <q-card-section>
         <q-btn
+          class="full-width"
           color="secondary"
           label="Upload Selected"
-          class="full-width"
           @click="run()"
         />
       </q-card-section>

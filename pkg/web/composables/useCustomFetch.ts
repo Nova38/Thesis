@@ -1,8 +1,9 @@
 import { defu } from 'defu'
 import type { UseFetchOptions } from '#app'
 
+
 export function useCustomFetch<T>(
-  url: string | (() => string),
+  url: (() => string) | string,
   options: UseFetchOptions<T> = {},
 ) {
   const config = useRuntimeConfig()
@@ -24,13 +25,13 @@ export function useCustomFetch<T>(
 
     // set user token if connected
 
-    onResponse() {
-      // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
-    },
-
     onRequest() {
       LoadingBar.start()
       LoadingBar.stop()
+    },
+
+    onResponse() {
+      // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
     },
   }
 

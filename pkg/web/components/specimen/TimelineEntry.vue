@@ -3,8 +3,8 @@ import { ccbio } from 'saacs-es'
 
 const props = defineProps({
   canHide: {
-    type: Boolean,
     default: false,
+    type: Boolean,
   },
 })
 
@@ -41,16 +41,16 @@ async function sendUnHide() {
     </template>
 
     <q-expansion-item
+      class="max-w-2xl"
       expand-separator
       icon="ti-bookmark"
       label="Transaction Value"
-      class="max-w-2xl"
     >
       <div v-if="!entry.isHidden">
         <SpecimenForm
+          :enable-edit="false"
           :specimen="entry?.value"
           :start-open="false"
-          :enable-edit="false"
         />
       </div>
     </q-expansion-item>

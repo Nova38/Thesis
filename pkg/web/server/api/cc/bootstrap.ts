@@ -4,11 +4,11 @@ export default defineEventHandler(async (event) => {
   const bootstrapRequest = new common.generic.BootstrapRequest({
     collections: [
       new auth.objects.Collection({
-        name: 'TestCollection',
-        collectionId: 'TestCollection',
-        itemTypes: ['sample'],
-        default: {},
         authType: auth.auth.AuthType.ROLE,
+        collectionId: 'TestCollection',
+        default: {},
+        itemTypes: ['sample'],
+        name: 'TestCollection',
       }),
     ],
   })

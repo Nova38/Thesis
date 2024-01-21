@@ -22,14 +22,14 @@ export default defineEventHandler(async (event) => {
   while (bookmark !== lastBookmark) {
     const result = await cc.service.listByAttrs(
       new common.generic.ListByAttrsRequest({
+        bookmark: bookmark ?? '',
         key: new auth.objects.ItemKey({
           collectionId: query.data.collectionId,
-          itemType: ccbio.Specimen.typeName,
           itemKeyParts: [query.data.collectionId],
+          itemType: ccbio.Specimen.typeName,
         }),
-        numAttrs: 0,
         limit: query.data.limit ?? 1000,
-        bookmark: bookmark ?? '',
+        numAttrs: 0,
       }),
     )
     lastBookmark = bookmark
@@ -52,5 +52,5 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
 
-  return { specimenMap, bookmark }
+  return { bookmark, specimenMap }
 })

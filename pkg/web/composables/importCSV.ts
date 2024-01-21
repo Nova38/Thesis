@@ -1,4 +1,5 @@
 import type { ParseResult } from 'papaparse'
+
 import Papa from 'papaparse'
 
 export function useImportCSV(file: Ref<File | any>) {
@@ -9,11 +10,11 @@ export function useImportCSV(file: Ref<File | any>) {
     return
 
   Papa.parse(toValue(file), {
-    // worker: true,
-    header: true,
     complete: (results: ParseResult<Record<string, string>>) => {
       console.log(results)
     },
+    // worker: true,
+    header: true,
   })
 
   return ref(data)

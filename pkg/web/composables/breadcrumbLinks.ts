@@ -7,19 +7,19 @@ export function useBreadcrumbLinks() {
 
     const items: BreadcrumbLink[] = [
       {
+        icon: 'i-heroicons-home',
         label: 'Home',
         to: '/',
-        icon: 'i-heroicons-home',
       },
     ]
 
     // Check for the collection route
     if (route.params?.collectionId) {
       items.push({
-        label: `Collection: ${route.params.collectionId}`,
-        to: `/collection/${route.params.collectionId}/SpecimenTable`,
         // material-symbols:collections-bookmark-outline-rounded
         icon: 'i-material-symbols-collections-bookmark-outline-rounded',
+        label: `Collection: ${route.params.collectionId}`,
+        to: `/collection/${route.params.collectionId}/SpecimenTable`,
       })
     }
     // if (paths.find((p) => p === "SpecimenTable")) {
@@ -48,9 +48,9 @@ export function useBreadcrumbLinks() {
       if (route.params?.specimenId) {
         // See if we have a speciemen id
         items.push({
+          icon: 'i-heroicons-moon',
           label: `Specimen: ${route.params.specimenId}`,
           to: `/collection/${route.params.collectionId}/specimen/view-${route.params.specimenId}`,
-          icon: 'i-heroicons-moon',
         })
       }
     }

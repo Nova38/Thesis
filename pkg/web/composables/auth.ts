@@ -9,11 +9,11 @@ const useLoggedIn = useState('loggedIn')
 export async function authLogin(username: string, password: string) {
   try {
     const result = await useCustomFetch('/api/auth/login', {
-      method: 'POST',
       body: {
-        username,
         password,
+        username,
       },
+      method: 'POST',
     })
     console.log(result)
     if (result.error.value) {
@@ -36,11 +36,11 @@ export async function authLogin(username: string, password: string) {
 
 export async function authRegister(username: string, password: string) {
   await $fetch('/api/auth/register', {
-    method: 'POST',
     body: {
-      username,
       password,
+      username,
     },
+    method: 'POST',
   })
   return await authLogin(username, password)
 }

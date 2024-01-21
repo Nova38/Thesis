@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ccbio } from 'saacs-es'
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
+import { ccbio } from 'saacs-es'
 
 const route = useRoute()
 
@@ -41,16 +41,16 @@ const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
     route.params?.specimenId.toString(),
   ),
 
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
   onResponse: async ({ response }) => {
     console.log('current', response._data)
     dirty.value.fromJson(response._data)
     cur.value.fromJson(response._data)
     console.log(keys(response._data))
     console.log(dirty.value)
+  },
+  query: {
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
   },
 })
 
@@ -60,14 +60,14 @@ const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
     route.params?.specimenId.toString(),
   ),
 
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
   onResponse: async ({ response }) => {
     console.log('history', response._data)
     history.value.fromJson(response._data)
     console.log(history.value)
+  },
+  query: {
+    collectionId: toValue(route.params?.collectionId.toString()),
+    specimenId: toValue(route.params?.specimenId.toString()),
   },
 })
 
@@ -94,15 +94,15 @@ async function submitHandler() {
     console.log({ differences })
 
     const req = new ccbio.SpecimenUpdate({
-      specimen: dirty.value,
       mask,
+      specimen: dirty.value,
     })
 
     const response = await useCustomFetch(`/api/cc/specimens/update`, {
-      method: 'POST',
       body: req.toJsonString({
         typeRegistry: createRegistry(ccbio.Specimen, Timestamp),
       }),
+      method: 'POST',
     })
     console.log('response', toValue(response.data))
     // dirty.value.fromJson(response.data);
@@ -123,9 +123,9 @@ async function submitHandler() {
     <div class="basis-size-3/4 min-w-lg">
       <div v-if="spec.data">
         <SpecimenForm
-          :specimen="dirty"
           :enable-edit="mode != 'view'"
           :header-color="toModeColor(mode)"
+          :specimen="dirty"
         >
           <template #Header>
             <div>
@@ -146,8 +146,8 @@ async function submitHandler() {
                   <q-tooltip>Set the current mode to View</q-tooltip>
                 </q-btn>
                 <q-btn
-                  name="Update"
                   :class="toModeColor('update')"
+                  name="Update"
                   @click="() => (mode = 'update')"
                 >
                   Update
@@ -168,8 +168,8 @@ async function submitHandler() {
             <div class="flex flex-col">
               <QBtn
                 v-if="mode !== 'view'"
-                :label="mode === 'update' ? 'Update' : 'Suggest Update'"
                 :class="modeColor"
+                :label="mode === 'update' ? 'Update' : 'Suggest Update'"
                 class="flex-grow"
                 @click="submitHandler"
               />
@@ -181,8 +181,8 @@ async function submitHandler() {
 
     <div class="flex flex-col gap-4">
       <SpecimenTimeline
-        :history="history"
         :can-hide="$auth.loggedIn || false"
+        :history="history"
         class="basis-size-1/4"
       />
       <QCard v-if="false">

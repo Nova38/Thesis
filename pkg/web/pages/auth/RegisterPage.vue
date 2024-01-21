@@ -2,8 +2,8 @@
 
 <template>
   <q-page
-    padding
     class="window-height window-width row justify-center items-center"
+    padding
   >
     <!-- <pre>{{ form }}</pre> -->
   </q-page>

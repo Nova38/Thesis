@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ParseResult } from 'papaparse'
+
 import Papa from 'papaparse'
 import { crush, get, keys, set } from 'radash'
 import { ccbio } from 'saacs-es'
@@ -10,13 +11,13 @@ const catalogNumbers = store.SpecimenCatalogNumbers
 // Reactive variables
 const file = ref<File | null>(null)
 
-type status = 'new' | 'importing' | 'success' | 'error' | 'pre-existing'
+type status = 'error' | 'importing' | 'new' | 'pre-existing' | 'success'
 
 interface RowMeta {
-  // index: string;
-  uuid: string
   status: status
   statusMessage?: string
+  // index: string;
+  uuid: string
 }
 
 const SexOptions = [
@@ -225,8 +226,6 @@ watch(file, (file) => {
     return
 
   Papa.parse(file, {
-    // worker: true,
-    header: true,
     complete: (results: ParseResult<Record<string, string>>) => {
       console.log(results)
 
@@ -234,8 +233,8 @@ watch(file, (file) => {
         // rowToUUID.value.set(index, randomUUID());
 
         RowMeta.value[index] = {
-          uuid: randomUUID(),
           status: 'new',
+          uuid: randomUUID(),
         }
 
         // if an empty string is found for a key delete it
@@ -273,6 +272,8 @@ watch(file, (file) => {
           specimenMapping.value[key] = key
       }
     },
+    // worker: true,
+    header: true,
   })
 })
 
@@ -288,8 +289,8 @@ function makeHeaders() {
 
   for (const key of FilteredSpecimenKeys) {
     flat.push({
-      label: key,
       field: (row: any) => get(row, key),
+      label: key,
     })
   }
   return flat
@@ -416,8 +417,8 @@ function statusToChipColor(status: status) {
         <h2>Select CSV file to import from</h2>
         <q-file
           v-model="file"
-          outlined
           accept=".csv"
+          outlined
         >
           <template #prepend>
             <q-icon name="attach_file" />
@@ -426,41 +427,41 @@ function statusToChipColor(status: status) {
       </q-card-section>
       <QCardSection class="flex flex-row items-center gap-2 justify-center">
         <QTable
-          dense
           :hide-bottom="true"
           :rows="SexOptions"
+          dense
         />
         <QTable
-          dense
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
           :rows="AgeOptions"
+          dense
         />
       </QCardSection>
       <q-card-section>
         <q-table
           v-model:selected="RowsSelected"
-          dense
           :rows="rawData"
+          dense
           row-key="index"
           selection="multiple"
         >
           <template #body-cell-status="props">
             <q-td :props="props">
               <UPopover
-                mode="hover"
                 :popper="{ adaptive: true }"
+                mode="hover"
               >
                 <UBadge
-                  :label="props.row[props.col.field]"
                   :color="statusToChipColor(props.row[props.col.field])"
+                  :label="props.row[props.col.field]"
                 />
                 <q-circular-progress
                   v-if="props.row[props.col.field] == 'loading'"
+                  color="warn"
                   indeterminate
                   rounded
                   size="15px"
-                  color="warn"
                 />
                 <template
                   v-if="RowMeta[props.row.index].statusMessage != ''"
@@ -496,9 +497,9 @@ function statusToChipColor(status: status) {
       <q-card-section>
         <div v-if="possessedData">
           <q-table
-            dense
-            :rows="possessedData"
             :columns="MappingHeaders"
+            :rows="possessedData"
+            dense
           >
             <template #header-cell="props">
               <q-th :props="props">
@@ -507,22 +508,22 @@ function statusToChipColor(status: status) {
                 </div>
                 <q-select
                   v-model="specimenMapping[props.col.label]"
-                  label-color="teal-10"
-                  label="key"
-                  stack-label
-                  dense
                   :options="sortedImportHeaders"
+                  dense
+                  label="key"
+                  label-color="teal-10"
+                  stack-label
                 >
                   <template
                     v-if="specimenMapping[props.col.label]"
                     #append
                   >
                     <q-icon
-                      name="cancel"
-                      dense
-                      size=".75em"
-                      color="red"
                       class="cursor-pointer"
+                      color="red"
+                      dense
+                      name="cancel"
+                      size=".75em"
                       @click.stop.prevent="clearKey(props.col.label)"
                     />
                   </template>
@@ -541,9 +542,9 @@ function statusToChipColor(status: status) {
       </q-card-section>
       <q-card-section>
         <q-btn
+          class="full-width"
           color="secondary"
           label="Upload Selected"
-          class="full-width"
           @click="run"
         />
       </q-card-section>

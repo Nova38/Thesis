@@ -2,14 +2,15 @@
 //   route.params.specimenId.toString()
 
 import type { PlainMessage } from '@bufbuild/protobuf'
+
 import { ccbio } from 'saacs-es'
 
-export function makeSpecimenKey(collectionId: string | Ref<string>, specimenId: string | Ref<string>) {
+export function makeSpecimenKey(collectionId: Ref<string> | string, specimenId: Ref<string> | string) {
   return `collectionId:${toValue(collectionId)}-specimenId:${toValue(
     specimenId,
   )}`
 }
-export function makeSpecimenHistoryKey(collectionId: string | Ref<string>, specimenId: string | Ref<string>) {
+export function makeSpecimenHistoryKey(collectionId: Ref<string> | string, specimenId: Ref<string> | string) {
   return `collectionId:${toValue(collectionId)}-specimenId:${toValue(
     specimenId,
   )}-history`
@@ -54,14 +55,14 @@ export function useGetSpecimenHistory() {
 
 export function useCreateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
   return useCustomFetch(`/api/cc/specimens/create`, {
-    method: 'POST',
     body: new ccbio.Specimen(specimen).toJsonString(),
+    method: 'POST',
   })
 }
 
 export function useUpdateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
   return useCustomFetch(`/api/cc/specimens/update`, {
-    method: 'POST',
     body: new ccbio.Specimen(specimen).toJsonString(),
+    method: 'POST',
   })
 }

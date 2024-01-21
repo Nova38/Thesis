@@ -22,8 +22,8 @@ function toggleLeftDrawer() {
 }
 LoadingBar.setDefaults({
   color: 'purple',
-  size: '15px',
   position: 'bottom',
+  size: '15px',
 })
 </script>
 
@@ -33,11 +33,11 @@ LoadingBar.setDefaults({
       <q-header elevated>
         <q-toolbar>
           <q-btn
-            flat
-            dense
-            round
-            icon="menu"
             aria-label="Menu"
+            dense
+            flat
+            icon="menu"
+            round
             @click="toggleLeftDrawer"
           />
           <span class="w-4" />
@@ -70,10 +70,10 @@ LoadingBar.setDefaults({
       </q-header>
       <q-drawer
         v-model="leftDrawerOpen"
-        show-if-above
         bordered
-        elevated
         class="flex-"
+        elevated
+        show-if-above
       >
         <!-- <q-toolbar>
                     <q-toolbar-title> Collections: </q-toolbar-title>

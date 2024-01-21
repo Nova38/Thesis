@@ -23,10 +23,10 @@
 module.exports = {
   apps: [
     {
-      name: 'NuxtAppName',
-      port: '8000',
       exec_mode: 'cluster',
       instances: 'max',
+      name: 'NuxtAppName',
+      port: '8000',
       script: './.output/server/index.mjs',
     },
   ],

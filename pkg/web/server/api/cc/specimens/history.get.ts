@@ -3,8 +3,8 @@ import { z } from 'zod'
 
 const querySchema = z.object({
   collectionId: z.string(),
-  specimenId: z.string(),
   showHidden: z.boolean().optional(),
+  specimenId: z.string(),
 })
 
 export default defineEventHandler(async (event) => {
@@ -23,8 +23,8 @@ export default defineEventHandler(async (event) => {
     new common.generic.GetHistoryRequest({
       key: {
         collectionId: r.data.collectionId,
-        itemType: ccbio.Specimen.typeName,
         itemKeyParts: [r.data.specimenId],
+        itemType: ccbio.Specimen.typeName,
       },
     }),
   )

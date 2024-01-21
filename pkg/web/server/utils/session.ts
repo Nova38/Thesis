@@ -1,4 +1,5 @@
 import type { H3Event, SessionConfig } from 'h3'
+
 import crypto from 'uncrypto'
 
 export const sessionConfig: SessionConfig = useRuntimeConfig().auth || {}

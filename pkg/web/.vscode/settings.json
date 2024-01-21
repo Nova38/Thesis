@@ -107,7 +107,7 @@
   "editor.minimap.enabled": false,
   "cSpell.enabled": true,
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "eslint.experimental.useFlatConfig": true,
   "prettier.enable": false,
   "[vue]": {

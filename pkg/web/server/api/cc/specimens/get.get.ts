@@ -22,8 +22,8 @@ export default defineEventHandler(async (event) => {
     new common.generic.GetRequest({
       key: {
         collectionId: r.data.collectionId,
-        itemType: ccbio.Specimen.typeName,
         itemKeyParts: [r.data.specimenId],
+        itemType: ccbio.Specimen.typeName,
       },
     }),
   )

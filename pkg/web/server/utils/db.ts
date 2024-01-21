@@ -1,28 +1,28 @@
 export interface User {
-  id: string
   createdAt: string
-  username: string
+  credentials: string
+  id: string
 
-  password: string
+  key: string
 
   mspId: string
-  userId: string
+  password: string
 
-  credentials: string
-  key: string
+  userId: string
+  username: string
 }
 
 export interface UserChaincodeIdentity {
-  username: string
-  userId: string
-  mspId: string
   credentials: string
   key: string
+  mspId: string
+  userId: string
+  username: string
 }
 
 export async function findUserByUsername(username: string): Promise<User> {
   const storage = useStorage('.data:auth')
-  const key = getUserKey(username!)
+  const key = getUserKey(username)
 
   const user = await storage.getItem(key)
   if (!user)
@@ -60,7 +60,7 @@ export async function updateUserByUsername(
 ) {
   const storage = useStorage('.data:auth')
   const user = await findUserByUsername(username)
-  const key = getUserKey(user.username!)
+  const key = getUserKey(user.username)
 
   return await storage.setItem(key, {
     ...user,
