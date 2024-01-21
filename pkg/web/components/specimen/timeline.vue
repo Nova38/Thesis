@@ -3,8 +3,8 @@ import { ccbio } from 'saacs-es'
 
 const props = defineProps({
   canHide: {
-    type: Boolean,
     default: false,
+    type: Boolean,
   },
 })
 
@@ -29,8 +29,8 @@ console.log('history', history)
           :key="tx.txId"
         >
           <SpecimenTimelineEntry
-            :entry="tx"
             :can-hide="props.canHide"
+            :entry="tx"
           />
         </template>
       </QTimeline>

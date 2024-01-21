@@ -1,6 +1,6 @@
 import { auth, common } from 'saacs-es'
-
 import { z } from 'zod'
+
 import { useChaincode } from '~/server/utils/useChaincode'
 
 const querySchema = z.object({
@@ -20,8 +20,8 @@ export default defineEventHandler(async (event) => {
     new common.generic.ListByAttrsRequest({
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
-        itemType: auth.objects.UserCollectionRoles.typeName,
         itemKeyParts: [query.data.collectionId],
+        itemType: auth.objects.UserCollectionRoles.typeName,
       }),
       numAttrs: 1,
     }),

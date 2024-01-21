@@ -2,9 +2,9 @@ import { auth, ccbio, common } from 'saacs-es'
 import { z } from 'zod'
 
 const querySchema = z.object({
+  bookmark: z.string().optional(),
   collectionId: z.string(),
   limit: z.number().optional(),
-  bookmark: z.string().optional(),
 })
 
 export default defineEventHandler(async (event) => {
@@ -20,14 +20,14 @@ export default defineEventHandler(async (event) => {
 
   const result = await cc.service.listByAttrs(
     new common.generic.ListByAttrsRequest({
+      bookmark: query.data.bookmark ?? '',
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
-        itemType: ccbio.Specimen.typeName,
         itemKeyParts: [query.data.collectionId],
+        itemType: ccbio.Specimen.typeName,
       }),
-      numAttrs: 0,
       limit: query.data.limit ?? 1000,
-      bookmark: query.data.bookmark ?? '',
+      numAttrs: 0,
     }),
   )
   // console.log("2");
@@ -41,5 +41,5 @@ export default defineEventHandler(async (event) => {
     specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
   })
 
-  return { specimenMap, bookmark: result.bookmark }
+  return { bookmark: result.bookmark, specimenMap }
 })

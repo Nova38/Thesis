@@ -3,11 +3,11 @@ import type { PlainMessage } from '@bufbuild/protobuf'
 import type { QTableProps } from 'nuxt-quasar-ui/dist/runtime/adapter'
 import type { ccbio } from 'saacs-es'
 
-import { AgGridVue } from '@ag-grid-community/vue3'
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import TableButton from '@/components/collection/TableButton.vue'
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import '@ag-grid-community/styles/ag-grid.css'
 import '@ag-grid-community/styles/ag-theme-quartz.css'
+import { AgGridVue } from '@ag-grid-community/vue3'
 
 const store = useCollectionsStore()
 
@@ -29,343 +29,343 @@ const filter = ref('')
 
 const colDef = ref<QTableProps['columns']>([
   {
+    align: 'right',
+    field: 'specimenId',
+    headerClasses: 'w-4',
     label: 'Full Record',
     name: 'View',
-    field: 'specimenId',
-    align: 'right',
     required: true,
-    headerClasses: 'w-4',
   },
   {
+    field: 'specimenId',
     label: 'Specimen ID',
     name: 'SpecimenID',
-    field: 'specimenId',
     sortable: true,
   },
   {
-    name: 'Catalog Number',
-    label: 'Catalog Number',
-
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.catalogNumber ?? '',
+
+    label: 'Catalog Number',
+    name: 'Catalog Number',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'Accession Number',
-    label: 'Accession Number',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.accessionNumber ?? '',
+    label: 'Accession Number',
+    name: 'Accession Number',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'Field Number',
-    label: 'Field Number',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.fieldNumber ?? '',
+    label: 'Field Number',
+    name: 'Field Number',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'tissueNumber',
-    label: 'Tissue Number',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.tissueNumber ?? '',
+    label: 'Tissue Number',
+    name: 'tissueNumber',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'cataloger',
-    label: 'Cataloger',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.primary?.cataloger ?? '',
+    label: 'Cataloger',
+    name: 'cataloger',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'collector',
-    label: 'Collector',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.primary?.collector ?? '',
+    label: 'Collector',
+    name: 'collector',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'determiner',
-    label: 'Determiner',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.primary?.determiner ?? '',
+    label: 'Determiner',
+    name: 'determiner',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'Field Date',
-    label: 'Field Date',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.fieldDate?.verbatim ?? '',
+    label: 'Field Date',
+    name: 'Field Date',
     sortable: true,
-    align: 'left',
   },
 
   {
-    name: 'Determined Date',
-    label: 'Determined Date',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.determinedDate?.verbatim ?? '',
+    label: 'Determined Date',
+    name: 'Determined Date',
     sortable: true,
-    align: 'left',
   },
 
   {
-    name: 'determinedReason',
-    label: 'Determined Reason',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.determinedReason ?? '',
+    label: 'Determined Reason',
+    name: 'determinedReason',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'originalDate',
-    label: 'Original Date',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.primary?.originalDate?.verbatim ?? '',
+    label: 'Original Date',
+    name: 'originalDate',
     sortable: true,
-    align: 'left',
   },
 
   {
-    name: 'sex',
-    label: 'Sex',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.sex ?? '',
+    label: 'Sex',
+    name: 'sex',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'age',
-    label: 'Age',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.age ?? '',
+    label: 'Age',
+    name: 'age',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'weight',
-    label: 'weight',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.weight ?? '',
+    label: 'weight',
+    name: 'weight',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'weightUnits',
-    label: 'Weight Units',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.secondary?.weightUnits ?? '',
+    label: 'Weight Units',
+    name: 'weightUnits',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'condition',
-    label: 'condition',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.secondary?.condition ?? '',
+    label: 'condition',
+    name: 'condition',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'molt',
-    label: 'Molt',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.molt ?? '',
+    label: 'Molt',
+    name: 'molt',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'secondaryNotes',
-    label: 'Secondary Notes',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.secondary?.notes ?? '',
+    label: 'Secondary Notes',
+    name: 'secondaryNotes',
     sortable: true,
-    align: 'left',
   },
 
   {
-    name: 'kingdom',
-    label: 'Kingdom',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.kingdom ?? '',
+    label: 'Kingdom',
+    name: 'kingdom',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'phylum',
-    label: 'Phylum',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.phylum ?? '',
+    label: 'Phylum',
+    name: 'phylum',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'class',
-    label: 'Class',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.class ?? '',
+    label: 'Class',
+    name: 'class',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'order',
-    label: 'Order',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.order ?? '',
+    label: 'Order',
+    name: 'order',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'family',
-    label: 'Family',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.family ?? '',
+    label: 'Family',
+    name: 'family',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'genus',
-    label: 'Genus',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.genus ?? '',
+    label: 'Genus',
+    name: 'genus',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'species',
-    label: 'Species',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.species ?? '',
+    label: 'Species',
+    name: 'species',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'subspecies',
-    label: 'Subspecies',
-    field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.subspecies ?? '',
-    sortable: true,
     align: 'left',
+    field: (row: PlainMessage<ccbio.Specimen>) => row.taxon?.subspecies ?? '',
+    label: 'Subspecies',
+    name: 'subspecies',
+    sortable: true,
   },
 
   {
-    name: 'country',
-    label: 'Country',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.country ?? '',
+    label: 'Country',
+    name: 'country',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'stateProvince',
-    label: 'State Province',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.stateProvince ?? '',
+    label: 'State Province',
+    name: 'stateProvince',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'county',
-    label: 'County',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.county ?? '',
+    label: 'County',
+    name: 'county',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'locality',
-    label: 'Locality',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.locality ?? '',
+    label: 'Locality',
+    name: 'locality',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'latitude',
-    label: 'Latitude',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.latitude ?? '',
+    label: 'Latitude',
+    name: 'latitude',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'longitude',
-    label: 'Longitude',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.longitude ?? '',
+    label: 'Longitude',
+    name: 'longitude',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'habitat',
-    label: 'Habitat',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.habitat ?? '',
+    label: 'Habitat',
+    name: 'habitat',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'continent',
-    label: 'Continent',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.continent ?? '',
+    label: 'Continent',
+    name: 'continent',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'locationRemarks',
-    label: 'Location Remarks',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.locationRemarks ?? '',
+    label: 'Location Remarks',
+    name: 'locationRemarks',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'coordinateUncertaintyInMeters',
-    label: 'Coordinate Uncertainty In Meters',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.coordinateUncertaintyInMeters ?? '',
+    label: 'Coordinate Uncertainty In Meters',
+    name: 'coordinateUncertaintyInMeters',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'georeferenceBy',
-    label: 'Georeference By',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.georeferenceBy ?? '',
+    label: 'Georeference By',
+    name: 'georeferenceBy',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'GeoreferenceDate',
-    label: 'Georeference Date',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.georeferenceDate?.verbatim ?? '',
+    label: 'Georeference Date',
+    name: 'GeoreferenceDate',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'georeferenceProtocol',
-    label: 'Georeference Protocol',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.georeferenceProtocol ?? '',
+    label: 'Georeference Protocol',
+    name: 'georeferenceProtocol',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'geodeticDatum',
-    label: 'Geodetic Datum',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.geodeticDatum ?? '',
+    label: 'Geodetic Datum',
+    name: 'geodeticDatum',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'footprintWkt',
-    label: 'Footprint Wkt',
+    align: 'left',
     field: (row: PlainMessage<ccbio.Specimen>) =>
       row.georeference?.footprintWkt ?? '',
+    label: 'Footprint Wkt',
+    name: 'footprintWkt',
     sortable: true,
-    align: 'left',
   },
   {
-    name: 'notes',
-    label: 'Notes',
-    field: (row: PlainMessage<ccbio.Specimen>) => row.georeference?.notes ?? '',
-    sortable: true,
     align: 'left',
+    field: (row: PlainMessage<ccbio.Specimen>) => row.georeference?.notes ?? '',
+    label: 'Notes',
+    name: 'notes',
+    sortable: true,
   },
 ])
 
@@ -385,337 +385,337 @@ const modules = [ClientSideRowModelModule]
 
 const agColDef = [
   {
+    cellRenderer: TableButton,
+    field: 'specimenId',
+    filter: true,
     headerName: 'Specimen ID',
     name: 'SpecimenID',
-    field: 'specimenId',
-    sortable: true,
     pin: 'left',
-    filter: true,
-    cellRenderer: TableButton,
+    sortable: true,
   },
   {
-    headerName: 'Primary',
     children: [
       {
-        headerName: 'Catalog Number',
-        filter: true,
+        align: 'left',
         field: 'primary.catalogNumber',
+        filter: true,
+        headerName: 'Catalog Number',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'Accession Number',
-        headerName: 'Accession Number',
+        align: 'left',
         field: 'primary.accessionNumber',
+        headerName: 'Accession Number',
+        name: 'Accession Number',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'Field Number',
-        headerName: 'Field Number',
+        align: 'left',
         field: 'primary?.fieldNumber',
+        headerName: 'Field Number',
+        name: 'Field Number',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'tissueNumber',
-        headerName: 'Tissue Number',
+        align: 'left',
         field: 'primary?.tissueNumber',
+        headerName: 'Tissue Number',
+        name: 'tissueNumber',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'cataloger',
-        headerName: 'Cataloger',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.cataloger',
 
+        headerName: 'Cataloger',
+        name: 'cataloger',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
       {
-        name: 'collector',
-        headerName: 'Collector',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.collector',
+        headerName: 'Collector',
+        name: 'collector',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
       {
-        name: 'determiner',
-        headerName: 'Determiner',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.determiner',
+        headerName: 'Determiner',
+        name: 'determiner',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
       {
-        name: 'Field Date',
-        headerName: 'Field Date',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.fieldDate?.verbatim',
+        headerName: 'Field Date',
+        name: 'Field Date',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
 
       {
-        name: 'Determined Date',
-        headerName: 'Determined Date',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.determinedDate?.verbatim',
+        headerName: 'Determined Date',
+        name: 'Determined Date',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
 
       {
-        name: 'determinedReason',
-        headerName: 'Determined Reason',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.determinedReason',
+        headerName: 'Determined Reason',
+        name: 'determinedReason',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
       {
-        name: 'originalDate',
-        headerName: 'Original Date',
+        align: 'left',
+        columnGroupShow: 'open',
         field: 'primary?.originalDate?.verbatim',
+        headerName: 'Original Date',
+        name: 'originalDate',
         sortable: true,
-        align: 'left',
-        columnGroupShow: 'open',
       },
     ],
+    headerName: 'Primary',
   },
   {
-    headerName: 'Taxon',
     children: [
       {
-        name: 'kingdom',
-        headerName: 'Kingdom',
+        align: 'left',
         field: 'taxon?.kingdom',
+        headerName: 'Kingdom',
+        name: 'kingdom',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'phylum',
-        headerName: 'Phylum',
+        align: 'left',
         field: 'taxon?.phylum',
+        headerName: 'Phylum',
+        name: 'phylum',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'class',
-        headerName: 'Class',
+        align: 'left',
         field: 'taxon?.class',
+        headerName: 'Class',
+        name: 'class',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'order',
-        headerName: 'Order',
+        align: 'left',
         field: 'taxon?.order',
+        headerName: 'Order',
+        name: 'order',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'family',
-        headerName: 'Family',
+        align: 'left',
         field: 'taxon?.family',
+        headerName: 'Family',
+        name: 'family',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'genus',
-        headerName: 'Genus',
+        align: 'left',
         field: 'taxon?.genus',
+        headerName: 'Genus',
+        name: 'genus',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'species',
-        headerName: 'Species',
+        align: 'left',
         field: 'taxon?.species',
+        headerName: 'Species',
+        name: 'species',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'subspecies',
-        headerName: 'Subspecies',
+        align: 'left',
         field: 'taxon?.subspecies',
+        headerName: 'Subspecies',
+        name: 'subspecies',
         sortable: true,
-        align: 'left',
       },
     ],
+    headerName: 'Taxon',
   },
   {
-    headerName: 'Secondary',
     children: [
       {
-        name: 'sex',
-        headerName: 'Sex',
+        align: 'left',
         field: 'secondary?.sex',
+        headerName: 'Sex',
+        name: 'sex',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'age',
-        headerName: 'Age',
+        align: 'left',
         field: 'secondary?.age',
+        headerName: 'Age',
+        name: 'age',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'weight',
-        headerName: 'weight',
+        align: 'left',
         field: 'secondary?.weight',
+        headerName: 'weight',
+        name: 'weight',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'weightUnits',
-        headerName: 'Weight Units',
+        align: 'left',
         field: 'secondary?.weightUnits',
+        headerName: 'Weight Units',
+        name: 'weightUnits',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'condition',
-        headerName: 'condition',
+        align: 'left',
         field: 'secondary?.condition',
+        headerName: 'condition',
+        name: 'condition',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'molt',
-        headerName: 'Molt',
+        align: 'left',
         field: 'secondary?.molt',
+        headerName: 'Molt',
+        name: 'molt',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'secondaryNotes',
-        headerName: 'Secondary Notes',
-        field: 'secondary?.notes',
-        sortable: true,
         align: 'left',
+        field: 'secondary?.notes',
+        headerName: 'Secondary Notes',
+        name: 'secondaryNotes',
+        sortable: true,
       },
     ],
+    headerName: 'Secondary',
   },
   {
-    headerName: 'Georeference',
     children: [
       {
-        name: 'country',
-        headerName: 'Country',
+        align: 'left',
         field: 'georeference?.country',
+        headerName: 'Country',
+        name: 'country',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'stateProvince',
-        headerName: 'State Province',
+        align: 'left',
         field: 'georeference?.stateProvince',
+        headerName: 'State Province',
+        name: 'stateProvince',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'county',
-        headerName: 'County',
+        align: 'left',
         field: 'georeference?.county',
+        headerName: 'County',
+        name: 'county',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'locality',
-        headerName: 'Locality',
+        align: 'left',
         field: 'georeference?.locality',
+        headerName: 'Locality',
+        name: 'locality',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'latitude',
-        headerName: 'Latitude',
+        align: 'left',
         field: 'georeference?.latitude',
+        headerName: 'Latitude',
+        name: 'latitude',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'longitude',
-        headerName: 'Longitude',
+        align: 'left',
         field: 'georeference?.longitude',
+        headerName: 'Longitude',
+        name: 'longitude',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'habitat',
-        headerName: 'Habitat',
+        align: 'left',
         field: 'georeference?.habitat',
+        headerName: 'Habitat',
+        name: 'habitat',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'continent',
-        headerName: 'Continent',
+        align: 'left',
         field: 'georeference?.continent',
+        headerName: 'Continent',
+        name: 'continent',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'locationRemarks',
-        headerName: 'Location Remarks',
+        align: 'left',
         field: 'georeference?.locationRemarks',
+        headerName: 'Location Remarks',
+        name: 'locationRemarks',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'coordinateUncertaintyInMeters',
-        headerName: 'Coordinate Uncertainty In Meters',
+        align: 'left',
         field: 'georeference?.coordinateUncertaintyInMeters',
+        headerName: 'Coordinate Uncertainty In Meters',
+        name: 'coordinateUncertaintyInMeters',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'georeferenceBy',
-        headerName: 'Georeference By',
+        align: 'left',
         field: 'georeference?.georeferenceBy',
+        headerName: 'Georeference By',
+        name: 'georeferenceBy',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'GeoreferenceDate',
-        headerName: 'Georeference Date',
+        align: 'left',
         field: 'georeference?.georeferenceDate?.verbatim',
+        headerName: 'Georeference Date',
+        name: 'GeoreferenceDate',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'georeferenceProtocol',
-        headerName: 'Georeference Protocol',
+        align: 'left',
         field: 'georeference?.georeferenceProtocol',
+        headerName: 'Georeference Protocol',
+        name: 'georeferenceProtocol',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'geodeticDatum',
-        headerName: 'Geodetic Datum',
+        align: 'left',
         field: 'georeference?.geodeticDatum',
+        headerName: 'Geodetic Datum',
+        name: 'geodeticDatum',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'footprintWkt',
-        headerName: 'Footprint Wkt',
+        align: 'left',
         field: 'georeference?.footprintWkt',
+        headerName: 'Footprint Wkt',
+        name: 'footprintWkt',
         sortable: true,
-        align: 'left',
       },
       {
-        name: 'notes',
-        headerName: 'Notes',
-        field: 'georeference?.notes',
-        sortable: true,
         align: 'left',
+        field: 'georeference?.notes',
+        headerName: 'Notes',
+        name: 'notes',
+        sortable: true,
       },
     ],
+    headerName: 'Georeference',
   },
 ]
 </script>
@@ -727,13 +727,13 @@ const agColDef = [
 
     <QCard>
       <AgGridVue
-        style="height: 500px"
-        class="ag-theme-quartz"
-        :modules="modules"
-        :column-defs="agColDef"
-        :row-data="store.SpecimenList"
         :auto-size-strategy="{ type: 'fitCellContents' }"
+        :column-defs="agColDef"
         :framework-components="{ tableButton: TableButton }"
+        :modules="modules"
+        :row-data="store.SpecimenList"
+        class="ag-theme-quartz"
+        style="height: 500px"
       />
     </QCard>
 
@@ -746,50 +746,50 @@ const agColDef = [
       />
       <div>
         <QTable
-          :rows="store.SpecimenList"
           :columns="colDef"
-          bordered
-          class="max-h-max"
-          :row-key="(row: PlainMessage<ccbio.Specimen>) => row.specimenId"
-          flat
-          dense
-          title="Specimens"
-          separator="horizontal"
           :filter="filter"
+          :row-key="(row: PlainMessage<ccbio.Specimen>) => row.specimenId"
+          :rows="store.SpecimenList"
           :rows-per-page-options="[25, 30, 50, 100, 200, 500, 1000, 0]"
           :visible-columns="visibleColumns"
+          bordered
+          class="max-h-max"
+          dense
+          flat
+          separator="horizontal"
+          title="Specimens"
         >
           <template #top-right>
             <QBtn
               v-model="filter"
-              label="Reload"
-              icon="refresh"
-              round
-              flat
-              color="primary"
               class="q-mr-sm"
+              color="primary"
+              flat
+              icon="refresh"
+              label="Reload"
+              round
               @click="store.Reload"
             />
             <q-select
               v-model="visibleColumns"
+              :options="colDef"
               class="px-2"
-              multiple
-              outlined
               dense
-              options-dense
               display-value="Visible Columns"
               emit-value
               map-options
-              :options="colDef"
+              multiple
               option-value="name"
               options-cover
+              options-dense
+              outlined
               style="min-width: 150px"
             />
             <q-input
               v-model="filter"
               borderless
-              dense
               debounce="300"
+              dense
               placeholder="Search"
             >
               <template #append>
@@ -808,10 +808,10 @@ const agColDef = [
               <!-- <QBtn @click="navigate(props.row.specimenId)" /> -->
               <div class="">
                 <NuxtLink
+                  :no-prefetch="true"
                   :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
                     props.row.specimenId
                   }`"
-                  :no-prefetch="true"
                 >
                   <Icon name="carbon:launch" />
                   Open

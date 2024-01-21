@@ -61,12 +61,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     provide: {
       auth: {
-        username,
-        session,
-        updateSession,
         loggedIn,
         redirectTo,
         refreshSession,
+        session,
+        updateSession,
+        username,
       },
     },
   }

@@ -18,8 +18,8 @@ export default defineEventHandler(async (event) => {
     new common.generic.GetRequest({
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
-        itemType: 'auth.Collection',
         itemKeyParts: [query.data.collectionId],
+        itemType: 'auth.Collection',
       }),
     }),
   )

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'auth',
   key(route) {
     return route.fullPath
   },
+  layout: 'auth',
 })
 </script>
 

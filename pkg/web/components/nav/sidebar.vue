@@ -3,7 +3,7 @@
 //   "/api/cc/collections/listCollections",
 // );
 
-const { data, pending, error } = await useCustomFetch(
+const { data, error, pending } = await useCustomFetch(
   '/api/cc/collections/listCollections',
 )
 
@@ -35,10 +35,10 @@ const colLinks = computed(() => {
       class="p-2"
     >
       <QExpansionItem
-        expand-separator
-        icon="ti-agenda"
         :label="col.label"
         caption="Collection"
+        expand-separator
+        icon="ti-agenda"
       >
         <!-- <template #header>
                     <div class="flex flex-row items-center">
@@ -52,8 +52,8 @@ const colLinks = computed(() => {
             <!-- TODO: Add Dashboard Page -->
             <q-item
               v-ripple
-              clickable
               :to="`/collection/${col.label}/SpecimenTable/`"
+              clickable
             >
               <q-item-section avatar>
                 <q-icon
@@ -66,8 +66,8 @@ const colLinks = computed(() => {
             </q-item>
             <q-item
               v-ripple
-              clickable
               :to="`/collection/${col.label}/AccessControl`"
+              clickable
             >
               <q-item-section avatar>
                 <q-icon
@@ -81,9 +81,9 @@ const colLinks = computed(() => {
             <q-separator />
             <q-item
               v-ripple
-              clickable
               :to="`/collection/${col.label}/Specimen/New`"
               class=""
+              clickable
             >
               <q-item-section avatar>
                 <q-icon
@@ -97,8 +97,8 @@ const colLinks = computed(() => {
 
             <q-item
               v-ripple
-              clickable
               :to="`/collection/${col.label}/Specimen/import`"
+              clickable
             >
               <q-item-section avatar>
                 <q-icon
@@ -111,8 +111,8 @@ const colLinks = computed(() => {
             </q-item>
             <q-item
               v-ripple
-              clickable
               :to="`/collection/${col.label}/Specimen/update`"
+              clickable
             >
               <q-item-section avatar>
                 <q-icon

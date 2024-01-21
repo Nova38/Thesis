@@ -1,8 +1,8 @@
 export default defineAppConfig({
+  apiEnd: process.env.API_URL ?? '/api',
   theme: {
     primaryColor: '#ababab',
   },
-  apiEnd: process.env.API_URL ?? '/api',
   ui: {
     checkbox: {
       // ring: "!ring-0 focus:!ring-0 focus:!ring-offset-0",

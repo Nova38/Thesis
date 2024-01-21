@@ -1,13 +1,15 @@
-import * as crypto from 'node:crypto'
 import { Buffer } from 'node:buffer'
-import type { H3Event } from 'h3'
-import { connect, signers } from '@hyperledger/fabric-gateway'
-import * as grpc from '@grpc/grpc-js'
-
-import { auth, ccbio, common, sample } from 'saacs-es'
 import type { IMessageTypeRegistry } from '@bufbuild/protobuf'
+import type { H3Event } from 'h3'
+
 import { createRegistry } from '@bufbuild/protobuf'
+import * as grpc from '@grpc/grpc-js'
+import { connect, signers } from '@hyperledger/fabric-gateway'
+import * as crypto from 'node:crypto'
+import { auth, ccbio, common, sample } from 'saacs-es'
+
 import type { User } from './db'
+
 import { sessionConfig } from './session'
 
 export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
@@ -21,22 +23,22 @@ export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
 
 export interface FabricConfig {
   chaincode: {
-    channel: string
     chaincode: string
+    channel: string
   }
   peer: {
-    url: string
-    tlsCACerts: {
-      pem: string
-    }
     grpcOptions: {
       'ssl-target-name-override': string
     }
+    tlsCACerts: {
+      pem: string
+    }
+    url: string
   }
   public: {
-    mspId: string
     credentials: string
     key: string
+    mspId: string
   }
 }
 
@@ -50,8 +52,8 @@ export function userToIdentity(user: User) {
   }
 
   return {
-    mspId: user.mspId,
     credentials: Buffer.from(user.credentials),
+    mspId: user.mspId,
   }
 }
 
@@ -110,14 +112,14 @@ async function BuildIdentity(event: H3Event) {
   }
   catch (error) {
     const publicUser: User = {
-      id: '',
-      userId: '',
       createdAt: '',
-      username: '',
-      password: '',
-      mspId: fabricConfig.public.mspId,
       credentials: fabricConfig.public.credentials,
+      id: '',
       key: fabricConfig.public.key,
+      mspId: fabricConfig.public.mspId,
+      password: '',
+      userId: '',
+      username: '',
     }
     const identity = userToIdentity(publicUser)
     const { privateKey } = userToPrivateKey(publicUser)
@@ -137,13 +139,13 @@ async function BuildGateway(event: H3Event) {
   const gateway = connect({ client, identity, signer })
 
   return {
-    gateway,
-    client,
     [Symbol.asyncDispose]: async () => {
       console.log('closing gateway')
       await gateway.close()
       await client.close()
     },
+    client,
+    gateway,
   }
 }
 

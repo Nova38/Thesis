@@ -16,8 +16,8 @@ const sexList = ref([[], [], [], [], []])
 const ageList = ref([[], [], [], [], [], [], []])
 
 interface Props {
-  sexStrings: string[]
   ageStrings: string[]
+  sexStrings: string[]
 }
 const SexOptions = [
   { label: 'SEX_UNKNOWN', value: 1 },
@@ -74,12 +74,12 @@ const ageMapping = defineModel('ageList', {
           <div>
             <USelectMenu
               v-model="sexList[item.value]"
+              :multiple="true"
+              :options="$props.sexStrings"
+              class="w-full lg:w-30"
+              placeholder="Select strings to map"
               searchable
               searchable-placeholder="Select strings to map"
-              class="w-full lg:w-30"
-              :multiple="true"
-              placeholder="Select strings to map"
-              :options="$props.sexStrings"
             >
               <!-- <template #label>
                   <div class="">
@@ -108,12 +108,12 @@ const ageMapping = defineModel('ageList', {
           <div>
             <USelectMenu
               v-model="ageList[item.value]"
+              :multiple="true"
+              :options="$props.sexStrings"
+              class="w-full lg:w-30"
+              placeholder="Select strings to map"
               searchable
               searchable-placeholder="Select strings to map"
-              class="w-full lg:w-30"
-              :multiple="true"
-              placeholder="Select strings to map"
-              :options="$props.sexStrings"
             >
               <template #label>
                 <div class="">

@@ -1,8 +1,9 @@
-import { auth, ccbio, common } from 'saacs-es'
 import type { FieldMask } from '@bufbuild/protobuf'
-import { Any } from '@bufbuild/protobuf'
 
-export interface bodySchema { specimen: ccbio.Specimen, mask: FieldMask }
+import { Any } from '@bufbuild/protobuf'
+import { auth, ccbio, common } from 'saacs-es'
+
+export interface bodySchema { mask: FieldMask, specimen: ccbio.Specimen }
 
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
@@ -21,8 +22,8 @@ export default defineEventHandler(async (event) => {
       item: {
         key: new auth.objects.ItemKey({
           collectionId: specimen.collectionId,
-          itemType: ccbio.Specimen.typeName,
           itemKeyParts: [specimen.specimenId],
+          itemType: ccbio.Specimen.typeName,
         }),
         value,
       },

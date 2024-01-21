@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 const userSchema = z.object({
-  username: z.string(),
   password: z.string(),
+  username: z.string(),
 })
 
 export default defineEventHandler(async (event) => {
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
   if (!result.success)
     throw result.error.issues
 
-  const { username, password } = result.data
+  const { password, username } = result.data
 
   const user = await findUserByUsername(username)
 

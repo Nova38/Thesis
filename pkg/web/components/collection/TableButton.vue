@@ -46,10 +46,10 @@ function btnClickedHandler() {
 <template>
   <div class="">
     <NuxtLink
+      :no-prefetch="true"
       :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
         props.params.value.data.id
       }`"
-      :no-prefetch="true"
     />
   </div>
   <!-- <q-btn @click="btnClickedHandler(param)">

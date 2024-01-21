@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
 const userSchema = z.object({
-  username: z.string(),
-  password: z.string(),
   credentials: z.string().optional(),
   key: z.string().optional(),
   mspId: z.string().optional(),
+  password: z.string(),
+  username: z.string(),
 })
 
 export default eventHandler(async (event) => {
@@ -14,18 +14,18 @@ export default eventHandler(async (event) => {
 
   if (!body.success)
     throw body.error.issues
-  const { username, password, credentials, key, mspId } = body.data
+  const { credentials, key, mspId, password, username } = body.data
 
   const result = await createUser({
-    username,
-    password: await hash(password),
     credentials,
     key,
     mspId,
+    password: await hash(password),
+    username,
   })
 
   return {
-    value: result,
     message: 'Successfully registered!',
+    value: result,
   }
 })

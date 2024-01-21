@@ -1,8 +1,9 @@
 // import { defineStore } from "pinia";
+/* eslint perfectionist/sort-objects: "error" */
 
 export const useCollectionsStore = defineStore('Collections', () => {
   const CollectionId = () => {
-    return useRoute().params.collectionId ?? ''
+    return useRoute().params.collectionId.toString() ?? ''
   }
 
   const Collection = computed(() => {})
@@ -18,17 +19,17 @@ export const useCollectionsStore = defineStore('Collections', () => {
 
   function GetSpecimenFromCatalogNumber(catalogNumber: string) {
     for (const s of SpecimenList.value) {
-      if (s.primary.catalogNumber === catalogNumber)
+      if (s.primary?.catalogNumber === catalogNumber)
         return s
     }
   }
 
   async function FilterSpecimenList({
-    uuids,
     catalogNumbers,
+    uuids,
   }: {
-    uuids?: string[]
     catalogNumbers?: string[]
+    uuids?: string[]
   }) {
     if (uuids) {
       SpecimenList.value = SpecimenList.value?.filter(s =>
@@ -37,7 +38,7 @@ export const useCollectionsStore = defineStore('Collections', () => {
     }
     if (catalogNumbers) {
       SpecimenList.value = SpecimenList.value?.filter(s =>
-        catalogNumbers.includes(s.primary.catalogNumber),
+        catalogNumbers.includes(s.primary?.catalogNumber || ''),
       )
     }
   }
@@ -139,5 +140,7 @@ export const useCollectionsStore = defineStore('Collections', () => {
     LoadRows,
     Reload,
     FullListLoad,
+    LoadFull,
   }
 })
+/* eslint perfectionist/sort-objects: "off" */

@@ -1,10 +1,14 @@
 /* eslint-disable node/prefer-global/process */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  appConfig: {
+    apiEndpoint:
+      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
+  },
   css: ['~/assets/css/main.css'],
   devServer: {
-    port: 8000,
     https: true,
+    port: 8000,
   },
   devtools: {
     enabled: true,
@@ -29,10 +33,6 @@ export default defineNuxtConfig({
       },
     ],
   },
-  ui: {
-    global: true,
-    icons: {},
-  },
   modules: [
     'nuxt-quasar-ui',
     '@nuxt/ui',
@@ -53,18 +53,16 @@ export default defineNuxtConfig({
     },
   },
 
-  sourcemap: true,
-
   quasar: {
     components: {
+      deepDefaults: true,
       defaults: {
         QInput: {
-          outlined: true,
           dense: true,
+          outlined: true,
           stackLabel: true,
         },
       },
-      deepDefaults: true,
     },
     config: {
       loadingBar: {
@@ -79,11 +77,22 @@ export default defineNuxtConfig({
     },
     plugins: ['LoadingBar', 'Notify'],
   },
-  appConfig: {
-    apiEndpoint:
-      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
-  },
 
+  routeRules: {
+    '/api/**': {
+      // enable CORS
+      cors: true, // if enabled, also needs cors-preflight-request.ts Nitro middleware to answer CORS preflight requests
+      headers: {
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Headers': '*', // 'Origin, Content-Type, Accept, Authorization, X-Requested-With'
+        'Access-Control-Allow-Methods': '*', // 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+        // CORS headers
+        'Access-Control-Allow-Origin': '*', // 'http://example:6006', has to be set to the requesting domain that you want to send the credentials back to
+        'Access-Control-Expose-Headers': '*',
+        // 'Access-Control-Max-Age': '7200', // 7200 = caching 2 hours (Chromium default), https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age#directives
+      },
+    },
+  },
   runtimeConfig: {
     auth: {
       password: process.env.NUXT_AUTH_PASSWORD || '',
@@ -115,20 +124,11 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  sourcemap: true,
   ssr: false,
-  routeRules: {
-    '/api/**': {
-      // enable CORS
-      cors: true, // if enabled, also needs cors-preflight-request.ts Nitro middleware to answer CORS preflight requests
-      headers: {
-        // CORS headers
-        'Access-Control-Allow-Origin': '*', // 'http://example:6006', has to be set to the requesting domain that you want to send the credentials back to
-        'Access-Control-Allow-Methods': '*', // 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Headers': '*', // 'Origin, Content-Type, Accept, Authorization, X-Requested-With'
-        'Access-Control-Expose-Headers': '*',
-        // 'Access-Control-Max-Age': '7200', // 7200 = caching 2 hours (Chromium default), https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age#directives
-      },
-    },
+  ui: {
+    global: true,
+    icons: {},
   },
 })

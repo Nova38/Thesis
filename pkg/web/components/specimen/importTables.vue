@@ -4,11 +4,13 @@ import type {
   QTreeNode,
 } from 'nuxt-quasar-ui/dist/runtime/adapter'
 import type { ParseResult } from 'papaparse'
+
 import Papa from 'papaparse'
 import { crush, keys } from 'radash'
+
 import { FlattedSpecimenKeys } from '~/utils/flatten'
 
-type status = 'new' | 'importing' | 'success' | 'error' | 'pre-existing'
+type status = 'error' | 'importing' | 'new' | 'pre-existing' | 'success'
 function clearKey(key: string) {
   console.log(key)
   console.log(HeaderMapping[key])
@@ -16,7 +18,6 @@ function clearKey(key: string) {
 }
 const nodes: Ref<QTreeNode[]> = ref([
   {
-    label: 'secondary',
     children: [
       { label: 'sex' },
       { label: 'age' },
@@ -27,15 +28,16 @@ const nodes: Ref<QTreeNode[]> = ref([
       { label: 'molt' },
       { label: 'notes' },
     ],
+    label: 'secondary',
   },
 ])
 
 interface IRowMeta {
+  collectionId?: string
   // index: string;
   status: status
-  collectionId?: string
-  uuid?: string
   statusMessage?: string
+  uuid?: string
 }
 
 interface IColMeta {
@@ -45,19 +47,19 @@ interface IColMeta {
 }
 
 const SexOptions = ref([
-  { label: 'SEX_UNKNOWN', enumValue: 1, mappings: [] },
-  { label: 'SEX_ATYPICAL', enumValue: 2, mappings: [] },
-  { label: 'SEX_MALE', enumValue: 3, mappings: [] },
-  { label: 'SEX_FEMALE', enumValue: 4, mappings: [] },
+  { enumValue: 1, label: 'SEX_UNKNOWN', mappings: [] },
+  { enumValue: 2, label: 'SEX_ATYPICAL', mappings: [] },
+  { enumValue: 3, label: 'SEX_MALE', mappings: [] },
+  { enumValue: 4, label: 'SEX_FEMALE', mappings: [] },
 ])
 
 const AgeOptions = ref([
-  { label: 'AGE_UNKNOWN', enumValue: 1, mappings: [] },
-  { label: 'AGE_NEST', enumValue: 2, mappings: [] },
-  { label: 'AGE_EMBRYO_EGG', enumValue: 3, mappings: [] },
-  { label: 'AGE_CHICK_SUBADULT', enumValue: 4, mappings: [] },
-  { label: 'AGE_ADULT', enumValue: 5, mappings: [] },
-  { label: 'AGE_CONTINGENT', enumValue: 6, mappings: [] },
+  { enumValue: 1, label: 'AGE_UNKNOWN', mappings: [] },
+  { enumValue: 2, label: 'AGE_NEST', mappings: [] },
+  { enumValue: 3, label: 'AGE_EMBRYO_EGG', mappings: [] },
+  { enumValue: 4, label: 'AGE_CHICK_SUBADULT', mappings: [] },
+  { enumValue: 5, label: 'AGE_ADULT', mappings: [] },
+  { enumValue: 6, label: 'AGE_CONTINGENT', mappings: [] },
 ])
 
 const numberFelids = [
@@ -105,11 +107,11 @@ console.log(keysForImport)
 const SpecimenKeys: Array<string> = keys(keysForImport)
 
 const FilteredSpecimenKeys = SpecimenKeys.filter(
-  k => !['id', 'last_modified_by', 'collection_id'].includes(k),
+  k => !['collection_id', 'id', 'last_modified_by'].includes(k),
 )
 
 const rawHeaders: Ref<QTableProps['columns']> = ref()
-const rawList: Ref<Record<string, string | number>[]> = ref([])
+const rawList: Ref<Record<string, number | string>[]> = ref([])
 const RowMeta = ref<IRowMeta[]>([])
 
 const sexStrings = ref<string[]>([])
@@ -139,8 +141,8 @@ function makeHeaders() {
 
   for (const key of FlattedSpecimenKeys()) {
     flat.push({
-      label: key,
       key,
+      label: key,
     })
   }
   return flat
@@ -161,26 +163,24 @@ watch(file, (file) => {
     return
 
   Papa.parse(file, {
-    // worker: true,
-    header: true,
     complete: (results: ParseResult<Record<string, string>>) => {
       console.log(results)
 
       rawHeaders.value = results.meta.fields?.map((item) => {
         return {
+          field: item,
           label: item,
           name: item,
-          field: item,
         }
       })
       rawHeaders.value?.unshift({
+        field: 'status',
         label: 'status',
         name: 'status',
-        field: 'status',
       })
 
       rawList.value = results.data.map(
-        (value: Record<string, string | number>, index: number) => {
+        (value: Record<string, number | string>, index: number) => {
           // rowToUUID.value.set(index, randomUUID());
 
           RowMeta.value[index] = {
@@ -217,6 +217,8 @@ watch(file, (file) => {
         }
       })
     },
+    // worker: true,
+    header: true,
   })
 })
 
@@ -250,8 +252,8 @@ function statusToChipColor(status: status) {
         <h2>Select CSV file to import from</h2>
         <q-file
           v-model="file"
-          outlined
           accept=".csv"
+          outlined
         >
           <template #prepend>
             <q-icon name="attach_file" />
@@ -261,28 +263,28 @@ function statusToChipColor(status: status) {
         <UCard>
           <q-table
             v-model:selected="RowsSelected"
-            dense
-            :rows="rawList"
             :columns="rawHeaders"
+            :rows="rawList"
+            dense
             row-key="index"
             selection="multiple"
           >
             <template #body-cell-status="props">
               <q-td :props="props">
                 <UPopover
-                  mode="hover"
                   :popper="{ adaptive: true }"
+                  mode="hover"
                 >
                   <UBadge
-                    :label="props.row[props.col.field]"
                     :color="statusToChipColor(props.row[props.col.field])"
+                    :label="props.row[props.col.field]"
                   />
                   <q-circular-progress
                     v-if="props.row[props.col.field] == 'loading'"
+                    color="warn"
                     indeterminate
                     rounded
                     size="15px"
-                    color="warn"
                   />
                   <template
                     v-if="RowMeta[props.row.index].statusMessage != ''"
@@ -330,12 +332,12 @@ function statusToChipColor(status: status) {
                 <div>
                   <USelectMenu
                     v-model="SexOptions[item.enumValue].mappings"
+                    :multiple="true"
+                    :options="sexStrings"
+                    class="w-full lg:w-30"
+                    placeholder="Select strings to map"
                     searchable
                     searchable-placeholder="Select strings to map"
-                    class="w-full lg:w-30"
-                    :multiple="true"
-                    placeholder="Select strings to map"
-                    :options="sexStrings"
                   >
                     <template #label>
                       <div class="">
@@ -367,12 +369,12 @@ function statusToChipColor(status: status) {
                 <div>
                   <USelectMenu
                     v-model="AgeOptions[item.value.enumValue].value.mappings"
+                    :multiple="true"
+                    :options="ageStrings"
+                    class="w-full lg:w-30"
+                    placeholder="Select strings to map"
                     searchable
                     searchable-placeholder="Select strings to map"
-                    class="w-full lg:w-30"
-                    :multiple="true"
-                    placeholder="Select strings to map"
-                    :options="ageStrings"
                   >
                     <template #label>
                       <div class="">
@@ -395,9 +397,9 @@ function statusToChipColor(status: status) {
       </UCard>
       <UCard>
         <q-table
-          dense
-          :rows="SpecimenFlatList"
           :columns="MappingHeaders"
+          :rows="SpecimenFlatList"
+          dense
         >
           <template #header-cell="props">
             <q-th :props="props">
@@ -406,22 +408,22 @@ function statusToChipColor(status: status) {
               </div>
               <q-select
                 v-model="HeaderMapping[props.col.label]"
-                label-color="teal-10"
-                label="key"
-                stack-label
-                dense
                 :options="sortedImportHeaders"
+                dense
+                label="key"
+                label-color="teal-10"
+                stack-label
               >
                 <template
                   v-if="HeaderMapping[props.col.label]"
                   #append
                 >
                   <q-icon
-                    name="cancel"
-                    dense
-                    size=".75em"
-                    color="red"
                     class="cursor-pointer"
+                    color="red"
+                    dense
+                    name="cancel"
+                    size=".75em"
                     @click.stop.prevent="clearKey(props.col.label)"
                   />
                 </template>
@@ -431,9 +433,9 @@ function statusToChipColor(status: status) {
           </template>
         </q-table>
         <q-table
-          dense
-          :rows="SpecimenFlatList"
           :columns="MappingHeaders"
+          :rows="SpecimenFlatList"
+          dense
         >
           <template #header-cell="props">
             <q-th :props="props">
@@ -443,22 +445,22 @@ function statusToChipColor(status: status) {
 
               <q-select
                 v-model="HeaderMapping[props.col.label]"
-                label-color="teal-10"
-                label="key"
-                stack-label
-                dense
                 :options="sortedImportHeaders"
+                dense
+                label="key"
+                label-color="teal-10"
+                stack-label
               >
                 <template
                   v-if="HeaderMapping[props.col.label]"
                   #append
                 >
                   <q-icon
-                    name="cancel"
-                    dense
-                    size=".75em"
-                    color="red"
                     class="cursor-pointer"
+                    color="red"
+                    dense
+                    name="cancel"
+                    size=".75em"
                     @click.stop.prevent="clearKey(props.col.label)"
                   />
                 </template>

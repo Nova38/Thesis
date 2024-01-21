@@ -12,14 +12,14 @@ watch(file, (newFile) => {
     headers.value = []
 
     Papa.parse(newFile, {
-      header: true,
-
       complete: (results: ParseResult<Record<string, string>>) => {
         headers.value = results.meta.fields || []
 
         for (const row of results.data)
           csv.value.push(row)
       },
+
+      header: true,
     })
   }
 })
@@ -40,8 +40,8 @@ const headers = defineModel<string[]>('headers', {
       <h2>Select CSV file to import from</h2>
       <q-file
         v-model="file"
-        outlined
         accept=".csv"
+        outlined
       >
         <template #prepend>
           <q-icon name="attach_file" />

@@ -2,33 +2,33 @@
 import { ccbio } from 'saacs-es'
 
 const props = defineProps({
-  showEditOptions: {
-    type: Boolean,
-    default: true,
-  },
-  showHeader: {
-    type: Boolean,
-    default: false,
-  },
-  showUpdater: {
-    type: Boolean,
-    default: true,
-  },
-  showEmpty: {
-    type: Boolean,
-    default: true,
-  },
-  startOpen: {
-    type: Boolean,
-    default: true,
-  },
   enableEdit: {
-    type: Boolean,
     default: true,
+    type: Boolean,
   },
   headerColor: {
-    type: String,
     default: toModeColor('view'),
+    type: String,
+  },
+  showEditOptions: {
+    default: true,
+    type: Boolean,
+  },
+  showEmpty: {
+    default: true,
+    type: Boolean,
+  },
+  showHeader: {
+    default: false,
+    type: Boolean,
+  },
+  showUpdater: {
+    default: true,
+    type: Boolean,
+  },
+  startOpen: {
+    default: true,
+    type: Boolean,
   },
 })
 
@@ -156,49 +156,49 @@ const secondaryAgeOptions = [
           >
             <q-chip
               v-if="specimen?.primary.catalogNumber"
+              :label="`Catalog Number: ${specimen?.primary?.catalogNumber}`"
+              class="text-white"
               color="accent"
               square
-              class="text-white"
-              :label="`Catalog Number: ${specimen?.primary?.catalogNumber}`"
             />
             <q-chip
               v-if="specimen.primary.tissueNumber"
-              color="accent"
-              class="text-white"
-              square
               :label="`Tissue Number: ${specimen?.primary.tissueNumber}`"
+              class="text-white"
+              color="accent"
+              square
             />
           </div>
         </div>
       </div>
     </QCardSection>
     <div
-      class="flex flex-row"
       :class="headerColor"
+      class="flex flex-row"
     >
       <q-chip
         v-if="specimen.collectionId"
-        color="primary"
-        class="text-white flex-grow"
-        square
         :label="`Collection ID: ${specimen.collectionId}`"
+        class="text-white flex-grow"
+        color="primary"
+        square
       />
       <q-chip
         v-if="specimen.specimenId"
-        color="primary"
-        class="text-white flex-grows"
-        square
         :label="`Specimen ID: ${specimen.specimenId}`"
+        class="text-white flex-grows"
+        color="primary"
+        square
       />
     </div>
 
     <q-form>
       <QExpansionItem
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Taxon"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Taxon"
       >
         <QCard>
           <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
@@ -209,9 +209,9 @@ const secondaryAgeOptions = [
               <QInput
                 v-if="specimen.taxon && typeof specimen.taxon[key] === 'string'"
                 v-model="specimen.taxon[key]"
-                class="flex-grow my-1"
-                :label="key"
                 :disable="!props.enableEdit"
+                :label="key"
+                class="flex-grow my-1"
               />
             </template>
           </QCardSection>
@@ -229,11 +229,11 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-expansion-item
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Primary"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Primary"
       >
         <div v-if="specimen?.primary">
           <q-card-section class="my-1">
@@ -241,34 +241,34 @@ const secondaryAgeOptions = [
             <div class="flex flex-row gap-1 justify-evenly mb-1">
               <q-input
                 v-model="specimen.primary.tissueNumber"
-                label="Tissue Number"
-                class="m-1 flex-grow"
                 :disable="!props.enableEdit"
+                class="m-1 flex-grow"
+                label="Tissue Number"
               />
               <q-input
                 v-model="specimen.primary.accessionNumber"
+                :disable="!props.enableEdit"
                 class="m-1 flex-grow"
                 label="Accession Number"
-                :disable="!props.enableEdit"
               />
             </div>
             <div class="flex flex-row gap-1 justify-evenly mb-1">
               <q-input
                 v-model="specimen.primary.cataloger"
+                :disable="!props.enableEdit"
                 class="flex-grow m-1"
                 label="Cataloger"
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.primary.catalogNumber"
+                :disable="!props.enableEdit"
                 class="flex-grow m-1"
                 label="Catalog Number"
-                :disable="!props.enableEdit"
               />
             </div>
             <QExpansionItem
-              label="Catalog Date"
               class="DateExpansion"
+              label="Catalog Date"
             >
               <QCardSection
                 v-if="specimen?.primary?.catalogDate"
@@ -277,9 +277,9 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model="specimen.primary.catalogDate.verbatim"
                   :disable="!props.enableEdit"
-                  type="text"
-                  label="Catalog Date: Verbatim"
                   class="flex-grow"
+                  label="Catalog Date: Verbatim"
+                  type="text"
                 />
                 <!-- <QInput
                     v-model="specimen.georeference.georeferenceDate.timestamp"
@@ -290,42 +290,42 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model.number="specimen.primary.catalogDate.year"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Catalog Date: Year"
                   number
+                  type="number"
                 />
                 <QInput
                   v-model="specimen.primary.catalogDate.month"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="Catalog Date: Month"
+                  type="text"
                 />
                 <QInput
                   v-model.number="specimen.primary.catalogDate.day"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Catalog Date: Day"
                   number
+                  type="number"
                 />
               </QCardSection>
             </QExpansionItem>
             <div class="flex flex-row gap-1 justify-evenly mb-1">
               <q-input
                 v-model="specimen.primary.determiner"
+                :disable="!props.enableEdit"
                 class="flex-grow m-1"
                 label="Determiner"
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.primary.determinedReason"
-                label="Determined Reason"
-                class="flex-grow m-1"
                 :disable="!props.enableEdit"
+                class="flex-grow m-1"
+                label="Determined Reason"
               />
             </div>
             <QExpansionItem
-              label="Determined Date"
               class="DateExpansion mx-4"
+              label="Determined Date"
             >
               <QCardSection
                 v-if="specimen?.primary?.determinedDate"
@@ -334,9 +334,9 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model="specimen.primary.determinedDate.verbatim"
                   :disable="!props.enableEdit"
-                  type="text"
-                  label="Determined Date: Verbatim"
                   class="flex-grow"
+                  label="Determined Date: Verbatim"
+                  type="text"
                 />
                 <!-- <QInput
                     v-model="specimen.georeference.georeferenceDate.timestamp"
@@ -347,43 +347,43 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model.number="specimen.primary.determinedDate.year"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Determined Date: Year"
                   number
+                  type="number"
                 />
                 <QInput
                   v-model="specimen.primary.determinedDate.month"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="Determined Date: Month"
+                  type="text"
                 />
                 <QInput
                   v-model.number="specimen.primary.determinedDate.day"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Determined Date: Day"
                   number
+                  type="number"
                 />
               </QCardSection>
             </QExpansionItem>
             <div class="flex flex-row gap-1 justify-evenly mb-1">
               <q-input
                 v-model="specimen.primary.collector"
-                label="Collector"
-                class="flex-grow m-1"
                 :disable="!props.enableEdit"
+                class="flex-grow m-1"
+                label="Collector"
               />
               <q-input
                 v-model="specimen.primary.fieldNumber"
+                :disable="!props.enableEdit"
                 class="flex-grow m-1"
                 label="Field Number"
-                :disable="!props.enableEdit"
               />
             </div>
 
             <QExpansionItem
-              label="Field Date"
               class="DateExpansion"
+              label="Field Date"
             >
               <QCardSection
                 v-if="specimen?.primary?.fieldDate"
@@ -392,9 +392,9 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model="specimen.primary.fieldDate.verbatim"
                   :disable="!props.enableEdit"
-                  type="text"
-                  label="Field Date: Verbatim"
                   class="flex-grow"
+                  label="Field Date: Verbatim"
+                  type="text"
                 />
                 <!-- <QInput
                     v-model="specimen.georeference.georeferenceDate.timestamp"
@@ -405,29 +405,29 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model.number="specimen.primary.fieldDate.year"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Field Date: Year"
                   number
+                  type="number"
                 />
                 <QInput
                   v-model="specimen.primary.fieldDate.month"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="Field Date: Month"
+                  type="text"
                 />
                 <QInput
                   v-model.number="specimen.primary.fieldDate.day"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Field Date: Day"
                   number
+                  type="number"
                 />
               </QCardSection>
             </QExpansionItem>
             <QExpansionItem
               v-if="specimen?.primary?.originalDate"
-              label="Original Date"
               class="DateExpansion"
+              label="Original Date"
             >
               <QCardSection
                 v-if="specimen?.georeference?.georeferenceDate"
@@ -436,9 +436,9 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model="specimen.primary.originalDate.verbatim"
                   :disable="!props.enableEdit"
-                  type="text"
-                  label="Original Date: Verbatim"
                   class="flex-grow"
+                  label="Original Date: Verbatim"
+                  type="text"
                 />
                 <!-- <QInput
                     v-model="specimen.georeference.georeferenceDate.timestamp"
@@ -449,22 +449,22 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model.number="specimen.primary.originalDate.year"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Original Date: Year"
                   number
+                  type="number"
                 />
                 <QInput
                   v-model="specimen.primary.originalDate.month"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="Original Date: Month"
+                  type="text"
                 />
                 <QInput
                   v-model.number="specimen.primary.originalDate.day"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Original Date: Day"
                   number
+                  type="number"
                 />
               </QCardSection>
             </QExpansionItem>
@@ -481,11 +481,11 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-expansion-item
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Georeference"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Georeference"
       >
         <q-card>
           <q-card-section
@@ -495,96 +495,96 @@ const secondaryAgeOptions = [
             <div class="row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.continent"
-                label="Continent"
-                class="col m-1"
                 :disable="!props.enableEdit"
+                class="col m-1"
+                label="Continent"
               />
               <q-input
                 v-model="specimen.georeference.country"
-                label="Country"
-                class="col m-1"
                 :disable="!props.enableEdit"
+                class="col m-1"
+                label="Country"
               />
               <q-input
                 v-model="specimen.georeference.stateProvince"
-                label="State/Province"
-                class="col m-1"
                 :disable="!props.enableEdit"
+                class="col m-1"
+                label="State/Province"
               />
               <q-input
                 v-model="specimen.georeference.county"
-                label="County"
-                class="col m-1"
                 :disable="!props.enableEdit"
+                class="col m-1"
+                label="County"
               />
             </div>
 
             <div class="flex flex-row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.habitat"
+                :disable="!props.enableEdit"
+                autogrow
                 class="col m-1"
                 label="Habitat"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.georeference.locality"
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Locality"
-                :disable="!props.enableEdit"
               />
             </div>
             <div class="flex flex-row justify-evenly mb-1">
               <q-input
                 v-model.number="specimen.georeference.longitude"
-                class="col m-1"
-                type="number"
-                label="Longitude"
                 :disable="!props.enableEdit"
+                class="col m-1"
+                label="Longitude"
+                type="number"
               />
 
               <q-input
                 v-model.number="specimen.georeference.latitude"
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Latitude"
                 type="number"
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model.number="
                   specimen.georeference.coordinateUncertaintyInMeters
                 "
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Coordinate Uncertainty In Meters"
-                :disable="!props.enableEdit"
                 number
               />
             </div>
             <div class="row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.georeferenceBy"
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Georeference By"
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.georeference.georeferenceProtocol"
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Georeference Protocol"
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.georeference.geodeticDatum"
+                :disable="!props.enableEdit"
                 class="col m-1"
                 label="Geodetic Datum"
-                :disable="!props.enableEdit"
               />
             </div>
 
             <QExpansionItem
-              label="Georeference Date"
               class="DateExpansion"
+              label="Georeference Date"
             >
               <QCardSection
                 v-if="specimen?.georeference?.georeferenceDate"
@@ -593,8 +593,8 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model="specimen.georeference.georeferenceDate.verbatim"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="Verbatim"
+                  type="text"
                 />
                 <!-- <QInput
                     v-model="specimen.georeference.georeferenceDate.timestamp"
@@ -605,51 +605,51 @@ const secondaryAgeOptions = [
                 <QInput
                   v-model.number="specimen.georeference.georeferenceDate.year"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="Year"
                   number
+                  type="number"
                 />
                 <QInput
                   v-model="specimen.georeference.georeferenceDate.month"
                   :disable="!props.enableEdit"
-                  type="text"
                   label="month"
+                  type="text"
                 />
                 <QInput
                   v-model.number="specimen.georeference.georeferenceDate.day"
                   :disable="!props.enableEdit"
-                  type="number"
                   label="day"
                   number
+                  type="number"
                 />
               </QCardSection>
             </QExpansionItem>
             <div class="flex flex-row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.locationRemarks"
+                :disable="!props.enableEdit"
+                autogrow
                 class="col m-1"
                 label="Location Remarks"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
             </div>
             <div class="flex flex-row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.footprintWkt"
+                :disable="!props.enableEdit"
+                autogrow
                 class="col m-1"
                 label="Footprint Well Known Type"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.georeference.notes"
+                :disable="!props.enableEdit"
+                autogrow
                 class="col m-1"
                 label="Notes"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
             </div>
             <!-- <div>
@@ -665,11 +665,11 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-expansion-item
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Secondary"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Secondary"
       >
         <q-card>
           <q-card-section
@@ -679,71 +679,71 @@ const secondaryAgeOptions = [
             <div class="flex flex-row justify-evenly mb-1 gap-1">
               <q-input
                 v-model="specimen.secondary.molt"
+                :disable="!props.enableEdit"
+                autogrow
                 class="my-1 flex-grow"
                 label="Molt"
                 type="text"
-                autogrow
-                :disable="!props.enableEdit"
               />
               <QInput
                 v-model.number="specimen.secondary.weight"
+                :disable="!props.enableEdit"
+                autogrow
                 class="flex-grow my-1"
                 label="Weight"
                 type="number"
-                autogrow
-                :disable="!props.enableEdit"
               />
               <QInput
                 v-model="specimen.secondary.weightUnits"
+                :disable="!props.enableEdit"
+                autogrow
+                class="flex-grow my-1"
                 label="Weight Units"
                 type="text"
-                class="flex-grow my-1"
-                autogrow
-                :disable="!props.enableEdit"
               />
             </div>
 
             <div class="flex flex-row justify-evenly mb-1 gap-1">
               <q-input
                 v-model="specimen.secondary.condition"
+                :disable="!props.enableEdit"
+                autogrow
                 class="my-1 flex-grow"
                 label="Condition"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
               <q-input
                 v-model="specimen.secondary.notes"
+                :disable="!props.enableEdit"
+                autogrow
                 class="flex-grow my-1"
                 label="Notes"
                 type="textarea"
-                autogrow
-                :disable="!props.enableEdit"
               />
             </div>
             <div class="flex flex-row justify-evenly mb-1 gap-1">
               <QSelect
                 v-model="specimen.secondary.sex"
-                class="flex-grow my-1"
-                label="Sex"
+                :disable="!props.enableEdit"
                 :options="secondarySexOptions"
                 autogrow
-                :disable="!props.enableEdit"
+                class="flex-grow my-1"
+                label="Sex"
               />
               <QSelect
                 v-model="specimen.secondary.age"
-                class="flex-grow my-1"
-                label="Age"
+                :disable="!props.enableEdit"
                 :options="secondaryAgeOptions"
                 autogrow
-                :disable="!props.enableEdit"
+                class="flex-grow my-1"
+                label="Age"
               />
             </div>
           </q-card-section>
           <QCard>
             <QCardSection
-              label="Preparation"
               class="ml-4"
+              label="Preparation"
             >
               <div class="flex flex-row gap-2">
                 <div class="font-bold">
@@ -755,18 +755,18 @@ const secondaryAgeOptions = [
                   class="ml-auto"
                 >
                   <q-btn
-                    push
                     color="primary"
                     label="New Preparation"
+                    push
                   >
                     <q-popup-proxy class="">
                       <div class="flex flex-row gap-2 items-center p-2">
                         <QInput
                           v-model="newPreparationName"
+                          :disable="!props.enableEdit"
+                          class="flex-grow my-1"
                           label="New Preparation"
                           type="text"
-                          class="flex-grow my-1"
-                          :disable="!props.enableEdit"
                         />
                         <QBtn
                           class="h-2"
@@ -785,18 +785,18 @@ const secondaryAgeOptions = [
               >
                 <QInput
                   v-model="specimen.secondary.preparations[key].verbatim"
-                  type="text"
-                  class="flex-grow my-1"
-                  :label="`Preparation: ${key}`"
                   :disable="!props.enableEdit"
+                  :label="`Preparation: ${key}`"
+                  class="flex-grow my-1"
+                  type="text"
                 >
                   <template
                     v-if="props.enableEdit"
                     #append
                   >
                     <q-icon
-                      name="cancel"
                       class="cursor-pointer"
+                      name="cancel"
                       @click="delete specimen.secondary.preparations[key]"
                     />
                   </template>
@@ -810,33 +810,33 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-expansion-item
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Loans"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Loans"
       >
         <q-card>
           <QCardSection class="ml-4 flex flex-col gap-4">
             <q-btn
               v-if="props.enableEdit"
-              push
-              label="New Loans"
               class="bg-green-300 flex-grow"
+              label="New Loans"
+              push
             >
               <q-popup-proxy>
                 <!-- <q-banner> -->
                 <div class="flex flex-row gap-2 p-2 items-center">
                   <QInput
                     v-model="newLoanName"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="New Loan"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                   <QBtn
-                    label="Add"
                     class="h-2"
+                    label="Add"
                     @click="addLoan(newLoanName)"
                   />
                 </div>
@@ -857,25 +857,25 @@ const secondaryAgeOptions = [
                 <div class="flex flex-row gap-4">
                   <QInput
                     v-model="specimen.loans[key].loanedTo"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="Loaned To"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                   <QInput
                     v-model="specimen.loans[key].loanedBy"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="Loaned by"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                 </div>
                 <QInput
                   v-model="specimen.loans[key].description"
+                  :disable="!props.enableEdit"
+                  class="flex-grow my-1"
                   label="Description"
                   type="textarea"
-                  class="flex-grow my-1"
-                  :disable="!props.enableEdit"
                 />
 
                 <QBtn
@@ -893,33 +893,33 @@ const secondaryAgeOptions = [
       <q-separator inset />
 
       <q-expansion-item
-        expand-icon-toggle
-        default-opened
-        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
-        label="Grants"
         :header-class="sectionHeaderClass"
+        :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
+        default-opened
+        expand-icon-toggle
+        label="Grants"
       >
         <QCard>
           <QCardSection class="ml-4 flex flex-col gap-4">
             <q-btn
               v-if="props.enableEdit"
-              push
               class="bg-green-300 flex-grow"
               label="New Grants"
+              push
             >
               <q-popup-proxy>
                 <!-- <q-banner> -->
                 <div class="flex flex-row gap-2 p-2 items-center">
                   <QInput
                     v-model="newGrantName"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="New Grant"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                   <QBtn
-                    label="Add"
                     class="h-2"
+                    label="Add"
                     @click="addGrant(newGrantName)"
                   />
                 </div>
@@ -936,25 +936,25 @@ const secondaryAgeOptions = [
                 <div class="flex flex-row gap-4">
                   <QInput
                     v-model="specimen.grants[key].grantedTo"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="Grant To"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                   <QInput
                     v-model="specimen.grants[key].grantedBy"
+                    :disable="!props.enableEdit"
+                    class="flex-grow my-1"
                     label="Granted by"
                     type="text"
-                    class="flex-grow my-1"
-                    :disable="!props.enableEdit"
                   />
                 </div>
                 <QInput
                   v-model="specimen.grants[key].description"
+                  :disable="!props.enableEdit"
+                  class="flex-grow my-1"
                   label="Description"
                   type="textarea"
-                  class="flex-grow my-1"
-                  :disable="!props.enableEdit"
                 />
 
                 <QBtn
