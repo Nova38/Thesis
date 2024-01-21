@@ -1,11 +1,23 @@
-import { ccbio } from 'saacs-es'
-
-export type status = 'new' | 'loading' | 'success' | 'error' | 'pre-existing'
-
-function ConvertSpecimen(row, meta: RowMeta, Mappings: { [x: string]: any }) {
-  const specimen = new ccbio.Specimen()
+// https://decipher.dev/30-seconds-of-typescript/docs/flattenObject/
+export function FlattenObject(obj, prefix = '') {
+  return Object.keys(obj).reduce((acc, k) => {
+    const pre = prefix.length ? `${prefix}.` : ''
+    if (typeof obj[k] === 'object')
+      Object.assign(acc, FlattenObject(obj[k], pre + k))
+    else acc[pre + k] = obj[k]
+    return acc
+  }, {})
 }
 
+export function FlattenEmptySpecimen() {
+  return FlattenObject(
+    JSON.parse(MakeEmptySpecimen().toJsonString({ emitDefaultValues: true })),
+  )
+}
+
+export function FlattedSpecimenKeys() {
+  return Object.keys(FlattenEmptySpecimen())
+}
 export const FlatSpecimenKeys = [
   'collectionId',
   'specimenId',
@@ -130,63 +142,63 @@ export const ImportableSpecimenKeys = [
   'georeference.notes',
 ]
 
-interface FlatSpecimen {
-  'primary.catalogNumber': string
+export interface FlatSpecimen {
+  'georeference.continent': string
+  'georeference.coordinateUncertaintyInMeters': string
+  'georeference.country': string
+  'georeference.county': string
+  'georeference.footprintWkt': string
+  'georeference.geodeticDatum': string
+  'georeference.georeferenceBy': string
+  'georeference.georeferenceDate.day': string
+  'georeference.georeferenceDate.month': string
+  'georeference.georeferenceDate.verbatim': string
+  'georeference.georeferenceDate.year': string
+  'georeference.georeferenceProtocol': string
+  'georeference.habitat': string
+  'georeference.latitude': string
+  'georeference.locality': string
+  'georeference.locationRemarks': string
+  'georeference.longitude': string
+  'georeference.notes': string
+  'georeference.stateProvince': string
   'primary.accessionNumber': string
-  'primary.fieldNumber': string
-  'primary.tissueNumber': string
-  'primary.cataloger': string
-  'primary.collector': string
-  'primary.determiner': string
-  'primary.fieldDate.verbatim': string
-  'primary.fieldDate.year': string
-  'primary.fieldDate.month': string
-  'primary.fieldDate.day': string
+  'primary.catalogDate.day': string
+  'primary.catalogDate.month': string
   'primary.catalogDate.verbatim': string
   'primary.catalogDate.year': string
-  'primary.catalogDate.month': string
-  'primary.catalogDate.day': string
+  'primary.catalogNumber': string
+  'primary.cataloger': string
+  'primary.collector': string
+  'primary.determinedDate.day': string
+  'primary.determinedDate.month': string
   'primary.determinedDate.verbatim': string
   'primary.determinedDate.year': string
-  'primary.determinedDate.month': string
-  'primary.determinedDate.day': string
   'primary.determinedReason': string
+  'primary.determiner': string
+  'primary.fieldDate.day': string
+  'primary.fieldDate.month': string
+  'primary.fieldDate.verbatim': string
+  'primary.fieldDate.year': string
+  'primary.fieldNumber': string
+  'primary.originalDate.day': string
+  'primary.originalDate.month': string
   'primary.originalDate.verbatim': string
   'primary.originalDate.year': string
-  'primary.originalDate.month': string
-  'primary.originalDate.day': string
-  'secondary.sex': string
+  'primary.tissueNumber': string
   'secondary.age': string
-  'secondary.weight': string
-  'secondary.weightUnits': string
   'secondary.condition': string
   'secondary.molt': string
   'secondary.notes': string
-  'taxon.kingdom': string
-  'taxon.phylum': string
+  'secondary.sex': string
+  'secondary.weight': string
+  'secondary.weightUnits': string
   'taxon.class': string
-  'taxon.order': string
   'taxon.family': string
   'taxon.genus': string
+  'taxon.kingdom': string
+  'taxon.order': string
+  'taxon.phylum': string
   'taxon.species': string
   'taxon.subspecies': string
-  'georeference.country': string
-  'georeference.stateProvince': string
-  'georeference.county': string
-  'georeference.locality': string
-  'georeference.latitude': string
-  'georeference.longitude': string
-  'georeference.habitat': string
-  'georeference.continent': string
-  'georeference.locationRemarks': string
-  'georeference.coordinateUncertaintyInMeters': string
-  'georeference.georeferenceBy': string
-  'georeference.georeferenceDate.verbatim': string
-  'georeference.georeferenceDate.year': string
-  'georeference.georeferenceDate.month': string
-  'georeference.georeferenceDate.day': string
-  'georeference.georeferenceProtocol': string
-  'georeference.geodeticDatum': string
-  'georeference.footprintWkt': string
-  'georeference.notes': string
 }

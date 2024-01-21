@@ -6,18 +6,18 @@ it('foo', () => {
 
   const a = new ccbio.Specimen({
     collectionId: 'foo',
-    specimenId: 'bar',
     georeference: {},
-    images: {},
-    secondary: {
-      preparations: {},
-    },
-    loans: {},
     grants: {},
-    taxon: {},
+    images: {},
+    loans: {},
     primary: {
       catalogNumber: 'foo',
     },
+    secondary: {
+      preparations: {},
+    },
+    specimenId: 'bar',
+    taxon: {},
   })
 
   const b = a.clone()

@@ -1,7 +1,7 @@
-import { diff } from 'ohash'
 import { FieldMask } from '@bufbuild/protobuf'
-import { snakeCase } from 'scule'
+import { diff } from 'ohash'
 import { crush } from 'radash'
+import { snakeCase } from 'scule'
 
 export type diffOp = 'added' | 'removed' | 'updated'
 export function toMask(p: string) {
@@ -23,8 +23,8 @@ export function diffCrush(base: any, updated: any, excludePaths: string[]) {
     if (b[key] !== u[key]) {
       differences.push({
         key,
-        values: { base: b[key], updated: u[key] },
         type: 'updated',
+        values: { base: b[key], updated: u[key] },
       })
       paths.push(toMask(key))
     }
@@ -45,8 +45,8 @@ export function diffCrush(base: any, updated: any, excludePaths: string[]) {
     if (!(key in b) && u[key] !== undefined) {
       differences.push({
         key,
-        value: { values: { updated: u[key] } },
         type: 'added',
+        value: { values: { updated: u[key] } },
       })
       paths.push(toMask(key))
     }
@@ -54,7 +54,7 @@ export function diffCrush(base: any, updated: any, excludePaths: string[]) {
 
   const mask = new FieldMask({ paths })
 
-  return { differences, paths, mask }
+  return { differences, mask, paths }
 }
 
 export function diffToFieldMaskPath(base: any, updated: any) {
