@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import antfu from '@antfu/eslint-config'
 import perfectionistNatural from 'eslint-plugin-perfectionist/configs/recommended-natural'
 
@@ -18,7 +19,15 @@ export default antfu(
       ],
       tsconfigPath: 'tsconfig.json',
     },
-    vue: true,
+    vue: {
+      sfcBlocks: {
+        blocks: {
+          script: true,
+          template: true,
+          style: true,
+        },
+      },
+    },
 
   },
 

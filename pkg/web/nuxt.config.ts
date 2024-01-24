@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['composables/cc/**'],
+    dirs: ['composables/cc/**', 'utils/**'],
+
     presets: [
       {
         from: 'protobuf-es',
@@ -130,5 +131,6 @@ export default defineNuxtConfig({
   ui: {
     global: true,
     icons: {},
+
   },
 })

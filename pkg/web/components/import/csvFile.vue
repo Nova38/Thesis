@@ -3,12 +3,27 @@ import Papa, { type ParseResult } from 'papaparse'
 
 const file = ref<File | null>(null)
 
+export interface CsvMeta {
+  catIdField: string
+  headers: string[]
+  rowsByCatId: Record<string, Record<string, string>>
+}
+
+const rows = defineModel<Record<string, string>[]>('csv', {
+  default: () => [],
+})
+
+const headers = defineModel<string[]>('headers', {
+  default: () => [],
+  required: true,
+})
+
 watch(file, (newFile) => {
   if (!file)
     return
 
   if (newFile) {
-    csv.value = []
+    rows.value = []
     headers.value = []
 
     Papa.parse(newFile, {
@@ -16,21 +31,12 @@ watch(file, (newFile) => {
         headers.value = results.meta.fields || []
 
         for (const row of results.data)
-          csv.value.push(row)
+          rows.value.push(row)
       },
 
       header: true,
     })
   }
-})
-
-const csv = defineModel<Record<string, string>[]>('csv', {
-  default: () => [],
-  required: true,
-})
-const headers = defineModel<string[]>('headers', {
-  default: () => [],
-  required: true,
 })
 </script>
 

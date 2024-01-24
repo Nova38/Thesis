@@ -170,14 +170,3 @@ export const Specimen = z.object({
 })
 
 export const reqSpeciemn = Specimen.required()
-
-export function zodToProto(raw: z.infer<typeof Specimen>) {
-  // const parsed = ;
-
-  const proto = new ccbio.Specimen()
-}
-
-export function parseFromFlat(raw: object) {
-  // crush(raw);
-  // const unFlat =
-}

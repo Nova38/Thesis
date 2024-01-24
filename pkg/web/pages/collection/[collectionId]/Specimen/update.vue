@@ -10,8 +10,6 @@ import Papa from 'papaparse'
 import { crush, get, keys, set } from 'radash'
 import { ccbio } from 'saacs-es'
 
-import ImportTable from './ImportTable.vue'
-
 type ExistStatus = 'new' | 'pre-existing'
 type status = 'error' | 'loading' | 'new' | 'success'
 
@@ -502,7 +500,7 @@ function statusToChipColor(status: status) {
         />
       </UCard>
 
-      <ImportTable
+      <ImportPreviewTable
         :clear-key="clearKey"
         :possessed-data="possessedData"
         :sorted-import-headers="sortedImportHeaders"

@@ -39,14 +39,15 @@ export type status = 'error' | 'loading' | 'new' | 'pre-existing' | 'success'
 //   transform?: (value: OldType[keyof OldType]) => NewType[keyof NewType]
 // }
 
-export interface FieldMapping<OldType, NewType> {
-  defaultValue?: (() => NewType[keyof NewType]) | NewType[keyof NewType]
-  newKey: keyof NewType
-  oldKey: keyof OldType
-  transform?: (value: OldType[keyof OldType]) => NewType[keyof NewType]
+export interface FieldMapping<N, O> {
+  defaultValue?: (() => N[keyof N]) | N[keyof N]
+  newKey: keyof N
+  oldKey: keyof O
+  transform?: (value: O[keyof O]) => N[keyof N]
 }
 
-export type ObjectMapping<OldType, NewType> = FieldMapping<OldType, NewType>[]
+export type ObjectMapping<N, O> = FieldMapping<N, O>[]
+export type SpecimenMapping = ObjectMapping<FlatSpecimen, Record<string, string>>
 
 // export function TransformObject1<OldType, NewType>(
 //   obj: OldType,
@@ -65,10 +66,10 @@ export type ObjectMapping<OldType, NewType> = FieldMapping<OldType, NewType>[]
 //   }, {} as NewType)
 // }
 
-export function TransformObject<OldType, NewType>(
-  obj: OldType,
-  mappings: ObjectMapping<OldType, NewType>,
-): NewType {
+export function TransformObject<O, N>(
+  obj: O,
+  mappings: ObjectMapping<N, O>,
+) {
   return mappings.reduce((newObj, mapping) => {
     const { defaultValue, newKey, oldKey, transform } = mapping
     const value = obj[oldKey]
@@ -77,26 +78,33 @@ export function TransformObject<OldType, NewType>(
       if (defaultValue !== undefined) {
         newObj[newKey]
           = typeof defaultValue === 'function'
-            ? (defaultValue as () => NewType[keyof NewType])()
+            ? (defaultValue as () => N[keyof N])()
             : defaultValue
       }
     }
     else {
       newObj[newKey] = transform
         ? (transform(value))
-        : (value as NewType[keyof NewType])
+        : (value as N[keyof N])
     }
 
     return newObj
-  }, {} as NewType)
+  }, {} as N)
 }
 
-export type RecordMapping = ObjectMapping<FlatSpecimen, Record<string, string>>
-export type SpecimenMapping = ObjectMapping<Record<string, string>, FlatSpecimen>
+// export type SpecimenMapping = ObjectMapping<Record<string, string>, FlatSpecimen>
 
 export function TransformRecordToFlatSpecimen(
   record: Record<string, string>,
   mappings: SpecimenMapping,
-): FlatSpecimen {
+) {
   return TransformObject(record, mappings)
+}
+
+export function ClearMapping<N, O>(mapping: ObjectMapping<N, O>, key: keyof N) {
+  return mapping.map((m) => {
+    if (m.newKey === key)
+      m.transform = undefined
+    return m
+  })
 }

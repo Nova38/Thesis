@@ -8,8 +8,6 @@ import type { ParseResult } from 'papaparse'
 import Papa from 'papaparse'
 import { crush, keys } from 'radash'
 
-import { FlattedSpecimenKeys } from '~/utils/flatten'
-
 type status = 'error' | 'importing' | 'new' | 'pre-existing' | 'success'
 function clearKey(key: string) {
   console.log(key)

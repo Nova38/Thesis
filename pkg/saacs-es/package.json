@@ -64,7 +64,7 @@
         "vitest": "^0.34.6"
     },
     "dependencies": {
-        "@bufbuild/protobuf": "^1.6.0",
+        "@bufbuild/protobuf": "https://github.com/bufbuild/protobuf-es",
         "@bufbuild/protoplugin": "^1.6.0",
         "@grpc/grpc-js": "^1.9.12",
         "@hyperledger-labs/weft": "0.2.2",
