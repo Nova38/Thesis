@@ -4,7 +4,7 @@ import { construct, crush } from 'radash'
 import { ccbio } from 'saacs-es'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { Specimen } from './zSpecimen'
+import { Specimen } from './Specimen'
 
 const raw = {
   collectionId: 'KU-Zoology',

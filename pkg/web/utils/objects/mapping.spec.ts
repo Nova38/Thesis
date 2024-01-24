@@ -1,7 +1,7 @@
 // FILEPATH: /z:/source/repos/Thesis/pkg/web/utils/flatten.spec.ts
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
-import type { FieldMapping, ObjectMapping } from './Mapping'
+import type { FieldMapping, ObjectMapping, SpecimenMapping } from './Mapping'
 
 import { TransformObject, TransformRecordToFlatSpecimen } from './Mapping'
 
@@ -92,6 +92,9 @@ describe('transformObject', () => {
     })
   })
   describe('transformObject', () => {
+    beforeEach(() => {
+
+    })
     it('should transform object keys based on mappings', () => {
       const obj: Record<string, string> = {
         'accessionNumber': '456',
@@ -179,6 +182,94 @@ describe('transformObject', () => {
         'primary.fieldNumber': '789',
       // ... rest of the transformed properties
       })
+    })
+  })
+  it('not', () => {
+    const obj: Record<string, string> = {
+      'accessionNumber': '456',
+      'catalogNumber': '123',
+      'fieldNumber': '789',
+      'georeference.continent': '',
+      'georeference.coordinateUncertaintyInMeters': '',
+      'georeference.country': '',
+      'georeference.county': '',
+      'georeference.footprintWkt': '',
+      'georeference.geodeticDatum': '',
+      'georeference.georeferenceBy': '',
+      'georeference.georeferenceDate.day': '',
+      'georeference.georeferenceDate.month': '',
+      'georeference.georeferenceDate.verbatim': '',
+      'georeference.georeferenceDate.year': '',
+      'georeference.georeferenceProtocol': '',
+      'georeference.habitat': '',
+      'georeference.latitude': '',
+      'georeference.locality': '',
+      'georeference.locationRemarks': '',
+      'georeference.longitude': '',
+      'georeference.notes': '',
+      'georeference.stateProvince': '',
+      'primary.catalogDate.day': '',
+      'primary.catalogDate.month': '',
+      'primary.catalogDate.verbatim': '',
+      'primary.catalogDate.year': '',
+      'primary.cataloger': '',
+      'primary.collector': '',
+      'primary.determinedDate.day': '',
+      'primary.determinedDate.month': '',
+      'primary.determinedDate.verbatim': '',
+      'primary.determinedDate.year': '',
+      'primary.determinedReason': '',
+      'primary.determiner': '',
+      'primary.fieldDate.day': '',
+      'primary.fieldDate.month': '',
+      'primary.fieldDate.verbatim': '',
+      'primary.fieldDate.year': '',
+      'primary.originalDate.day': '',
+      'primary.originalDate.month': '',
+      'primary.originalDate.verbatim': '',
+      'primary.originalDate.year': '',
+      'primary.tissueNumber': '',
+      'secondary.age': '',
+      'secondary.condition': '',
+      'secondary.molt': '',
+      'secondary.notes': '',
+      'secondary.sex': '',
+      'secondary.weight': '',
+      'secondary.weightUnits': '',
+      'taxon.class': '',
+      'taxon.family': '',
+      'taxon.genus': '',
+      'taxon.kingdom': '',
+      'taxon.order': '',
+      'taxon.phylum': '',
+      'taxon.species': '',
+      'taxon.subspecies': '',
+    }
+
+    const mappings: SpecimenMapping = [
+      { newKey: 'primary.catalogNumber', oldKey: 'catalogNumber' },
+      { newKey: 'primary.accessionNumber', oldKey: 'accessionNumber' },
+      // Swap oldKey and newKey for all other items in the array
+      { newKey: 'primary.tissueNumber', oldKey: 'tissueNumber' },
+      { newKey: 'primary.cataloger', oldKey: 'cataloger', transform: (value: string) => value.toUpperCase() },
+      { defaultValue: 'John Doe', newKey: 'primary.collector', oldKey: 'collector' },
+      { defaultValue() {
+        return 'Jane Doe'
+      }, newKey: 'primary.determiner', oldKey: 'determiner' },
+      { newKey: 'primary.fieldNumber', oldKey: 'fieldNumber' },
+    ]
+
+    TransformRecordToFlatSpecimen(obj, mappings)
+    // ^?
+
+    const result = TransformRecordToFlatSpecimen(obj, mappings)
+    expect(result).toEqual({
+      'primary.accessionNumber': '456',
+      'primary.catalogNumber': '123',
+      'primary.collector': 'John Doe',
+      'primary.determiner': 'Jane Doe',
+      'primary.fieldNumber': '789',
+      // ... rest of the transformed properties
     })
   })
 })
