@@ -3,7 +3,7 @@
 
 import type { PlainMessage } from '@bufbuild/protobuf'
 
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 export function makeSpecimenKey(collectionId: Ref<string> | string, specimenId: Ref<string> | string) {
   return `collectionId:${toValue(collectionId)}-specimenId:${toValue(

@@ -1,5 +1,5 @@
-import type { ccbio } from 'saacs-es'
 import type { PlainMessage } from '@bufbuild/protobuf'
+import type { ccbio } from '~/lib'
 
 export interface UpdateRowMeta {
   catalogNumber?: string

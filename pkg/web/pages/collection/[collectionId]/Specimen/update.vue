@@ -3,7 +3,7 @@ import type { ParseResult } from 'papaparse'
 
 import Papa from 'papaparse'
 import { crush, get, keys, set } from 'radash'
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 const csv: Ref<Record<string, string>[]> = ref([])
 
@@ -39,12 +39,12 @@ watch([specimenMapping.value, RowsSelected], () => {
     RowMeta.value[index].exist = 'new'
 
     RowMeta.value[index].status = 'new'
-    RowMeta.value[index].statusMessage = 'Specimen hasn\'t been uploaded'
+    RowMeta.value[index].statusMessage = "Specimen hasn't been uploaded"
 
     if (catalogNum) {
       RowMeta.value[index].catalogNumber = catalogNum
-      const specimen
-        = useCollectionsStore().GetSpecimenFromCatalogNumber(catalogNum)
+      const specimen =
+        useCollectionsStore().GetSpecimenFromCatalogNumber(catalogNum)
       console.log({ specimen })
 
       if (specimen) {
@@ -79,8 +79,7 @@ const selectedCurrent = useArrayMap(RowsSelected, (data) => {
 })
 
 const sortedImportHeaders = computed(() => {
-  if (!headers.value)
-    return
+  if (!headers.value) return
 
   return headers.value.sort()
 })
@@ -94,7 +93,7 @@ const z = JSON.parse(
 const notAllowedKeys = ['specimenId', 'lastModifiedBy', 'collectionId']
 
 const FilteredSpecimenKeys = keys(crush(z)).filter(
-  k => !notAllowedKeys.includes(k),
+  (k) => !notAllowedKeys.includes(k),
 )
 
 callOnce(() => {
@@ -109,8 +108,7 @@ callOnce(() => {
 // const numberFeilds= ["primary."]
 
 watch(file, (file) => {
-  if (!file)
-    return
+  if (!file) return
 
   Papa.parse(file, {
     complete: (results: ParseResult<Record<string, string>>) => {
@@ -136,8 +134,7 @@ watch(file, (file) => {
           uuid: '',
         }
 
-        if (Object.prototype.hasOwnProperty.call(value, ''))
-          delete value['']
+        if (Object.prototype.hasOwnProperty.call(value, '')) delete value['']
 
         const catNum: string | undefined = value['primary.catalogNumber']
         if (catNum !== undefined) {
@@ -147,8 +144,8 @@ watch(file, (file) => {
         }
 
         if (
-          catNum
-          && useCollectionsStore().SpecimenCatalogNumbers?.includes(catNum)
+          catNum &&
+          useCollectionsStore().SpecimenCatalogNumbers?.includes(catNum)
         ) {
           // console.log("Skipping row as it has already been uploaded", row);
           console.log('pre-existing', catNum)
@@ -166,13 +163,12 @@ watch(file, (file) => {
               value,
             ),
           )
-        }
-        else {
+        } else {
           RowMeta.value[index].exist = 'new'
           RowMeta.value[index].status = 'new'
 
-          RowMeta.value[index].statusMessage
-            = 'Specimen Number with Catalog Number doesn\'t exist'
+          RowMeta.value[index].statusMessage =
+            "Specimen Number with Catalog Number doesn't exist"
           return reactifyObject(
             Object.assign(
               {
@@ -248,8 +244,7 @@ async function run() {
         console.debug('Skipping row as it has already been uploaded', value)
         RowMeta.value[index].differences = {}
         RowMeta.value[index].statusMessage = 'Row has already been uploaded'
-      }
-      else if (RowMeta.value[index].exist === 'new' && makeNew.value) {
+      } else if (RowMeta.value[index].exist === 'new' && makeNew.value) {
         RowMeta.value[index].status = 'loading'
         const specimen = PrepareRow(value, index)
         const meta = await SpecimenUpdate(specimen, new ccbio.Specimen())
@@ -258,11 +253,10 @@ async function run() {
         RowMeta.value[index].differences = meta.differences
         RowMeta.value[index].statusMessage = meta.statusMessage
         console.log(RowMeta)
-      }
-      else if (RowMeta.value[index].exist === 'pre-existing') {
+      } else if (RowMeta.value[index].exist === 'pre-existing') {
         const cur = RowMeta.value[index].currentSpecimen
-        value.specimenId
-          = cur?.specimenId || CatNumToUUID(value.specimen.primary.catalogNumber)
+        value.specimenId =
+          cur?.specimenId || CatNumToUUID(value.specimen.primary.catalogNumber)
 
         if (!isDefined(cur)) {
           throw new Error(
@@ -277,8 +271,7 @@ async function run() {
         RowMeta.value[index].differences = meta.differences
         RowMeta.value[index].statusMessage = meta.statusMessage
       }
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.log(err)
       RowMeta.value[index].status = 'error'
       RowMeta.value[index].statusMessage = err?.message
@@ -300,8 +293,7 @@ function PrepareRow(specimen: PlainSpecimen, index: number) {
     if (isNaN(Number.parseFloat(val))) {
       console.log('isNan')
       set(specimen, e, 0)
-    }
-    else {
+    } else {
       set(specimen, e, Number.parseFloat(val))
     }
   })
@@ -337,9 +329,7 @@ function statusToChipColor(status: status) {
   <q-page class="full-height">
     <q-card class="q-pa-md q-ma-md">
       <QCardSection>
-        <p class="font-bold">
-          Bulk Update Specimens
-        </p>
+        <p class="font-bold">Bulk Update Specimens</p>
       </QCardSection>
 
       <CsvFile :csv="csv" />
@@ -347,11 +337,7 @@ function statusToChipColor(status: status) {
       <ImportUpdateTableRaw />
 
       <QCardSection class="flex flex-row items-center gap-2 justify-center">
-        <QTable
-          :hide-bottom="true"
-          :rows="SexOptions"
-          dense
-        />
+        <QTable :hide-bottom="true" :rows="SexOptions" dense />
         <QTable
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
@@ -364,11 +350,7 @@ function statusToChipColor(status: status) {
         <div class="text-xl font-semibold border-blue-400 border-solid mb-2">
           Current Selected Specimen Values
         </div>
-        <QTable
-          :columns="MappingHeaders"
-          :rows="selectedCurrent"
-          dense
-        />
+        <QTable :columns="MappingHeaders" :rows="selectedCurrent" dense />
       </UCard>
 
       <ImportUpdateTablePreview

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 const props = defineProps({
   canHide: {
@@ -20,18 +20,9 @@ console.log('history', history)
       Specimen History
     </QBar>
     <QCard class="p-4 flex flex-col justify-center">
-      <QTimeline
-        v-if="history"
-        dense
-      >
-        <template
-          v-for="tx in history.entries"
-          :key="tx.txId"
-        >
-          <SpecimenTimelineEntry
-            :can-hide="props.canHide"
-            :entry="tx"
-          />
+      <QTimeline v-if="history" dense>
+        <template v-for="tx in history.entries" :key="tx.txId">
+          <SpecimenTimelineEntry :can-hide="props.canHide" :entry="tx" />
         </template>
       </QTimeline>
     </QCard>

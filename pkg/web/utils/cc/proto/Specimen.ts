@@ -1,5 +1,5 @@
 import { Timestamp } from '@bufbuild/protobuf'
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 import z from 'zod'
 
 export function MakeEmptySpecimen() {

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { QTableProps } from 'nuxt-quasar-ui/dist/runtime/adapter'
-import type { ccbio } from 'saacs-es'
-
+import type { ccbio } from '~/lib'
 import TableButton from '@/components/collection/TableButton.vue'
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import '@ag-grid-community/styles/ag-grid.css'

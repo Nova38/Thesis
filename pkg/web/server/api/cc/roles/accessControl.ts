@@ -1,5 +1,5 @@
-import { auth, common } from 'saacs-es'
 import { z } from 'zod'
+import { auth, common } from '~/lib'
 
 import { useChaincode } from '~/server/utils/useChaincode'
 
