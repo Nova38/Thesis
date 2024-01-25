@@ -7,11 +7,13 @@ import { CreateRequest } from "../gen/chaincode/common/generic_pb.js";
 import { auth, sample } from "../gen/index.js";
 import { pb } from "../index.js";
 
+import { GlobalRegistry } from "../gen/global_reg.js";
+
 export function ShortToFullTypeName(type: any) {
     if (!type) {
         return SimpleItem.typeName;
 
-    }else  if (type == "simple") {
+    } else if (type == "simple") {
         return SimpleItem.typeName;
     } else if (type == "book") {
         return Book.typeName;
@@ -21,23 +23,7 @@ export function ShortToFullTypeName(type: any) {
 
 }
 
-export function BuildWorkloadItemKeysOne(arg: {numItems: number,collectionId:string ,typeName: string, workerIndex: number}) {
-
-    let itemList = []
-
-    for (let j = 0; j < arg.numItems; j++) {
-        let id = `worker:${arg.workerIndex}-item:${j}`;
-        let key = new ItemKey({
-            itemType: ShortToFullTypeName(arg.typeName),
-            itemKeyParts: [id],
-            collectionId:   arg.collectionId
-        })
-        itemList.push(key);
-    }
-
-    return itemList;
-}
-export function BuildWorkloadItemOne(arg: {numItems: number, collectionId:string, typeName: string, workerIndex: number}) {
+export function BuildWorkloadItemKeysOne(arg: { numItems: number, collectionId: string, typeName: string, workerIndex: number }) {
 
     let itemList = []
 
@@ -48,8 +34,24 @@ export function BuildWorkloadItemOne(arg: {numItems: number, collectionId:string
             itemKeyParts: [id],
             collectionId: arg.collectionId
         })
-        if (arg.typeName == "book" ) {
-            itemList.push( new Book({
+        itemList.push(key);
+    }
+
+    return itemList;
+}
+export function BuildWorkloadItemOne(arg: { numItems: number, collectionId: string, typeName: string, workerIndex: number }) {
+
+    let itemList = []
+
+    for (let j = 0; j < arg.numItems; j++) {
+        let id = `worker:${arg.workerIndex}-item:${j}`;
+        let key = new ItemKey({
+            itemType: ShortToFullTypeName(arg.typeName),
+            itemKeyParts: [id],
+            collectionId: arg.collectionId
+        })
+        if (arg.typeName == "book") {
+            itemList.push(new Book({
                 collectionId: arg.collectionId,
                 isbn: id,
                 author: "author",
@@ -60,8 +62,8 @@ export function BuildWorkloadItemOne(arg: {numItems: number, collectionId:string
                 publisher: "publisher",
             }))
 
-        }else  {
-            itemList.push( new SimpleItem({
+        } else {
+            itemList.push(new SimpleItem({
                 collectionId: arg.collectionId,
                 id: id,
                 quantity: j,
@@ -79,7 +81,7 @@ export function BuildWorkloadItemOne(arg: {numItems: number, collectionId:string
 
 
 
-export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestions: number, collectionId:string, typeName: string, workerIndex: number}) {
+export function BuildWorkloadSuggestionsOne(arg: { numItems: number, numSuggestions: number, collectionId: string, typeName: string, workerIndex: number }) {
 
     let suggestionList = []
 
@@ -91,7 +93,7 @@ export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestio
                 itemKeyParts: [id],
                 collectionId: arg.collectionId
             })
-            if (arg.typeName == "book" ) {
+            if (arg.typeName == "book") {
                 let b = new Book({
                     collectionId: arg.collectionId,
                     isbn: id,
@@ -102,7 +104,7 @@ export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestio
                     year: 2023 + k,
                     publisher: "publisher",
                 })
-                suggestionList.push( new pb.auth.objects.Suggestion({
+                suggestionList.push(new pb.auth.objects.Suggestion({
                     value: Any.pack(b),
                     primaryKey: key,
                     suggestionId: `suggestion:${k}`,
@@ -110,16 +112,16 @@ export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestio
                         paths: ["year"]
                     })
 
-                }) )
+                }))
 
-            }else  {
+            } else {
                 let item = new SimpleItem({
                     collectionId: arg.collectionId,
                     id: id,
                     quantity: j,
-                    name: `item:${j* k}`,
+                    name: `item:${j * k}`,
                 })
-                suggestionList.push( new pb.auth.objects.Suggestion({
+                suggestionList.push(new pb.auth.objects.Suggestion({
                     value: Any.pack(item),
                     primaryKey: key,
                     suggestionId: `suggestion:${k}`,
@@ -127,9 +129,9 @@ export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestio
                         paths: ["name"]
                     })
 
-                }) )
-                       }
-    }
+                }))
+            }
+        }
     }
 
     return suggestionList;
@@ -141,7 +143,7 @@ export function BuildWorkloadSuggestionsOne(arg: {numItems: number, numSuggestio
 
 
 
-export function BuildWorkloadItemKeys(arg: {numItems: number, numCollections: number, typeName: string, workerIndex: number}) {
+export function BuildWorkloadItemKeys(arg: { numItems: number, numCollections: number, typeName: string, workerIndex: number }) {
 
     let ColMap: Record<string, Array<ItemKey>> = {}
 
@@ -175,11 +177,11 @@ export function ToCreateRequestString(obj: AnyMessage) {
         item: item,
     })
 
-    return arg.toJsonString({typeRegistry: createRegistry(... sample.allMessages, ...auth.auth.allMessages, ...auth.objects.allMessages)})
+    return arg.toJsonString({ typeRegistry: GlobalRegistry })
 
 }
 
-export function BuildWorkloadItem(arg: {numItems: number, numCollections: number, typeName: string, workerIndex: number}) {
+export function BuildWorkloadItem(arg: { numItems: number, numCollections: number, typeName: string, workerIndex: number }) {
 
     let ColMap: Record<string, Array<AnyMessage>> = {}
 
@@ -194,8 +196,8 @@ export function BuildWorkloadItem(arg: {numItems: number, numCollections: number
                 itemKeyParts: [id],
                 collectionId: col
             })
-            if (arg.typeName == "book" ) {
-                ColMap[i].push( new Book({
+            if (arg.typeName == "book") {
+                ColMap[i].push(new Book({
                     collectionId: col,
                     isbn: id,
                     author: "author",
@@ -206,8 +208,8 @@ export function BuildWorkloadItem(arg: {numItems: number, numCollections: number
                     publisher: "publisher",
                 }))
 
-            }else  {
-                ColMap[i].push( new SimpleItem({
+            } else {
+                ColMap[i].push(new SimpleItem({
                     collectionId: col,
                     id: id,
                     quantity: j,
@@ -226,12 +228,12 @@ export function BuildWorkloadItem(arg: {numItems: number, numCollections: number
 
 
 
-export function randomUser(){
+export function randomUser() {
     const users = ['User1', 'User2', 'User3', 'User4', 'User5', 'Admin']
     return users[Math.floor(Math.random() * users.length)];
 }
 
-export function modCollectionId(numCollections: number, mod: number){
+export function modCollectionId(numCollections: number, mod: number) {
     const collections = []
     for (let i = 0; i < numCollections; i++) {
         collections.push(`collection${i}`)
@@ -239,7 +241,7 @@ export function modCollectionId(numCollections: number, mod: number){
     return collections[mod % numCollections];
 }
 
-export function randomCollection(numCollections: number){
+export function randomCollection(numCollections: number) {
 
     const collections = []
     for (let i = 0; i < numCollections; i++) {
@@ -253,7 +255,7 @@ export function BuildCollection(types: any[]) {
 
 
 }
-export function randomInt( max: number): number {
+export function randomInt(max: number): number {
     // faker.seed(seed);
     return Math.floor(Math.random() * max);
 }

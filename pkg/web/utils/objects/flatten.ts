@@ -177,10 +177,10 @@ export interface FlatSpecimen {
   'primary.determinedDate.year': string
   'primary.determinedReason': string
   'primary.determiner': string
-  'primary.fieldDate.day': string
+  'primary.fieldDate.day': number
   'primary.fieldDate.month': string
   'primary.fieldDate.verbatim': string
-  'primary.fieldDate.year': string
+  'primary.fieldDate.year': number
   'primary.fieldNumber': string
   'primary.originalDate.day': string
   'primary.originalDate.month': string
@@ -193,7 +193,7 @@ export interface FlatSpecimen {
   'secondary.notes': string
   'secondary.preparations.imported.verbatim': string
   'secondary.sex': string
-  'secondary.weight': string
+  'secondary.weight': number
   'secondary.weightUnits': string
   'taxon.class': string
   'taxon.family': string

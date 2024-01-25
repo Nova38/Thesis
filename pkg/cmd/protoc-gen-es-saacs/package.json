@@ -10,12 +10,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@bufbuild/protobuf": "^1.6.0",
-        "@bufbuild/protoplugin": "^1.6.0",
-        "saacs-es": "workspace:^"
+        "@bufbuild/protobuf": "^1.7.0",
+        "@bufbuild/protoplugin": "^1.7.0"
     },
     "devDependencies": {
-        "@types/node": "^20.10.5",
+        "@types/node": "^20.11.6",
         "typescript": "^5.3.3"
     }
 }

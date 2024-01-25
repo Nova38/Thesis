@@ -106,6 +106,9 @@ tasks:
   build:es-stub:
     cmd: cd ./pkg/saacs-es && pnpm run stub
 
+  build:gen-lint:
+    cmd: cd ./pkg/web/ && pnpm lint-gen:fix
+
   es:run:
     dir: ./pkg/saacs-es
     cmd: pnpm run api
@@ -154,3 +157,4 @@ tasks:
       - buf build -o image.bin
       - buf generate
       - task: build:es
+      - task: build:gen-lint

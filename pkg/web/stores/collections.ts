@@ -3,7 +3,7 @@
 
 export const useCollectionsStore = defineStore('Collections', () => {
   const CollectionId = () => {
-    return useRoute().params.collectionId.toString() ?? ''
+    return useRoute('collection-collectionId').params.collectionId ?? ''
   }
 
   const Collection = computed(() => {})

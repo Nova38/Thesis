@@ -1,11 +1,11 @@
 import { Buffer } from 'node:buffer'
+import * as crypto from 'node:crypto'
 import type { IMessageTypeRegistry } from '@bufbuild/protobuf'
 import type { H3Event } from 'h3'
 
 import { createRegistry } from '@bufbuild/protobuf'
-import * as grpc from '@grpc/grpc-js'
+import { Client, credentials } from '@grpc/grpc-js'
 import { connect, signers } from '@hyperledger/fabric-gateway'
-import * as crypto from 'node:crypto'
 import { auth, ccbio, common, sample } from 'saacs-es'
 
 import type { User } from './db'
@@ -73,11 +73,11 @@ export function userToPrivateKey(user: User) {
 }
 
 export async function newGRPCClient() {
-  const tlsCredentials = grpc.credentials.createSsl(
+  const tlsCredentials = credentials.createSsl(
     Buffer.from(fabricConfig.peer.tlsCACerts.pem),
   )
 
-  const client = await new grpc.Client(
+  const client = new Client(
     fabricConfig.peer.url.split('//')[1],
     tlsCredentials,
     {
@@ -141,8 +141,8 @@ async function BuildGateway(event: H3Event) {
   return {
     [Symbol.asyncDispose]: async () => {
       console.log('closing gateway')
-      await gateway.close()
-      await client.close()
+      gateway.close()
+      client.close()
     },
     client,
     gateway,
@@ -152,10 +152,10 @@ async function BuildGateway(event: H3Event) {
 export async function useChaincode<T extends H3Event>(event: T) {
   const connection = await BuildGateway(event)
 
-  const network = await connection.gateway.getNetwork(
+  const network = connection.gateway.getNetwork(
     fabricConfig.chaincode.channel,
   )
-  const contract = await network.getContract(fabricConfig.chaincode.chaincode)
+  const contract = network.getContract(fabricConfig.chaincode.chaincode)
 
   const service = new common.generic.GenericServiceClient(
     contract,

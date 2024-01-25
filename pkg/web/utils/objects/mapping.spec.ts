@@ -18,8 +18,8 @@ describe('transformObject', () => {
     interface NewType { fullName: string, job: string, years: number }
 
     const mappings: ObjectMapping<
-      OldType,
-      NewType
+    NewType,
+      OldType
     > = [
       { newKey: 'fullName', oldKey: 'name' },
       { newKey: 'years', oldKey: 'age' },
@@ -44,8 +44,8 @@ describe('transformObject', () => {
     }
 
     const mappings: FieldMapping<
-      typeof obj,
-      { fullName: string, job: string, years: number }
+    { fullName: string, job: string, years: number },
+    typeof obj
     >[] = [
       { newKey: 'fullName', oldKey: 'name' },
       {

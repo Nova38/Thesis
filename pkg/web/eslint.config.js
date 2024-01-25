@@ -1,22 +1,21 @@
-/* eslint-disable perfectionist/sort-objects */
 import antfu from '@antfu/eslint-config'
-import perfectionistNatural from 'eslint-plugin-perfectionist/configs/recommended-natural'
+
+// import perfectionistNatural from 'eslint-plugin-perfectionist/configs/recommended-natural'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 import NuxtEslintConfig from './.nuxt/eslint.config.mjs'
 
 export default antfu(
   {
-    formatters: {
-      css: true,
-      html: true,
-      markdown: true,
-    },
+    // formatters: {
+    //   css: true,
+    //   html: true,
+    //   markdown: true,
+    // },
     // ...@antfu/eslint-config options,
-    stylistic: true,
+    // stylistic: true,
     typescript: {
-      overrides: [
-
-      ],
+      overrides: [],
       tsconfigPath: 'tsconfig.json',
     },
     vue: {
@@ -28,18 +27,25 @@ export default antfu(
         },
       },
     },
-
   },
 
-  perfectionistNatural,
+  // perfectionistNatural,
   // Add the Nuxt rules
   NuxtEslintConfig,
+  eslintConfigPrettier,
+  // eslintPluginPrettierRecommended,
+
   // ...your other rules
   {
     rules: {
       'no-console': 'off',
-      'perfectionist/sort-vue-attributes': 'off',
+      // 'perfectionist/sort-vue-attributes': 'off',
+      // 'perfectionist/sort-imports': 'off',
       'ts/no-redeclare': 'off',
+      'ts/no-unsafe-argument': 'off',
+      'ts/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'eslint-comments/no-unlimited-disable': 'off',
     },
   },
 )

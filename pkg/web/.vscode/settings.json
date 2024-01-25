@@ -109,21 +109,21 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": false,
   "eslint.experimental.useFlatConfig": true,
-  "prettier.enable": false,
+  "prettier.enable": true,
   "[vue]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     }
   },
   "[typescript]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     }
   },
   "[typescript][vue]": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }

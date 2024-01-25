@@ -1,11 +1,12 @@
 import {
     Schema,
     findCustomMessageOption,
-} from "@bufbuild/protoplugin/ecmascript";
-import { getAllTypes } from "../utils";
 
-import { KeySchema } from "../gen/auth/v1/auth_pb";
-//?^
+} from "@bufbuild/protoplugin/ecmascript";
+import { getAllMessages, getAllTypes } from "../utils";
+
+import { KeySchema, key_schema } from "../gen/auth/v1/auth_pb";
+import { getExtension, hasExtension } from "@bufbuild/protobuf";
 
 export function generateKeySchema(schema: Schema) {
     for (const file of schema.files) {
@@ -15,17 +16,17 @@ export function generateKeySchema(schema: Schema) {
         const MessageAsType = Message.toTypeOnly();
 
         f.print`export const MessageKeySchema = {`;
-        for (const descType of getAllTypes(file)) {
-            if (descType.kind == "message") {
-                const key = findCustomMessageOption(descType, 54599, KeySchema);
-                if (key) {
-                    f.print`  "${descType.typeName}" : ${key.toJsonString({
-                        enumAsInteger: true,
-                        prettySpaces: 4,
-                        emitDefaultValues: true,
-                    })},`;
-                    // f.print`${descType.typeName}: ${key},`;
-                }
+        for (const descType of getAllMessages(file)) {
+
+            const options = descType.proto.options
+
+            if (options && hasExtension(options, key_schema)) {
+                const key = getExtension(options, key_schema);
+                f.print`  "${descType.typeName}" : ${key.toJsonString({
+                    enumAsInteger: true,
+                    prettySpaces: 4,
+                    emitDefaultValues: true,
+                })},`;
             }
         }
         f.print`};`;

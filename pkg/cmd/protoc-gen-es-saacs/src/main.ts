@@ -6,7 +6,6 @@ import { createEcmaScriptPlugin, runNodeJs } from "@bufbuild/protoplugin";
 import {
     ImportSymbol,
     Schema,
-    findCustomMessageOption,
 } from "@bufbuild/protoplugin/ecmascript";
 import type {
     AnyMessage,
@@ -17,10 +16,9 @@ import { localName } from "@bufbuild/protoplugin/ecmascript";
 
 import { Empty, MethodKind, createDescriptorSet } from "@bufbuild/protobuf";
 
-import { pb } from "saacs-es";
 
 import { registry } from "./utils";
-import { generateRegistry } from "./generators/registry";
+import { generateRegistry, GenTypes } from "./generators/registry";
 import { generateIndex } from "./generators/indexs";
 import { generateGateway } from "./generators/gateway";
 import { generateKeySchema } from "./generators/keys";
@@ -39,6 +37,7 @@ function generateTs(schema: Schema) {
     generateFabricTest(schema);
 
     generateRegistry(schema);
+    GenTypes(schema);
     generateIndex(schema);
     generateKeySchema(schema);
 }
@@ -126,20 +125,6 @@ function populateFields(message: AnyMessage): AnyMessage {
 
 //     }
 // }
-
-function GetKeySchema(message: DescMessage) {
-    const options = findCustomMessageOption(
-        message,
-        54599,
-        pb.auth.auth.KeySchema
-    );
-
-    if (options) {
-        return options;
-    }
-
-    return undefined;
-}
 
 // function getTransactionType(message: DescMessage) {
 //     const options = findCustomMessageOption(

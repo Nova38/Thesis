@@ -22,14 +22,10 @@ import { auth, objects } from "../gen/auth/v1/index.js";
 import { generic, reference } from "../gen/chaincode/common/index.js";
 import { ccbio } from "../gen/index.js";
 import { sample } from "../gen/index.js";
+import { GlobalRegistry } from "../gen/global_reg.js";
 
-export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
-    ...auth.allMessages,
-    ...objects.allMessages,
-    ...generic.allMessages,
-    ...reference.allMessages,
-    ...ccbio.allMessages,
-    ...sample.allMessages,
+export const gr: IMessageTypeRegistry = createRegistry(
+
 );
 export const CLIENT = await newGRPCClient();
 
@@ -50,7 +46,7 @@ export async function newGRPCClient() {
 
     return client;
 }
-export async function BuildGateway({ userIdex }: { userIdex: number }) {}
+export async function BuildGateway({ userIdex }: { userIdex: number }) { }
 export function BuildContract(contract: any) {
     const service = new GenericServiceClient(contract, createRegistry());
     return service;
@@ -112,14 +108,7 @@ export const GetService = async ({
     const contract = await network.getContract(contractName);
     const service = new GenericServiceClient(
         contract,
-        createRegistry(
-            ...auth.allMessages,
-            ...objects.allMessages,
-            ...generic.allMessages,
-            ...reference.allMessages,
-            ...ccbio.allMessages,
-            ...sample.allMessages,
-        ),
+        GlobalRegistry
     );
     return {
         connection,

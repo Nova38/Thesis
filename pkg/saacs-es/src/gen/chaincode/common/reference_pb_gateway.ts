@@ -1,4 +1,5 @@
 import { Contract } from "@hyperledger/fabric-gateway";
+import type { PartialMessage } from "@bufbuild/protobuf";
 import { IMessageTypeRegistry, JsonWriteStringOptions } from "@bufbuild/protobuf";
 import { ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse } from "./reference_pb.js";
 
@@ -9,7 +10,7 @@ const utf8Decoder = new TextDecoder();
  *
  * @generated from service auth.common.ReferenceService
  */
-export class ReferenceServiceClient {
+export class ReferenceServiceClient  {
     private contract: Contract;
     private jsonWriteOptions:Partial<JsonWriteStringOptions> = {};
     registry: IMessageTypeRegistry;
@@ -24,65 +25,65 @@ export class ReferenceServiceClient {
     /**
      * @generated from rpc auth.common.ReferenceService.Reference
      */
-    async reference(request: ReferenceRequest ): Promise<ReferenceResponse> {
-            const results = utf8Decoder.decode(
-                await this.contract.evaluateTransaction(
-                "Reference",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceResponse.fromJsonString(results, {typeRegistry: this.registry});
+  async reference(req: PartialMessage<ReferenceRequest>): Promise<ReferenceResponse> {
+    const msg = req instanceof ReferenceRequest ? req : new ReferenceRequest(req);
+    const results = utf8Decoder.decode(
+      await this.contract.evaluateTransaction(
+        "Reference",
+        msg.toJsonString(this.jsonWriteOptions)
+      ))
+    return ReferenceResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByItem
      */
-    async referenceByItem(request: ReferenceByItemRequest ): Promise<ReferenceByItemResponse> {
-            const results = utf8Decoder.decode(
-                await this.contract.evaluateTransaction(
-                "ReferenceByItem",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceByItemResponse.fromJsonString(results, {typeRegistry: this.registry});
+  async referenceByItem(req: PartialMessage<ReferenceByItemRequest>): Promise<ReferenceByItemResponse> {
+    const msg = req instanceof ReferenceByItemRequest ? req : new ReferenceByItemRequest(req);
+    const results = utf8Decoder.decode(
+      await this.contract.evaluateTransaction(
+        "ReferenceByItem",
+        msg.toJsonString(this.jsonWriteOptions)
+      ))
+    return ReferenceByItemResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceByPartialKey
      */
-    async referenceByPartialKey(request: ReferenceByPartialKeyRequest ): Promise<ReferenceByPartialKeyResponse> {
-            const results = utf8Decoder.decode(
-                await this.contract.evaluateTransaction(
-                "ReferenceByPartialKey",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceByPartialKeyResponse.fromJsonString(results, {typeRegistry: this.registry});
+  async referenceByPartialKey(req: PartialMessage<ReferenceByPartialKeyRequest>): Promise<ReferenceByPartialKeyResponse> {
+    const msg = req instanceof ReferenceByPartialKeyRequest ? req : new ReferenceByPartialKeyRequest(req);
+    const results = utf8Decoder.decode(
+      await this.contract.evaluateTransaction(
+        "ReferenceByPartialKey",
+        msg.toJsonString(this.jsonWriteOptions)
+      ))
+    return ReferenceByPartialKeyResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceCreate
      */
-    async referenceCreate(request: ReferenceCreateRequest ): Promise<ReferenceCreateResponse> {
-            const results = utf8Decoder.decode(
-                await this.contract.submitTransaction(
-                "ReferenceCreate",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceCreateResponse.fromJsonString(results, {typeRegistry: this.registry});
+  async referenceCreate(req: PartialMessage<ReferenceCreateRequest>): Promise<ReferenceCreateResponse> {
+    const msg = req instanceof ReferenceCreateRequest ? req : new ReferenceCreateRequest(req);
+    const results = utf8Decoder.decode(
+      await this.contract.submitTransaction(
+        "ReferenceCreate",
+        msg.toJsonString(this.jsonWriteOptions)
+      ))
+    return ReferenceCreateResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 
     /**
      * @generated from rpc auth.common.ReferenceService.ReferenceDelete
      */
-    async referenceDelete(request: ReferenceDeleteRequest ): Promise<ReferenceDeleteResponse> {
-            const results = utf8Decoder.decode(
-                await this.contract.submitTransaction(
-                "ReferenceDelete",
-                request.toJsonString(this.jsonWriteOptions)
-            )
-            )
-            return ReferenceDeleteResponse.fromJsonString(results, {typeRegistry: this.registry});
+  async referenceDelete(req: PartialMessage<ReferenceDeleteRequest>): Promise<ReferenceDeleteResponse> {
+    const msg = req instanceof ReferenceDeleteRequest ? req : new ReferenceDeleteRequest(req);
+    const results = utf8Decoder.decode(
+      await this.contract.submitTransaction(
+        "ReferenceDelete",
+        msg.toJsonString(this.jsonWriteOptions)
+      ))
+    return ReferenceDeleteResponse.fromJsonString(results, {typeRegistry: this.registry});
     }
 }

@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { ccbio } from 'saacs-es'
 
+interface Props {
+  ageStrings: string[]
+  sexStrings: string[]
+}
 const props = defineProps<Props>()
 
 console.log(
@@ -15,10 +19,6 @@ console.log(
 const sexList = ref([[], [], [], [], []])
 const ageList = ref([[], [], [], [], [], [], []])
 
-interface Props {
-  ageStrings: string[]
-  sexStrings: string[]
-}
 const SexOptions = [
   { label: 'SEX_UNKNOWN', value: 1 },
   { label: 'SEX_ATYPICAL', value: 2 },

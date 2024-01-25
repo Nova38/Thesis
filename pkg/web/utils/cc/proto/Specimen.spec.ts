@@ -4,7 +4,7 @@ import { construct, crush } from 'radash'
 import { ccbio } from 'saacs-es'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { Specimen } from './Specimen'
+import { ZSpecimen } from './Specimen'
 
 const raw = {
   collectionId: 'KU-Zoology',
@@ -180,9 +180,9 @@ const csvFlat = {
 describe('suite name', () => {
   beforeAll(() => {})
   it('simpleParse', () => {
-    expect(() => Specimen.parse(raw)).not.toThrowError()
+    expect(() => ZSpecimen.parse(raw)).not.toThrowError()
     expect(() => {
-      new ccbio.Specimen(Specimen.parse(raw))
+      new ccbio.Specimen(ZSpecimen.parse(raw))
     }).not.toThrowError()
 
     // console.log(new ccbio.Specimen(Specimen.parse(raw)));
@@ -194,7 +194,7 @@ describe('suite name', () => {
     const unFlat = construct(flat)
     console.log(unFlat)
 
-    expect(Specimen.parse(unFlat)).toEqual(Specimen.parse(raw))
+    expect(ZSpecimen.parse(unFlat)).toEqual(ZSpecimen.parse(raw))
   })
 
   it('parseOutput', () => {
@@ -207,7 +207,7 @@ describe('suite name', () => {
     const output = []
     json.items.forEach((item: any) => {
       expect(() => {
-        const s = new ccbio.Specimen(Specimen.parse(construct(item)))
+        const s = new ccbio.Specimen(ZSpecimen.parse(construct(item)))
         output.push(s)
         s.toJsonString({ typeRegistry: createRegistry(ccbio.Specimen) })
         // new ccbio.Specimen(Specimen.parse(construct(item)));

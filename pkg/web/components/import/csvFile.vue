@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Papa, { type ParseResult } from 'papaparse'
+import { QCardSection } from 'quasar'
 
 const file = ref<File | null>(null)
 
@@ -41,20 +42,18 @@ watch(file, (newFile) => {
 </script>
 
 <template>
-  <div>
-    <q-card-section>
-      <h2>Select CSV file to import from</h2>
-      <q-file
-        v-model="file"
-        accept=".csv"
-        outlined
-      >
-        <template #prepend>
-          <q-icon name="attach_file" />
-        </template>
-      </q-file>
-    </q-card-section>
-  </div>
+  <QCardSection>
+    <h2>Select CSV file to import from</h2>
+    <QFile
+      v-model="file"
+      accept=".csv"
+      outlined
+    >
+      <template #prepend>
+        <q-icon name="attach_file" />
+      </template>
+    </QFile>
+  </QCardSection>
 </template>
 
 <style></style>

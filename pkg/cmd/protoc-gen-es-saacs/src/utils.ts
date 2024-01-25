@@ -6,11 +6,22 @@ import {
     DescService,
     createRegistryFromDescriptors,
 } from "@bufbuild/protobuf";
+import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import * as fs from "fs";
 
 export const registry = createRegistryFromDescriptors(
     fs.readFileSync("image.bin")
 );
+
+export function* GetAllTypesFromSchema(schema: Schema) {
+    for (const file of schema.files) {
+        for (const descType of getAllTypes(file)) {
+            yield descType;
+        }
+    }
+}
+
+
 export function* getAllTypes(
     desc: DescFile | DescMessage
 ): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
@@ -34,26 +45,21 @@ export function* getAllTypes(
             break;
     }
 }
-function* getAllMessages(
+export function* getAllMessages(
     desc: DescFile | DescMessage
-): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
+): Iterable<DescMessage> {
     switch (desc.kind) {
         case "file":
             for (const message of desc.messages) {
                 yield message;
-                yield* getAllTypes(message);
+                yield* getAllMessages(message);
             }
-            yield* desc.enums;
-            yield* desc.services;
-            yield* desc.extensions;
             break;
         case "message":
             for (const message of desc.nestedMessages) {
                 yield message;
-                yield* getAllTypes(message);
+                yield* getAllMessages(message);
             }
-            yield* desc.nestedEnums;
-            yield* desc.nestedExtensions;
             break;
     }
 }

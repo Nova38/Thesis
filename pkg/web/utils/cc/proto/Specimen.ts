@@ -1,8 +1,6 @@
-import { type PlainMessage, Timestamp } from '@bufbuild/protobuf'
+import { Timestamp } from '@bufbuild/protobuf'
 import { ccbio } from 'saacs-es'
 import z from 'zod'
-
-export type PlainSpecimen = PlainMessage<ccbio.Specimen>
 
 export function MakeEmptySpecimen() {
   return new ccbio.Specimen({
@@ -25,6 +23,30 @@ export function MakeEmptySpecimen() {
   })
 }
 
+const SexOptions = [
+  { label: 'SEX_UNKNOWN', value: 1 },
+  { label: 'SEX_ATYPICAL', value: 2 },
+  { label: 'SEX_MALE', value: 3 },
+  { label: 'SEX_FEMALE', value: 4 },
+] as const
+
+const AgeOptions = [
+  { label: 'AGE_UNKNOWN', value: 1 },
+  { label: 'AGE_NEST', value: 2 },
+  { label: 'AGE_EMBRYO_EGG', value: 3 },
+  { label: 'AGE_CHICK_SUBADULT', value: 4 },
+  { label: 'AGE_ADULT', value: 5 },
+  { label: 'AGE_CONTINGENT', value: 6 },
+] as const
+
+const NumberFelids = [
+  'geography.latitude',
+  'geography.longitude',
+  'secondary.wight',
+  'secondary.sex',
+  'secondary.age',
+] as const
+
 // export type ProtoDate = z.infer<typeof ProtoDate>
 export const ProtoDate = z.object({
   day: z.coerce.number().optional(),
@@ -46,25 +68,25 @@ export const LastModified = z.object({
   userId: z.string().trim().optional(),
 })
 
-const sex = z.enum([
-  'SEX_UNDEFINED',
-  'SEX_UNKNOWN',
-  'SEX_ATYPICAL',
-  'SEX_MALE',
-  'SEX_FEMALE',
-])
+// const sex = z.enum([
+//   'SEX_UNDEFINED',
+//   'SEX_UNKNOWN',
+//   'SEX_ATYPICAL',
+//   'SEX_MALE',
+//   'SEX_FEMALE',
+// ])
 
-const age = z.enum([
-  'AGE_UNDEFINED',
-  'AGE_UNKNOWN',
-  'AGE_NEST',
-  'AGE_EMBRYO_EGG',
-  'AGE_CHICK_SUBADULT',
-  'AGE_ADULT',
-  'AGE_CONTINGENT',
-])
+// const age = z.enum([
+//   'AGE_UNDEFINED',
+//   'AGE_UNKNOWN',
+//   'AGE_NEST',
+//   'AGE_EMBRYO_EGG',
+//   'AGE_CHICK_SUBADULT',
+//   'AGE_ADULT',
+//   'AGE_CONTINGENT',
+// ])
 
-export const Specimen = z.object({
+export const ZSpecimen = z.object({
   collectionId: z.string().trim(),
   georeference: z.object({
     continent: z.string().trim().optional(),
@@ -168,5 +190,3 @@ export const Specimen = z.object({
     })
     .default({}),
 })
-
-export const reqSpeciemn = Specimen.required()

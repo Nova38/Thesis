@@ -30,11 +30,11 @@ plugins:
       - emit_defaults=true
       - enums_as_ints=true
 
-  - plugin: buf.build/bufbuild/es:v1.3.1
+  - plugin: buf.build/bufbuild/es
     out: pkg/saacs-es/src/gen
     opt: target=ts
 
-  - plugin: buf.build/bufbuild/es:v1.3.1
+  - plugin: buf.build/bufbuild/es
     out: pkg/cmd/protoc-gen-es-saacs/src/gen
     opt: target=ts
 
@@ -43,10 +43,16 @@ plugins:
     opt: target=ts
     out: pkg/saacs-es/src/gen
     strategy: all
+  #
+  - plugin: buf.build/bufbuild/es
+    out: pkg/web/lib/gen
+    opt: target=ts
 
-
-
-#
+  - plugin: protoc-gen-es-saacs
+    path: ["tsx", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
+    opt: target=ts
+    out: pkg/web/lib/gen
+    strategy: all
 #     - plugin: protoc-gen-es-tools
 #       path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/workload_templates.ts"]
 #       opt: target=ts
