@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs'
 import { createRegistry } from '@bufbuild/protobuf'
 import { construct, crush } from 'radash'
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { ZSpecimen } from './Specimen'
@@ -178,7 +178,7 @@ const csvFlat = {
 }
 
 describe('suite name', () => {
-  beforeAll(() => {})
+  beforeAll(() => { })
   it('simpleParse', () => {
     expect(() => ZSpecimen.parse(raw)).not.toThrowError()
     expect(() => {

@@ -6,20 +6,11 @@ import type { H3Event } from 'h3'
 import { createRegistry } from '@bufbuild/protobuf'
 import { Client, credentials } from '@grpc/grpc-js'
 import { connect, signers } from '@hyperledger/fabric-gateway'
-import { auth, ccbio, common, sample } from 'saacs-es'
-
 import type { User } from './db'
 
 import { sessionConfig } from './session'
-
-export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
-  ...auth.auth.allMessages,
-  ...auth.objects.allMessages,
-  ...common.generic.allMessages,
-  ...common.reference.allMessages,
-  ...ccbio.allMessages,
-  ...sample.allMessages,
-)
+import { auth, ccbio, common, sample } from '~/lib'
+import { GlobalRegistry } from '~/lib/gen/global_reg'
 
 export interface FabricConfig {
   chaincode: {

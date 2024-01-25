@@ -1,5 +1,5 @@
-import { auth, ccbio, common } from 'saacs-es'
 import { z } from 'zod'
+import { auth, ccbio, common } from '~/lib'
 
 const querySchema = z.object({
   bookmark: z.string().optional(),

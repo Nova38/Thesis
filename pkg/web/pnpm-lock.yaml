@@ -56,9 +56,6 @@ dependencies:
   radash:
     specifier: ^11.0.0
     version: 11.0.0
-  saacs-es:
-    specifier: link:..\saacs-es
-    version: link:../saacs-es
   scule:
     specifier: ^1.2.0
     version: 1.2.0

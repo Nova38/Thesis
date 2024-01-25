@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 interface Props {
   ageStrings: string[]
@@ -117,11 +117,8 @@ const ageMapping = defineModel('ageList', {
             >
               <template #label>
                 <div class="">
-                  <span
-                    v-if="ageStrings[item.value]"
-                    class="truncate"
-                  >{{
-                    ageList[item.value].join(", ")
+                  <span v-if="ageStrings[item.value]" class="truncate">{{
+                    ageList[item.value].join(', ')
                   }}</span>
                   <span v-else>Select Age Strings</span>
                 </div>

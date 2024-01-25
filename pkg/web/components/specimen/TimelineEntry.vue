@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 const props = defineProps({
   canHide: {
@@ -31,10 +31,7 @@ async function sendUnHide() {
 </script>
 
 <template>
-  <QTimelineEntry
-    :title="`Transaction ID: ${entry.txId}`"
-    icon="ti-pin"
-  >
+  <QTimelineEntry :title="`Transaction ID: ${entry.txId}`" icon="ti-pin">
     <!-- <template #title> {{ entry.txId || "Initial State" }} </template> -->
     <template #subtitle>
       {{ Date(entry.timestamp) }}
@@ -54,22 +51,11 @@ async function sendUnHide() {
         />
       </div>
     </q-expansion-item>
-    <q-card-actions
-      v-if="!isLast && props.canHide"
-      class="col justify-center"
-    >
-      <q-btn
-        v-if="hidden"
-        color="positive"
-        @click="sendUnHide"
-      >
+    <q-card-actions v-if="!isLast && props.canHide" class="col justify-center">
+      <q-btn v-if="hidden" color="positive" @click="sendUnHide">
         Unhide Transaction
       </q-btn>
-      <q-btn
-        v-if="!hidden"
-        color="negative"
-        @click="sendHide"
-      >
+      <q-btn v-if="!hidden" color="negative" @click="sendHide">
         Hide Transaction
       </q-btn>
     </q-card-actions>

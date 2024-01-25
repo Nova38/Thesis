@@ -1,4 +1,4 @@
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 import { expect, it } from 'vitest'
 
 it('foo', () => {

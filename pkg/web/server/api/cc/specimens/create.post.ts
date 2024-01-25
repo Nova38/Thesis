@@ -1,6 +1,6 @@
 import { Any } from '@bufbuild/protobuf'
-import { ccbio, common } from 'saacs-es'
 import { z } from 'zod'
+import { ccbio, common } from '~/lib'
 
 const bodySchema = z.object({
   collectionId: z.string(),

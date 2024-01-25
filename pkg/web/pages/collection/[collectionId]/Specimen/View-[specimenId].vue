@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
-import { ccbio } from 'saacs-es'
+import { ccbio } from '~/lib'
 
 const route = useRoute()
 
@@ -109,8 +109,7 @@ async function submitHandler() {
     getHistory.refresh()
     getCurrent.refresh()
     console.log('current', toValue(getCurrent.data))
-  }
-  catch (error) {
+  } catch (error) {
     mode.value = oldMode
     console.error(error)
   }
@@ -129,13 +128,8 @@ async function submitHandler() {
         >
           <template #Header>
             <div>
-              <QBar
-                :class="modeColor"
-                class="p-2"
-              >
-                <div class="font-bold">
-                  Current Mode: {{ modeCapitalized }}
-                </div>
+              <QBar :class="modeColor" class="p-2">
+                <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
 
                 <q-space />
                 <q-btn

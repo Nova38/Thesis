@@ -1,6 +1,6 @@
 // import { useChaincode } from "~/server/utils/useChaincode";
-import { auth, common } from 'saacs-es'
 import { z } from 'zod'
+import { auth, common } from '~/lib'
 
 const querySchema = z.object({
   collectionId: z.string(),

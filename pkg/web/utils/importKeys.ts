@@ -7,7 +7,7 @@ console.log('keysForImport', keysForImport)
 const notAllowedKeys = ['specimenId', 'last_modified_by', 'collection_id']
 const SpecimenKeys: Array<string> = keys(keysForImport)
 
-const FilteredSpecimenKeys = SpecimenKeys.filter(
+export const FilteredSpecimenKeys = SpecimenKeys.filter(
   k => !notAllowedKeys.includes(k),
 )
 
