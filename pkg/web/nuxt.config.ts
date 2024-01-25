@@ -16,6 +16,9 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+  experimental: {
+    typedPages: true,
+  },
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
 
@@ -39,8 +42,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@vueuse/nuxt',
     'nuxt-module-eslint-config',
-
-    // "@nuxtjs/eslint-module",
     '@pinia/nuxt',
     'nuxt-radash',
     '@nuxt/test-utils/module',

@@ -10,7 +10,7 @@
         ],
         "resolveJsonModule": true,
         "module": "nodenext",
-        "target": "es2022",
+        "target": "esnext",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,

@@ -27,7 +27,7 @@ export function generateIndex(schema: Schema) {
         // f.preamble(file);
         if (file.messages.length > 0) {
             f.print(`export * from "./${base}_pb.js"`);
-            f.print(`export * from "./${base}_pb_reg.js"`);
+            // f.print(`export * from "./${base}_pb_reg.js"`);
         }
 
         if (file.services.length > 0) {
@@ -46,17 +46,6 @@ export function generateIndex(schema: Schema) {
                 f.print(`export * as ${file} from "./index_${file}_pb.js"`);
             });
         }
-
-        // folder.split("/").forEach((file) => {
-        //     if (file != "" && !file.match(/^v[0-9]/) && !file.match(/^chaincode/)) {
-        //         baseIndexFile.print(`export * as ${folder} from "./${folder}index.js"`)
-        //     }
-        // // baseIndexFile.print(`export * as ${files} from "./${folder}index.js"`)
-        // })
     });
 
-    //  // remove the last part of the path
-    //  const f = schema.generateFile(folder + "index.ts");
-    //  f.preamble(file);
-    //  f.print`//${folder}`
 }

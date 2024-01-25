@@ -12,8 +12,8 @@ export function toMask(p: string) {
 }
 
 export function diffCrush(base: any, updated: any, excludePaths: string[]) {
-  const b: Record<string, unknown> = crush(toValue(base) ?? {})
-  const u: Record<string, unknown> = crush(toValue(updated) ?? {})
+  const b: Record<string, any> = crush(toValue(base) ?? {})
+  const u: Record<string, any> = crush(toValue(updated) ?? {})
 
   const differences: Record<string, unknown>[] = []
   const paths: string[] = []
