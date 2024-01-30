@@ -6,7 +6,6 @@ require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.32.0-20231115204500-e097f827e652.1
 	github.com/bufbuild/protovalidate-go v0.4.3
 	github.com/google/go-cmp v0.6.0
-	github.com/grafana/pyroscope-go v1.0.4
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.6
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20231108144948-3542320d76a7
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
@@ -23,11 +22,7 @@ require (
 
 require (
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
-	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/lipgloss v0.9.1 // indirect
-	github.com/charmbracelet/log v0.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.3.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.0 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
@@ -44,16 +39,10 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/klauspost/compress v1.17.3 // indirect
-	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/mattn/go-isatty v0.0.18 // indirect
-	github.com/mattn/go-runewidth v0.0.15 // indirect
-	github.com/muesli/reflow v0.3.0 // indirect
-	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/oklog/ulid/v2 v2.1.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

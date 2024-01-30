@@ -1,9 +1,8 @@
 import type { BreadcrumbLink } from '@nuxt/ui/dist/runtime/types'
 
 export function useBreadcrumbLinks() {
-  const route = useRoute()
   const links = computed(() => {
-    const paths = route.path.split('/').filter(p => p)
+    const route = useRoute()
 
     const items: BreadcrumbLink[] = [
       {
@@ -13,8 +12,14 @@ export function useBreadcrumbLinks() {
       },
     ]
 
-    // Check for the collection route
-    if (route.params?.collectionId) {
+    if (
+      route.name === 'collection-collectionId' ||
+      route.name === 'collection-collectionId-AccessControl' ||
+      route.name === 'collection-collectionId-SpecimenTable' ||
+      route.name === 'collection-collectionId-Specimen-New' ||
+      route.name === 'collection-collectionId-Specimen-import' ||
+      route.name === 'collection-collectionId-Specimen-update'
+    ) {
       items.push({
         // material-symbols:collections-bookmark-outline-rounded
         icon: 'i-material-symbols-collections-bookmark-outline-rounded',
@@ -22,55 +27,16 @@ export function useBreadcrumbLinks() {
         to: `/collection/${route.params.collectionId}/SpecimenTable`,
       })
     }
-    // if (paths.find((p) => p === "SpecimenTable")) {
-    //   // items.push({
-    //   //     label: `Specimen`,
-    //   //     to: `/specimen`,
-    //   //     icon: "i-heroicons-moon",
-    //   // });
 
-    //   items.push({
-    //     label: `Specimen Table`,
-    //     to: `/collection/${route.params.collectionId}/SpecimenTable`,
-    //     // material-symbols:collections-bookmark-outline-rounded
-    //     icon: "i-material-symbols-collections-bookmark-outline-rounded",
-    //   });
-    // }
-
-    // Handle the Specimen route
-    if (paths.find(p => p === 'Specimen')) {
-      // items.push({
-      //     label: `Specimen`,
-      //     to: `/specimen`,
-      //     icon: "i-heroicons-moon",
-      // });
-
-      if (route.params?.specimenId) {
-        // See if we have a speciemen id
-        items.push({
-          icon: 'i-heroicons-moon',
-          label: `Specimen: ${route.params.specimenId}`,
-          to: `/collection/${route.params.collectionId}/specimen/view-${route.params.specimenId}`,
-        })
-      }
+    if (route.name === 'collection-collectionId-Specimen-View-specimenId') {
+      items.push({
+        icon: 'i-heroicons-moon',
+        label: `Specimen: ${route.params.specimenId}`,
+        to: `/collection/${route.params.collectionId}/specimen/view-${route.params.specimenId}`,
+      })
     }
 
-    // items.push({
-
-    console.log('items', items)
-    console.log('paths', paths)
-
     return items
-    //
-    // const links = paths.map((p, i) => {
-    //     const link = {
-    //         title: p,
-    //         to: "/" + paths.slice(0, i + 1).join("/"),
-    //     };
-    //     return link;
-    // });
-    // return links;
   })
-
   return links
 }

@@ -8,14 +8,11 @@ const { data, error, pending } = await useCustomFetch(
 )
 
 const colLinks = computed(() => {
-  if (pending.value)
-    return []
+  if (pending.value) return []
 
-  if (error.value)
-    return []
+  if (error.value) return []
 
-  if (!data.value)
-    return []
+  if (!data.value) return []
 
   console.log(data.value)
   return data.value.collections.map((collection) => {
@@ -29,11 +26,7 @@ const colLinks = computed(() => {
 
 <template>
   <div>
-    <div
-      v-for="col in colLinks"
-      :key="col.label"
-      class="p-2"
-    >
+    <div v-for="col in colLinks" :key="col.label" class="p-2">
       <QExpansionItem
         :label="col.label"
         caption="Collection"
@@ -56,10 +49,7 @@ const colLinks = computed(() => {
               clickable
             >
               <q-item-section avatar>
-                <q-icon
-                  color="primary"
-                  name="ti-view-list-alt"
-                />
+                <q-icon color="primary" name="ti-view-list-alt" />
               </q-item-section>
 
               <q-item-section>Specimen Table</q-item-section>
@@ -70,10 +60,7 @@ const colLinks = computed(() => {
               clickable
             >
               <q-item-section avatar>
-                <q-icon
-                  color="primary"
-                  name="ti-dashboard"
-                />
+                <q-icon color="primary" name="ti-dashboard" />
               </q-item-section>
 
               <q-item-section> Access Control </q-item-section>
@@ -86,10 +73,7 @@ const colLinks = computed(() => {
               clickable
             >
               <q-item-section avatar>
-                <q-icon
-                  color="primary"
-                  name="ti-plus"
-                />
+                <q-icon color="primary" name="ti-plus" />
               </q-item-section>
 
               <q-item-section>New Specimen</q-item-section>
@@ -101,10 +85,7 @@ const colLinks = computed(() => {
               clickable
             >
               <q-item-section avatar>
-                <q-icon
-                  color="primary"
-                  name="ti-import"
-                />
+                <q-icon color="primary" name="ti-import" />
               </q-item-section>
 
               <q-item-section>Bulk Import</q-item-section>
@@ -115,10 +96,7 @@ const colLinks = computed(() => {
               clickable
             >
               <q-item-section avatar>
-                <q-icon
-                  color="primary"
-                  name="ti-import"
-                />
+                <q-icon color="primary" name="ti-import" />
               </q-item-section>
 
               <q-item-section>Bulk Update</q-item-section>

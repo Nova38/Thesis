@@ -1,27 +1,45 @@
 /* eslint-disable node/prefer-global/process */
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  appConfig: {
-    apiEndpoint:
-      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
-  },
-  css: ['~/assets/css/main.css'],
   devServer: {
-    https: true,
+    https: true, // enable HTTPS
     port: 8000,
   },
   devtools: {
     enabled: true,
+
     timeline: {
       enabled: true,
     },
+    disableAuthorization: true,
+    vscode: {
+      enabled: true,
+    },
   },
+  debug: true,
+
+  ssr: false,
+
   experimental: {
     typedPages: true,
+    asyncContext: true,
   },
+  modules: [
+    '@nuxt/test-utils/module',
+
+    'nuxt-quasar-ui',
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+    'nuxt-module-eslint-config',
+    '@pinia/nuxt',
+    'nuxt-radash',
+  ],
+
+  css: ['~/assets/css/main.css'],
+
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
-
     presets: [
       {
         from: 'protobuf-es',
@@ -37,15 +55,7 @@ export default defineNuxtConfig({
       },
     ],
   },
-  modules: [
-    'nuxt-quasar-ui',
-    '@nuxt/ui',
-    '@vueuse/nuxt',
-    'nuxt-module-eslint-config',
-    '@pinia/nuxt',
-    'nuxt-radash',
-    '@nuxt/test-utils/module',
-  ],
+
   nitro: {
     storage: {
       '.data:auth': {
@@ -53,31 +63,6 @@ export default defineNuxtConfig({
         driver: 'fs',
       },
     },
-  },
-
-  quasar: {
-    components: {
-      deepDefaults: true,
-      defaults: {
-        QInput: {
-          dense: true,
-          outlined: true,
-          stackLabel: true,
-        },
-      },
-    },
-    config: {
-      loadingBar: {
-        color: 'secondary',
-        position: 'bottom',
-        size: '4px',
-      },
-    },
-    extras: {
-      font: 'roboto-font',
-      fontIcons: ['themify', 'material-icons'],
-    },
-    plugins: ['LoadingBar', 'Notify'],
   },
 
   routeRules: {
@@ -94,6 +79,11 @@ export default defineNuxtConfig({
         // 'Access-Control-Max-Age': '7200', // 7200 = caching 2 hours (Chromium default), https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age#directives
       },
     },
+  },
+
+  appConfig: {
+    apiEndpoint:
+      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
   },
   runtimeConfig: {
     auth: {
@@ -122,16 +112,36 @@ export default defineNuxtConfig({
     },
     public: {
       api: {
-        url: process.env.NUXT_API_URL,
+        url: process.env.NUXT_API_URL || '',
       },
     },
   },
-
-  sourcemap: true,
-  ssr: false,
+  quasar: {
+    components: {
+      deepDefaults: true,
+      defaults: {
+        QInput: {
+          dense: true,
+          outlined: true,
+          stackLabel: true,
+        },
+      },
+    },
+    config: {
+      loadingBar: {
+        color: 'secondary',
+        position: 'bottom',
+        size: '4px',
+      },
+    },
+    extras: {
+      font: 'roboto-font',
+      fontIcons: ['themify', 'material-icons'],
+    },
+    plugins: ['LoadingBar', 'Notify'],
+  },
   ui: {
     global: true,
     icons: {},
-
   },
 })

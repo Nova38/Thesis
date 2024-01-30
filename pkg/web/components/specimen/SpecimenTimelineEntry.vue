@@ -16,9 +16,11 @@ const entry = defineModel<ccbio.SpecimenHistoryEntry>('entry', {
 
 const isLast = defineModel('isLast', {
   default: () => false,
+  type: Boolean,
 })
 const hidden = defineModel('hidden', {
   default: () => false,
+  type: Boolean,
 })
 
 async function sendHide() {
@@ -34,7 +36,7 @@ async function sendUnHide() {
   <QTimelineEntry :title="`Transaction ID: ${entry.txId}`" icon="ti-pin">
     <!-- <template #title> {{ entry.txId || "Initial State" }} </template> -->
     <template #subtitle>
-      {{ Date(entry.timestamp) }}
+      {{ entry.timestamp?.toDate() }}
     </template>
 
     <q-expansion-item

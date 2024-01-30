@@ -10,6 +10,7 @@ const props = defineProps({
 
 const history = defineModel('history', {
   default: () => new ccbio.SpecimenHistory(),
+  type: ccbio.SpecimenHistory,
 })
 console.log('history', history)
 </script>

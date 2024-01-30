@@ -13,8 +13,8 @@ callOnce(() => {
 
 // Table 1
 const headers = ref<string[]>([])
-const rawData = ref<Record<string, string>[]>([])
-const RowMeta = ref<RowMeta[]>([])
+const rawRows = ref<Record<string, string>[]>([])
+const RowMeta = ref([])
 const RowsSelected = ref<Record<string, string>[]>([])
 const makeNew = ref<boolean>(true)
 
@@ -126,7 +126,7 @@ watch(file, (file) => {
         }
       }
 
-      rawData.value = results.data.map((value: any, index: any) => {
+      rawRows.value = results.data.map((value: any, index: any) => {
         RowMeta.value[index] = {
           exist: 'new',
           status: 'new',
@@ -332,7 +332,7 @@ function statusToChipColor(status: status) {
         <p class="font-bold">Bulk Update Specimens</p>
       </QCardSection>
 
-      <CsvFile :csv="csv" />
+      <ImportCsvFile :headers="headers" :csv="csv" />
 
       <ImportUpdateTableRaw />
 
@@ -355,7 +355,7 @@ function statusToChipColor(status: status) {
 
       <ImportUpdateTablePreview
         :raw-headers="headers"
-        :raw-rows="rawData"
+        :raw-rows="rawRows"
         :specimen-mapping="specimenMapping"
       />
 

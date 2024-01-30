@@ -10,6 +10,9 @@ export const useUpdatingStore = defineStore('Updating', () => {
   //
   const CollectionId = ref()
 
+  // RawRows is the raw data from the spreadsheet
+  const RawRows = ref([])
+
   // Mapped by catalogNumber
   const CurrentSpecimenMap = ref(new Map<string, PlainSpecimen>())
 
@@ -19,6 +22,7 @@ export const useUpdatingStore = defineStore('Updating', () => {
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
   return {
+    RawRows,
     CollectionId,
     CurrentSpecimenMap,
     RawRowMap,
