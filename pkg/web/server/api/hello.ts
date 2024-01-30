@@ -1,4 +1,1 @@
-export default defineEventHandler((event) => {
-  event.toJSON()
-  return 'Hello hello'
-})
+export default defineEventHandler((event) => {})

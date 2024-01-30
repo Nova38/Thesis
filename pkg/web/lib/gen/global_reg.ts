@@ -1,12 +1,12 @@
-import type { IMessageTypeRegistry } from '@bufbuild/protobuf'
-import { createRegistry } from '@bufbuild/protobuf'
-import { KeySchema, Operation, StateActivity, User } from './auth/v1/auth_pb.js'
-import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, PathPolicy, Polices, Reference, ReferenceKey, Role, RoleList, Suggestion, UserCollectionRoles, UserDirectMembership, UserEmbeddedRoles } from './auth/v1/objects_pb.js'
-import { Date, Researcher, Specimen, SpecimenHistory, SpecimenHistoryEntry, SpecimenUpdate, Specimen_Georeference, Specimen_Grant, Specimen_Image, Specimen_Loan, Specimen_Primary, Specimen_Secondary, Specimen_Secondary_Preparation, Specimen_Taxon } from './biochain/v1/state_pb.js'
-import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCollectionsListResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from './chaincode/common/generic_pb.js'
-import { ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse } from './chaincode/common/reference_pb.js'
-import { Book, Group, SimpleItem } from './sample/v0/items_pb.js'
+import type { IMessageTypeRegistry } from "@bufbuild/protobuf";
+import { KeySchema, Operation, StateActivity, User } from "./auth/v1/auth_pb.js";
+import { Attribute, Collection, FullItem, HiddenTx, HiddenTxList, History, HistoryEntry, Item, ItemKey, PathPolicy, Polices, Reference, ReferenceKey, Role, RoleList, Suggestion, UserCollectionRoles, UserDirectMembership, UserEmbeddedRoles } from "./auth/v1/objects_pb.js";
+import { Date, Researcher, Specimen, Specimen_Georeference, Specimen_Grant, Specimen_Image, Specimen_Loan, Specimen_Primary, Specimen_Secondary, Specimen_Secondary_Preparation, Specimen_Taxon, SpecimenHistory, SpecimenHistoryEntry, SpecimenUpdate } from "./biochain/v1/state_pb.js";
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateCollectionRequest, CreateCollectionResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCollectionsListResponse, GetCurrentFullUserResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, SuggestionListRequest, SuggestionListResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./chaincode/common/generic_pb.js";
+import { ReferenceByCollectionRequest, ReferenceByCollectionResponse, ReferenceByItemRequest, ReferenceByItemResponse, ReferenceByPartialKeyRequest, ReferenceByPartialKeyResponse, ReferenceCreateRequest, ReferenceCreateResponse, ReferenceDeleteRequest, ReferenceDeleteResponse, ReferenceRequest, ReferenceResponse } from "./chaincode/common/reference_pb.js";
+import { Book, Group, SimpleItem } from "./sample/v0/items_pb.js";
 
+import { createRegistry } from "@bufbuild/protobuf";
 export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
   User,
   KeySchema,
@@ -109,4 +109,4 @@ export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
   SimpleItem,
   Group,
   Book,
-)
+);

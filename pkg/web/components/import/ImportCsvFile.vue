@@ -12,6 +12,7 @@ export interface CsvMeta {
 
 const rows = defineModel<Record<string, string>[]>('csv', {
   default: () => [],
+  required: true,
 })
 
 const headers = defineModel<string[]>('headers', {
@@ -20,8 +21,7 @@ const headers = defineModel<string[]>('headers', {
 })
 
 watch(file, (newFile) => {
-  if (!file)
-    return
+  if (!file) return
 
   if (newFile) {
     rows.value = []
@@ -31,8 +31,7 @@ watch(file, (newFile) => {
       complete: (results: ParseResult<Record<string, string>>) => {
         headers.value = results.meta.fields || []
 
-        for (const row of results.data)
-          rows.value.push(row)
+        for (const row of results.data) rows.value.push(row)
       },
 
       header: true,
@@ -44,11 +43,12 @@ watch(file, (newFile) => {
 <template>
   <QCardSection>
     <h2>Select CSV file to import from</h2>
-    <QFile
-      v-model="file"
-      accept=".csv"
-      outlined
-    >
+    <!-- <UInput type="file" accept=".csv" :ui="{}">
+      <template #leading></template>
+      hi
+    </UInput> -->
+
+    <QFile v-model="file" accept=".csv" outlined>
       <template #prepend>
         <q-icon name="attach_file" />
       </template>

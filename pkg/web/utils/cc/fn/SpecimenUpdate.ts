@@ -1,7 +1,7 @@
 import * as ccbio from '~/lib/gen/biochain/v1'
 import type { UpdateRowMeta } from '~/utils/types'
 
-export async function SpecimenUpdate(
+export async function DoSpecimenUpdate(
   specimen: PlainSpecimen,
   curSpecimen: PlainSpecimen,
 ): Promise<UpdateRowMeta> {
@@ -33,8 +33,7 @@ export async function SpecimenUpdate(
       statusMessage: 'Uploaded Successfully',
       uuid: specimen.specimenId,
     }
-  }
-  catch (err) {
+  } catch (err) {
     switch (true) {
       case err instanceof Error:
         return {
