@@ -1,7 +1,7 @@
 import antfu from '@antfu/eslint-config'
 
 // import perfectionistNatural from 'eslint-plugin-perfectionist/configs/recommended-natural'
-import eslintConfigPrettier from 'eslint-config-prettier'
+// import eslintConfigPrettier from 'eslint-config-prettier'
 
 import NuxtEslintConfig from './.nuxt/eslint.config.mjs'
 
@@ -32,15 +32,15 @@ export default antfu(
   // perfectionistNatural,
   // Add the Nuxt rules
   NuxtEslintConfig,
-  eslintConfigPrettier,
+  // eslintConfigPrettier,
   // eslintPluginPrettierRecommended,
 
   // ...your other rules
   {
     rules: {
       'no-console': 'off',
-      // 'perfectionist/sort-vue-attributes': 'off',
-      // 'perfectionist/sort-imports': 'off',
+      'perfectionist/sort-vue-attributes': 'off',
+      'perfectionist/sort-imports': 'off',
       'ts/no-redeclare': 'off',
       'ts/no-unsafe-argument': 'off',
       'ts/no-unsafe-assignment': 'off',

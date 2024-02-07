@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import 'primevue/resources/themes/aura-light-green/theme.css'
+</script>
 
 <template>
   <div>
@@ -10,3 +12,11 @@
     </NuxtLayout>
   </div>
 </template>
+
+<style>
+@import url('primevue/resources/themes/aura-light-blue/theme.css');
+
+html {
+  font-size: 14px;
+}
+</style>

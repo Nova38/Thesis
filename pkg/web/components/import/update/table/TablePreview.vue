@@ -32,7 +32,7 @@ const MappingHeaders: Ref<QTableProps['columns']> = computed(() => {
 
 <template>
   <UCard>
-  <UCard> </UCard>
+  <UCard />
 </UCard>
 
 <UCard>

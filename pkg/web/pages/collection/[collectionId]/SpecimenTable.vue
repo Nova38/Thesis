@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { QTableProps } from 'nuxt-quasar-ui/dist/runtime/adapter'
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
+
 import type { ccbio } from '~/lib'
-import TableButton from '@/components/collection/TableButton.vue'
-import '@ag-grid-community/styles/ag-grid.css'
-import '@ag-grid-community/styles/ag-theme-quartz.css'
-import { AgGridVue } from '@ag-grid-community/vue3'
 
 const store = useCollectionsStore()
 
@@ -380,9 +376,7 @@ const visibleColumns = ref([
   'Field Date',
 ])
 
-const modules = [ClientSideRowModelModule]
-
-const agColDef = [
+const _agColDef = [
   {
     cellRenderer: TableButton,
     field: 'specimenId',
@@ -721,107 +715,90 @@ const agColDef = [
 
 <template>
   <div>
-  <!-- <Testtable /> -->
-  <!-- <SpecimenTable /> -->
+    <!-- <Testtable /> -->
+    <!-- <SpecimenTable /> -->
 
-  <QCard>
-    <AgGridVue
-      :auto-size-strategy="{ type: 'fitCellContents' }"
-      :column-defs="agColDef"
-      :framework-components="{ tableButton: TableButton }"
-      :modules="modules"
-      :row-data="store.SpecimenList"
-      class="ag-theme-quartz"
-      style="height: 500px"
-    />
-  </QCard>
+    <QCard> hi</QCard>
 
-  <QCard>
-    <q-inner-loading
-      :showing="store.Loading"
-      label="Please wait..."
-      label-class="text-teal"
-      label-style="font-size: 1.1em"
-    />
-    <div>
-      <QTable
-        :columns="colDef"
-        :filter="filter"
-        :row-key="(row: PlainMessage<ccbio.Specimen>) => row.specimenId"
-        :rows="store.SpecimenList"
-        :rows-per-page-options="[25, 30, 50, 100, 200, 500, 1000, 0]"
-        :visible-columns="visibleColumns"
-        bordered
-        class="max-h-max"
-        dense
-        flat
-        separator="horizontal"
-        title="Specimens"
-      >
-        <template #top-right>
-          <QBtn
-            v-model="filter"
-            class="q-mr-sm"
-            color="primary"
-            flat
-            icon="refresh"
-            label="Reload"
-            round
-            @click="store.Reload"
-          />
-          <q-select
-            v-model="visibleColumns"
-            :options="colDef"
-            class="px-2"
-            dense
-            display-value="Visible Columns"
-            emit-value
-            map-options
-            multiple
-            option-value="name"
-            options-cover
-            options-dense
-            outlined
-            style="min-width: 150px"
-          />
-          <q-input
-            v-model="filter"
-            borderless
-            debounce="300"
-            dense
-            placeholder="Search"
-          >
-            <template #append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
-        <!-- <template #header-cell="props">
+    <QCard>
+      hi
+      <div>
+        <QTable
+          :columns="colDef"
+          :filter="filter"
+          :row-key="(row: PlainMessage<ccbio.Specimen>) => row.specimenId"
+          :rows="store.SpecimenList"
+          :rows-per-page-options="[25, 30, 50, 100, 200, 500, 1000, 0]"
+          :visible-columns="visibleColumns"
+          bordered
+          class="max-h-max"
+          dense
+          flat
+          separator="horizontal"
+          title="Specimens"
+        >
+          <template #top-right>
+            <QBtn
+              v-model="filter"
+              class="q-mr-sm"
+              color="primary"
+              flat
+              icon="refresh"
+              label="Reload"
+              round
+              @click="store.Reload"
+            />
+            <q-select
+              v-model="visibleColumns"
+              :options="colDef"
+              class="px-2"
+              dense
+              display-value="Visible Columns"
+              emit-value
+              map-options
+              multiple
+              option-value="name"
+              options-cover
+              options-dense
+              outlined
+              style="min-width: 150px"
+            />
+            <q-input
+              v-model="filter"
+              borderless
+              debounce="300"
+              dense
+              placeholder="Search"
+            >
+              <template #append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+          <!-- <template #header-cell="props">
             <q-th :props="props">
               <q-icon name="lock_open" size="1.5em" />
               {{ props.col.label }}
             </q-th>
           </template> -->
-        <template #body-cell-View="props">
-          <q-td :props="props">
-            <!-- <QBtn @click="navigate(props.row.specimenId)" /> -->
-            <div class="">
-              <NuxtLink
-                :no-prefetch="true"
-                :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
-                    props.row.specimenId
-                  }`"
-              >
-                <Icon name="carbon:launch" />
-                Open
-              </NuxtLink>
-            </div>
-          </q-td>
-        </template>
-      </QTable>
-    </div>
-  </QCard>
-</div>
+          <template #body-cell-View="props">
+            <q-td :props="props">
+              <!-- <QBtn @click="navigate(props.row.specimenId)" /> -->
+              <div class="">
+                <NuxtLink
+                  :no-prefetch="true"
+                  :to="`/collection/${$route.params.collectionId}/Specimen/View-${props.row.specimenId}`"
+                >
+                  <Icon name="carbon:launch" />
+                  Open
+                </NuxtLink>
+              </div>
+            </q-td>
+          </template>
+        </QTable>
+      </div>
+    </QCard>
+  </div>
 </template>
 
 <style>
