@@ -1,6 +1,3 @@
-import { defu } from 'defu'
-import type { FetchResult, UseFetchOptions } from '#app'
-
 // export function useCustomFetch<T>(
 //   url: (() => string) | string,
 //   options: UseFetchOptions<T> = {},

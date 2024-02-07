@@ -45,17 +45,17 @@ function btnClickedHandler() {
 
 <template>
   <div class="">
-    <NuxtLink
-      :no-prefetch="true"
-      :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
+  <NuxtLink
+    :no-prefetch="true"
+    :to="`/collection/${useRoute().params?.collectionId.toString()}/Specimen/View-${
         props.params.value.data.id
       }`"
-    />
-  </div>
-  <!-- <q-btn @click="btnClickedHandler(param)">
+  />
+</div>
+<!-- <q-btn @click="btnClickedHandler(param)">
     <q-icon name="edit" />
   </q-btn> -->
-  <!-- <q-btn @click="btnClickedHandler">
+<!-- <q-btn @click="btnClickedHandler">
     <q-icon name="edit" />
   </q-btn> -->
 </template>

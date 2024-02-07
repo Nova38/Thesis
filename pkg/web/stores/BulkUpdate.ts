@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import Papa, { type ParseResult } from 'papaparse'
-import type { QTableProps } from 'quasar'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
@@ -21,8 +20,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
    *
    */
   const ImportColumns = computed(() => {
-    let r =
-      RawHeaders.value?.map((header) => {
+    let r
+      = RawHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,

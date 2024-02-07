@@ -13,12 +13,12 @@ export function useBreadcrumbLinks() {
     ]
 
     if (
-      route.name === 'collection-collectionId' ||
-      route.name === 'collection-collectionId-AccessControl' ||
-      route.name === 'collection-collectionId-SpecimenTable' ||
-      route.name === 'collection-collectionId-Specimen-New' ||
-      route.name === 'collection-collectionId-Specimen-import' ||
-      route.name === 'collection-collectionId-Specimen-update'
+      route.name === 'collection-collectionId'
+      || route.name === 'collection-collectionId-AccessControl'
+      || route.name === 'collection-collectionId-SpecimenTable'
+      || route.name === 'collection-collectionId-Specimen-New'
+      || route.name === 'collection-collectionId-Specimen-import'
+      || route.name === 'collection-collectionId-Specimen-update'
     ) {
       items.push({
         // material-symbols:collections-bookmark-outline-rounded

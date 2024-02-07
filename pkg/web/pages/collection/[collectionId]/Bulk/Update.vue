@@ -4,11 +4,11 @@ const bulk = useBulkUpdate()
 
 <template>
   <div>
-    <UCard>
-      <ImportCsvFile />
-      <ImportUpdateTableRaw />
-    </UCard>
-  </div>
+  <UCard>
+    <ImportCsvFile />
+    <ImportUpdateTableRaw />
+  </UCard>
+</div>
 </template>
 
 <style scoped></style>

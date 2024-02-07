@@ -1,5 +1,5 @@
-import { ccbio } from '~/lib'
 import { expect, it } from 'vitest'
+import { ccbio } from '~/lib'
 
 it('foo', () => {
   console.log('foo')

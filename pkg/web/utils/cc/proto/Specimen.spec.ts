@@ -1,10 +1,10 @@
 import { writeFileSync } from 'node:fs'
 import { createRegistry } from '@bufbuild/protobuf'
 import { construct, crush } from 'radash'
-import { ccbio } from '~/lib'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { ZSpecimen } from './Specimen'
+import { ccbio } from '~/lib'
 
 const raw = {
   collectionId: 'KU-Zoology',

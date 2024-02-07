@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ccbio } from '~/lib'
 import { randomUUID } from 'uncrypto'
+import { ccbio } from '~/lib'
 
 //    ^?
 
@@ -43,21 +43,21 @@ async function submitHandler() {
 
 <template>
   <div>
-    <div>
-      <SpecimenForm :specimen="specimen">
-        <template #Footer>
-          <div>
-            <QBtn label="Submit" @click="submitHandler" />
-          </div>
-        </template>
-      </SpecimenForm>
+  <div>
+    <SpecimenForm :specimen="specimen">
+      <template #Footer>
+        <div>
+          <QBtn label="Submit" @click="submitHandler" />
+        </div>
+      </template>
+    </SpecimenForm>
 
-      <!-- <pre wrap>{{ value }}</pre> -->
-    </div>
-    <div>
-      <pre wrap>{{ specimen }}</pre>
-    </div>
+    <!-- <pre wrap>{{ value }}</pre> -->
   </div>
+  <div>
+    <pre wrap>{{ specimen }}</pre>
+  </div>
+</div>
 </template>
 
 <style></style>

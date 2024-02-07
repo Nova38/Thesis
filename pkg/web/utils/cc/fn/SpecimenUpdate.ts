@@ -33,7 +33,8 @@ export async function DoSpecimenUpdate(
       statusMessage: 'Uploaded Successfully',
       uuid: specimen.specimenId,
     }
-  } catch (err) {
+  }
+  catch (err) {
     switch (true) {
       case err instanceof Error:
         return {

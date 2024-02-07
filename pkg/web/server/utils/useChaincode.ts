@@ -1,15 +1,13 @@
 import { Buffer } from 'node:buffer'
 import * as crypto from 'node:crypto'
-import type { IMessageTypeRegistry } from '@bufbuild/protobuf'
 import type { H3Event } from 'h3'
 
-import { createRegistry } from '@bufbuild/protobuf'
 import { Client, credentials } from '@grpc/grpc-js'
 import { connect, signers } from '@hyperledger/fabric-gateway'
 import type { User } from './db'
 
 import { sessionConfig } from './session'
-import { auth, ccbio, common, sample } from '~/lib'
+import { common } from '~/lib'
 import { GlobalRegistry } from '~/lib/pb/global_reg'
 
 export interface FabricConfig {
@@ -100,7 +98,8 @@ async function BuildIdentity(event: H3Event) {
       identity,
       signer,
     }
-  } catch (error) {
+  }
+  catch (error) {
     const publicUser: User = {
       createdAt: '',
       credentials: fabricConfig.public.credentials,
