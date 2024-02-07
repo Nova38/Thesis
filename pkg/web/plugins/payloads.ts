@@ -1,4 +1,4 @@
-import { Specimen } from '~/lib/gen/types_pb'
+import { Specimen } from '~/lib/pb/types_pb'
 
 export default definePayloadPlugin(() => {
   //   definePayloadReducer('Specimen', (value) => {
