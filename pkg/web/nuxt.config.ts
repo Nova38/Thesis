@@ -3,7 +3,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devServer: {
-    // https: true, // enable HTTPS
+    https: true, // enable HTTPS
     port: 8000,
   },
   devtools: {
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   ssr: false,
 
   experimental: {
-    typedPages: true,
+    // typedPages: true,
     asyncContext: true,
   },
   modules: [
@@ -33,6 +33,9 @@ export default defineNuxtConfig({
     'nuxt-module-eslint-config',
     '@pinia/nuxt',
     'nuxt-radash',
+    'nuxt-security',
+    'nuxt-primevue',
+    '@formkit/nuxt',
   ],
 
   css: ['~/assets/css/main.css'],

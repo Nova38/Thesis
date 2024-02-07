@@ -5,9 +5,8 @@ import { QCardSection } from 'quasar'
 const file = ref<File | null>(null)
 
 watch(file, (newFile) => {
-  if (newFile) {
+  if (newFile)
     useBulkUpdate().LoadFromFile(newFile)
-  }
 })
 </script>
 
