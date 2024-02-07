@@ -240,62 +240,54 @@ function statusToChipColor(status: status) {
 
 <template>
   <div>
+  <UCard>
     <UCard>
+      <p class="font-bold">Import Specimens</p>
+    </UCard>
+    <UCard>
+      <h2>Select CSV file to import from</h2>
+      <q-file v-model="file" accept=".csv" outlined>
+        <template #prepend>
+          <q-icon name="attach_file" />
+        </template>
+      </q-file>
+
       <UCard>
-        <p class="font-bold">
-          Import Specimens
-        </p>
-      </UCard>
-      <UCard>
-        <h2>Select CSV file to import from</h2>
-        <q-file
-          v-model="file"
-          accept=".csv"
-          outlined
+        <q-table
+          v-model:selected="RowsSelected"
+          :columns="rawHeaders"
+          :rows="rawList"
+          dense
+          row-key="index"
+          selection="multiple"
         >
-          <template #prepend>
-            <q-icon name="attach_file" />
-          </template>
-        </q-file>
-
-        <UCard>
-          <q-table
-            v-model:selected="RowsSelected"
-            :columns="rawHeaders"
-            :rows="rawList"
-            dense
-            row-key="index"
-            selection="multiple"
-          >
-            <template #body-cell-status="props">
-              <q-td :props="props">
-                <UPopover
-                  :popper="{ adaptive: true }"
-                  mode="hover"
+          <template #body-cell-status="props">
+            <q-td :props="props">
+              <UPopover :popper="{ adaptive: true }" mode="hover">
+                <UBadge
+                  :color="statusToChipColor(props.row[props.col.field])"
+                  :label="props.row[props.col.field]"
+                />
+                <q-circular-progress
+                  v-if="props.row[props.col.field] == 'loading'"
+                  color="warn"
+                  indeterminate
+                  rounded
+                  size="15px"
+                />
+                <template
+                  v-if="RowMeta[props.row.index].statusMessage != ''"
+                  #panel
                 >
-                  <UBadge
-                    :color="statusToChipColor(props.row[props.col.field])"
-                    :label="props.row[props.col.field]"
-                  />
-                  <q-circular-progress
-                    v-if="props.row[props.col.field] == 'loading'"
-                    color="warn"
-                    indeterminate
-                    rounded
-                    size="15px"
-                  />
-                  <template
-                    v-if="RowMeta[props.row.index].statusMessage != ''"
-                    #panel
-                  >
-                    <div class="p-4">
-                      <pre wrap>
-                      {{ RowMeta[props.row.index].statusMessage }}</pre>
-                    </div>
-                  </template>
-                </UPopover>
+                  <div class="p-4">
+                    <pre wrap>
+                      {{ RowMeta[props.row.index].statusMessage }}</pre
+                    >
+                  </div>
+                </template>
+              </UPopover>
 
-                <!-- <q-chip
+              <!-- <q-chip
                 outline
                 :color="statusToChipColor(props.row[props.col.field])"
               >
@@ -303,175 +295,148 @@ function statusToChipColor(status: status) {
                   {{ props.row[props.col.field] }}
                 </span>
               </q-chip> -->
-              </q-td>
-            </template>
-          </q-table>
+            </q-td>
+          </template>
+        </q-table>
+      </UCard>
+      {{ SexOptions }}
+      <div v-for="(item, index) in SexOptions" :key="index">
+        {{ item.label.substring(4) }} : {{ item.mappings }}
+      </div>
+      <UContainer class="flex flex-row items-center gap-2">
+        <UCard>
+          <template #header>
+            <p>Secondary Sex Mappings</p>
+          </template>
+          <div class="flex flex-row items-center gap-2">
+            <div
+              v-for="item in SexOptions"
+              :key="item.label"
+              class="flex flex-row items-center gap-1"
+            >
+              <div>{{ item }} :</div>
+              <div>
+                <USelectMenu
+                  v-model="SexOptions[item.enumValue].mappings"
+                  :multiple="true"
+                  :options="sexStrings"
+                  class="w-full lg:w-30"
+                  placeholder="Select strings to map"
+                  searchable
+                  searchable-placeholder="Select strings to map"
+                >
+                  <template #label>
+                    <div class="">
+                      <span v-if="sexStrings[item.enumValue]" class="truncate"
+                        >{{ SexOptions[item.enumValue].mappings.join(", ")
+                        }}</span
+                      >
+                      <span v-else>Select Sex Strings</span>
+                    </div>
+                  </template>
+                </USelectMenu>
+              </div>
+            </div>
+          </div>
         </UCard>
-        {{ SexOptions }}
-        <div
-          v-for="(item, index) in SexOptions"
-          :key="index"
-        >
-          {{ item.label.substring(4) }}
-          : {{ item.mappings }}
-        </div>
-        <UContainer class="flex flex-row items-center gap-2">
-          <UCard>
-            <template #header>
-              <p>Secondary Sex Mappings</p>
-            </template>
-            <div class="flex flex-row items-center gap-2">
-              <div
-                v-for="item in SexOptions"
-                :key="item.label"
-                class="flex flex-row items-center gap-1"
-              >
-                <div>{{ item }} :</div>
-                <div>
-                  <USelectMenu
-                    v-model="SexOptions[item.enumValue].mappings"
-                    :multiple="true"
-                    :options="sexStrings"
-                    class="w-full lg:w-30"
-                    placeholder="Select strings to map"
-                    searchable
-                    searchable-placeholder="Select strings to map"
-                  >
-                    <template #label>
-                      <div class="">
-                        <span
-                          v-if="sexStrings[item.enumValue]"
-                          class="truncate"
-                        >{{
-                          SexOptions[item.enumValue].mappings.join(", ")
-                        }}</span>
-                        <span v-else>Select Sex Strings</span>
-                      </div>
-                    </template>
-                  </USelectMenu>
-                </div>
+        <UCard>
+          <template #header>
+            <p>Secondary Age Mappings</p>
+          </template>
+          <div class="flex flex-row items-center gap-2">
+            <div
+              v-for="item in AgeOptions"
+              :key="item.value.label"
+              class="flex flex-row items-center gap-1"
+            >
+              <div>{{ item.value.label }} :</div>
+              <div>
+                <USelectMenu
+                  v-model="AgeOptions[item.value.enumValue].value.mappings"
+                  :multiple="true"
+                  :options="ageStrings"
+                  class="w-full lg:w-30"
+                  placeholder="Select strings to map"
+                  searchable
+                  searchable-placeholder="Select strings to map"
+                >
+                  <template #label>
+                    <div class="">
+                      <span v-if="ageStrings[item.value]" class="truncate"
+                        >{{ ageMapping[item.value].join(", ") }}</span
+                      >
+                      <span v-else>Select Age Strings</span>
+                    </div>
+                  </template>
+                </USelectMenu>
               </div>
             </div>
-          </UCard>
-          <UCard>
-            <template #header>
-              <p>Secondary Age Mappings</p>
-            </template>
-            <div class="flex flex-row items-center gap-2">
-              <div
-                v-for="item in AgeOptions"
-                :key="item.value.label"
-                class="flex flex-row items-center gap-1"
-              >
-                <div>{{ item.value.label }} :</div>
-                <div>
-                  <USelectMenu
-                    v-model="AgeOptions[item.value.enumValue].value.mappings"
-                    :multiple="true"
-                    :options="ageStrings"
-                    class="w-full lg:w-30"
-                    placeholder="Select strings to map"
-                    searchable
-                    searchable-placeholder="Select strings to map"
-                  >
-                    <template #label>
-                      <div class="">
-                        <span
-                          v-if="ageStrings[item.value]"
-                          class="truncate"
-                        >{{
-                          ageMapping[item.value].join(", ")
-                        }}</span>
-                        <span v-else>Select Age Strings</span>
-                      </div>
-                    </template>
-                  </USelectMenu>
-                </div>
-              </div>
-            </div>
-          </UCard>
-          <div class="flex flex-row items-center gap-2" />
-        </UContainer>
-      </UCard>
-      <UCard>
-        <q-table
-          :columns="MappingHeaders"
-          :rows="SpecimenFlatList"
-          dense
-        >
-          <template #header-cell="props">
-            <q-th :props="props">
-              <div class="">
-                {{ props.col.label }}
-              </div>
-              <q-select
-                v-model="HeaderMapping[props.col.label]"
-                :options="sortedImportHeaders"
-                dense
-                label="key"
-                label-color="teal-10"
-                stack-label
-              >
-                <template
-                  v-if="HeaderMapping[props.col.label]"
-                  #append
-                >
-                  <q-icon
-                    class="cursor-pointer"
-                    color="red"
-                    dense
-                    name="cancel"
-                    size=".75em"
-                    @click.stop.prevent="clearKey(props.col.label)"
-                  />
-                </template>
-              </q-select>
-              <!-- <div v-if="props.col.label">hi</div> -->
-            </q-th>
-          </template>
-        </q-table>
-        <q-table
-          :columns="MappingHeaders"
-          :rows="SpecimenFlatList"
-          dense
-        >
-          <template #header-cell="props">
-            <q-th :props="props">
-              <div class="">
-                {{ props.col.label }}
-              </div>
-
-              <q-select
-                v-model="HeaderMapping[props.col.label]"
-                :options="sortedImportHeaders"
-                dense
-                label="key"
-                label-color="teal-10"
-                stack-label
-              >
-                <template
-                  v-if="HeaderMapping[props.col.label]"
-                  #append
-                >
-                  <q-icon
-                    class="cursor-pointer"
-                    color="red"
-                    dense
-                    name="cancel"
-                    size=".75em"
-                    @click.stop.prevent="clearKey(props.col.label)"
-                  />
-                </template>
-              </q-select>
-            </q-th>
-          </template>
-        </q-table>
-      </UCard>
-
-      <pre> {{ FlattenObject(MakeEmptySpecimen()) }}</pre>
-      <pre> {{ MakeEmptySpecimen() }}</pre>
+          </div>
+        </UCard>
+        <div class="flex flex-row items-center gap-2" />
+      </UContainer>
     </UCard>
-  </div>
+    <UCard>
+      <q-table :columns="MappingHeaders" :rows="SpecimenFlatList" dense>
+        <template #header-cell="props">
+          <q-th :props="props">
+            <div class="">{{ props.col.label }}</div>
+            <q-select
+              v-model="HeaderMapping[props.col.label]"
+              :options="sortedImportHeaders"
+              dense
+              label="key"
+              label-color="teal-10"
+              stack-label
+            >
+              <template v-if="HeaderMapping[props.col.label]" #append>
+                <q-icon
+                  class="cursor-pointer"
+                  color="red"
+                  dense
+                  name="cancel"
+                  size=".75em"
+                  @click.stop.prevent="clearKey(props.col.label)"
+                />
+              </template>
+            </q-select>
+            <!-- <div v-if="props.col.label">hi</div> -->
+          </q-th>
+        </template>
+      </q-table>
+      <q-table :columns="MappingHeaders" :rows="SpecimenFlatList" dense>
+        <template #header-cell="props">
+          <q-th :props="props">
+            <div class="">{{ props.col.label }}</div>
+
+            <q-select
+              v-model="HeaderMapping[props.col.label]"
+              :options="sortedImportHeaders"
+              dense
+              label="key"
+              label-color="teal-10"
+              stack-label
+            >
+              <template v-if="HeaderMapping[props.col.label]" #append>
+                <q-icon
+                  class="cursor-pointer"
+                  color="red"
+                  dense
+                  name="cancel"
+                  size=".75em"
+                  @click.stop.prevent="clearKey(props.col.label)"
+                />
+              </template>
+            </q-select>
+          </q-th>
+        </template>
+      </q-table>
+    </UCard>
+
+    <pre> {{ FlattenObject(MakeEmptySpecimen()) }}</pre>
+    <pre> {{ MakeEmptySpecimen() }}</pre>
+  </UCard>
+</div>
 </template>
 
 <style></style>

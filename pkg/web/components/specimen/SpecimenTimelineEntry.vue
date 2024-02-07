@@ -34,34 +34,32 @@ async function sendUnHide() {
 
 <template>
   <QTimelineEntry :title="`Transaction ID: ${entry.txId}`" icon="ti-pin">
-    <!-- <template #title> {{ entry.txId || "Initial State" }} </template> -->
-    <template #subtitle>
-      {{ entry.timestamp?.toDate() }}
-    </template>
+  <!-- <template #title> {{ entry.txId || "Initial State" }} </template> -->
+  <template #subtitle> {{ entry.timestamp?.toDate() }} </template>
 
-    <q-expansion-item
-      class="max-w-2xl"
-      expand-separator
-      icon="ti-bookmark"
-      label="Transaction Value"
-    >
-      <div v-if="!entry.isHidden">
-        <SpecimenForm
-          :enable-edit="false"
-          :specimen="entry?.value"
-          :start-open="false"
-        />
-      </div>
-    </q-expansion-item>
-    <q-card-actions v-if="!isLast && props.canHide" class="col justify-center">
-      <q-btn v-if="hidden" color="positive" @click="sendUnHide">
-        Unhide Transaction
-      </q-btn>
-      <q-btn v-if="!hidden" color="negative" @click="sendHide">
-        Hide Transaction
-      </q-btn>
-    </q-card-actions>
-  </QTimelineEntry>
+  <q-expansion-item
+    class="max-w-2xl"
+    expand-separator
+    icon="ti-bookmark"
+    label="Transaction Value"
+  >
+    <div v-if="!entry.isHidden">
+      <SpecimenForm
+        :enable-edit="false"
+        :specimen="entry?.value"
+        :start-open="false"
+      />
+    </div>
+  </q-expansion-item>
+  <q-card-actions v-if="!isLast && props.canHide" class="col justify-center">
+    <q-btn v-if="hidden" color="positive" @click="sendUnHide">
+      Unhide Transaction
+    </q-btn>
+    <q-btn v-if="!hidden" color="negative" @click="sendHide">
+      Hide Transaction
+    </q-btn>
+  </q-card-actions>
+</QTimelineEntry>
 </template>
 
 <style></style>

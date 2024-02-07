@@ -7,13 +7,13 @@ import NuxtEslintConfig from './.nuxt/eslint.config.mjs'
 
 export default antfu(
   {
-    // formatters: {
-    //   css: true,
-    //   html: true,
-    //   markdown: true,
-    // },
+    formatters: {
+      css: true,
+      html: true,
+      markdown: true,
+    },
     // ...@antfu/eslint-config options,
-    // stylistic: true,
+    stylistic: true,
     typescript: {
       overrides: [],
       tsconfigPath: 'tsconfig.json',
