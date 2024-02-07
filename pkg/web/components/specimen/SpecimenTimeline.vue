@@ -17,17 +17,26 @@ console.log('history', history)
 
 <template>
   <div>
-  <QBar class="flex flex-row text-lg items-center justify-center">
-    Specimen History
-  </QBar>
-  <QCard class="p-4 flex flex-col justify-center">
-    <QTimeline v-if="history" dense>
-      <template v-for="tx in history.entries" :key="tx.txId">
-        <SpecimenTimelineEntry :can-hide="props.canHide" :entry="tx" />
-      </template>
-    </QTimeline>
-  </QCard>
-</div>
+    <QBar class="flex flex-row text-lg items-center justify-center">
+      Specimen History
+    </QBar>
+    <QCard class="p-4 flex flex-col justify-center">
+      <QTimeline
+        v-if="history"
+        dense
+      >
+        <template
+          v-for="tx in history.entries"
+          :key="tx.txId"
+        >
+          <SpecimenTimelineEntry
+            :can-hide="props.canHide"
+            :entry="tx"
+          />
+        </template>
+      </QTimeline>
+    </QCard>
+  </div>
 </template>
 
 <style></style>

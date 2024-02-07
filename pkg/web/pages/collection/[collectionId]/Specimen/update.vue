@@ -14,7 +14,7 @@ callOnce(() => {
 // Table 1
 const headers = ref<string[]>([])
 const rawRows = ref<Record<string, string>[]>([])
-const RowMeta = ref([])
+const RowMeta = ref<UpdateRowMeta[]>([])
 const RowsSelected = ref<Record<string, string>[]>([])
 const makeNew = ref<boolean>(true)
 
@@ -335,53 +335,66 @@ function statusToChipColor(status: status) {
 
 <template>
   <q-page class="full-height">
-  <q-card class="q-pa-md q-ma-md">
-    <QCardSection>
-      <p class="font-bold">Bulk Update Specimens</p>
-    </QCardSection>
+    <q-card class="q-pa-md q-ma-md">
+      <QCardSection>
+        <p class="font-bold">
+          Bulk Update Specimens
+        </p>
+      </QCardSection>
 
-    <ImportCsvFile :headers="headers" :csv="csv" />
-
-    <ImportUpdateTableRaw />
-
-    <QCardSection class="flex flex-row items-center gap-2 justify-center">
-      <QTable :hide-bottom="true" :rows="SexOptions" dense />
-      <QTable
-        :hide-bottom="true"
-        :pagination="{ rowsPerPage: 0 }"
-        :rows="AgeOptions"
-        dense
+      <ImportCsvFile
+        :headers="headers"
+        :csv="csv"
       />
-    </QCardSection>
 
-    <UCard>
-      <div class="text-xl font-semibold border-blue-400 border-solid mb-2">
-        Current Selected Specimen Values
-      </div>
-      <QTable :columns="MappingHeaders" :rows="selectedCurrent" dense />
-    </UCard>
+      <ImportUpdateTableRaw />
 
-    <ImportUpdateTablePreview
-      :raw-headers="headers"
-      :raw-rows="rawRows"
-      :specimen-mapping="specimenMapping"
-    />
+      <QCardSection class="flex flex-row items-center gap-2 justify-center">
+        <QTable
+          :hide-bottom="true"
+          :rows="SexOptions"
+          dense
+        />
+        <QTable
+          :hide-bottom="true"
+          :pagination="{ rowsPerPage: 0 }"
+          :rows="AgeOptions"
+          dense
+        />
+      </QCardSection>
 
-    <!-- :clear-key="clearKey"
+      <UCard>
+        <div class="text-xl font-semibold border-blue-400 border-solid mb-2">
+          Current Selected Specimen Values
+        </div>
+        <QTable
+          :columns="MappingHeaders"
+          :rows="selectedCurrent"
+          dense
+        />
+      </UCard>
+
+      <ImportUpdateTablePreview
+        :raw-headers="headers"
+        :raw-rows="rawRows"
+        :specimen-mapping="specimenMapping"
+      />
+
+      <!-- :clear-key="clearKey"
         :possessed-data="possessedData"
         :sorted-import-headers="sortedImportHeaders"
         :specimen-mapping="specimenMapping"
       /> -->
-    <q-card-section>
-      <q-btn
-        class="full-width"
-        color="secondary"
-        label="Upload Selected"
-        @click="run()"
-      />
-    </q-card-section>
-  </q-card>
-</q-page>
+      <q-card-section>
+        <q-btn
+          class="full-width"
+          color="secondary"
+          label="Upload Selected"
+          @click="run()"
+        />
+      </q-card-section>
+    </q-card>
+  </q-page>
 </template>
 
 <style scoped></style>

@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     'nuxt-module-eslint-config',
     '@pinia/nuxt',
     'nuxt-radash',
-    'nuxt-security',
+    // 'nuxt-security',
     'nuxt-primevue',
     '@formkit/nuxt',
   ],
@@ -148,6 +148,6 @@ export default defineNuxtConfig({
     icons: {},
   },
   eslintConfig: {
-    setup: false,
+    // setup: false,
   },
 })

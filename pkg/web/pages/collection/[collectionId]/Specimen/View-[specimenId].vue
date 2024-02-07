@@ -119,75 +119,80 @@ async function submitHandler() {
 
 <template>
   <div class="flex flex-row gap-4 p-4">
-  <!-- <QBtn label="Log Diff" @click="logDiff" /> -->
-  <div class="basis-size-3/4 min-w-lg">
-    <div v-if="spec.data">
-      <SpecimenForm
-        :enable-edit="mode != 'view'"
-        :header-color="toModeColor(mode)"
-        :specimen="dirty"
-      >
-        <template #Header>
-          <div>
-            <QBar :class="modeColor" class="p-2">
-              <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
+    <!-- <QBtn label="Log Diff" @click="logDiff" /> -->
+    <div class="basis-size-3/4 min-w-lg">
+      <div v-if="spec.data">
+        <SpecimenForm
+          :enable-edit="mode != 'view'"
+          :header-color="toModeColor(mode)"
+          :specimen="dirty"
+        >
+          <template #Header>
+            <div>
+              <QBar
+                :class="modeColor"
+                class="p-2"
+              >
+                <div class="font-bold">
+                  Current Mode: {{ modeCapitalized }}
+                </div>
 
-              <q-space />
-              <q-btn
-                :class="toModeColor('view')"
-                @click="() => (mode = 'view')"
-              >
-                View
-                <q-tooltip>Set the current mode to View</q-tooltip>
-              </q-btn>
-              <q-btn
-                :class="toModeColor('update')"
-                name="Update"
-                @click="() => (mode = 'update')"
-              >
-                Update
-                <q-tooltip>Set the current mode to Update</q-tooltip>
-              </q-btn>
-              <q-btn
-                :class="toModeColor('suggest')"
-                @click="() => (mode = 'suggest')"
-              >
-                Suggest Update
-                <q-tooltip>Set the current mode to Suggest Update</q-tooltip>
-              </q-btn>
-            </QBar>
-            <QSeparator class="bg-black" />
-          </div>
-        </template>
-        <template #Footer>
-          <div class="flex flex-col">
-            <QBtn
-              v-if="mode !== 'view'"
-              :class="modeColor"
-              :label="mode === 'update' ? 'Update' : 'Suggest Update'"
-              class="flex-grow"
-              @click="submitHandler"
-            />
-          </div>
-        </template>
-      </SpecimenForm>
+                <q-space />
+                <q-btn
+                  :class="toModeColor('view')"
+                  @click="() => (mode = 'view')"
+                >
+                  View
+                  <q-tooltip>Set the current mode to View</q-tooltip>
+                </q-btn>
+                <q-btn
+                  :class="toModeColor('update')"
+                  name="Update"
+                  @click="() => (mode = 'update')"
+                >
+                  Update
+                  <q-tooltip>Set the current mode to Update</q-tooltip>
+                </q-btn>
+                <q-btn
+                  :class="toModeColor('suggest')"
+                  @click="() => (mode = 'suggest')"
+                >
+                  Suggest Update
+                  <q-tooltip>Set the current mode to Suggest Update</q-tooltip>
+                </q-btn>
+              </QBar>
+              <QSeparator class="bg-black" />
+            </div>
+          </template>
+          <template #Footer>
+            <div class="flex flex-col">
+              <QBtn
+                v-if="mode !== 'view'"
+                :class="modeColor"
+                :label="mode === 'update' ? 'Update' : 'Suggest Update'"
+                class="flex-grow"
+                @click="submitHandler"
+              />
+            </div>
+          </template>
+        </SpecimenForm>
+      </div>
     </div>
-  </div>
 
-  <div class="flex flex-col gap-4">
-    <SpecimenTimeline
-      :can-hide="$auth.loggedIn || false"
-      :history="history"
-      class="basis-size-1/4"
-    />
-    <QCard v-if="false">
-      <QBar class="flex flex-row text-lg items-center justify-center">
-        Suggestions
-      </QBar>
-    </QCard>
+    <div class="flex flex-col gap-4">
+      <SpecimenTimeline
+        :can-hide="$auth.loggedIn || false"
+        :history="history"
+        class="basis-size-1/4"
+      />
+      <QCard v-if="false">
+        <QBar class="flex flex-row text-lg items-center justify-center">
+          Suggestions
+        </QBar>
+      </QCard>
+    </div>
+    <QCard> {</QCard>
   </div>
-  <QCard> {</QCard>
-</div>
 </template>
 
 <style></style>
