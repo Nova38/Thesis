@@ -408,60 +408,72 @@ function statusToChipColor(status: status) {
 
 <template>
   <q-page class="full-height">
-  <q-card class="q-pa-md q-ma-md">
-    <QCardSection>
-      <p class="font-bold">Import Specimens</p>
-    </QCardSection>
-    <q-card-section>
-      <h2>Select CSV file to import from</h2>
-      <q-file v-model="file" accept=".csv" outlined>
-        <template #prepend>
-          <q-icon name="attach_file" />
-        </template>
-      </q-file>
-    </q-card-section>
-    <QCardSection class="flex flex-row items-center gap-2 justify-center">
-      <QTable :hide-bottom="true" :rows="SexOptions" dense />
-      <QTable
-        :hide-bottom="true"
-        :pagination="{ rowsPerPage: 0 }"
-        :rows="AgeOptions"
-        dense
-      />
-    </QCardSection>
-    <q-card-section>
-      <q-table
-        v-model:selected="RowsSelected"
-        :rows="rawData"
-        dense
-        row-key="index"
-        selection="multiple"
-      >
-        <template #body-cell-status="props">
-          <q-td :props="props">
-            <UPopover :popper="{ adaptive: true }" mode="hover">
-              <UBadge
-                :color="statusToChipColor(props.row[props.col.field])"
-                :label="props.row[props.col.field]"
-              />
-              <q-circular-progress
-                v-if="props.row[props.col.field] == 'loading'"
-                color="warn"
-                indeterminate
-                rounded
-                size="15px"
-              />
-              <template
-                v-if="RowMeta[props.row.index].statusMessage != ''"
-                #panel
+    <q-card class="q-pa-md q-ma-md">
+      <QCardSection>
+        <p class="font-bold">
+          Import Specimens
+        </p>
+      </QCardSection>
+      <q-card-section>
+        <h2>Select CSV file to import from</h2>
+        <q-file
+          v-model="file"
+          accept=".csv"
+          outlined
+        >
+          <template #prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+      </q-card-section>
+      <QCardSection class="flex flex-row items-center gap-2 justify-center">
+        <QTable
+          :hide-bottom="true"
+          :rows="SexOptions"
+          dense
+        />
+        <QTable
+          :hide-bottom="true"
+          :pagination="{ rowsPerPage: 0 }"
+          :rows="AgeOptions"
+          dense
+        />
+      </QCardSection>
+      <q-card-section>
+        <q-table
+          v-model:selected="RowsSelected"
+          :rows="rawData"
+          dense
+          row-key="index"
+          selection="multiple"
+        >
+          <template #body-cell-status="props">
+            <q-td :props="props">
+              <UPopover
+                :popper="{ adaptive: true }"
+                mode="hover"
               >
-                <div class="p-4">
-                  <pre wrap>
-                    {{ RowMeta[props.row.index].statusMessage }}</pre
-                  >
-                </div>
-              </template>
-            </UPopover>
+                <UBadge
+                  :color="statusToChipColor(props.row[props.col.field])"
+                  :label="props.row[props.col.field]"
+                />
+                <q-circular-progress
+                  v-if="props.row[props.col.field] == 'loading'"
+                  color="warn"
+                  indeterminate
+                  rounded
+                  size="15px"
+                />
+                <template
+                  v-if="RowMeta[props.row.index].statusMessage != ''"
+                  #panel
+                >
+                  <div class="p-4">
+                    <pre wrap>
+                    {{ RowMeta[props.row.index].statusMessage }}</pre>
+                  </div>
+                </template>
+              </UPopover>
 
             <!-- <q-chip
                 outline
@@ -471,63 +483,72 @@ function statusToChipColor(status: status) {
                   {{ props.row[props.col.field] }}
                 </span>
               </q-chip> -->
-          </q-td>
-        </template>
-      </q-table>
-    </q-card-section>
+            </q-td>
+          </template>
+        </q-table>
+      </q-card-section>
 
-    <!-- <SecondaryMapper
+      <!-- <SecondaryMapper
         :sex-strings="sexStrings"
         :sex-mapping="sexMapping"
         :age-strings="ageStrings"
         :age-mapping="ageMapping"
       /> -->
-    <!-- {{ (ageMapping, sexMapping) }} -->
-    <q-card-section>
-      <div v-if="possessedData">
-        <q-table :columns="MappingHeaders" :rows="possessedData" dense>
-          <template #header-cell="props">
-            <q-th :props="props">
-              <div class="">{{ props.col.label }}</div>
-              <q-select
-                v-model="specimenMapping[props.col.label]"
-                :options="sortedImportHeaders"
-                dense
-                label="key"
-                label-color="teal-10"
-                stack-label
-              >
-                <template v-if="specimenMapping[props.col.label]" #append>
-                  <q-icon
-                    class="cursor-pointer"
-                    color="red"
-                    dense
-                    name="cancel"
-                    size=".75em"
-                    @click.stop.prevent="clearKey(props.col.label)"
-                  />
-                </template>
-              </q-select>
+      <!-- {{ (ageMapping, sexMapping) }} -->
+      <q-card-section>
+        <div v-if="possessedData">
+          <q-table
+            :columns="MappingHeaders"
+            :rows="possessedData"
+            dense
+          >
+            <template #header-cell="props">
+              <q-th :props="props">
+                <div class="">
+                  {{ props.col.label }}
+                </div>
+                <q-select
+                  v-model="specimenMapping[props.col.label]"
+                  :options="sortedImportHeaders"
+                  dense
+                  label="key"
+                  label-color="teal-10"
+                  stack-label
+                >
+                  <template
+                    v-if="specimenMapping[props.col.label]"
+                    #append
+                  >
+                    <q-icon
+                      class="cursor-pointer"
+                      color="red"
+                      dense
+                      name="cancel"
+                      size=".75em"
+                      @click.stop.prevent="clearKey(props.col.label)"
+                    />
+                  </template>
+                </q-select>
               <!-- <div v-if="props.col.label">hi</div> -->
-            </q-th>
-          </template>
-        </q-table>
+              </q-th>
+            </template>
+          </q-table>
         <!-- <q-btn
       color="white"
       text-color="black"
       label=""
       @click="store.upload()"
     /> -->
-      </div>
-    </q-card-section>
-    <q-card-section>
-      <q-btn
-        class="full-width"
-        color="secondary"
-        label="Upload Selected"
-        @click="run"
-      />
-    </q-card-section>
-  </q-card>
-</q-page>
+        </div>
+      </q-card-section>
+      <q-card-section>
+        <q-btn
+          class="full-width"
+          color="secondary"
+          label="Upload Selected"
+          @click="run"
+        />
+      </q-card-section>
+    </q-card>
+  </q-page>
 </template>

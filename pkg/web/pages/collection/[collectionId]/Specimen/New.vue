@@ -43,21 +43,24 @@ async function submitHandler() {
 
 <template>
   <div>
-  <div>
-    <SpecimenForm :specimen="specimen">
-      <template #Footer>
-        <div>
-          <QBtn label="Submit" @click="submitHandler" />
-        </div>
-      </template>
-    </SpecimenForm>
+    <div>
+      <SpecimenForm :specimen="specimen">
+        <template #Footer>
+          <div>
+            <QBtn
+              label="Submit"
+              @click="submitHandler"
+            />
+          </div>
+        </template>
+      </SpecimenForm>
 
     <!-- <pre wrap>{{ value }}</pre> -->
+    </div>
+    <div>
+      <pre wrap>{{ specimen }}</pre>
+    </div>
   </div>
-  <div>
-    <pre wrap>{{ specimen }}</pre>
-  </div>
-</div>
 </template>
 
 <style></style>

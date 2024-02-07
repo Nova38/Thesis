@@ -4,7 +4,7 @@
   <div>
   <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
   <!-- {{ crush(MakeEmptySpecimen()) }} -->
-</div>
+  </div>
 </template>
 
 <style></style>

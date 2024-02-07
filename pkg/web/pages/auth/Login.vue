@@ -41,30 +41,33 @@ async function submit(username: string, password: string) {
 
 <template>
   <q-form @submit="submit(form.username, form.password)">
-  <q-card class="flex flex-row gap-2 p-4 items-center">
-    <q-input v-model="form.username" label="Username" />
-    <!-- <q-input type="password" v-model="form.password" label="Password" /> -->
-    <q-input
-      v-model="form.password"
-      :type="isPwd ? 'password' : 'text'"
-      label="Password"
-    >
-      <template #append>
-        <q-icon
-          :name="isPwd ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="isPwd = !isPwd"
-        />
-      </template>
-    </q-input>
-    <q-card-actions align="right">
-      <q-btn
-        :loading="submitting"
-        color="primary"
-        label="Login"
-        type="submit"
+    <q-card class="flex flex-row gap-2 p-4 items-center">
+      <q-input
+        v-model="form.username"
+        label="Username"
       />
-    </q-card-actions>
-  </q-card>
-</q-form>
+      <!-- <q-input type="password" v-model="form.password" label="Password" /> -->
+      <q-input
+        v-model="form.password"
+        :type="isPwd ? 'password' : 'text'"
+        label="Password"
+      >
+        <template #append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+      <q-card-actions align="right">
+        <q-btn
+          :loading="submitting"
+          color="primary"
+          label="Login"
+          type="submit"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-form>
 </template>

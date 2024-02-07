@@ -60,27 +60,27 @@ const ageMapping = defineModel('ageList', {
 
 <template>
   <UContainer class="flex flex-row items-center gap-2">
-  <UCard>
-    <template #header>
-      <p>Secondary Sex Mappings</p>
-    </template>
-    <div class="flex flex-row items-center gap-2">
-      <div
-        v-for="item in SexOptions"
-        :key="item.label"
-        class="flex flex-row items-center gap-1"
-      >
-        <div>{{ item.label }} :</div>
-        <div>
-          <USelectMenu
-            v-model="sexList[item.value]"
-            :multiple="true"
-            :options="$props.sexStrings"
-            class="w-full lg:w-30"
-            placeholder="Select strings to map"
-            searchable
-            searchable-placeholder="Select strings to map"
-          >
+    <UCard>
+      <template #header>
+        <p>Secondary Sex Mappings</p>
+      </template>
+      <div class="flex flex-row items-center gap-2">
+        <div
+          v-for="item in SexOptions"
+          :key="item.label"
+          class="flex flex-row items-center gap-1"
+        >
+          <div>{{ item.label }} :</div>
+          <div>
+            <USelectMenu
+              v-model="sexList[item.value]"
+              :multiple="true"
+              :options="$props.sexStrings"
+              class="w-full lg:w-30"
+              placeholder="Select strings to map"
+              searchable
+              searchable-placeholder="Select strings to map"
+            >
             <!-- <template #label>
                   <div class="">
                     <span v-if="sexStrings[item.value]" class="truncate">{{
@@ -89,47 +89,48 @@ const ageMapping = defineModel('ageList', {
                     <span v-else>Select Sex Strings</span>
                   </div>
                 </template> -->
-          </USelectMenu>
+            </USelectMenu>
+          </div>
         </div>
       </div>
-    </div>
-  </UCard>
-  <UCard>
-    <template #header>
-      <p>Secondary Age Mappings</p>
-    </template>
-    <div class="flex flex-row items-center gap-2">
-      <div
-        v-for="item in AgeOptions"
-        :key="item.label"
-        class="flex flex-row items-center gap-1"
-      >
-        <div>{{ item.label }} :</div>
-        <div>
-          <USelectMenu
-            v-model="ageList[item.value]"
-            :multiple="true"
-            :options="$props.sexStrings"
-            class="w-full lg:w-30"
-            placeholder="Select strings to map"
-            searchable
-            searchable-placeholder="Select strings to map"
-          >
-            <template #label>
-              <div class="">
-                <span v-if="ageStrings[item.value]" class="truncate"
-                  >{{ ageList[item.value].join(', ') }}</span
-                >
-                <span v-else>Select Age Strings</span>
-              </div>
-            </template>
-          </USelectMenu>
+    </UCard>
+    <UCard>
+      <template #header>
+        <p>Secondary Age Mappings</p>
+      </template>
+      <div class="flex flex-row items-center gap-2">
+        <div
+          v-for="item in AgeOptions"
+          :key="item.label"
+          class="flex flex-row items-center gap-1"
+        >
+          <div>{{ item.label }} :</div>
+          <div>
+            <USelectMenu
+              v-model="ageList[item.value]"
+              :multiple="true"
+              :options="$props.sexStrings"
+              class="w-full lg:w-30"
+              placeholder="Select strings to map"
+              searchable
+              searchable-placeholder="Select strings to map"
+            >
+              <template #label>
+                <div class="">
+                  <span
+                    v-if="ageStrings[item.value]"
+                    class="truncate"
+                  >{{ ageList[item.value].join(', ') }}</span>
+                  <span v-else>Select Age Strings</span>
+                </div>
+              </template>
+            </USelectMenu>
+          </div>
         </div>
       </div>
-    </div>
-  </UCard>
-  <div class="flex flex-row items-center gap-2" />
-</UContainer>
+    </UCard>
+    <div class="flex flex-row items-center gap-2" />
+  </UContainer>
 </template>
 
 <style></style>

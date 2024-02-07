@@ -2,9 +2,9 @@
 
 <template>
   <div>
-  Layout: base
-  <slot />
-</div>
+    Layout: base
+    <slot />
+  </div>
 </template>
 
 <style scoped></style>
