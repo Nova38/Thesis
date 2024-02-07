@@ -10,7 +10,7 @@ import type { User } from './db'
 
 import { sessionConfig } from './session'
 import { auth, ccbio, common, sample } from '~/lib'
-import { GlobalRegistry } from '~/lib/gen/global_reg'
+import { GlobalRegistry } from '~/lib/pb/global_reg'
 
 export interface FabricConfig {
   chaincode: {
@@ -100,8 +100,7 @@ async function BuildIdentity(event: H3Event) {
       identity,
       signer,
     }
-  }
-  catch (error) {
+  } catch (error) {
     const publicUser: User = {
       createdAt: '',
       credentials: fabricConfig.public.credentials,
@@ -143,9 +142,7 @@ async function BuildGateway(event: H3Event) {
 export async function useChaincode<T extends H3Event>(event: T) {
   const connection = await BuildGateway(event)
 
-  const network = connection.gateway.getNetwork(
-    fabricConfig.chaincode.channel,
-  )
+  const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
   const contract = network.getContract(fabricConfig.chaincode.chaincode)
 
   const service = new common.generic.GenericServiceClient(

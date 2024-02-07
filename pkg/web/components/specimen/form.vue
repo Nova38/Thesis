@@ -34,8 +34,8 @@ const props = defineProps({
 
 const sectionHeaderClass = 'text-center section-header bg-gray-200'
 
-const specimen = defineModel('specimen', {
-  default: () => new ccbio.Specimen(),
+const specimen = defineModel<PlainSpecimen>('specimen', {
+  default: () => MakeEmptySpecimen(),
 })
 
 function addPreparation(name: string) {
@@ -123,6 +123,13 @@ const secondaryAgeOptions = [
     value: ccbio.Specimen_Secondary_AGE.AGE_CONTINGENT,
   },
 ]
+
+const sections = [
+  {
+    label: 'Taxon',
+    slot: 'taxon',
+  },
+]
 </script>
 
 <template>
@@ -164,6 +171,7 @@ const secondaryAgeOptions = [
         </div>
       </div>
     </QCardSection>
+
     <div :class="headerColor" class="flex flex-row">
       <q-chip
         v-if="specimen.collectionId"
@@ -182,6 +190,37 @@ const secondaryAgeOptions = [
     </div>
 
     <q-form>
+      <UAccordion
+        :multiple="true"
+        ui=""
+        :start-open="startOpen"
+        :show-header="showHeader"
+        :show-empty="showEmpty"
+        :show-edit-options="showEditOptions"
+        :items="sections"
+      >
+        <template #taxon>
+          <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
+            <template v-for="(_, key) in specimen.taxon" :key="key">
+              <QInput
+                v-if="specimen.taxon && typeof specimen.taxon[key] === 'string'"
+                :model-value="specimen.taxon[key] as string"
+                :disable="!props.enableEdit"
+                :label="key"
+                class="flex-grow my-1"
+              />
+            </template>
+          </QCardSection>
+          <div class="m-4">
+            <q-item-label overline>
+              <b>Last Updated At</b>
+            </q-item-label>
+            <q-item-label class="text-bold">
+              {{ specimen?.primary?.lastModified?.timestamp }}
+            </q-item-label>
+          </div>
+        </template>
+      </UAccordion>
       <QExpansionItem
         :header-class="sectionHeaderClass"
         :icon="!props.enableEdit ? 'ti-lock' : 'ti-pencil-alt'"
@@ -750,7 +789,7 @@ const secondaryAgeOptions = [
                     <q-icon
                       class="cursor-pointer"
                       name="cancel"
-                      @click="delete specimen.secondary.preparations[key]"
+                      @click="delete specimen?.secondary?.preparations[key]"
                     />
                   </template>
                 </QInput>

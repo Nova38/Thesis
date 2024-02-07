@@ -3,7 +3,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devServer: {
-    https: true, // enable HTTPS
+    // https: true, // enable HTTPS
     port: 8000,
   },
   devtools: {
@@ -17,7 +17,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  debug: true,
+  // debug: true,
 
   ssr: false,
 
@@ -27,7 +27,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/test-utils/module',
-
     'nuxt-quasar-ui',
     '@nuxt/ui',
     '@vueuse/nuxt',
@@ -116,6 +115,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   quasar: {
     components: {
       deepDefaults: true,
@@ -143,5 +143,8 @@ export default defineNuxtConfig({
   ui: {
     global: true,
     icons: {},
+  },
+  eslintConfig: {
+    setup: false,
   },
 })

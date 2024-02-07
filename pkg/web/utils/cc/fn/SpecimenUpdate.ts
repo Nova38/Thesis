@@ -1,4 +1,4 @@
-import * as ccbio from '~/lib/gen/biochain/v1'
+import * as ccbio from '~/lib/pb/biochain/v1'
 import type { UpdateRowMeta } from '~/utils/types'
 
 export async function DoSpecimenUpdate(
