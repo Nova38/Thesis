@@ -2,11 +2,10 @@ import type { AuthSession } from '~/server/utils/session'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   // Skip plugin when rendering error page
-  if (nuxtApp.payload.error)
-    return {}
+  if (nuxtApp.payload.error) return {}
 
-  const { data: session, refresh: refreshSession }
-    = await useCustomFetch<AuthSession>('/api/auth/session')
+  const { data: session, refresh: refreshSession } =
+    await useCustomFetch<AuthSession>('/api/auth/session')
 
   const username = useState('username', () => {
     return session.value?.username
@@ -32,30 +31,28 @@ export default defineNuxtPlugin(async (nuxtApp) => {
    * })
    */
 
-  addRouteMiddleware(
-    'auth',
-    (to) => {
-      if (to.meta.auth && !loggedIn.value) {
-        redirectTo.value = to.path
-        return '/login'
-      }
-    },
-    { global: true },
-  )
+  // addRouteMiddleware(
+  //   'auth',
+  //   (to) => {
+  //     if (to.meta.auth && !loggedIn.value) {
+  //       redirectTo.value = to.path
+  //       return '/login'
+  //     }
+  //   },
+  //   { global: true },
+  // )
 
-  const currentRoute = useRoute()
+  // if (import.meta.client) {
+  //   watch(loggedIn, async (loggedIn) => {
+  //     if (!loggedIn && currentRoute.meta.auth) {
+  //       redirectTo.value = currentRoute.path
+  //       await navigateTo('/login')
+  //     }
+  //   })
+  // }
 
-  if (import.meta.client) {
-    watch(loggedIn, async (loggedIn) => {
-      if (!loggedIn && currentRoute.meta.auth) {
-        redirectTo.value = currentRoute.path
-        await navigateTo('/login')
-      }
-    })
-  }
-
-  if (loggedIn.value && currentRoute.path === '/login')
-    await navigateTo(redirectTo.value || '/')
+  // if (loggedIn.value && currentRoute.path === '/login')
+  //   await navigateTo(redirectTo.value || '/')
 
   return {
     provide: {

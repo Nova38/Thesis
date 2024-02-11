@@ -27,6 +27,8 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/test-utils/module',
+    'nuxt-primevue',
+
     'nuxt-quasar-ui',
     '@nuxt/ui',
     '@vueuse/nuxt',
@@ -34,11 +36,13 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-radash',
     // 'nuxt-security',
-    'nuxt-primevue',
     '@formkit/nuxt',
   ],
 
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css',
+    'primevue/resources/themes/aura-light-green/theme.css',
+  ],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
@@ -116,6 +120,12 @@ export default defineNuxtConfig({
       api: {
         url: process.env.NUXT_API_URL || '',
       },
+    },
+  },
+
+  primevue: {
+    components: {
+      prefix: 'P',
     },
   },
 

@@ -17,10 +17,28 @@ const { data, error, pending } = await useCustomFetch(
     },
   },
 )
+
+const links = computed(() => {
+  if (!data.value)
+    return []
+
+  return data.value?.map((col) => {
+    const base = `/collection/${col.id}/AccessControl/`
+
+    return {
+      label: col.id,
+      to: base,
+    }
+  })
+})
 </script>
 
 <template>
   <div v-if="!pending || !error">
+    <!-- <div v-if="links">
+      <UVerticalNavigation :links="links" />
+    </div> -->
+
     <div
       v-for="col in data"
       :key="col.id"

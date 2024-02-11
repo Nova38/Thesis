@@ -18,15 +18,17 @@ export default antfu(
       overrides: [],
       tsconfigPath: 'tsconfig.json',
     },
-    vue: {
-      sfcBlocks: {
-        blocks: {
-          script: true,
-          template: true,
-          style: true,
-        },
-      },
-    },
+    vue: true,
+
+    // vue: {
+    //   sfcBlocks: {
+    //     blocks: {
+    //       script: true,
+    //       template: true,
+    //       style: true,
+    //     },
+    //   },
+    // },
   },
 
   // perfectionistNatural,

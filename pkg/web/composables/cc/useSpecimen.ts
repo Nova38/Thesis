@@ -5,12 +5,18 @@ import type { PlainMessage } from '@bufbuild/protobuf'
 
 import { ccbio } from '~/lib'
 
-export function makeSpecimenKey(collectionId: Ref<string> | string, specimenId: Ref<string> | string) {
+export function makeSpecimenKey(
+  collectionId: Ref<string> | string,
+  specimenId: Ref<string> | string,
+) {
   return `collectionId:${toValue(collectionId)}-specimenId:${toValue(
     specimenId,
   )}`
 }
-export function makeSpecimenHistoryKey(collectionId: Ref<string> | string, specimenId: Ref<string> | string) {
+export function makeSpecimenHistoryKey(
+  collectionId: Ref<string> | string,
+  specimenId: Ref<string> | string,
+) {
   return `collectionId:${toValue(collectionId)}-specimenId:${toValue(
     specimenId,
   )}-history`
@@ -21,48 +27,53 @@ export function makeSpecimenHistoryKey(collectionId: Ref<string> | string, speci
 //   )}`;
 // });
 
-export const useRouteSpecimenId = useState('RouteSpecimenId', () => {
-  const route = useRoute()
-  return route.params?.specimenId?.toString()
-})
+// export const useRouteSpecimenId = useState('RouteSpecimenId', () => {
+//   const route = useRoute()
+//   return route.params?.specimenId?.toString()
+// })
 
-// export const useRouteSpecimenId = useState(
-//   "currentSpecimen",
-//   () => useRoute().params?.specimenId?.toString(),
-// );
+// export const useRouteCollectionId = useState('RouteSpecimenId', () => {
+//   const route = useRoute()
+//   return route.params?.collectionId?.toString()
+// })
 
-export function useGetRouteSpecimen() {
-  return useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
-    key: makeSpecimenKey(useRouteSpecimenId, useRouteCollectionId),
+// // export const useRouteSpecimenId = useState(
+// //   "currentSpecimen",
+// //   () => useRoute().params?.specimenId?.toString(),
+// // );
 
-    query: {
-      collectionId: toValue(useRouteSpecimenId),
-      specimenId: toValue(useRouteCollectionId),
-    },
-  })
-}
+// export function useGetRouteSpecimen() {
+//   return useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
+//     key: makeSpecimenKey(useRouteSpecimenId, useRouteCollectionId),
 
-export function useGetSpecimenHistory() {
-  return useCustomFetch(`/api/cc/specimens/history`, {
-    key: makeSpecimenHistoryKey(useRouteSpecimenId, useRouteCollectionId),
+//     query: {
+//       collectionId: toValue(useRouteSpecimenId),
+//       specimenId: toValue(useRouteCollectionId),
+//     },
+//   })
+// }
 
-    query: {
-      collectionId: toValue(useRouteCollectionId),
-      specimenId: toValue(useRouteSpecimenId),
-    },
-  })
-}
+// export function useGetSpecimenHistory() {
+//   return useCustomFetch(`/api/cc/specimens/history`, {
+//     key: makeSpecimenHistoryKey(useRouteSpecimenId, useRouteCollectionId),
 
-export function useCreateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
-  return useCustomFetch(`/api/cc/specimens/create`, {
-    body: new ccbio.Specimen(specimen).toJsonString(),
-    method: 'POST',
-  })
-}
+//     query: {
+//       collectionId: toValue(useRouteCollectionId),
+//       specimenId: toValue(useRouteSpecimenId),
+//     },
+//   })
+// }
 
-export function useUpdateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
-  return useCustomFetch(`/api/cc/specimens/update`, {
-    body: new ccbio.Specimen(specimen).toJsonString(),
-    method: 'POST',
-  })
-}
+// export function useCreateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
+//   return useCustomFetch(`/api/cc/specimens/create`, {
+//     body: new ccbio.Specimen(specimen).toJsonString(),
+//     method: 'POST',
+//   })
+// }
+
+// export function useUpdateSpecimen(specimen: PlainMessage<ccbio.Specimen>) {
+//   return useCustomFetch(`/api/cc/specimens/update`, {
+//     body: new ccbio.Specimen(specimen).toJsonString(),
+//     method: 'POST',
+//   })
+// }
