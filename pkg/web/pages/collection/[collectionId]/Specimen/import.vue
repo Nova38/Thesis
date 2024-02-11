@@ -7,7 +7,7 @@ import { randomUUID } from 'uncrypto'
 import { ccbio } from '~/lib'
 
 const store = useCollectionsStore()
-const catalogNumbers = store.SpecimenCatalogNumbers
+const _catalogNumbers = store.SpecimenCatalogNumbers
 // Reactive variables
 const file = ref<File | null>(null)
 

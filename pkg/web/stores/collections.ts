@@ -2,8 +2,8 @@
 /* eslint perfectionist/sort-objects: "error" */
 
 export const useCollectionsStore = defineStore('Collections', () => {
-  const CollectionId = () => {
-    return useRoute('collection-collectionId').params.collectionId ?? ''
+  const CollectionId = (): string => {
+    return useRoute().params?.collectionId.toString() ?? ''
   }
 
   const Collection = computed(() => {})
@@ -18,10 +18,8 @@ export const useCollectionsStore = defineStore('Collections', () => {
   const SpecimenUUIDs = ref<string[]>()
 
   function GetSpecimenFromCatalogNumber(catalogNumber: string) {
-    for (const s of SpecimenList.value) {
-      if (s.primary?.catalogNumber === catalogNumber)
-        return s
-    }
+    for (const s of SpecimenList.value)
+      if (s.primary?.catalogNumber === catalogNumber) return s
   }
 
   async function FilterSpecimenList({
@@ -32,19 +30,19 @@ export const useCollectionsStore = defineStore('Collections', () => {
     uuids?: string[]
   }) {
     if (uuids) {
-      SpecimenList.value = SpecimenList.value?.filter(s =>
+      SpecimenList.value = SpecimenList.value?.filter((s) =>
         uuids.includes(s.specimenId),
       )
     }
     if (catalogNumbers) {
-      SpecimenList.value = SpecimenList.value?.filter(s =>
+      SpecimenList.value = SpecimenList.value?.filter((s) =>
         catalogNumbers.includes(s.primary?.catalogNumber || ''),
       )
     }
   }
 
   async function LoadRows() {
-    return await useCustomFetch<PlainSpecimen[]>(`/api/cc/specimens/list`, {
+    return await useCustomFetch(`/api/cc/specimens/list`, {
       key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
       query: {
         collectionId: CollectionId(),
@@ -54,15 +52,12 @@ export const useCollectionsStore = defineStore('Collections', () => {
         console.log('history', response._data)
         Bookmark.value = response._data?.bookmark ?? ''
         console.log(Bookmark.value)
-        SpecimenMap.value = defu(
-          SpecimenMap.value,
-          response._data?.specimenMap,
-        )
+        SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
         SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          s => s.primary.catalogNumber,
+          (s) => s.primary.catalogNumber,
         )
-        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
+        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
       },
     })
   }
@@ -98,15 +93,12 @@ export const useCollectionsStore = defineStore('Collections', () => {
         console.log('history', response._data)
         Bookmark.value = response._data?.bookmark ?? ''
         console.log(Bookmark.value)
-        SpecimenMap.value = defu(
-          SpecimenMap.value,
-          response._data?.specimenMap,
-        )
+        SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
         SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          s => s.primary.catalogNumber,
+          (s) => s.primary.catalogNumber,
         )
-        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
+        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
         Loading.value = false
       },
     })
