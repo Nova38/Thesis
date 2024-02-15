@@ -5,41 +5,21 @@ const visible = ref(true)
 </script>
 
 <template>
-  <div>
-    <PToolbar class="bg-blue-600">
-      <template #start>
-        <UButton label="Click Me" />
-        <PButton
-          icon="pi pi-print"
-          class="mr-2"
-          severity="secondary"
-        />
-        <PButton
-          icon="pi pi-upload"
-          severity="secondary"
-        />
-      </template>
+  <div class="w-full h-full min-h-screen flex flex-col gap-2">
+    <NavHeader />
 
-      <template #center />
+    <div class="bg-slate-100  flex h-30 flex-grow  flex-row gap-2">
+      <NavSidebar class="bg-red-100" />
 
-      <template #end />
-    </PToolbar>
-    <div class="grid grid-flow-col gap-2 max-w-screen">
-      <div v-show="visible">
-        <NavSidebar />
-      </div>
+      <div v-show="visible" />
 
-      <div class=" col-span-4	">
-        <NuxtLoadingIndicator />
-        <NuxtPage />
+      <div class="bg-amber-100	flex-grow ">
+        <NuxtErrorBoundary>
+          <NuxtLoadingIndicator />
+          <NuxtPage />
+        </NuxtErrorBoundary>
       </div>
     </div>
-
-    <!-- <NuxtLayout>
-      <template #content>
-
-      </template>
-    </NuxtLayout> -->
   </div>
 </template>
 

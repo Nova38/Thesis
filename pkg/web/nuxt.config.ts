@@ -3,7 +3,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devServer: {
-    https: true, // enable HTTPS
+    // https: true, // enable HTTPS
     port: 8000,
   },
   devtools: {
@@ -158,6 +158,6 @@ export default defineNuxtConfig({
     icons: {},
   },
   eslintConfig: {
-    // setup: false,
+    setup: false,
   },
 })

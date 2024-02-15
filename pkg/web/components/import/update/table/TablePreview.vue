@@ -27,12 +27,15 @@ const MappingHeaders: Ref<QTableProps['columns']> = computed(() => {
   })
 })
 
+const products = ref([])
 // Methods
 </script>
 
 <template>
   <UCard>
-    <UCard />
+    <PDataTable :value="products" table-style="min-width: 50rem">
+      <PColumn field="code" header="Code" />
+    </PDataTable>
   </UCard>
 
   <UCard>
