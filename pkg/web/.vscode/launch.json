@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "vscode-edge-devtools.debug",
+      "request": "launch",
+      "name": "Launch Microsoft Edge and open the Edge DevTools",
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}"
+    },
+
+    {
       "type": "msedge",
       "request": "launch",
       "name": "client: edge",
@@ -13,22 +21,23 @@
       "userDataDir": false
     },
     {
+      "name": "client: chrome",
       "type": "chrome",
       "request": "launch",
-      "name": "client: chrome",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },
     {
+      "name": "server: nuxt",
       "type": "node",
       "request": "launch",
-      "name": "server: nuxt",
       "outputCapture": "std",
       "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
       "args": [
         "dev"
       ]
     }
+
   ],
   "compounds": [
     {
@@ -38,5 +47,6 @@
         "client: edge"
       ]
     }
+
   ]
 }

@@ -113,17 +113,23 @@
   "eslint.experimental.useFlatConfig": true,
   "prettier.enable": true,
   "[vue]": {
-    "editor.formatOnSave": true,
+    "prettier.enable": false,
+
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   },
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   },
+
+  // Disable the default formatter, use eslint instead
+  // "editor.formatOnSave": false,
+
   "[typescript][vue]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {

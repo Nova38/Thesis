@@ -2,8 +2,9 @@
 
 <template>
   <div>
-  <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
-  <!-- {{ crush(MakeEmptySpecimen()) }} -->
+    <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
+    <!-- {{ crush(MakeEmptySpecimen()) }} -->
+    Hello world
   </div>
 </template>
 
