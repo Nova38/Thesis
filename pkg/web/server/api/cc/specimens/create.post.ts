@@ -13,8 +13,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   console.log({ body })
 
-  const r = await readValidatedBody(event, body =>
-    bodySchema.safeParse(body))
+  const r = await readValidatedBody(event, body => bodySchema.safeParse(body))
   if (!r.success)
     throw r.error.issues
   console.log({ data: r.data })

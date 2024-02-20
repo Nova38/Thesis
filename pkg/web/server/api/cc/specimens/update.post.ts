@@ -3,7 +3,10 @@ import type { FieldMask } from '@bufbuild/protobuf'
 import { Any } from '@bufbuild/protobuf'
 import { auth, ccbio, common } from '~/lib'
 
-export interface bodySchema { mask: FieldMask, specimen: ccbio.Specimen }
+export interface bodySchema {
+  mask: FieldMask
+  specimen: ccbio.Specimen
+}
 
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)

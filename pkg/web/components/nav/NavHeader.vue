@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="min-w-15">
@@ -21,7 +19,9 @@
 
         <template #center />
 
-        <template #end />
+        <template #end>
+          <AuthUserMenu class="ml-auto" />
+        </template>
       </PToolbar>
     </div>
   </div>

@@ -33,8 +33,14 @@ const products = ref([])
 
 <template>
   <UCard>
-    <PDataTable :value="products" table-style="min-width: 50rem">
-      <PColumn field="code" header="Code" />
+    <PDataTable
+      :value="products"
+      table-style="min-width: 50rem"
+    >
+      <PColumn
+        field="code"
+        header="Code"
+      />
     </PDataTable>
   </UCard>
 

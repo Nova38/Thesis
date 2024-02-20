@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
   const query = await getValidatedQuery(event, body =>
     querySchema.safeParse(body))
   console.log(query)
+
   if (!query.success)
     throw query.error.issues
 
