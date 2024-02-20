@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   // debug: true,
 
   ssr: false,
-
+bbnjj
   experimental: {
     // typedPages: true,
     asyncContext: true,

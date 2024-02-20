@@ -2,7 +2,7 @@ export function useAuth() {
   const nuxtApp = useNuxtApp()
   return nuxtApp.$auth
 }
-const useLoggedIn = useState('loggedIn')
+const useLoggedIn = () => useState('loggedIn')
 
 // const { $auth } = useNuxtApp();
 
@@ -20,14 +20,13 @@ export async function authLogin(username: string, password: string) {
       // useError;
       throw result.error.value
     }
-    useLoggedIn.value = true
+    useLoggedIn().value = true
     useAuth().redirectTo.value = null
     await useAuth().updateSession()
     await navigateTo(useAuth().redirectTo.value || '/')
 
     return result
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
     createError(e ?? {})
     throw e
@@ -49,6 +48,6 @@ export async function authLogout() {
   await $fetch('/api/auth/logout', {
     method: 'POST',
   })
-  useLoggedIn.value = false
+  useLoggedIn().value = false
   await useAuth().updateSession()
 }
