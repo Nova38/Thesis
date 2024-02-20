@@ -2,11 +2,12 @@ export function useAuth() {
   const nuxtApp = useNuxtApp()
   return nuxtApp.$auth
 }
-const useLoggedIn = useState('loggedIn')
 
 // const { $auth } = useNuxtApp();
 
 export async function authLogin(username: string, password: string) {
+  const useLoggedIn = useState('loggedIn')
+
   try {
     const result = await useCustomFetch('/api/auth/login', {
       body: {
@@ -46,6 +47,8 @@ export async function authRegister(username: string, password: string) {
 }
 
 export async function authLogout() {
+  const useLoggedIn = useState('loggedIn')
+
   await $fetch('/api/auth/logout', {
     method: 'POST',
   })

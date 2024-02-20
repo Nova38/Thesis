@@ -31,12 +31,24 @@ const links = computed(() => {
   }
 
   return data.value?.map((col) => {
-    const base = `/collection/${col.id}/AccessControl/`
+    const base = `/collection/${col.id}/`
 
-    return {
+    return [{
       label: col.id,
       to: base,
-    } as VerticalNavigationLink
+    }, {
+      label: 'Specimen Table',
+      to: `${base}/SpecimenTable`,
+    }, {
+      label: 'Access Control',
+      to: `${base}/access`,
+    }, {
+      label: 'Bulk Import',
+      to: `${base}/bulk/import`,
+    }, {
+      label: 'Bulk Update',
+      to: `${base}/bulk/update`,
+    }] as VerticalNavigationLink[]
   })
 })
 </script>

@@ -5,7 +5,7 @@ interface Props {
   ageStrings: string[]
   sexStrings: string[]
 }
-const props = defineProps<Props>()
+const _props = defineProps<Props>()
 
 console.log(
   Object.keys(ccbio.Specimen_Secondary_SEX).map((item) => {
@@ -43,7 +43,7 @@ const AgeOptions = [
 // });
 // console.log(SexOptions);
 
-const sexMapping = defineModel('sexList', {
+const _sexMapping = defineModel('sexList', {
   default: ref([[], [], [], [], []]),
 })
 watch(sexList, (newVal) => {
@@ -51,7 +51,7 @@ watch(sexList, (newVal) => {
   // sexMapping.value = newVal;
 })
 
-const ageMapping = defineModel('ageList', {
+const _geMapping = defineModel('ageList', {
   default: [[], [], [], [], [], [], []],
 })
 

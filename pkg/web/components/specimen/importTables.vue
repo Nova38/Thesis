@@ -278,14 +278,14 @@ function statusToChipColor(status: status) {
                     :label="props.row[props.col.field]"
                   />
                   <q-circular-progress
-                    v-if="props.row[props.col.field] == 'loading'"
+                    v-if="props.row[props.col.field] === 'loading'"
                     color="warn"
                     indeterminate
                     rounded
                     size="15px"
                   />
                   <template
-                    v-if="RowMeta[props.row.index].statusMessage != ''"
+                    v-if="RowMeta[props.row.index].statusMessage !== ''"
                     #panel
                   >
                     <div class="p-4">
