@@ -1,2 +1,1 @@
-export const MessageKeySchema = {
-}
+export const MessageKeySchema = {}

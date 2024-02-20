@@ -1,6 +1,17 @@
 <script lang="ts" setup>
 // import type { UButton } from "#build/components";
 const loggedIn = useState('loggedIn')
+
+const auth = useAuth()
+
+async function authLogout() {
+  await $fetch('/api/auth/logout', {
+    method: 'POST',
+  })
+  loggedIn.value = false
+
+  auth.clearSession()
+}
 </script>
 
 <template>
@@ -12,10 +23,7 @@ const loggedIn = useState('loggedIn')
     </div>
     <div v-else>
       <QChip>{{ $auth.username.value }} </QChip>
-      <QBtn
-        color="red"
-        @click="authLogout"
-      >
+      <QBtn @click="authLogout">
         Logout
       </QBtn>
     </div>

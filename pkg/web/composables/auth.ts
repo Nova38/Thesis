@@ -8,6 +8,8 @@ const useLoggedIn = () => useState('loggedIn')
 
 export async function authLogin(username: string, password: string) {
   try {
+    // const useLoggedIn = () => useState('loggedIn')
+
     const result = await useCustomFetch('/api/auth/login', {
       body: {
         password,
@@ -45,9 +47,11 @@ export async function authRegister(username: string, password: string) {
 }
 
 export async function authLogout() {
+  const useLoggedIn = useState('loggedIn')
+
   await $fetch('/api/auth/logout', {
     method: 'POST',
   })
-  useLoggedIn().value = false
+  useLoggedIn.value = false
   await useAuth().updateSession()
 }

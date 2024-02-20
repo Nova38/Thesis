@@ -86,9 +86,9 @@ watch(specimenMapping.value, () => {
           //   sexStrings.value.push(value);
           // }
           try {
-            if (!isNaN(Number.parseInt(value)))
+            if (!Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, 0)
-            if (isNaN(Number.parseInt(value)))
+            if (Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, Number.parseInt(value))
           }
           catch (error) {
@@ -102,9 +102,9 @@ watch(specimenMapping.value, () => {
           //   sexStrings.value.push(value);
           // }
           try {
-            if (!isNaN(Number.parseInt(value)))
+            if (!Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, 0)
-            if (isNaN(Number.parseInt(value)))
+            if (Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, Number.parseInt(value))
             // set(importingSpecimen, key, parseInt(value));
           }
@@ -153,7 +153,6 @@ const possessedData = computed(() => {
       return
 
     console.group('import')
-    RowsSelected
 
     const importingSpecimen = MakeEmptySpecimen()
 
@@ -168,7 +167,7 @@ const possessedData = computed(() => {
 
         numberFelids.forEach((e) => {
           const val: string = get(value, e)
-          if (isNaN(Number.parseFloat(val))) {
+          if (Number.isNaN(Number.parseFloat(val))) {
             console.log('isNaN')
             set(importingSpecimen, e, 0)
           }
@@ -367,7 +366,7 @@ function run() {
 
       console.log(value)
 
-      useCreateSpecimen(new ccbio.Specimen(Specimen.parse(value)))
+      useCreateSpecimen(new ccbio.Specimen(ZSpecimen.parse(value)))
         .then((res) => {
           console.log(res)
           row.status = 'success'

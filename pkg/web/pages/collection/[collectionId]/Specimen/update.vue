@@ -294,7 +294,7 @@ function PrepareRow(specimen: PlainSpecimen, index: number) {
   // specimen.collectionId = useRoute().params.collectionId.toString();
   console.log({ specimen })
 
-  numberFelids.forEach((e) => {
+  numberFelids.forEach((e: any) => {
     const val: string = get(specimen, e)
     console.log(val)
     if (isNaN(Number.parseFloat(val))) {
@@ -317,7 +317,7 @@ function existToChipColor(exists: ExistStatus) {
       return 'pink'
   }
 }
-function statusToChipColor(status: status) {
+function statusToChipColor(status: ProcessingStatus) {
   switch (status) {
     case 'new':
       return 'blue'
