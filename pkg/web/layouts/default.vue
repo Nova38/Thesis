@@ -60,7 +60,7 @@ LoadingBar.setDefaults({
                 {{ item.label }} &nbsp;
               </NuxtLink>
 
-            <!-- <q-separator vertical inset color="white" /> -->
+              <!-- <q-separator vertical inset color="white" /> -->
             </template>
           </div>
 
@@ -85,13 +85,13 @@ LoadingBar.setDefaults({
         <div class="p-2">
           <NuxtLoadingIndicator />
           <slot name="content" />
-        <!-- <NuxtErrorBoundary> -->
+          <!-- <NuxtErrorBoundary> -->
 
-        <!-- ... -->
-        <!-- <template #error="{ error }"> -->
-        <!-- <p>An error occurred: {{ error }}</p> -->
-        <!-- </template> -->
-        <!-- </NuxtErrorBoundary> -->
+          <!-- ... -->
+          <!-- <template #error="{ error }"> -->
+          <!-- <p>An error occurred: {{ error }}</p> -->
+          <!-- </template> -->
+          <!-- </NuxtErrorBoundary> -->
         </div>
       </q-page-container>
     </q-layout>

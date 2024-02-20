@@ -1,10 +1,6 @@
 // export const useRouteSpecimenId = () => {
 //   route.params.specimenId.toString()
 
-import type { PlainMessage } from '@bufbuild/protobuf'
-
-import { ccbio } from '~/lib'
-
 export function makeSpecimenKey(
   collectionId: Ref<string> | string,
   specimenId: Ref<string> | string,

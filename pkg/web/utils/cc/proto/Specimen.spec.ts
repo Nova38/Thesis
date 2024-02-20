@@ -136,7 +136,7 @@ const raw = {
     species: 'asdf',
     subspecies: '',
   },
-}
+} as const
 
 const csvFlat = {
   'georeference.coordinateUncercaintyInMeters': 'NA',
@@ -151,7 +151,7 @@ const csvFlat = {
   'georeference.longitude': 'NA',
   'georeference.notes': '',
   'georeference.stateProvince': 'Colorado',
-  'index': '1',
+  index: '1',
   'primary.accessionNumber': 'NA',
   'primary.catalogDate': 'NA',
   'primary.catalogNumber': '2',
@@ -178,7 +178,7 @@ const csvFlat = {
 }
 
 describe('suite name', () => {
-  beforeAll(() => { })
+  beforeAll(() => {})
   it('simpleParse', () => {
     expect(() => ZSpecimen.parse(raw)).not.toThrowError()
     expect(() => {
@@ -188,7 +188,7 @@ describe('suite name', () => {
     // console.log(new ccbio.Specimen(Specimen.parse(raw)));
   })
   it('parseFlat', () => {
-    const specimen = new ccbio.Specimen(raw)
+    const specimen = ccbio.Specimen.fromJson(raw)
     const flat = crush(raw)
     console.log(flat)
     const unFlat = construct(flat)
@@ -198,13 +198,13 @@ describe('suite name', () => {
   })
 
   it('parseOutput', () => {
-    const full_path
-      = 'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json'
-    const out_path
-      = 'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_cov.json'
+    const full_path =
+      'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json'
+    const out_path =
+      'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_cov.json'
     // read json from file
     const json = require(full_path)
-    const output = []
+    const output: ccbio.Specimen[] = []
     json.items.forEach((item: any) => {
       expect(() => {
         const s = new ccbio.Specimen(ZSpecimen.parse(construct(item)))

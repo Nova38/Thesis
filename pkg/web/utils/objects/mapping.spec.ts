@@ -15,12 +15,13 @@ describe('transformObject', () => {
       occupation: 'Engineer',
     }
     type OldType = typeof obj
-    interface NewType { fullName: string, job: string, years: number }
+    interface NewType {
+      fullName: string
+      job: string
+      years: number
+    }
 
-    const mappings: ObjectMapping<
-    NewType,
-      OldType
-    > = [
+    const mappings: ObjectMapping<NewType, OldType> = [
       { newKey: 'fullName', oldKey: 'name' },
       { newKey: 'years', oldKey: 'age' },
       { newKey: 'job', oldKey: 'occupation' },
@@ -44,8 +45,8 @@ describe('transformObject', () => {
     }
 
     const mappings: FieldMapping<
-    { fullName: string, job: string, years: number },
-    typeof obj
+      { fullName: string, job: string, years: number },
+      typeof obj
     >[] = [
       { newKey: 'fullName', oldKey: 'name' },
       {
@@ -75,13 +76,21 @@ describe('transformObject', () => {
       typeof obj,
       { fullName: string, job: string, years: number }
     > = [
-      { newKey: 'fullName', oldKey: 'name', transform(value) {
-        return value.toUpperCase()
-      } },
+      {
+        newKey: 'name',
+        oldKey: 'fullName',
+        transform(value) {
+          return value.toUpperCase()
+        },
+      },
       { newKey: 'years', oldKey: 'age' },
-      { newKey: 'job', oldKey: 'occupation', transform(value) {
-        return value.toUpperCase()
-      } },
+      {
+        newKey: 'job',
+        oldKey: 'occupation',
+        transform(value) {
+          return value.toUpperCase()
+        },
+      },
     ]
 
     const result = TransformObject(obj, mappings)
@@ -92,9 +101,7 @@ describe('transformObject', () => {
     })
   })
   describe('transformObject', () => {
-    beforeEach(() => {
-
-    })
+    beforeEach(() => {})
     it('should transform object keys based on mappings', () => {
       const obj: Record<string, string> = {
         'accessionNumber': '456',
@@ -162,11 +169,23 @@ describe('transformObject', () => {
         { newKey: 'primary.accessionNumber', oldKey: 'accessionNumber' },
         // Swap oldKey and newKey for all other items in the array
         { newKey: 'primary.tissueNumber', oldKey: 'tissueNumber' },
-        { newKey: 'primary.cataloger', oldKey: 'cataloger', transform: (value: string) => value.toUpperCase() },
-        { defaultValue: 'John Doe', newKey: 'primary.collector', oldKey: 'collector' },
-        { defaultValue() {
-          return 'Jane Doe'
-        }, newKey: 'primary.determiner', oldKey: 'determiner' },
+        {
+          newKey: 'primary.cataloger',
+          oldKey: 'cataloger',
+          transform: (value: string) => value.toUpperCase(),
+        },
+        {
+          defaultValue: 'John Doe',
+          newKey: 'primary.collector',
+          oldKey: 'collector',
+        },
+        {
+          defaultValue() {
+            return 'Jane Doe'
+          },
+          newKey: 'primary.determiner',
+          oldKey: 'determiner',
+        },
         { newKey: 'primary.fieldNumber', oldKey: 'fieldNumber' },
       ]
 
@@ -180,7 +199,7 @@ describe('transformObject', () => {
         'primary.collector': 'John Doe',
         'primary.determiner': 'Jane Doe',
         'primary.fieldNumber': '789',
-      // ... rest of the transformed properties
+        // ... rest of the transformed properties
       })
     })
   })
@@ -251,11 +270,23 @@ describe('transformObject', () => {
       { newKey: 'primary.accessionNumber', oldKey: 'accessionNumber' },
       // Swap oldKey and newKey for all other items in the array
       { newKey: 'primary.tissueNumber', oldKey: 'tissueNumber' },
-      { newKey: 'primary.cataloger', oldKey: 'cataloger', transform: (value: string) => value.toUpperCase() },
-      { defaultValue: 'John Doe', newKey: 'primary.collector', oldKey: 'collector' },
-      { defaultValue() {
-        return 'Jane Doe'
-      }, newKey: 'primary.determiner', oldKey: 'determiner' },
+      {
+        newKey: 'primary.cataloger',
+        oldKey: 'cataloger',
+        transform: (value: string) => value.toUpperCase(),
+      },
+      {
+        defaultValue: 'John Doe',
+        newKey: 'primary.collector',
+        oldKey: 'collector',
+      },
+      {
+        defaultValue() {
+          return 'Jane Doe'
+        },
+        newKey: 'primary.determiner',
+        oldKey: 'determiner',
+      },
       { newKey: 'primary.fieldNumber', oldKey: 'fieldNumber' },
     ]
 

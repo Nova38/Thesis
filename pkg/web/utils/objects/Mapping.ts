@@ -9,7 +9,10 @@ export interface FieldMapping<N, O> {
 }
 
 export type ObjectMapping<N, O> = FieldMapping<N, O>[]
-export type SpecimenMapping = ObjectMapping<FlatSpecimen, Record<string, number | string>>
+export type SpecimenMapping = ObjectMapping<
+  FlatSpecimen,
+  Record<string, number | string>
+>
 
 // export function TransformObject1<OldType, NewType>(
 //   obj: OldType,
@@ -28,16 +31,13 @@ export type SpecimenMapping = ObjectMapping<FlatSpecimen, Record<string, number 
 //   }, {} as NewType)
 // }
 
-export function TransformObject<O, N>(
-  obj: O,
-  mappings: ObjectMapping<N, O>,
-) {
+export function TransformObject<O, N>(obj: O, mappings: ObjectMapping<N, O>) {
   return mappings.reduce((newObj, mapping) => {
     const { defaultValue, newKey, oldKey, transform } = mapping
     if (oldKey === '') {
       if (defaultValue !== undefined) {
         newObj[newKey]
-            = typeof defaultValue === 'function'
+          = typeof defaultValue === 'function'
             ? (defaultValue as () => N[keyof N])()
             : defaultValue
       }
@@ -55,9 +55,7 @@ export function TransformObject<O, N>(
       }
     }
     else {
-      newObj[newKey] = transform
-        ? (transform(value))
-        : (value as N[keyof N])
+      newObj[newKey] = transform ? transform(value) : (value as N[keyof N])
     }
 
     return newObj
