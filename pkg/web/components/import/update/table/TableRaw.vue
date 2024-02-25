@@ -4,6 +4,7 @@ const bulk = useBulkUpdate()
 
 <template>
   <div>
+    <UCard />
     <QCardSection>
       <QTable
         v-model:selected="bulk.RowsSelected"

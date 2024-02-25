@@ -17,6 +17,7 @@ export default antfu(
     typescript: {
       overrides: [],
       tsconfigPath: 'tsconfig.json',
+
     },
     vue: true,
     ignores: ['formkit.theme.ts'],

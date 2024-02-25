@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
   devServer: {
     // https: true, // enable HTTPS
@@ -18,7 +19,11 @@ export default defineNuxtConfig({
   // debug: true,
 
   ssr: false,
-bbnjj
+
+  colorMode: {
+    preference: 'light',
+  },
+
   experimental: {
     // typedPages: true,
     asyncContext: true,
@@ -32,7 +37,7 @@ bbnjj
     '@vueuse/nuxt',
     'nuxt-module-eslint-config',
     '@pinia/nuxt',
-    'nuxt-radash',
+    // 'nuxt-radash',
     // 'nuxt-security',
     '@formkit/nuxt',
   ],
@@ -124,6 +129,9 @@ bbnjj
   primevue: {
     components: {
       prefix: 'P',
+    },
+    composables: {
+      exclude: ['useToast'],
     },
   },
 

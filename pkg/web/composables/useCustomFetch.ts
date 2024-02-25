@@ -1,3 +1,5 @@
+import type { UseFetchOptions } from '#app'
+
 // export function useCustomFetch<T>(
 //   url: (() => string) | string,
 //   options: UseFetchOptions<T> = {},
@@ -16,9 +18,10 @@
 
 //     // set user token if connected
 
-//     onRequest() {
+//     onRequest(ctx) {
 //       LoadingBar.start()
 //       LoadingBar.stop()
+//       if (typeof options.onRequest === 'function') options.onRequest(ctx)
 //     },
 
 //     onResponse() {
@@ -41,8 +44,7 @@ export const useCustomFetch: typeof useFetch = (url, options) => {
     onRequest(ctx) {
       LoadingBar.start()
       LoadingBar.stop()
-      if (typeof options?.onRequest === 'function')
-        options.onRequest(ctx)
+      if (typeof options?.onRequest === 'function') options.onRequest(ctx)
     },
   })
 }
