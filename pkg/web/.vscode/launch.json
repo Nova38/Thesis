@@ -7,10 +7,17 @@
     {
       "type": "vscode-edge-devtools.debug",
       "request": "launch",
-      "name": "Launch Microsoft Edge and open the Edge DevTools",
+      "name": "client: edge-in-code",
       "url": "http://localhost:8000",
       "webRoot": "${workspaceFolder}"
     },
+    // {
+    //   "type": "vscode-edge-devtools.debug",
+    //   "request": "launch",
+    //   "name": "Launch Microsoft Edge and open the Edge DevTools",
+    //   "url": "http://localhost:8000",
+    //   "webRoot": "${workspaceFolder}"
+    // },
 
     {
       "type": "msedge",
@@ -20,13 +27,7 @@
       "webRoot": "${workspaceFolder}",
       "userDataDir": false
     },
-    {
-      "name": "client: chrome",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
+
     {
       "name": "server: nuxt",
       "type": "node",

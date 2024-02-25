@@ -12,10 +12,7 @@ watch(file, (newFile) => {
 
 <template>
   <h2>Select CSV file to import from</h2>
-  <!-- <UInput type="file" accept=".csv" :ui="{}">
-      <template #leading></template>
-      hi
-    </UInput> -->
+
   <QCardSection>
     <QFile
       v-model="file"

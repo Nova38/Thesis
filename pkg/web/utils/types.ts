@@ -17,6 +17,19 @@ export interface UpdateRow {
   raw: Record<string, string>
 }
 
+export type ImportColType = 'id' | 'meta' | 'raw'
+export interface ImportColumns {
+  id: ImportCol
+  meta?: ImportCol[]
+  raw?: ImportCol[]
+}
+export interface ImportCol {
+  name: string
+  label: string
+  field: (row: UpdateRow) => string
+  colType: ImportColType
+}
+
 export type ProcessingStatus =
   | 'error'
   | 'loading'
