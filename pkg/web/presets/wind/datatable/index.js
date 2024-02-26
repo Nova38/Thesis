@@ -66,7 +66,7 @@ export default {
   thead: ({ context }) => ({
     class: [
       {
-        'top-0 z-40 sticky': context.scrollable,
+        'top-0 z-40 sticky ': context.scrollable,
       },
     ],
   }),

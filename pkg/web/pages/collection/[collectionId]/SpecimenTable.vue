@@ -376,7 +376,10 @@ const visibleColumns = ref([
   'Field Date',
 ])
 
-const _agColDef = [
+const PColDef = [
+  {
+    headerName: 'Meta',
+    children: [
   {
     field: 'specimenId',
     filter: true,
@@ -385,7 +388,10 @@ const _agColDef = [
     pin: 'left',
     sortable: true,
   },
+]
+},
   {
+    headerName: 'Primary',
     children: [
       {
         align: 'left',
@@ -403,14 +409,14 @@ const _agColDef = [
       },
       {
         align: 'left',
-        field: 'primary?.fieldNumber',
+        field: 'primary.fieldNumber',
         headerName: 'Field Number',
         name: 'Field Number',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'primary?.tissueNumber',
+        field: 'primary.tissueNumber',
         headerName: 'Tissue Number',
         name: 'tissueNumber',
         sortable: true,
@@ -418,7 +424,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.cataloger',
+        field: 'primary.cataloger',
 
         headerName: 'Cataloger',
         name: 'cataloger',
@@ -427,7 +433,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.collector',
+        field: 'primary.collector',
         headerName: 'Collector',
         name: 'collector',
         sortable: true,
@@ -435,7 +441,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.determiner',
+        field: 'primary.determiner',
         headerName: 'Determiner',
         name: 'determiner',
         sortable: true,
@@ -443,7 +449,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.fieldDate?.verbatim',
+        field: 'primary.fieldDate.verbatim',
         headerName: 'Field Date',
         name: 'Field Date',
         sortable: true,
@@ -452,7 +458,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.determinedDate?.verbatim',
+        field: 'primary.determinedDate.verbatim',
         headerName: 'Determined Date',
         name: 'Determined Date',
         sortable: true,
@@ -461,7 +467,7 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.determinedReason',
+        field: 'primary.determinedReason',
         headerName: 'Determined Reason',
         name: 'determinedReason',
         sortable: true,
@@ -469,68 +475,67 @@ const _agColDef = [
       {
         align: 'left',
         columnGroupShow: 'open',
-        field: 'primary?.originalDate?.verbatim',
+        field: 'primary.originalDate.verbatim',
         headerName: 'Original Date',
         name: 'originalDate',
         sortable: true,
       },
     ],
-    headerName: 'Primary',
   },
   {
     children: [
       {
         align: 'left',
-        field: 'taxon?.kingdom',
+        field: 'taxon.kingdom',
         headerName: 'Kingdom',
         name: 'kingdom',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.phylum',
+        field: 'taxon.phylum',
         headerName: 'Phylum',
         name: 'phylum',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.class',
+        field: 'taxon.class',
         headerName: 'Class',
         name: 'class',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.order',
+        field: 'taxon.order',
         headerName: 'Order',
         name: 'order',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.family',
+        field: 'taxon.family',
         headerName: 'Family',
         name: 'family',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.genus',
+        field: 'taxon.genus',
         headerName: 'Genus',
         name: 'genus',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.species',
+        field: 'taxon.species',
         headerName: 'Species',
         name: 'species',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'taxon?.subspecies',
+        field: 'taxon.subspecies',
         headerName: 'Subspecies',
         name: 'subspecies',
         sortable: true,
@@ -542,49 +547,49 @@ const _agColDef = [
     children: [
       {
         align: 'left',
-        field: 'secondary?.sex',
+        field: 'secondary.sex',
         headerName: 'Sex',
         name: 'sex',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.age',
+        field: 'secondary.age',
         headerName: 'Age',
         name: 'age',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.weight',
+        field: 'secondary.weight',
         headerName: 'weight',
         name: 'weight',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.weightUnits',
+        field: 'secondary.weightUnits',
         headerName: 'Weight Units',
         name: 'weightUnits',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.condition',
+        field: 'secondary.condition',
         headerName: 'condition',
         name: 'condition',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.molt',
+        field: 'secondary.molt',
         headerName: 'Molt',
         name: 'molt',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'secondary?.notes',
+        field: 'secondary.notes',
         headerName: 'Secondary Notes',
         name: 'secondaryNotes',
         sortable: true,
@@ -596,112 +601,112 @@ const _agColDef = [
     children: [
       {
         align: 'left',
-        field: 'georeference?.country',
+        field: 'georeference.country',
         headerName: 'Country',
         name: 'country',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.stateProvince',
+        field: 'georeference.stateProvince',
         headerName: 'State Province',
         name: 'stateProvince',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.county',
+        field: 'georeference.county',
         headerName: 'County',
         name: 'county',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.locality',
+        field: 'georeference.locality',
         headerName: 'Locality',
         name: 'locality',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.latitude',
+        field: 'georeference.latitude',
         headerName: 'Latitude',
         name: 'latitude',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.longitude',
+        field: 'georeference.longitude',
         headerName: 'Longitude',
         name: 'longitude',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.habitat',
+        field: 'georeference.habitat',
         headerName: 'Habitat',
         name: 'habitat',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.continent',
+        field: 'georeference.continent',
         headerName: 'Continent',
         name: 'continent',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.locationRemarks',
+        field: 'georeference.locationRemarks',
         headerName: 'Location Remarks',
         name: 'locationRemarks',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.coordinateUncertaintyInMeters',
+        field: 'georeference.coordinateUncertaintyInMeters',
         headerName: 'Coordinate Uncertainty In Meters',
         name: 'coordinateUncertaintyInMeters',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.georeferenceBy',
+        field: 'georeference.georeferenceBy',
         headerName: 'Georeference By',
         name: 'georeferenceBy',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.georeferenceDate?.verbatim',
+        field: 'georeference.georeferenceDate.verbatim',
         headerName: 'Georeference Date',
         name: 'GeoreferenceDate',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.georeferenceProtocol',
+        field: 'georeference.georeferenceProtocol',
         headerName: 'Georeference Protocol',
         name: 'georeferenceProtocol',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.geodeticDatum',
+        field: 'georeference.geodeticDatum',
         headerName: 'Geodetic Datum',
         name: 'geodeticDatum',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.footprintWkt',
+        field: 'georeference.footprintWkt',
         headerName: 'Footprint Wkt',
         name: 'footprintWkt',
         sortable: true,
       },
       {
         align: 'left',
-        field: 'georeference?.notes',
+        field: 'georeference.notes',
         headerName: 'Notes',
         name: 'notes',
         sortable: true,
@@ -711,42 +716,91 @@ const _agColDef = [
   },
 ]
 
-const columns = [
-  { field: 'specimenId', header: 'SpecimenID' },
-  { field: 'primary.catalogNumber', header: 'Catalog Number' },
 
-]
+// Collect all the columns into a single array
+const PColumns = computed(() => {
+  return PColDef.reduce(
+    (acc: any[], group) => {return acc.concat(group?.children)
+  },
+  [])
+})
+
+
+
 </script>
 
 <template>
-  <div>
+  <div class="p-4">
     <!-- <Testtable /> -->
     <!-- <SpecimenTable /> -->
+    <PCard>
+          <template #title> Advanced Card </template>
 
-    <UCard>
-      <PDataTable
-        :value="store.SpecimenList"
-        data-key="specimenId"
-        size="small"
-        show-gridlines
-        table-style="min-width: 50rem"
-        removable-sort
-      >
-        <PColumn header="Hello">
-          <template #body>
+      <template #content>
+        <PDataTable
+          :value="store.SpecimenList"
+          data-key="specimenId"
+          size="small"
+          show-gridlines
+          removable-sort
+          :paginator="true"
+          :rows="5"
+          :rows-per-page-options="[5, 10, 20, 50]"
+          columnResizeMode="expand"
+          :pt="{
+
+          }"
+
+        >
+          <!-- <PColumn header="Hello">
+            <template #body>
+              <UBadge> Hi </UBadge>
+            </template>
             <UBadge> Hi </UBadge>
+          </PColumn> -->
+          <PColumnGroup type="header">
+            <PRow>
+              <PColumn
+                v-for="group in PColDef"
+                :header="group.headerName"
+                :colspan="group.children.length"
+              />
+            </PRow>
+            <PRow >
+              <PColumn
+                v-for="col in PColumns"
+                :key="col.field"
+                :field="col.field"
+                :header="col.headerName"
+                :sortable="true"
+                header-class="text-nowrap"
+                class=""
+              />
+            </PRow>
+
+            </PColumnGroup>
+          <template v-for="group in PColDef">
+          <PColumn
+              v-for="col in group.children"
+              :key="col.field"
+              :field="col.field"
+              :header="col.headerName"
+              :sortable="true"
+            />
           </template>
-          <UBadge> Hi </UBadge>
-        </PColumn>
-        <PColumn
-          v-for="col of columns"
-          :key="col.field"
-          sortable
-          :field="col.field"
-          :header="col.header"
-        />
-      </PDataTable>
-    </UCard>
+
+          <!-- <PColumn
+            v-for="col of columns"
+            :key="col.field"
+            sortable
+            :field="col.field"
+            :header="col.header"
+          /> -->
+        </PDataTable>
+      </template>
+    </PCard>
+
+    <UCard> </UCard>
 
     <QCard> hi</QCard>
 
@@ -821,6 +875,9 @@ const columns = [
       </QTable>
       <div />
     </QCard>
+    <UCard>
+      <UTable :rows="store.SpecimenList" />
+    </UCard>
   </div>
 </template>
 

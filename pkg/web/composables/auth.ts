@@ -28,7 +28,8 @@ export async function authLogin(username: string, password: string) {
     await navigateTo(useAuth().redirectTo.value || '/')
 
     return result
-  } catch (e) {
+  }
+  catch (e) {
     console.log(e)
     createError(e ?? {})
     throw e

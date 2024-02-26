@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import Papa, { type ParseResult } from 'papaparse'
-import { spec } from 'node:test/reporters'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
@@ -30,16 +29,16 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     // Check if the RawHeaders is empty or if specimenIdHeader is in the RawHeaders and return the columns
 
     if (
-      !RawHeaders.value ||
-      !RawHeaders.value.includes(SpecimenIdHeader.value)
+      !RawHeaders.value
+      || !RawHeaders.value.includes(SpecimenIdHeader.value)
     ) {
       return {
         id: {},
       } as ImportColumns
     }
 
-    let r: ImportCol[] =
-      RawHeaders.value?.map((header) => {
+    let r: ImportCol[]
+      = RawHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,
@@ -59,7 +58,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     ]
 
     const id = r.find((col: ImportCol) => col.colType === 'id')
-    if (!id) throw new Error('SpecimenIdHeader not found in RawHeaders')
+    if (!id)
+      throw new Error('SpecimenIdHeader not found in RawHeaders')
 
     return {
       id,

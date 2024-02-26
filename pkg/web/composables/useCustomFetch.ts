@@ -1,5 +1,3 @@
-import type { UseFetchOptions } from '#app'
-
 // export function useCustomFetch<T>(
 //   url: (() => string) | string,
 //   options: UseFetchOptions<T> = {},
@@ -44,7 +42,8 @@ export const useCustomFetch: typeof useFetch = (url, options) => {
     onRequest(ctx) {
       LoadingBar.start()
       LoadingBar.stop()
-      if (typeof options?.onRequest === 'function') options.onRequest(ctx)
+      if (typeof options?.onRequest === 'function')
+        options.onRequest(ctx)
     },
   })
 }
