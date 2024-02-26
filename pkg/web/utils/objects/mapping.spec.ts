@@ -45,7 +45,7 @@ describe('transformObject', () => {
     }
 
     const mappings: FieldMapping<
-      { fullName: string, job: string, years: number },
+      { fullName: string; job: string; years: number },
       typeof obj
     >[] = [
       { newKey: 'fullName', oldKey: 'name' },
@@ -73,12 +73,12 @@ describe('transformObject', () => {
     }
 
     const mappings: ObjectMapping<
-      typeof obj,
-      { fullName: string, job: string, years: number }
+      { fullName: string; job: string; years: number },
+      typeof obj
     > = [
       {
-        newKey: 'name',
-        oldKey: 'fullName',
+        newKey: 'fullName',
+        oldKey: 'name',
         transform(value) {
           return value.toUpperCase()
         },
@@ -104,9 +104,9 @@ describe('transformObject', () => {
     beforeEach(() => {})
     it('should transform object keys based on mappings', () => {
       const obj: Record<string, string> = {
-        'accessionNumber': '456',
-        'catalogNumber': '123',
-        'fieldNumber': '789',
+        accessionNumber: '456',
+        catalogNumber: '123',
+        fieldNumber: '789',
         'georeference.continent': '',
         'georeference.coordinateUncertaintyInMeters': '',
         'georeference.country': '',
@@ -205,9 +205,9 @@ describe('transformObject', () => {
   })
   it('not', () => {
     const obj: Record<string, string> = {
-      'accessionNumber': '456',
-      'catalogNumber': '123',
-      'fieldNumber': '789',
+      accessionNumber: '456',
+      catalogNumber: '123',
+      fieldNumber: '789',
       'georeference.continent': '',
       'georeference.coordinateUncertaintyInMeters': '',
       'georeference.country': '',

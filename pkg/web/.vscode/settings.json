@@ -1,43 +1,37 @@
 {
-  "protoc": {
-    "options": [
-      "--proto_path=${workspaceFolder}",
-      "--proto_path=${userHome}/.cache/buf/v1/module/data/"
-    ]
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    },
+    "editor.formatOnSave": true
   },
-  "spellright.language": [
-    "en"
+  // Disable the default formatter, use eslint instead
+  // "editor.formatOnSave": false,
+  "[typescript][vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    },
+    "editor.formatOnSave": false,
+    "prettier.enable": false
+  },
+  "cSpell.enabled": true,
+  "cSpell.enableFiletypes": [
+    "!json",
+    "!yaml",
+    "proto3"
   ],
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": true
-  },
-  "spellright.documentTypes": [
-    "markdown",
-    "latex",
-    "plaintext",
-    "Log",
-    "go"
-  ],
-  "spellright.parserByClass": {
-    "Log": {
-      "parser": "code"
-    }
-  },
   // Add to VS Code settings.js file
   "cSpell.languageSettings": [
     // GoLang settings
     {
-      "languageId": "go",
       // Turn off compound words, because it is only checking strings.
       "allowCompoundWords": false,
-      // Only check comments and strings
-      "includeRegExpList": [
-        "CStyleComment",
-        "string"
-      ],
       // Exclude imports, because they are also strings.
       "ignoreRegExpList": [
         // ignore mulltiline imports
@@ -48,22 +42,15 @@
         "//\\s*go:generate.*",
         // ignore nolint directive
         "//\\s*nolint:.*"
-      ]
+      ],
+      // Only check comments and strings
+      "includeRegExpList": [
+        "CStyleComment",
+        "string"
+      ],
+      "languageId": "go"
     }
   ],
-  "cSpell.enableFiletypes": [
-    "!json",
-    "!yaml",
-    "proto3"
-  ],
-  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
-  "todo-tree.general.showActivityBarBadge": true,
-  "todo-tree.tree.buttons.export": false,
-  "todo-tree.general.statusBar": "current file",
-  "todo-tree.tree.showBadges": true,
-  "todo-tree.tree.disableCompactFolders": true,
-  "todo-tree.tree.showCountsInTree": false,
-  "todo-tree.tree.scanMode": "workspace only",
   "cSpell.words": [
     "ABAC",
     "anypb",
@@ -95,69 +82,18 @@
     "tailwindcss",
     "urlcolor"
   ],
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    ".task/*.*": true,
-    "**/.idea": true,
-    "**/.task": true
-  },
-  "explorerExclude.backup": {},
-  "editor.minimap.enabled": false,
-  "cSpell.enabled": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": false,
-  "eslint.experimental.useFlatConfig": true,
-  "prettier.enable": true,
-  "[vue]": {
-    "prettier.enable": false,
-
-    "editor.formatOnSave": false,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "always"
-    }
-  },
-  "[typescript]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "always"
-    }
-  },
-
-  // Disable the default formatter, use eslint instead
-  // "editor.formatOnSave": false,
-
-  "[typescript][vue]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    }
-  },
-  "tailwindCSS.experimental.classRegex": [
-    [
-      "ui:\\s*{([^)]*)\\s*}",
-      "[\"'`]([^\"'`]*).*?[\"'`]"
-    ],
-    [
-      "/\\*ui\\*/\\s*{([^;]*)}",
-      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
-    ]
-  ],
-  "tailwindCSS.classAttributes": [
-    "class",
-    "className",
-    "ngClass",
-    "ui"
-  ],
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": false,
+  "editor.minimap.enabled": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "eslint.experimental.useFlatConfig": true,
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     {
@@ -214,7 +150,87 @@
     "jsonc",
     "yaml",
     "toml"
-  ]
+  ],
   // "plantuml.server": "http://localhost:8888",
   // "plantuml.render": "PlantUMLServer",
+  "explorerExclude.backup": {},
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.idea": true,
+    "**/.svn": true,
+    "**/.task": true,
+    "**/CVS": true,
+    "**/Thumbs.db": true,
+    ".task/*.*": true
+  },
+  "prettier.enable": true,
+  "protoc": {
+    "options": [
+      "--proto_path=${workspaceFolder}",
+      "--proto_path=${userHome}/.cache/buf/v1/module/data/"
+    ]
+  },
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "Log",
+    "go"
+  ],
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.parserByClass": {
+    "Log": {
+      "parser": "code"
+    }
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "ui",
+    "pt"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "class\\s*=\\s*\"([^\"]*)",
+      "/class:*'([^']+)"
+    ],
+    [
+      "ui:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "/\\*ui\\*/\\s*{([^;]*)}",
+      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+    ]
+  ],
+  "todo-tree.general.showActivityBarBadge": true,
+  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
+  "todo-tree.general.statusBar": "current file",
+  "todo-tree.tree.buttons.export": false,
+  "todo-tree.tree.disableCompactFolders": true,
+  "todo-tree.tree.scanMode": "workspace only",
+  "todo-tree.tree.showBadges": true,
+  "todo-tree.tree.showCountsInTree": false,
+  "nuxtr.defaultPackageManager": "pnpm",
+  "nuxtr.openItemsAfterCreation": true,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.packageManager": "pnpm",
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "presets"
+  ]
 }

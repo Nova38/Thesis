@@ -3,7 +3,7 @@ import path from 'node:path'
 
 export default defineNuxtConfig({
   devServer: {
-    // https: true, // enable HTTPS
+    https: true, // enable HTTPS
     port: 8000,
   },
   devtools: {

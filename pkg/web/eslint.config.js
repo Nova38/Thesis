@@ -15,11 +15,13 @@ export default antfu(
     // ...@antfu/eslint-config options,
     stylistic: true,
     typescript: {
-      overrides: [],
       tsconfigPath: 'tsconfig.json',
-
     },
-    vue: true,
+    vue: {
+      overrides: {
+        // 'vue/block-order': ['error', '{"order": ["script", "template", "style"]}'],
+      },
+    },
     ignores: ['formkit.theme.ts'],
     // vue: {
     //   sfcBlocks: {
@@ -51,6 +53,14 @@ export default antfu(
       'node/prefer-global/process': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'eslint-comments/no-unlimited-disable': 'off',
+    },
+  },
+  {
+    files: ['presets/wind/**/*.js'],
+    rules: {
+      'eqeqeq': 'off',
+      'no-dupe-keys': 'off',
+      'no-unused-vars': 'off',
     },
   },
 )
