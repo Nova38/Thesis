@@ -1,12 +1,6 @@
 {
   "version": "2.0.0",
   "tasks": [
-    {
-      "type": "npm",
-      "script": "lint:fix",
-      "problemMatcher": [],
-      "label": "npm: lint:fix",
-      "detail": "eslint --fix ."
-    }
+
   ]
 }

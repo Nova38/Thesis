@@ -3,10 +3,10 @@ export const ui = {
     class: [
       // Shape
       'rounded-lg',
-      'shadow-2xl',
+      'shadow-xl',
 
       // Spacing
-      '',
+      'm-2',
 
       // Color
       'bg-surface-0 dark:bg-surface-900',

@@ -19,26 +19,23 @@
 //   },
 // })
 
-import { fileURLToPath } from 'node:url'
 import { defineVitestConfig } from '@nuxt/test-utils/config'
+
+// export default defineConfig({
+//   test: {
+//     // ...
+//   },
+// })
 
 export default defineVitestConfig({
   test: {
-    coverage: {
-      reportsDirectory: 'coverage',
-    },
-    includeSource: ['src/**/*.{js,ts}'],
-    environmentOptions: {
-      nuxt: {
-        rootDir: fileURLToPath(new URL('./', import.meta.url)),
-        domEnvironment:
-          (process.env.VITEST_DOM_ENV as 'happy-dom' | 'jsdom') ?? 'happy-dom',
-        mock: {
-          indexedDb: true,
-        },
-      },
-    },
-    // setupFiles: './tests/setup/mocks.ts',
+    // coverage: {
+    //   reportsDirectory: 'coverage',
+    // },
+    // includeSource: ['src/**/*.{js,ts}'],
+    // environmentOptions: {},
+    // api: 15555,
+    // // setupFiles: './tests/setup/mocks.ts',
     globals: true,
   },
 })

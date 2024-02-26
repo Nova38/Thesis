@@ -113,7 +113,7 @@ export const ui = {
       'shadow-md',
 
       // Color
-      'bg-surface-0 dark:bg-surface-800',
+      'bg-surface-0  dark:bg-surface-800',
       'text-surface-800 dark:text-white/80',
       'ring-1 ring-inset ring-surface-300 dark:ring-surface-700',
     ],
