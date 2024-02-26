@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   wrapper: {
     class: [
       // Size & Position
@@ -75,3 +75,4 @@ export default {
     ],
   },
 }
+export default ui

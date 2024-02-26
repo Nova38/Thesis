@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   content: ({ parent, props }) => ({
     class: [
       'flex',
@@ -304,3 +304,4 @@ export default {
     leaveToClass: 'opacity-0 scale-75',
   },
 }
+export default ui

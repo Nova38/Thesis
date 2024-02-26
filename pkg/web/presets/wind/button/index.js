@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props, context, parent }) => ({
     class: [
       'relative',
@@ -219,3 +219,4 @@ export default {
     class: [{ 'ml-2 w-4 h-4 leading-none flex items-center justify-center': props.badge }],
   }),
 }
+export default ui

@@ -1,9 +1,12 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Shape
       'rounded-lg',
-      'shadow-md',
+      'shadow-2xl',
+
+      // Spacing
+      '',
 
       // Color
       'bg-surface-0 dark:bg-surface-900',
@@ -32,6 +35,12 @@ export default {
     class: 'py-6 px-5 md:px-6',
   },
   footer: {
-    class: ['px-5 md:px-6 pt-5 pb-0', 'border-t border-surface-200 dark:border-surface-700'],
+    class: [
+      'px-5 md:px-6 pt-5 pb-0',
+      'border-t border-surface-200 dark:border-surface-700',
+    ],
   },
 }
+
+export default ui
+export default ui

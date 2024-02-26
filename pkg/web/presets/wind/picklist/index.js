@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Flexbox
@@ -673,3 +673,4 @@ export default {
     leaveToClass: '!transition-none',
   },
 }
+export default ui

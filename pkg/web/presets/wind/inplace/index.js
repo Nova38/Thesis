@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   display: {
     class: [
       // Display
@@ -28,3 +28,4 @@ export default {
     ],
   },
 }
+export default ui

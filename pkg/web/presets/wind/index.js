@@ -199,3 +199,4 @@ export default {
   inplace,
   progressspinner,
 }
+export default ui

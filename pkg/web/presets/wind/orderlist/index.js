@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Flexbox
@@ -264,3 +264,4 @@ export default {
     ],
   }),
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props, context }) => ({
     class: [
       // Font
@@ -40,3 +40,4 @@ export default {
     ],
   }),
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'overflow-hidden',
@@ -14,3 +14,4 @@ export default {
     ],
   }),
 }
+export default ui

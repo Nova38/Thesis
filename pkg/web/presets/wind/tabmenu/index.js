@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: 'overflow-x-auto',
   },
@@ -73,3 +73,4 @@ export default {
     class: 'mr-2',
   },
 }
+export default ui

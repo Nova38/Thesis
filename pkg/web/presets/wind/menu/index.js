@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Sizing and Shape
@@ -107,3 +107,4 @@ export default {
     leaveToClass: 'opacity-0',
   },
 }
+export default ui

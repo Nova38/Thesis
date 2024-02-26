@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'relative',
@@ -440,3 +440,4 @@ export default {
     class: 'absolute hidden w-[2px] z-20 bg-primary-500 dark:bg-primary-400',
   },
 }
+export default ui

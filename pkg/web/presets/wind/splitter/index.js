@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ context }) => ({
     class: [
       // Colors
@@ -59,3 +59,4 @@ export default {
     ],
   }),
 }
+export default ui

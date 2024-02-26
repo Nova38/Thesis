@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       'block',
@@ -83,3 +83,4 @@ export default {
     leaveToClass: 'max-h-0',
   },
 }
+export default ui

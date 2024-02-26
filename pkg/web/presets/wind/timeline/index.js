@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'flex grow',
@@ -79,3 +79,4 @@ export default {
     ],
   }),
 }
+export default ui

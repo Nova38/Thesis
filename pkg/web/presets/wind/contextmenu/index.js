@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Sizing and Shape
@@ -118,3 +118,4 @@ export default {
     enterActiveClass: 'transition-opacity duration-250',
   },
 }
+export default ui

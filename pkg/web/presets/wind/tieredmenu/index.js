@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Shape
@@ -114,3 +114,4 @@ export default {
     class: 'border-t border-surface-200 dark:border-surface-600 my-1',
   },
 }
+export default ui

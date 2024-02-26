@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'inline-flex relative',
@@ -113,3 +113,4 @@ export default {
     leaveToClass: 'opacity-0',
   },
 }
+export default ui

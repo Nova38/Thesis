@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Spacing
@@ -58,3 +58,4 @@ export default {
     ],
   },
 }
+export default ui

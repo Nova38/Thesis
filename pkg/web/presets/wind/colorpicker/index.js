@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Display
@@ -121,3 +121,4 @@ export default {
     leaveToClass: 'opacity-0',
   },
 }
+export default ui

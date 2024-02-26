@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Alignments
@@ -91,3 +91,4 @@ export default {
     ],
   },
 }
+export default ui

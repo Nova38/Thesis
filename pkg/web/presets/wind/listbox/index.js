@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Sizing and Shape
@@ -145,3 +145,4 @@ export default {
     ],
   },
 }
+export default ui

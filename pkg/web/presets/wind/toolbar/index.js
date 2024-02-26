@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       // Flex & Alignment
@@ -28,3 +28,4 @@ export default {
     class: 'flex items-center',
   },
 }
+export default ui
