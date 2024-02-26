@@ -7,14 +7,14 @@
     <div class="w-full h-full min-h-screen flex flex-col gap-2">
       <NavHeader />
 
-      <div class="flex flex-grow flex-row gap-2 flex-nowrap max-w-full ">
-        <NavSidebar class=" " />
+      <div class="flex flex-grow flex-row flex-nowrap max-w-full ">
+        <NavSidebar class="bg-zinc-100 dark:bg-zinc-800 " />
 
-        <div class="bg-slate-100 flex-grow overflow-scroll 	">
+        <div class="flex-grow overflow-scroll 	">
           <NuxtLoadingIndicator />
 
           <NuxtErrorBoundary>
-            <NuxtPage />
+            <NuxtPage class="bg-zinc-50 dark:bg-zinc-900"/>
           </NuxtErrorBoundary>
         </div>
       </div>

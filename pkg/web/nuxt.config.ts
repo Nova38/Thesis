@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import path from 'path'
+import path from 'node:path'
 
 export default defineNuxtConfig({
   devServer: {
@@ -134,8 +134,10 @@ export default defineNuxtConfig({
     composables: {
       exclude: ['useToast'],
     },
-    unstyled: true,
-    importPT: { from: path.resolve(__dirname, './presets/wind/') }, //import and apply preset
+    options: {
+      unstyled: true,
+    },
+    importPT: { from: path.resolve(__dirname, './presets/wind/') }, // import and apply preset
   },
 
   quasar: {

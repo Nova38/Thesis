@@ -151,7 +151,7 @@ const csvFlat = {
   'georeference.longitude': 'NA',
   'georeference.notes': '',
   'georeference.stateProvince': 'Colorado',
-  index: '1',
+  'index': '1',
   'primary.accessionNumber': 'NA',
   'primary.catalogDate': 'NA',
   'primary.catalogNumber': '2',
@@ -198,10 +198,10 @@ describe('suite name', () => {
   })
 
   it('parseOutput', () => {
-    const full_path =
-      'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json'
-    const out_path =
-      'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_cov.json'
+    const full_path
+      = 'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json'
+    const out_path
+      = 'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_cov.json'
     // read json from file
     const json = require(full_path)
     const output: ccbio.Specimen[] = []
