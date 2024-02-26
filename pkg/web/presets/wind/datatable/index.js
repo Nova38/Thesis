@@ -1,4 +1,3 @@
-export const ui = ui
 export const ui = {
   root: ({ props }) => ({
     class: [
