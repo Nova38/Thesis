@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Flex & Alignment
@@ -39,3 +39,4 @@ export default {
     leaveToClass: 'opacity-0',
   },
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ context, props }) => ({
     class: [
       // Position
@@ -35,3 +35,4 @@ export default {
     ],
   },
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   accordiontab: {
     header: ({ props }) => ({
       class: [
@@ -68,3 +68,4 @@ export default {
     },
   },
 }
+export default ui

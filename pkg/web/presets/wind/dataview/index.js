@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   content: {
     class: [
       // Spacing
@@ -38,3 +38,4 @@ export default {
     ],
   },
 }
+export default ui

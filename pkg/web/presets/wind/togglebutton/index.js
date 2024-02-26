@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       'relative',
@@ -84,3 +84,4 @@ export default {
     class: [' mr-2', 'text-surface-700 dark:text-white/80'],
   },
 }
+export default ui

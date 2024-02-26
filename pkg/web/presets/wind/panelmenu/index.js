@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   panel: {
     class: 'mb-1',
   },
@@ -122,3 +122,4 @@ export default {
     leaveToClass: 'max-h-0',
   },
 }
+export default ui

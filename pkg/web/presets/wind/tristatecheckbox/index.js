@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: ['cursor-pointer inline-flex relative select-none align-bottom', 'w-4 h-4'],
   },
@@ -109,3 +109,4 @@ export default {
     ],
   },
 }
+export default ui

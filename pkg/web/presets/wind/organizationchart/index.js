@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   table: {
     class: [
       // Spacing & Position
@@ -138,3 +138,4 @@ export default {
     ],
   },
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ state }) => ({
     class: [
       // Shape
@@ -234,3 +234,4 @@ export default {
               }
   },
 }
+export default ui

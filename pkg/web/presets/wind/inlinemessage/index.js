@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'inline-flex items-center justify-center align-top gap-2',
@@ -27,3 +27,4 @@ export default {
     ],
   },
 }
+export default ui

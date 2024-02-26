@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   menu: {
     class: [
       // Flex & Alignment
@@ -43,3 +43,4 @@ export default {
     ],
   },
 }
+export default ui

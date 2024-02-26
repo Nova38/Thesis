@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: 'absolute flex',
   },
@@ -281,3 +281,4 @@ export default {
     ],
   }),
 }
+export default ui

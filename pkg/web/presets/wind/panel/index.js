@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: 'shadow-md rounded-lg',
   },
@@ -88,3 +88,4 @@ export default {
     leaveToClass: 'max-h-0',
   },
 }
+export default ui

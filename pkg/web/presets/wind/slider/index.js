@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       'relative',
@@ -124,3 +124,4 @@ export default {
     ],
   }),
 }
+export default ui

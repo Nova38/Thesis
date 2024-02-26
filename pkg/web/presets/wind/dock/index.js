@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Positioning
@@ -91,3 +91,4 @@ export default {
     ],
   },
 }
+export default ui

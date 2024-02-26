@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: ['shadow-sm', { 'opacity-60 select-none pointer-events-none cursor-default': props.disabled }],
   }),
@@ -47,3 +47,4 @@ export default {
     class: 'font-semibold',
   },
 }
+export default ui

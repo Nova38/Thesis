@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: 'relative',
   },
@@ -112,3 +112,4 @@ export default {
     ],
   }),
 }
+export default ui

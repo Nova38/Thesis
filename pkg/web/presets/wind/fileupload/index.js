@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   input: {
     class: 'hidden',
   },
@@ -171,3 +171,4 @@ export default {
     },
   },
 }
+export default ui

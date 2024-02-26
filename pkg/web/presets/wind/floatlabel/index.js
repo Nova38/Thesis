@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       'block relative',
@@ -24,3 +24,4 @@ export default {
     ],
   },
 }
+export default ui

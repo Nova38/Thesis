@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Size and Shape
@@ -93,3 +93,4 @@ export default {
     leaveToClass: 'max-h-0 opacity-0 mb-0',
   },
 }
+export default ui

@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: ({ props }) => ({
     class: [
       // Position and Overflow
@@ -54,3 +54,4 @@ export default {
     ],
   },
 }
+export default ui

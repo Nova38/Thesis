@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: [
       'relative',
@@ -181,3 +181,4 @@ export default {
     class: 'ml-auto self-center',
   },
 }
+export default ui

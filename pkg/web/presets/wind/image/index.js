@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   root: {
     class: 'relative inline-block',
   },
@@ -204,3 +204,4 @@ export default {
     leaveToClass: 'opacity-0 scale-75',
   },
 }
+export default ui

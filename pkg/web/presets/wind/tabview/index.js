@@ -1,4 +1,4 @@
-export default {
+export const ui = {
   navContainer: ({ props }) => ({
     class: [
       // Position
@@ -156,3 +156,4 @@ export default {
     },
   },
 }
+export default ui
