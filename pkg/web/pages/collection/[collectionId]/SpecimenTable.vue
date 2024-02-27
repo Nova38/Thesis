@@ -391,7 +391,7 @@ const visibleColumns = ref([
       </template>
     </PCard>
 
-    <UCard />
+    <!-- <UCard />
 
     <QCard> hi</QCard>
 
@@ -451,7 +451,6 @@ const visibleColumns = ref([
 
         <template #body-cell-View="props">
           <q-td :props="props">
-            <!-- <QBtn @click="navigate(props.row.specimenId)" /> -->
             <div class="">
               <NuxtLink
                 :no-prefetch="true"
@@ -465,7 +464,7 @@ const visibleColumns = ref([
         </template>
       </QTable>
       <div />
-    </QCard>
+    </QCard> -->
   </div>
 </template>
 

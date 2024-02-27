@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia'
-import Papa, { type ParseResult } from 'papaparse'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
 // SpecimenId is used to identify the specimen in the database
 
 // Updating the Existing Specimen
+
+export interface UpdateRowArgs {
+  headers: string[]
+  specimenIdHeader: string
+  rows: Record<string, string>[]
+}
 
 export const useBulkUpdate = defineStore('BulkUpdate', () => {
   //
@@ -29,16 +34,16 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     // Check if the RawHeaders is empty or if specimenIdHeader is in the RawHeaders and return the columns
 
     if (
-      !RawHeaders.value
-      || !RawHeaders.value.includes(SpecimenIdHeader.value)
+      !RawHeaders.value ||
+      !RawHeaders.value.includes(SpecimenIdHeader.value)
     ) {
       return {
         id: {},
       } as ImportColumns
     }
 
-    let r: ImportCol[]
-      = RawHeaders.value?.map((header) => {
+    let r: ImportCol[] =
+      RawHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,
@@ -58,8 +63,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     ]
 
     const id = r.find((col: ImportCol) => col.colType === 'id')
-    if (!id)
-      throw new Error('SpecimenIdHeader not found in RawHeaders')
+    if (!id) throw new Error('SpecimenIdHeader not found in RawHeaders')
 
     return {
       id,
@@ -73,42 +77,64 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
    *
    */
   const RawRows = shallowRef<UpdateRow[]>()
-  const UniqueRawHeaders = ref<string[]>()
+  // const UniqueRawHeaders = ref<string[]>()
 
-  const ProcessingCSV = ref(false)
+  // const ProcessingCSV = ref(false)
 
   /**
    * @description SpecimenMapping is the mapping of the raw data to the Specimen object
    */
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
-  const RowsSelected = ref([])
+  // const RowsSelected = ref([])
 
   // Mapped by catalogNumber
   const RawRowMap = ref(new Map<string, PlainSpecimen>())
 
-  function LoadFromFile(file: File) {
-    Papa.parse(file, {
-      header: true,
-      worker: true,
-      complete: (results: ParseResult<Record<string, string>>) => {
-        RawHeaders.value = results.meta.fields
-        ProcessingCSV.value = true
-        console.table(results.data)
+  // function LoadFromFile(file: File) {
+  //   Papa.parse(file, {
+  //     header: true,
+  //     worker: true,
+  //     complete: (results: ParseResult<Record<string, string>>) => {
+  //       RawHeaders.value = results.meta.fields
+  //       ProcessingCSV.value = true
+  //       console.table(results.data)
 
-        RawRows.value = results.data.map((row, index) => {
-          return {
-            id: index,
-            meta: {
-              exist: 'unknown',
-              status: 'new',
-              statusMessage: '',
-              id: index,
-            },
-            raw: row,
-          }
-        })
-      },
+  //       RawRows.value = results.data.map((row, index) => {
+  //         return {
+  //           id: index,
+  //           meta: {
+  //             exist: 'unknown',
+  //             status: 'new',
+  //             statusMessage: '',
+  //             id: index,
+  //           },
+  //           raw: row,
+  //         }
+  //       })
+  //     },
+  //   })
+  // }
+  const LoadUpdates = async (arg: UpdateRowArgs) => {
+    RawHeaders.value = arg.headers
+    SpecimenIdHeader.value = arg.specimenIdHeader
+
+    RawRows.value = arg.rows.map((row, index) => {
+      const id = row[SpecimenIdHeader.value]
+      if (!id) {
+        console.warn(row)
+        throw new Error('SpecimenIdHeader not found in RawHeaders')
+      }
+      return {
+        id: Number(id),
+        meta: {
+          exist: 'unknown',
+          status: 'new',
+          statusMessage: '',
+          id: index,
+        },
+        raw: row,
+      }
     })
   }
 
@@ -120,17 +146,17 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     ImportColumns,
     RawHeaders,
 
-    UniqueRawHeaders,
+    LoadUpdates,
+
+    // UniqueRawHeaders,
     SpecimenIdHeader,
 
-    ProcessingCSV,
+    // ProcessingCSV,
 
     CollectionId,
     RawRowMap,
     SpecimenMapping,
-    RowsSelected,
-
-    LoadFromFile,
+    // RowsSelected,
   }
 })
 
