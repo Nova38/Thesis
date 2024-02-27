@@ -17,6 +17,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+
   // debug: true,
 
   ssr: false,

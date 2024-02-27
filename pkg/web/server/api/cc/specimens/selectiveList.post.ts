@@ -6,5 +6,20 @@ const querySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  return 'Hello Nitro'
+  const query = await getValidatedQuery(event, (body) =>
+    querySchema.safeParse(body),
+  )
+
+  if (!query.success) throw query.error.issues
+
+  const fullList = await $fetch('/api/cc/specimens/fullList')
+  const specimenMap = fullList?.specimenMap
+
+  if (!specimenMap) throw new Error('Failed to fetch full list')
+
+  const filteredList = Object.entries(specimenMap).filter(
+    ([key]) => key in query.data.specimenIds,
+  )
+
+  return filteredList
 })

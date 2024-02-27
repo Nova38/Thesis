@@ -6,6 +6,6 @@ export const SpecimenNamespace = v5(
   DNS_UUID,
 )
 
-export function CatNumToUUID(specimenId: string) {
-  return v5(specimenId, SpecimenNamespace)
+export function CatNumToUUID(catalogNumber: string) {
+  return v5(catalogNumber, SpecimenNamespace)
 }
