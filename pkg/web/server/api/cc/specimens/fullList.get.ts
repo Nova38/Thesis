@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { JsonValue } from '@bufbuild/protobuf'
 import { auth, ccbio, common } from '~/lib'
 
 const querySchema = z.object({
@@ -9,15 +10,15 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, body =>
-    querySchema.safeParse(body))
+  const query = await getValidatedQuery(event, (body) =>
+    querySchema.safeParse(body),
+  )
   console.log(query)
-  if (!query.success)
-    throw query.error.issues
+  if (!query.success) throw query.error.issues
 
   let bookmark = ''
   let lastBookmark = '-'
-  const specimenMap: Record<string, any> = {}
+  const SpecimenMap: Record<string, ccbio.Specimen | JsonValue> = {}
 
   while (bookmark !== lastBookmark) {
     const result = await cc.service.listByAttrs(
@@ -37,8 +38,12 @@ export default defineEventHandler(async (event) => {
 
     result.items.forEach((i) => {
       const s = new ccbio.Specimen()
-      i.value?.unpackTo(s)
-      specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
+
+      if (!i.value?.unpackTo(s)) {
+        console.log('unpack failed', i)
+        return
+      }
+      SpecimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
     })
 
     if (lastBookmark === bookmark) {
@@ -52,5 +57,5 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
 
-  return { bookmark, specimenMap }
+  return { bookmark, specimenMap: SpecimenMap }
 })

@@ -5,7 +5,7 @@
 <template>
   <div>
     <div class="w-full min-h-screen flex flex-col  ">
-      <NavHeader class="sticky" />
+      <NavHeader class="sticky " />
 
       <div class="flex flex-grow flex-row flex-nowrap max-w-full p-0.5 ">
         <NavSidebar class="bg-zinc-100 dark:bg-zinc-800 " />

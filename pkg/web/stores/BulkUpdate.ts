@@ -76,7 +76,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
    *  RawRows is the raw data from the spreadsheet
    *
    */
-  const RawRows = shallowRef<UpdateRow[]>()
+  const Rows = shallowRef<UpdateRow[]>()
   // const UniqueRawHeaders = ref<string[]>()
 
   // const ProcessingCSV = ref(false)
@@ -119,30 +119,44 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     RawHeaders.value = arg.headers
     SpecimenIdHeader.value = arg.specimenIdHeader
 
-    RawRows.value = arg.rows.map((row, index) => {
+    const catalogNumbers: number[] = []
+
+    Rows.value = arg.rows.map((row, _) => {
       const id = row[SpecimenIdHeader.value]
       if (!id) {
         console.warn(row)
         throw new Error('SpecimenIdHeader not found in RawHeaders')
       }
+
+      const catNum = CatNumToUUID(id)
+      catalogNumbers.push(catNum)
+
       return {
-        id: Number(id),
+        id: catNum,
         meta: {
           exist: 'unknown',
           status: 'new',
           statusMessage: '',
-          id: index,
+          id: catNum,
         },
         raw: row,
       }
     })
-  }
 
+    const list = await $fetch('/api/cc/specimens/selectiveList', {
+      body: {
+        collectionId: CollectionId.value,
+        specimenIds: catalogNumbers,
+      },
+    })
+
+    if (!list) throw new Error('Failed to fetch full list')
+  }
   return {
     /*
      * Imported
      */
-    RawRows,
+    Rows,
     ImportColumns,
     RawHeaders,
 

@@ -4,20 +4,15 @@ const bulk = useBulkUpdate()
 
 <template>
   <div class="">
-    <ImportCsvFile />
+    <ImportCsvFile
+      @id-header-selection="(val) => // TODO: Switch to emitting so we can reuse this component
+        bulk.LoadUpdates({
+          headers: val.headers,
+          rows: val.rows,
+          specimenIdHeader: val.specimenIdHeader,
+        })"
+    />
 
-    <UCard class="my-4" />
-    <UCard class="my-4">
-      <template #header>
-        <h3>
-          Collection ID Header:
-        </h3>
-      </template>
-      <USelectMenu
-        v-model="bulk.SpecimenIdHeader"
-        :options="bulk.RawHeaders"
-      />
-    </UCard>
     <UCard class="my-4">
       <template #header>
         <h3>
@@ -25,8 +20,7 @@ const bulk = useBulkUpdate()
         </h3>
       </template>
       <PDataTable
-        v-if="bulk.ProcessingCSV"
-        :value="bulk.RawRows"
+        :value="bulk.Rows"
         data-key="id"
         paginator
         show-gridlines
