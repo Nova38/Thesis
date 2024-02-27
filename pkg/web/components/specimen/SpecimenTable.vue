@@ -348,6 +348,8 @@ const ColGroups = computed(() => {
     acc[group].children += 1
     return acc
   }, {} as Record<string, { headerName: string, children: number }>)
+
+  groups.Meta = { headerName: 'Meta', children: groups.Meta ? groups.Meta.children + 1 : 1 }
   return Object.values(groups)
 })
 
@@ -433,6 +435,7 @@ const filters = ref(initFilter())
           />
         </PRow>
         <PRow>
+          <PColumn header="Actions" />
           <PColumn
             v-for="col in SelectedColumns"
             :key="col.field"
@@ -449,6 +452,13 @@ const filters = ref(initFilter())
           </PColumn>
         </PRow>
       </PColumnGroup>
+      <PColumn header="Actions">
+        action
+        <!-- <NuxtLink
+          :no-prefetch="true"
+          :to="`/collection/${$route.params.collectionId}/Specimen/View-${props.row.specimenId}`"
+        /> -->
+      </PColumn>
 
       <PColumn
         v-for="col in SelectedColumns"

@@ -8,15 +8,12 @@ const crumb = useBreadcrumbLinks()
       <PToolbar class="bg-blue-600 grid-cols-3">
         <template #start>
           <!-- <UButton label="Click Me" /> -->
-          <PButton
-            icon="pi pi-print"
-            class="mr-2"
-            severity="secondary"
-          />
-          <PButton
-            icon="pi pi-upload"
-            severity="secondary"
-          />
+          <PButton class="mr-2">
+            <Icon
+              name="carbon:menu"
+              size="1em"
+            />
+          </PButton>
           <div class="flex flex-row items-center">
             <template
               v-for="item in crumb"

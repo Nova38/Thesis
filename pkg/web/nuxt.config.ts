@@ -165,7 +165,6 @@ export default defineNuxtConfig({
     plugins: ['LoadingBar', 'Notify'],
   },
   ui: {
-    global: true,
     icons: {},
   },
   eslintConfig: {

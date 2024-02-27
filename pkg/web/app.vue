@@ -13,9 +13,9 @@
         <div class="flex-grow  overflow-x-scroll">
           <NuxtLoadingIndicator />
 
-          <NuxtErrorBoundary>
-            <NuxtPage class="bg-zinc-50 dark:bg-zinc-900 " />
-          </NuxtErrorBoundary>
+          <!-- <NuxtErrorBoundary> -->
+          <NuxtPage class="p-2" />
+          <!-- </NuxtErrorBoundary> -->
         </div>
       </div>
     </div>

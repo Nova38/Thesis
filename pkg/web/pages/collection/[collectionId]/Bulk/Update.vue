@@ -3,10 +3,10 @@ const bulk = useBulkUpdate()
 </script>
 
 <template>
-  <div class="p-4">
-    <UCard class="my-4">
-      <ImportCsvFile />
-    </UCard>
+  <div class="">
+    <ImportCsvFile />
+
+    <UCard class="my-4" />
     <UCard class="my-4">
       <template #header>
         <h3>
@@ -57,7 +57,7 @@ const bulk = useBulkUpdate()
           Processed Rows
         </h3>
       </template>
-      <PDataTable
+      <!-- <PDataTable
         v-if="bulk.ProcessingCSV"
         :value="bulk.RawRows"
         data-key="id"
@@ -83,7 +83,7 @@ const bulk = useBulkUpdate()
           </template>
           <UDivider />
         </PColumn>
-      </PDataTable>
+      </PDataTable> -->
     </UCard>
   </div>
 </template>
