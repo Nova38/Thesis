@@ -2099,3 +2099,4 @@ export class SuggestionApproveResponse extends Message<SuggestionApproveResponse
     return proto3.util.equals(SuggestionApproveResponse, a, b);
   }
 }
+

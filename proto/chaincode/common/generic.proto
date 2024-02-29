@@ -21,23 +21,26 @@ service GenericService {
   rpc GetCurrentUser(google.protobuf.Empty) returns (GetCurrentUserResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
-    option idempotency_level = IDEMPOTENT;
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
   rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_UTILITY};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc AuthorizeOperation(AuthorizeOperationRequest) returns (AuthorizeOperationResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_UTILITY};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc GetCollectionsList(google.protobuf.Empty) returns (GetCollectionsListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionResponse) {
@@ -51,26 +54,32 @@ service GenericService {
   rpc Get(GetRequest) returns (GetResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+
   }
 
   rpc GetFull(GetFullRequest) returns (GetFullResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc List(ListRequest) returns (ListResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc ListByCollection(ListByCollectionRequest) returns (ListByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc ListByAttrs(ListByAttrsRequest) returns (ListByAttrsResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
@@ -96,11 +105,13 @@ service GenericService {
   rpc GetHistory(GetHistoryRequest) returns (GetHistoryResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW_HISTORY};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc GetHiddenTx(GetHiddenTxRequest) returns (GetHiddenTxResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_VIEW_HIDDEN_TXS};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
@@ -121,6 +132,7 @@ service GenericService {
   rpc GetSuggestion(GetSuggestionRequest) returns (GetSuggestionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // rpc SuggestionList(SuggestionListRequest) returns (SuggestionListResponse) {
@@ -131,17 +143,20 @@ service GenericService {
   rpc SuggestionListByCollection(SuggestionListByCollectionRequest) returns (SuggestionListByCollectionResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   rpc SuggestionByPartialKey(SuggestionByPartialKeyRequest) returns (SuggestionByPartialKeyResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
     option (auth.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
   }
 
   // ──────────────────────────────── Invoke ───────────────────────────────────────
   rpc SuggestionCreate(SuggestionCreateRequest) returns (SuggestionCreateResponse) {
     option (auth.transaction_type) = TRANSACTION_TYPE_INVOKE;
     option (auth.operation) = {action: ACTION_SUGGEST_CREATE};
+
   }
 
   rpc SuggestionDelete(SuggestionDeleteRequest) returns (SuggestionDeleteResponse) {
