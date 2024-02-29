@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Empty, MethodKind } from "@bufbuild/protobuf";
+import { Empty, MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
 import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetCollectionsListResponse, GetCurrentUserResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListByCollectionRequest, ListByCollectionResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./generic_pb.js";
 
 /**
@@ -27,6 +27,7 @@ export const GenericService = {
       I: Empty,
       O: GetCurrentUserResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * ──────────────────────────────── Invoke ───────────────────────────────────────
@@ -38,6 +39,7 @@ export const GenericService = {
       I: BootstrapRequest,
       O: BootstrapResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.AuthorizeOperation
@@ -47,6 +49,7 @@ export const GenericService = {
       I: AuthorizeOperationRequest,
       O: AuthorizeOperationResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.GetCollectionsList
@@ -56,6 +59,7 @@ export const GenericService = {
       I: Empty,
       O: GetCollectionsListResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.Get
@@ -65,6 +69,7 @@ export const GenericService = {
       I: GetRequest,
       O: GetResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.GetFull
@@ -74,6 +79,7 @@ export const GenericService = {
       I: GetFullRequest,
       O: GetFullResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.List
@@ -83,6 +89,7 @@ export const GenericService = {
       I: ListRequest,
       O: ListResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.ListByCollection
@@ -92,6 +99,7 @@ export const GenericService = {
       I: ListByCollectionRequest,
       O: ListByCollectionResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.ListByAttrs
@@ -101,6 +109,7 @@ export const GenericService = {
       I: ListByAttrsRequest,
       O: ListByAttrsResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.Create
@@ -137,6 +146,7 @@ export const GenericService = {
       I: GetHistoryRequest,
       O: GetHistoryResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.GetHiddenTx
@@ -146,6 +156,7 @@ export const GenericService = {
       I: GetHiddenTxRequest,
       O: GetHiddenTxResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.HideTx
@@ -173,6 +184,7 @@ export const GenericService = {
       I: GetSuggestionRequest,
       O: GetSuggestionResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.SuggestionListByCollection
@@ -182,6 +194,7 @@ export const GenericService = {
       I: SuggestionListByCollectionRequest,
       O: SuggestionListByCollectionResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * @generated from rpc auth.common.GenericService.SuggestionByPartialKey
@@ -191,6 +204,7 @@ export const GenericService = {
       I: SuggestionByPartialKeyRequest,
       O: SuggestionByPartialKeyResponse,
       kind: MethodKind.Unary,
+      idempotency: MethodIdempotency.NoSideEffects,
     },
     /**
      * ──────────────────────────────── Invoke ───────────────────────────────────────
@@ -223,3 +237,4 @@ export const GenericService = {
     },
   }
 } as const;
+
