@@ -98,8 +98,7 @@ async function BuildIdentity(event: H3Event) {
       identity,
       signer,
     }
-  }
-  catch (error) {
+  } catch (error) {
     const publicUser: User = {
       createdAt: '',
       credentials: fabricConfig.public.credentials,
@@ -140,6 +139,24 @@ async function BuildGateway(event: H3Event) {
 
 export async function useChaincode<T extends H3Event>(event: T) {
   const connection = await BuildGateway(event)
+
+  const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
+  const contract = network.getContract(fabricConfig.chaincode.chaincode)
+
+  const service = new common.generic.GenericServiceClient(
+    contract,
+    GlobalRegistry,
+  )
+
+  return {
+    connection,
+    contract,
+    service,
+  }
+}
+
+export async function useFabric() {
+  const connection = await BuildGateway(useEvent())
 
   const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
   const contract = network.getContract(fabricConfig.chaincode.chaincode)
