@@ -6,15 +6,27 @@ export interface UpdateRowMeta {
   exist: ExistStatus
   status: ProcessingStatus
   catalogNumber?: string
-  currentSpecimen?: ccbio.Specimen
+  // currentSpecimen?: ccbio.Specimen
   differences?: Record<string, any>
   statusMessage?: string
 }
 
-export interface UpdateRow {
-  id: number
-  meta?: UpdateRowMeta
+/**
+ * UpdateRow is the row that will be used to update the existing specimen
+ * in the database, the first column is the specimenId and the rest of the
+ * columns are the raw data from the spreadsheet
+ */
+export type IdMappedRow = Record<string, Record<string, string>>
+
+export interface UpdateRawRow {
+  id: string
   raw: Record<string, string>
+}
+
+export interface CSVImportMetadata {
+  headers: string[]
+  specimenIdHeader: string
+  rows: Record<string, string>[]
 }
 
 export type ImportColType = 'id' | 'meta' | 'raw'
@@ -26,7 +38,8 @@ export interface ImportColumns {
 export interface ImportCol {
   name: string
   label: string
-  field: (row: UpdateRow) => string
+  field_path?: string
+  field: (row: UpdateRawRow) => string
   colType: ImportColType
 }
 

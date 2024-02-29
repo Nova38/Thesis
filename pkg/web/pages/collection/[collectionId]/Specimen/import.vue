@@ -279,7 +279,7 @@ watch(file, (file) => {
 
 /*
   ┌─────────────────────────────────────────────────────────────────────────┐
-  │    Map the headers to the correct specimen fields                       │
+  │    Map the headers to the correct specimen fields                   │
   └─────────────────────────────────────────────────────────────────────────┘
  */
 const dataMap = ref(new Map<number, ccbio.Specimen>())

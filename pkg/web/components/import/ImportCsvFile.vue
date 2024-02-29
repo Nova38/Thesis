@@ -1,4 +1,3 @@
-<!-- eslint-disable no-restricted-syntax -->
 <script lang="ts" setup>
 import Papa, { type ParseResult } from 'papaparse'
 import type { FormKitFileValue } from '@formkit/inputs'
@@ -40,7 +39,7 @@ function onUpload(value?: FormKitFileValue, node?: FormKitNode) {
     complete: (results: ParseResult<Record<string, string>>) => {
       console.log('All done:', results.data)
       // emit('csvParse', results)
-      emit('parse', results)
+      // emit('parse', results)
 
       headers.value = results.meta.fields ?? []
       rows.value = results.data
@@ -67,6 +66,11 @@ function handleForm(data: any, node: FormKitNode) {
 
 <template>
   <PCard>
+    <template #title>
+      <h3>
+        Raw Rows from CSV:
+      </h3>
+    </template>
     <template #content>
       <div class="justify-center">
         <FormKit ref="form" name="csvForm" type="form" submit-label="Load Specimens" @submit="handleForm">
@@ -95,6 +99,7 @@ function handleForm(data: any, node: FormKitNode) {
   </PCard>
 </template>
 
+<!-- eslint-disable no-restricted-syntax -->
 <style>
 
 </style>

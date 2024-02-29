@@ -10,15 +10,15 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, body =>
-    querySchema.safeParse(body))
+  const query = await getValidatedQuery(event, (body) =>
+    querySchema.safeParse(body),
+  )
   console.log(query)
-  if (!query.success)
-    throw query.error.issues
+  if (!query.success) throw query.error.issues
 
   let bookmark = ''
   let lastBookmark = '-'
-  const SpecimenMap: Record<string, ccbio.Specimen | JsonValue> = {}
+  const SpecimenMap: Record<string, ccbio.Specimen> = {}
 
   while (bookmark !== lastBookmark) {
     const result = await cc.service.listByAttrs(
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
         console.log('unpack failed', i)
         return
       }
-      SpecimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
+      SpecimenMap[s.specimenId] = s
     })
 
     if (lastBookmark === bookmark) {
