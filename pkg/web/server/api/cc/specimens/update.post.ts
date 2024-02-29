@@ -40,8 +40,7 @@ export default defineEventHandler(async (event) => {
 
     return unpacked
     return req.toJson({ typeRegistry: cc.service.registry })
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
     throw error
   }

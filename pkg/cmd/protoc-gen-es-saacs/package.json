@@ -10,8 +10,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@bufbuild/protobuf": "^1.7.0",
-        "@bufbuild/protoplugin": "^1.7.0"
+        "@bufbuild/protobuf": "^1.7.2",
+        "@bufbuild/protoplugin": "^1.7.2"
     },
     "devDependencies": {
         "@types/node": "^20.11.6",

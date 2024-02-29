@@ -233,10 +233,7 @@
     ".vscode-insiders",
     "presets"
   ],
-  // "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  // "javascript.inlayHints.parameterTypes.enabled": true,
-  // "typescript.inlayHints.parameterNames.enabled": "literals",
-  // "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-  // "typescript.inlayHints.variableTypes.enabled": true,
-  // "typescript.inlayHints.functionLikeReturnTypes.enabled": true
+  "conventionalCommits.scopes": [
+    "proto"
+  ]
 }
