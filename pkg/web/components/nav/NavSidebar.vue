@@ -32,6 +32,7 @@ const links = computed(() => {
 
   return data.value?.map((col) => {
     const base = `/collection/${col.id}`
+    const specimenBase = `${base}/Specimen`
 
     return [{
       label: col.id,
@@ -47,12 +48,16 @@ const links = computed(() => {
       icon: 'carbon:pedestrian',
     }, {
       label: 'Bulk Import',
-      to: `${base}/bulk/import`,
+      to: `${specimenBase}/bulk/import`,
       icon: 'carbon:data-bin',
     }, {
       label: 'Bulk Update',
-      to: `${base}/bulk/update`,
+      to: `${specimenBase}/bulk/update`,
       icon: 'carbon:data-backup',
+    }, {
+      label: 'New Specimen',
+      to: `${specimenBase}/New`,
+      icon: 'carbon:document-add',
     }] as VerticalNavigationLink[]
   })
 })
