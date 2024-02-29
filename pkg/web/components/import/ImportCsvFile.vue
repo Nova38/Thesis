@@ -46,6 +46,9 @@ function onUpload(value?: FormKitFileValue, node?: FormKitNode) {
       rows.value = results.data
 
       unique.value = Object.keys(UniqueFields(results.data, headers.value))
+
+      if (unique.value.length === 1)
+        SpecimenIdField.value = unique.value[0]
     },
   })
 }
@@ -81,7 +84,7 @@ function handleForm(data: any, node: FormKitNode) {
               v-model="SpecimenIdField"
               name="SpecimenIdField"
               type="select"
-              label="Select the column that contains the Specimen ID "
+              label="Column that contains the Collection ID"
               validation="required"
               :options="unique"
             />

@@ -44,10 +44,7 @@ export default defineNuxtConfig({
     '@formkit/nuxt',
   ],
 
-  css: [
-    '~/assets/css/main.css',
-    'primevue/resources/themes/aura-light-green/theme.css',
-  ],
+  css: ['~/assets/css/main.css'],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],

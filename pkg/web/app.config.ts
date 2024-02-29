@@ -1,9 +1,10 @@
 export default defineAppConfig({
   apiEnd: process.env.API_URL ?? '/api',
   theme: {
-    primaryColor: '#ababab',
+    primaryColor: 'red',
   },
   ui: {
+    primary: 'cyan',
     icons: {
       dynamic: true,
     },
