@@ -22,6 +22,19 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
   const RawHeaders = ref<string[]>()
 
   /**
+   *  RawRows is the raw data from the spreadsheet
+   *
+   */
+  const RawRowMap = ref<Record<string, Record<string, string>>>({})
+
+  /**
+   *  SpecimenIds is the specimenIds from the raw data
+   */
+  const SpecimenIds = ref<string[]>([])
+
+  const Rows = ref<UpdateRow[]>()
+
+  /**
    * SpecimenIdHeader is the header that contains the specimenId for mapping
    * the raw data to the existing specimen
    */
@@ -72,11 +85,6 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     }
   })
 
-  /**
-   *  RawRows is the raw data from the spreadsheet
-   *
-   */
-  const Rows = shallowRef<UpdateRow[]>()
   // const UniqueRawHeaders = ref<string[]>()
 
   // const ProcessingCSV = ref(false)
@@ -86,42 +94,14 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
    */
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
-  // const RowsSelected = ref([])
-
-  // Mapped by catalogNumber
-  const RawRowMap = ref(new Map<string, PlainSpecimen>())
-
-  // function LoadFromFile(file: File) {
-  //   Papa.parse(file, {
-  //     header: true,
-  //     worker: true,
-  //     complete: (results: ParseResult<Record<string, string>>) => {
-  //       RawHeaders.value = results.meta.fields
-  //       ProcessingCSV.value = true
-  //       console.table(results.data)
-
-  //       RawRows.value = results.data.map((row, index) => {
-  //         return {
-  //           id: index,
-  //           meta: {
-  //             exist: 'unknown',
-  //             status: 'new',
-  //             statusMessage: '',
-  //             id: index,
-  //           },
-  //           raw: row,
-  //         }
-  //       })
-  //     },
-  //   })
-  // }
   const LoadUpdates = async (arg: UpdateRowArgs) => {
     RawHeaders.value = arg.headers
     SpecimenIdHeader.value = arg.specimenIdHeader
 
-    const catalogNumbers: number[] = []
+    // Reset The Row variables
+    RawRowMap.value = {}
 
-    Rows.value = arg.rows.map((row, _) => {
+    arg.rows.forEach((row) => {
       const id = row[SpecimenIdHeader.value]
       if (!id) {
         console.warn(row)
@@ -129,28 +109,21 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       }
 
       const catNum = CatNumToUUID(id)
-      catalogNumbers.push(catNum)
+      SpecimenIds.value.push(catNum)
 
-      return {
-        id: catNum,
-        meta: {
-          exist: 'unknown',
-          status: 'new',
-          statusMessage: '',
-          id: catNum,
-        },
-        raw: row,
-      }
+      RawRowMap.value[catNum] = row
     })
 
     const list = await $fetch('/api/cc/specimens/selectiveList', {
       body: {
         collectionId: CollectionId.value,
-        specimenIds: catalogNumbers,
+        specimenIds: SpecimenIds,
       },
     })
 
     if (!list) throw new Error('Failed to fetch full list')
+
+    // asign the current data to a value
   }
   return {
     /*
