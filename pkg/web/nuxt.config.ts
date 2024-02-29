@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import path from 'node:path'
+import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
   devServer: {
@@ -138,7 +138,7 @@ export default defineNuxtConfig({
     options: {
       unstyled: true,
     },
-    importPT: { from: path.resolve(__dirname, './presets/wind/') }, // import and apply preset
+    importPT: { from: resolve(__dirname, './presets/wind/') }, // import and apply preset
   },
 
   quasar: {
