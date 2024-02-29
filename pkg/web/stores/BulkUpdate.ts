@@ -1,79 +1,47 @@
 import { defineStore } from 'pinia'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
 
+import type { CSVImportMetadata, IdMappedRow } from '~/utils/types'
+
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
 // SpecimenId is used to identify the specimen in the database
 
 // Updating the Existing Specimen
 
-export interface UpdateRowArgs {
-  headers: string[]
-  specimenIdHeader: string
-  rows: Record<string, string>[]
-}
-
 export const useBulkUpdate = defineStore('BulkUpdate', () => {
-  //
-  const CollectionId = ref()
+  const CollectionId = ref<string>('')
 
-  /**
-   * RawHeaders is the raw headers of the csv file
-   */
-  const RawHeaders = ref<string[]>()
-
-  /**
-   *  RawRows is the raw data from the spreadsheet
-   *
-   */
-  const RawRowMap = ref<Record<string, Record<string, string>>>({})
-
-  /**
-   *  SpecimenIds is the specimenIds from the raw data
-   */
-  const SpecimenIds = ref<string[]>([])
-
-  const Rows = ref<UpdateRow[]>()
-
-  /**
-   * SpecimenIdHeader is the header that contains the specimenId for mapping
-   * the raw data to the existing specimen
-   */
   const SpecimenIdHeader = ref('primary.specimenId')
 
-  /**
-   *
-   */
+  const SpecimenIds = ref<string[]>([])
+
+  // Imported Data
+  // ------------------------------
+
+  const ImportedHeaders = ref<string[]>([])
+
   const ImportColumns = computed(() => {
     // Check if the RawHeaders is empty or if specimenIdHeader is in the RawHeaders and return the columns
 
     if (
-      !RawHeaders.value ||
-      !RawHeaders.value.includes(SpecimenIdHeader.value)
+      !ImportedHeaders.value ||
+      !ImportedHeaders.value.includes(SpecimenIdHeader.value)
     ) {
       return {
         id: {},
       } as ImportColumns
     }
 
-    let r: ImportCol[] =
-      RawHeaders.value?.map((header) => {
+    const r: ImportCol[] =
+      ImportedHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,
-          field: (row: UpdateRow) => row.raw[header],
+          // eslint-disable-next-line ts/no-unsafe-return
+          field: (row: UpdateRawRow) => row.raw[header],
           colType: header === SpecimenIdHeader.value ? 'id' : 'raw',
         }
       }) || []
-
-    r = [
-      {
-        field: (row: UpdateRow) => row.meta?.status || 'unknown',
-        name: 'Status',
-        label: 'Status',
-        colType: 'meta',
-      },
-      ...r,
-    ]
 
     const id = r.find((col: ImportCol) => col.colType === 'id')
     if (!id) throw new Error('SpecimenIdHeader not found in RawHeaders')
@@ -85,23 +53,46 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     }
   })
 
-  // const UniqueRawHeaders = ref<string[]>()
+  const RawRows = shallowRef<UpdateRawRow[]>()
 
-  // const ProcessingCSV = ref(false)
+  // Current Data
+  // ------------------------------
+  const CurrentSpecimen = shallowRef<Record<string, any>>({})
 
-  /**
-   * @description SpecimenMapping is the mapping of the raw data to the Specimen object
-   */
+  //
+  // Processing Data
+  // ------------------------------
+
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
-  const LoadUpdates = async (arg: UpdateRowArgs) => {
-    RawHeaders.value = arg.headers
-    SpecimenIdHeader.value = arg.specimenIdHeader
+  const MappedRows = computed(() => {})
 
+  const RowMetadata = ref<Record<string, UpdateRowMeta>>({})
+
+  // ------------------------------
+  // Methods
+  // ------------------------------
+
+  const fetchSpecimens = async () => {
+    console.log('fetching specimens')
+    const x = await $fetch('/api/cc/specimens/fullList?collectionId=k')
+    console.log(x)
+
+    return x
+  }
+
+  /**
+   * @param csv The rows
+   */
+  const LoadUpdates = async (csv: CSVImportMetadata) => {
     // Reset The Row variables
-    RawRowMap.value = {}
+    SpecimenIds.value = []
+    CurrentSpecimen.value = {}
 
-    arg.rows.forEach((row) => {
+    ImportedHeaders.value = csv.headers
+    SpecimenIdHeader.value = csv.specimenIdHeader
+
+    RawRows.value = csv.rows.map((row) => {
       const id = row[SpecimenIdHeader.value]
       if (!id) {
         console.warn(row)
@@ -111,39 +102,103 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       const catNum = CatNumToUUID(id)
       SpecimenIds.value.push(catNum)
 
-      RawRowMap.value[catNum] = row
+      return {
+        id: catNum,
+        raw: row,
+      }
     })
 
-    const list = await $fetch('/api/cc/specimens/selectiveList', {
-      body: {
+    const x = await $fetch('/api/cc/specimens/fullList', {
+      method: 'get',
+      query: {
         collectionId: CollectionId.value,
-        specimenIds: SpecimenIds,
       },
     })
 
-    if (!list) throw new Error('Failed to fetch full list')
+    console.log(x)
+    // const _selectiveList = await $fetch('/api/cc/specimens/selectiveList', {
+    //   body: {
+    //     collectionId: CollectionId.value,
+    //     specimenIds: SpecimenIds,
+    //   },
+    // })
 
-    // asign the current data to a value
+    // const list = await $fetch('/api/cc/specimens/fullList', {
+    //   body: {
+    //     collectionId: CollectionId.value,
+    //   },
+    // })
+
+    // if (!list) throw new Error('Failed to fetch full list')
   }
+
+  function ClearData() {
+    SpecimenIds.value = []
+    ImportedHeaders.value = []
+    RawRows.value = []
+    CurrentSpecimen.value = {}
+    SpecimenMapping.value = EmptySpecimenMapping()
+    RowMetadata.value = {}
+  }
+
   return {
-    /*
-     * Imported
+    /**
+     * @description CollectionId is the collection that the specimens are being updated
      */
-    Rows,
+    CollectionId,
+    /**
+     * @description The header that contains the specimenId for mapping the raw data to the existing specimen
+     */
+    SpecimenIds,
+
+    // Imported
+    // ------------------------------
+    /**
+     * @description headers of the csv file
+     */
+    ImportedHeaders,
+
+    /**
+     * @description The display columns for the import
+     */
     ImportColumns,
-    RawHeaders,
+
+    /**
+     *  @description  rows from the spreadsheet that are mapped to the specimenId
+     */
+    RawRows,
+
+    /**
+     * @description The header that contains the specimenId for mapping the raw data to the existing specimen
+     */
+    SpecimenIdHeader,
+
+    // Processing Data
+    // ------------------------------
+    /**
+     * @description The mapping of the imported csvs to specimens
+     */
+    SpecimenMapping,
+
+    /**
+     * @description The mapped values from the raw rows to them in specimen form
+     */
+    MappedRows,
+
+    /**
+     * @description The current specimen that is being updated
+     */
+    CurrentSpecimen,
+
+    /**
+     * @description The metadata for the rows
+     */
+    RowMetadata,
 
     LoadUpdates,
 
-    // UniqueRawHeaders,
-    SpecimenIdHeader,
-
-    // ProcessingCSV,
-
-    CollectionId,
-    RawRowMap,
-    SpecimenMapping,
-    // RowsSelected,
+    ClearData,
+    fetchSpecimens,
   }
 })
 

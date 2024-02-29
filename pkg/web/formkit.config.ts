@@ -4,6 +4,8 @@ import { en } from '@formkit/i18n'
 import { genesisIcons } from '@formkit/icons'
 import { defaultConfig } from '@formkit/vue'
 import { createFloatingLabelsPlugin } from '@formkit/addons'
+import { generateClasses } from '@formkit/themes'
+
 import { rootClasses } from './formkit.theme'
 import '@formkit/addons/css/floatingLabels'
 
@@ -17,6 +19,7 @@ export default defaultConfig(
     locale: 'en',
     config: {
       rootClasses,
+      classes: generateClasses({}),
     },
     plugins: [
       createFloatingLabelsPlugin({

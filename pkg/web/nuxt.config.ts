@@ -1,50 +1,51 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { resolve } from 'pathe'
 
+/* eslint perfectionist/sort-objects: "error" */
+
 export default defineNuxtConfig({
+  appConfig: {
+    apiEndpoint:
+      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
+  },
+  colorMode: {
+    preference: 'light',
+  },
+
+  css: ['~/assets/css/main.css'],
+
+  // ssr: false,
+
+  debug: false,
+
   devServer: {
-    https: true, // enable HTTPS
+    https: {
+      cert: resolve(__dirname, '.dev/RootCA.pem'),
+      key: resolve(__dirname, '.dev/RootCA.key'),
+    }, // enable HTTPS
+
     port: 8000,
   },
   devtools: {
-    enabled: true,
+    disableAuthorization: true,
 
+    enabled: true,
     timeline: {
       enabled: true,
     },
-    disableAuthorization: true,
     vscode: {
       enabled: true,
     },
   },
 
-  // debug: true,
-
-  ssr: false,
-
-  colorMode: {
-    preference: 'light',
+  eslintConfig: {
+    setup: false,
   },
 
   experimental: {
-    // typedPages: true,
+    // typedPages: false,
     asyncContext: true,
   },
-  modules: [
-    '@nuxt/test-utils/module',
-    'nuxt-primevue',
-
-    'nuxt-quasar-ui',
-    '@nuxt/ui',
-    '@vueuse/nuxt',
-    'nuxt-module-eslint-config',
-    '@pinia/nuxt',
-    // 'nuxt-radash',
-    // 'nuxt-security',
-    '@formkit/nuxt',
-  ],
-
-  css: ['~/assets/css/main.css'],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
@@ -64,6 +65,19 @@ export default defineNuxtConfig({
     ],
   },
 
+  modules: [
+    '@nuxt/test-utils/module',
+    'nuxt-primevue',
+
+    'nuxt-quasar-ui',
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+    'nuxt-module-eslint-config',
+    '@pinia/nuxt',
+    // 'nuxt-radash',
+    // 'nuxt-security',
+    '@formkit/nuxt',
+  ],
   nitro: {
     storage: {
       '.data:auth': {
@@ -71,27 +85,49 @@ export default defineNuxtConfig({
         driver: 'fs',
       },
     },
-  },
-
-  routeRules: {
-    '/api/**': {
-      // enable CORS
-      cors: true, // if enabled, also needs cors-preflight-request.ts Nitro middleware to answer CORS preflight requests
-      headers: {
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Headers': '*', // 'Origin, Content-Type, Accept, Authorization, X-Requested-With'
-        'Access-Control-Allow-Methods': '*', // 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
-        // CORS headers
-        'Access-Control-Allow-Origin': '*', // 'http://example:6006', has to be set to the requesting domain that you want to send the credentials back to
-        'Access-Control-Expose-Headers': '*',
-        // 'Access-Control-Max-Age': '7200', // 7200 = caching 2 hours (Chromium default), https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age#directives
+    esbuild: {
+      options: {
+        target: 'esnext',
       },
     },
   },
 
-  appConfig: {
-    apiEndpoint:
-      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
+  primevue: {
+    components: {
+      prefix: 'P',
+    },
+    composables: {
+      exclude: ['useToast'],
+    },
+    importPT: { from: resolve(__dirname, './presets/wind/') }, // import and apply preset
+    options: {
+      unstyled: true,
+    },
+  },
+
+  quasar: {
+    components: {
+      deepDefaults: true,
+      defaults: {
+        QInput: {
+          dense: true,
+          outlined: true,
+          stackLabel: true,
+        },
+      },
+    },
+    config: {
+      loadingBar: {
+        color: 'secondary',
+        position: 'bottom',
+        size: '4px',
+      },
+    },
+    extras: {
+      font: 'roboto-font',
+      fontIcons: ['themify', 'material-icons'],
+    },
+    plugins: ['LoadingBar', 'Notify'],
   },
   runtimeConfig: {
     auth: {
@@ -124,48 +160,8 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  primevue: {
-    components: {
-      prefix: 'P',
-    },
-    composables: {
-      exclude: ['useToast'],
-    },
-    options: {
-      unstyled: true,
-    },
-    importPT: { from: resolve(__dirname, './presets/wind/') }, // import and apply preset
-  },
-
-  quasar: {
-    components: {
-      deepDefaults: true,
-      defaults: {
-        QInput: {
-          dense: true,
-          outlined: true,
-          stackLabel: true,
-        },
-      },
-    },
-    config: {
-      loadingBar: {
-        color: 'secondary',
-        position: 'bottom',
-        size: '4px',
-      },
-    },
-    extras: {
-      font: 'roboto-font',
-      fontIcons: ['themify', 'material-icons'],
-    },
-    plugins: ['LoadingBar', 'Notify'],
-  },
   ui: {
     icons: {},
   },
-  eslintConfig: {
-    setup: false,
-  },
 })
+/* eslint perfectionist/sort-objects: "off" */
