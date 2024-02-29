@@ -34,16 +34,16 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     // Check if the RawHeaders is empty or if specimenIdHeader is in the RawHeaders and return the columns
 
     if (
-      !RawHeaders.value ||
-      !RawHeaders.value.includes(SpecimenIdHeader.value)
+      !RawHeaders.value
+      || !RawHeaders.value.includes(SpecimenIdHeader.value)
     ) {
       return {
         id: {},
       } as ImportColumns
     }
 
-    let r: ImportCol[] =
-      RawHeaders.value?.map((header) => {
+    let r: ImportCol[]
+      = RawHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,
@@ -63,7 +63,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     ]
 
     const id = r.find((col: ImportCol) => col.colType === 'id')
-    if (!id) throw new Error('SpecimenIdHeader not found in RawHeaders')
+    if (!id)
+      throw new Error('SpecimenIdHeader not found in RawHeaders')
 
     return {
       id,
@@ -150,7 +151,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       },
     })
 
-    if (!list) throw new Error('Failed to fetch full list')
+    if (!list)
+      throw new Error('Failed to fetch full list')
   }
   return {
     /*

@@ -232,5 +232,8 @@
     ".vscode",
     ".vscode-insiders",
     "presets"
+  ],
+  "conventionalCommits.scopes": [
+    "proto"
   ]
 }

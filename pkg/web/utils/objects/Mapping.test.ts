@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { FieldMapping } from './Mapping'
+import type { FieldMapping } from './Mapping'
 
-describe('FieldMapping', () => {
+describe('fieldMapping', () => {
   it('should have newKey property of type keyof N', () => {
     const mapping: FieldMapping<{ foo: string }, { bar: number }> = {
       newKey: 'foo',
@@ -39,7 +39,7 @@ describe('FieldMapping', () => {
     const mapping: FieldMapping<{ foo: string }, { bar: number }> = {
       newKey: 'foo',
       oldKey: 'bar',
-      transform: (value) => String(value),
+      transform: value => String(value),
     }
     expect(mapping.transform).toBeInstanceOf(Function)
     expect(mapping.transform(123)).toBe('123')

@@ -22,7 +22,8 @@ export function UniqueFields<T extends object>(
   arr.forEach((row) => {
     keys.forEach((header: keyof T) => {
       const key = uniqueField.get(header)
-      if (!key) return
+      if (!key)
+        return
 
       // if the value is not in the set, add it to the set. Else remove the
       // header from the map
