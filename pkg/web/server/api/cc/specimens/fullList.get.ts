@@ -10,11 +10,11 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, (body) =>
-    querySchema.safeParse(body),
-  )
+  const query = await getValidatedQuery(event, body =>
+    querySchema.safeParse(body))
   console.log(query)
-  if (!query.success) throw query.error.issues
+  if (!query.success)
+    throw query.error.issues
 
   let bookmark = ''
   let lastBookmark = '-'

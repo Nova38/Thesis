@@ -1140,3 +1140,4 @@ export class Polices extends Message<Polices> {
     return proto3.util.equals(Polices, a, b);
   }
 }
+

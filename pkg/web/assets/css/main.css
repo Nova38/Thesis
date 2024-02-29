@@ -4,8 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.row, .column, .flex {
-    flex-wrap: unset;
+.row,
+.column,
+.flex {
+  flex-wrap: unset;
 }
 /* @layer tailwind-base,  tailwind-utilities, primevue;
 
@@ -17,4 +19,3 @@
     @tailwind components;
     @tailwind utilities;
 } */
-

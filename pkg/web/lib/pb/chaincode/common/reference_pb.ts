@@ -523,3 +523,4 @@ export class ReferenceDeleteResponse extends Message<ReferenceDeleteResponse> {
     return proto3.util.equals(ReferenceDeleteResponse, a, b);
   }
 }
+
