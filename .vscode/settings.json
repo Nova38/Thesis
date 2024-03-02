@@ -126,12 +126,12 @@
     "editor.formatOnSave": true,
     "[vue]": {
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true
+            "source.fixAll.eslint": "explicit"
         },
     },
     "[typescript]": {
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true
+            "source.fixAll.eslint": "explicit"
         },
     },
     "[typescript][vue]": {

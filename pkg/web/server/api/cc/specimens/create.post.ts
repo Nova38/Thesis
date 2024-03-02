@@ -1,21 +1,27 @@
 import { Any } from '@bufbuild/protobuf'
 import { z } from 'zod'
-import { ccbio, common } from '~/lib'
+import { auth, ccbio, common } from '~/lib'
+import { ZSpecimen } from '~/utils/cc/proto/Specimen'
 
-const bodySchema = z.object({
-  collectionId: z.string(),
-  specimenId: z.string(),
-})
+const bodySchema = ZSpecimen
+
+// z.object({
+//   collectionId: z.string(),
+//   specimenId: z.string(),
+// })
 
 export default defineEventHandler(async (event) => {
+  console.log(event)
   const cc = await useChaincode(event)
 
   const body = await readBody(event)
   console.log({ body })
 
-  const r = await readValidatedBody(event, body => bodySchema.safeParse(body))
-  if (!r.success)
+  const r = await readValidatedBody(event, (body) => bodySchema.safeParse(body))
+  if (!r.success) {
+    console.error(r.error.issues)
     throw r.error.issues
+  }
   console.log({ data: r.data })
 
   // const r = bodySchema.parse(b);
@@ -27,14 +33,18 @@ export default defineEventHandler(async (event) => {
   const v = Any.pack(specimen)
   const req = new common.generic.CreateRequest({
     item: {
+      key: new auth.objects.ItemKey({
+        collectionId: specimen.collectionId,
+        itemKeyParts: [specimen.specimenId],
+        itemType: ccbio.Specimen.typeName,
+      }),
       value: v,
     },
   })
-  console.log(req.toJsonString({ typeRegistry: GlobalRegistry }))
 
   try {
     const result = await cc.service.create(req)
-
+    console.debug(result)
     console.log(result)
     const unpacked = new ccbio.Specimen()
     result.item?.value?.unpackTo(unpacked)
@@ -44,8 +54,9 @@ export default defineEventHandler(async (event) => {
     return {
       unpacked,
     }
-  }
-  catch (error: any) {
+  } catch (error: any) {
+    console.debug(error)
+
     console.log(error)
     console.log(error?.details[0].message)
     throw error

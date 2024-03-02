@@ -37,12 +37,12 @@ export type SpecimenMapping = ObjectMapping<
 // }
 
 export function TransformObject<O, N>(obj: O, mappings: ObjectMapping<N, O>) {
-  return mappings.reduce((newObj, mapping) => {
+  const v = mappings.reduce((newObj, mapping) => {
     const { defaultValue, newKey, oldKey, transform } = mapping
     if (oldKey === '') {
       if (defaultValue !== undefined) {
-        newObj[newKey]
-          = typeof defaultValue === 'function'
+        newObj[newKey] =
+          typeof defaultValue === 'function'
             ? (defaultValue as () => N[keyof N])()
             : defaultValue
       }
@@ -53,18 +53,21 @@ export function TransformObject<O, N>(obj: O, mappings: ObjectMapping<N, O>) {
 
     if (value === undefined) {
       if (defaultValue !== undefined) {
-        newObj[newKey]
-          = typeof defaultValue === 'function'
+        newObj[newKey] =
+          typeof defaultValue === 'function'
             ? (defaultValue as () => N[keyof N])()
             : defaultValue
       }
-    }
-    else {
+    } else {
       newObj[newKey] = transform ? transform(value) : (value as N[keyof N])
     }
+    console.log({ newObj })
 
     return newObj
   }, {} as N)
+
+  console.log({ v })
+  return v
 }
 
 export const t = reactify(TransformObject)
@@ -80,8 +83,7 @@ export function TransformRecordToFlatSpecimen(
 
 export function ClearMapping<N, O>(mapping: ObjectMapping<N, O>, key: keyof N) {
   return mapping.map((m) => {
-    if (m.newKey === key)
-      m.transform = undefined
+    if (m.newKey === key) m.transform = undefined
     return m
   })
 }

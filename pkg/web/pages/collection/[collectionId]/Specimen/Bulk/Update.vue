@@ -52,7 +52,6 @@ async function myFetch() {
         </PDataTable>
       </template>
     </PCard>
-
     <PCard>
       <template #title>
         <h3>
@@ -61,9 +60,9 @@ async function myFetch() {
       </template>
       <template #content>
         <PDataTable
-          v-if="bulk.CurrentSpecimen"
-          :value="bulk.RawRows"
-          data-key="id"
+          v-if="bulk.MappedRows "
+          :value="bulk.MappedRows"
+          data-key="specimenId"
           paginator
           show-gridlines
           striped-rows
@@ -71,21 +70,29 @@ async function myFetch() {
           :rows="10"
           :rows-per-page-options="[5, 10, 20, 50]"
         >
-          <!-- <PColumn
-            v-for="col of bulk.ImportColumns"
+          <PColumn
+            v-for="col of SpecimenColDefs"
             :key="col.field"
             :field="col.field"
           >
             <template #header="">
-              <div class="flex flex-col">
-                <div>{{ col.name }}</div>
-                <div>
-                  <USelectMenu />
-                </div>
+              <div class="text-nowrap">
+                <FormKit
+                  type="select"
+                  :label="col.field"
+                  :name="`map-${col.name}`"
+                  :options="bulk.ImportedHeaders"
+                  label-class="text-nowrap "
+                  @input="(val) => bulk.SetMapping(val, col)"
+                />
               </div>
             </template>
+
             <UDivider />
-          </PColumn> -->
+            <template #body="{ data }">
+              {{ data[col.field] }}
+            </template>
+          </PColumn>
         </PDataTable>
       </template>
     </PCard>

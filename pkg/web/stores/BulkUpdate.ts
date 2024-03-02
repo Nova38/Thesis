@@ -1,7 +1,14 @@
 import { defineStore } from 'pinia'
+import { flatten } from 'flat'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
+import type {
+  CSVImportMetadata,
+  IdMappedRow,
+  PlainSpecimen,
+  UpdateRawRow,
+} from '~/utils/types'
 
-import type { CSVImportMetadata, IdMappedRow } from '~/utils/types'
+import { ccbio } from '~/lib'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
 // SpecimenId is used to identify the specimen in the database
@@ -37,8 +44,9 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
         return {
           name: header,
           label: header,
-          // eslint-disable-next-line ts/no-unsafe-return
+
           field: (row: UpdateRawRow) => row.raw[header],
+          // field: `raw.${header}`,
           colType: header === SpecimenIdHeader.value ? 'id' : 'raw',
         }
       }) || []
@@ -57,7 +65,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
   // Current Data
   // ------------------------------
-  const CurrentSpecimen = shallowRef<Record<string, any>>({})
+  const CurrentSpecimen = ref<Map<string, PlainSpecimen>>(new Map())
 
   //
   // Processing Data
@@ -65,7 +73,24 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
-  const MappedRows = computed(() => {})
+  const MappedRows = computed(() => {
+    return (
+      RawRows.value?.map((row: UpdateRawRow) => {
+        // console.log({ row, SpecimenMapping: SpecimenMapping.value })
+        const val = TransformRecordToFlatSpecimen(
+          row.raw,
+          SpecimenMapping.value,
+        )
+
+        console.log({ val })
+
+        return {
+          id: row.id,
+          val,
+        }
+      }) || []
+    )
+  })
 
   const RowMetadata = ref<Record<string, UpdateRowMeta>>({})
 
@@ -81,13 +106,25 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     return x
   }
 
+  const SetMapping = (selected: string | undefined, col: { field: string }) => {
+    console.log({ selected, col })
+
+    if (!selected) return
+
+    SpecimenMapping.value = SpecimenMapping.value.map((m) => {
+      if (m.newKey === selected) m.oldKey = col.field
+
+      return m
+    })
+  }
+
   /**
    * @param csv The rows
    */
   const LoadUpdates = async (csv: CSVImportMetadata) => {
     // Reset The Row variables
     SpecimenIds.value = []
-    CurrentSpecimen.value = {}
+    CurrentSpecimen.value = new Map()
 
     ImportedHeaders.value = csv.headers
     SpecimenIdHeader.value = csv.specimenIdHeader
@@ -108,14 +145,26 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       }
     })
 
-    const x = await $fetch('/api/cc/specimens/fullList', {
-      method: 'get',
+    const fullList = await $fetch('/api/cc/specimens/bulk/partialList', {
+      method: 'post',
       query: {
         collectionId: CollectionId.value,
       },
+      body: {
+        specimenIds: SpecimenIds.value,
+      },
     })
 
-    console.log(x)
+    console.log(fullList)
+
+    Object.entries(fullList.filteredList).forEach((value) => {
+      console.log(value)
+      const [id, v] = value[1]
+
+      CurrentSpecimen.value.set(id, new ccbio.Specimen(v))
+    })
+    console.log(CurrentSpecimen.value)
+
     // const _selectiveList = await $fetch('/api/cc/specimens/selectiveList', {
     //   body: {
     //     collectionId: CollectionId.value,
@@ -136,7 +185,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     SpecimenIds.value = []
     ImportedHeaders.value = []
     RawRows.value = []
-    CurrentSpecimen.value = {}
+    CurrentSpecimen.value = new Map()
     SpecimenMapping.value = EmptySpecimenMapping()
     RowMetadata.value = {}
   }
@@ -199,6 +248,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
     ClearData,
     fetchSpecimens,
+    SetMapping,
   }
 })
 

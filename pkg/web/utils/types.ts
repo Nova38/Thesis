@@ -39,7 +39,7 @@ export interface ImportCol {
   name: string
   label: string
   field_path?: string
-  field: (row: UpdateRawRow) => string
+  field: ((row: UpdateRawRow) => string) | string
   colType: ImportColType
 }
 

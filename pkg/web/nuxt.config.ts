@@ -55,8 +55,8 @@ export default defineNuxtConfig({
         imports: ['PlainMessage'],
       },
       {
-        from: 'saacs-es',
-        imports: ['auth', 'ccbio'],
+        from: './lib/pb',
+        imports: ['auth', 'ccbio', 'common'],
       },
       {
         from: 'defu',
