@@ -3,10 +3,13 @@ import { randomUUID } from 'uncrypto'
 import { ccbio } from '~/lib'
 
 //    ^?
+const nuxtApp = useNuxtApp()
 
 const specimen = ref(
   new ccbio.Specimen({
-    collectionId: useRouteCollectionId,
+    collectionId: nuxtApp.$collectionId.value,
+    specimenId: '',
+
     georeference: {
       georeferenceDate: {},
     },
@@ -14,6 +17,7 @@ const specimen = ref(
     images: {},
     loans: {},
     primary: {
+      catalogNumber: '',
       catalogDate: {},
       determinedDate: {},
       fieldDate: {},
@@ -24,20 +28,47 @@ const specimen = ref(
         t: {},
       },
     },
-    specimenId: randomUUID(),
     taxon: {},
   }),
 )
 
+watchDeep(specimen, (value, oldValue) => {
+  if (value?.primary?.catalogNumber) {
+    console.log('catalogNumber', value.primary.catalogNumber)
+
+    nextTick(() => value.specimenId = CatNumToUUID(value?.primary?.catalogNumber || ''))
+  }
+
+  console.log('specimen', value.specimenId)
+})
+
+const api = useCustomFetch(`/api/cc/specimens/create`, {
+
+  method: 'POST',
+  immediate: false,
+
+  onRequest: ({ options }) => {
+    options.body = new ccbio.Specimen(toValue(specimen)).toJsonString({ emitDefaultValues: true, enumAsInteger: true })
+  },
+})
+
 async function submitHandler() {
   // console.log("submitHandler", value);
 
-  const response = await useCreateSpecimen(specimen.value)
-  console.log('response', response)
+  try {
+    console.log(api.data.value)
 
-  useRouter().push(
-    `/collection/${useRouteCollectionId}/specimen/View-${specimen.value.specimenId}`,
-  )
+    const response = await api.execute()
+    console.log({ api, response, specimen: specimen.value })
+    if (api.status.value === 'success') {
+      nuxtApp.$router.push(
+        `/collection/${nuxtApp.$collectionId.value}/specimen/View-${specimen.value.specimenId}`,
+      )
+    }
+  }
+  catch (error) {
+    console.error('error', error)
+  }
 }
 </script>
 

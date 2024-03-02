@@ -36,6 +36,8 @@ export default defineEventHandler(async (event) => {
   const filteredList = Object.entries(specimenMap).filter(([id]) =>
     body.data.specimenIds.includes(id),
   )
-
-  return filteredList
+  console.log(filteredList)
+  return {
+    filteredList,
+  }
 })

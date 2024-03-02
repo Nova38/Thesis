@@ -3,7 +3,7 @@ const crumb = useBreadcrumbLinks()
 </script>
 
 <template>
-  <PToolbar class="bg-surface-900 shadow-md rounded-[3rem] bg-gradient-to-r from-sky-600/70 to-sky-400/80">
+  <PToolbar class="bg-surface-900 shadow-md rounded-[3rem] bg-gradient-to-r from-sky-500/70 to-sky-500/80">
     <template #start>
       <!-- <UButton label="Click Me" /> -->
       <PButton class="mr-2">

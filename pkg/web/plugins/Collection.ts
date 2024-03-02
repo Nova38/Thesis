@@ -8,11 +8,11 @@ export default defineNuxtPlugin({
       (to, from) => {
         const id = to.params?.collectionId
 
-        console.log('Collection middleware', to, from, id)
+        // console.log('Collection middleware', to, from, id)
 
         if (id && collectionId.value !== id) collectionId.value = id.toString()
 
-        console.log('Collection middleware', collectionId.value)
+        // console.log('Collection middleware', collectionId.value)
       },
       {
         global: true,

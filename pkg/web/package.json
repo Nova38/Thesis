@@ -28,6 +28,7 @@
     "@quasar/extras": "^1.16.9",
     "@types/eslint": "^8.56.5",
     "@vue/compiler-sfc": "^3.4.21",
+    "flat": "^6.0.1",
     "nuxt-radash": "^1.0.0",
     "nuxt-security": "^1.2.1",
     "ohash": "^1.1.3",

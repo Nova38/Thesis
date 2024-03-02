@@ -383,17 +383,23 @@ const visibleColumns = ref([
     <!-- <SpecimenTable /> -->
     <PCard>
       <template #title>
-        Advanced Card
+        <div>
+          <h3>
+            Specimens in Collection
+          </h3>
+          <UButton
+            color="primary"
+            label="Reload"
+            size="sm"
+            @click="store.Reload"
+          />
+        </div>
       </template>
 
       <template #content>
         <SpecimenTable :specimen-list="store.SpecimenList" />
       </template>
     </PCard>
-
-    <!-- <UCard />
-
-    <QCard> hi</QCard>
 
     <QCard>
       <QTable
@@ -464,7 +470,7 @@ const visibleColumns = ref([
         </template>
       </QTable>
       <div />
-    </QCard> -->
+    </QCard>
   </div>
 </template>
 
