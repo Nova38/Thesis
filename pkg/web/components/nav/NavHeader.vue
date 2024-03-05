@@ -30,8 +30,6 @@ const crumb = useBreadcrumbLinks()
           >
             {{ item.label }} &nbsp;
           </NuxtLink>
-
-          <!-- <q-separator vertical inset color="white" /> -->
         </template>
       </div>
     </template>

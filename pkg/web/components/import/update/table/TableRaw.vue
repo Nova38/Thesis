@@ -4,8 +4,7 @@ const bulk = useBulkUpdate()
 
 <template>
   <div>
-    <UCard />
-    <QCardSection>
+    <UCard>
       <QTable
         v-model:selected="bulk.RowsSelected"
         :columns="bulk.ImportColumns"
@@ -47,7 +46,7 @@ const bulk = useBulkUpdate()
           </q-td>
         </template>
       </QTable>
-    </QCardSection>
+    </UCard>
   </div>
 </template>
 

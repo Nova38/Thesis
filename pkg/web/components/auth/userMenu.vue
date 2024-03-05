@@ -22,10 +22,10 @@ async function authLogout() {
       </NuxtLink>
     </div>
     <div v-else>
-      <QChip>{{ $auth.username.value }} </QChip>
-      <QBtn @click="authLogout">
+      <UChip>{{ $auth.username.value }} </UChip>
+      <UButton @click="authLogout">
         Logout
-      </QBtn>
+      </UButton>
     </div>
   </div>
 </template>
