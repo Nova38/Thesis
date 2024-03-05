@@ -12,7 +12,7 @@ export function FlattenObject(obj, prefix = '') {
 export function FlattenEmptySpecimen() {
   return FlattenObject(
     JSON.parse(MakeEmptySpecimen().toJsonString({ emitDefaultValues: true })),
-  )
+  ) as FlatSpecimen
 }
 
 export function FlattedSpecimenKeys() {
@@ -144,6 +144,9 @@ export function FlattedSpecimenKeys() {
 // ]
 
 export interface FlatSpecimen {
+  collectionId: string
+
+  specimenId: string
   'georeference.continent': string
   'georeference.coordinateUncertaintyInMeters': string
   'georeference.country': string

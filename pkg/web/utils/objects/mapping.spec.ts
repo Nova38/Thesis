@@ -45,7 +45,7 @@ describe('transformObject', () => {
     }
 
     const mappings: FieldMapping<
-      { fullName: string, job: string, years: number },
+      { fullName: string; job: string; years: number },
       typeof obj
     >[] = [
       { newKey: 'fullName', oldKey: 'name' },
@@ -73,7 +73,7 @@ describe('transformObject', () => {
     }
 
     const mappings: ObjectMapping<
-      { fullName: string, job: string, years: number },
+      { fullName: string; job: string; years: number },
       typeof obj
     > = [
       {
@@ -104,11 +104,11 @@ describe('transformObject', () => {
     beforeEach(() => {})
     it('should transform object keys based on mappings', () => {
       const obj: Record<string, string> = {
-        'accessionNumber': '456',
-        'catalogNumber': '123',
-        'fieldNumber': '789',
+        accessionNumber: '456',
+        catalogNumber: '123',
+        fieldNumber: '789',
         'georeference.continent': '',
-        'georeference.coordinateUncertaintyInMeters': '',
+        coordinateUncertaintyInMeters: '',
         'georeference.country': '',
         'georeference.county': '',
         'georeference.footprintWkt': '',
@@ -164,30 +164,31 @@ describe('transformObject', () => {
         'taxon.subspecies': '',
       }
 
-      const mappings: SpecimenMapping = [
-        { newKey: 'primary.catalogNumber', oldKey: 'catalogNumber' },
-        { newKey: 'primary.accessionNumber', oldKey: 'accessionNumber' },
-        // Swap oldKey and newKey for all other items in the array
-        { newKey: 'primary.tissueNumber', oldKey: 'tissueNumber' },
-        {
-          newKey: 'primary.cataloger',
-          oldKey: 'cataloger',
-          transform: (value: string) => value.toUpperCase(),
-        },
-        {
-          defaultValue: 'John Doe',
-          newKey: 'primary.collector',
-          oldKey: 'collector',
-        },
-        {
-          defaultValue() {
-            return 'Jane Doe'
-          },
-          newKey: 'primary.determiner',
-          oldKey: 'determiner',
-        },
-        { newKey: 'primary.fieldNumber', oldKey: 'fieldNumber' },
-      ]
+      // const mappings: SpecimenMapping = [
+      //   { newKey: 'primary.catalogNumber', oldKey: 'catalogNumber' },
+      //   { newKey: 'primary.accessionNumber', oldKey: 'accessionNumber' },
+      //   // Swap oldKey and newKey for all other items in the array
+      //   { newKey: 'primary.tissueNumber', oldKey: 'tissueNumber' },
+      //   {
+      //     newKey: 'primary.cataloger',
+      //     oldKey: 'cataloger',
+      //   },
+      //   {
+      //     defaultValue: 'John Doe',
+      //     newKey: 'primary.collector',
+      //     oldKey: 'collector',
+      //   },
+      //   {
+      //     defaultValue() {
+      //       return 'Jane Doe'
+      //     },
+      //     newKey: 'primary.determiner',
+      //     oldKey: 'determiner',
+      //   },
+      //   { newKey: 'primary.fieldNumber', oldKey: 'fieldNumber' },
+      // ]
+
+      const mappings = EmptySpecimenMapping()
 
       TransformRecordToFlatSpecimen(obj, mappings)
       // ^?
@@ -205,9 +206,9 @@ describe('transformObject', () => {
   })
   it('not', () => {
     const obj: Record<string, string> = {
-      'accessionNumber': '456',
-      'catalogNumber': '123',
-      'fieldNumber': '789',
+      accessionNumber: '456',
+      catalogNumber: '123',
+      fieldNumber: '789',
       'georeference.continent': '',
       'georeference.coordinateUncertaintyInMeters': '',
       'georeference.country': '',

@@ -71,6 +71,50 @@ async function myFetch() {
           :rows-per-page-options="[5, 10, 20, 50]"
         >
           <PColumn
+            v-for="col of FlatColDefs"
+            :key="col.field"
+            :field="col.field"
+          >
+            <template #header="">
+              <div class="text-nowrap">
+                <FormKit
+                  type="select"
+                  :label="col.field()"
+                  :name="`map-${col.name}`"
+                  :options="bulk.ImportedHeaders"
+                  label-class="text-nowrap "
+                  @input="(val) => bulk.SetMapping(val, col)"
+                />
+              </div>
+            </template>
+
+            <UDivider />
+            <template #body="{ data }">
+              {{ data[col.field()] }}
+            </template>
+          </PColumn>
+        </PDataTable>
+      </template>
+    </PCard>
+    <PCard>
+      <template #title>
+        <h3>
+          Processed Rows To Import:
+        </h3>
+      </template>
+      <template #content>
+        <PDataTable
+          v-if="bulk.MappedRows "
+          :value="bulk.MappedRows"
+          data-key="specimenId"
+          paginator
+          show-gridlines
+          striped-rows
+          size="small"
+          :rows="10"
+          :rows-per-page-options="[5, 10, 20, 50]"
+        >
+          <PColumn
             v-for="col of SpecimenColDefs"
             :key="col.field"
             :field="col.field"
@@ -89,11 +133,15 @@ async function myFetch() {
             </template>
 
             <UDivider />
-            <template #body="{ data }">
+            <!-- <template #body="{ data }">
               {{ data[col.field] }}
-            </template>
+            </template> -->
           </PColumn>
         </PDataTable>
+        <pre wrapped>
+        {{ bulk.MappedRows }}
+
+        </pre>
       </template>
     </PCard>
   </div>
