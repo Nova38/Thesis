@@ -1,5 +1,4 @@
-export default definePayloadPlugin({
-  name: 'payloads',
-
-  setup(app) {},
+export default definePayloadPlugin(() => {
+  definePayloadReducer('Specimen', (data) => data === '<original-blink>' && '_')
+  definePayloadReviver('BlinkingText', () => '<revivified-blink>')
 })

@@ -1,3 +1,5 @@
+.idea/**
+
 # Node dependencies
 node_modules
 vendor
@@ -2858,3 +2860,5 @@ pkg/biochain/import/ku_orn_cov.json
 pkg/biochain/import/ku_orn_database_great_plains_pre_1970_NoDups.json
 pkg/saacs-es/failed.json
 pkg/biochain/import/50-updates.csv
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/Project_Default.xml

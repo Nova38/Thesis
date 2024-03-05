@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { flatten } from 'flat'
+import { set } from 'radash'
 import { EmptySpecimenMapping } from '~/utils/objects/Mapping'
 import type {
   CSVImportMetadata,
@@ -9,6 +10,7 @@ import type {
 } from '~/utils/types'
 
 import { ccbio } from '~/lib'
+import { Specimen } from '~/lib/pb/types_pb'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
 // SpecimenId is used to identify the specimen in the database
@@ -73,7 +75,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
   const SpecimenMapping = ref(EmptySpecimenMapping())
 
-  const MappedRows = computed(() => {
+  const MappedsRows = computed(() => {
     return (
       RawRows.value?.map((row: UpdateRawRow) => {
         // console.log({ row, SpecimenMapping: SpecimenMapping.value })
@@ -92,6 +94,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     )
   })
 
+  const MappedRows = ref<FlatSpecimen[]>()
+
   const RowMetadata = ref<Record<string, UpdateRowMeta>>({})
 
   // ------------------------------
@@ -105,7 +109,30 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
     return x
   }
+  const processUpdates = () => {
+    if (!RawRows.value) return
 
+    if (!SpecimenMapping.value) return
+
+    MappedRows.value = RawRows.value.map((raw) => {
+      const specimen = FlattenEmptySpecimen()
+      specimen.specimenId = raw.id
+
+      SpecimenMapping.value.forEach((mapping) => {
+        if (mapping.oldKey !== '') {
+          console.log(mapping)
+          console.log(raw.raw)
+          console.log(raw.raw?.[mapping.oldKey])
+          console.log(mapping.oldKey)
+          if (!specimen[mapping.newKey])
+            throw new Error(`Key Invalid ${mapping.NewKey}`)
+          specimen[mapping.newKey] = raw.raw?.[mapping.oldKey] ?? ''
+        }
+      })
+      console.log(specimen)
+      return specimen
+    })
+  }
   const SetMapping = (selected: string | undefined, col: { field: string }) => {
     console.log({ selected, col })
 
@@ -116,6 +143,10 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
       return m
     })
+
+    // Update all the specimens
+
+    processUpdates()
   }
 
   /**
@@ -125,6 +156,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     // Reset The Row variables
     SpecimenIds.value = []
     CurrentSpecimen.value = new Map()
+    MappedRows.value = []
 
     ImportedHeaders.value = csv.headers
     SpecimenIdHeader.value = csv.specimenIdHeader
@@ -138,6 +170,10 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
       const catNum = CatNumToUUID(id)
       SpecimenIds.value.push(catNum)
+
+      if (!MappedRows.value) MappedRows.value = []
+
+      MappedRows.value.push(FlattenEmptySpecimen())
 
       return {
         id: catNum,
@@ -156,6 +192,8 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     })
 
     console.log(fullList)
+
+    await nextTick()
 
     Object.entries(fullList.filteredList).forEach((value) => {
       console.log(value)
@@ -245,7 +283,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     RowMetadata,
 
     LoadUpdates,
-
+    MappedsRows,
     ClearData,
     fetchSpecimens,
     SetMapping,

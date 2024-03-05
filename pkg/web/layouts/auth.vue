@@ -11,6 +11,7 @@
             flat
             icon="menu"
             round
+
             @click="toggleLeftDrawer"
           />
           <span class="w-4" />

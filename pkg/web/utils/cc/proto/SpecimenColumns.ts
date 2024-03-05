@@ -1,12 +1,12 @@
 export const SpecimenColDefs = [
-  // {
-  //   field: 'specimenId',
-  //   filter: true,
-  //   headerName: 'Specimen ID',
-  //   name: 'SpecimenID',
-  //   pin: 'left',
-  //   sortable: true,
-  // },
+  {
+    field: 'specimenId',
+    filter: true,
+    headerName: 'Specimen ID',
+    name: 'SpecimenID',
+    pin: 'left',
+    sortable: true,
+  },
   {
     align: 'left',
     field: 'primary.catalogNumber',
@@ -311,3 +311,13 @@ export const SpecimenColDefs = [
 ]
 // export SpecimenColDefs as default
 export default SpecimenColDefs
+
+export const FlatColDefs = SpecimenColDefs.map((def) => {
+  return {
+    align: def.align,
+    headerName: def.headerName,
+    name: def.name,
+    sortable: def.sortable,
+    field: () => def.field || '',
+  }
+})
