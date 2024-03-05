@@ -78,7 +78,7 @@ async function submitHandler() {
       <SpecimenForm :specimen="specimen">
         <template #Footer>
           <div>
-            <QBtn
+            <UButton
               label="Submit"
               @click="submitHandler"
             />

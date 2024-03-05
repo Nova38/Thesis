@@ -119,54 +119,62 @@ async function submitHandler() {
 
 <template>
   <div class="flex flex-row gap-4 p-4">
-    <!-- <QBtn label="Log Diff" @click="logDiff" /> -->
     <div class="basis-size-3/4 min-w-lg">
       <div v-if="spec.data">
         <SpecimenForm
-          :enable-edit="mode != 'view'"
+          :enable-edit="mode !== 'view'"
           :header-color="toModeColor(mode)"
           :specimen="dirty"
         >
           <template #Header>
             <div>
-              <QBar
-                :class="modeColor"
-                class="p-2"
+              <div
+                class=""
+                :class="`${modeColor} flex flex-row items-center gap-2 px-2`"
               >
                 <div class="font-bold">
                   Current Mode: {{ modeCapitalized }}
                 </div>
 
-                <q-space />
-                <q-btn
-                  :class="toModeColor('view')"
-                  @click="() => (mode = 'view')"
-                >
-                  View
-                  <q-tooltip>Set the current mode to View</q-tooltip>
-                </q-btn>
-                <q-btn
-                  :class="toModeColor('update')"
-                  name="Update"
-                  @click="() => (mode = 'update')"
-                >
-                  Update
-                  <q-tooltip>Set the current mode to Update</q-tooltip>
-                </q-btn>
-                <q-btn
-                  :class="toModeColor('suggest')"
-                  @click="() => (mode = 'suggest')"
-                >
-                  Suggest Update
-                  <q-tooltip>Set the current mode to Suggest Update</q-tooltip>
-                </q-btn>
-              </QBar>
-              <QSeparator class="bg-black" />
+                <div class="flex-grow" />
+                <!-- <space /> -->
+                <UTooltip text="Set the current mode to View">
+                  <UButton
+                    :class="`${toModeColor('view')}text-black`"
+                    @click="() => (mode = 'view')"
+                  >
+                    View
+                  </UButton>
+                </UTooltip>
+
+                <UTooltip text="Set the current mode to Update">
+                  <UButton
+                    :class="toModeColor('update')"
+                    name="Update"
+                    @click="() => (mode = 'update')"
+                  >
+                    Update
+                  </UButton>
+                </UTooltip>
+
+                <UTooltip text="Set the current mode to Suggest Update">
+                  <UButton
+                    variant="solid"
+                    :class="toModeColor('suggest')"
+
+                    :color="toModeColor('suggest')"
+                    @click="() => (mode = 'suggest')"
+                  >
+                    Suggest Update
+                  </UButton>
+                </UTooltip>
+              </div>
+              <UDivider />
             </div>
           </template>
           <template #Footer>
             <div class="flex flex-col">
-              <QBtn
+              <UButton
                 v-if="mode !== 'view'"
                 :class="modeColor"
                 :label="mode === 'update' ? 'Update' : 'Suggest Update'"
@@ -185,13 +193,12 @@ async function submitHandler() {
         :history="history"
         class="basis-size-1/4"
       />
-      <QCard v-if="false">
-        <QBar class="flex flex-row text-lg items-center justify-center">
+      <UCard v-if="false">
+        <div class="flex flex-row text-lg items-center justify-center">
           Suggestions
-        </QBar>
-      </QCard>
+        </div>
+      </UCard>
     </div>
-    <QCard> {</QCard>
   </div>
 </template>
 
