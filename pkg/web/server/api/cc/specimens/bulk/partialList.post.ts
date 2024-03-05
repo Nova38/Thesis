@@ -9,16 +9,11 @@ const bodySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  console.log(event)
-  console.log('test')
-
   const query = await getValidatedQuery(event, (body) =>
     querySchema.safeParse(body),
   )
 
   if (!query.success) throw query.error.issues
-
-  console.log(query)
 
   const body = await readValidatedBody(event, (body) => {
     return bodySchema.safeParse(body)

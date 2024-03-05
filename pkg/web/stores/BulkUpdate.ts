@@ -96,7 +96,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
 
   const MappedRows = ref<FlatSpecimen[]>()
 
-  const RowMetadata = ref<Record<string, UpdateRowMeta>>({})
+  // const RowMetadata = ref<Record<string, UpdateRowMeta>>({})
 
   // ------------------------------
   // Methods

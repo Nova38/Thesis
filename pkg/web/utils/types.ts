@@ -1,5 +1,22 @@
 import type { PlainMessage } from '@bufbuild/protobuf'
+import type { EmptyOrFlatSpecimenKeys } from './objects/flatten'
 import type { ccbio } from '~/lib'
+
+export type BulkMode = 'import' | 'update' | 'hybrid'
+
+export interface BulkImportHeader {
+  name: string
+  field: string | ((row: UpdateRawRow) => string)
+  mapped: string
+  isID: boolean
+  updated: boolean
+}
+
+export interface ImportRowMeta {
+  exist: ExistStatus
+  status: ProcessingStatus
+  statusMessage?: string
+}
 
 export interface UpdateRowMeta {
   id: number

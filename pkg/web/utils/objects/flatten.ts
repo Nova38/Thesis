@@ -15,9 +15,7 @@ export function FlattenEmptySpecimen() {
   ) as FlatSpecimen
 }
 
-export function FlattedSpecimenKeys() {
-  return Object.keys(FlattenEmptySpecimen())
-}
+export const FlattedSpecimenKeys = Object.keys(FlattenEmptySpecimen())
 
 // export const FlatSpecimenKeys = [
 //   'collectionId',
@@ -212,3 +210,5 @@ export type FlatSpecimenKeys = keyof FlatSpecimen
 export function isFlatSpecimenKey(key: string): key is FlatSpecimenKeys {
   return key in FlattenEmptySpecimen()
 }
+
+export type EmptyOrFlatSpecimenKeys = FlatSpecimenKeys | undefined

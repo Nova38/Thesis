@@ -19,10 +19,11 @@ export default defineNuxtConfig({
   debug: false,
 
   devServer: {
-    https: {
-      cert: resolve(__dirname, '.dev/RootCA.pem'),
-      key: resolve(__dirname, '.dev/RootCA.key'),
-    }, // enable HTTPS
+    https: true,
+    // https: {
+    //   cert: resolve(__dirname, '.dev/RootCA.pem'),
+    //   key: resolve(__dirname, '.dev/RootCA.key'),
+    // }, // enable HTTPS
 
     port: 8000,
   },
