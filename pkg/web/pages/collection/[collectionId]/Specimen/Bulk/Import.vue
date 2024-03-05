@@ -1,16 +1,19 @@
 <script lang="ts" setup>
-import type { ImportRowsData } from '~/components/import/ImportCsvFile.vue'
+const bulk = useBulkStore()
 
-function LoadCSV(val: ImportRowsData) {
-  console.log(val)
-}
+bulk.CollectionId = useNuxtApp().$collectionId.value
 </script>
 
 <template>
   <div>
     <ImportCsvFile
-      @id-header-selection="LoadCSV"
+      @id-header-selection="(val) => bulk.LoadCsv({
+        headers: val.headers,
+        rows: val.rows,
+        specimenIdHeader: val.specimenIdHeader,
+      })"
     />
+    <ImportTableMapping />
   </div>
 </template>
 

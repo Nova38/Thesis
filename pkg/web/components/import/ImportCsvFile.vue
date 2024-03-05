@@ -35,16 +35,31 @@ function onUpload(value?: FormKitFileValue, node?: FormKitNode) {
   Papa.parse(file, {
     header: true,
     worker: true,
+
     skipEmptyLines: 'greedy',
+
     complete: (results: ParseResult<Record<string, string>>) => {
       console.log('All done:', results.data)
       // emit('csvParse', results)
       // emit('parse', results)
 
-      headers.value = results.meta.fields ?? []
-      rows.value = results.data
+      const rawHeader = results.meta.fields ?? []
 
-      unique.value = Object.keys(UniqueFields(results.data, headers.value))
+      headers.value = rawHeader.filter(h => h !== '')
+
+      if (headers.value === undefined || headers.value.length === 0)
+        return
+
+      if (headers.value.length !== rawHeader.length)
+        console.warn('Some headers were empty')
+        // Remove empty headers from the rows
+      rows.value = results.data.map((row) => {
+        return Object.fromEntries(
+          Object.entries(row).filter(([key]) => key !== ''),
+        )
+      })
+
+      unique.value = Object.keys(UniqueFields(rows.value, headers.value))
 
       if (unique.value.length === 1)
         SpecimenIdField.value = unique.value[0]
@@ -88,7 +103,7 @@ function handleForm(data: any, node: FormKitNode) {
               v-model="SpecimenIdField"
               name="SpecimenIdField"
               type="select"
-              label="Column that contains the Collection ID"
+              label="Column that contains the Catalog Number"
               validation="required"
               :options="unique"
             />

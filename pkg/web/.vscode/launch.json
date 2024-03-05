@@ -5,6 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "msedge",
+      "request": "launch",
+      "name": "client: edge",
+      "url": "https://localhost:8000",
+      "smartStep": true,
+      "userDataDir": false,
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "type": "vscode-edge-devtools.debug",
       "request": "launch",
       "name": "client: edge-in-code",
@@ -18,15 +27,6 @@
     //   "url": "http://localhost:8000",
     //   "webRoot": "${workspaceFolder}"
     // },
-
-    {
-      "type": "msedge",
-      "request": "launch",
-      "name": "client: edge",
-      "url": "http://localhost:8000",
-      "webRoot": "${workspaceFolder}",
-      "userDataDir": false
-    },
 
     {
       "name": "server: nuxt",
