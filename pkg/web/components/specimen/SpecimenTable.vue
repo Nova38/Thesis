@@ -5,7 +5,7 @@ import type { DataTableOperatorFilterMetaData } from 'primevue/datatable'
 import type { Specimen } from '~/lib/pb/biochain/v1'
 
 const props = defineProps<{
-  specimenList: Specimen[]
+  specimenList: PlainSpecimen[]
 }>()
 
 const ColDefs = ref([

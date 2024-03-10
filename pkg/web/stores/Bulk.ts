@@ -1,5 +1,6 @@
 import { unflatten } from 'flat'
 import { diff, objectHash } from 'ohash'
+import { assign, construct } from 'radash'
 import { ccbio } from '@/lib'
 
 export const useBulkStore = defineStore('Bulk', () => {
@@ -91,7 +92,7 @@ export const useBulkStore = defineStore('Bulk', () => {
           specimens.set(key, new ccbio.Specimen(value))
         })
 
-        return specimens
+        return Object.freeze(specimens)
       } catch (e) {
         console.error(e)
         throw new Error('Failed To fetch specimens from specimenIds', {
@@ -137,8 +138,10 @@ export const useBulkStore = defineStore('Bulk', () => {
 
   // Processed Rows
 
-  const MappedSpecimen = computed(() => {
-    return RawRows.value.map((row) => {
+  const MappedSpecimen = ref<PlainSpecimen[]>([])
+
+  watchEffect(() => {
+    MappedSpecimen.value = RawRows.value.map((row) => {
       const mapped: Record<string, string> = {}
 
       RawColDefs.value.forEach((col) => {
@@ -146,11 +149,53 @@ export const useBulkStore = defineStore('Bulk', () => {
         else mapped[col.mapped] = row.raw?.[col.field]
       })
 
-      return new ccbio.Specimen({
-        ...unflatten(mapped),
-        specimenId: row.id,
-        collectionId: CollectionId.value,
-      })
+      const current = CurrentSpecimens.value?.get(row.id)
+
+      const update = assign(
+        {
+          georeference: {
+            georeferenceDate: {},
+          },
+          grants: {},
+          loans: {},
+          primary: {
+            catalogDate: {},
+            determinedDate: {},
+            fieldDate: {},
+            originalDate: {},
+          },
+          secondary: {
+            preparations: {},
+          },
+          taxon: {},
+        },
+        construct(mapped),
+      )
+
+      const unflat = assign(current ?? {}, update) as PlainSpecimen
+
+      unflat.specimenId = row.id
+      unflat.collectionId = CollectionId.value
+
+      console.log(unflat)
+
+      const converted = ZSpecimen.safeParse(unflat)
+      const meta = RawRowsMeta.value.get(row.id)
+      if (!meta) throw new Error('meta missing')
+
+      if (converted.success) {
+        if (meta.status === 'parsing-error') {
+          meta.status = 'loading'
+          meta.statusMessage = ''
+        }
+
+        return new ccbio.Specimen(converted.data)
+      } else {
+        meta.error = converted.error
+        meta.status = 'parsing-error'
+        meta.statusMessage = converted.error.toString()
+      }
+      return new ccbio.Specimen(unflat)
     })
   })
 
@@ -159,8 +204,17 @@ export const useBulkStore = defineStore('Bulk', () => {
       const base = CurrentSpecimens.value?.get(specimen.specimenId) ?? {}
 
       return diff(base, specimen)
+      return diffCrush(base, specimen, [])
     })
   })
+
+  const Upload = async () => {
+    console.log(differences.value)
+  }
+
+  const $reset = () => {
+    RawRows.value = []
+  }
 
   return {
     CollectionId,
@@ -182,5 +236,8 @@ export const useBulkStore = defineStore('Bulk', () => {
 
     LoadCsv,
     SetMapping,
+    Upload,
+
+    $reset,
   }
 })

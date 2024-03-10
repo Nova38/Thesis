@@ -1,4 +1,5 @@
 import type { PlainMessage } from '@bufbuild/protobuf'
+import type { ZodError } from 'zod'
 import type { EmptyOrFlatSpecimenKeys } from './objects/flatten'
 import type { ccbio } from '~/lib'
 
@@ -16,6 +17,7 @@ export interface ImportRowMeta {
   exist: ExistStatus
   status: ProcessingStatus
   statusMessage?: string
+  error?: ZodError
 }
 
 export interface UpdateRowMeta {
@@ -62,6 +64,7 @@ export interface ImportCol {
 
 export type ProcessingStatus =
   | 'error'
+  | 'parsing-error'
   | 'loading'
   | 'new'
   | 'pre-existing'
