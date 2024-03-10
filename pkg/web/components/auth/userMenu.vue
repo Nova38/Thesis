@@ -22,7 +22,13 @@ async function authLogout() {
       </NuxtLink>
     </div>
     <div v-else>
-      <UChip>{{ $auth.username.value }} </UChip>
+      <UBadge
+        variant="soft" class="mx-2"
+        color="primary"
+        :ui="{ rounded: 'rounded-full' }"
+      >
+        {{ $auth.username.value }}
+      </UBadge>
       <UButton @click="authLogout">
         Logout
       </UButton>

@@ -1,3 +1,4 @@
+import { GatewayError } from '@hyperledger/fabric-gateway'
 import { GetCollectionsListResponse } from '~/lib/pb/types_pb'
 
 export default defineEventHandler(async (event) => {
@@ -6,14 +7,23 @@ export default defineEventHandler(async (event) => {
   try {
     return await cc.service.getCollectionsList()
   } catch (error) {
-    console.error('Error in listCollections', error)
-    return new GetCollectionsListResponse({
-      collections: [
-        {
-          collectionId: 'TestingID',
-          name: 'TestingName',
-        },
-      ],
-    })
+    // console.error('Error in listCollections', error)
+
+    if (error instanceof GatewayError) {
+      console.log(error.cause)
+
+      // createError({
+      //   cause: error,
+      // })
+
+      return new GetCollectionsListResponse({
+        collections: [
+          {
+            collectionId: 'TestingID',
+            name: 'TestingName',
+          },
+        ],
+      })
+    }
   }
 })

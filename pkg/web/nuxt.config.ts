@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  // ssr: false,
+  ssr: false,
 
   debug: false,
 
@@ -163,6 +163,11 @@ export default defineNuxtConfig({
   },
   ui: {
     icons: {},
+  },
+  vite: {
+    define: {
+      __VUE_PROD_DEVTOOLS__: true,
+    },
   },
 })
 /* eslint perfectionist/sort-objects: "off" */

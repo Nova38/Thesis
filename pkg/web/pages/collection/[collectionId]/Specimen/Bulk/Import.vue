@@ -13,7 +13,25 @@ bulk.CollectionId = useNuxtApp().$collectionId.value
         specimenIdHeader: val.specimenIdHeader,
       })"
     />
-    <ImportTableMapping />
+
+    <PCard>
+      <template v-if="bulk.RawRows.length" #content>
+        <UButton
+          block
+          class="mb-4"
+          :disabled="!bulk.RawRows.length"
+          @click="bulk.Upload"
+        >
+          Upload
+        </UButton>
+        <ImportTableMapping />
+      </template>
+    </PCard>
+    <PCard>
+      <template v-if="bulk.MappedSpecimen.length" #content>
+        <SpecimenTable :specimen-list="bulk.MappedSpecimen" />
+      </template>
+    </PCard>
   </div>
 </template>
 
