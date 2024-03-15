@@ -1,6 +1,5 @@
-import { unflatten } from 'flat'
 import { diff, objectHash } from 'ohash'
-import { assign, construct } from 'radash'
+import { assign, construct, get, set } from 'radash'
 import { ccbio } from '@/lib'
 
 export const useBulkStore = defineStore('Bulk', () => {
@@ -10,14 +9,19 @@ export const useBulkStore = defineStore('Bulk', () => {
   const SpecimenIdHeader = ref('primary.specimenId')
   const SpecimenIds = ref<string[]>([])
 
+  //
+  const MappedSpecimen = ref<PlainSpecimen[]>([])
+
   // CSV Data
   // ------------------------------
   const RawRows = shallowRef<UpdateRawRow[]>([])
   const RawRowsMeta = ref(new Map<string, ImportRowMeta>())
   const RawHeaders = ref<string[]>([])
 
-  const LoadCsv = (csv: CSVImportMetadata) => {
+  const LoadCsv = async (csv: CSVImportMetadata) => {
     SpecimenIds.value = []
+    MappedSpecimen.value = []
+
     RawRowsMeta.value = new Map<string, ImportRowMeta>()
 
     SpecimenIdHeader.value = csv.specimenIdHeader
@@ -25,29 +29,43 @@ export const useBulkStore = defineStore('Bulk', () => {
     RawHeaders.value = csv.headers
 
     RawRows.value = csv.rows.map((row) => {
-      const id = row[SpecimenIdHeader.value]
-      if (!id) {
+      const catNum = row[SpecimenIdHeader.value]
+      if (!catNum) {
         console.warn(row)
         throw new Error('SpecimenIdHeader not found in RawHeaders')
       }
 
-      const catNum = CatNumToUUID(id)
-      SpecimenIds.value.push(catNum)
+      const id = CatNumToUUID(catNum)
+      SpecimenIds.value.push(id)
 
-      RawRowsMeta.value.set(catNum, {
+      RawRowsMeta.value.set(id, {
         exist: 'unknown',
         status: 'loading',
         statusMessage: 'loading from csv',
       })
-      console.log({
-        id: catNum,
-        raw: row,
-      })
+
+      MappedSpecimen.value.push(new ccbio.Specimen({
+        collectionId: CollectionId.value,
+        specimenId: id,
+        primary: {
+          catalogNumber: catNum,
+        },
+        secondary: {},
+        georeference: {},
+        grants: {},
+        images: {},
+        loans: {},
+        taxon: {},
+        lastModified: {},
+      }))
+
       return {
-        id: catNum,
+        id,
         raw: row,
       }
     })
+
+    await nextTick()
   }
 
   const RawColDefs = ref<BulkImportHeader[]>([])
@@ -73,7 +91,8 @@ export const useBulkStore = defineStore('Bulk', () => {
   const CurrentSpecimens = computedAsync(
     async () => {
       const specimens = new Map<string, PlainSpecimen>()
-      if (SpecimenIds.value.length === 0) return specimens
+      if (SpecimenIds.value.length === 0)
+        return specimens
 
       console.log(SpecimenIds)
 
@@ -93,7 +112,8 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         return Object.freeze(specimens)
-      } catch (e) {
+      }
+      catch (e) {
         console.error(e)
         throw new Error('Failed To fetch specimens from specimenIds', {
           cause: e,
@@ -106,98 +126,194 @@ export const useBulkStore = defineStore('Bulk', () => {
 
   // Set the row to existing if the Specimen exists, after it is done resolving
   watch(CurrentSpecimens, (resolved) => {
-    if (!resolved) return
+    if (!resolved)
+      return
 
     RawRowsMeta.value.forEach((meta, id) => {
       if (CurrentSpecimens.value?.has(id)) {
         meta.status = 'pre-existing'
         meta.exist = 'pre-existing'
-      } else {
+      }
+      else {
         meta.exist = 'new'
       }
     })
 
     CurrentSpecimens.value?.forEach((cur) => {
       const meta = RawRowsMeta.value.get(cur.specimenId)
-      if (!meta) return
+      if (!meta)
+        return
       meta.exist = 'pre-existing'
+
+      // Set the value of the role to be the preexisting value
+      const index = MappedSpecimen.value.findIndex(o => o.specimenId === cur.specimenId)
+
+      if (index === -1)
+        throw new Error(`The specimen with id = ${cur.specimenId} was not found in the current rows`)
+
+      MappedSpecimen.value[index] = new ccbio.Specimen(cur)
     })
   })
 
   const SetMapping = (
-    selected: string | undefined,
-    col: { name: string; mapped: string },
+    newMapping: string,
+    col: { name: string, mapped: string },
   ) => {
-    if (!selected) return
+    const def = RawColDefs.value.find(c => c.name === col.name)
+    if (def === undefined)
+      throw new Error ('Attempted to set non-existent row for mapping')
 
-    const c = RawColDefs.value.find((c) => c.name === col.name)
+    // Update the mapping definitions
+    def.mapped = newMapping
 
-    if (c === undefined) return
-    c.mapped = selected
+    console.log(col, newMapping, def.mapped, RawColDefs.value)
+
+    // Update the Mapped Specimen
+    MappedSpecimen.value = MappedSpecimen.value.map((mapped) => {
+      const cur = CurrentSpecimens.value?.get(mapped.specimenId)
+      const rawV = RawRows.value.find(x => x.id === mapped.specimenId)
+      if (!rawV)
+        throw new Error('RawRow not found')
+      console.group(`SetMapping: ${mapped.specimenId}`)
+      console.log(rawV)
+
+      const meta = RawRowsMeta.value.get(mapped.specimenId)
+      if (!meta)
+        throw new Error('meta missing')
+      console.log(meta)
+      // Empty/Unset
+      if (newMapping === '' || newMapping === ' ') {
+        // If specimen is current
+        if (cur) {
+          set(mapped, newMapping, get(cur, newMapping))
+          console.log({
+            action: 'Clearing Value: Resting to Current',
+            newMapping,
+            col: col.name,
+            mapped,
+
+          })
+        }
+        else {
+          set(mapped, newMapping, '')
+                    console.log({
+            action: 'Clearing Value: Setting to undefined',
+            newMapping,
+            col: col.name,
+            mapped,
+          })
+        }
+      }
+
+      // Date type
+      // Set Any
+      else {
+        console.log(
+          {
+            action: 'Setting Value',
+            newMapping,
+            raw: rawV.raw,
+            rawV: rawV.raw[col.name],
+          },
+        )
+        set(mapped, newMapping, rawV.raw[col.name])
+      }
+
+      const parsed = ZSpecimen.safeParse(mapped)
+
+      if (parsed.success === false) {
+        meta.status = 'parsing-error'
+        meta.statusMessage = parsed.error.toString()
+        meta.error = parsed.error
+      }
+      else if (meta.status === 'parsing-error') {
+        meta.status = 'loading'
+        meta.statusMessage = ''
+      }
+      console.log(mapped)
+      console.groupEnd()
+      return mapped
+    },
+    )
   }
 
-  // Processed Rows
+  // const SetMapping = (
+  //   selected: string | undefined,
+  //   col: { name: string, mapped: string },
+  // ) => {
+  //   if (!selected)
+  //     return
 
-  const MappedSpecimen = ref<PlainSpecimen[]>([])
+  //   const c = RawColDefs.value.find(c => c.name === col.name)
 
-  watchEffect(() => {
-    MappedSpecimen.value = RawRows.value.map((row) => {
-      const mapped: Record<string, string> = {}
+  //   if (c === undefined)
+  //     return
+  //   c.mapped = selected
+  // }
 
-      RawColDefs.value.forEach((col) => {
-        if (typeof col.field === 'function') mapped[col.mapped] = col.field(row)
-        else mapped[col.mapped] = row.raw?.[col.field]
-      })
+  // // Processed Rows
 
-      const current = CurrentSpecimens.value?.get(row.id)
+  // watchEffect(() => {
+  //   MappedSpecimen.value = RawRows.value.map((row) => {
+  //     const mapped: Record<string, string> = {}
 
-      const update = assign(
-        {
-          georeference: {
-            georeferenceDate: {},
-          },
-          grants: {},
-          loans: {},
-          primary: {
-            catalogDate: {},
-            determinedDate: {},
-            fieldDate: {},
-            originalDate: {},
-          },
-          secondary: {
-            preparations: {},
-          },
-          taxon: {},
-        },
-        construct(mapped),
-      )
+  //     RawColDefs.value.forEach((col) => {
+  //       if (typeof col.field === 'function')
+  //         mapped[col.mapped] = col.field(row)
+  //       else mapped[col.mapped] = row.raw?.[col.field]
+  //     })
 
-      const unflat = assign(current ?? {}, update) as PlainSpecimen
+  //     const current = CurrentSpecimens.value?.get(row.id)
 
-      unflat.specimenId = row.id
-      unflat.collectionId = CollectionId.value
+  //     const update = assign(
+  //       {
+  //         georeference: {
+  //           georeferenceDate: {},
+  //         },
+  //         grants: {},
+  //         loans: {},
+  //         primary: {
+  //           catalogDate: {},
+  //           determinedDate: {},
+  //           fieldDate: {},
+  //           originalDate: {},
+  //         },
+  //         secondary: {
+  //           preparations: {},
+  //         },
+  //         taxon: {},
+  //       },
+  //       construct(mapped),
+  //     )
 
-      console.log(unflat)
+  //     const unflat = assign(current ?? {}, update) as PlainSpecimen
 
-      const converted = ZSpecimen.safeParse(unflat)
-      const meta = RawRowsMeta.value.get(row.id)
-      if (!meta) throw new Error('meta missing')
+  //     unflat.specimenId = row.id
+  //     unflat.collectionId = CollectionId.value
 
-      if (converted.success) {
-        if (meta.status === 'parsing-error') {
-          meta.status = 'loading'
-          meta.statusMessage = ''
-        }
+  //     console.log(unflat)
 
-        return new ccbio.Specimen(converted.data)
-      } else {
-        meta.error = converted.error
-        meta.status = 'parsing-error'
-        meta.statusMessage = converted.error.toString()
-      }
-      return new ccbio.Specimen(unflat)
-    })
-  })
+  //     const converted = ZSpecimen.safeParse(unflat)
+  //     const meta = RawRowsMeta.value.get(row.id)
+  //     if (!meta)
+  //       throw new Error('meta missing')
+
+  //     if (converted.success) {
+  //       if (meta.status === 'parsing-error') {
+  //         meta.status = 'loading'
+  //         meta.statusMessage = ''
+  //       }
+
+  //       return new ccbio.Specimen(converted.data)
+  //     }
+  //     else {
+  //       meta.error = converted.error
+  //       meta.status = 'parsing-error'
+  //       meta.statusMessage = converted.error.toString()
+  //     }
+  //     return new ccbio.Specimen(unflat)
+  //   })
+  // })
 
   const differences = computed(() => {
     return MappedSpecimen.value.map((specimen) => {
@@ -214,6 +330,10 @@ export const useBulkStore = defineStore('Bulk', () => {
 
   const $reset = () => {
     RawRows.value = []
+    RawRowsMeta.value = new Map()
+    RawHeaders.value = []
+    SpecimenIds.value = []
+    MappedSpecimen.value = []
   }
 
   return {

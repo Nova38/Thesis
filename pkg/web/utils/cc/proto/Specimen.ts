@@ -39,7 +39,7 @@ const AgeOptions = [
   { label: 'AGE_CONTINGENT', value: 6 },
 ] as const
 
-const NumberFelids = [
+export const NumberFelids = [
   'geography.latitude',
   'geography.longitude',
   'secondary.wight',
@@ -53,7 +53,7 @@ export const ProtoDate = z.object({
   month: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform((d) => Timestamp.fromDate(d))
+    .transform(d => Timestamp.fromDate(d))
     .optional(),
   verbatim: z.string().trim().optional(),
   year: z.coerce.number().optional(),
@@ -65,7 +65,7 @@ export const LastModified = z.object({
   note: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform((d) => Timestamp.fromDate(d))
+    .transform(d => Timestamp.fromDate(d))
     .optional(),
   txId: z.string().trim().optional(),
   userId: z.string().trim().optional(),
@@ -177,7 +177,7 @@ export const ZSpecimen = z.object({
     .default({}),
   secondary: z
     .object({
-      age: age.default('AGE_UNDEFINED'), // 'AGE_UNDEFINED'), // ,
+      age: z.nativeEnum(ccbio.Specimen_Secondary_AGE).default(0).optional(), // age.default('AGE_UNDEFINED'), // 'AGE_UNDEFINED'), // ,
       condition: z.string().trim().optional(),
       lastModified: LastModified.optional(),
       molt: z.string().trim().optional(),
