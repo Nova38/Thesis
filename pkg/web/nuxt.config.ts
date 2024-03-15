@@ -2,7 +2,6 @@
 import { resolve } from 'pathe'
 
 /* eslint perfectionist/sort-objects: "error" */
-
 export default defineNuxtConfig({
   appConfig: {
     apiEndpoint:
@@ -13,7 +12,7 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
-
+  extends: ['./layers/ui'],
   ssr: false,
 
   debug: false,
@@ -77,7 +76,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     // 'nuxt-radash',
     // 'nuxt-security',
-    '@formkit/nuxt',
   ],
   nitro: {
     storage: {
