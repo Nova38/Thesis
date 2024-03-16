@@ -13,6 +13,7 @@ network/bin
 network/builders
 
 **/dist/**
+pkg/saacs-es/build/
 
 caliper/out/caliper
 # Binaries for programs and plugins

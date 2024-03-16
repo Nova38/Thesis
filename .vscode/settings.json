@@ -1,9 +1,179 @@
 {
-    "protoc": {
-        "options": [
-            "--proto_path=${workspaceFolder}",
-            "--proto_path=${userHome}/.cache/buf/v1/module/data/"
-        ]
+    // Disable the default formatter, use eslint instead
+    // "editor.formatOnSave": false,
+    "[typescript][vue]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        },
+        "editor.formatOnSave": true
+    },
+    "[vue]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "always"
+        },
+        "editor.formatOnSave": false,
+        "prettier.enable": false
+    },
+    "conventionalCommits.scopes": [
+        "proto"
+    ],
+    "cSpell.enabled": true,
+    "cSpell.enableFiletypes": [
+        "!json",
+        "!yaml",
+        "proto3"
+    ],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders",
+        "presets"
+    ],
+    // Add to VS Code settings.js file
+    "cSpell.languageSettings": [
+        // GoLang settings
+        {
+            // Turn off compound words, because it is only checking strings.
+            "allowCompoundWords": false,
+            // Exclude imports, because they are also strings.
+            "ignoreRegExpList": [
+                // ignore mulltiline imports
+                "import\\s*\\((.|[\r\n])*?\\)",
+                // ignore single line imports
+                "import\\s*.*\".*?\"",
+                // ignore go generate directive
+                "//\\s*go:generate.*",
+                // ignore nolint directive
+                "//\\s*nolint:.*"
+            ],
+            // Only check comments and strings
+            "includeRegExpList": [
+                "CStyleComment",
+                "string"
+            ],
+            "languageId": "go"
+        }
+    ],
+    "cSpell.words": [
+        "ABAC",
+        "anypb",
+        "authpb",
+        "autogrow",
+        "cckey",
+        "contractapi",
+        "defu",
+        "descriptorpb",
+        "formkit",
+        "golines",
+        "gridlines",
+        "heroicons",
+        "iconify",
+        "noauth",
+        "nuxtjs",
+        "oneof",
+        "pathe",
+        "pdfauthor",
+        "pdfsubject",
+        "primevue",
+        "protogen",
+        "protoreflect",
+        "radash",
+        "saacs",
+        "segmentio",
+        "Sfixed",
+        "spydra",
+        "SUBADULT",
+        "tailwindcss",
+        "urlcolor"
+    ],
+    // Auto fix
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports": "never"
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "eslint.experimental.useFlatConfig": true,
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    // Silent the stylistic rules in you IDE, but still auto fix them
+    "eslint.rules.customizations": [
+        {
+            "rule": "style/*",
+            "severity": "off"
+        },
+        {
+            "rule": "format/*",
+            "severity": "off"
+        },
+        {
+            "rule": "*-indent",
+            "severity": "off"
+        },
+        {
+            "rule": "*-spacing",
+            "severity": "off"
+        },
+        {
+            "rule": "*-spaces",
+            "severity": "off"
+        },
+        {
+            "rule": "*-order",
+            "severity": "off"
+        },
+        {
+            "rule": "*-dangle",
+            "severity": "off"
+        },
+        {
+            "rule": "*-newline",
+            "severity": "off"
+        },
+        {
+            "rule": "*quotes",
+            "severity": "off"
+        },
+        {
+            "rule": "*semi",
+            "severity": "off"
+        }
+    ],
+    // Enable eslint for all supported languages
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+        "html",
+        "markdown",
+        "json",
+        "jsonc",
+        "yaml",
+        "toml"
+    ],
+    "explorerExclude.backup": {},
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.idea": true,
+        "**/.svn": true,
+        "**/.task": true,
+        "**/CVS": true,
+        "**/Thumbs.db": true,
+        ".task/*.*": true
     },
     "json.schemas": [
         {
@@ -20,15 +190,15 @@
         //     // "url": "./gen/schema.json"
         // }
     ],
-    "nuxtr.monorepoMode.DirectoryName": "pkg/web",
-    "spellright.language": [
-        "en"
-    ],
-    "files.associations": {
-        "*.css": "tailwindcss"
-    },
-    "editor.quickSuggestions": {
-        "strings": true
+    "nuxtr.defaultPackageManager": "pnpm",
+    "nuxtr.monorepoMode.DirectoryName": "pkg/web/biochain",
+    "nuxtr.openItemsAfterCreation": true,
+    "prettier.enable": false,
+    "protoc": {
+        "options": [
+            "--proto_path=${workspaceFolder}",
+            "--proto_path=${userHome}/.cache/buf/v1/module/data/"
+        ]
     },
     "spellright.documentTypes": [
         "markdown",
@@ -37,108 +207,42 @@
         "Log",
         "go"
     ],
+    "spellright.language": [
+        "en"
+    ],
     "spellright.parserByClass": {
         "Log": {
             "parser": "code"
         }
     },
-    // Add to VS Code settings.js file
-    "cSpell.languageSettings": [
-        // GoLang settings
-        {
-            "languageId": "go",
-            // Turn off compound words, because it is only checking strings.
-            "allowCompoundWords": false,
-            // Only check comments and strings
-            "includeRegExpList": [
-                "CStyleComment",
-                "string"
-            ],
-            // Exclude imports, because they are also strings.
-            "ignoreRegExpList": [
-                // ignore mulltiline imports
-                "import\\s*\\((.|[\r\n])*?\\)",
-                // ignore single line imports
-                "import\\s*.*\".*?\"",
-                // ignore go generate directive
-                "//\\s*go:generate.*",
-                // ignore nolint directive
-                "//\\s*nolint:.*"
-            ]
-        }
+    "tailwindCSS.classAttributes": [
+        "class",
+        "className",
+        "ngClass",
+        "ui",
+        "pt"
     ],
-    "cSpell.enableFiletypes": [
-        "!json",
-        "!yaml",
-        "proto3"
+    "tailwindCSS.experimental.classRegex": [
+        [
+            "class\\s*=\\s*\"([^\"]*)",
+            "/class:*'([^']+)"
+        ],
+        [
+            "ui:\\s*{([^)]*)\\s*}",
+            "[\"'`]([^\"'`]*).*?[\"'`]"
+        ],
+        [
+            "/\\*ui\\*/\\s*{([^;]*)}",
+            ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+        ]
     ],
-    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
     "todo-tree.general.showActivityBarBadge": true,
-    "todo-tree.tree.buttons.export": false,
+    // Add to VS Code settings.js file
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
     "todo-tree.general.statusBar": "current file",
-    "todo-tree.tree.showBadges": true,
+    "todo-tree.tree.buttons.export": false,
     "todo-tree.tree.disableCompactFolders": true,
-    "todo-tree.tree.showCountsInTree": false,
     "todo-tree.tree.scanMode": "workspace only",
-    "cSpell.words": [
-        "ABAC",
-        "anypb",
-        "authpb",
-        "autogrow",
-        "cckey",
-        "contractapi",
-        "defu",
-        "descriptorpb",
-        "formkit",
-        "golines",
-        "heroicons",
-        "iconify",
-        "noauth",
-        "nuxtjs",
-        "oneof",
-        "pdfauthor",
-        "pdfsubject",
-        "protogen",
-        "protoreflect",
-        "saacs",
-        "segmentio",
-        "Sfixed",
-        "spydra",
-        "SUBADULT",
-        "tailwindcss",
-        "urlcolor"
-    ],
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        ".task/*.*": true,
-        "**/.idea": true,
-        "**/.task": true
-    },
-    "explorerExclude.backup": {},
-    "editor.minimap.enabled": false,
-    "cSpell.enabled": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
-    "[vue]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": "explicit"
-        },
-    },
-    "[typescript]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": "explicit"
-        },
-    },
-    "[typescript][vue]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": "explicit"
-        }
-    }
-    // "plantuml.server": "http://localhost:8888",
-    // "plantuml.render": "PlantUMLServer",
+    "todo-tree.tree.showBadges": true,
+    "todo-tree.tree.showCountsInTree": false
 }
