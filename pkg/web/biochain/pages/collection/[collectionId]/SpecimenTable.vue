@@ -2,7 +2,7 @@
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { QTableProps } from 'quasar'
 
-import type { ccbio } from '~/lib'
+import type { ccbio } from 'saacs'
 
 const store = useCollectionsStore()
 

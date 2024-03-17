@@ -1,6 +1,6 @@
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { ZodError } from 'zod'
-import type { ccbio } from '~/lib'
+import type { ccbio } from 'saacs'
 
 export type BulkMode = 'import' | 'update' | 'hybrid'
 

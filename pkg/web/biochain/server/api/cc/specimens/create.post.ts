@@ -1,5 +1,5 @@
 import { Any } from '@bufbuild/protobuf'
-import { auth, ccbio, common } from '~/lib'
+import { auth, ccbio, common } from 'saacs'
 import { ZSpecimen } from '~/utils/cc/proto/Specimen'
 
 const bodySchema = ZSpecimen

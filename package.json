@@ -14,7 +14,6 @@
     "devDependencies": {
         "@antfu/eslint-config": "2.8.3",
         "@bufbuild/protobuf": "^1.8.0",
-        "@tsconfig/node18": "^18.2.2",
         "@tsconfig/node21": "^21.0.1",
         "@types/node": "^20.11.28",
         "eslint": "^8.57.0",

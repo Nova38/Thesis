@@ -1,7 +1,7 @@
 import type { FieldMask } from '@bufbuild/protobuf'
 
 import { Any } from '@bufbuild/protobuf'
-import { auth, ccbio, common } from '~/lib'
+import { auth, ccbio, common } from 'saacs'
 
 export interface bodySchema {
   mask: FieldMask

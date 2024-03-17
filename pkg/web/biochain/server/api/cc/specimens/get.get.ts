@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ccbio, common } from '~/lib'
+import { ccbio, common } from 'saacs'
 
 const querySchema = z.object({
   collectionId: z.string(),
