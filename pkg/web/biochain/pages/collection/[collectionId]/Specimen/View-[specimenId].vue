@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
-import { ccbio } from '~/lib'
+import { ccbio } from 'saacs'
 
 const route = useRoute()
 

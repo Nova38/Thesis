@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from '~/lib'
+import { ccbio } from 'saacs'
 
 //    ^?
 const nuxtApp = useNuxtApp()

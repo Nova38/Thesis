@@ -1,6 +1,6 @@
 import { Timestamp } from '@bufbuild/protobuf'
 import z from 'zod'
-import { ccbio } from '~/lib'
+import { ccbio } from 'saacs'
 
 export function MakeEmptySpecimen() {
   return new ccbio.Specimen({

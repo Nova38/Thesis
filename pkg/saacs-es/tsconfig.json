@@ -9,14 +9,15 @@
             "es2022"
         ],
         "resolveJsonModule": true,
-        "module": "nodenext",
-        "target": "esnext",
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "Bundler",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node16",
-        "noEmit": false
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
     },
     "ts-node": {
         "esm": true

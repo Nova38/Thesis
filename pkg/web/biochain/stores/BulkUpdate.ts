@@ -6,7 +6,7 @@ import type {
   UpdateRawRow,
 } from '~/utils/types'
 
-import { ccbio } from '~/lib'
+import { ccbio } from 'saacs'
 
 // CatalogNumber is used to calculate the specimenId uuid to make sure it is unique
 // SpecimenId is used to identify the specimen in the database

@@ -107,7 +107,7 @@ tasks:
     cmd: cd ./pkg/saacs-es && pnpm run stub
 
   build:gen-lint:
-    cmd: cd ./pkg/web/ && pnpm lint-gen:fix
+    cmd: cd ./pkg/web/biochain && pnpm lint-gen:fix
 
   es:run:
     dir: ./pkg/saacs-es
@@ -152,7 +152,7 @@ tasks:
     sources:
       - "proto/**/*"
       # - "tools/**/*"
-      - "./buf.gen.yaml"
+      - "buf.gen.yaml"
     cmds:
       - buf build -o image.bin
       - buf generate

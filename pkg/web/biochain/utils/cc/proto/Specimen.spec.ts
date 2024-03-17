@@ -4,7 +4,7 @@ import { construct, crush } from 'radash'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { ZSpecimen } from './Specimen'
-import { ccbio } from '~/lib'
+import { ccbio } from 'saacs'
 
 const raw = {
   collectionId: 'KU-Zoology',
@@ -178,7 +178,7 @@ const csvFlat = {
 }
 
 describe('suite name', () => {
-  beforeAll(() => {})
+  beforeAll(() => { })
   it('simpleParse', () => {
     expect(() => ZSpecimen.parse(raw)).not.toThrowError()
     expect(() => {

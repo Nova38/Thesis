@@ -191,7 +191,7 @@ func (m *Role) StateKey() string {
 }
 
 // Invalid Key Schema
-// paths:"msp_id" paths:"oid" paths:"role_id"
+// paths:"msp_id"  paths:"oid"  paths:"role_id"
 
 // ──────────────────────────────────────────────────
 // auth.UserDirectMembership
