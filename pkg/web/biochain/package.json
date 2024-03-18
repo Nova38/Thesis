@@ -12,7 +12,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "lint:view": "eslint-flat-config-viewer",
-    "lint-gen:fix": "eslint --fix ./lib/pb/",
     "build:prod": "nuxi build --dot-env=.env.prod",
     "build:prod-static": "nuxi generate --dot-env=.env.prod",
     "update:theme": "pnpm dlx formkit theme"
