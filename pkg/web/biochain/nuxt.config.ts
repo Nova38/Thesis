@@ -20,7 +20,6 @@ export default defineNuxtConfig({
         './formkit.theme.ts',
         './components/**/*.{js,vue,ts}',
         './layouts/**/*.vue',
-        './**/*.vue',
         './plugins/**/*.{js,ts}',
         './primevue/presets/**/*.{js,vue,ts}',
         './error.vue',
@@ -39,11 +38,6 @@ export default defineNuxtConfig({
 
   devServer: {
     https: true,
-    // https: {
-    //   cert: resolve(__dirname, '.dev/RootCA.pem'),
-    //   key: resolve(__dirname, '.dev/RootCA.key'),
-    // }, // enable HTTPS
-
     port: 8000,
   },
   devtools: {
@@ -75,7 +69,7 @@ export default defineNuxtConfig({
         imports: ['PlainMessage'],
       },
       {
-        from: 'saacs-es',
+        from: 'saacs',
         imports: ['auth', 'ccbio', 'common'],
       },
       {
@@ -90,7 +84,7 @@ export default defineNuxtConfig({
     'nuxt-module-eslint-config',
     '@pinia/nuxt',
     'nuxt-quasar-ui',
-    // '@formkit/nuxt',
+    '@formkit/nuxt',
     // 'nuxt-radash',
     // 'nuxt-security',
   ],

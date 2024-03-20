@@ -13,10 +13,10 @@
     "dependencies": {
         "@bufbuild/protobuf": "^1.8.0",
         "@bufbuild/protoplugin": "^1.8.0",
-        "saacs-es": "workspace:^"
+        "saacs": "workspace:^"
     },
     "devDependencies": {
-        "@types/node": "^20.11.28",
+        "@types/node": "^20.11.30",
         "typescript": "^5.4.2"
     }
 }

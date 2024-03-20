@@ -6,7 +6,9 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "pnpm --filter pkg/web/biochain dev"
+        "dev": "pnpm --filter biochain-nuxt dev",
+        "build:es": "pnpm --filter saacs build",
+        "build": "pnpm --filter pkg/web/biochain build"
     },
     "keywords": [],
     "author": "",
@@ -15,19 +17,17 @@
         "@antfu/eslint-config": "2.8.3",
         "@bufbuild/protobuf": "^1.8.0",
         "@tsconfig/node21": "^21.0.1",
-        "@types/node": "^20.11.28",
+        "@types/node": "^20.11.30",
+        "@vitest/ui": "1.4.0",
         "eslint": "^8.57.0",
         "quokka-plugin-subdir": "^0.1.0",
         "typescript": "^5.4.2",
         "vitest": "^1.4.0"
     },
     "dependencies": {
-        "@bufbuild/protobuf": "^1.8.0",
         "@iconify/json": "2.2.192",
-        "@vitest/ui": "1.4.0",
         "@vue/test-utils": "2.4.5",
         "happy-dom": "13.8.6",
-        "primevue": "3.50.0",
-        "quasar": "2.15.1"
+        "primevue": "3.50.0"
     }
 }

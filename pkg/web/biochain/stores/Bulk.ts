@@ -1,6 +1,6 @@
 import { diff } from 'ohash'
 import { get, set } from 'radash'
-import { ccbio } from '@/lib'
+import { ccbio } from 'saacs'
 
 export const useBulkStore = defineStore('Bulk', () => {
   const CollectionId = ref<string>('')
@@ -161,7 +161,7 @@ export const useBulkStore = defineStore('Bulk', () => {
   ) => {
     const def = RawColDefs.value.find(c => c.name === col.name)
     if (def === undefined)
-      throw new Error ('Attempted to set non-existent row for mapping')
+      throw new Error('Attempted to set non-existent row for mapping')
 
     // Update the mapping definitions
     def.mapped = newMapping
