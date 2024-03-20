@@ -108,7 +108,7 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          specimens.set(key, new ccbio.Specimen(value))
+          specimens.set(key, ccbio.Specimen.fromJsonString(JSON.stringify(value)))
         })
 
         return Object.freeze(specimens)
