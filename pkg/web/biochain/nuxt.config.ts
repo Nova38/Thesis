@@ -10,24 +10,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-
-  // extends: [['../ui', { install: true }]],
-  // tailwindcss: {
-  //   exposeConfig: true,
-  //   config: {
-  //     content: [
-  //       './app.vue',
-  //       './formkit.theme.ts',
-  //       './components/**/*.{js,vue,ts}',
-  //       './layouts/**/*.vue',
-  //       './plugins/**/*.{js,ts}',
-  //       './primevue/presets/**/*.{js,vue,ts}',
-  //       './error.vue',
-  //       '../ui/primevue/presets/wind/**/*.{js,vue,ts}'
-  //     ],
-
-  //   }
-  // },
+  css: [
+    resolve(__dirname, './assets/css/main.css'),
+  ],
   primevue: {
     components: {
       prefix: 'P',
@@ -175,8 +160,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
-
 
   vite: {
     define: {

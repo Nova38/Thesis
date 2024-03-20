@@ -9,6 +9,5 @@ console.log('Hello World')
     <pre>{{ myLayer }}</pre>
     <ColorModeSelector />
     <FormKit name="csvFile" type="file" label="Upload CSV" accept=".csv" />
-
   </div>
 </template>

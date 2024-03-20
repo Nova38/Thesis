@@ -14,6 +14,9 @@
         "editor.formatOnSave": false,
         "prettier.enable": false
     },
+    "eslint.workingDirectories": [
+        "./pkg/web/biochain"
+    ],
     "conventionalCommits.scopes": [
         "proto"
     ],
@@ -182,7 +185,7 @@
             ],
             "url": "./gen/json_schema/Specimen.json"
             // "url": "./gen/schema.json"
-        },
+        }
         // {
         //     "fileMatch": [
         //         "*.fabric"

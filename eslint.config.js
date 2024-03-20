@@ -3,25 +3,22 @@ import antfu from '@antfu/eslint-config'
 // import perfectionistNatural from 'eslint-plugin-perfectionist/configs/recommended-natural'
 // import eslintConfigPrettier from 'eslint-config-prettier'
 
-import NuxtEslintConfig from 'pkg/web/biochain/.nuxt/eslint.config.mjs'
-
 export default antfu(
   {
     formatters: {
       css: true,
       html: true,
       markdown: true,
+      json: false,
     },
     // ...@antfu/eslint-config options,
-    stylistic: true,
-    typescript: {
-      tsconfigPath: 'tsconfig.json',
-    },
+
     vue: {
       overrides: {
         // 'vue/block-order': ['error', '{"order": ["script", "template", "style"]}'],
       },
     },
+    ignores: ['.vscode/*'],
     // vue: {
     //   sfcBlocks: {
     //     blocks: {
@@ -35,7 +32,6 @@ export default antfu(
 
   // perfectionistNatural,
   // Add the Nuxt rules
-  NuxtEslintConfig,
   // eslintConfigPrettier,
   // eslintPluginPrettierRecommended,
 

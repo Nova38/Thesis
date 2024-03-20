@@ -4,6 +4,7 @@ export default defineNuxtPlugin({
     const collectionId = useState('CurrentCollectionId', () => '')
 
     addRouteMiddleware(
+
       'collection',
       (to, from) => {
         const id = to.params?.collectionId

@@ -3,6 +3,17 @@
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
+  "files": [
+    "app.config.ts",
+    "app.vue",
+    "app/",
+    "components/",
+    "layouts/",
+    "nuxt.config.ts",
+    "nuxt.schema.ts",
+    "primevue/",
+    "tailwind.config.ts"
+  ],
   "scripts": {
     "dev": "nuxi dev .playground",
     "build": "nuxt build .playground",
@@ -10,25 +21,6 @@
     "preview": "nuxt preview .playground",
     "lint": "eslint .",
     "postinstall": "nuxt prepare .playground"
-  },
-  "files": [
-    "app/",
-    "components/",
-    "layouts/",
-    "primevue/",
-    "app.vue",
-    "app.config.ts",
-    "nuxt.config.ts",
-    "nuxt.schema.ts",
-    "tailwind.config.ts"
-  ],
-  "devDependencies": {
-    "@nuxt/devtools": "^1.0.8",
-    "eslint": "^8.57.0",
-    "nuxt": "^3.11.1",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6",
-    "vue": "^3.4.21"
   },
   "dependencies": {
     "@formkit/addons": "^1.6.0",
@@ -38,5 +30,13 @@
     "@vueuse/nuxt": "^10.9.0",
     "nuxt-primevue": "^0.3.1",
     "pathe": "^1.1.2"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.8",
+    "eslint": "^8.57.0",
+    "nuxt": "^3.11.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6",
+    "vue": "^3.4.21"
   }
 }
