@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
-    '@formkit/nuxt',
+    // '@formkit/nuxt',
     'nuxt-primevue',
     '@nuxt/ui',
     '@vueuse/nuxt',
@@ -30,7 +30,6 @@ export default defineNuxtConfig({
     editorSupport: true,
 
   },
-  debug: true,
 
   // formkit: {
   //   configFile: resolve(__dirname, './formkit.config.ts'),

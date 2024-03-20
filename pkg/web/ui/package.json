@@ -11,6 +11,17 @@
     "lint": "eslint .",
     "postinstall": "nuxt prepare .playground"
   },
+  "files": [
+    "app/",
+    "components/",
+    "layouts/",
+    "primevue/",
+    "app.vue",
+    "app.config.ts",
+    "nuxt.config.ts",
+    "nuxt.schema.ts",
+    "tailwind.config.ts"
+  ],
   "devDependencies": {
     "@nuxt/devtools": "^1.0.8",
     "eslint": "^8.57.0",
