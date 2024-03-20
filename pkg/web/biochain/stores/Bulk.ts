@@ -65,7 +65,7 @@ export const useBulkStore = defineStore('Bulk', () => {
       }
     })
 
-    await nextTick()
+    // await nextTick()
   }
 
   const RawColDefs = ref<BulkImportHeader[]>([])
@@ -108,7 +108,7 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          specimens.set(key, ccbio.Specimen.fromJsonString(JSON.stringify(value)))
+          specimens.set(key, Object.freeze(ccbio.Specimen.fromJsonString(JSON.stringify(value))))
         })
 
         return Object.freeze(specimens)
@@ -151,7 +151,9 @@ export const useBulkStore = defineStore('Bulk', () => {
       if (index === -1)
         throw new Error(`The specimen with id = ${cur.specimenId} was not found in the current rows`)
 
-      MappedSpecimen.value[index] = new ccbio.Specimen(cur)
+      const c = new ccbio.Specimen(cur)
+
+      MappedSpecimen.value[index] = c.clone()
     })
   })
 
@@ -164,9 +166,6 @@ export const useBulkStore = defineStore('Bulk', () => {
       throw new Error('Attempted to set non-existent row for mapping')
 
     // Update the mapping definitions
-    def.mapped = newMapping
-
-    console.log(col, newMapping, def.mapped, RawColDefs.value)
 
     // Update the Mapped Specimen
     MappedSpecimen.value = MappedSpecimen.value.map((mapped) => {
@@ -175,18 +174,19 @@ export const useBulkStore = defineStore('Bulk', () => {
       if (!rawV)
         throw new Error('RawRow not found')
       console.group(`SetMapping: ${mapped.specimenId}`)
-      console.log(rawV)
+      // console.log(rawV)
 
       const meta = RawRowsMeta.value.get(mapped.specimenId)
       if (!meta)
         throw new Error('meta missing')
-      console.log(meta)
+      // console.log(meta)
       // Empty/Unset
       if (newMapping === '' || newMapping === ' ') {
         // If specimen is current
         if (cur) {
-          set(mapped, newMapping, get(cur, newMapping))
+          mapped = set(mapped, def.mapped, get(cur, def.mapped))
           console.log({
+            id: mapped.specimenId,
             action: 'Clearing Value: Resting to Current',
             newMapping,
             col: col.name,
@@ -195,8 +195,10 @@ export const useBulkStore = defineStore('Bulk', () => {
           })
         }
         else {
-          set(mapped, newMapping, '')
+          mapped = set(mapped, def.mapped, '')
           console.log({
+            id: mapped.specimenId,
+
             action: 'Clearing Value: Setting to undefined',
             newMapping,
             col: col.name,
@@ -235,6 +237,9 @@ export const useBulkStore = defineStore('Bulk', () => {
       return mapped
     },
     )
+    def.mapped = newMapping
+
+    console.log(col, newMapping, def.mapped, RawColDefs.value)
   }
 
   // const SetMapping = (
@@ -361,3 +366,6 @@ export const useBulkStore = defineStore('Bulk', () => {
     $reset,
   }
 })
+
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(useBulkStore, import.meta.hot))
