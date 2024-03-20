@@ -1,5 +1,5 @@
 import { GatewayError } from '@hyperledger/fabric-gateway'
-import { GetCollectionsListResponse } from '~/lib/pb/types_pb'
+import { common } from 'saacs'
 
 // export default defineEventHandler
 export default defineEventHandler(async (event) => {
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
       //   cause: error,
       // })
 
-      return new GetCollectionsListResponse({
+      return new common.generic.GetCollectionsListResponse({
         collections: [
           {
             collectionId: 'TestingID',

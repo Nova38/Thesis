@@ -1,0 +1,21 @@
+/* @import url('primevue/resources/themes/aura-light-blue/theme.css'); */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.row,
+.column,
+.flex {
+  flex-wrap: unset;
+}
+/* @layer tailwind-base,  tailwind-utilities, primevue;
+
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+} */

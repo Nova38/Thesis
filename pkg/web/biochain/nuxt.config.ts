@@ -11,23 +11,35 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
-  extends: [['../ui', { install: true }]],
-  tailwindcss: {
-    exposeConfig: true,
-    config: {
-      content: [
-        './app.vue',
-        './formkit.theme.ts',
-        './components/**/*.{js,vue,ts}',
-        './layouts/**/*.vue',
-        './plugins/**/*.{js,ts}',
-        './primevue/presets/**/*.{js,vue,ts}',
-        './error.vue',
-      ],
+  // extends: [['../ui', { install: true }]],
+  // tailwindcss: {
+  //   exposeConfig: true,
+  //   config: {
+  //     content: [
+  //       './app.vue',
+  //       './formkit.theme.ts',
+  //       './components/**/*.{js,vue,ts}',
+  //       './layouts/**/*.vue',
+  //       './plugins/**/*.{js,ts}',
+  //       './primevue/presets/**/*.{js,vue,ts}',
+  //       './error.vue',
+  //       '../ui/primevue/presets/wind/**/*.{js,vue,ts}'
+  //     ],
 
-    }
+  //   }
+  // },
+  primevue: {
+    components: {
+      prefix: 'P',
+    },
+    composables: {
+      exclude: ['useToast'],
+    },
+    importPT: { from: resolve(__dirname, 'lib/primevue/presets/wind/') }, // import and apply preset
+    options: {
+      unstyled: true,
+    },
   },
-
   formkit: {
     configFile: resolve(__dirname, './formkit.config.ts'),
   },
@@ -37,8 +49,8 @@ export default defineNuxtConfig({
   debug: true,
 
   devServer: {
-    https: true,
-    port: 8000,
+    // https: true,
+    port: 8080,
   },
   devtools: {
     disableAuthorization: true,
@@ -80,11 +92,16 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@formkit/nuxt',
+    '@nuxt/ui',
+    '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     'nuxt-module-eslint-config',
     '@pinia/nuxt',
     'nuxt-quasar-ui',
     '@formkit/nuxt',
+    'nuxt-primevue',
+
     // 'nuxt-radash',
     // 'nuxt-security',
   ],
