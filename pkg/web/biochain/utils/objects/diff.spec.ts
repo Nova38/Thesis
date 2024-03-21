@@ -22,10 +22,8 @@ it('foo', () => {
 
   const b = a.clone()
 
-  if (!b.taxon)
-    return
-  if (!b.primary)
-    return
+  if (!b.taxon) return
+  if (!b.primary) return
   b.taxon.family = 'bar'
   b.primary.catalogNumber = 'bar'
 

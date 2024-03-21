@@ -21,10 +21,7 @@ const bulk = useBulkUpdate()
         </template>
         <template #body-cell-status="props">
           <q-td :props="props">
-            <UPopover
-              :popper="{ adaptive: true }"
-              mode="hover"
-            >
+            <UPopover :popper="{ adaptive: true }" mode="hover">
               <UBadge :label="props.row.status" />
               <q-circular-progress
                 v-if="props.row.meta.status === 'loading'"
@@ -33,13 +30,11 @@ const bulk = useBulkUpdate()
                 rounded
                 size="15px"
               />
-              <template
-                v-if="props.row.meta.statusMessage !== ''"
-                #panel
-              >
+              <template v-if="props.row.meta.statusMessage !== ''" #panel>
                 <div class="p-4">
                   <pre wrap>
-                  {{ props.row.meta.statusMessage }}</pre>
+                  {{ props.row.meta.statusMessage }}</pre
+                  >
                 </div>
               </template>
             </UPopover>

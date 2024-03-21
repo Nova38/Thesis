@@ -7,8 +7,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     return await cc.service.getCollectionsList()
-  }
-  catch (error) {
+  } catch (error) {
     // console.error('Error in listCollections', error)
 
     if (error instanceof GatewayError) {

@@ -7,11 +7,14 @@ bulk.CollectionId = useNuxtApp().$collectionId.value
 <template>
   <div>
     <ImportCsvFile
-      @id-header-selection="(val) => bulk.LoadCsv({
-        headers: val.headers,
-        rows: val.rows,
-        specimenIdHeader: val.specimenIdHeader,
-      })"
+      @id-header-selection="
+        (val) =>
+          bulk.LoadCsv({
+            headers: val.headers,
+            rows: val.rows,
+            specimenIdHeader: val.specimenIdHeader,
+          })
+      "
     />
 
     <PCard>

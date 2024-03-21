@@ -13,18 +13,18 @@ async function myFetch() {
 <template>
   <div>
     <ImportCsvFile
-      @id-header-selection="(val) =>
-        bulk.LoadUpdates({
-          headers: val.headers,
-          rows: val.rows,
-          specimenIdHeader: val.specimenIdHeader,
-        })"
+      @id-header-selection="
+        (val) =>
+          bulk.LoadUpdates({
+            headers: val.headers,
+            rows: val.rows,
+            specimenIdHeader: val.specimenIdHeader,
+          })
+      "
     />
     <PCard>
       <template #title>
-        <h3>
-          Raw Rows from CSV:
-        </h3>
+        <h3>Raw Rows from CSV:</h3>
       </template>
       <template #content>
         <PDataTable
@@ -54,13 +54,11 @@ async function myFetch() {
     </PCard>
     <PCard>
       <template #title>
-        <h3>
-          Processed Rows To Import:
-        </h3>
+        <h3>Processed Rows To Import:</h3>
       </template>
       <template #content>
         <PDataTable
-          v-if="bulk.MappedRows "
+          v-if="bulk.MappedRows"
           :value="bulk.MappedRows"
           data-key="specimenId"
           paginator
@@ -99,13 +97,11 @@ async function myFetch() {
 
     <PCard>
       <template #title>
-        <h3>
-          Processed Rows To Import:
-        </h3>
+        <h3>Processed Rows To Import:</h3>
       </template>
       <template #content>
         <PDataTable
-          v-if="bulk.MappedRows "
+          v-if="bulk.MappedRows"
           :value="bulk.MappedRows"
           data-key="specimenId"
           paginator
@@ -148,6 +144,4 @@ async function myFetch() {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -81,7 +81,7 @@ const _geMapping = defineModel('ageList', {
               searchable
               searchable-placeholder="Select strings to map"
             >
-            <!-- <template #label>
+              <!-- <template #label>
                   <div class="">
                     <span v-if="sexStrings[item.value]" class="truncate">{{
                       sexList[item.value].join(", ")
@@ -117,10 +117,9 @@ const _geMapping = defineModel('ageList', {
             >
               <template #label>
                 <div class="">
-                  <span
-                    v-if="ageStrings[item.value]"
-                    class="truncate"
-                  >{{ ageList[item.value].join(', ') }}</span>
+                  <span v-if="ageStrings[item.value]" class="truncate">{{
+                    ageList[item.value].join(', ')
+                  }}</span>
                   <span v-else>Select Age Strings</span>
                 </div>
               </template>

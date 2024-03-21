@@ -53,7 +53,7 @@ export const ProtoDate = z.object({
   month: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform(d => Timestamp.fromDate(d))
+    .transform((d) => Timestamp.fromDate(d))
     .optional(),
   verbatim: z.string().trim().optional(),
   year: z.coerce.number().optional(),
@@ -65,7 +65,7 @@ export const LastModified = z.object({
   note: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform(d => Timestamp.fromDate(d))
+    .transform((d) => Timestamp.fromDate(d))
     .optional(),
   txId: z.string().trim().optional(),
   userId: z.string().trim().optional(),

@@ -10,10 +10,10 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const r = await getValidatedQuery(event, body =>
-    querySchema.safeParse(body))
-  if (!r.success)
-    throw r.error.issues
+  const r = await getValidatedQuery(event, (body) =>
+    querySchema.safeParse(body),
+  )
+  if (!r.success) throw r.error.issues
   // console.log({ data: r.data });
 
   // const r = bodySchema.parse(b);
@@ -32,8 +32,7 @@ export default defineEventHandler(async (event) => {
   // console.log(result.toJsonString({ typeRegistry: GlobalRegistry }));
   const history = new ccbio.SpecimenHistory({})
 
-  if (!result.history)
-    return { results: [] }
+  if (!result.history) return { results: [] }
 
   for (const item of result.history.entries) {
     const s = new ccbio.Specimen()

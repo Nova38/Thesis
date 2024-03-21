@@ -15,11 +15,11 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const result = await readValidatedBody(event, body =>
-    userSchema.safeParse(body))
+  const result = await readValidatedBody(event, (body) =>
+    userSchema.safeParse(body),
+  )
 
-  if (!result.success)
-    throw result.error.issues
+  if (!result.success) throw result.error.issues
 
   const { password, username } = result.data
 

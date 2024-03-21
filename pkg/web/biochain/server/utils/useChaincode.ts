@@ -97,8 +97,7 @@ async function BuildIdentity(event: H3Event) {
       identity,
       signer,
     }
-  }
-  catch (error) {
+  } catch (error) {
     const publicUser: User = {
       createdAt: '',
       credentials: fabricConfig.public.credentials,

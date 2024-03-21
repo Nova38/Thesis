@@ -384,9 +384,7 @@ const visibleColumns = ref([
     <PCard>
       <template #title>
         <div>
-          <h3>
-            Specimens in Collection
-          </h3>
+          <h3>Specimens in Collection</h3>
           <UButton
             color="primary"
             label="Reload"

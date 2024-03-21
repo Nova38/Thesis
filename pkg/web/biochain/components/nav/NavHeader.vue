@@ -3,25 +3,18 @@ const crumb = useBreadcrumbLinks()
 </script>
 
 <template>
-  <PToolbar class="bg-surface-900 shadow-md rounded-[3rem] bg-gradient-to-r from-sky-500/70 to-sky-500/80">
+  <PToolbar
+    class="bg-surface-900 shadow-md rounded-[3rem] bg-gradient-to-r from-sky-500/70 to-sky-500/80"
+  >
     <template #start>
       <!-- <UButton label="Click Me" /> -->
       <PButton class="mr-2">
-        <Icon
-          name="carbon:menu"
-          size="1em"
-        />
+        <Icon name="carbon:menu" size="1em" />
       </PButton>
       <div class="flex flex-row items-center">
-        <template
-          v-for="item in crumb"
-          :key="item.label"
-        >
+        <template v-for="item in crumb" :key="item.label">
           <span class="px-2">
-            <Icon
-              name="uil:angle-right"
-              size="2em"
-            />
+            <Icon name="uil:angle-right" size="2em" />
           </span>
           <NuxtLink
             :to="item.to"

@@ -17,21 +17,18 @@ async function authLogout() {
 <template>
   <div>
     <div v-if="!loggedIn">
-      <NuxtLink to="/auth/login">
-        Login
-      </NuxtLink>
+      <NuxtLink to="/auth/login"> Login </NuxtLink>
     </div>
     <div v-else>
       <UBadge
-        variant="soft" class="mx-2"
+        variant="soft"
+        class="mx-2"
         color="primary"
         :ui="{ rounded: 'rounded-full' }"
       >
         {{ $auth.username.value }}
       </UBadge>
-      <UButton @click="authLogout">
-        Logout
-      </UButton>
+      <UButton @click="authLogout"> Logout </UButton>
     </div>
   </div>
 </template>

@@ -25,8 +25,7 @@ export async function findUserByUsername(username: string): Promise<User> {
   const key = getUserKey(username)
 
   const user = await storage.getItem(key)
-  if (!user)
-    throw createError({ message: 'User not found!', statusCode: 404 })
+  if (!user) throw createError({ message: 'User not found!', statusCode: 404 })
 
   return user as User
 }
@@ -36,8 +35,7 @@ export async function findUserById(id: string): Promise<User> {
   const key = getUserKey(id)
 
   const user = await storage.getItem(key)
-  if (!user)
-    throw createError({ message: 'User not found!', statusCode: 404 })
+  if (!user) throw createError({ message: 'User not found!', statusCode: 404 })
 
   return user as User
 }

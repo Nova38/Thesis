@@ -12,11 +12,8 @@
             "source.fixAll.eslint": "always"
         },
         "editor.formatOnSave": false,
-        "prettier.enable": false
+        // "prettier.enable": false
     },
-    "eslint.workingDirectories": [
-        "./pkg/web/biochain"
-    ],
     "conventionalCommits.scopes": [
         "proto"
     ],
@@ -109,7 +106,7 @@
     // Silent the stylistic rules in you IDE, but still auto fix them
     "eslint.rules.customizations": [
         {
-            "rule": "style/*",
+            "rule": "prettier/*",
             "severity": "off"
         },
         {
@@ -163,6 +160,9 @@
         "yaml",
         "toml"
     ],
+    "eslint.workingDirectories": [
+        "./pkg/web/biochain"
+    ],
     "explorerExclude.backup": {},
     "files.associations": {
         "*.css": "tailwindcss"
@@ -196,7 +196,7 @@
     "nuxtr.defaultPackageManager": "pnpm",
     "nuxtr.monorepoMode.DirectoryName": "pkg/web/biochain",
     "nuxtr.openItemsAfterCreation": true,
-    "prettier.enable": false,
+    // "prettier.enable": false,
     "protoc": {
         "options": [
             "--proto_path=${workspaceFolder}",

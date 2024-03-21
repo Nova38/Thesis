@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import type { Config } from 'tailwindcss'
 
-import { resolve } from 'pathe'
-
-
 export default <Partial<Config>>{
   content: [
     './app.vue',
@@ -15,8 +12,7 @@ export default <Partial<Config>>{
     './plugins/**/*.{js,ts}',
     './primevue/presets/**/*.{js,vue,ts}',
     './error.vue',
-    './lib/primevue/presets/wind/**/*.{js,vue,ts}'
-
+    './lib/primevue/presets/wind/**/*.{js,vue,ts}',
   ],
   darkMode: 'class',
 

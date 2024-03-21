@@ -39,23 +39,20 @@ const specimen = defineModel<PlainSpecimen>('specimen', {
 })
 
 function addPreparation(name: string) {
-  if (!specimen?.value)
-    return
+  if (!specimen?.value) return
   if (!specimen?.value?.secondary)
     specimen.value.secondary = new ccbio.Specimen_Secondary()
 
   if (!specimen?.value?.secondary?.preparations)
     specimen.value.secondary.preparations = {}
 
-  specimen.value.secondary.preparations[name]
-    = new ccbio.Specimen_Secondary_Preparation()
+  specimen.value.secondary.preparations[name] =
+    new ccbio.Specimen_Secondary_Preparation()
 }
 
 function addLoan(name: string) {
-  if (!specimen?.value)
-    return
-  if (!specimen?.value?.loans)
-    specimen.value.loans = {}
+  if (!specimen?.value) return
+  if (!specimen?.value?.loans) specimen.value.loans = {}
 
   specimen.value.loans[name] = new ccbio.Specimen_Loan({
     id: name,
@@ -63,10 +60,8 @@ function addLoan(name: string) {
 }
 
 function addGrant(name: string) {
-  if (!specimen?.value)
-    return
-  if (!specimen?.value?.grants)
-    specimen.value.grants = {}
+  if (!specimen?.value) return
+  if (!specimen?.value?.grants) specimen.value.grants = {}
 
   specimen.value.grants[name] = new ccbio.Specimen_Grant({})
 }
@@ -143,13 +138,14 @@ const sections = [
 
     <QCardSection :class="headerColor">
       <div class="row">
-        <div
-          v-if="specimen?.taxon"
-          class="text-2xl"
-        >
-          <span v-if="specimen?.taxon?.genus"> {{ specimen.taxon.genus }} </span>
+        <div v-if="specimen?.taxon" class="text-2xl">
+          <span v-if="specimen?.taxon?.genus">
+            {{ specimen.taxon.genus }}
+          </span>
           {{}}
-          <span v-if="specimen?.taxon?.species">{{ specimen?.taxon?.species }}</span>
+          <span v-if="specimen?.taxon?.species">{{
+            specimen?.taxon?.species
+          }}</span>
         </div>
         <div class="flex-col ml-auto">
           <div
@@ -176,10 +172,7 @@ const sections = [
       </div>
     </QCardSection>
 
-    <div
-      :class="headerColor"
-      class="flex flex-row"
-    >
+    <div :class="headerColor" class="flex flex-row">
       <q-chip
         v-if="specimen.collectionId"
         :label="`Collection ID: ${specimen.collectionId}`"
@@ -208,10 +201,7 @@ const sections = [
       >
         <template #taxon>
           <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
-            <template
-              v-for="(_, key) in specimen.taxon"
-              :key="key"
-            >
+            <template v-for="(_, key) in specimen.taxon" :key="key">
               <QInput
                 v-if="specimen.taxon && typeof specimen.taxon[key] === 'string'"
                 :model-value="specimen.taxon[key] as string"
@@ -240,10 +230,7 @@ const sections = [
       >
         <QCard>
           <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
-            <template
-              v-for="(_, key) in specimen.taxon"
-              :key="key"
-            >
+            <template v-for="(_, key) in specimen.taxon" :key="key">
               <QInput
                 v-if="specimen.taxon && typeof specimen.taxon[key] === 'string'"
                 v-model="specimen.taxon[key]"
@@ -304,10 +291,7 @@ const sections = [
                 label="Catalog Number"
               />
             </div>
-            <QExpansionItem
-              class="DateExpansion"
-              label="Catalog Date"
-            >
+            <QExpansionItem class="DateExpansion" label="Catalog Date">
               <QCardSection
                 v-if="specimen?.primary?.catalogDate"
                 class="DateSection"
@@ -361,10 +345,7 @@ const sections = [
                 label="Determined Reason"
               />
             </div>
-            <QExpansionItem
-              class="DateExpansion mx-4"
-              label="Determined Date"
-            >
+            <QExpansionItem class="DateExpansion mx-4" label="Determined Date">
               <QCardSection
                 v-if="specimen?.primary?.determinedDate"
                 class="DateSection"
@@ -419,10 +400,7 @@ const sections = [
               />
             </div>
 
-            <QExpansionItem
-              class="DateExpansion"
-              label="Field Date"
-            >
+            <QExpansionItem class="DateExpansion" label="Field Date">
               <QCardSection
                 v-if="specimen?.primary?.fieldDate"
                 class="DateSection"
@@ -508,7 +486,7 @@ const sections = [
             </QExpansionItem>
           </q-card-section>
         </div>
-      <!-- <q-card-section>
+        <!-- <q-card-section>
             <q-item-label overline><b>Primary Last Updater</b></q-item-label>
             <q-item-label class="text-bold">
               {{ specimen?.primary?.lastModified?.timestamp }}
@@ -526,10 +504,7 @@ const sections = [
         label="Georeference"
       >
         <q-card>
-          <q-card-section
-            v-if="specimen?.georeference"
-            class="my-1"
-          >
+          <q-card-section v-if="specimen?.georeference" class="my-1">
             <div class="row justify-evenly mb-1">
               <q-input
                 v-model="specimen.georeference.continent"
@@ -620,10 +595,7 @@ const sections = [
               />
             </div>
 
-            <QExpansionItem
-              class="DateExpansion"
-              label="Georeference Date"
-            >
+            <QExpansionItem class="DateExpansion" label="Georeference Date">
               <QCardSection
                 v-if="specimen?.georeference?.georeferenceDate"
                 class="DateSection"
@@ -690,7 +662,7 @@ const sections = [
                 type="textarea"
               />
             </div>
-          <!-- <div>
+            <!-- <div>
               <q-item-label overline><b>Last Updated At </b></q-item-label>
               <q-item-label class="text-bold">
                 {{ specimen?.secondary?.lastModified?.timestamp }}
@@ -710,10 +682,7 @@ const sections = [
         label="Secondary"
       >
         <q-card>
-          <q-card-section
-            v-if="specimen?.secondary"
-            class="my-1"
-          >
+          <q-card-section v-if="specimen?.secondary" class="my-1">
             <div class="flex flex-row justify-evenly mb-1 gap-1">
               <q-input
                 v-model="specimen.secondary.molt"
@@ -779,24 +748,12 @@ const sections = [
             </div>
           </q-card-section>
           <QCard>
-            <QCardSection
-              class="ml-4"
-              label="Preparation"
-            >
+            <QCardSection class="ml-4" label="Preparation">
               <div class="flex flex-row gap-2">
-                <div class="font-bold">
-                  Preparations:
-                </div>
+                <div class="font-bold">Preparations:</div>
 
-                <div
-                  v-if="props.enableEdit"
-                  class="ml-auto"
-                >
-                  <q-btn
-                    color="primary"
-                    label="New Preparation"
-                    push
-                  >
+                <div v-if="props.enableEdit" class="ml-auto">
+                  <q-btn color="primary" label="New Preparation" push>
                     <q-popup-proxy class="">
                       <div class="flex flex-row gap-2 items-center p-2">
                         <QInput
@@ -828,10 +785,7 @@ const sections = [
                   class="flex-grow my-1"
                   type="text"
                 >
-                  <template
-                    v-if="props.enableEdit"
-                    #append
-                  >
+                  <template v-if="props.enableEdit" #append>
                     <q-icon
                       class="cursor-pointer"
                       name="cancel"
@@ -872,13 +826,9 @@ const sections = [
                     label="New Loan"
                     type="text"
                   />
-                  <QBtn
-                    class="h-2"
-                    label="Add"
-                    @click="addLoan(newLoanName)"
-                  />
+                  <QBtn class="h-2" label="Add" @click="addLoan(newLoanName)" />
                 </div>
-              <!-- </q-banner> -->
+                <!-- </q-banner> -->
               </q-popup-proxy>
             </q-btn>
             <QCard
@@ -887,10 +837,7 @@ const sections = [
               class="flex flex-col gap-2 p-2"
             >
               <template v-if="specimen.loans[key]">
-                <QChip
-                  :label="`Loan ID: ${key}`"
-                  class="flex-grow"
-                />
+                <QChip :label="`Loan ID: ${key}`" class="flex-grow" />
 
                 <div class="flex flex-row gap-4">
                   <QInput
@@ -961,7 +908,7 @@ const sections = [
                     @click="addGrant(newGrantName)"
                   />
                 </div>
-              <!-- </q-banner> -->
+                <!-- </q-banner> -->
               </q-popup-proxy>
             </q-btn>
             <QCard
@@ -1023,7 +970,7 @@ const sections = [
       </QCardSection>
     </q-form>
   </QCard>
-<!-- <q-btn @click="toggleEdit"> hi </q-btn> -->
+  <!-- <q-btn @click="toggleEdit"> hi </q-btn> -->
 </template>
 
 <style scoped>

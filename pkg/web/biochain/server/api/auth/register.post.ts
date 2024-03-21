@@ -9,11 +9,11 @@ const userSchema = z.object({
 })
 
 export default eventHandler(async (event) => {
-  const body = await readValidatedBody(event, body =>
-    userSchema.safeParse(body))
+  const body = await readValidatedBody(event, (body) =>
+    userSchema.safeParse(body),
+  )
 
-  if (!body.success)
-    throw body.error.issues
+  if (!body.success) throw body.error.issues
   const { credentials, key, mspId, password, username } = body.data
 
   const result = await createUser({

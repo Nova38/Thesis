@@ -4,15 +4,14 @@ export default defineNuxtPlugin({
     const collectionId = useState('CurrentCollectionId', () => '')
 
     addRouteMiddleware(
-
       'collection',
       (to, from) => {
         const id = to.params?.collectionId
+        from.fullPath
 
         // console.log('Collection middleware', to, from, id)
 
-        if (id && collectionId.value !== id)
-          collectionId.value = id.toString()
+        if (id && collectionId.value !== id) collectionId.value = id.toString()
 
         // console.log('Collection middleware', collectionId.value)
       },

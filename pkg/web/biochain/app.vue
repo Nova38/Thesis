@@ -6,18 +6,16 @@
 //   devtools.connect(/* host (the default is "http://localhost"), port (the default is 8090) */)
 
 // Import fully resolved config
-
-
 </script>
 
 <template>
   <div>
-    <div class="w-full min-h-screen flex flex-col  ">
-      <NavHeader class="sticky " />
-      <div class="flex flex-grow flex-row flex-nowrap max-w-full p-0.5 ">
-        <NavSidebar class="bg-zinc-100 dark:bg-zinc-800 " />
+    <div class="w-full min-h-screen flex flex-col">
+      <NavHeader class="sticky" />
+      <div class="flex flex-grow flex-row flex-nowrap max-w-full p-0.5">
+        <NavSidebar class="bg-zinc-100 dark:bg-zinc-800" />
 
-        <div class="flex-grow  overflow-x-scroll">
+        <div class="flex-grow overflow-x-scroll">
           <NuxtLoadingIndicator />
 
           <!-- <NuxtErrorBoundary> -->
@@ -28,7 +26,7 @@
     </div>
   </div>
 </template>
-  <!-- <NuxtLayout>
+<!-- <NuxtLayout>
     <NuxtLoadingIndicator />
 
     <NuxtPage />

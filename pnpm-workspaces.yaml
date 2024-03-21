@@ -5,4 +5,4 @@ packages:
   - pkg/cmd/protoc-gen-es-saacs
   - "./pkg/web/*"
   - pkg/saacs-es
-  - pkg/biochain
+  - pkg/web/biochain

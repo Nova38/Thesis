@@ -29,16 +29,16 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     // Check if the RawHeaders is empty or if specimenIdHeader is in the RawHeaders and return the columns
 
     if (
-      !ImportedHeaders.value
-      || !ImportedHeaders.value.includes(SpecimenIdHeader.value)
+      !ImportedHeaders.value ||
+      !ImportedHeaders.value.includes(SpecimenIdHeader.value)
     ) {
       return {
         id: {},
       } as ImportColumns
     }
 
-    const r: ImportCol[]
-      = ImportedHeaders.value?.map((header) => {
+    const r: ImportCol[] =
+      ImportedHeaders.value?.map((header) => {
         return {
           name: header,
           label: header,
@@ -50,8 +50,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       }) || []
 
     const id = r.find((col: ImportCol) => col.colType === 'id')
-    if (!id)
-      throw new Error('SpecimenIdHeader not found in RawHeaders')
+    if (!id) throw new Error('SpecimenIdHeader not found in RawHeaders')
 
     return {
       id,
@@ -107,11 +106,9 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
     return x
   }
   const processUpdates = () => {
-    if (!RawRows.value)
-      return
+    if (!RawRows.value) return
 
-    if (!SpecimenMapping.value)
-      return
+    if (!SpecimenMapping.value) return
 
     MappedRows.value = RawRows.value.map((raw) => {
       const specimen = FlattenEmptySpecimen()
@@ -135,12 +132,10 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
   const SetMapping = (selected: string | undefined, col: { field: string }) => {
     console.log({ selected, col })
 
-    if (!selected)
-      return
+    if (!selected) return
 
     SpecimenMapping.value = SpecimenMapping.value.map((m) => {
-      if (m.newKey === selected)
-        m.oldKey = col.field
+      if (m.newKey === selected) m.oldKey = col.field
 
       return m
     })
@@ -172,8 +167,7 @@ export const useBulkUpdate = defineStore('BulkUpdate', () => {
       const catNum = CatNumToUUID(id)
       SpecimenIds.value.push(catNum)
 
-      if (!MappedRows.value)
-        MappedRows.value = []
+      if (!MappedRows.value) MappedRows.value = []
 
       MappedRows.value.push(FlattenEmptySpecimen())
 

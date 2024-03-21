@@ -35,19 +35,24 @@ watchDeep(specimen, (value, oldValue) => {
   if (value?.primary?.catalogNumber) {
     console.log('catalogNumber', value.primary.catalogNumber)
 
-    nextTick(() => value.specimenId = CatNumToUUID(value?.primary?.catalogNumber || ''))
+    nextTick(
+      () =>
+        (value.specimenId = CatNumToUUID(value?.primary?.catalogNumber || '')),
+    )
   }
 
   console.log('specimen', value.specimenId)
 })
 
 const api = useCustomFetch(`/api/cc/specimens/create`, {
-
   method: 'POST',
   immediate: false,
 
   onRequest: ({ options }) => {
-    options.body = new ccbio.Specimen(toValue(specimen)).toJsonString({ emitDefaultValues: true, enumAsInteger: true })
+    options.body = new ccbio.Specimen(toValue(specimen)).toJsonString({
+      emitDefaultValues: true,
+      enumAsInteger: true,
+    })
   },
 })
 
@@ -64,8 +69,7 @@ async function submitHandler() {
         `/collection/${nuxtApp.$collectionId.value}/specimen/View-${specimen.value.specimenId}`,
       )
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error('error', error)
   }
 }
@@ -77,10 +81,7 @@ async function submitHandler() {
       <SpecimenForm :specimen="specimen">
         <template #Footer>
           <div>
-            <UButton
-              label="Submit"
-              @click="submitHandler"
-            />
+            <UButton label="Submit" @click="submitHandler" />
           </div>
         </template>
       </SpecimenForm>

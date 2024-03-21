@@ -44,20 +44,22 @@ export const useBulkStore = defineStore('Bulk', () => {
         statusMessage: 'loading from csv',
       })
 
-      MappedSpecimen.value.push(new ccbio.Specimen({
-        collectionId: CollectionId.value,
-        specimenId: id,
-        primary: {
-          catalogNumber: catNum,
-        },
-        secondary: {},
-        georeference: {},
-        grants: {},
-        images: {},
-        loans: {},
-        taxon: {},
-        lastModified: {},
-      }))
+      MappedSpecimen.value.push(
+        new ccbio.Specimen({
+          collectionId: CollectionId.value,
+          specimenId: id,
+          primary: {
+            catalogNumber: catNum,
+          },
+          secondary: {},
+          georeference: {},
+          grants: {},
+          images: {},
+          loans: {},
+          taxon: {},
+          lastModified: {},
+        }),
+      )
 
       return {
         id,
@@ -91,8 +93,7 @@ export const useBulkStore = defineStore('Bulk', () => {
   const CurrentSpecimens = computedAsync(
     async () => {
       const specimens = new Map<string, PlainSpecimen>()
-      if (SpecimenIds.value.length === 0)
-        return specimens
+      if (SpecimenIds.value.length === 0) return specimens
 
       console.log(SpecimenIds)
 
@@ -108,12 +109,14 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          specimens.set(key, Object.freeze(ccbio.Specimen.fromJsonString(JSON.stringify(value))))
+          specimens.set(
+            key,
+            Object.freeze(ccbio.Specimen.fromJsonString(JSON.stringify(value))),
+          )
         })
 
         return Object.freeze(specimens)
-      }
-      catch (e) {
+      } catch (e) {
         console.error(e)
         throw new Error('Failed To fetch specimens from specimenIds', {
           cause: e,
@@ -126,30 +129,31 @@ export const useBulkStore = defineStore('Bulk', () => {
 
   // Set the row to existing if the Specimen exists, after it is done resolving
   watch(CurrentSpecimens, (resolved) => {
-    if (!resolved)
-      return
+    if (!resolved) return
 
     RawRowsMeta.value.forEach((meta, id) => {
       if (CurrentSpecimens.value?.has(id)) {
         meta.status = 'pre-existing'
         meta.exist = 'pre-existing'
-      }
-      else {
+      } else {
         meta.exist = 'new'
       }
     })
 
     CurrentSpecimens.value?.forEach((cur) => {
       const meta = RawRowsMeta.value.get(cur.specimenId)
-      if (!meta)
-        return
+      if (!meta) return
       meta.exist = 'pre-existing'
 
       // Set the value of the role to be the preexisting value
-      const index = MappedSpecimen.value.findIndex(o => o.specimenId === cur.specimenId)
+      const index = MappedSpecimen.value.findIndex(
+        (o) => o.specimenId === cur.specimenId,
+      )
 
       if (index === -1)
-        throw new Error(`The specimen with id = ${cur.specimenId} was not found in the current rows`)
+        throw new Error(
+          `The specimen with id = ${cur.specimenId} was not found in the current rows`,
+        )
 
       const c = new ccbio.Specimen(cur)
 
@@ -159,9 +163,9 @@ export const useBulkStore = defineStore('Bulk', () => {
 
   const SetMapping = (
     newMapping: string,
-    col: { name: string, mapped: string },
+    col: { name: string; mapped: string },
   ) => {
-    const def = RawColDefs.value.find(c => c.name === col.name)
+    const def = RawColDefs.value.find((c) => c.name === col.name)
     if (def === undefined)
       throw new Error('Attempted to set non-existent row for mapping')
 
@@ -170,15 +174,13 @@ export const useBulkStore = defineStore('Bulk', () => {
     // Update the Mapped Specimen
     MappedSpecimen.value = MappedSpecimen.value.map((mapped) => {
       const cur = CurrentSpecimens.value?.get(mapped.specimenId)
-      const rawV = RawRows.value.find(x => x.id === mapped.specimenId)
-      if (!rawV)
-        throw new Error('RawRow not found')
+      const rawV = RawRows.value.find((x) => x.id === mapped.specimenId)
+      if (!rawV) throw new Error('RawRow not found')
       console.group(`SetMapping: ${mapped.specimenId}`)
       // console.log(rawV)
 
       const meta = RawRowsMeta.value.get(mapped.specimenId)
-      if (!meta)
-        throw new Error('meta missing')
+      if (!meta) throw new Error('meta missing')
       // console.log(meta)
       // Empty/Unset
       if (newMapping === '' || newMapping === ' ') {
@@ -191,10 +193,8 @@ export const useBulkStore = defineStore('Bulk', () => {
             newMapping,
             col: col.name,
             mapped,
-
           })
-        }
-        else {
+        } else {
           mapped = set(mapped, def.mapped, '')
           console.log({
             id: mapped.specimenId,
@@ -210,14 +210,12 @@ export const useBulkStore = defineStore('Bulk', () => {
       // Date type
       // Set Any
       else {
-        console.log(
-          {
-            action: 'Setting Value',
-            newMapping,
-            raw: rawV.raw,
-            rawV: rawV.raw[col.name],
-          },
-        )
+        console.log({
+          action: 'Setting Value',
+          newMapping,
+          raw: rawV.raw,
+          rawV: rawV.raw[col.name],
+        })
         set(mapped, newMapping, rawV.raw[col.name])
       }
 
@@ -227,16 +225,14 @@ export const useBulkStore = defineStore('Bulk', () => {
         meta.status = 'parsing-error'
         meta.statusMessage = parsed.error.toString()
         meta.error = parsed.error
-      }
-      else if (meta.status === 'parsing-error') {
+      } else if (meta.status === 'parsing-error') {
         meta.status = 'loading'
         meta.statusMessage = ''
       }
       console.log(mapped)
       console.groupEnd()
       return mapped
-    },
-    )
+    })
     def.mapped = newMapping
 
     console.log(col, newMapping, def.mapped, RawColDefs.value)

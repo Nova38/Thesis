@@ -109,8 +109,7 @@ async function submitHandler() {
     getHistory.refresh()
     getCurrent.refresh()
     console.log('current', toValue(getCurrent.data))
-  }
-  catch (error) {
+  } catch (error) {
     mode.value = oldMode
     console.error(error)
   }
@@ -132,9 +131,7 @@ async function submitHandler() {
                 class=""
                 :class="`${modeColor} flex flex-row items-center gap-2 px-2`"
               >
-                <div class="font-bold">
-                  Current Mode: {{ modeCapitalized }}
-                </div>
+                <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
 
                 <div class="flex-grow" />
                 <!-- <space /> -->
@@ -161,7 +158,6 @@ async function submitHandler() {
                   <UButton
                     variant="solid"
                     :class="toModeColor('suggest')"
-
                     :color="toModeColor('suggest')"
                     @click="() => (mode = 'suggest')"
                   >

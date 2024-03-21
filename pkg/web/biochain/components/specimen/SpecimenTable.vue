@@ -324,7 +324,7 @@ const ColDefs = ref([
  */
 const SelectedColumns = ref(ColDefs.value)
 function onToggle(val: unknown[]) {
-  SelectedColumns.value = ColDefs.value.filter(col => val.includes(col))
+  SelectedColumns.value = ColDefs.value.filter((col) => val.includes(col))
 }
 
 // Reduce the ColDefs to extract the column groups based on the the first part of the
@@ -332,34 +332,42 @@ function onToggle(val: unknown[]) {
 // Also, keep track of the number of columns in each group to calculate the colspan for the header
 const ColGroups = computed(() => {
   // ColDefs.value.map()
-  const groups = SelectedColumns.value.reduce((acc, col) => {
-    let [group, ...children] = col.field.split('.')
-    if (children.length === 0)
-      group = 'Meta'
+  const groups = SelectedColumns.value.reduce(
+    (acc, col) => {
+      let [group, ...children] = col.field.split('.')
+      if (children.length === 0) group = 'Meta'
 
-    if (!acc[group]) {
-      acc[group] = {
-        headerName: titleCase(group),
-        children: 0,
+      if (!acc[group]) {
+        acc[group] = {
+          headerName: titleCase(group),
+          children: 0,
+        }
       }
-    }
 
-    acc[group].children += 1
-    return acc
-  }, {} as Record<string, { headerName: string, children: number }>)
+      acc[group].children += 1
+      return acc
+    },
+    {} as Record<string, { headerName: string; children: number }>,
+  )
 
-  groups.Meta = { headerName: 'Meta', children: groups.Meta ? groups.Meta.children + 1 : 1 }
+  groups.Meta = {
+    headerName: 'Meta',
+    children: groups.Meta ? groups.Meta.children + 1 : 1,
+  }
   return Object.values(groups)
 })
 
 const filterFields = computed(() => {
-  return SelectedColumns.value.map(col => col.field)
+  return SelectedColumns.value.map((col) => col.field)
 })
 
 function initFilter() {
   const filters: Record<string, DataTableOperatorFilterMetaData> = {}
   filterFields.value.forEach((field) => {
-    filters[field] = { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] }
+    filters[field] = {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    }
   })
   return filters
 }
@@ -401,19 +409,18 @@ const filters = ref(initFilter())
       :global-filter-fields="filterFields"
       filter-display="menu"
       :filters="filters"
-      :pt="{
-
-      }"
+      :pt="{}"
     >
       <template #header>
-        <div style="text-align:left">
+        <div style="text-align: left">
           <PMultiSelect
             :model-value="SelectedColumns"
             :options="ColDefs"
             class="w-full md:w-[20rem]"
             option-label="headerName"
             display="chip"
-            placeholder="Select Columns" @update:model-value="onToggle"
+            placeholder="Select Columns"
+            @update:model-value="onToggle"
           />
           <!-- <USelectMenu
             :model-value="SelectedColumns" :options="ColDefs" option-label="header" display="chip"

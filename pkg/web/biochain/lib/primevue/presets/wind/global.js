@@ -1,5 +1,5 @@
 export default {
-    css: `
+  css: `
     *[data-pd-ripple="true"]{
         overflow: hidden;
         position: relative;
@@ -73,5 +73,5 @@ export default {
             right: -90%;
         }
     }
-`
-};
+`,
+}

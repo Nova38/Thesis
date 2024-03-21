@@ -33,14 +33,8 @@ const products = ref([])
 
 <template>
   <UCard>
-    <PDataTable
-      :value="products"
-      table-style="min-width: 50rem"
-    >
-      <PColumn
-        field="code"
-        header="Code"
-      />
+    <PDataTable :value="products" table-style="min-width: 50rem">
+      <PColumn field="code" header="Code" />
     </PDataTable>
   </UCard>
 
@@ -49,11 +43,7 @@ const products = ref([])
       Imported Specimen Values
     </div>
     <div v-if="processedData">
-      <q-table
-        :columns="MappingHeaders"
-        :rows="processedData"
-        dense
-      >
+      <q-table :columns="MappingHeaders" :rows="processedData" dense>
         <template #header-cell="{ col }">
           <q-th>
             <div class="">
@@ -67,10 +57,7 @@ const products = ref([])
               label-color="teal-10"
               stack-label
             >
-              <template
-                v-if="specimenMapping[col.label]"
-                #append
-              >
+              <template v-if="specimenMapping[col.label]" #append>
                 <q-icon
                   class="cursor-pointer"
                   color="red"

@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { resolve } from 'pathe'
 
-/* eslint perfectionist/sort-objects: "error" */
 export default defineNuxtConfig({
   appConfig: {
     apiEndpoint:
@@ -10,9 +9,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-  css: [
-    resolve(__dirname, './assets/css/main.css'),
-  ],
+
+  css: [resolve(__dirname, './assets/css/main.css')],
+
   primevue: {
     components: {
       prefix: 'P',
@@ -49,10 +48,6 @@ export default defineNuxtConfig({
     },
   },
 
-  eslintConfig: {
-    setup: false,
-  },
-
   experimental: {
     // typedPages: false,
     asyncContext: true,
@@ -76,16 +71,20 @@ export default defineNuxtConfig({
     ],
   },
 
+  eslint: {
+    checker: true,
+  },
+
   modules: [
     '@formkit/nuxt',
     '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
-    'nuxt-module-eslint-config',
     '@pinia/nuxt',
     'nuxt-quasar-ui',
     '@formkit/nuxt',
     'nuxt-primevue',
+    '@nuxt/eslint',
 
     // 'nuxt-radash',
     // 'nuxt-security',
@@ -167,4 +166,3 @@ export default defineNuxtConfig({
     },
   },
 })
-/* eslint perfectionist/sort-objects: "off" */

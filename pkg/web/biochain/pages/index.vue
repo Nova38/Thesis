@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import tailwindConfig from '#tailwind-config'
-
 </script>
 
 <template>
@@ -11,7 +10,6 @@ import tailwindConfig from '#tailwind-config'
 
     <pre>{{ tailwindConfig }}</pre>
   </div>
-
 </template>
 
 <style></style>

@@ -39,7 +39,7 @@ describe('fieldMapping', () => {
     const mapping: FieldMapping<{ foo: string }, { bar: number }> = {
       newKey: 'foo',
       oldKey: 'bar',
-      transform: value => String(value),
+      transform: (value) => String(value),
     }
     expect(mapping.transform).toBeInstanceOf(Function)
     expect(mapping.transform(123)).toBe('123')

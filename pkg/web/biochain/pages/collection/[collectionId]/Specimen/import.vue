@@ -52,8 +52,7 @@ watch(specimenMapping.value, () => {
   console.log('specimenMapping')
 
   RowsSelected.value?.forEach((data) => {
-    if (rawData.value === undefined)
-      return
+    if (rawData.value === undefined) return
 
     console.group('import')
     RowsSelected
@@ -75,8 +74,7 @@ watch(specimenMapping.value, () => {
           if (store.SpecimenCatalogNumbers?.includes(value)) {
             // if it is, set the status to pre-existing
             RowMeta.value[Number.parseInt(data.index)].status = 'pre-existing'
-          }
-          else {
+          } else {
             RowMeta.value[Number.parseInt(data.index)].status = 'new'
           }
         }
@@ -90,8 +88,7 @@ watch(specimenMapping.value, () => {
               set(importingSpecimen, key, 0)
             if (Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, Number.parseInt(value))
-          }
-          catch (error) {
+          } catch (error) {
             console.log(error)
             set(importingSpecimen, key, 0)
           }
@@ -107,8 +104,7 @@ watch(specimenMapping.value, () => {
             if (Number.isNaN(Number.parseInt(value)))
               set(importingSpecimen, key, Number.parseInt(value))
             // set(importingSpecimen, key, parseInt(value));
-          }
-          catch (error) {
+          } catch (error) {
             console.log(error)
             set(importingSpecimen, key, 0)
           }
@@ -117,8 +113,8 @@ watch(specimenMapping.value, () => {
       }
     }
     if (data.index) {
-      importingSpecimen.specimenId
-        = RowMeta.value[Number.parseInt(data.index)].uuid
+      importingSpecimen.specimenId =
+        RowMeta.value[Number.parseInt(data.index)].uuid
 
       dataMap.value.set(Number.parseInt(data.index), importingSpecimen)
     }
@@ -143,14 +139,12 @@ const numberFelids = [
 
 // Table 2
 const possessedData = computed(() => {
-  if (!RowsSelected.value || !specimenMapping.value)
-    return
+  if (!RowsSelected.value || !specimenMapping.value) return
 
   const possessedData: ccbio.Specimen[] = []
 
   RowsSelected.value?.forEach((data) => {
-    if (rawData.value === undefined)
-      return
+    if (rawData.value === undefined) return
 
     console.group('import')
 
@@ -170,8 +164,7 @@ const possessedData = computed(() => {
           if (Number.isNaN(Number.parseFloat(val))) {
             console.log('isNaN')
             set(importingSpecimen, e, 0)
-          }
-          else {
+          } else {
             console.log(Number.parseFloat(val))
             set(importingSpecimen, e, Number.parseFloat(val))
           }
@@ -186,8 +179,7 @@ const possessedData = computed(() => {
 })
 
 const sortedImportHeaders = computed(() => {
-  if (!headers.value)
-    return
+  if (!headers.value) return
 
   return headers.value.sort()
 })
@@ -207,7 +199,7 @@ const notAllowedKeys = ['id', 'last_modified_by', 'collection_id']
 const SpecimenKeys: Array<string> = keys(keysForImport)
 
 const FilteredSpecimenKeys = SpecimenKeys.filter(
-  k => !notAllowedKeys.includes(k),
+  (k) => !notAllowedKeys.includes(k),
 )
 
 callOnce(() => {
@@ -222,8 +214,7 @@ callOnce(() => {
 // const numberFeilds= ["primary."]
 
 watch(file, (file) => {
-  if (!file)
-    return
+  if (!file) return
 
   Papa.parse(file, {
     complete: (results: ParseResult<Record<string, string>>) => {
@@ -247,8 +238,7 @@ watch(file, (file) => {
         //   }
         // }
 
-        if (Object.prototype.hasOwnProperty.call(value, ''))
-          delete value['']
+        if (Object.prototype.hasOwnProperty.call(value, '')) delete value['']
 
         // value["secondary.sex"] = 0;
         // value["secondary.age"] = 0;
@@ -268,8 +258,7 @@ watch(file, (file) => {
 
       // If the data's header row that contains the value of a specimen key map it to the specimen key to start
       for (const key of FilteredSpecimenKeys) {
-        if (headers.value.includes(key))
-          specimenMapping.value[key] = key
+        if (headers.value.includes(key)) specimenMapping.value[key] = key
       }
     },
     // worker: true,
@@ -358,8 +347,7 @@ function run() {
         if (isNaN(Number.parseFloat(val))) {
           console.log('isNan')
           set(value, e, 0)
-        }
-        else {
+        } else {
           set(value, e, Number.parseFloat(val))
         }
       })
@@ -376,8 +364,7 @@ function run() {
           row.status = 'error'
           RowMeta.value[key].statusMessage = err?.message
         })
-    }
-    catch (err: any) {
+    } catch (err: any) {
       console.log(err)
       row.status = 'error'
       RowMeta.value[key].statusMessage = err?.message
@@ -409,28 +396,18 @@ function statusToChipColor(status: status) {
   <q-page class="full-height">
     <q-card class="q-pa-md q-ma-md">
       <QCardSection>
-        <p class="font-bold">
-          Import Specimens
-        </p>
+        <p class="font-bold">Import Specimens</p>
       </QCardSection>
       <q-card-section>
         <h2>Select CSV file to import from</h2>
-        <q-file
-          v-model="file"
-          accept=".csv"
-          outlined
-        >
+        <q-file v-model="file" accept=".csv" outlined>
           <template #prepend>
             <q-icon name="attach_file" />
           </template>
         </q-file>
       </q-card-section>
       <QCardSection class="flex flex-row items-center gap-2 justify-center">
-        <QTable
-          :hide-bottom="true"
-          :rows="SexOptions"
-          dense
-        />
+        <QTable :hide-bottom="true" :rows="SexOptions" dense />
         <QTable
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
@@ -448,10 +425,7 @@ function statusToChipColor(status: status) {
         >
           <template #body-cell-status="props">
             <q-td :props="props">
-              <UPopover
-                :popper="{ adaptive: true }"
-                mode="hover"
-              >
+              <UPopover :popper="{ adaptive: true }" mode="hover">
                 <UBadge
                   :color="statusToChipColor(props.row[props.col.field])"
                   :label="props.row[props.col.field]"
@@ -469,12 +443,13 @@ function statusToChipColor(status: status) {
                 >
                   <div class="p-4">
                     <pre wrap>
-                    {{ RowMeta[props.row.index].statusMessage }}</pre>
+                    {{ RowMeta[props.row.index].statusMessage }}</pre
+                    >
                   </div>
                 </template>
               </UPopover>
 
-            <!-- <q-chip
+              <!-- <q-chip
                 outline
                 :color="statusToChipColor(props.row[props.col.field])"
               >
@@ -496,11 +471,7 @@ function statusToChipColor(status: status) {
       <!-- {{ (ageMapping, sexMapping) }} -->
       <q-card-section>
         <div v-if="possessedData">
-          <q-table
-            :columns="MappingHeaders"
-            :rows="possessedData"
-            dense
-          >
+          <q-table :columns="MappingHeaders" :rows="possessedData" dense>
             <template #header-cell="props">
               <q-th :props="props">
                 <div class="">
@@ -514,10 +485,7 @@ function statusToChipColor(status: status) {
                   label-color="teal-10"
                   stack-label
                 >
-                  <template
-                    v-if="specimenMapping[props.col.label]"
-                    #append
-                  >
+                  <template v-if="specimenMapping[props.col.label]" #append>
                     <q-icon
                       class="cursor-pointer"
                       color="red"
@@ -528,11 +496,11 @@ function statusToChipColor(status: status) {
                     />
                   </template>
                 </q-select>
-              <!-- <div v-if="props.col.label">hi</div> -->
+                <!-- <div v-if="props.col.label">hi</div> -->
               </q-th>
             </template>
           </q-table>
-        <!-- <q-btn
+          <!-- <q-btn
       color="white"
       text-color="black"
       label=""

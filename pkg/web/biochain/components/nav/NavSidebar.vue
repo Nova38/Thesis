@@ -34,31 +34,37 @@ const links = computed(() => {
     const base = `/collection/${col.id}`
     const specimenBase = `${base}/Specimen`
 
-    return [{
-      label: col.id,
-      to: base,
-    }, {
-      label: 'Specimen Table',
-      to: `${base}/SpecimenTable`,
-      icon: 'carbon:data-table',
-
-    }, {
-      label: 'Access Control',
-      to: `${base}/AccessControl`,
-      icon: 'carbon:pedestrian',
-    }, {
-      label: 'Bulk Import',
-      to: `${specimenBase}/bulk/import`,
-      icon: 'carbon:data-bin',
-    }, {
-      label: 'Bulk Update',
-      to: `${specimenBase}/bulk/update`,
-      icon: 'carbon:data-backup',
-    }, {
-      label: 'New Specimen',
-      to: `${specimenBase}/New`,
-      icon: 'carbon:document-add',
-    }] as VerticalNavigationLink[]
+    return [
+      {
+        label: col.id,
+        to: base,
+      },
+      {
+        label: 'Specimen Table',
+        to: `${base}/SpecimenTable`,
+        icon: 'carbon:data-table',
+      },
+      {
+        label: 'Access Control',
+        to: `${base}/AccessControl`,
+        icon: 'carbon:pedestrian',
+      },
+      {
+        label: 'Bulk Import',
+        to: `${specimenBase}/bulk/import`,
+        icon: 'carbon:data-bin',
+      },
+      {
+        label: 'Bulk Update',
+        to: `${specimenBase}/bulk/update`,
+        icon: 'carbon:data-backup',
+      },
+      {
+        label: 'New Specimen',
+        to: `${specimenBase}/New`,
+        icon: 'carbon:document-add',
+      },
+    ] as VerticalNavigationLink[]
   })
 })
 </script>
@@ -73,8 +79,10 @@ const links = computed(() => {
         padding: 'p-0 ps-4',
         rounded: '',
         font: '',
-        active: 'text-primary-500 dark:text-primary-400 border-current font-semibold',
-        inactive: 'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
+        active:
+          'text-primary-500 dark:text-primary-400 border-current font-semibold',
+        inactive:
+          'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
       }"
     />
   </div>

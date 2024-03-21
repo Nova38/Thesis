@@ -2,11 +2,10 @@ import type { AuthSession } from '~/server/utils/session'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   // Skip plugin when rendering error page
-  if (nuxtApp.payload.error)
-    return {}
+  if (nuxtApp.payload.error) return {}
 
-  const { data: session, refresh: refreshSession }
-    = await useCustomFetch<AuthSession>('/api/auth/session')
+  const { data: session, refresh: refreshSession } =
+    await useCustomFetch<AuthSession>('/api/auth/session')
 
   const username = useState('username', () => {
     return session.value?.username

@@ -18,8 +18,7 @@ export const useCollectionsStore = defineStore('Collections', () => {
 
   function GetSpecimenFromCatalogNumber(catalogNumber: string) {
     for (const s of SpecimenList.value) {
-      if (s.primary?.catalogNumber === catalogNumber)
-        return s
+      if (s.primary?.catalogNumber === catalogNumber) return s
     }
   }
 
@@ -31,12 +30,12 @@ export const useCollectionsStore = defineStore('Collections', () => {
     uuids?: string[]
   }) {
     if (uuids) {
-      SpecimenList.value = SpecimenList.value?.filter(s =>
+      SpecimenList.value = SpecimenList.value?.filter((s) =>
         uuids.includes(s.specimenId),
       )
     }
     if (catalogNumbers) {
-      SpecimenList.value = SpecimenList.value?.filter(s =>
+      SpecimenList.value = SpecimenList.value?.filter((s) =>
         catalogNumbers.includes(s.primary?.catalogNumber || ''),
       )
     }
@@ -56,9 +55,9 @@ export const useCollectionsStore = defineStore('Collections', () => {
         SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
         SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          s => s.primary?.catalogNumber || '',
+          (s) => s.primary?.catalogNumber || '',
         )
-        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
+        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
       },
     })
   }
@@ -98,9 +97,9 @@ export const useCollectionsStore = defineStore('Collections', () => {
         SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
         SpecimenList.value = Object.values(SpecimenMap.value)
         SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          s => s.primary.catalogNumber,
+          (s) => s.primary.catalogNumber,
         )
-        SpecimenUUIDs.value = SpecimenList.value.map(s => s.specimenId)
+        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
         Loading.value = false
       },
     })

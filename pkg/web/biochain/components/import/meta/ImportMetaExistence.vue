@@ -6,9 +6,11 @@ const props = defineProps<{
 const bulk = useBulkStore()
 
 const exists = computed(() => {
-  return bulk.RawRowsMeta.get(props.row)?.exist ?? {
-    exist: 'unknown',
-  }
+  return (
+    bulk.RawRowsMeta.get(props.row)?.exist ?? {
+      exist: 'unknown',
+    }
+  )
 })
 
 const severity = computed(() => {
@@ -61,6 +63,4 @@ const severity = computed(() => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

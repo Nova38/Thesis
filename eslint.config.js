@@ -8,7 +8,7 @@ export default antfu(
     formatters: {
       css: true,
       html: true,
-      markdown: true,
+      markdown: false,
       json: false,
     },
     // ...@antfu/eslint-config options,

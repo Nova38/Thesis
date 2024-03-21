@@ -142,9 +142,9 @@ export const FlattedSpecimenKeys = Object.keys(FlattenEmptySpecimen())
 // ]
 
 export interface FlatSpecimen {
-  'collectionId': string
+  collectionId: string
 
-  'specimenId': string
+  specimenId: string
   'georeference.continent': string
   'georeference.coordinateUncertaintyInMeters': string
   'georeference.country': string

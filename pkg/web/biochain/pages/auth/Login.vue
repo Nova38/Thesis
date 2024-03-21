@@ -42,10 +42,7 @@ async function submit(username: string, password: string) {
 <template>
   <q-form @submit="submit(form.username, form.password)">
     <q-card class="flex flex-row gap-2 p-4 items-center">
-      <q-input
-        v-model="form.username"
-        label="Username"
-      />
+      <q-input v-model="form.username" label="Username" />
       <!-- <q-input type="password" v-model="form.password" label="Password" /> -->
       <q-input
         v-model="form.password"

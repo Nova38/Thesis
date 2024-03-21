@@ -10,10 +10,10 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, body =>
-    querySchema.safeParse(body))
-  if (!query.success)
-    throw query.error.issues
+  const query = await getValidatedQuery(event, (body) =>
+    querySchema.safeParse(body),
+  )
+  if (!query.success) throw query.error.issues
   console.log({ data: query.data })
 
   const r1 = await cc.service.listByAttrs(

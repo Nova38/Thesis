@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   console.log({ body })
 
-  const r = await readValidatedBody(event, body => bodySchema.safeParse(body))
+  const r = await readValidatedBody(event, (body) => bodySchema.safeParse(body))
   if (!r.success) {
     console.error(r.error.issues)
     throw r.error.issues
@@ -53,8 +53,7 @@ export default defineEventHandler(async (event) => {
     return {
       unpacked,
     }
-  }
-  catch (error: any) {
+  } catch (error: any) {
     console.debug(error)
 
     console.log(error)

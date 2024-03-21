@@ -8,7 +8,7 @@ const notAllowedKeys = ['specimenId', 'last_modified_by', 'collection_id']
 const SpecimenKeys: Array<string> = keys(keysForImport)
 
 export const FilteredSpecimenKeys = SpecimenKeys.filter(
-  k => !notAllowedKeys.includes(k),
+  (k) => !notAllowedKeys.includes(k),
 )
 
 export default () => {

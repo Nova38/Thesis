@@ -12,15 +12,9 @@ const CollectionId = computed(() => {
     <!-- {{ crush(MakeEmptySpecimen()) }} -->
     {{ CollectionId }}
     <div>
-      <NuxtLink to="/collection/k">
-        K
-      </NuxtLink>
-      <NuxtLink to="/collection/kd">
-        KD
-      </NuxtLink>
-      <NuxtLink to="/collection/ku_orn">
-        ku-orn
-      </NuxtLink>
+      <NuxtLink to="/collection/k"> K </NuxtLink>
+      <NuxtLink to="/collection/kd"> KD </NuxtLink>
+      <NuxtLink to="/collection/ku_orn"> ku-orn </NuxtLink>
     </div>
   </div>
 </template>

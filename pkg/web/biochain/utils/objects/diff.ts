@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldMask } from '@bufbuild/protobuf'
 import { diff } from 'ohash'
 import { crush } from 'radash'
@@ -7,19 +8,22 @@ export type diffOp = 'added' | 'removed' | 'updated'
 export function toMask(p: string) {
   return p
     .split('.')
-    .map(i => snakeCase(i))
+    .map((i) => snakeCase(i))
     .join('.')
 }
 
-export function diffCrush(base: any, updated: any, excludePaths: string[]) {
+export function diffCrush(
+  base: unknown,
+  updated: unknown,
+  excludePaths: string[],
+) {
   const b: Record<string, any> = crush(toValue(base) ?? {})
   const u: Record<string, any> = crush(toValue(updated) ?? {})
 
   const differences: Record<string, unknown>[] = []
   const paths: string[] = []
   for (const key in b) {
-    if (excludePaths.includes(key))
-      continue
+    if (excludePaths.includes(key)) continue
     if (b[key] !== u[key]) {
       differences.push({
         key,
@@ -39,8 +43,7 @@ export function diffCrush(base: any, updated: any, excludePaths: string[]) {
   }
 
   for (const key in u) {
-    if (excludePaths.includes(key))
-      continue
+    if (excludePaths.includes(key)) continue
 
     if (!(key in b) && u[key] !== undefined) {
       differences.push({
@@ -60,17 +63,15 @@ export function diffCrush(base: any, updated: any, excludePaths: string[]) {
 export function diffToFieldMaskPath(base: any, updated: any) {
   const paths = diff(base, updated, {
     excludeKeys: (key: string) => {
-      if (key.startsWith('_'))
-        return true
-      if (key === 'dep')
-        return true
+      if (key.startsWith('_')) return true
+      if (key === 'dep') return true
 
       return false
     },
-  }).map(d =>
+  }).map((d) =>
     d.key
       .split('.')
-      .map(i => snakeCase(i))
+      .map((i) => snakeCase(i))
       .join('.'),
   )
 

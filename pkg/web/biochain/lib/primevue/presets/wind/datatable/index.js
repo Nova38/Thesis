@@ -39,7 +39,7 @@ export const ui = {
   wrapper: ({ props }) => ({
     class: [
       {
-        'relative': props.scrollable,
+        relative: props.scrollable,
         'flex flex-col grow': props.scrollable && props.scrollHeight === 'flex',
       },
 
@@ -180,9 +180,9 @@ export const ui = {
         { 'py-5 px-4': context?.size === 'large' && !state.d_editing },
         {
           'py-3.5 px-3':
-            context?.size !== 'large'
-            && context?.size !== 'small'
-            && !state.d_editing,
+            context?.size !== 'large' &&
+            context?.size !== 'small' &&
+            !state.d_editing,
         },
         { 'py-[0.6rem] px-2': state.d_editing },
 

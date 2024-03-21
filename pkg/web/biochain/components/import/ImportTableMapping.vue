@@ -1,36 +1,39 @@
 <script lang="ts" setup>
 const bulk = useBulkStore()
 
-const MappingOptions = ref<{
-  group: string
-  options:
-  { label: string, value: string }[]
-}[]>([
+const MappingOptions = ref<
+  {
+    group: string
+    options: { label: string; value: string }[]
+  }[]
+>([
   {
     group: 'Empty',
     options: [{ label: ' ', value: ' ' }],
   },
 ])
 
-const options = FlattedSpecimenKeys
-  .filter((x: string) => !(x in ['collectionId', 'specimenId']))
+const options = FlattedSpecimenKeys.filter(
+  (x: string) => !(x in ['collectionId', 'specimenId']),
+)
   .map((x: string) => {
     return {
       group: x.split('.')[0],
       options: [{ label: x, value: x }],
     }
-  }).reduce(
-    (acc: { group: string, options: { label: string, value: string }[] }[], x: { group: string, options: { label: string, value: string }[] }) => {
-      const group = acc.find(y => y.group === x.group)
-      if (group)
-        group.options.push(...x.options)
-      else
-        acc.push(x)
+  })
+  .reduce(
+    (
+      acc: { group: string; options: { label: string; value: string }[] }[],
+      x: { group: string; options: { label: string; value: string }[] },
+    ) => {
+      const group = acc.find((y) => y.group === x.group)
+      if (group) group.options.push(...x.options)
+      else acc.push(x)
 
       return acc
     },
     MappingOptions.value,
-
   )
 
 // MappingOptions.value = [''].concat(FlattedSpecimenKeys)
@@ -50,14 +53,8 @@ const options = FlattedSpecimenKeys
     >
       <PColumnGroup type="header">
         <PRow>
-          <PColumn
-            header="Meta"
-            :colspan="2"
-          />
-          <PColumn
-            header="Raw Fields"
-            :colspan="bulk.RawColDefs.length"
-          />
+          <PColumn header="Meta" :colspan="2" />
+          <PColumn header="Raw Fields" :colspan="bulk.RawColDefs.length" />
         </PRow>
 
         <PRow>
@@ -106,6 +103,4 @@ const options = FlattedSpecimenKeys
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
