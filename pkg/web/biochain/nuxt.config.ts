@@ -71,10 +71,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  eslint: {
-    checker: true,
-  },
-
   modules: [
     '@formkit/nuxt',
     '@nuxt/ui',

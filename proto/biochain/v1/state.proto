@@ -10,10 +10,11 @@ import "buf/validate/validate.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
-// option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
+// option go_package =
+// "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
 message SpecimenHistory {
   repeated SpecimenHistoryEntry entries = 1;
-  auth.HiddenTxList hidden_txs = 2;
+  auth.HiddenTxList hidden_txs          = 2;
 }
 message SpecimenHistoryEntry {
   // The transaction id that caused the change
@@ -23,7 +24,8 @@ message SpecimenHistoryEntry {
   // Whether the transaction was hidden
   bool is_hidden = 3;
   // The timestamp of the change
-  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp timestamp = 4
+      [(buf.validate.field).required = true];
   // A note about the change
   string note = 5;
   // The value of the item
@@ -31,7 +33,7 @@ message SpecimenHistoryEntry {
 }
 
 message SpecimenUpdate {
-  Specimen specimen = 1 [(buf.validate.field).required = true];
+  Specimen specimen              = 1 [(buf.validate.field).required = true];
   google.protobuf.FieldMask mask = 2 [(buf.validate.field).required = true];
 }
 
@@ -39,97 +41,98 @@ message SpecimenUpdate {
 // Specimen
 // ────────────────────────────────────────────────--
 message Date {
-  string verbatim = 1;
+  string verbatim                     = 1;
   google.protobuf.Timestamp timestamp = 2;
-  int32 year = 3;
-  string month = 4;
-  int32 day = 5;
+  int32 year                          = 3;
+  string month                        = 4;
+  int32 day                           = 5;
 }
 message Researcher {
-  string first_name = 1;
-  string last_name = 2;
+  string first_name  = 1;
+  string last_name   = 2;
   string middle_name = 3;
 }
 
 message Specimen {
   option (auth.key_schema).properties = {
-    paths: ["specimen_id"]
+    paths: [ "specimen_id" ]
   };
   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
 
   message Primary {
-    string catalog_number = 1;
-    string accession_number = 2;
-    string field_number = 3;
-    string tissue_number = 4;
-    string cataloger = 5;
-    string collector = 6;
-    string determiner = 7;
-    Date field_date = 8;
-    Date catalog_date = 9;
-    Date determined_date = 10;
-    string determined_reason = 11;
-    Date original_date = 12;
+    string catalog_number            = 1;
+    string accession_number          = 2;
+    string field_number              = 3;
+    string tissue_number             = 4;
+    string cataloger                 = 5;
+    string collector                 = 6;
+    string determiner                = 7;
+    Date field_date                  = 8;
+    Date catalog_date                = 9;
+    Date determined_date             = 10;
+    string determined_reason         = 11;
+    Date original_date               = 12;
     auth.StateActivity last_modified = 20;
   }
 
   message Secondary {
     enum SEX {
       SEX_UNDEFINED = 0;
-      SEX_UNKNOWN = 1;
-      SEX_ATYPICAL = 2;
-      SEX_MALE = 3;
-      SEX_FEMALE = 4;
+      SEX_UNKNOWN   = 1;
+      SEX_ATYPICAL  = 2;
+      SEX_MALE      = 3;
+      SEX_FEMALE    = 4;
     }
-    // Secondary.age -field with limited options: NEST, EMBRYO_EGG, CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
+    // Secondary.age -field with limited options: NEST, EMBRYO_EGG,
+    // CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
     enum AGE {
-      AGE_UNDEFINED = 0;
-      AGE_UNKNOWN = 1;
-      AGE_NEST = 2;
-      AGE_EMBRYO_EGG = 3;
+      AGE_UNDEFINED      = 0;
+      AGE_UNKNOWN        = 1;
+      AGE_NEST           = 2;
+      AGE_EMBRYO_EGG     = 3;
       AGE_CHICK_SUBADULT = 4;
-      AGE_ADULT = 5;
-      AGE_CONTINGENT = 6;
+      AGE_ADULT          = 5;
+      AGE_CONTINGENT     = 6;
     }
 
     message Preparation {
       string verbatim = 1;
     }
 
-    SEX sex = 1;
-    AGE age = 2;
-    double weight = 3;
+    SEX sex             = 1;
+    AGE age             = 2;
+    double weight       = 3;
     string weight_units = 4;
 
     map<string, Preparation> preparations = 5;
-    string condition = 6;
-    string molt = 7;
-    string notes = 8;
+    string condition                      = 6;
+    string molt                           = 7;
+    string notes                          = 8;
 
     auth.StateActivity last_modified = 9;
   }
 
   message Taxon {
-    string kingdom = 1;
-    string phylum = 2;
-    string class = 3;
-    string order = 4;
-    string family = 5;
-    string genus = 6;
-    string species = 7;
-    string subspecies = 8;
+    string kingdom                   = 1;
+    string phylum                    = 2;
+    string class                     = 3;
+    string order                     = 4;
+    string family                    = 5;
+    string genus                     = 6;
+    string species                   = 7;
+    string subspecies                = 8;
     auth.StateActivity last_modified = 20;
   }
   message Georeference {
-    string country = 1;
+    string country        = 1;
     string state_province = 2;
-    string county = 3;
-    string locality = 4;
-    double latitude = 5;
-    double longitude = 6;
-    string habitat = 7;
+    string county         = 3;
+    string locality       = 4;
+    double latitude       = 5;
+    double longitude      = 6;
+    string habitat        = 7;
 
-    //Georeference.continent -string 32 characters
+    // Georeference.continent -string 32 characters
     string continent = 8;
     // Georeference.locationRemarks -string 100-1k characters
     string location_remarks = 9;
@@ -146,53 +149,54 @@ message Specimen {
     // Georeference.footprintWKT -string 10-100k characters
     string footprint_wkt = 15;
 
-    string notes = 19;
+    string notes                     = 19;
     auth.StateActivity last_modified = 20;
   }
 
   // Mapped Types
   message Image {
-    string id = 1;
-    string url = 2;
-    string notes = 3;
-    string hash = 4;
+    string id                        = 1;
+    string url                       = 2;
+    string notes                     = 3;
+    string hash                      = 4;
     auth.StateActivity last_modified = 20;
   }
 
   message Loan {
-    string id = 1;
+    string id          = 1;
     string description = 2;
-    string loaned_by = 3;
-    string loaned_to = 4;
-    Date loaned_date = 5;
+    string loaned_by   = 3;
+    string loaned_to   = 4;
+    Date loaned_date   = 5;
 
     auth.StateActivity last_modified = 20;
   }
 
   message Grant {
-    string id = 1;
-    string description = 2;
-    string granted_by = 3;
-    string granted_to = 4;
-    Date granted_date = 5;
+    string id                        = 1;
+    string description               = 2;
+    string granted_by                = 3;
+    string granted_to                = 4;
+    Date granted_date                = 5;
     auth.StateActivity last_modified = 20;
   }
 
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string specimen_id = 2 [(buf.validate.field).string.min_len = 1];
-  Primary primary = 3 [(buf.validate.field).required = true];
-  Secondary secondary = 4 [(buf.validate.field).required = true];
-  Taxon taxon = 5 [(buf.validate.field).required = true];
+  string collection_id      = 1 [(buf.validate.field).string.min_len = 1];
+  string specimen_id        = 2 [(buf.validate.field).string.min_len = 1];
+  Primary primary           = 3 [(buf.validate.field).required = true];
+  Secondary secondary       = 4 [(buf.validate.field).required = true];
+  Taxon taxon               = 5 [(buf.validate.field).required = true];
   Georeference georeference = 6 [(buf.validate.field).required = true];
   map<string, Image> images = 7;
-  map<string, Loan> loans = 10;
+  map<string, Loan> loans   = 10;
   map<string, Grant> grants = 11;
   auth.StateActivity last_modified = 20;
 }
 
 // message SuggestedUpdate {
 //   // option (hlf.key_schema).namespace = "specimen_update";
-//   // option (hlf.key_schema).key_paths = {paths: ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
+//   // option (hlf.key_schema).key_paths = {paths:
+//   ["id.specimen_id.collection_id", "id.specimen_id.id" , "id.id"]};
 
 //   message Id {
 //     Specimen.Id specimen_id = 1 [(buf.validate.field).required = true];
@@ -204,3 +208,12 @@ message Specimen {
 //   Specimen specimen              = 3 [(buf.validate.field).required = true];
 //   google.protobuf.FieldMask mask = 4 [(buf.validate.field).required = true];
 // };
+
+message SpecimenList {
+  repeated Specimen specimens = 1;
+}
+
+message SpecimenMap {
+  map<string, Specimen> specimens = 1;
+  string bookmark                 = 2;
+}

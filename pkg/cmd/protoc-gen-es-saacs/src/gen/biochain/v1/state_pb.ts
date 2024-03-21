@@ -9,7 +9,8 @@ import { HiddenTxList } from "../../auth/v1/objects_pb.js";
 import { StateActivity } from "../../auth/v1/auth_pb.js";
 
 /**
- * option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
+ * option go_package =
+ * "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
  *
  * @generated from message biochain.v1.SpecimenHistory
  */
@@ -613,7 +614,8 @@ proto3.util.setEnumType(Specimen_Secondary_SEX, "biochain.v1.Specimen.Secondary.
 ]);
 
 /**
- * Secondary.age -field with limited options: NEST, EMBRYO_EGG, CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
+ * Secondary.age -field with limited options: NEST, EMBRYO_EGG,
+ * CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
  *
  * @generated from enum biochain.v1.Specimen.Secondary.AGE
  */
@@ -1129,5 +1131,85 @@ export class Specimen_Grant extends Message<Specimen_Grant> {
 
   static equals(a: Specimen_Grant | PlainMessage<Specimen_Grant> | undefined, b: Specimen_Grant | PlainMessage<Specimen_Grant> | undefined): boolean {
     return proto3.util.equals(Specimen_Grant, a, b);
+  }
+}
+
+/**
+ * @generated from message biochain.v1.SpecimenList
+ */
+export class SpecimenList extends Message<SpecimenList> {
+  /**
+   * @generated from field: repeated biochain.v1.Specimen specimens = 1;
+   */
+  specimens: Specimen[] = [];
+
+  constructor(data?: PartialMessage<SpecimenList>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.SpecimenList";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimens", kind: "message", T: Specimen, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenList {
+    return new SpecimenList().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenList {
+    return new SpecimenList().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenList {
+    return new SpecimenList().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenList | PlainMessage<SpecimenList> | undefined, b: SpecimenList | PlainMessage<SpecimenList> | undefined): boolean {
+    return proto3.util.equals(SpecimenList, a, b);
+  }
+}
+
+/**
+ * @generated from message biochain.v1.SpecimenMap
+ */
+export class SpecimenMap extends Message<SpecimenMap> {
+  /**
+   * @generated from field: map<string, biochain.v1.Specimen> specimens = 1;
+   */
+  specimens: { [key: string]: Specimen } = {};
+
+  /**
+   * @generated from field: string bookmark = 2;
+   */
+  bookmark = "";
+
+  constructor(data?: PartialMessage<SpecimenMap>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "biochain.v1.SpecimenMap";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "specimens", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: Specimen} },
+    { no: 2, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SpecimenMap {
+    return new SpecimenMap().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SpecimenMap {
+    return new SpecimenMap().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SpecimenMap {
+    return new SpecimenMap().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: SpecimenMap | PlainMessage<SpecimenMap> | undefined, b: SpecimenMap | PlainMessage<SpecimenMap> | undefined): boolean {
+    return proto3.util.equals(SpecimenMap, a, b);
   }
 }

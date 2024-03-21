@@ -56,5 +56,7 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
 
-  return { bookmark, specimenMap: SpecimenMap }
+  return new ccbio.SpecimenMap({
+    specimens: SpecimenMap,
+  })
 })

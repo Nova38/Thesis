@@ -1150,6 +1150,286 @@ var _ interface {
 	ErrorName() string
 } = SpecimenValidationError{}
 
+// Validate checks the field values on SpecimenList with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SpecimenList) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SpecimenList with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SpecimenListMultiError, or
+// nil if none found.
+func (m *SpecimenList) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SpecimenList) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetSpecimens() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, SpecimenListValidationError{
+						field:  fmt.Sprintf("Specimens[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, SpecimenListValidationError{
+						field:  fmt.Sprintf("Specimens[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SpecimenListValidationError{
+					field:  fmt.Sprintf("Specimens[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return SpecimenListMultiError(errors)
+	}
+
+	return nil
+}
+
+// SpecimenListMultiError is an error wrapping multiple validation errors
+// returned by SpecimenList.ValidateAll() if the designated constraints aren't met.
+type SpecimenListMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SpecimenListMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SpecimenListMultiError) AllErrors() []error { return m }
+
+// SpecimenListValidationError is the validation error returned by
+// SpecimenList.Validate if the designated constraints aren't met.
+type SpecimenListValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpecimenListValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpecimenListValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpecimenListValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpecimenListValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpecimenListValidationError) ErrorName() string { return "SpecimenListValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SpecimenListValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpecimenList.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpecimenListValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpecimenListValidationError{}
+
+// Validate checks the field values on SpecimenMap with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SpecimenMap) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SpecimenMap with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SpecimenMapMultiError, or
+// nil if none found.
+func (m *SpecimenMap) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SpecimenMap) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	{
+		sorted_keys := make([]string, len(m.GetSpecimens()))
+		i := 0
+		for key := range m.GetSpecimens() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetSpecimens()[key]
+			_ = val
+
+			// no validation rules for Specimens[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, SpecimenMapValidationError{
+							field:  fmt.Sprintf("Specimens[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, SpecimenMapValidationError{
+							field:  fmt.Sprintf("Specimens[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return SpecimenMapValidationError{
+						field:  fmt.Sprintf("Specimens[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
+
+	// no validation rules for Bookmark
+
+	if len(errors) > 0 {
+		return SpecimenMapMultiError(errors)
+	}
+
+	return nil
+}
+
+// SpecimenMapMultiError is an error wrapping multiple validation errors
+// returned by SpecimenMap.ValidateAll() if the designated constraints aren't met.
+type SpecimenMapMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SpecimenMapMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SpecimenMapMultiError) AllErrors() []error { return m }
+
+// SpecimenMapValidationError is the validation error returned by
+// SpecimenMap.Validate if the designated constraints aren't met.
+type SpecimenMapValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SpecimenMapValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SpecimenMapValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SpecimenMapValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SpecimenMapValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SpecimenMapValidationError) ErrorName() string { return "SpecimenMapValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SpecimenMapValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpecimenMap.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SpecimenMapValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SpecimenMapValidationError{}
+
 // Validate checks the field values on Specimen_Primary with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.

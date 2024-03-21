@@ -34,13 +34,23 @@ export default defineEventHandler(async (event) => {
   // console.log("2");
 
   // console.log(result);
-  const specimenMap: Record<string, any> = {}
-
-  result.items.forEach((i) => {
-    const s = new ccbio.Specimen()
-    i.value?.unpackTo(s)
-    specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
+  // const specimenMap: Record<string, any> = {}
+  const response = new ccbio.SpecimenMap({
+    bookmark: result.bookmark,
+    specimens: Object.fromEntries(
+      result.items.map((i) => {
+        const s = new ccbio.Specimen()
+        i.value?.unpackTo(s)
+        return [s.specimenId, s]
+      }),
+    ),
   })
 
-  return { bookmark: result.bookmark, specimenMap }
+  // result.items.forEach((i) => {
+  //   const s = new ccbio.Specimen()
+  //   i.value?.unpackTo(s)
+  //   specimenMap[s.specimenId] = s.toJson({ emitDefaultValues: true })
+  // })
+
+  return response
 })

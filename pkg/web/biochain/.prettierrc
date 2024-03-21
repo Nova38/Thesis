@@ -2,3 +2,4 @@
 "singleQuote": true
 "semi": false
 "useTabs": false
+singleAttributePerLine: true

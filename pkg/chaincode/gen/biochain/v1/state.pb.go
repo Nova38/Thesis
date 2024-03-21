@@ -79,7 +79,8 @@ func (Specimen_Secondary_SEX) EnumDescriptor() ([]byte, []int) {
 	return file_biochain_v1_state_proto_rawDescGZIP(), []int{5, 1, 0}
 }
 
-// Secondary.age -field with limited options: NEST, EMBRYO_EGG, CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
+// Secondary.age -field with limited options: NEST, EMBRYO_EGG,
+// CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
 type Specimen_Secondary_AGE int32
 
 const (
@@ -141,7 +142,8 @@ func (Specimen_Secondary_AGE) EnumDescriptor() ([]byte, []int) {
 	return file_biochain_v1_state_proto_rawDescGZIP(), []int{5, 1, 1}
 }
 
-// option go_package = "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
+// option go_package =
+// "github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";
 type SpecimenHistory struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -609,6 +611,108 @@ func (x *Specimen) GetLastModified() *v1.StateActivity {
 	return nil
 }
 
+type SpecimenList struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Specimens []*Specimen `protobuf:"bytes,1,rep,name=specimens,proto3" json:"specimens,omitempty"`
+}
+
+func (x *SpecimenList) Reset() {
+	*x = SpecimenList{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_biochain_v1_state_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SpecimenList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SpecimenList) ProtoMessage() {}
+
+func (x *SpecimenList) ProtoReflect() protoreflect.Message {
+	mi := &file_biochain_v1_state_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SpecimenList.ProtoReflect.Descriptor instead.
+func (*SpecimenList) Descriptor() ([]byte, []int) {
+	return file_biochain_v1_state_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SpecimenList) GetSpecimens() []*Specimen {
+	if x != nil {
+		return x.Specimens
+	}
+	return nil
+}
+
+type SpecimenMap struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Specimens map[string]*Specimen `protobuf:"bytes,1,rep,name=specimens,proto3" json:"specimens,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Bookmark  string               `protobuf:"bytes,2,opt,name=bookmark,proto3" json:"bookmark,omitempty"`
+}
+
+func (x *SpecimenMap) Reset() {
+	*x = SpecimenMap{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_biochain_v1_state_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SpecimenMap) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SpecimenMap) ProtoMessage() {}
+
+func (x *SpecimenMap) ProtoReflect() protoreflect.Message {
+	mi := &file_biochain_v1_state_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SpecimenMap.ProtoReflect.Descriptor instead.
+func (*SpecimenMap) Descriptor() ([]byte, []int) {
+	return file_biochain_v1_state_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SpecimenMap) GetSpecimens() map[string]*Specimen {
+	if x != nil {
+		return x.Specimens
+	}
+	return nil
+}
+
+func (x *SpecimenMap) GetBookmark() string {
+	if x != nil {
+		return x.Bookmark
+	}
+	return ""
+}
+
 type Specimen_Primary struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -632,7 +736,7 @@ type Specimen_Primary struct {
 func (x *Specimen_Primary) Reset() {
 	*x = Specimen_Primary{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[6]
+		mi := &file_biochain_v1_state_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -645,7 +749,7 @@ func (x *Specimen_Primary) String() string {
 func (*Specimen_Primary) ProtoMessage() {}
 
 func (x *Specimen_Primary) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[6]
+	mi := &file_biochain_v1_state_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -771,7 +875,7 @@ type Specimen_Secondary struct {
 func (x *Specimen_Secondary) Reset() {
 	*x = Specimen_Secondary{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[7]
+		mi := &file_biochain_v1_state_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -784,7 +888,7 @@ func (x *Specimen_Secondary) String() string {
 func (*Specimen_Secondary) ProtoMessage() {}
 
 func (x *Specimen_Secondary) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[7]
+	mi := &file_biochain_v1_state_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -882,7 +986,7 @@ type Specimen_Taxon struct {
 func (x *Specimen_Taxon) Reset() {
 	*x = Specimen_Taxon{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[8]
+		mi := &file_biochain_v1_state_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -895,7 +999,7 @@ func (x *Specimen_Taxon) String() string {
 func (*Specimen_Taxon) ProtoMessage() {}
 
 func (x *Specimen_Taxon) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[8]
+	mi := &file_biochain_v1_state_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1009,7 +1113,7 @@ type Specimen_Georeference struct {
 func (x *Specimen_Georeference) Reset() {
 	*x = Specimen_Georeference{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[9]
+		mi := &file_biochain_v1_state_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1022,7 +1126,7 @@ func (x *Specimen_Georeference) String() string {
 func (*Specimen_Georeference) ProtoMessage() {}
 
 func (x *Specimen_Georeference) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[9]
+	mi := &file_biochain_v1_state_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1173,7 +1277,7 @@ type Specimen_Image struct {
 func (x *Specimen_Image) Reset() {
 	*x = Specimen_Image{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[10]
+		mi := &file_biochain_v1_state_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1186,7 +1290,7 @@ func (x *Specimen_Image) String() string {
 func (*Specimen_Image) ProtoMessage() {}
 
 func (x *Specimen_Image) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[10]
+	mi := &file_biochain_v1_state_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1253,7 +1357,7 @@ type Specimen_Loan struct {
 func (x *Specimen_Loan) Reset() {
 	*x = Specimen_Loan{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[11]
+		mi := &file_biochain_v1_state_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1266,7 +1370,7 @@ func (x *Specimen_Loan) String() string {
 func (*Specimen_Loan) ProtoMessage() {}
 
 func (x *Specimen_Loan) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[11]
+	mi := &file_biochain_v1_state_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1340,7 +1444,7 @@ type Specimen_Grant struct {
 func (x *Specimen_Grant) Reset() {
 	*x = Specimen_Grant{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[12]
+		mi := &file_biochain_v1_state_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1353,7 +1457,7 @@ func (x *Specimen_Grant) String() string {
 func (*Specimen_Grant) ProtoMessage() {}
 
 func (x *Specimen_Grant) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[12]
+	mi := &file_biochain_v1_state_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1422,7 +1526,7 @@ type Specimen_Secondary_Preparation struct {
 func (x *Specimen_Secondary_Preparation) Reset() {
 	*x = Specimen_Secondary_Preparation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_biochain_v1_state_proto_msgTypes[16]
+		mi := &file_biochain_v1_state_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1435,7 +1539,7 @@ func (x *Specimen_Secondary_Preparation) String() string {
 func (*Specimen_Secondary_Preparation) ProtoMessage() {}
 
 func (x *Specimen_Secondary_Preparation) ProtoReflect() protoreflect.Message {
-	mi := &file_biochain_v1_state_proto_msgTypes[16]
+	mi := &file_biochain_v1_state_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1758,18 +1862,35 @@ var file_biochain_v1_state_proto_rawDesc = []byte{
 	0x2e, 0x53, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x2e, 0x47, 0x72, 0x61, 0x6e, 0x74, 0x52,
 	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x3a, 0x15, 0xba, 0xd4, 0x1a, 0x11,
 	0x10, 0x02, 0x1a, 0x0d, 0x0a, 0x0b, 0x73, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x5f, 0x69,
-	0x64, 0x42, 0xac, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x69, 0x6f, 0x63, 0x68, 0x61,
-	0x69, 0x6e, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x53, 0x74, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x74,
-	0x6f, 0x50, 0x01, 0x5a, 0x40, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x6e, 0x6f, 0x76, 0x61, 0x33, 0x38, 0x2f, 0x73, 0x61, 0x61, 0x63, 0x73, 0x2f, 0x70, 0x6b, 0x67,
-	0x2f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x63, 0x6f, 0x64, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x62,
-	0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x62, 0x69, 0x6f, 0x63, 0x68,
-	0x61, 0x69, 0x6e, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x42, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x42, 0x69,
-	0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x42, 0x69, 0x6f, 0x63,
-	0x68, 0x61, 0x69, 0x6e, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x42, 0x69, 0x6f, 0x63, 0x68, 0x61,
-	0x69, 0x6e, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
-	0x61, 0xea, 0x02, 0x0c, 0x42, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x3a, 0x3a, 0x56, 0x31,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x64, 0x22, 0x43, 0x0a, 0x0c, 0x53, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x4c, 0x69, 0x73,
+	0x74, 0x12, 0x33, 0x0a, 0x09, 0x73, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x62, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e,
+	0x76, 0x31, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x52, 0x09, 0x73, 0x70, 0x65,
+	0x63, 0x69, 0x6d, 0x65, 0x6e, 0x73, 0x22, 0xc5, 0x01, 0x0a, 0x0b, 0x53, 0x70, 0x65, 0x63, 0x69,
+	0x6d, 0x65, 0x6e, 0x4d, 0x61, 0x70, 0x12, 0x45, 0x0a, 0x09, 0x73, 0x70, 0x65, 0x63, 0x69, 0x6d,
+	0x65, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x62, 0x69, 0x6f, 0x63,
+	0x68, 0x61, 0x69, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e,
+	0x4d, 0x61, 0x70, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x52, 0x09, 0x73, 0x70, 0x65, 0x63, 0x69, 0x6d, 0x65, 0x6e, 0x73, 0x12, 0x1a, 0x0a,
+	0x08, 0x62, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x62, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72, 0x6b, 0x1a, 0x53, 0x0a, 0x0e, 0x53, 0x70, 0x65,
+	0x63, 0x69, 0x6d, 0x65, 0x6e, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
+	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x2b, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x62,
+	0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x69,
+	0x6d, 0x65, 0x6e, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0xac,
+	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e,
+	0x76, 0x31, 0x42, 0x0a, 0x53, 0x74, 0x61, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x40, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6e, 0x6f, 0x76,
+	0x61, 0x33, 0x38, 0x2f, 0x73, 0x61, 0x61, 0x63, 0x73, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x63, 0x68,
+	0x61, 0x69, 0x6e, 0x63, 0x6f, 0x64, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x62, 0x69, 0x6f, 0x63,
+	0x68, 0x61, 0x69, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x62, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e,
+	0x76, 0x31, 0xa2, 0x02, 0x03, 0x42, 0x58, 0x58, 0xaa, 0x02, 0x0b, 0x42, 0x69, 0x6f, 0x63, 0x68,
+	0x61, 0x69, 0x6e, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x0b, 0x42, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69,
+	0x6e, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x17, 0x42, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x5c,
+	0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x0c, 0x42, 0x69, 0x6f, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1785,7 +1906,7 @@ func file_biochain_v1_state_proto_rawDescGZIP() []byte {
 }
 
 var file_biochain_v1_state_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_biochain_v1_state_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_biochain_v1_state_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_biochain_v1_state_proto_goTypes = []interface{}{
 	(Specimen_Secondary_SEX)(0),            // 0: biochain.v1.Specimen.Secondary.SEX
 	(Specimen_Secondary_AGE)(0),            // 1: biochain.v1.Specimen.Secondary.AGE
@@ -1795,65 +1916,71 @@ var file_biochain_v1_state_proto_goTypes = []interface{}{
 	(*Date)(nil),                           // 5: biochain.v1.Date
 	(*Researcher)(nil),                     // 6: biochain.v1.Researcher
 	(*Specimen)(nil),                       // 7: biochain.v1.Specimen
-	(*Specimen_Primary)(nil),               // 8: biochain.v1.Specimen.Primary
-	(*Specimen_Secondary)(nil),             // 9: biochain.v1.Specimen.Secondary
-	(*Specimen_Taxon)(nil),                 // 10: biochain.v1.Specimen.Taxon
-	(*Specimen_Georeference)(nil),          // 11: biochain.v1.Specimen.Georeference
-	(*Specimen_Image)(nil),                 // 12: biochain.v1.Specimen.Image
-	(*Specimen_Loan)(nil),                  // 13: biochain.v1.Specimen.Loan
-	(*Specimen_Grant)(nil),                 // 14: biochain.v1.Specimen.Grant
-	nil,                                    // 15: biochain.v1.Specimen.ImagesEntry
-	nil,                                    // 16: biochain.v1.Specimen.LoansEntry
-	nil,                                    // 17: biochain.v1.Specimen.GrantsEntry
-	(*Specimen_Secondary_Preparation)(nil), // 18: biochain.v1.Specimen.Secondary.Preparation
-	nil,                                    // 19: biochain.v1.Specimen.Secondary.PreparationsEntry
-	(*v1.HiddenTxList)(nil),                // 20: auth.HiddenTxList
-	(*timestamppb.Timestamp)(nil),          // 21: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),          // 22: google.protobuf.FieldMask
-	(*v1.StateActivity)(nil),               // 23: auth.StateActivity
+	(*SpecimenList)(nil),                   // 8: biochain.v1.SpecimenList
+	(*SpecimenMap)(nil),                    // 9: biochain.v1.SpecimenMap
+	(*Specimen_Primary)(nil),               // 10: biochain.v1.Specimen.Primary
+	(*Specimen_Secondary)(nil),             // 11: biochain.v1.Specimen.Secondary
+	(*Specimen_Taxon)(nil),                 // 12: biochain.v1.Specimen.Taxon
+	(*Specimen_Georeference)(nil),          // 13: biochain.v1.Specimen.Georeference
+	(*Specimen_Image)(nil),                 // 14: biochain.v1.Specimen.Image
+	(*Specimen_Loan)(nil),                  // 15: biochain.v1.Specimen.Loan
+	(*Specimen_Grant)(nil),                 // 16: biochain.v1.Specimen.Grant
+	nil,                                    // 17: biochain.v1.Specimen.ImagesEntry
+	nil,                                    // 18: biochain.v1.Specimen.LoansEntry
+	nil,                                    // 19: biochain.v1.Specimen.GrantsEntry
+	(*Specimen_Secondary_Preparation)(nil), // 20: biochain.v1.Specimen.Secondary.Preparation
+	nil,                                    // 21: biochain.v1.Specimen.Secondary.PreparationsEntry
+	nil,                                    // 22: biochain.v1.SpecimenMap.SpecimensEntry
+	(*v1.HiddenTxList)(nil),                // 23: auth.HiddenTxList
+	(*timestamppb.Timestamp)(nil),          // 24: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),          // 25: google.protobuf.FieldMask
+	(*v1.StateActivity)(nil),               // 26: auth.StateActivity
 }
 var file_biochain_v1_state_proto_depIdxs = []int32{
 	3,  // 0: biochain.v1.SpecimenHistory.entries:type_name -> biochain.v1.SpecimenHistoryEntry
-	20, // 1: biochain.v1.SpecimenHistory.hidden_txs:type_name -> auth.HiddenTxList
-	21, // 2: biochain.v1.SpecimenHistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
+	23, // 1: biochain.v1.SpecimenHistory.hidden_txs:type_name -> auth.HiddenTxList
+	24, // 2: biochain.v1.SpecimenHistoryEntry.timestamp:type_name -> google.protobuf.Timestamp
 	7,  // 3: biochain.v1.SpecimenHistoryEntry.value:type_name -> biochain.v1.Specimen
 	7,  // 4: biochain.v1.SpecimenUpdate.specimen:type_name -> biochain.v1.Specimen
-	22, // 5: biochain.v1.SpecimenUpdate.mask:type_name -> google.protobuf.FieldMask
-	21, // 6: biochain.v1.Date.timestamp:type_name -> google.protobuf.Timestamp
-	8,  // 7: biochain.v1.Specimen.primary:type_name -> biochain.v1.Specimen.Primary
-	9,  // 8: biochain.v1.Specimen.secondary:type_name -> biochain.v1.Specimen.Secondary
-	10, // 9: biochain.v1.Specimen.taxon:type_name -> biochain.v1.Specimen.Taxon
-	11, // 10: biochain.v1.Specimen.georeference:type_name -> biochain.v1.Specimen.Georeference
-	15, // 11: biochain.v1.Specimen.images:type_name -> biochain.v1.Specimen.ImagesEntry
-	16, // 12: biochain.v1.Specimen.loans:type_name -> biochain.v1.Specimen.LoansEntry
-	17, // 13: biochain.v1.Specimen.grants:type_name -> biochain.v1.Specimen.GrantsEntry
-	23, // 14: biochain.v1.Specimen.last_modified:type_name -> auth.StateActivity
-	5,  // 15: biochain.v1.Specimen.Primary.field_date:type_name -> biochain.v1.Date
-	5,  // 16: biochain.v1.Specimen.Primary.catalog_date:type_name -> biochain.v1.Date
-	5,  // 17: biochain.v1.Specimen.Primary.determined_date:type_name -> biochain.v1.Date
-	5,  // 18: biochain.v1.Specimen.Primary.original_date:type_name -> biochain.v1.Date
-	23, // 19: biochain.v1.Specimen.Primary.last_modified:type_name -> auth.StateActivity
-	0,  // 20: biochain.v1.Specimen.Secondary.sex:type_name -> biochain.v1.Specimen.Secondary.SEX
-	1,  // 21: biochain.v1.Specimen.Secondary.age:type_name -> biochain.v1.Specimen.Secondary.AGE
-	19, // 22: biochain.v1.Specimen.Secondary.preparations:type_name -> biochain.v1.Specimen.Secondary.PreparationsEntry
-	23, // 23: biochain.v1.Specimen.Secondary.last_modified:type_name -> auth.StateActivity
-	23, // 24: biochain.v1.Specimen.Taxon.last_modified:type_name -> auth.StateActivity
-	5,  // 25: biochain.v1.Specimen.Georeference.georeference_date:type_name -> biochain.v1.Date
-	23, // 26: biochain.v1.Specimen.Georeference.last_modified:type_name -> auth.StateActivity
-	23, // 27: biochain.v1.Specimen.Image.last_modified:type_name -> auth.StateActivity
-	5,  // 28: biochain.v1.Specimen.Loan.loaned_date:type_name -> biochain.v1.Date
-	23, // 29: biochain.v1.Specimen.Loan.last_modified:type_name -> auth.StateActivity
-	5,  // 30: biochain.v1.Specimen.Grant.granted_date:type_name -> biochain.v1.Date
-	23, // 31: biochain.v1.Specimen.Grant.last_modified:type_name -> auth.StateActivity
-	12, // 32: biochain.v1.Specimen.ImagesEntry.value:type_name -> biochain.v1.Specimen.Image
-	13, // 33: biochain.v1.Specimen.LoansEntry.value:type_name -> biochain.v1.Specimen.Loan
-	14, // 34: biochain.v1.Specimen.GrantsEntry.value:type_name -> biochain.v1.Specimen.Grant
-	18, // 35: biochain.v1.Specimen.Secondary.PreparationsEntry.value:type_name -> biochain.v1.Specimen.Secondary.Preparation
-	36, // [36:36] is the sub-list for method output_type
-	36, // [36:36] is the sub-list for method input_type
-	36, // [36:36] is the sub-list for extension type_name
-	36, // [36:36] is the sub-list for extension extendee
-	0,  // [0:36] is the sub-list for field type_name
+	25, // 5: biochain.v1.SpecimenUpdate.mask:type_name -> google.protobuf.FieldMask
+	24, // 6: biochain.v1.Date.timestamp:type_name -> google.protobuf.Timestamp
+	10, // 7: biochain.v1.Specimen.primary:type_name -> biochain.v1.Specimen.Primary
+	11, // 8: biochain.v1.Specimen.secondary:type_name -> biochain.v1.Specimen.Secondary
+	12, // 9: biochain.v1.Specimen.taxon:type_name -> biochain.v1.Specimen.Taxon
+	13, // 10: biochain.v1.Specimen.georeference:type_name -> biochain.v1.Specimen.Georeference
+	17, // 11: biochain.v1.Specimen.images:type_name -> biochain.v1.Specimen.ImagesEntry
+	18, // 12: biochain.v1.Specimen.loans:type_name -> biochain.v1.Specimen.LoansEntry
+	19, // 13: biochain.v1.Specimen.grants:type_name -> biochain.v1.Specimen.GrantsEntry
+	26, // 14: biochain.v1.Specimen.last_modified:type_name -> auth.StateActivity
+	7,  // 15: biochain.v1.SpecimenList.specimens:type_name -> biochain.v1.Specimen
+	22, // 16: biochain.v1.SpecimenMap.specimens:type_name -> biochain.v1.SpecimenMap.SpecimensEntry
+	5,  // 17: biochain.v1.Specimen.Primary.field_date:type_name -> biochain.v1.Date
+	5,  // 18: biochain.v1.Specimen.Primary.catalog_date:type_name -> biochain.v1.Date
+	5,  // 19: biochain.v1.Specimen.Primary.determined_date:type_name -> biochain.v1.Date
+	5,  // 20: biochain.v1.Specimen.Primary.original_date:type_name -> biochain.v1.Date
+	26, // 21: biochain.v1.Specimen.Primary.last_modified:type_name -> auth.StateActivity
+	0,  // 22: biochain.v1.Specimen.Secondary.sex:type_name -> biochain.v1.Specimen.Secondary.SEX
+	1,  // 23: biochain.v1.Specimen.Secondary.age:type_name -> biochain.v1.Specimen.Secondary.AGE
+	21, // 24: biochain.v1.Specimen.Secondary.preparations:type_name -> biochain.v1.Specimen.Secondary.PreparationsEntry
+	26, // 25: biochain.v1.Specimen.Secondary.last_modified:type_name -> auth.StateActivity
+	26, // 26: biochain.v1.Specimen.Taxon.last_modified:type_name -> auth.StateActivity
+	5,  // 27: biochain.v1.Specimen.Georeference.georeference_date:type_name -> biochain.v1.Date
+	26, // 28: biochain.v1.Specimen.Georeference.last_modified:type_name -> auth.StateActivity
+	26, // 29: biochain.v1.Specimen.Image.last_modified:type_name -> auth.StateActivity
+	5,  // 30: biochain.v1.Specimen.Loan.loaned_date:type_name -> biochain.v1.Date
+	26, // 31: biochain.v1.Specimen.Loan.last_modified:type_name -> auth.StateActivity
+	5,  // 32: biochain.v1.Specimen.Grant.granted_date:type_name -> biochain.v1.Date
+	26, // 33: biochain.v1.Specimen.Grant.last_modified:type_name -> auth.StateActivity
+	14, // 34: biochain.v1.Specimen.ImagesEntry.value:type_name -> biochain.v1.Specimen.Image
+	15, // 35: biochain.v1.Specimen.LoansEntry.value:type_name -> biochain.v1.Specimen.Loan
+	16, // 36: biochain.v1.Specimen.GrantsEntry.value:type_name -> biochain.v1.Specimen.Grant
+	20, // 37: biochain.v1.Specimen.Secondary.PreparationsEntry.value:type_name -> biochain.v1.Specimen.Secondary.Preparation
+	7,  // 38: biochain.v1.SpecimenMap.SpecimensEntry.value:type_name -> biochain.v1.Specimen
+	39, // [39:39] is the sub-list for method output_type
+	39, // [39:39] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_biochain_v1_state_proto_init() }
@@ -1935,7 +2062,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Primary); i {
+			switch v := v.(*SpecimenList); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1947,7 +2074,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Secondary); i {
+			switch v := v.(*SpecimenMap); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1959,7 +2086,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Taxon); i {
+			switch v := v.(*Specimen_Primary); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1971,7 +2098,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Georeference); i {
+			switch v := v.(*Specimen_Secondary); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1983,7 +2110,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Image); i {
+			switch v := v.(*Specimen_Taxon); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1995,7 +2122,7 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Specimen_Loan); i {
+			switch v := v.(*Specimen_Georeference); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2007,6 +2134,30 @@ func file_biochain_v1_state_proto_init() {
 			}
 		}
 		file_biochain_v1_state_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Specimen_Image); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_biochain_v1_state_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Specimen_Loan); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_biochain_v1_state_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Specimen_Grant); i {
 			case 0:
 				return &v.state
@@ -2018,7 +2169,7 @@ func file_biochain_v1_state_proto_init() {
 				return nil
 			}
 		}
-		file_biochain_v1_state_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_biochain_v1_state_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Specimen_Secondary_Preparation); i {
 			case 0:
 				return &v.state
@@ -2037,7 +2188,7 @@ func file_biochain_v1_state_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_biochain_v1_state_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   18,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
