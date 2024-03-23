@@ -5,10 +5,10 @@ import (
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	"github.com/nova38/saacs/pkg/chaincode/actions"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	cc "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
+	actions2 "github.com/nova38/saacs/pkg/chaincode/state/actions"
 	"github.com/samber/oops"
 )
 
@@ -153,7 +153,7 @@ func (o ItemContractImpl) Get(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = actions.PrimaryGet(ctx, obj); err != nil {
+	if err = actions2.PrimaryGet(ctx, obj); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
@@ -185,7 +185,7 @@ func (o ItemContractImpl) GetFull(
 		return nil, oops.Wrap(err)
 	}
 
-	full, err := actions.PrimaryGetFull(ctx, item, req.GetShowHidden())
+	full, err := actions2.PrimaryGetFull(ctx, item, req.GetShowHidden())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -217,7 +217,7 @@ func (o ItemContractImpl) List(
 		return nil, oops.Wrap(err)
 	}
 
-	list, mk, err := actions.PrimaryList(ctx, item, req.GetBookmark())
+	list, mk, err := actions2.PrimaryList(ctx, item, req.GetBookmark())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -259,7 +259,7 @@ func (o ItemContractImpl) ListByCollection(
 	item.SetKey(&authpb.ItemKey{CollectionId: req.GetKey().GetCollectionId()})
 
 	// list, mk, err := actions.PrimaryList(ctx, item, req.GetBookmark())
-	list, mk, err := actions.PrimaryByPartialKey(
+	list, mk, err := actions2.PrimaryByPartialKey(
 		ctx,
 		item,
 		int(0),
@@ -305,7 +305,7 @@ func (o ItemContractImpl) ListByAttrs(
 		return nil, oops.Wrap(err)
 	}
 
-	list, mk, err := actions.PrimaryByPartialKey(
+	list, mk, err := actions2.PrimaryByPartialKey(
 		ctx,
 		item,
 		int(req.GetNumAttrs()),
@@ -350,7 +350,7 @@ func (o ItemContractImpl) Create(
 
 	// Check if the item is a valid item for the collection??
 
-	if err = actions.PrimaryCreate(ctx, obj); err != nil {
+	if err = actions2.PrimaryCreate(ctx, obj); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
@@ -376,7 +376,7 @@ func (o ItemContractImpl) Update(
 		return nil, oops.Wrap(err)
 	}
 
-	updated, err := actions.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
+	updated, err := actions2.PrimaryUpdate(ctx, obj, req.GetUpdateMask())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -409,7 +409,7 @@ func (o ItemContractImpl) Delete(
 		return nil, oops.Wrap(err)
 	}
 
-	if err = actions.PrimaryDelete(ctx, obj); err != nil {
+	if err = actions2.PrimaryDelete(ctx, obj); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -446,7 +446,7 @@ func (o ItemContractImpl) GetHistory(
 		return nil, oops.Wrap(err)
 	}
 
-	if h, err = actions.GetHistory(ctx, obj); err != nil {
+	if h, err = actions2.GetHistory(ctx, obj); err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
@@ -474,7 +474,7 @@ func (o ItemContractImpl) GetHiddenTx(
 		return nil, oops.Wrap(err)
 	}
 
-	if hTxs, err = actions.GetHiddenTx(ctx, obj); err != nil {
+	if hTxs, err = actions2.GetHiddenTx(ctx, obj); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -503,7 +503,7 @@ func (o ItemContractImpl) HideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	list, err := actions.HideTransaction(ctx, obj, req.GetHiddenTx())
+	list, err := actions2.HideTransaction(ctx, obj, req.GetHiddenTx())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -534,7 +534,7 @@ func (o ItemContractImpl) UnHideTx(
 		return nil, oops.Wrap(err)
 	}
 
-	list, err := actions.UnHideTransaction(ctx, obj, req.GetTxId())
+	list, err := actions2.UnHideTransaction(ctx, obj, req.GetTxId())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
@@ -563,7 +563,7 @@ func (o ItemContractImpl) GetSuggestion(
 		SuggestionId: req.GetSuggestionId(),
 	}
 
-	if err = actions.GetSuggestion(ctx, sug); err != nil {
+	if err = actions2.GetSuggestion(ctx, sug); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -581,7 +581,7 @@ func (o ItemContractImpl) SuggestionListByCollection(
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
-	list, mk, err := actions.SuggestionListByCollection(
+	list, mk, err := actions2.SuggestionListByCollection(
 		ctx,
 		req.GetCollectionId(),
 		req.GetBookmark(),
@@ -612,7 +612,7 @@ func (o ItemContractImpl) SuggestionByPartialKey(
 		PrimaryKey: req.GetItemKey(),
 	}
 
-	list, mk, err := actions.PartialSuggestionList(
+	list, mk, err := actions2.PartialSuggestionList(
 		ctx,
 		sug,
 		int(req.GetNumAttrs()),
@@ -642,7 +642,7 @@ func (o ItemContractImpl) SuggestionCreate(
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
 	}
-	if err = actions.SuggestionCreate(ctx, req.GetSuggestion()); err != nil {
+	if err = actions2.SuggestionCreate(ctx, req.GetSuggestion()); err != nil {
 		ctx.GetLogger().Warn("SuggestionCreate", "err", err)
 		return nil, oops.Wrap(err)
 	}
@@ -666,7 +666,7 @@ func (o ItemContractImpl) SuggestionDelete(
 		SuggestionId: req.GetSuggestionId(),
 	}
 
-	if err = actions.SuggestionDelete(ctx, sug); err != nil {
+	if err = actions2.SuggestionDelete(ctx, sug); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
@@ -689,7 +689,7 @@ func (o ItemContractImpl) SuggestionApprove(
 		SuggestionId: req.GetSuggestionId(),
 	}
 
-	u, err := actions.SuggestionApprove(ctx, sug)
+	u, err := actions2.SuggestionApprove(ctx, sug)
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)

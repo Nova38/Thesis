@@ -3,7 +3,6 @@ package common
 import (
 	"log/slog"
 
-	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
@@ -65,7 +64,7 @@ type (
 		// HandelBefore - Handles the before function for the transaction
 		HandelBefore() (err error)
 		HandleFnError(err *error, r any)
-		CloseQueryIterator(resultIterator shim.CommonIteratorInterface)
+		CloseQueryIterator(resultIterator CommonIteratorInterface)
 		// ════════════════════════════════════════════════════════
 
 		GetLogger() *slog.Logger
@@ -165,5 +164,21 @@ type (
 		// last modified activity to the item
 		PostActionProcessing(item ItemInterface, ops []*v1.Operation) (err error)
 		CheckBootstrap() (bootstraped bool, err error)
+	}
+
+	// ─────────────────────────────────────────────────────────────────────
+
+	// CommonIteratorInterface allows a chaincode to check whether any more result
+	// to be fetched from an iterator and close it when done.
+	//
+	// From on the "github.com/hyperledger/fabric-chaincode-go/shim" package's CommonIteratorInterface
+	CommonIteratorInterface interface {
+		// HasNext returns true if the range query iterator contains additional keys
+		// and values.
+		HasNext() bool
+
+		// Close closes the iterator. This should be called when done
+		// reading from the iterator to free up resources.
+		Close() error
 	}
 )

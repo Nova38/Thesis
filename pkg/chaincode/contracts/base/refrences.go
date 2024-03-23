@@ -1,9 +1,9 @@
 package base
 
 import (
-	"github.com/nova38/saacs/pkg/chaincode/actions"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	ccpb "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
+	"github.com/nova38/saacs/pkg/chaincode/state/actions"
 	"github.com/samber/oops"
 )
 
