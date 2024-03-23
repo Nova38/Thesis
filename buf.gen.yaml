@@ -38,31 +38,30 @@ plugins:
     out: pkg/cmd/protoc-gen-es-saacs/src/gen
     opt: target=ts
 
-  # - plugin: buf.build/bufbuild/es
-  #   out: pkg/web/biochain/lib/pb
-  #   opt: target=ts
-
   - plugin: buf.build/connectrpc/es
 
     out: pkg/saacs-es/src/gen
     opt: target=ts
-
-  # - plugin: buf.build/connectrpc/es
-
-  #   out: pkg/web/biochain/lib/pb
-  #   opt: target=ts
-
-  # - plugin: protoc-gen-es-saacs
-  #   path: ["jiti", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
-  #   opt: target=ts
-  #   out: pkg/web/biochain/lib/pb
-  #   strategy: all
 
   - plugin: protoc-gen-es-saacs
     path: ["jiti", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
     opt: target=ts
     out: pkg/saacs-es/src/gen
     strategy: all
+
+  - plugin: buf.build/connectrpc/es
+    out: pkg/web/biochain/lib/pb
+    opt: target=ts
+
+  - plugin: protoc-gen-es-saacs
+    path: ["jiti", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
+    opt: target=ts
+    out: pkg/web/biochain/lib/pb
+    strategy: all
+
+  - plugin: buf.build/bufbuild/es
+    out: pkg/web/biochain/lib/pb
+    opt: target=ts
 
   # - plugin: buf.build/bufbuild/protoschema-jsonschema
   #   out: ./schema/

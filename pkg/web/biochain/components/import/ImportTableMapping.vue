@@ -14,7 +14,7 @@ const MappingOptions = ref<
 ])
 
 const options = FlattedSpecimenKeys.filter(
-  (x: string) => !(x in ['collectionId', 'specimenId']),
+  (x: string) => !(x === 'collectionId' || x === 'specimenId'),
 )
   .map((x: string) => {
     return {
@@ -35,6 +35,10 @@ const options = FlattedSpecimenKeys.filter(
     },
     MappingOptions.value,
   )
+  .map((x) => {
+    x.options.sort((a, b) => a.label.localeCompare(b.label))
+    return x
+  })
 
 // MappingOptions.value = [''].concat(FlattedSpecimenKeys)
 </script>
@@ -53,13 +57,25 @@ const options = FlattedSpecimenKeys.filter(
     >
       <PColumnGroup type="header">
         <PRow>
-          <PColumn header="Meta" :colspan="2" />
-          <PColumn header="Raw Fields" :colspan="bulk.RawColDefs.length" />
+          <PColumn
+            header="Meta"
+            :colspan="2"
+          />
+          <PColumn
+            header="Raw Fields"
+            :colspan="bulk.RawColDefs.length"
+          />
         </PRow>
 
         <PRow>
-          <PColumn header="Existence" field="id" />
-          <PColumn header="Status" field="id" />
+          <PColumn
+            header="Existence"
+            field="id"
+          />
+          <PColumn
+            header="Status"
+            field="id"
+          />
           <PColumn
             v-for="col of bulk.RawColDefs"
             :key="col.name"
@@ -83,13 +99,19 @@ const options = FlattedSpecimenKeys.filter(
         </PRow>
       </PColumnGroup>
 
-      <PColumn header="Existence" field="id">
+      <PColumn
+        header="Existence"
+        field="id"
+      >
         <template #body="row">
           <!-- <UBadge class="text-nowrap" :label="bulk.RawRowsMeta.get(row.data?.id)?.exist" /> -->
           <ImportMetaExistence :row="row.data?.id" />
         </template>
       </PColumn>
-      <PColumn header="Status" field="id">
+      <PColumn
+        header="Status"
+        field="id"
+      >
         <template #body="row">
           <ImportMetaStatus :row="row.data?.id" />
         </template>

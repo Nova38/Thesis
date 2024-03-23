@@ -1,5 +1,5 @@
 import { GatewayError } from '@hyperledger/fabric-gateway'
-import { common } from 'saacs'
+// import { common } from 'saacs'
 
 // export default defineEventHandler
 export default defineEventHandler(async (event) => {

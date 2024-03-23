@@ -61,8 +61,8 @@ export default defineNuxtConfig({
         imports: ['PlainMessage'],
       },
       {
-        from: 'saacs',
-        imports: ['auth', 'ccbio', 'common'],
+        from: '~/lib/pb',
+        imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
       },
       {
         from: 'defu',
@@ -96,6 +96,16 @@ export default defineNuxtConfig({
       options: {
         target: 'esnext',
       },
+    },
+    imports: {
+      dirs: ['lib/pb/*'],
+      mergeExisting: true,
+      // presets: [
+      //   {
+      //     from: './lib/pb/index.ts',
+      //     imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
+      //   },
+      // ],
     },
   },
 

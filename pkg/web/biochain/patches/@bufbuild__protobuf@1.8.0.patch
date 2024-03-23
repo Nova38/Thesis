@@ -1,0 +1,13 @@
+diff --git a/dist/esm/private/json-format.js b/dist/esm/private/json-format.js
+index 2abc73b9d4a715b38872d64215c25e998324cf5a..1ce39ba4dd3ff4ae0fbf79f0f8ccec16711fdb03 100644
+--- a/dist/esm/private/json-format.js
++++ b/dist/esm/private/json-format.js
+@@ -31,7 +31,7 @@ const jsonReadDefaults = {
+ // Default options for serializing to JSON.
+ const jsonWriteDefaults = {
+     emitDefaultValues: false,
+-    enumAsInteger: false,
++    enumAsInteger: true,
+     useProtoFieldName: false,
+     prettySpaces: 0,
+ };

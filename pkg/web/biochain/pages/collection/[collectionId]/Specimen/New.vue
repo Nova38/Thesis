@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ccbio } from 'saacs'
-
 //    ^?
 const nuxtApp = useNuxtApp()
 
@@ -81,7 +79,10 @@ async function submitHandler() {
       <SpecimenForm :specimen="specimen">
         <template #Footer>
           <div>
-            <UButton label="Submit" @click="submitHandler" />
+            <UButton
+              label="Submit"
+              @click="submitHandler"
+            />
           </div>
         </template>
       </SpecimenForm>

@@ -453,13 +453,22 @@ const filters = ref(initFilter())
             class=""
           >
             <template #filter="{ filterModel }">
-              <PInputText v-model="filterModel.value" mode="text" />
+              <PInputText
+                v-model="filterModel.value"
+                mode="text"
+              />
             </template>
           </PColumn>
         </PRow>
       </PColumnGroup>
       <PColumn header="Actions">
-        action
+        <template #body="{ data }">
+          <NuxtLink
+            :to="`/collection/${$route.params.collectionId}/Specimen/View-${data.specimenId}`"
+          >
+            View
+          </NuxtLink>
+        </template>
         <!-- <NuxtLink
           :no-prefetch="true"
           :to="`/collection/${$route.params.collectionId}/Specimen/View-${props.row.specimenId}`"

@@ -4,8 +4,7 @@ import { construct, crush } from 'radash'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { ZSpecimen } from './Specimen'
-import { ccbio } from 'saacs'
-
+// import { ccbio } from 'saacs'
 const raw = {
   collectionId: 'KU-Zoology',
   georeference: {

@@ -84,25 +84,24 @@ export const useCollectionsStore = defineStore('Collections', () => {
   async function FullListLoad() {
     Loading.value = true
 
-    return await useCustomFetch(`/api/cc/specimens/fullList`, {
+    const response = await $fetch(`/api/cc/specimens/fullList`, {
       key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
       query: {
         collectionId: CollectionId(),
         bookmark: Bookmark.value,
       },
-      onResponse: async ({ response }) => {
-        console.log('history', response._data)
-        Bookmark.value = response._data?.bookmark ?? ''
-        console.log(Bookmark.value)
-        SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
-        SpecimenList.value = Object.values(SpecimenMap.value)
-        SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          (s) => s.primary.catalogNumber,
-        )
-        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
-        Loading.value = false
-      },
     })
+
+    console.log('history', response)
+    Bookmark.value = response.bookmark ?? ''
+    console.log(Bookmark.value)
+    SpecimenMap.value = defu(SpecimenMap.value, response.specimens)
+    SpecimenList.value = Object.values(SpecimenMap.value)
+    SpecimenCatalogNumbers.value = SpecimenList.value.map(
+      (s) => s.primary.catalogNumber,
+    )
+    SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
+    Loading.value = false
   }
 
   async function isUsedUUID(uuid: string) {

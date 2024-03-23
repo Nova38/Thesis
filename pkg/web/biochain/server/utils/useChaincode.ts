@@ -7,7 +7,6 @@ import { connect, signers } from '@hyperledger/fabric-gateway'
 import type { User } from './db'
 
 import { sessionConfig } from './session'
-import { common, GlobalRegistry } from 'saacs'
 
 export interface FabricConfig {
   chaincode: {

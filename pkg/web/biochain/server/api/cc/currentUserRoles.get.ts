@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { auth, common } from 'saacs'
+// import { auth, common } from 'saacs'
 
 const querySchema = z.object({
   collectionId: z.string(),

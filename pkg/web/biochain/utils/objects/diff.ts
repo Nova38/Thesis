@@ -2,7 +2,7 @@
 import { FieldMask } from '@bufbuild/protobuf'
 import { diff } from 'ohash'
 import { crush } from 'radash'
-import { snakeCase } from 'scule'
+import { snakeCase, camelCase } from 'scule'
 
 export type diffOp = 'added' | 'removed' | 'updated'
 export function toMask(p: string) {
@@ -71,7 +71,7 @@ export function diffToFieldMaskPath(base: any, updated: any) {
   }).map((d) =>
     d.key
       .split('.')
-      .map((i) => snakeCase(i))
+      .map((i) => camelCase(i))
       .join('.'),
   )
 

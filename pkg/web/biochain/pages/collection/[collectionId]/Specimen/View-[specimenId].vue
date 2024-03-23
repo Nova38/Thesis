@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import { ccbio } from '#imports'
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
-import { ccbio } from 'saacs'
-
+// import { ccbio } from 'saacs'
 const route = useRoute()
 
 const dirty = ref(MakeEmptySpecimen())

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
+import type { ccbio } from '#imports'
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { QTableProps } from 'quasar'
-
-import type { ccbio } from 'saacs'
 
 const store = useCollectionsStore()
 
@@ -399,7 +398,7 @@ const visibleColumns = ref([
       </template>
     </PCard>
 
-    <QCard>
+    <!-- <QCard>
       <QTable
         :columns="colDef"
         :filter="filter"
@@ -468,7 +467,7 @@ const visibleColumns = ref([
         </template>
       </QTable>
       <div />
-    </QCard>
+    </QCard> -->
   </div>
 </template>
 

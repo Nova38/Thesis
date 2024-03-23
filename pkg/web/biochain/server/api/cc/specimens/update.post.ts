@@ -1,7 +1,8 @@
+import { ccbio } from '#imports'
 import type { FieldMask } from '@bufbuild/protobuf'
 
 import { Any } from '@bufbuild/protobuf'
-import { auth, ccbio, common } from 'saacs'
+// import { auth, ccbio, common } from 'saacs'
 
 export interface bodySchema {
   mask: FieldMask
@@ -13,13 +14,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const body = await readBody(event)
-    console.log()
-    console.log({ body })
 
     const specimen = new ccbio.Specimen().fromJson(body.specimen)
-    console.log({ specimen })
     const value = Any.pack(specimen)
-    console.log({ value })
 
     const req = new common.generic.UpdateRequest({
       item: {

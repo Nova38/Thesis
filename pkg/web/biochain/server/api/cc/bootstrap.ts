@@ -1,4 +1,4 @@
-import { auth, common } from 'saacs'
+// import { auth, common } from 'saacs'
 
 export default defineEventHandler(async (event) => {
   const bootstrapRequest = new common.generic.BootstrapRequest({

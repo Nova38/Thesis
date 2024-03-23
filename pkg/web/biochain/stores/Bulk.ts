@@ -1,10 +1,11 @@
 import { diff } from 'ohash'
-import { get, set } from 'radash'
-import { ccbio } from 'saacs'
-
+import { cluster, get, set } from 'radash'
+// import { ccbio } from 'saacs'
+import { ccbio } from '#imports'
+import { FieldMask } from '@bufbuild/protobuf'
 export const useBulkStore = defineStore('Bulk', () => {
   const CollectionId = ref<string>('')
-  const Mode = ref<BulkMode>('import')
+  const Mode = ref<BulkMode>('hybrid')
 
   const SpecimenIdHeader = ref('primary.specimenId')
   const SpecimenIds = ref<string[]>([])
@@ -17,6 +18,14 @@ export const useBulkStore = defineStore('Bulk', () => {
   const RawRows = shallowRef<UpdateRawRow[]>([])
   const RawRowsMeta = ref(new Map<string, ImportRowMeta>())
   const RawHeaders = ref<string[]>([])
+
+  const differences = ref(new Map<string, FieldMask>())
+
+  const processing = ref<{ success: number; fail: number; total: number }>({
+    success: 0,
+    fail: 0,
+    total: 0,
+  })
 
   const LoadCsv = async (csv: CSVImportMetadata) => {
     SpecimenIds.value = []
@@ -109,10 +118,25 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          specimens.set(
-            key,
-            Object.freeze(ccbio.Specimen.fromJsonString(JSON.stringify(value))),
-          )
+          const c = ccbio.Specimen.fromJsonString(JSON.stringify(value))
+
+          if (c?.primary?.lastModified) {
+            c.primary.lastModified = undefined
+          }
+          if (c?.secondary?.lastModified) {
+            c.secondary.lastModified = undefined
+          }
+          if (c?.georeference?.lastModified) {
+            c.georeference.lastModified = undefined
+          }
+          if (c?.taxon?.lastModified) {
+            c.taxon.lastModified = undefined
+          }
+          if (c?.lastModified) {
+            c.lastModified = undefined
+          }
+
+          specimens.set(key, Object.freeze(c))
         })
 
         return Object.freeze(specimens)
@@ -177,11 +201,9 @@ export const useBulkStore = defineStore('Bulk', () => {
       const rawV = RawRows.value.find((x) => x.id === mapped.specimenId)
       if (!rawV) throw new Error('RawRow not found')
       console.group(`SetMapping: ${mapped.specimenId}`)
-      // console.log(rawV)
 
       const meta = RawRowsMeta.value.get(mapped.specimenId)
       if (!meta) throw new Error('meta missing')
-      // console.log(meta)
       // Empty/Unset
       if (newMapping === '' || newMapping === ' ') {
         // If specimen is current
@@ -316,17 +338,111 @@ export const useBulkStore = defineStore('Bulk', () => {
   //   })
   // })
 
-  const differences = computed(() => {
-    return MappedSpecimen.value.map((specimen) => {
+  watch(MappedSpecimen, () => {
+    MappedSpecimen.value.forEach((specimen) => {
       const base = CurrentSpecimens.value?.get(specimen.specimenId) ?? {}
+      const meta = RawRowsMeta.value.get(specimen.specimenId)
+      if (!meta) throw new Error('meta missing')
 
-      return diff(base, specimen)
-      return diffCrush(base, specimen, [])
+      if (meta.status === 'pre-existing') {
+        const mask = diffToFieldMaskPath(base, specimen).mask
+        console.log('diff', mask)
+
+        differences.value.set(specimen.specimenId, mask)
+        meta.statusMessage = mask?.paths.join(', ')
+      }
     })
   })
 
+  const importSpecimens = async () => {
+    console.log('importing specimens', Mode.value)
+    processing.value.total = MappedSpecimen.value.length
+
+    // for (const group of groups) {
+    //   const uploads = group.map(async (specimen) => {
+    for (const specimen of MappedSpecimen.value) {
+      const meta = RawRowsMeta.value.get(specimen.specimenId)
+      if (!meta) throw new Error('meta missing')
+      if (meta.status === 'parsing-error') {
+        console.error('Skipping Specimen due to parsing error', specimen)
+        continue
+      }
+
+      switch (meta.exist) {
+        case 'pre-existing': {
+          if (Mode.value === 'import') {
+            console.warn('Invalid Mode: can not import in import mode')
+            continue
+          }
+
+          meta.status = 'submitting'
+          const body = {
+            mask: differences.value.get(specimen.specimenId)?.paths ?? {},
+            specimen: specimen,
+          }
+          // meta.statusMessage = 'updating specimen'
+          try {
+            const r = await $fetch('/api/cc/specimens/update', {
+              method: 'post',
+              body,
+            })
+            meta.status = 'success'
+            meta.statusMessage = 'updated successfully'
+            processing.value.success++
+            console.log('Imported Specimen', r)
+          } catch (error) {
+            console.error('Error updating specimen', error)
+            meta.status = 'error'
+            processing.value.fail++
+            if (error instanceof Error) meta.statusMessage = error.toString()
+          }
+
+          break
+        }
+        case 'new': {
+          if (Mode.value === 'update') {
+            console.warn('Invalid Mode: can not update in import mode')
+            continue
+          }
+
+          meta.status = 'submitting'
+          meta.statusMessage = 'importing specimen'
+          try {
+            const r = await $fetch('/api/cc/specimens/create', {
+              method: 'post',
+              body: new ccbio.Specimen(specimen).toJsonString({
+                emitDefaultValues: true,
+                enumAsInteger: true,
+              }),
+            })
+            meta.status = 'success'
+            meta.statusMessage = 'imported successfully'
+            console.log('Imported Specimen', r)
+            processing.value.success++
+          } catch (error) {
+            console.error('Error importing specimen', e)
+            meta.status = 'error'
+            processing.value.fail++
+            if (error instanceof Error) meta.statusMessage = error.toString()
+          }
+
+          break
+        }
+        case 'unknown':
+          break
+
+        default:
+          break
+      }
+    }
+
+    // await Promise.all(uploads)
+  }
+
+  const UpdateSpecimens = async () => {}
+
   const Upload = async () => {
-    console.log(differences.value)
+    await importSpecimens()
   }
 
   const $reset = () => {
@@ -335,6 +451,7 @@ export const useBulkStore = defineStore('Bulk', () => {
     RawHeaders.value = []
     SpecimenIds.value = []
     MappedSpecimen.value = []
+    differences.value = new Map()
   }
 
   return {
@@ -358,6 +475,9 @@ export const useBulkStore = defineStore('Bulk', () => {
     LoadCsv,
     SetMapping,
     Upload,
+
+    importSpecimens,
+    UpdateSpecimens,
 
     $reset,
   }

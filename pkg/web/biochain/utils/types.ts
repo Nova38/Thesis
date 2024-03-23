@@ -1,6 +1,5 @@
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { ZodError } from 'zod'
-import type { ccbio } from 'saacs'
 
 export type BulkMode = 'import' | 'update' | 'hybrid'
 
@@ -25,7 +24,8 @@ export interface UpdateRowMeta {
   status: ProcessingStatus
   catalogNumber?: string
   // currentSpecimen?: ccbio.Specimen
-  differences?: Record<string, any>
+  // differences?: Record<string, any>
+  mask?: string[]
   statusMessage?: string
 }
 
@@ -65,6 +65,7 @@ export type ProcessingStatus =
   | 'error'
   | 'parsing-error'
   | 'loading'
+  | 'submitting'
   | 'new'
   | 'pre-existing'
   | 'success'

@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     query: { collectionId: query.data.collectionId },
   })
   console.log(fullList)
-  const specimenMap = fullList?.specimenMap
+  const specimenMap = fullList?.specimens || {}
 
   const filteredList = Object.entries(specimenMap).filter(([id]) =>
     body.data.specimenIds.includes(id),
