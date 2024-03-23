@@ -1,10 +1,10 @@
-package state
+package context
 
 import (
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
-	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/nova38/saacs/pkg/chaincode/state"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -99,7 +99,7 @@ func (ctx *BaseTxCtx) HandleFnError(err *error, r any) {
 func (ctx *BaseTxCtx) CheckBootstrap() (bool, error) {
 	if v, err := ctx.GetStub().GetState(common.BootstrapKey); err != nil {
 		return false, oops.Wrap(err)
-	} else if v == nil && err == nil {
+	} else if v == nil {
 		ctx.GetLogger().Info("Bootstrap not done")
 		err := ctx.GetStub().PutState(common.BootstrapKey, []byte("true"))
 		if err != nil {
@@ -133,7 +133,7 @@ func (ctx *BaseTxCtx) ErrorBase() oops.OopsErrorBuilder {
 		User(ctx.GetUser().GetUserId(), ctx.GetUser().GetMspId())
 }
 
-func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator shim.CommonIteratorInterface) {
+func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator common.CommonIteratorInterface) {
 	_ = resultIterator.Close()
 }
 
@@ -174,7 +174,7 @@ func (ctx *BaseTxCtx) GetCollection(collectionId string) (col *authpb.Collection
 
 	col = &authpb.Collection{CollectionId: collectionId}
 
-	if err := GetFromKey(ctx, col.StateKey(), col); err != nil {
+	if err := state.GetFromKey(ctx, col.StateKey(), col); err != nil {
 		return nil, oops.Wrap(err)
 	}
 

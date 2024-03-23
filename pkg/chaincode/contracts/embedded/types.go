@@ -2,16 +2,15 @@ package embedded
 
 import (
 	"github.com/nova38/saacs/pkg/chaincode/common"
+	"github.com/nova38/saacs/pkg/chaincode/context"
 	"github.com/nova38/saacs/pkg/chaincode/contracts/base"
-	"github.com/nova38/saacs/pkg/chaincode/state"
-
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	cc "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
 )
 
 type (
 	TxCtx struct {
-		state.BaseTxCtx
+		context.BaseTxCtx
 		UserRoles map[string][]*authpb.Role
 	}
 

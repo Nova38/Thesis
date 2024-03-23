@@ -2,9 +2,8 @@ package identity
 
 import (
 	"github.com/nova38/saacs/pkg/chaincode/common"
+	"github.com/nova38/saacs/pkg/chaincode/context"
 	contracts "github.com/nova38/saacs/pkg/chaincode/contracts/base"
-	"github.com/nova38/saacs/pkg/chaincode/state"
-
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	ccpb "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
 )
@@ -15,7 +14,7 @@ import (
 
 type (
 	TxCtx struct {
-		state.BaseTxCtx
+		context.BaseTxCtx
 		CollectionMemberships map[string]*authpb.UserDirectMembership
 	}
 	IdentiyContract struct {
