@@ -4,10 +4,28 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/hyperledger/fabric-chaincode-go/shim"
 	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	"github.com/samber/oops"
 )
+
+const sep = string(rune(0))
+
+// MakeComposeKey creates a composite key from the given attributes
+//
+// Based on the "github.com/hyperledger/fabric-chaincode-go/shim" package's CreateCompositeKey
+// so that we don't have to import the shim package in this package
+func MakeComposeKey(namespace string, attrs []string) (key string, err error) {
+	// return shim.CreateCompositeKey(namespace, []string{attrs})
+	key = namespace + sep
+
+	for _, attr := range attrs {
+		// TODO Validate the attribute
+
+		key = key + attr + sep
+	}
+	return key, nil
+
+}
 
 // ─────────────────────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────────────────────
@@ -16,7 +34,6 @@ import (
 // Key should be {<ITEM_TYPE>}{COLLECTION_ID}{...ITEM_ID}
 // Panics if ItemType or CollectionId is nil or an empty string
 func MakeStateKey(objKey *authpb.ItemKey) (key string) {
-	const sep = string(rune(0))
 
 	attrs := objKey.GetItemKeyParts()
 	if attrs == nil {
@@ -76,7 +93,7 @@ func MakeSubItemKeyAtter(key *authpb.ItemKey) (attr []string) {
 // }
 
 func MakeHiddenKey[T ItemInterface](obj T) (hiddenKey string, err error) {
-	return shim.CreateCompositeKey(
+	return MakeComposeKey(
 		HiddenItemType,
 		MakeSubKeyAtter(obj),
 	)
@@ -96,7 +113,7 @@ func MakeSuggestionPrimaryKey[T ItemInterface](
 	obj T,
 	suggestionId string,
 ) (suggestionKey string, err error) {
-	return shim.CreateCompositeKey(
+	return MakeComposeKey(
 		SuggestionItemType,
 		MakeSuggestionKeyAtter(obj, suggestionId),
 	)
@@ -175,12 +192,12 @@ func MakeRefKeys(
 			k2 = slices.Clone(b)
 			k2 = append(k2, a...)
 
-			refKey1, err = shim.CreateCompositeKey(ReferenceItemType, k1)
+			refKey1, err = MakeComposeKey(ReferenceItemType, k1)
 			if err != nil {
 				return "", "", err
 			}
 
-			refKey2, err = shim.CreateCompositeKey(ReferenceItemType, k2)
+			refKey2, err = MakeComposeKey(ReferenceItemType, k2)
 			if err != nil {
 				return "", "", err
 			}
@@ -189,7 +206,7 @@ func MakeRefKeys(
 		}
 	case ref.GetKey1() != nil && ref.GetKey2() == nil:
 		{
-			refKey1, err = shim.CreateCompositeKey(ReferenceItemType, a)
+			refKey1, err = MakeComposeKey(ReferenceItemType, a)
 			if err != nil {
 				return "", "", err
 			}
@@ -198,7 +215,7 @@ func MakeRefKeys(
 		}
 	case ref.GetKey1() == nil && ref.GetKey2() != nil:
 		{
-			refKey2, err = shim.CreateCompositeKey(ReferenceItemType, b)
+			refKey2, err = MakeComposeKey(ReferenceItemType, b)
 			if err != nil {
 				return "", "", err
 			}
