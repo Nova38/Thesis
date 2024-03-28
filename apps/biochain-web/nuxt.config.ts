@@ -12,21 +12,21 @@ export default defineNuxtConfig({
 
   css: [resolve(__dirname, './assets/css/main.css')],
 
-  primevue: {
-    components: {
-      prefix: 'P',
-    },
-    composables: {
-      exclude: ['useToast'],
-    },
-    importPT: { from: resolve(__dirname, 'lib/primevue/presets/wind/') }, // import and apply preset
-    options: {
-      unstyled: true,
-    },
-  },
-  formkit: {
-    configFile: resolve(__dirname, './formkit.config.ts'),
-  },
+  // primevue: {
+  //   components: {
+  //     prefix: 'P',
+  //   },
+  //   composables: {
+  //     exclude: ['useToast'],
+  //   },
+  //   importPT: { from: resolve(__dirname, 'lib/primevue/presets/wind/') }, // import and apply preset
+  //   options: {
+  //     unstyled: true,
+  //   },
+  // },
+  // formkit: {
+  //   configFile: resolve(__dirname, './formkit.config.ts'),
+  // },
 
   ssr: false,
 
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
   devtools: {
     disableAuthorization: true,
-
+    viteInspect: true,
     enabled: true,
     timeline: {
       enabled: true,
@@ -52,6 +52,8 @@ export default defineNuxtConfig({
     // typedPages: false,
     asyncContext: true,
   },
+
+  extends: ['@saacs/ui'],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
@@ -79,11 +81,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-quasar-ui',
     '@formkit/nuxt',
-    'nuxt-primevue',
     '@nuxt/eslint',
-
-    // 'nuxt-radash',
-    // 'nuxt-security',
   ],
   nitro: {
     storage: {
@@ -96,6 +94,9 @@ export default defineNuxtConfig({
       options: {
         target: 'esnext',
       },
+    },
+    experimental: {
+      tasks: true,
     },
     imports: {
       dirs: ['lib/pb/*'],
@@ -165,6 +166,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  sourcemap: true,
 
   vite: {
     define: {
