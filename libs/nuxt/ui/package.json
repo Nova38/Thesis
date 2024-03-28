@@ -12,7 +12,8 @@
     "nuxt.config.ts",
     "nuxt.schema.ts",
     "primevue/",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "formkit.theme.ts"
   ],
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -23,9 +24,9 @@
     "postinstall": "nuxt prepare .playground"
   },
   "dependencies": {
-    "@formkit/addons": "^1.6.0",
-    "@formkit/icons": "^1.6.0",
-    "@formkit/nuxt": "^1.6.0",
+    "@formkit/addons": "^1.6.1",
+    "@formkit/icons": "^1.6.1",
+    "@formkit/nuxt": "^1.6.1",
     "@nuxt/ui": "^2.14.2",
     "@vueuse/nuxt": "^10.9.0",
     "nuxt-primevue": "^0.3.1",

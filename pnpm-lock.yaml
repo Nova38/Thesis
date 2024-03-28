@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@bufbuild/protobuf@1.8.0':
+    hash: 7ulosmmd4jahdqkqm4yv45frhq
+    path: patches/@bufbuild__protobuf@1.8.0.patch
+
 dependencies:
   '@iconify/json':
     specifier: 2.2.192
@@ -24,7 +29,7 @@ devDependencies:
     version: 2.8.3(@vue/compiler-sfc@3.4.21)(eslint-plugin-format@0.1.0)(eslint@8.57.0)(typescript@5.4.2)(vitest@1.4.0)
   '@bufbuild/protobuf':
     specifier: ^1.8.0
-    version: 1.8.0
+    version: 1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq)
   '@tsconfig/node21':
     specifier: ^21.0.1
     version: 21.0.1
@@ -220,9 +225,10 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  /@bufbuild/protobuf@1.8.0:
+  /@bufbuild/protobuf@1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq):
     resolution: {integrity: sha512-qR9FwI8QKIveDnUYutvfzbC21UZJJryYrLuZGjeZ/VGz+vXelUkK+xgkOHsvPEdYEdxtgUUq4313N8QtOehJ1Q==}
     dev: true
+    patched: true
 
   /@clack/core@0.3.4:
     resolution: {integrity: sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==}

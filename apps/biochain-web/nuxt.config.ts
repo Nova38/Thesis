@@ -53,7 +53,7 @@ export default defineNuxtConfig({
     asyncContext: true,
   },
 
-  extends: ['@saacs/ui'],
+  extends: [['@saacs/ui', { install: true }]],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**'],
@@ -72,10 +72,13 @@ export default defineNuxtConfig({
       },
     ],
   },
+  formkit: {
+    // configFile: 'node_modules/@saacs/ui/formkit.config.ts',
+  },
 
   modules: [
-    '@formkit/nuxt',
-    '@nuxt/ui',
+    // '@formkit/nuxt',
+    // '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
@@ -83,6 +86,7 @@ export default defineNuxtConfig({
     '@formkit/nuxt',
     '@nuxt/eslint',
   ],
+
   nitro: {
     storage: {
       '.data:auth': {

@@ -76,10 +76,5 @@
     "typescript": "^5.4.3",
     "vite-plugin-vue-devtools": "^7.0.25",
     "vitest": "^1.4.0"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@bufbuild/protobuf@1.8.0": "patches/@bufbuild__protobuf@1.8.0.patch"
-    }
   }
 }

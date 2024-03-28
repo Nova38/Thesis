@@ -4,15 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@bufbuild/protobuf@1.8.0':
-    hash: 7ulosmmd4jahdqkqm4yv45frhq
-    path: patches/@bufbuild__protobuf@1.8.0.patch
-
 dependencies:
   '@bufbuild/protobuf':
     specifier: ^1.8.0
-    version: 1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq)
+    version: 1.8.0
   '@formkit/addons':
     specifier: ^1.6.1
     version: 1.6.1
@@ -36,7 +31,7 @@ dependencies:
     version: 1.16.10
   '@saacs/ui':
     specifier: workspace:*
-    version: link:../ui
+    version: link:../../libs/nuxt/ui
   '@types/eslint':
     specifier: ^8.56.6
     version: 8.56.6
@@ -758,10 +753,9 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  /@bufbuild/protobuf@1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq):
+  /@bufbuild/protobuf@1.8.0:
     resolution: {integrity: sha512-qR9FwI8QKIveDnUYutvfzbC21UZJJryYrLuZGjeZ/VGz+vXelUkK+xgkOHsvPEdYEdxtgUUq4313N8QtOehJ1Q==}
     dev: false
-    patched: true
 
   /@clack/core@0.3.4:
     resolution: {integrity: sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==}

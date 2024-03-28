@@ -39,5 +39,10 @@
         "quokka-plugin-subdir": "^0.1.0",
         "typescript": "^5.4.2",
         "vitest": "^1.4.0"
+    },
+    "pnpm": {
+        "patchedDependencies": {
+            "@bufbuild/protobuf@1.8.0": "patches/@bufbuild__protobuf@1.8.0.patch"
+        }
     }
 }
