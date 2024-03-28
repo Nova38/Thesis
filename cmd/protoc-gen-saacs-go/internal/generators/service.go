@@ -1,7 +1,7 @@
 package generators
 
 import (
-	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
@@ -201,7 +201,7 @@ func GenerateOperationLookup(
 	opImport := g.QualifiedGoIdent(
 		protogen.GoIdent{
 			GoName:       "Operation",
-			GoImportPath: "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1",
+			GoImportPath: "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1",
 		},
 	)
 	// fmtImport := (protogen.GoIdent{GoImportPath: "fmt"})

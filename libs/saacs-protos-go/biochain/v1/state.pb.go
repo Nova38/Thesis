@@ -8,7 +8,7 @@ package biochainv1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	v1 "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"

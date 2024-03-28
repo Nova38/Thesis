@@ -1,4 +1,4 @@
-module github.com/nova38/saacs/lib/saacs-protos-go
+module github.com/nova38/saacs/libs/saacs-protos-go
 
 go 1.21
 

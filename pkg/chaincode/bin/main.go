@@ -16,8 +16,8 @@ import (
 	"github.com/nova38/saacs/pkg/chaincode/contracts/noauth"
 	"github.com/nova38/saacs/pkg/chaincode/contracts/roles"
 
-	_ "github.com/nova38/saacs/lib/saacs-protos-go/biochain/v1"
-	_ "github.com/nova38/saacs/lib/saacs-protos-go/sample/v0"
+	_ "github.com/nova38/saacs/libs/saacs-protos-go/biochain/v1"
+	_ "github.com/nova38/saacs/libs/saacs-protos-go/sample/v0"
 )
 
 var (

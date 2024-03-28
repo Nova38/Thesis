@@ -1,8 +1,8 @@
 package roles
 
 import (
-	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
-	cc "github.com/nova38/saacs/lib/saacs-protos-go/chaincode/common"
+	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
+	cc "github.com/nova38/saacs/libs/saacs-protos-go/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/context"
 	"github.com/nova38/saacs/pkg/chaincode/contracts/base"

@@ -1,5 +1,7 @@
 packages:
   - "./pkg/*"
+  - ./apps/*
+  - ./lib/*
   - "./pkg/cmd/*"
   - ./caliper
   - cmd/protoc-gen-saacs-es

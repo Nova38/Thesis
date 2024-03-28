@@ -7,7 +7,7 @@ package common
 
 import (
 	fmt "fmt"
-	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	v1 "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 )
 
 // Service GenericService

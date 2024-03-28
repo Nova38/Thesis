@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 
-	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
-	_ "github.com/nova38/saacs/lib/saacs-protos-go/biochain/v1"
-	_ "github.com/nova38/saacs/lib/saacs-protos-go/sample/v0"
+	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
+	_ "github.com/nova38/saacs/libs/saacs-protos-go/biochain/v1"
+	_ "github.com/nova38/saacs/libs/saacs-protos-go/sample/v0"
 	"github.com/nova38/saacs/pkg/chaincode/serializer"
 
-	cc "github.com/nova38/saacs/lib/saacs-protos-go/chaincode/common"
+	cc "github.com/nova38/saacs/libs/saacs-protos-go/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/state"
 

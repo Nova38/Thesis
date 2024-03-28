@@ -3,7 +3,7 @@ package common
 import (
 	"testing"
 
-	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	v1 "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/proto"
 )

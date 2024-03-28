@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 )
 
 // func TestKeyExists(t *testing.T) {

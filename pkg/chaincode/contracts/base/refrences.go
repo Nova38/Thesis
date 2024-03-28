@@ -1,7 +1,7 @@
 package base
 
 import (
-	ccpb "github.com/nova38/saacs/lib/saacs-protos-go/chaincode/common"
+	ccpb "github.com/nova38/saacs/libs/saacs-protos-go/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/state/actions"
 	"github.com/samber/oops"
