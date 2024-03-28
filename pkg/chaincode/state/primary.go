@@ -1,8 +1,8 @@
 package state
 
 import (
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"github.com/nova38/saacs/pkg/chaincode/common"
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
 	"github.com/samber/oops"
 )
 

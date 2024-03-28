@@ -3,39 +3,43 @@ managed:
   enabled: true
 
   go_package_prefix:
-    default: github.com/nova38/saacs/pkg/chaincode/gen
+    default: github.com/nova38/saacs/lib/saacs-protos-go
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
 
 plugins:
+  
+  # Go
   - plugin: buf.build/protocolbuffers/go
-    out: pkg/chaincode/gen
+    out: lib/saacs-protos-go
     opt:
       - paths=source_relative
   - plugin: go-saacs
-    out: pkg/chaincode/gen
+    out: lib/saacs-protos-go
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/validate-go
-    out: pkg/chaincode/gen
+    out: lib/saacs-protos-go
     opt:
       - paths=source_relative
 
-  - plugin: buf.build/community/mitchellh-go-json:v1.1.0
-    out: pkg/chaincode/gen
+  - plugin: buf.build/community/mfridman-go-json:v1.3.0
+    out: lib/saacs-protos-go
     opt:
       - paths=source_relative
       - emit_defaults=true
       - enums_as_ints=true
+
+  ## Javascript
 
   - plugin: buf.build/bufbuild/es
     out: pkg/saacs-es/src/gen
     opt: target=ts
 
   - plugin: buf.build/bufbuild/es
-    out: pkg/cmd/protoc-gen-es-saacs/src/gen
+    out: cmd/protoc-gen-saacs-es/src/gen
     opt: target=ts
 
   - plugin: buf.build/connectrpc/es
@@ -43,8 +47,8 @@ plugins:
     out: pkg/saacs-es/src/gen
     opt: target=ts
 
-  - plugin: protoc-gen-es-saacs
-    path: ["jiti", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
+  - plugin: protoc-gen-saacs-es
+    path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
     opt: target=ts
     out: pkg/saacs-es/src/gen
     strategy: all
@@ -53,8 +57,8 @@ plugins:
     out: pkg/web/biochain/lib/pb
     opt: target=ts
 
-  - plugin: protoc-gen-es-saacs
-    path: ["jiti", "pkg/cmd/protoc-gen-es-saacs/src/main.ts"]
+  - plugin: protoc-gen-saacs-es
+    path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
     opt: target=ts
     out: pkg/web/biochain/lib/pb
     strategy: all

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log/slog"
 
-	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
-	cc "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
+	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	cc "github.com/nova38/saacs/lib/saacs-protos-go/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/serializer"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"

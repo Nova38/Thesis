@@ -3,7 +3,7 @@ package generators
 import (
 	"strings"
 
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -19,7 +19,7 @@ const (
 	// stringsPackage = protogen.GoImportPath("strings")
 
 	authPackage = protogen.GoImportPath(
-		"github.com/nova38/saacs/pkg/chaincode/gen/auth/v1",
+		"github.com/nova38/saacs/lib/saacs-protos-go/auth/v1",
 	)
 
 	stringspkg         = protogen.GoImportPath("strings")

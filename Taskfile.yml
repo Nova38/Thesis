@@ -21,7 +21,7 @@ tasks:
       Install all the protoc plugins
 
     cmds:
-      - go install ./pkg/cmd/protoc-gen-go-saacs
+      - go install ./pkg/cmd/protoc-gen-saacs-go
 
   gen:clean:
     cmds:

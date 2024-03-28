@@ -3,7 +3,7 @@ package roles
 import (
 	"log/slog"
 
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"github.com/nova38/saacs/pkg/chaincode/policy"
 	"github.com/nova38/saacs/pkg/chaincode/state"
 	"github.com/samber/lo"

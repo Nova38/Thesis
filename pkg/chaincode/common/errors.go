@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 )
 
 var (

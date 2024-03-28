@@ -1,7 +1,7 @@
 package common
 
 import (
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/reflect/protoregistry"

@@ -7,12 +7,11 @@ package common
 
 import (
 	fmt "fmt"
-	common "github.com/nova38/saacs/pkg/chaincode/common"
-	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 )
 
 // Service GenericService
-type GenericServiceInterface[T common.GenericTxCtxInterface] interface {
+type GenericServiceInterface[T any] interface {
 	// ══════════════════════════════════ Helper ═════════════════════════════════════
 	// ────────────────────────────────── Query ──────────────────────────────────────
 	//

@@ -10,7 +10,7 @@ import (
 	"github.com/nova38/saacs/pkg/chaincode/state"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"

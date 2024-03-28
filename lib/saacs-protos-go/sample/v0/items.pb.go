@@ -8,7 +8,7 @@ package v0
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	_ "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

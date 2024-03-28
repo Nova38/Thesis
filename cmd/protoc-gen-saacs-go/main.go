@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/nova38/saacs/pkg/cmd/protoc-gen-go-saacs/generators"
+	generators "github.com/nova38/saacs/cmd/protoc-gen-saacs-go/internal/generators"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 

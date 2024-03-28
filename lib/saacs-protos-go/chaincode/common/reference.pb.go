@@ -8,7 +8,7 @@ package common
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	_ "google.golang.org/protobuf/types/descriptorpb"

@@ -4,8 +4,8 @@ import (
 	"log/slog"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
-	v1 "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	v1 "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 )

@@ -5,9 +5,9 @@ import (
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	cc "github.com/nova38/saacs/lib/saacs-protos-go/chaincode/common"
 	"github.com/nova38/saacs/pkg/chaincode/common"
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
-	cc "github.com/nova38/saacs/pkg/chaincode/gen/chaincode/common"
 	actions2 "github.com/nova38/saacs/pkg/chaincode/state/actions"
 	"github.com/samber/oops"
 )

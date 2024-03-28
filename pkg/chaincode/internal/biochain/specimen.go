@@ -4,9 +4,9 @@ package biochain
 import (
 	"strings"
 
+	authpb "github.com/nova38/saacs/lib/saacs-protos-go/auth/v1"
+	biochainpb "github.com/nova38/saacs/lib/saacs-protos-go/biochain/v1"
 	"github.com/nova38/saacs/pkg/chaincode/common"
-	authpb "github.com/nova38/saacs/pkg/chaincode/gen/auth/v1"
-	biochainpb "github.com/nova38/saacs/pkg/chaincode/gen/biochain/v1"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
