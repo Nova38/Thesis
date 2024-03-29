@@ -2,13 +2,13 @@ module github.com/nova38/saacs/cmd/protoc-gen-saacs-go
 
 go 1.21
 
-replace github.com/nova38/saacs/libs/saacs-protos-go => ../../lib/saacs-protos-go/
+replace "github.com/nova38/saacs/libs/saacs-protos-go" => "../../libs/saacs-protos-go/"
 
 require (
 	github.com/google/go-cmp v0.6.0
 	github.com/mennanov/fieldmask-utils v1.1.2
 	github.com/mennanov/fmutils v0.3.0
-	github.com/nova38/saacs/libs/saacs-protos-go v0.0.0-00010101000000-000000000000
+	github.com/nova38/saacs/libs/saacs-protos-go v0.0.0-20240328235441-37d593622f78
 	golang.org/x/text v0.14.0
 	google.golang.org/protobuf v1.33.0
 )

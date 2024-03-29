@@ -194,7 +194,7 @@
         // }
     ],
     "nuxtr.defaultPackageManager": "pnpm",
-    "nuxtr.monorepoMode.DirectoryName": "pkg/web/biochain",
+    "nuxtr.monorepoMode.DirectoryName": "apps/biochain-web",
     "nuxtr.openItemsAfterCreation": true,
     // "prettier.enable": false,
     "protoc": {

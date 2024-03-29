@@ -3,6 +3,7 @@ go 1.21
 
 use (
 	
-	./lib/saacs-protos-go
+	./libs/saacs-protos-go
 	./cmd/protoc-gen-saacs-go
+	apps/chaincode
 )
