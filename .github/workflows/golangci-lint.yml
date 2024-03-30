@@ -71,4 +71,4 @@ jobs:
           version: v1.57.2
 
           # Optional: working directory, useful for monorepos
-          working-directory: ./libs/saacs-proto-go/
+          working-directory: ./libs/saacs-protos-go/
