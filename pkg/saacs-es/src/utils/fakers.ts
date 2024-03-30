@@ -1,6 +1,6 @@
 import { fakerEN_US } from '@faker-js/faker';
 
-// // import { samplepb } from '../gen/chaincode/sample/v0/items_pb';
+// // import { samplepb } from '../gen/saacs-cc/sample/v0/items_pb';
 
 import { Timestamp } from '@bufbuild/protobuf';
 
@@ -35,7 +35,7 @@ import { Timestamp } from '@bufbuild/protobuf';
 
 
 
-// import { Book, Degree } from '../gen/chaincode/sample/v0/items_pb';
+// import { Book, Degree } from '../gen/saacs-cc/sample/v0/items_pb';
 
 // // function MakeDegrees(seed: number[], collectionId: string): Record<string, Degree>{
 // //     const faker = fakerEN_US;

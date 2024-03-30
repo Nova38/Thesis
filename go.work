@@ -5,5 +5,5 @@ use (
 	
 	./libs/saacs-protos-go
 	./cmd/protoc-gen-saacs-go
-	apps/chaincode
+	./apps/saacs-cc
 )

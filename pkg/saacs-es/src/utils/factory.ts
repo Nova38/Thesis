@@ -1,4 +1,4 @@
-// import { Author } from "../gen/chaincode/sample/v0/items_pb";
+// import { Author } from "../gen/saacs-cc/sample/v0/items_pb";
 
 import { Any, AnyMessage, FieldMask, createRegistry, createRegistryFromDescriptors } from "@bufbuild/protobuf";
 import { Item, ItemKey } from "../gen/auth/v1/objects_pb.js";

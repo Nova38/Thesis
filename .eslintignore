@@ -1,5 +1,5 @@
 formkit.theme.ts
 node_modules
 pkg/cmd
-apps/chaincode
+apps/saacs-cc
 ./.vscode/settings.json

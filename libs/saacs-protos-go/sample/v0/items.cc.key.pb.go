@@ -72,7 +72,7 @@ func (m *SimpleItem) NewFromKey(key *v1.ItemKey) *SimpleItem {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -161,7 +161,7 @@ func (m *Group) NewFromKey(key *v1.ItemKey) *Group {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -250,7 +250,7 @@ func (m *Book) NewFromKey(key *v1.ItemKey) *Book {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"

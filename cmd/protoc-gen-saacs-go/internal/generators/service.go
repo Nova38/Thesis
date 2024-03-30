@@ -100,7 +100,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 	//	protogen.GoIdent{
 	//		GoName: "GenericTxCtxInterface",
 	//
-	//		GoImportPath: "github.com/nova38/saacs/apps/chaincode/common",
+	//		GoImportPath: "github.com/nova38/saacs/apps/saacs-cc/common",
 	//	},
 	//)
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")

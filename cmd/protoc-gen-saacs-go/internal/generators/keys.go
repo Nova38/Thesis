@@ -160,7 +160,7 @@ func (kg *KeyGenerator) GenerateMessage(
 
 	g.P(`
     // StateKey - Returns a composite key for the state
-    // This follows the same structure as the chaincode stub library,
+    // This follows the same structure as the saacs-cc stub library,
     // Main difference is that it doesn't check the key for invalid characters
     //
     // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"

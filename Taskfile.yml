@@ -25,7 +25,7 @@ tasks:
 
   gen:clean:
     cmds:
-      - rm -rf ./lib/go/gen/chaincode/*
+      - rm -rf ./lib/go/gen/saacs-cc/*
       - rm -rf ./lib/go/gen/*
       - rm -rf ./lib/es/gen/*
 
@@ -67,35 +67,35 @@ tasks:
       - task: cc:redeploy
 
   cc:deploy:
-    desc: Deploy chaincode to the channel and start the chaincode container
+    desc: Deploy saacs-cc to the channel and start the saacs-cc container
     cmds:
       - buf generate
       - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd:
           bash -c "cd ./network && ./network.sh deployCCAAS -ccn {{ .ITEM }}
-          -ccp ../pkg/chaincode/ "
+          -ccp ../pkg/saacs-cc/ "
 
   cc:redeploy:
-    desc: Deploy Updated chaincode containers
+    desc: Deploy Updated saacs-cc containers
     cmds:
       - for: ["noauth", "noauth-no-sub", "identity", "roles"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd: bash -c "cd ./network && ./cc_restart/{{ .ITEM }}.sh "
 
   cc:deploy:biochain:
-    desc: Deploy chaincode to the channel and start the chaincode container
+    desc: Deploy saacs-cc to the channel and start the saacs-cc container
     cmds:
       - buf generate
       - cmd:
           bash -c "cd ./network && ./network.sh deployCCAAS -ccn roles -ccp
-          ../pkg/chaincode/ "
+          ../pkg/saacs-cc/ "
   cc:redeploy:biochain:
-    desc: Deploy chaincode to the channel and start the chaincode container
+    desc: Deploy saacs-cc to the channel and start the saacs-cc container
     cmd: bash -c "cd ./network && ./cc_restart/roles.sh "
 
   cc:build:
-    cmd: docker build -t nova38/saacs:latest -f ./pkg/chaincode/Dockerfile .
+    cmd: docker build -t nova38/saacs:latest -f ./pkg/saacs-cc/Dockerfile .
 
   build:cc:push:
     cmds:
@@ -145,7 +145,7 @@ tasks:
 
   # fabric:getMetadata:
   #   cmds:
-  #     - bash -c "cd network && peer chaincode query -C default -n Thesis -c
+  #     - bash -c "cd network && peer saacs-cc query -C default -n Thesis -c
   #       '{"Args":["org.hyperledger.fabric:GetMetadata"]}' "
 
   default:

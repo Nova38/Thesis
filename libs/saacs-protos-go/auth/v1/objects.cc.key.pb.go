@@ -73,7 +73,7 @@ func (m *Collection) NewFromKey(key *ItemKey) *Collection {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -162,7 +162,7 @@ func (m *Role) NewFromKey(key *ItemKey) *Role {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -263,7 +263,7 @@ func (m *UserDirectMembership) NewFromKey(key *ItemKey) *UserDirectMembership {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -361,7 +361,7 @@ func (m *UserEmbeddedRoles) NewFromKey(key *ItemKey) *UserEmbeddedRoles {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -459,7 +459,7 @@ func (m *UserCollectionRoles) NewFromKey(key *ItemKey) *UserCollectionRoles {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -594,7 +594,7 @@ func (m *Suggestion) NewFromKey(key *ItemKey) *Suggestion {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"
@@ -722,7 +722,7 @@ func (m *HiddenTxList) NewFromKey(key *ItemKey) *HiddenTxList {
 }
 
 // StateKey - Returns a composite key for the state
-// This follows the same structure as the chaincode stub library,
+// This follows the same structure as the saacs-cc stub library,
 // Main difference is that it doesn't check the key for invalid characters
 //
 // Example key:= "\u0000auth.Collection\u0000collection0\u0000collection0\u0000"

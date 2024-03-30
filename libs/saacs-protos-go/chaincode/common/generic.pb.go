@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.33.0
 // 	protoc        (unknown)
-// source: chaincode/common/generic.proto
+// source: saacs-cc/common/generic.proto
 
 package common
 

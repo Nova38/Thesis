@@ -38,7 +38,7 @@
         //     "request": "launch",
         //     "debugAdapter": "dlv-dap",
         //     // "isCaas": true,
-        //     "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
+        //     "program": "${workspaceFolder}/apps/saacs/auth/noauth/",
         //     // "console": "integratedTerminal",
         //     "env": {
         //         "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG",
@@ -89,7 +89,7 @@
             "request": "launch",
             "debugAdapter": "dlv-dap",
             "isCaas": true,
-            "program": "${workspaceFolder}/apps/chaincode/auth/noauth/",
+            "program": "${workspaceFolder}/apps/saacs/auth/noauth/",
             "console": "integratedTerminal",
             "env": {
                 "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG"
