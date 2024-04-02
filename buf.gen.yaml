@@ -34,7 +34,7 @@ plugins:
   ## Javascript
 
   - plugin: buf.build/bufbuild/es
-    out: pkg/saacs-es/src/gen
+    out: libs/saacs-protos-es/src/gen
     opt: target=ts
 
   - plugin: buf.build/bufbuild/es
@@ -43,13 +43,13 @@ plugins:
 
   - plugin: buf.build/connectrpc/es
 
-    out: pkg/saacs-es/src/gen
+    out: libs/saacs-protos-es/src/gen
     opt: target=ts
 
   - plugin: protoc-gen-saacs-es
     path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
     opt: target=ts
-    out: pkg/saacs-es/src/gen
+    out: libs/saacs-protos-es/src/gen
     strategy: all
 
   - plugin: buf.build/connectrpc/es

@@ -1,0 +1,48 @@
+organizations:
+  Org1MSP:
+    users:
+      t-vicky.argudo19:
+        name: Victoria Argudo
+      t-paulaislamartins:
+        name: Paula Isla Martins
+      t-zeniaruiz13:
+        name: "Zenia Ruiz Utrilla"
+      t-pete.campbell8:
+        name: "Peter Campbell"
+      t-manubio13:
+        name: "Marlon E. Cobos"
+      t-narayani.ku:
+        name: "Narayani Barve"
+      t-vijay.barve:
+        name: "Vijay Barve"
+      t-f.machado.stredel:
+        name: "Fernando Machado-Stredel"
+      t-town:
+        name: "Town Peterson"
+      t-lhdecicco:
+        name: "Lucas DeCicco"
+      t-gresham.joanna:
+        name: "Joanna Corimanya"
+      t-supsupchristian:
+        name: "Christian Supsup"
+      t-camilagmeneses23:
+        name: "Camila Meneses"
+      t-bwiens36:
+        name: "Ben Wiens"
+      t-pitogo.kiermitchel:
+        name: "Kier Mitchel Pitogo"
+      t-a.catherine.perkins:
+        name: "Abby Perkins"
+      t-ngenoeric11:
+        name: "Eric Ng'eno"
+      t-claununez199o:
+        name: "Claudia Nunez Penichet"
+      t-harlanrhwilliams:
+        name: "Harlan Williams"
+      t-k.mulcahy:
+        name: "Kevin Mulcahy"
+
+      t-anahiquezada:
+        name: "Anahi Quezada"
+      t-jennifer.ramos.doval:
+        name: "Jennifer Ramos Doval"
