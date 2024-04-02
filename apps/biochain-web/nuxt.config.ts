@@ -3,8 +3,7 @@ import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
   appConfig: {
-    apiEndpoint:
-      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
+    apiEndpoint: process.env.NUXT_API_URL,
   },
   colorMode: {
     preference: 'light',
@@ -30,7 +29,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  // debug: true,
+  debug: true,
 
   devServer: {
     // https: true,
@@ -162,7 +161,7 @@ export default defineNuxtConfig({
       public: {
         credentials: process.env.NUXT_FABRIC_PUBLIC_CREDENTIALS || '',
         key: process.env.NUXT_FABRIC_PUBLIC_KEY || '',
-        mspId: process.env.NUXT_FABRIC_PUBLIC_MSPID || '',
+        mspId: process.env.NUXT_FABRIC_PUBLIC_MSP || '',
       },
     },
     public: {

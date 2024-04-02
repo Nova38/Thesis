@@ -2,8 +2,8 @@
 
 <template>
   <div>
-    <PPanel
-      header="Taxon"
+    <PFieldset
+      legend="Taxon"
       toggleable
     >
       <FormKit
@@ -62,7 +62,7 @@
           />
         </div>
       </FormKit>
-    </PPanel>
+    </PFieldset>
   </div>
 </template>
 
