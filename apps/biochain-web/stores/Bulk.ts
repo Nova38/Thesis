@@ -1,7 +1,7 @@
 import { diff } from 'ohash'
 import { cluster, get, set } from 'radash'
 // import { ccbio } from 'saacs'
-import { ccbio } from '#imports'
+import { ccbio, type PlainSpecimen } from '#imports'
 import { FieldMask } from '@bufbuild/protobuf'
 import type { MeterItem } from 'primevue/metergroup'
 export const useBulkStore = defineStore('Bulk', () => {
@@ -42,35 +42,55 @@ export const useBulkStore = defineStore('Bulk', () => {
     { label: 'Error', value: 0, color: 'var(--v-primary)', icon: '' },
   ])
 
+  interface localInterface {
+    collectionId: string
+    specimenIdHeader: string
+    headers: string[]
+    rows: string[][]
+    rawRowsMeta: Map<string, ImportRowMeta>
+    mappedSpecimen: PlainSpecimen[]
+    specimenIds: string[]
+    rawRows: UpdateRawRow[]
+  }
   const LoadCsv = async (csv: CSVImportMetadata) => {
     Loading.value = true
 
-    SpecimenIds.value = []
-    MappedSpecimen.value = []
+    const local: localInterface = {
+      collectionId: CollectionId.value,
+      specimenIdHeader: SpecimenIdHeader.value,
+      headers: csv.headers,
+      rows: csv.rows,
+      rawRowsMeta: new Map<string, ImportRowMeta>(),
+      mappedSpecimen: [],
+      specimenIds: [],
+      rawRows: [],
+    }
 
-    RawRowsMeta.value = new Map<string, ImportRowMeta>()
+    // SpecimenIds.value = []
+    // MappedSpecimen.value = []
 
-    SpecimenIdHeader.value = csv.specimenIdHeader
+    // RawRowsMeta.value = new Map<string, ImportRowMeta>()
 
-    RawHeaders.value = csv.headers
+    // SpecimenIdHeader.value = csv.specimenIdHeader
+    // RawHeaders.value = csv.headers
 
-    RawRows.value = csv.rows.map((row) => {
-      const catNum = row[SpecimenIdHeader.value]
+    local.rawRows = csv.rows.map((row) => {
+      const catNum = row[csv.specimenIdHeader]
       if (!catNum) {
         console.warn(row)
         throw new Error('SpecimenIdHeader not found in RawHeaders')
       }
 
       const id = CatNumToUUID(catNum)
-      SpecimenIds.value.push(id)
+      local.specimenIds.push(id)
 
-      RawRowsMeta.value.set(id, {
+      local.rawRowsMeta.set(id, {
         exist: 'unknown',
         status: 'loading',
         statusMessage: 'loading from csv',
       })
 
-      MappedSpecimen.value.push(
+      local.mappedSpecimen.push(
         new ccbio.Specimen({
           collectionId: CollectionId.value,
           specimenId: id,
@@ -94,6 +114,15 @@ export const useBulkStore = defineStore('Bulk', () => {
     })
     Loading.value = false
 
+    SpecimenIds.value = local.specimenIds
+    MappedSpecimen.value = local.mappedSpecimen
+
+    RawRowsMeta.value = local.rawRowsMeta
+
+    SpecimenIdHeader.value = csv.specimenIdHeader
+    RawHeaders.value = csv.headers
+
+    RawRows.value = local.rawRows
     // await nextTick()
   }
 
@@ -135,8 +164,8 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          const c = ccbio.Specimen.fromJsonString(JSON.stringify(value))
-
+          // const c = ccbio.Specimen.fromJsonString(JSON.stringify(value))
+          const c = value as PlainSpecimen
           if (c?.primary?.lastModified) {
             c.primary.lastModified = undefined
           }

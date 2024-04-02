@@ -2,7 +2,9 @@
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
-  appConfig: {},
+  appConfig: {
+    apiEndpoint: process.env.NUXT_API_URL,
+  },
   colorMode: {
     preference: 'light',
   },
@@ -27,7 +29,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  // debug: true,
+  debug: true,
 
   devServer: {
     // https: true,
