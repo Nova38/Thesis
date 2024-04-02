@@ -11,21 +11,21 @@ managed:
 plugins:
   # Go
   - plugin: buf.build/protocolbuffers/go
-    out: lib/saacs-protos-go
+    out: libs/saacs-protos-go
     opt:
       - paths=source_relative
   - plugin: go-saacs
-    out: lib/saacs-protos-go
+    out: libs/saacs-protos-go
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/validate-go
-    out: lib/saacs-protos-go
+    out: libs/saacs-protos-go
     opt:
       - paths=source_relative
 
-  - plugin: buf.build/community/mfridman-go-json:v1.3.0
-    out: lib/saacs-protos-go
+  - plugin: buf.build/community/mfridman-go-json:v1.3.1
+    out: libs/saacs-protos-go
     opt:
       - paths=source_relative
       - emit_defaults=true
@@ -53,17 +53,17 @@ plugins:
     strategy: all
 
   - plugin: buf.build/connectrpc/es
-    out: pkg/web/biochain/lib/pb
+    out: apps/biochain-web/lib/pb
     opt: target=ts
 
   - plugin: protoc-gen-saacs-es
     path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
     opt: target=ts
-    out: pkg/web/biochain/lib/pb
+    out: apps/biochain-web/lib/pb
     strategy: all
 
   - plugin: buf.build/bufbuild/es
-    out: pkg/web/biochain/lib/pb
+    out: apps/biochain-web/lib/pb
     opt: target=ts
 
   # - plugin: buf.build/bufbuild/protoschema-jsonschema

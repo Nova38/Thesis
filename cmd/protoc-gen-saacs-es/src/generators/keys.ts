@@ -1,7 +1,6 @@
 import {
     Schema,
     findCustomMessageOption,
-
 } from "@bufbuild/protoplugin/ecmascript";
 import { getAllMessages, getAllTypes } from "../utils";
 
@@ -17,11 +16,11 @@ export function generateKeySchema(schema: Schema) {
 
         f.print`export const MessageKeySchema = {`;
         for (const descType of getAllMessages(file)) {
-
-            const options = descType.proto.options
+            const options = descType.proto.options;
 
             if (options && hasExtension(options, key_schema)) {
                 const key = getExtension(options, key_schema);
+                key.itemType = descType.typeName;
                 f.print`  "${descType.typeName}" : ${key.toJsonString({
                     enumAsInteger: true,
                     prettySpaces: 4,

@@ -8,9 +8,15 @@ import {
 } from "@bufbuild/protobuf";
 import { Schema } from "@bufbuild/protoplugin/ecmascript";
 import * as fs from "fs";
+import { fileURLToPath } from "url";
+
+import { resolve, dirname } from "pathe";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const registryBin = resolve(__dirname, "image.bin");
 
 export const registry = createRegistryFromDescriptors(
-    fs.readFileSync("image.bin")
+    fs.readFileSync(registryBin),
 );
 
 export function* GetAllTypesFromSchema(schema: Schema) {
@@ -21,9 +27,8 @@ export function* GetAllTypesFromSchema(schema: Schema) {
     }
 }
 
-
 export function* getAllTypes(
-    desc: DescFile | DescMessage
+    desc: DescFile | DescMessage,
 ): Iterable<DescMessage | DescEnum | DescExtension | DescService> {
     switch (desc.kind) {
         case "file":
@@ -46,7 +51,7 @@ export function* getAllTypes(
     }
 }
 export function* getAllMessages(
-    desc: DescFile | DescMessage
+    desc: DescFile | DescMessage,
 ): Iterable<DescMessage> {
     switch (desc.kind) {
         case "file":

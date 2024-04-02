@@ -1,16 +1,16 @@
 export const MessageKeySchema = {
   "sample.SimpleItem" : {
-    "itemType": "",
+    "itemType": "sample.SimpleItem",
     "itemKind": 2,
     "properties": "id"
 },
   "sample.Group" : {
-    "itemType": "",
+    "itemType": "sample.Group",
     "itemKind": 2,
     "properties": "groupId"
 },
   "sample.Book" : {
-    "itemType": "",
+    "itemType": "sample.Book",
     "itemKind": 2,
     "properties": "isbn"
 },

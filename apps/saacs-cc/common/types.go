@@ -52,6 +52,20 @@ type (
 		TxCtxInterface
 	}
 
+	AuthCtxInterface interface {
+
+		// Authorize - Checks if the user is authorized to perform the action on
+		// the collection
+		//
+		// # Requirements:
+		//  - collection to be set
+		//  - action to be set
+		//  - domain to be set
+		Authorize(ops []*v1.Operation) (bool, error)
+
+		SetTxCtx(ctx TxCtxInterface)
+	}
+
 	TxCtxInterface interface {
 		contractapi.TransactionContextInterface
 		// ════════════════════════════════════════════════════════

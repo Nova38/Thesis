@@ -154,7 +154,7 @@ tasks:
       # - "tools/**/*"
       - "buf.gen.yaml"
     cmds:
-      - buf build -o image.bin
+      - buf build -o ./cmd/protoc-gen-saacs-es/src/image.bin
       - buf generate
       - task: build:es
       # - task: build:gen-lint

@@ -32,10 +32,6 @@ import {
 
 import * as fs from "fs";
 
-import { pb } from "saacs-es";
-
-const registry = createRegistryFromDescriptors(fs.readFileSync("image.bin"));
-
 const protocGenReg = createEcmaScriptPlugin({
     name: "protoc-gen-reg",
     version: `v1`,
@@ -74,7 +70,7 @@ function generateFabricTest(schema: Schema) {
                 localName(method);
 
                 const mFile = schema.generateFile(
-                    file.name + "/" + method.name + ".js"
+                    file.name + "/" + method.name + ".js",
                 );
 
                 const hlf_path = `hlf.pb.${pbase}.${base}`;
