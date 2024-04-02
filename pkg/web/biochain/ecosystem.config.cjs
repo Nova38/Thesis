@@ -20,13 +20,14 @@
 //     }
 //   }
 // };
+
 module.exports = {
   apps: [
     {
       exec_mode: 'cluster',
       instances: 'max',
       name: 'NuxtAppName',
-      port: '8000',
+      port: '8080',
       script: './.output/server/index.mjs',
     },
   ],

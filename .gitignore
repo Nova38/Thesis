@@ -9,6 +9,9 @@ tools/fabric/bin
 tools/fabric/builders
 tools/scripts/config
 
+
+pkg/web/db
+
 network/bin
 network/builders
 

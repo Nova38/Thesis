@@ -2,10 +2,7 @@
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
-  appConfig: {
-    apiEndpoint:
-      process.env.NUXT_API_URL || 'https://api-biochain.ittc.ku.edu/',
-  },
+  appConfig: {},
   colorMode: {
     preference: 'light',
   },
@@ -30,7 +27,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  debug: true,
+  debug: false,
 
   devServer: {
     // https: true,
@@ -136,32 +133,26 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     auth: {
-      password: process.env.NUXT_AUTH_PASSWORD || '',
+      password: '',
     },
     fabric: {
       chaincode: {
-        chaincode: process.env.NUXT_CHAINCODE_CHAINCODE || '',
-        channel: process.env.NUXT_CHAINCODE_CHANNEL || '',
+        chaincode: '',
+        channel: '',
       },
       peer: {
         grpcOptions: {
-          'ssl-target-name-override':
-            process.env.NUXT_FABRIC_PEER_GRPC_OPTIONS || '',
+          'ssl-target-name-override': '',
         },
         tlsCACerts: {
-          pem: process.env.NUXT_FABRIC_PEER_TLS_CA_CERTS_PEM || '',
+          pem: '',
         },
-        url: process.env.NUXT_FABRIC_PEER_URL || '',
+        url: '',
       },
       public: {
-        credentials: process.env.NUXT_FABRIC_PUBLIC_CREDENTIALS || '',
-        key: process.env.NUXT_FABRIC_PUBLIC_KEY || '',
-        mspId: process.env.NUXT_FABRIC_PUBLIC_MSPID || '',
-      },
-    },
-    public: {
-      api: {
-        url: process.env.NUXT_API_URL || '',
+        credentials: '',
+        key: '',
+        msp: '',
       },
     },
   },

@@ -25,7 +25,7 @@ export interface FabricConfig {
   public: {
     credentials: string
     key: string
-    mspId: string
+    msp: string
   }
 }
 
@@ -102,7 +102,7 @@ async function BuildIdentity(event: H3Event) {
       credentials: fabricConfig.public.credentials,
       id: '',
       key: fabricConfig.public.key,
-      mspId: fabricConfig.public.mspId,
+      mspId: fabricConfig.public.msp,
       password: '',
       userId: '',
       username: '',
