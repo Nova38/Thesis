@@ -1,3 +1,4 @@
+import type { ccbio } from '#imports'
 import type { PlainMessage } from '@bufbuild/protobuf'
 import type { ZodError } from 'zod'
 

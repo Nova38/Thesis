@@ -1,6 +1,9 @@
 export default defineAppConfig({
   myLayer: {
     name: 'Hello from Nuxt layer'
+  },
+  ui: {
+    gray: 'neutral',
   }
 })
 
@@ -10,5 +13,6 @@ declare module '@nuxt/schema' {
       /** Project name */
       name?: string
     }
+
   }
 }

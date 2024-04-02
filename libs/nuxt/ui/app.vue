@@ -1,4 +1,5 @@
 <template>
+  <Shiki lang="js" code="console.log('hello');" />
 
   <HelloWorld />
 </template>

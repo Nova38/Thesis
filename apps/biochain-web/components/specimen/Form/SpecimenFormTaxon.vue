@@ -1,0 +1,69 @@
+<script lang="ts" setup></script>
+
+<template>
+  <div>
+    <PPanel
+      header="Taxon"
+      toggleable
+    >
+      <FormKit
+        type="group"
+        id="Taxon"
+        name="taxon"
+      >
+        <div class="inline-flex flex-wrap gap-2">
+          <FormKit
+            type="text"
+            id="kingdom"
+            label="Kingdom"
+            name="kingdom"
+          />
+          <FormKit
+            type="text"
+            id="phylum"
+            name="phylum"
+            label="Phylum"
+          />
+          <FormKit
+            type="text"
+            id="class"
+            name="class"
+            label="Class"
+          />
+          <FormKit
+            type="text"
+            name="order"
+            id="order"
+            label="Order"
+          />
+          <FormKit
+            type="text"
+            name="family"
+            id="family"
+            label="Family"
+          />
+          <FormKit
+            type="text"
+            name="genus"
+            id="genus"
+            label="Genus"
+          />
+          <FormKit
+            type="text"
+            name="species"
+            id="species"
+            label="Species"
+          />
+          <FormKit
+            type="text"
+            name="subspecies"
+            id="subspecies"
+            label="SubSpecies"
+          />
+        </div>
+      </FormKit>
+    </PPanel>
+  </div>
+</template>
+
+<style scoped></style>

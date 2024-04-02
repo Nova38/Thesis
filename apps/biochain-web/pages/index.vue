@@ -8,7 +8,7 @@ import tailwindConfig from '#tailwind-config'
     <!-- {{ crush(MakeEmptySpecimen()) }} -->
     Hello world
 
-    <pre>{{ tailwindConfig }}</pre>
+    <!-- <pre>{{ tailwindConfig }}</pre> -->
   </div>
 </template>
 

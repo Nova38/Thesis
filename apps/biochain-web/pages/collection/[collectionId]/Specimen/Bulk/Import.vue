@@ -12,19 +12,6 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div>
-    <PCard>
-      <template #content>
-        <UButton
-          block
-          color="red"
-          :disabled="!bulk.RawRows.length"
-          @click="bulk.$reset"
-        >
-          Reset
-        </UButton>
-      </template>
-    </PCard>
-
     <ImportCsvFile
       @id-header-selection="
         (val) =>
@@ -35,23 +22,59 @@ onBeforeRouteLeave((to, from, next) => {
           })
       "
     />
+    <PCard v-if="bulk.RawRows.length">
+      <template #content>
+        <div class="flex flex-col">
+          <div class="object-center">
+            <PSelectButton
+              v-model="bulk.Mode"
+              :options="['import', 'update', 'hybrid']"
+              aria-labelledby="basic"
+            />
+          </div>
+          <PMeterGroup :value="bulk.ImportStatus" />
+          <PMeterGroup :value="bulk.UploadStatus" />
+        </div>
+      </template>
+    </PCard>
 
     <PCard v-if="bulk.RawRows.length">
       <template #content>
-        <ImportTableMapping />
-        <UButton
-          block
-          class="mb-4"
-          :disabled="!bulk.RawRows.length"
-          @click="bulk.Upload"
-        >
-          Upload
-        </UButton>
+        <div class="space-y-2">
+          <div>
+            <ImportTableMapping />
+          </div>
+
+          <div>
+            <UButton
+              block
+              class="mb-4"
+              :disabled="!bulk.RawRows.length"
+              @click="bulk.Upload"
+            >
+              Upload
+            </UButton>
+          </div>
+        </div>
       </template>
     </PCard>
+
     <PCard v-if="bulk.MappedSpecimen.length">
       <template #content>
         <SpecimenTable :specimen-list="bulk.MappedSpecimen" />
+      </template>
+    </PCard>
+
+    <PCard>
+      <template #content>
+        <UButton
+          block
+          color="red"
+          :disabled="!bulk.RawRows.length"
+          @click="bulk.$reset"
+        >
+          Reset
+        </UButton>
       </template>
     </PCard>
   </div>

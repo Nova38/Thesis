@@ -11,8 +11,8 @@
         "editor.codeActionsOnSave": {
             "source.fixAll.eslint": "always"
         },
-        "editor.formatOnSave": false,
-        // "prettier.enable": false
+        // "editor.formatOnSave": false,
+        "prettier.enable": true
     },
     "conventionalCommits.scopes": [
         "proto"
@@ -87,6 +87,7 @@
         "spydra",
         "SUBADULT",
         "tailwindcss",
+        "toggleable",
         "urlcolor"
     ],
     // Auto fix
@@ -235,6 +236,10 @@
             "[\"'`]([^\"'`]*).*?[\"'`]"
         ],
         [
+            "pt:\\s*{([^)]*)\\s*}",
+            "[\"'`]([^\"'`]*).*?[\"'`]"
+        ],
+        [
             "/\\*ui\\*/\\s*{([^;]*)}",
             ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
         ]
@@ -247,5 +252,6 @@
     "todo-tree.tree.disableCompactFolders": true,
     "todo-tree.tree.scanMode": "workspace only",
     "todo-tree.tree.showBadges": true,
-    "todo-tree.tree.showCountsInTree": false
+    "todo-tree.tree.showCountsInTree": false,
+    "prettier.semi": false
 }

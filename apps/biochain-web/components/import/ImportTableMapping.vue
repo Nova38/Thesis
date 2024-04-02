@@ -40,20 +40,36 @@ const options = FlattedSpecimenKeys.filter(
     return x
   })
 
+const rows = ref()
+
+onMounted(() => {
+  console.log('bulk.RawColDefs', bulk.RawColDefs)
+  console.log('options', options)
+
+  rows.value = bulk.RawRows
+})
+
 // MappingOptions.value = [''].concat(FlattedSpecimenKeys)
 </script>
 
-<template>
-  <div>
-    <PDataTable
-      :value="bulk.RawRows"
-      data-key="id"
+<!-- data-key="id"
       paginator
       show-gridlines
       striped-rows
       size="small"
       :rows="10"
-      :rows-per-page-options="[5, 10, 20, 50]"
+      :rows-per-page-options="[5, 10, 20, 50]" -->
+<template>
+  <div>
+    <PDataTable
+      :value="rows"
+      data-key="id"
+      show-gridlines
+      striped-rows
+      size="small"
+      scrollable
+      scrollHeight="800px"
+      :virtualScrollerOptions="{ itemSize: 46 }"
     >
       <PColumnGroup type="header">
         <PRow>

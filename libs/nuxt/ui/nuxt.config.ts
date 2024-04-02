@@ -3,9 +3,9 @@ import { resolve, join } from "pathe";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: [resolve(__dirname, "./assets/css/main.css")],
+  css: [resolve(__dirname, "./assets/css/main.css"),  resolve(__dirname, 'node_modules', 'vue-json-pretty/lib/styles.css')],
 
-  modules: ["@formkit/nuxt", "nuxt-primevue", "@nuxt/ui", "@vueuse/nuxt"],
+  modules: ["@formkit/nuxt", "nuxt-primevue", "@nuxt/ui", "@vueuse/nuxt",'nuxt-shiki'],
 
   tailwindcss: {
     config: {
@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   // formkit: {
   //   configFile: resolve(__dirname, "./formkit.config.ts"),
   // },
+
 
   primevue: {
     components: {

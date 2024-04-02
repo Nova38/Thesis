@@ -5,6 +5,7 @@ export default {
             'rounded-lg',
             'shadow-md',
 
+            'm-2',
             //Color
             'bg-surface-0 dark:bg-surface-900',
             'text-surface-700 dark:text-surface-0/80'

@@ -75,23 +75,25 @@ async function submitHandler() {
 
 <template>
   <div>
-    <div>
-      <SpecimenForm :specimen="specimen">
-        <template #Footer>
-          <div>
-            <UButton
-              label="Submit"
-              @click="submitHandler"
-            />
-          </div>
-        </template>
-      </SpecimenForm>
-
+    <div class="">
+      <!-- <div class="col">
+        <SpecimenForm :specimen="specimen">
+          <template #Footer>
+            <div>
+              <UButton
+                label="Submit"
+                @click="submitHandler"
+              />
+            </div>
+          </template>
+        </SpecimenForm>
+      </div> -->
+      <div class="col">
+        <SpecimenFormKit v-model="specimen" />
+      </div>
       <!-- <pre wrap>{{ value }}</pre> -->
     </div>
-    <div>
-      <pre wrap>{{ specimen }}</pre>
-    </div>
+
   </div>
 </template>
 

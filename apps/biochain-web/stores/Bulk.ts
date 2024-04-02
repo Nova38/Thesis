@@ -3,7 +3,10 @@ import { cluster, get, set } from 'radash'
 // import { ccbio } from 'saacs'
 import { ccbio } from '#imports'
 import { FieldMask } from '@bufbuild/protobuf'
+import type { MeterItem } from 'primevue/metergroup'
 export const useBulkStore = defineStore('Bulk', () => {
+  const Loading = ref(false)
+
   const CollectionId = ref<string>('')
   const Mode = ref<BulkMode>('hybrid')
 
@@ -27,7 +30,21 @@ export const useBulkStore = defineStore('Bulk', () => {
     total: 0,
   })
 
+  const ImportStatus = ref<MeterItem[]>([
+    { label: 'PreExisting', value: 0, color: 'var(--v-primary)', icon: '' },
+    { label: 'New', value: 0, color: 'var(--v-primary)', icon: '' },
+    { label: 'Error', value: 0, color: 'var(--v-primary)', icon: '' },
+  ])
+
+  const UploadStatus = ref<MeterItem[]>([
+    { label: 'Pending', value: 0, color: 'var(--v-primary)', icon: '' },
+    { label: 'Uploaded', value: 0, color: 'var(--v-primary)', icon: '' },
+    { label: 'Error', value: 0, color: 'var(--v-primary)', icon: '' },
+  ])
+
   const LoadCsv = async (csv: CSVImportMetadata) => {
+    Loading.value = true
+
     SpecimenIds.value = []
     MappedSpecimen.value = []
 
@@ -75,6 +92,7 @@ export const useBulkStore = defineStore('Bulk', () => {
         raw: row,
       }
     })
+    Loading.value = false
 
     // await nextTick()
   }
@@ -101,10 +119,9 @@ export const useBulkStore = defineStore('Bulk', () => {
   const CurrentSpecimensEvaluating = ref(false)
   const CurrentSpecimens = computedAsync(
     async () => {
+      Loading.value = true
       const specimens = new Map<string, PlainSpecimen>()
       if (SpecimenIds.value.length === 0) return specimens
-
-      console.log(SpecimenIds)
 
       try {
         const res = await $fetch('/api/cc/specimens/bulk/partialList', {
@@ -420,7 +437,7 @@ export const useBulkStore = defineStore('Bulk', () => {
             console.log('Imported Specimen', r)
             processing.value.success++
           } catch (error) {
-            console.error('Error importing specimen', e)
+            console.error('Error importing specimen', error)
             meta.status = 'error'
             processing.value.fail++
             if (error instanceof Error) meta.statusMessage = error.toString()
@@ -457,6 +474,9 @@ export const useBulkStore = defineStore('Bulk', () => {
   return {
     CollectionId,
     Mode,
+
+    ImportStatus,
+    UploadStatus,
 
     RawRows,
     RawRowsMeta,

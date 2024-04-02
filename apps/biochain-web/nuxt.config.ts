@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  debug: true,
+  // debug: true,
 
   devServer: {
     // https: true,
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
   devtools: {
     disableAuthorization: true,
-    viteInspect: true,
+
     enabled: true,
     timeline: {
       enabled: true,
@@ -85,6 +85,7 @@ export default defineNuxtConfig({
     'nuxt-quasar-ui',
     '@formkit/nuxt',
     '@nuxt/eslint',
+    '@hebilicious/vue-query-nuxt',
   ],
 
   nitro: {
