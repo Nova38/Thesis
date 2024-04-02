@@ -1,6 +1,6 @@
 version: v1
 directories:
-    # - lib/proto/chaincode
+    # - lib/proto/saacs-cc
     # - lib/proto/access_control
     # - lib/chainecode
     # - lib/fabric/

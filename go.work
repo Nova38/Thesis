@@ -1,0 +1,9 @@
+
+go 1.21
+
+use (
+	
+	./libs/saacs-protos-go
+	./cmd/protoc-gen-saacs-go
+	./apps/saacs-cc
+)

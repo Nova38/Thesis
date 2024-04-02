@@ -8,6 +8,7 @@
             <path value="file://$PROJECT_DIR$/packages" />
             <path value="file://$PROJECT_DIR$/proto" />
             <path value="file://$PROJECT_DIR$/network/k8s" />
+            <path value="file://$PROJECT_DIR$/cmd/protoc-gen-saacs-go" />
           </resourceRoots>
         </entryData>
       </entry>

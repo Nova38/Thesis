@@ -8,7 +8,7 @@ tasks:
   # cmds:
   # -  network.sh -ca up createChannel
 
-  # - ./network.sh deployCC -ccn Thesis -ccp ./apps/chaincode/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/chaincode/sample/collections_config.json
+  # - ./network.sh deployCC -ccn Thesis -ccp ./apps/saacs/sample -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')" -cccg ./apps/saacs/sample/collections_config.json
 
   up:
     cmds:
