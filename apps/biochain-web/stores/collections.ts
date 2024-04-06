@@ -42,32 +42,49 @@ export const useCollectionsStore = defineStore('Collections', () => {
   }
 
   async function LoadRows() {
-    return await useCustomFetch(`/api/cc/specimens/list`, {
+    const response = await $fetch(`/api/cc/specimens/list`, {
       key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
       query: {
         collectionId: CollectionId(),
         bookmark: Bookmark.value,
       },
-      onResponse: async ({ response }) => {
-        console.log('history', response._data)
-        Bookmark.value = response._data?.bookmark ?? ''
-        console.log(Bookmark.value)
-        SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
-        SpecimenList.value = Object.values(SpecimenMap.value)
-        SpecimenCatalogNumbers.value = SpecimenList.value.map(
-          (s) => s.primary?.catalogNumber || '',
-        )
-        SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
-      },
     })
+    console.log('history', response)
+    Bookmark.value = response.bookmark ?? ''
+    console.log(Bookmark.value)
+    SpecimenMap.value = defu(SpecimenMap.value, response.specimens)
+    SpecimenList.value = Object.values(SpecimenMap.value)
+    SpecimenCatalogNumbers.value = SpecimenList.value.map(
+      (s) => s.primary?.catalogNumber || '',
+    )
+    SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
+    // return await useCustomFetch(`/api/cc/specimens/list`, {
+    //   key: `collectionId${CollectionId()}-bookmark${Bookmark.value}`,
+    //   query: {
+    //     collectionId: CollectionId(),
+    //     bookmark: Bookmark.value,
+    //   },
+    //   onResponse: async ({ response }) => {
+    //     console.log('history', response._data)
+    //     Bookmark.value = response._data?.bookmark ?? ''
+    //     console.log(Bookmark.value)
+    //     SpecimenMap.value = defu(SpecimenMap.value, response._data?.specimenMap)
+    //     SpecimenList.value = Object.values(SpecimenMap.value)
+    //     SpecimenCatalogNumbers.value = SpecimenList.value.map(
+    //       (s) => s.primary?.catalogNumber || '',
+    //     )
+    //     SpecimenUUIDs.value = SpecimenList.value.map((s) => s.specimenId)
+    //   },
+    // })
   }
 
   async function LoadFull() {
     Loading.value = true
     let lastBookmark = '-'
-    while (Bookmark.value !== lastBookmark && Bookmark.value) {
+    console.log('Starting loadFull', Bookmark.value, lastBookmark)
+    while (Bookmark.value !== lastBookmark) {
       console.log('loadBatch', Bookmark.value, lastBookmark)
-      lastBookmark = Bookmark.value
+      lastBookmark = Bookmark.value ?? ''
       const v = await LoadRows()
       if (v.error.value) {
         console.log(v.error)
@@ -115,7 +132,8 @@ export const useCollectionsStore = defineStore('Collections', () => {
     SpecimenMap.value = {}
     SpecimenList.value = []
     console.log(useRoute().params.collectionId)
-    await FullListLoad()
+    // await FullListLoad()
+    await LoadFull()
   }
 
   return {

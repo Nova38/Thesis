@@ -20,12 +20,12 @@ export default defineEventHandler(async (event) => {
   })
   if (!body.success) throw body.error.issues
 
-  console.log({ query, body })
+  // console.log({ query, body })
 
   const fullList = await $fetch('/api/cc/specimens/fullList', {
     query: { collectionId: query.data.collectionId },
   })
-  console.log(fullList)
+  // console.log(fullList)
   const specimenMap = fullList?.specimens || {}
 
   const filteredList = Object.entries(specimenMap).filter(([id]) =>

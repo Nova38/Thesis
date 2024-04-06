@@ -34,11 +34,10 @@
 // }
 
 export const useCustomFetch: typeof useFetch = (url, options) => {
-  const config = useRuntimeConfig()
+  // const config = useRuntimeConfig()
 
   return useFetch(url, {
     ...options,
-    baseURL: config.public.api.url || '/api',
     onRequest(ctx) {
       LoadingBar.start()
       LoadingBar.stop()

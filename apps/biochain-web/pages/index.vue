@@ -1,15 +1,7 @@
-<script lang="ts" setup>
-import tailwindConfig from '#tailwind-config'
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div>
-    <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
-    <!-- {{ crush(MakeEmptySpecimen()) }} -->
-    Hello world
-
-    <!-- <pre>{{ tailwindConfig }}</pre> -->
-  </div>
+  <div></div>
 </template>
 
 <style></style>
