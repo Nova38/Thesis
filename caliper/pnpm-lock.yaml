@@ -9,34 +9,34 @@ dependencies:
     specifier: ^1.8.0
     version: 1.8.0
   '@hyperledger/caliper-cli':
-    specifier: ^0.5.1-unstable-20240228161447
-    version: 0.5.1-unstable-20240228161447
+    specifier: ^0.5.1-unstable-20240403171520
+    version: 0.5.1-unstable-20240403171520
   '@hyperledger/caliper-core':
-    specifier: ^0.5.1-unstable-20240228161447
-    version: 0.5.1-unstable-20240228161447
+    specifier: ^0.5.1-unstable-20240403171520
+    version: 0.5.1-unstable-20240403171520
   '@hyperledger/caliper-fabric':
-    specifier: ^0.5.1-unstable-20240228161447
-    version: 0.5.1-unstable-20240228161447
+    specifier: ^0.5.1-unstable-20240403171520
+    version: 0.5.1-unstable-20240403171520
   '@hyperledger/fabric-gateway':
     specifier: ^1.5.0
     version: 1.5.0
   '@tsconfig/node18':
-    specifier: ^18.2.2
-    version: 18.2.2
+    specifier: ^18.2.4
+    version: 18.2.4
   jiti:
     specifier: ^1.21.0
     version: 1.21.0
   saacs:
     specifier: workspace:^
-    version: link:../pkg/saacs-es
+    version: link:../libs/saacs-protos-es
 
 devDependencies:
   esbuild:
     specifier: 0.19.7
     version: 0.19.7
   typescript:
-    specifier: ^5.4.2
-    version: 5.4.2
+    specifier: ^5.4.4
+    version: 5.4.4
 
 packages:
 
@@ -306,14 +306,14 @@ packages:
       '@hapi/hoek': 8.5.1
     dev: false
 
-  /@hyperledger/caliper-cli@0.5.1-unstable-20240228161447:
-    resolution: {integrity: sha512-uDWHfmqGWPnpfQDOw6jOCflaVqiJviL0bgoMJBHg9/l4dKqCEuL4qp4SLc/mZTYYRwEbcn6FgsA3z4PNoALnuQ==}
-    engines: {node: '>=14.19.0', npm: '>=6.14.16'}
+  /@hyperledger/caliper-cli@0.5.1-unstable-20240403171520:
+    resolution: {integrity: sha512-vgClAbH3TA5xFzP1pjODgJHP/t0IHe4+YUYajR7LdQzfF3ZkuWRuxDHs8QSxk3sSEkA6L9MKw2dy/1HRj2b8uQ==}
+    engines: {node: '>=18.19.0', npm: '>=6.14.16'}
     hasBin: true
     dependencies:
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240228161447
-      '@hyperledger/caliper-ethereum': 0.5.1-unstable-20240228161447
-      '@hyperledger/caliper-fabric': 0.5.1-unstable-20240228161447
+      '@hyperledger/caliper-core': 0.5.1-unstable-20240403171520
+      '@hyperledger/caliper-ethereum': 0.5.1-unstable-20240403171520
+      '@hyperledger/caliper-fabric': 0.5.1-unstable-20240403171520
       yargs: 15.3.1
     transitivePeerDependencies:
       - bufferutil
@@ -321,9 +321,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hyperledger/caliper-core@0.5.1-unstable-20240228161447:
-    resolution: {integrity: sha512-sJL7lZrGnPbobWX0QnfXi6zZ7iOaXkQ+sB50SFkQ67v1e3XBFc2AS8KDC3FQkhaaWG6R/KGzxZeUWCJCDyismg==}
-    engines: {node: '>=14.19.0', npm: '>=6.14.16'}
+  /@hyperledger/caliper-core@0.5.1-unstable-20240403171520:
+    resolution: {integrity: sha512-6Q3sPd0SLrJ6fxdLXUDUd+qGUzCxuqfB7SVGgB8kFFEttpHzivcICkfhd5c+XNQST6H07pj5vXSwB1Bacsvdjw==}
+    engines: {node: '>=18.19.0', npm: '>=6.14.16'}
     dependencies:
       color-scheme: 1.0.1
       colors: 1.4.0
@@ -352,11 +352,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hyperledger/caliper-ethereum@0.5.1-unstable-20240228161447:
-    resolution: {integrity: sha512-/q2/ASTWm00tgQEB6wMHDck96ohZ+AUw2/9a+9IvJX2sV0UUHY3/p2p02Tu42coSFY7RBIzMhuMtsGfP6DLR+w==}
-    engines: {node: '>=14.19.0', npm: '>=6.14.16'}
+  /@hyperledger/caliper-ethereum@0.5.1-unstable-20240403171520:
+    resolution: {integrity: sha512-QGR+dxtu2BARQv6Nf0DW2lcc+v4oV2UnTWR2Tyk5q9bgk+OKgz/hKpK3XlAOYqrRSeKHunILM3IbFZ2oeDPSbQ==}
+    engines: {node: '>=18.19.0', npm: '>=6.14.16'}
     dependencies:
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240228161447
+      '@hyperledger/caliper-core': 0.5.1-unstable-20240403171520
       ethereumjs-wallet: 0.6.5
       web3-eea: 0.10.0
     transitivePeerDependencies:
@@ -365,12 +365,12 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@hyperledger/caliper-fabric@0.5.1-unstable-20240228161447:
-    resolution: {integrity: sha512-J8iLl0V4eAw9zsOevt1RP2mxokfw2GjeOAfL4lwyaO0SYDKErXaNaimwKH40iWZAKN9OujIK1JTXQrcPpSL9zA==}
-    engines: {node: '>=14.19.0', npm: '>=6.14.16'}
+  /@hyperledger/caliper-fabric@0.5.1-unstable-20240403171520:
+    resolution: {integrity: sha512-qywGzPFtdWGdQ89fDJK7zspmbXnevLV0ekWamgHOSXtz5/ImX2+2sLb3GL4FUl6WFIsp+3MnPuLW+EwDsL3SFw==}
+    engines: {node: '>=18.19.0', npm: '>=6.14.16'}
     dependencies:
       '@hapi/joi': 15.1.1
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240228161447
+      '@hyperledger/caliper-core': 0.5.1-unstable-20240403171520
       semver: 7.1.1
     transitivePeerDependencies:
       - bufferutil
@@ -459,8 +459,8 @@ packages:
       defer-to-connect: 1.1.3
     dev: false
 
-  /@tsconfig/node18@18.2.2:
-    resolution: {integrity: sha512-d6McJeGsuoRlwWZmVIeE8CUA27lu6jLjvv1JzqmpsytOYYbVi1tHZEnwCNVOXnj4pyLvneZlFlpXUK+X9wBWyw==}
+  /@tsconfig/node18@18.2.4:
+    resolution: {integrity: sha512-5xxU8vVs9/FNcvm3gE07fPbn9tl6tqGGWA9tSlwsUEkBxtRnTsNmwrV8gasZ9F/EobaSv9+nu8AxUKccw77JpQ==}
     dev: false
 
   /@types/bn.js@4.11.6:
@@ -1768,7 +1768,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: false
-    bundledDependencies: false
 
   /event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
@@ -2017,6 +2016,7 @@ packages:
   /gc-stats@1.4.0:
     resolution: {integrity: sha512-4FcCj9e8j8rCjvLkqRpGZBLgTC/xr9XEf5By3x77cDucWWB3pJK6FEwXZCTCbb4z8xdaOoi4owBNrvn3ciDdxA==}
     engines: {node: '>=6'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     requiresBuild: true
     dependencies:
       nan: 2.18.0
@@ -3890,8 +3890,8 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: false
 
-  /typescript@5.4.2:
-    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+  /typescript@5.4.4:
+    resolution: {integrity: sha512-dGE2Vv8cpVvw28v8HCPqyb08EzbBURxDpuhJvTrusShUfGnhHBafDsLdS1EhhxyL6BJQE+2cT3dDPAv+MQ6oLw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
