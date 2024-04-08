@@ -14,7 +14,7 @@ plugins:
     out: libs/saacs-protos-go
     opt:
       - paths=source_relative
-  - plugin: go-saacs
+  - plugin: saacs-go
     out: libs/saacs-protos-go
     opt:
       - paths=source_relative
