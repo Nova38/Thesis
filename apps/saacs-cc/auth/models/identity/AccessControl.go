@@ -5,6 +5,7 @@ import (
 
 	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/apps/saacs-cc/common"
+	"github.com/nova38/saacs/apps/saacs-cc/state"
 	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 	"github.com/samber/oops"
 )
@@ -12,11 +13,22 @@ import (
 type IAC struct {
 	Collections           map[string]*authpb.Collection
 	CollectionMemberships map[string]*authpb.UserDirectMembership
-	Ctx                   common.TxCtxInterface
+	TxCtx                 common.TxCtxInterface
 	Logger                *slog.Logger
 }
 
 func (ac *IAC) Authorize(ops []*authpb.Operation) (bool, error) {
+
+	ac.Logger.Info("NoAuthContract.Authenticate")
+
+	for _, op := range ops {
+		if auth, err := ac.authorized(op); err != nil {
+			return false, oops.Wrap(err)
+		} else if !auth {
+			ac.Logger.Info("User is not authorized")
+			return false, nil
+		}
+	}
 
 	return true, nil
 }
@@ -25,15 +37,15 @@ func (ac *IAC) GetUserDirectMembership(
 	collectionId string,
 ) (*authpb.UserDirectMembership, error) {
 
-	if ctx.CollectionMemberships == nil {
-		ctx.CollectionMemberships = make(map[string]*authpb.UserDirectMembership)
+	if ac.CollectionMemberships == nil {
+		ac.CollectionMemberships = make(map[string]*authpb.UserDirectMembership)
 	}
 
-	if membership, ok := ctx.CollectionMemberships[collectionId]; ok {
-		return membership, nil
-	}
+	// if membership, ok := actions.CollectionMemberships[collectionId]; ok {
+	// 	return membership, nil
+	// }
 
-	user, err := ctx.TxCtx.GetUserId()
+	user, err := ac.TxCtx.GetUserId()
 	if err != nil {
 		return nil, err
 	}
@@ -44,40 +56,24 @@ func (ac *IAC) GetUserDirectMembership(
 		UserId:       user.GetUserId(),
 	}
 
-	if err = state.Get(ctx, membership); err != nil {
+	if err = state.Get(ac.TxCtx, membership); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	ctx.CollectionMemberships[collectionId] = membership
+	ac.CollectionMemberships[collectionId] = membership
 
 	return membership, nil
 }
 
 // ──────────────────────────────── Query ────────────────────────────────────────
 
-func (ctx *AuthTxCtx) Authorize(ops []*authpb.Operation) (bool, error) {
-
-	ctx.GetLogger().Info("NoAuthContract.Authenticate")
-
-	for _, op := range ops {
-		if auth, err := ctx.authorized(op); err != nil {
-			return false, oops.Wrap(err)
-		} else if !auth {
-			ctx.Logger.Info("User is not authorized")
-			return false, nil
-		}
-	}
-
-	return true, nil
-}
-
-func (ctx *AuthTxCtx) authorized(op *authpb.Operation) (bool, error) {
-	ctx.GetLogger().Info(op.String())
+func (ac *IAC) authorized(op *authpb.Operation) (bool, error) {
+	ac.Logger.Info(op.String())
 
 	// Handle special case of creating a collection
 	if op.GetItemType() == "auth.Collection" {
 		if op.GetAction() == authpb.Action_ACTION_CREATE {
-			ctx.Logger.Info(
+			ac.Logger.Info(
 				"User is authorized to create a collection",
 				slog.Group("auth", "collection", op.GetCollectionId()),
 			)
@@ -86,7 +82,7 @@ func (ctx *AuthTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	}
 
 	// Get the collection
-	col, err := ctx.GetCollection(op.GetCollectionId())
+	col, err := ac.TxCtx.GetCollection(op.GetCollectionId())
 	if err != nil {
 		return false, oops.Wrap(err)
 	}
@@ -107,7 +103,7 @@ func (ctx *AuthTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	if auth, err := policy.AuthorizedPolicy(col.GetDefault(), op); err != nil {
 		return false, oops.Wrap(err)
 	} else if auth {
-		ctx.Logger.Info("User is authorized by default")
+		ac.Logger.Info("User is authorized by default")
 		return true, nil
 	}
 	// ═════════════════════════════════════════════
@@ -115,12 +111,12 @@ func (ctx *AuthTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	// ═════════════════════════════════════════════
 
 	// Get the user membership
-	membership, err := ctx.GetUserDirectMembership(op.GetCollectionId())
+	membership, err := ac.GetUserDirectMembership(op.GetCollectionId())
 	if err != nil {
 		return false, oops.Wrap(err)
 	}
 	if membership == nil {
-		ctx.Logger.Info(
+		ac.Logger.Info(
 			"User is not a member of the collection",
 			slog.Group("auth", "collection", op.GetCollectionId()),
 		)
@@ -130,7 +126,7 @@ func (ctx *AuthTxCtx) authorized(op *authpb.Operation) (bool, error) {
 	if auth, err := policy.AuthorizedPolicy(membership.GetPolices(), op); err != nil {
 		return false, oops.Wrap(err)
 	} else if auth {
-		ctx.Logger.Info("User is authorized by membership")
+		ac.Logger.Info("User is authorized by membership")
 		return true, nil
 	}
 

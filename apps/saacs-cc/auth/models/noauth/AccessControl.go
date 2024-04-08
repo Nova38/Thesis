@@ -15,6 +15,5 @@ type NoAuth struct {
 }
 
 func (ac *NoAuth) Authorize(ops []*authpb.Operation) (bool, error) {
-
 	return true, nil
 }

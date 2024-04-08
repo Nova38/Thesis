@@ -4,7 +4,10 @@ import (
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/models/identity"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/models/noauth"
 	"github.com/nova38/saacs/apps/saacs-cc/state"
+	"github.com/samber/lo"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -315,6 +318,61 @@ func (ctx *BaseTxCtx) GetViewMask() (mask *fieldmaskpb.FieldMask) {
 	return ctx.ops.GetPaths()
 }
 
-func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) {
-	panic("Should Never Be Called, Implement in child class")
+func (ctx *BaseTxCtx) GetSubLogger(name string) *slog.Logger {
+	return ctx.Logger.WithGroup(name)
+}
+
+func (ctx *BaseTxCtx) Authorize(operations []*authpb.Operation) (auth bool, err error) {
+	//panic("Should Never Be Called, Implement in child class")
+
+	// Get All the collections, then group them by type
+
+	opsByCol := lo.GroupBy(operations, func(op *authpb.Operation) string {
+		return op.GetCollectionId()
+	})
+
+	for colId, ops := range opsByCol {
+		var (
+			col        *authpb.Collection
+			Authorizer common.Authorizer
+		)
+
+		if col, err = ctx.GetCollection(colId); err != nil {
+			return false, oops.Wrap(err)
+		}
+
+		switch col.GetAuthType() {
+
+		case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
+			return false, oops.Errorf("Authorize failed: auth type unspecified")
+		case authpb.AuthType_AUTH_TYPE_NONE:
+			Authorizer = &noauth.NoAuth{
+				Collection: col,
+				TxCtx:      ctx,
+				Logger:     ctx.GetSubLogger("NoAuth Access Control"),
+			}
+
+		case authpb.AuthType_AUTH_TYPE_ROLE:
+		case authpb.AuthType_AUTH_TYPE_EMBEDDED_ROLE:
+
+		case authpb.AuthType_AUTH_TYPE_IDENTITY:
+			Authorizer = &identity.IAC{
+				Collections:           map[string]*authpb.Collection{colId: col},
+				CollectionMemberships: map[string]*authpb.UserDirectMembership{},
+				TxCtx:                 ctx,
+				Logger:                ctx.GetSubLogger("Identity Access Control"),
+			}
+
+		case authpb.AuthType_AUTH_TYPE_ATTRIBUTE:
+
+		}
+
+		if valid, err := Authorizer.Authorize(ops); err != nil {
+			return false, oops.Wrap(err)
+		} else if !valid {
+			return false, oops.Wrap(err)
+		}
+
+	}
+	return true, nil
 }

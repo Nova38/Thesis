@@ -52,7 +52,7 @@ type (
 		TxCtxInterface
 	}
 
-	AuthCtxInterface interface {
+	Authorizer interface {
 
 		// Authorize - Checks if the user is authorized to perform the action on
 		// the collection
@@ -63,7 +63,7 @@ type (
 		//  - domain to be set
 		Authorize(ops []*v1.Operation) (bool, error)
 
-		SetTxCtx(ctx TxCtxInterface)
+		//Init(ctx TxCtxInterface)
 	}
 
 	TxCtxInterface interface {

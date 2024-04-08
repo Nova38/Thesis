@@ -1,4 +1,4 @@
-package rabc
+package abac
 
 import (
 	"log/slog"
@@ -7,7 +7,7 @@ import (
 	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 )
 
-type RBAC struct {
+type ABAC struct {
 	Collections map[string]*authpb.Collection
 
 	CollectionMemberships map[string]*authpb.UserDirectMembership
@@ -16,7 +16,7 @@ type RBAC struct {
 	Logger *slog.Logger
 }
 
-func (ac *RBAC) Authorize(ops []*authpb.Operation) (bool, error) {
+func (ac *ABAC) Authorize(ops []*authpb.Operation) (bool, error) {
 
 	return true, nil
 }
