@@ -62,8 +62,6 @@ type (
 		//  - action to be set
 		//  - domain to be set
 		Authorize(op *v1.Operation) (bool, error)
-
-		//Init(ctx TxCtxInterface)
 	}
 
 	TxCtxInterface interface {

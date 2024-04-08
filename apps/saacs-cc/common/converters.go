@@ -105,7 +105,7 @@ func ListItemToProtos(list []ItemInterface) (objs []*authpb.Item, err error) {
 // ──────────────────────────────── Suggestions ──────────────────────────────────────────
 
 func ItemToSuggestion(obj ItemInterface) (suggestion *authpb.Suggestion, err error) {
-	if suggestion == nil {
+	if obj == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
 

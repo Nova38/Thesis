@@ -179,10 +179,10 @@ func (ctx *TxCtx) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 	return roles, nil
 }
 
-func (ctx *TxCtx) getRoles(roleIds []string) ([]*authpb.Role, error) {
+func (ctx *TxCtx) getRoles(roleIDs []string) ([]*authpb.Role, error) {
 	var roles []*authpb.Role
 
-	for _, roleId := range roleIds {
+	for _, roleId := range roleIDs {
 		role := &authpb.Role{
 			RoleId: roleId,
 		}

@@ -19,6 +19,7 @@ type RBAC struct {
 	UserRoles  map[string][]*authpb.Role
 }
 
+//nolint:dupl
 func (ac *RBAC) Authorize(op *authpb.Operation) (bool, error) {
 
 	// ═════════════════════════════════════════════
@@ -102,10 +103,11 @@ func (ac *RBAC) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 	return roles, nil
 }
 
-func (ac *RBAC) getRoles(collectionId string, roleIds []string) ([]*authpb.Role, error) {
+//nolint:dupl
+func (ac *RBAC) getRoles(collectionId string, roleIDs []string) ([]*authpb.Role, error) {
 	var roles []*authpb.Role
 
-	for _, roleId := range roleIds {
+	for _, roleId := range roleIDs {
 		role := &authpb.Role{
 			CollectionId: collectionId,
 			RoleId:       roleId,
@@ -121,6 +123,7 @@ func (ac *RBAC) getRoles(collectionId string, roleIds []string) ([]*authpb.Role,
 	return roles, nil
 }
 
+//nolint:dupl
 func (ac *RBAC) checkParents(
 	roles []*authpb.Role,
 	checked []string,

@@ -20,6 +20,7 @@ type ERBAC struct {
 	Logger *slog.Logger
 }
 
+//nolint:dupl
 func (ac *ERBAC) Authorize(op *authpb.Operation) (bool, error) {
 	// ═════════════════════════════════════════════
 	// Default Policy
@@ -63,6 +64,7 @@ func (ac *ERBAC) Authorize(op *authpb.Operation) (bool, error) {
 	return false, nil
 }
 
+//nolint:dupl
 func (ac *ERBAC) checkParents(
 	roles []*authpb.Role,
 	checked []string,
