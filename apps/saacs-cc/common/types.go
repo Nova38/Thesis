@@ -61,7 +61,7 @@ type (
 		//  - collection to be set
 		//  - action to be set
 		//  - domain to be set
-		Authorize(ops []*v1.Operation) (bool, error)
+		Authorize(op *v1.Operation) (bool, error)
 
 		//Init(ctx TxCtxInterface)
 	}

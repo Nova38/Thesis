@@ -73,11 +73,21 @@ message Collection {
   option (key_schema).properties = {
     paths: ["collection_id"]
   };
+  
+  option (buf.validate.message).cel = {
+    id: "Collection.Auth.UseParent",
+    message: "To Use Parents the auth_type must be role or embedded roles",
+    expression: "this.use_auth_parents == true && this.auth_type in [2,4]",
+  };
 
   // The key for the ledger
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name = 2 [(buf.validate.field).string.min_len = 1];
-  AuthType auth_type = 3;
+  AuthType auth_type = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+  
 
   repeated string item_types = 4 [(buf.validate.field).repeated = {
     unique: true,
@@ -85,6 +95,9 @@ message Collection {
   }];
 
   Polices default = 5 [(buf.validate.field).required = true];
+
+  bool use_auth_parents = 6;
+
 }
 
 

@@ -398,8 +398,8 @@ func (x *UserEmbeddedRoles) GetRoles() map[string]*RoleIDList {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
-// An attribute is used to define permissions via the value of the attribute in the
-// users certificate for a given msp
+// An attribute is used to define permissions via the value of the attribute in
+// the users certificate for a given msp
 type Attribute struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

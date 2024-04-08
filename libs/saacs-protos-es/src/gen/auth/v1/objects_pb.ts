@@ -209,6 +209,11 @@ export class Collection extends Message<Collection> {
    */
   default?: Polices;
 
+  /**
+   * @generated from field: bool use_auth_parents = 6;
+   */
+  useAuthParents = false;
+
   constructor(data?: PartialMessage<Collection>) {
     super();
     proto3.util.initPartial(data, this);
@@ -222,6 +227,7 @@ export class Collection extends Message<Collection> {
     { no: 3, name: "auth_type", kind: "enum", T: proto3.getEnumType(AuthType) },
     { no: 4, name: "item_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 5, name: "default", kind: "message", T: Polices },
+    { no: 6, name: "use_auth_parents", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Collection {

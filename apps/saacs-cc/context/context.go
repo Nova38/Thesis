@@ -4,10 +4,9 @@ import (
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
-	"github.com/nova38/saacs/apps/saacs-cc/auth/models/identity"
-	"github.com/nova38/saacs/apps/saacs-cc/auth/models/noauth"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/models"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/apps/saacs-cc/state"
-	"github.com/samber/lo"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -323,13 +322,22 @@ func (ctx *BaseTxCtx) GetSubLogger(name string) *slog.Logger {
 }
 
 func (ctx *BaseTxCtx) Authorize(operations []*authpb.Operation) (auth bool, err error) {
-	//panic("Should Never Be Called, Implement in child class")
 
-	// Get All the collections, then group them by type
+	opsByCol := make(map[string][]*authpb.Operation)
 
-	opsByCol := lo.GroupBy(operations, func(op *authpb.Operation) string {
-		return op.GetCollectionId()
-	})
+	// Group the operations by collection
+	for _, op := range operations {
+		if op.GetAction() == authpb.Action_ACTION_CREATE && op.GetItemType() == common.CollectionItemType {
+			ctx.GetLogger().Info("Operation Is to Create Collection")
+			// TODO: Implement Special auth case for creating a collection
+		} else {
+			if _, ok := opsByCol[op.GetCollectionId()]; !ok {
+				opsByCol[op.GetCollectionId()] = []*authpb.Operation{}
+			}
+			opsByCol[op.GetCollectionId()] = append(opsByCol[op.GetCollectionId()], op)
+		}
+
+	}
 
 	for colId, ops := range opsByCol {
 		var (
@@ -341,38 +349,70 @@ func (ctx *BaseTxCtx) Authorize(operations []*authpb.Operation) (auth bool, err 
 			return false, oops.Wrap(err)
 		}
 
-		switch col.GetAuthType() {
+		// Validate Operation
+		for _, op := range ops {
+			if valid, err := policy.ValidateOperation(col, op); err != nil {
+				return false, oops.Wrap(err)
+			} else if !valid {
+				return false, oops.Wrap(common.RuntimeBadOps)
+			}
+		}
 
-		case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
-			return false, oops.Errorf("Authorize failed: auth type unspecified")
+		switch col.GetAuthType() {
 		case authpb.AuthType_AUTH_TYPE_NONE:
-			Authorizer = &noauth.NoAuth{
+			Authorizer = &models.NoAuth{
 				Collection: col,
+				Logger:     ctx.GetSubLogger("NoAuth"),
 				TxCtx:      ctx,
-				Logger:     ctx.GetSubLogger("NoAuth Access Control"),
 			}
 
 		case authpb.AuthType_AUTH_TYPE_ROLE:
+			Authorizer = &models.RBAC{
+				Collection: col,
+				Logger:     ctx.GetSubLogger("RBAC"),
+				TxCtx:      ctx,
+				UserRoles:  make(map[string][]*authpb.Role),
+			}
 		case authpb.AuthType_AUTH_TYPE_EMBEDDED_ROLE:
+			Authorizer = &models.ERBAC{
+				Collection: col,
+				Logger:     ctx.GetSubLogger("ERBAC"),
+				TxCtx:      ctx,
+				UserRoles:  make(map[string][]*authpb.Role),
+			}
 
 		case authpb.AuthType_AUTH_TYPE_IDENTITY:
-			Authorizer = &identity.IAC{
-				Collections:           map[string]*authpb.Collection{colId: col},
+			Authorizer = &models.IAC{
+				Collection:            col,
 				CollectionMemberships: map[string]*authpb.UserDirectMembership{},
+				Logger:                ctx.GetSubLogger("IAC"),
 				TxCtx:                 ctx,
-				Logger:                ctx.GetSubLogger("Identity Access Control"),
 			}
 
 		case authpb.AuthType_AUTH_TYPE_ATTRIBUTE:
+			Authorizer = &models.ABAC{
+				Collection:     col,
+				UserAttributes: []*authpb.Attribute{},
+				Logger:         ctx.GetSubLogger("ABAC"),
+				TxCtx:          ctx,
+			}
 
+		case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
+			return false, oops.Wrap(common.CollectionInvalid)
+		default:
+			return false, oops.Wrap(common.RuntimeBadOps)
 		}
 
-		if valid, err := Authorizer.Authorize(ops); err != nil {
-			return false, oops.Wrap(err)
-		} else if !valid {
-			return false, oops.Wrap(err)
+		for _, op := range ops {
+			if auth, err := Authorizer.Authorize(op); err != nil {
+				return false, oops.Wrap(err)
+			} else if !auth {
+				ctx.GetLogger().Info("User is not authorized")
+				return false, nil
+			}
 		}
 
 	}
+
 	return true, nil
 }

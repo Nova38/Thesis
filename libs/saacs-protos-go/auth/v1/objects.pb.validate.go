@@ -509,6 +509,8 @@ func (m *Collection) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for UseAuthParents
+
 	if len(errors) > 0 {
 		return CollectionMultiError(errors)
 	}

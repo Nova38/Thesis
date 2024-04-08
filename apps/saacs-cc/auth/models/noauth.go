@@ -1,4 +1,4 @@
-package rabc
+package models
 
 import (
 	"log/slog"
@@ -7,16 +7,13 @@ import (
 	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 )
 
-type RBAC struct {
-	Collections map[string]*authpb.Collection
-
-	CollectionMemberships map[string]*authpb.UserDirectMembership
+type NoAuth struct {
+	Collection *authpb.Collection
 
 	TxCtx  common.TxCtxInterface
 	Logger *slog.Logger
 }
 
-func (ac *RBAC) Authorize(ops []*authpb.Operation) (bool, error) {
-
+func (ac *NoAuth) Authorize(op *authpb.Operation) (bool, error) {
 	return true, nil
 }
