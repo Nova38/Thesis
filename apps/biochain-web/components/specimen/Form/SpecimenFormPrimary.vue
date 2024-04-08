@@ -11,7 +11,7 @@
         id="primary"
         name="primary"
       >
-        <div class="inline-flex gap-4">
+        <div class="inline-flex gap-2 flex-wrap">
           <div class="inline-flex flex-row flex-wrap gap-1 justify-evenly">
             <FormKit
               type="text"
@@ -32,7 +32,6 @@
             <FormKit
               type="text"
               name="cataloger"
-              id="cataloger"
               label="Cataloger"
               outer-class="min-w-20"
             />

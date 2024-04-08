@@ -73,6 +73,7 @@ export default defineNuxtConfig({
   },
   formkit: {
     // configFile: 'node_modules/@saacs/ui/formkit.config.ts',
+    // autoImport: true,
   },
 
   modules: [
@@ -84,7 +85,7 @@ export default defineNuxtConfig({
     'nuxt-quasar-ui',
     '@formkit/nuxt',
     '@nuxt/eslint',
-    '@hebilicious/vue-query-nuxt',
+    // '@hebilicious/vue-query-nuxt',
   ],
 
   nitro: {
@@ -94,6 +95,7 @@ export default defineNuxtConfig({
         driver: 'fs',
       },
     },
+
     esbuild: {
       options: {
         target: 'esnext',
@@ -101,6 +103,10 @@ export default defineNuxtConfig({
     },
     experimental: {
       tasks: true,
+      typescriptBundlerResolution: true,
+      openAPI: true,
+      // asyncContext: true,
+      database: true,
     },
     imports: {
       dirs: ['lib/pb/*'],
