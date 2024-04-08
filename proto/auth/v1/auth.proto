@@ -20,6 +20,7 @@ extend google.protobuf.MethodOptions {
 }
 extend google.protobuf.MessageOptions {
   KeySchema key_schema = 54599;
+  AuthType auth_type = 55888;
 }
 
 // ═════════════════════════════════════════════
@@ -38,6 +39,7 @@ enum AuthType {
   AUTH_TYPE_ROLE = 2;
   AUTH_TYPE_IDENTITY = 3;
   AUTH_TYPE_EMBEDDED_ROLE = 4;
+  AUTH_TYPE_ATTRIBUTE = 5;
 }
 
 enum ItemKind {
@@ -192,6 +194,44 @@ message Operation {
   string item_type = 3 [(buf.validate.field).string.min_len = 1];
   google.protobuf.FieldMask paths = 5;
 }
+
+message Polices {
+  // key is the item type
+  map<string, PathPolicy> item_policies = 1;
+
+  // Default policy for all items
+  PathPolicy default_policy = 2;
+
+  // The types that are excluded from the default policy
+  repeated string default_excluded_types = 3;
+}
+
+
+// This message is the tree node for operations on the state item
+message PathPolicy {
+  // The path is a sub path of a field mask
+  string path = 1;
+  string full_path = 2;
+
+  bool allow_sub_paths = 3;
+  // The key is a valid sub path in the type of state item
+  map<string, PathPolicy> sub_paths = 4;
+
+  // If the policy is not set than use a parent policy unless nested policy is set
+  repeated Action actions = 5;
+
+  option (buf.validate.message).cel = {
+    id: "SubPathsAllowed"
+    message: "Sub Paths are not allowed"
+    expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+  };
+  // option (buf.validate.message).cel = {
+  //   id: "pathAndFullPath"
+  //   message: "Path must be a sub path of full path"
+  //   expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
+  // };
+}
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

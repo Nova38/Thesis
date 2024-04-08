@@ -1,23 +1,27 @@
 package identity
 
 import (
+	"log/slog"
+
 	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/apps/saacs-cc/common"
 	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
 	"github.com/samber/oops"
 )
 
-type AuthTxCtx struct {
+type IAC struct {
+	Collections           map[string]*authpb.Collection
 	CollectionMemberships map[string]*authpb.UserDirectMembership
-
-	TxCtx common.TxCtxInterface
+	Ctx                   common.TxCtxInterface
+	Logger                *slog.Logger
 }
 
-func (ctx *AuthTxCtx) SetTxCtx(txCtx common.TxCtxInterface) {
-	ctx.TxCtx = txCtx
+func (ac *IAC) Authorize(ops []*authpb.Operation) (bool, error) {
+
+	return true, nil
 }
 
-func (ctx *AuthTxCtx) GetUserDirectMembership(
+func (ac *IAC) GetUserDirectMembership(
 	collectionId string,
 ) (*authpb.UserDirectMembership, error) {
 

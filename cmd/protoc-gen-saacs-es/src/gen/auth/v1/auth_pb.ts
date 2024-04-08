@@ -60,6 +60,11 @@ export enum AuthType {
    * @generated from enum value: AUTH_TYPE_EMBEDDED_ROLE = 4;
    */
   EMBEDDED_ROLE = 4,
+
+  /**
+   * @generated from enum value: AUTH_TYPE_ATTRIBUTE = 5;
+   */
+  ATTRIBUTE = 5,
 }
 // Retrieve enum metadata with: proto3.getEnumType(AuthType)
 proto3.util.setEnumType(AuthType, "auth.AuthType", [
@@ -68,6 +73,7 @@ proto3.util.setEnumType(AuthType, "auth.AuthType", [
   { no: 2, name: "AUTH_TYPE_ROLE" },
   { no: 3, name: "AUTH_TYPE_IDENTITY" },
   { no: 4, name: "AUTH_TYPE_EMBEDDED_ROLE" },
+  { no: 5, name: "AUTH_TYPE_ATTRIBUTE" },
 ]);
 
 /**
@@ -658,6 +664,130 @@ export class Operation extends Message<Operation> {
 }
 
 /**
+ * @generated from message auth.Polices
+ */
+export class Polices extends Message<Polices> {
+  /**
+   * key is the item type
+   *
+   * @generated from field: map<string, auth.PathPolicy> item_policies = 1;
+   */
+  itemPolicies: { [key: string]: PathPolicy } = {};
+
+  /**
+   * Default policy for all items
+   *
+   * @generated from field: auth.PathPolicy default_policy = 2;
+   */
+  defaultPolicy?: PathPolicy;
+
+  /**
+   * The types that are excluded from the default policy
+   *
+   * @generated from field: repeated string default_excluded_types = 3;
+   */
+  defaultExcludedTypes: string[] = [];
+
+  constructor(data?: PartialMessage<Polices>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.Polices";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "item_policies", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
+    { no: 2, name: "default_policy", kind: "message", T: PathPolicy },
+    { no: 3, name: "default_excluded_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Polices {
+    return new Polices().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Polices {
+    return new Polices().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Polices {
+    return new Polices().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: Polices | PlainMessage<Polices> | undefined, b: Polices | PlainMessage<Polices> | undefined): boolean {
+    return proto3.util.equals(Polices, a, b);
+  }
+}
+
+/**
+ * This message is the tree node for operations on the state item
+ *
+ * @generated from message auth.PathPolicy
+ */
+export class PathPolicy extends Message<PathPolicy> {
+  /**
+   * The path is a sub path of a field mask
+   *
+   * @generated from field: string path = 1;
+   */
+  path = "";
+
+  /**
+   * @generated from field: string full_path = 2;
+   */
+  fullPath = "";
+
+  /**
+   * @generated from field: bool allow_sub_paths = 3;
+   */
+  allowSubPaths = false;
+
+  /**
+   * The key is a valid sub path in the type of state item
+   *
+   * @generated from field: map<string, auth.PathPolicy> sub_paths = 4;
+   */
+  subPaths: { [key: string]: PathPolicy } = {};
+
+  /**
+   * If the policy is not set than use a parent policy unless nested policy is set
+   *
+   * @generated from field: repeated auth.Action actions = 5;
+   */
+  actions: Action[] = [];
+
+  constructor(data?: PartialMessage<PathPolicy>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "auth.PathPolicy";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "full_path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "allow_sub_paths", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
+    { no: 4, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
+    { no: 5, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): PathPolicy {
+    return new PathPolicy().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): PathPolicy {
+    return new PathPolicy().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): PathPolicy {
+    return new PathPolicy().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: PathPolicy | PlainMessage<PathPolicy> | undefined, b: PathPolicy | PlainMessage<PathPolicy> | undefined): boolean {
+    return proto3.util.equals(PathPolicy, a, b);
+  }
+}
+
+/**
  * @generated from extension: auth.Operation operation = 57775;
  */
 export const operation = proto3.makeExtension<MethodOptions, Operation>(
@@ -682,5 +812,14 @@ export const key_schema = proto3.makeExtension<MessageOptions, KeySchema>(
   "auth.key_schema", 
   MessageOptions, 
   () => ({ no: 54599, kind: "message", T: KeySchema }),
+);
+
+/**
+ * @generated from extension: auth.AuthType auth_type = 55888;
+ */
+export const auth_type = proto3.makeExtension<MessageOptions, AuthType>(
+  "auth.auth_type", 
+  MessageOptions, 
+  () => ({ no: 55888, kind: "enum", T: proto3.getEnumType(AuthType) }),
 );
 
