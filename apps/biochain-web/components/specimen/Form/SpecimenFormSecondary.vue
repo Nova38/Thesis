@@ -55,8 +55,9 @@ function addPreparation() {
       >
         <div class="subGroup">
           <FormKit
-            type="text"
+            type="number"
             number
+            step="any"
             name="weight"
             label="weight"
             outer-class="min-w-20"

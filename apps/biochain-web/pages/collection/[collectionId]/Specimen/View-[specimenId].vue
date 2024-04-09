@@ -182,9 +182,7 @@ async function submitHandler() {
         </SpecimenForm>
       </div>
     </div>
-    <div class="flex flex-col gap-4">
-      <SpecimenFormKit :specimen="dirty" />
-    </div>
+
     <div class="flex flex-col gap-4">
       <SpecimenTimeline
         :can-hide="$auth.loggedIn || false"

@@ -27,6 +27,7 @@ const formPlug = (node: FormKitNode) => {
     <PFieldset
       :legend="nameAsTitle"
       :toggleable="true"
+      collapsed
       class="max-w-fit"
       :pt="{
         root: {

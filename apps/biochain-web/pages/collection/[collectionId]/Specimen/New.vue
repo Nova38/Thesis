@@ -89,11 +89,10 @@ async function submitHandler() {
         </SpecimenForm>
       </div> -->
       <div class="col">
-        <SpecimenFormKit v-model="specimen" />
+        <SpecimenForm v-model="specimen" />
       </div>
       <!-- <pre wrap>{{ value }}</pre> -->
     </div>
-
   </div>
 </template>
 

@@ -67,6 +67,12 @@ function addLoan() {
                   name="loanedTo"
                   label="Loaned By"
                 />
+
+                <FormKit
+                  type="textarea"
+                  name="description"
+                  label="Description"
+                />
                 <SpecimenFormDate name="loanedDate" />
               </div>
             </FormKit>

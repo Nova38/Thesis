@@ -1,7 +1,13 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div></div>
+  <div>
+    <FormKit
+      type="text"
+      name="weightUnits"
+      label="Weight Units"
+    />
+  </div>
 </template>
 
 <style></style>

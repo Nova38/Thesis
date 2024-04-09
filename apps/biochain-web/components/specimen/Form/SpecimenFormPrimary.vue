@@ -94,6 +94,6 @@
 
 <style scoped>
 .subGroup {
-  @apply flex grow flex-wrap gap-2 py-2;
+  @apply flex flex-wrap gap-2 py-2;
 }
 </style>

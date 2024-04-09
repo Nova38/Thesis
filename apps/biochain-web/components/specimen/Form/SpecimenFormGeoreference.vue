@@ -40,8 +40,6 @@
             label="County"
             outer-class="min-w-20"
           />
-        </div>
-        <div class="inline-flex flex-wrap gap-2">
           <FormKit
             type="text"
             name="habitat"
@@ -58,16 +56,19 @@
           />
         </div>
 
+        <UDivider />
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
-            type="text"
+            type="number"
+            step="any"
             number
             name="longitude"
             validate="number"
             label="longitude"
           />
           <FormKit
-            type="text"
+            type="number"
+            step="any"
             name="latitude"
             validate="number"
             number
@@ -83,6 +84,7 @@
             outer-class="min-w-20"
           />
         </div>
+        <UDivider />
 
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
@@ -92,28 +94,12 @@
             label="Georeference By"
             outer-class="min-w-20"
           />
-          <FormKit
-            type="text"
-            name="georeferenceProtocol"
-            id="georeferenceProtocol"
-            label="Georeference Protocol"
-            outer-class="min-w-20"
-          />
-          <FormKit
-            type="text"
-            name="geodeticDatum"
-            id="geodeticDatum"
-            label="Geodetic Datum"
-            outer-class="min-w-20"
-          />
-        </div>
 
-        <div class="inline-flex flex-wrap gap-2">
           <FormKit
             type="text"
-            name="georeferenceBy"
-            id="georeferenceBy"
-            label="Georeference By"
+            name="geodeticDatum"
+            id="geodeticDatum"
+            label="Geodetic Datum"
             outer-class="min-w-20"
           />
           <FormKit
@@ -121,18 +107,33 @@
             name="georeferenceProtocol"
             id="georeferenceProtocol"
             label="Georeference Protocol"
-            outer-class="min-w-20"
-          />
-          <FormKit
-            type="text"
-            name="geodeticDatum"
-            id="geodeticDatum"
-            label="Geodetic Datum"
             outer-class="min-w-20"
           />
         </div>
 
         <SpecimenFormDate name="georeferenceDate" />
+
+        <UDivider class="py-2" />
+
+        <div class="inline-flex grow flex-wrap gap-2">
+          <FormKit
+            type="textarea"
+            name="georeferenceRemarks"
+            label="Georeference Remarks"
+          />
+
+          <FormKit
+            type="textarea"
+            name="footprintWkt"
+            label="Footprint Well Known Type"
+          />
+        </div>
+        <FormKit
+          type="textarea"
+          name="notes"
+          label="Notes"
+          class="w-full"
+        />
       </FormKit>
     </PFieldset>
   </div>
