@@ -66,8 +66,10 @@ plugins:
     out: apps/biochain-web/lib/pb
     opt: target=ts
 
-  # - plugin: buf.build/bufbuild/protoschema-jsonschema
-  #   out: ./schema/
+  # JSON Schema
+
+  - plugin: buf.build/bufbuild/protoschema-jsonschema
+    out: ./libs/saacs-proto-jsonschema/
 
   #
 #     - plugin: protoc-gen-es-tools

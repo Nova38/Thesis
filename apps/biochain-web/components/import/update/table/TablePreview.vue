@@ -38,7 +38,7 @@ const products = ref([])
     </PDataTable>
   </UCard>
 
-  <UCard>
+  <!-- <UCard>
     <div class="text-xl font-semibold border-blue-400 border-solid mb-2">
       Imported Specimen Values
     </div>
@@ -72,5 +72,5 @@ const products = ref([])
         </template>
       </q-table>
     </div>
-  </UCard>
+  </UCard> -->
 </template>

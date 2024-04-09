@@ -93,7 +93,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
-    'nuxt-quasar-ui',
+    // 'nuxt-quasar-ui',
     '@formkit/nuxt', // '@hebilicious/vue-query-nuxt',
     '@nuxt/eslint',
     'nuxt-build-cache',
@@ -132,30 +132,30 @@ export default defineNuxtConfig({
     },
   },
 
-  quasar: {
-    components: {
-      deepDefaults: true,
-      defaults: {
-        QInput: {
-          dense: true,
-          outlined: true,
-          stackLabel: true,
-        },
-      },
-    },
-    config: {
-      loadingBar: {
-        color: 'secondary',
-        position: 'bottom',
-        size: '4px',
-      },
-    },
-    extras: {
-      font: 'roboto-font',
-      fontIcons: ['themify', 'material-icons'],
-    },
-    plugins: ['LoadingBar', 'Notify'],
-  },
+  // quasar: {
+  //   components: {
+  //     deepDefaults: true,
+  //     defaults: {
+  //       QInput: {
+  //         dense: true,
+  //         outlined: true,
+  //         stackLabel: true,
+  //       },
+  //     },
+  //   },
+  //   config: {
+  //     loadingBar: {
+  //       color: 'secondary',
+  //       position: 'bottom',
+  //       size: '4px',
+  //     },
+  //   },
+  //   extras: {
+  //     font: 'roboto-font',
+  //     fontIcons: ['themify', 'material-icons'],
+  //   },
+  //   plugins: ['LoadingBar', 'Notify'],
+  // },
 
   runtimeConfig: {
     auth: {
