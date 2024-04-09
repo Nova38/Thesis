@@ -38,7 +38,7 @@ const formPlug = (node: FormKitNode) => {
             'px-5 md:px-6 py-5',
 
             // Shape
-            'rounded-md rounded-lg',
+            'rounded-lg',
 
             // Color
             'bg-surface-100 dark:bg-surface-900',
