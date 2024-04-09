@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.objects.UserCollectionRoles.typeName,
+        itemType: auth.models.UserCollectionRoles.typeName,
       }),
       numAttrs: 1,
     }),
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
   const UserRoles = result.items.map((i) => {
-    const s = new auth.objects.UserCollectionRoles()
+    const s = new auth.models.UserCollectionRoles()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })

@@ -21,14 +21,14 @@ export default defineEventHandler(async (event) => {
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.objects.UserCollectionRoles.typeName,
+        itemType: auth.models.UserCollectionRoles.typeName,
       }),
       numAttrs: 1,
     }),
   )
 
   const UserRoles = r1.items.map((i) => {
-    const s = new auth.objects.UserCollectionRoles()
+    const s = new auth.models.UserCollectionRoles()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.objects.Role.typeName,
+        itemType: auth.models.Role.typeName,
       }),
       numAttrs: 0,
     }),
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
     const o = i.toJsonString({ typeRegistry: cc.service.registry })
     console.log(o)
 
-    const s = new auth.objects.Role()
+    const s = new auth.models.Role()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })

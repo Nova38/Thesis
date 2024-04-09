@@ -53,38 +53,109 @@ function addPreparation() {
         id="secondary"
         name="secondary"
       >
-        <div class="inline-flex gap-4 flex-wrap">
-          <div class="inline-flex flex-row flex-wrap gap-1 justify-evenly">
-            <FormKit
-              type="text"
-              id="sex"
-              name="sex"
-              label="sex"
-              outer-class="min-w-20"
-            />
-            <FormKit
-              type="text"
-              id="notes"
-              outer-class="min-w-20"
-            />
-          </div>
-          <div class="inline-flex flex-wrap gap-2">
-            <FormKit
-              type="number"
-              id="weight"
-              number
-              name="weight"
-              label="weight"
-              outer-class="min-w-20"
-            />
-            <FormKit
-              type="text"
-              id="weightUnits"
-              name="weightUnits"
-              label="Weight Units"
-              outer-class="min-w-20"
-            />
-          </div>
+        <div class="subGroup">
+          <FormKit
+            type="text"
+            number
+            name="weight"
+            label="weight"
+            outer-class="min-w-20"
+          />
+          <FormKit
+            type="text"
+            name="weightUnits"
+            label="Weight Units"
+            outer-class="min-w-20"
+          />
+          <FormKit
+            type="text"
+            name="molt"
+            label="Molt"
+            outer-class="min-w-20"
+          />
+        </div>
+        <div class="subGroup">
+          <FormKit
+            type="select"
+            id="sex"
+            name="sex"
+            label="Sex"
+            outer-class="min-w-20"
+            :options="[
+              {
+                label: 'Not Specified',
+                value: ccbio.Specimen_Secondary_SEX.SEX_UNDEFINED,
+              },
+              {
+                label: 'Unknown',
+                value: ccbio.Specimen_Secondary_SEX.SEX_UNKNOWN,
+              },
+              {
+                label: 'Atypical',
+                value: ccbio.Specimen_Secondary_SEX.SEX_ATYPICAL,
+              },
+              {
+                label: 'Female',
+                value: ccbio.Specimen_Secondary_SEX.SEX_FEMALE,
+              },
+              {
+                label: 'Male',
+                value: ccbio.Specimen_Secondary_SEX.SEX_MALE,
+              },
+            ]"
+          />
+          <FormKit
+            type="select"
+            id="age"
+            name="age"
+            label="Age"
+            outer-class="min-w-20"
+            :options="[
+              {
+                label: 'Not Specified',
+                value: ccbio.Specimen_Secondary_AGE.AGE_UNDEFINED,
+              },
+              {
+                label: 'Unknown',
+                value: ccbio.Specimen_Secondary_AGE.AGE_UNKNOWN,
+              },
+              {
+                label: 'Nest',
+                value: ccbio.Specimen_Secondary_AGE.AGE_NEST,
+              },
+              {
+                label: 'Embryo/Egg',
+                value: ccbio.Specimen_Secondary_AGE.AGE_EMBRYO_EGG,
+              },
+              {
+                label: 'SubAdult',
+                value: ccbio.Specimen_Secondary_AGE.AGE_CHICK_SUBADULT,
+              },
+              {
+                label: 'Adult',
+                value: ccbio.Specimen_Secondary_AGE.AGE_ADULT,
+              },
+              {
+                label: 'Contingent',
+                value: ccbio.Specimen_Secondary_AGE.AGE_CONTINGENT,
+              },
+            ]"
+          />
+        </div>
+
+        <div class="subGroup">
+          <FormKit
+            type="textarea"
+            name="notes"
+            label="Notes"
+            outer-class="min-w-20"
+          />
+          <FormKit
+            type="textarea"
+            name="condition"
+            label="Condition"
+            outer-class="min-w-20"
+          />
         </div>
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
@@ -112,11 +183,15 @@ function addPreparation() {
             </template>
           </FormKit>
         </div>
-        <FormKit
-          type="button"
-          label="Add Preparation"
-          @click="addPreparation()"
-        />
+
+        <div class="inline-flex flex-wrap gap-2">
+          <FormKit
+            outer-class="w-full flex-grow"
+            type="button"
+            label="Add Preparation"
+            @click="addPreparation()"
+          />
+        </div>
       </FormKit>
       <DevOnly>
         <Shiki
@@ -129,4 +204,8 @@ function addPreparation() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.subGroup {
+  @apply flex grow flex-wrap gap-2 py-2;
+}
+</style>

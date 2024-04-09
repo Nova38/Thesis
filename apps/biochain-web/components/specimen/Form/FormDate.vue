@@ -75,9 +75,10 @@ const formPlug = (node: FormKitNode) => {
             outer-class="min-w-20"
           />
           <FormKit
-            type="text"
+            type="number"
             name="year"
             id="year"
+            number
             label="year"
             outer-class="min-w-20"
           />
@@ -89,8 +90,9 @@ const formPlug = (node: FormKitNode) => {
             outer-class="min-w-20"
           />
           <FormKit
-            type="text"
+            type="number"
             name="day"
+            number
             id="day"
             label="day"
             outer-class="min-w-20"

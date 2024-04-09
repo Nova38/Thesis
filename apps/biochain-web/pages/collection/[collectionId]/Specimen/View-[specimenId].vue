@@ -183,7 +183,7 @@ async function submitHandler() {
       </div>
     </div>
     <div class="flex flex-col gap-4">
-      <SpecimenFormKit v-model="dirty" />
+      <SpecimenFormKit :specimen="dirty" />
     </div>
     <div class="flex flex-col gap-4">
       <SpecimenTimeline
@@ -192,7 +192,7 @@ async function submitHandler() {
         class="basis-size-1/4"
       />
       <UCard v-if="false">
-        <div class="flex flex-row text-lg items-center justify-center">
+        <div class="flex flex-row items-center justify-center text-lg">
           Suggestions
         </div>
       </UCard>

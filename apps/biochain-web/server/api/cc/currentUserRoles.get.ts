@@ -20,13 +20,13 @@ export default defineEventHandler(async (event) => {
       key: new auth.objects.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [user.mspId, user.userId],
-        itemType: auth.objects.UserCollectionRoles.typeName,
+        itemType: auth.models.UserCollectionRoles.typeName,
       }),
     }),
   )
   console.log(result)
 
-  const role = new auth.objects.UserCollectionRoles()
+  const role = new auth.models.UserCollectionRoles()
   result.item?.value?.unpackTo(role)
 
   return role

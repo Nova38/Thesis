@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   devServer: {
     // https: true,
-    port: 8080,
+    port: 8000,
   },
   devtools: {
     disableAuthorization: true,
@@ -76,6 +76,17 @@ export default defineNuxtConfig({
     // autoImport: true,
   },
 
+  jsoneditor: {
+    componentName: 'JsonEditor',
+    options: {
+      /**
+       *
+       * SET GLOBAL OPTIONS
+       *
+       * */
+    },
+  },
+
   modules: [
     // '@formkit/nuxt',
     // '@nuxt/ui',
@@ -83,9 +94,10 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
     'nuxt-quasar-ui',
-    '@formkit/nuxt',
+    '@formkit/nuxt', // '@hebilicious/vue-query-nuxt',
     '@nuxt/eslint',
-    // '@hebilicious/vue-query-nuxt',
+    'nuxt-build-cache',
+    'nuxt-jsoneditor',
   ],
 
   nitro: {

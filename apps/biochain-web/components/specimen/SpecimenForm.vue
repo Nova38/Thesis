@@ -132,7 +132,7 @@ const sections = [
 </script>
 
 <template>
-  <QCard class="max-w-4xl grow">
+  <QCard class="max-w-4xl">
     <slot name="Header" />
 
     <QCardSection :class="headerColor">
@@ -149,7 +149,7 @@ const sections = [
             specimen?.taxon?.species
           }}</span>
         </div>
-        <div class="flex-col ml-auto">
+        <div class="ml-auto flex-col">
           <div
             v-if="specimen?.primary"
             class="text-subtitle2"
@@ -181,14 +181,14 @@ const sections = [
       <q-chip
         v-if="specimen.collectionId"
         :label="`Collection ID: ${specimen.collectionId}`"
-        class="text-white flex-grow"
+        class="flex-grow text-white"
         color="primary"
         square
       />
       <q-chip
         v-if="specimen.specimenId"
         :label="`Specimen ID: ${specimen.specimenId}`"
-        class="text-white flex-grows"
+        class="flex-grows text-white"
         color="primary"
         square
       />
@@ -205,7 +205,7 @@ const sections = [
         :items="sections"
       >
         <template #taxon>
-          <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
+          <QCardSection class="mb-1 flex flex-row justify-evenly gap-1">
             <template
               v-for="(_, key) in specimen.taxon"
               :key="key"
@@ -215,7 +215,7 @@ const sections = [
                 :model-value="specimen.taxon[key] as string"
                 :disable="!props.enableEdit"
                 :label="key"
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
               />
             </template>
           </QCardSection>
@@ -237,7 +237,7 @@ const sections = [
         label="Taxon"
       >
         <QCard>
-          <QCardSection class="flex flex-row gap-1 justify-evenly mb-1">
+          <QCardSection class="mb-1 flex flex-row justify-evenly gap-1">
             <template
               v-for="(_, key) in specimen.taxon"
               :key="key"
@@ -247,7 +247,7 @@ const sections = [
                 v-model="specimen.taxon[key]"
                 :disable="!props.enableEdit"
                 :label="key"
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
               />
             </template>
           </QCardSection>
@@ -274,7 +274,7 @@ const sections = [
         <div v-if="specimen?.primary">
           <q-card-section class="my-1">
             <!-- <div class="text-h6">Overline</div> -->
-            <div class="flex flex-row gap-1 justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.primary.tissueNumber"
                 :disable="!props.enableEdit"
@@ -288,17 +288,17 @@ const sections = [
                 label="Accession Number"
               />
             </div>
-            <div class="flex flex-row gap-1 justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.primary.cataloger"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Cataloger"
               />
               <q-input
                 v-model="specimen.primary.catalogNumber"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Catalog Number"
               />
             </div>
@@ -345,17 +345,17 @@ const sections = [
                 />
               </QCardSection>
             </QExpansionItem>
-            <div class="flex flex-row gap-1 justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.primary.determiner"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Determiner"
               />
               <q-input
                 v-model="specimen.primary.determinedReason"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Determined Reason"
               />
             </div>
@@ -402,17 +402,17 @@ const sections = [
                 />
               </QCardSection>
             </QExpansionItem>
-            <div class="flex flex-row gap-1 justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.primary.collector"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Collector"
               />
               <q-input
                 v-model="specimen.primary.fieldNumber"
                 :disable="!props.enableEdit"
-                class="flex-grow m-1"
+                class="m-1 flex-grow"
                 label="Field Number"
               />
             </div>
@@ -528,7 +528,7 @@ const sections = [
             v-if="specimen?.georeference"
             class="my-1"
           >
-            <div class="row justify-evenly mb-1">
+            <div class="row mb-1 justify-evenly">
               <q-input
                 v-model="specimen.georeference.continent"
                 :disable="!props.enableEdit"
@@ -555,7 +555,7 @@ const sections = [
               />
             </div>
 
-            <div class="flex flex-row justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly">
               <q-input
                 v-model="specimen.georeference.habitat"
                 :disable="!props.enableEdit"
@@ -571,7 +571,7 @@ const sections = [
                 label="Locality"
               />
             </div>
-            <div class="flex flex-row justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly">
               <q-input
                 v-model.number="specimen.georeference.longitude"
                 :disable="!props.enableEdit"
@@ -597,7 +597,7 @@ const sections = [
                 number
               />
             </div>
-            <div class="row justify-evenly mb-1">
+            <div class="row mb-1 justify-evenly">
               <q-input
                 v-model="specimen.georeference.georeferenceBy"
                 :disable="!props.enableEdit"
@@ -660,7 +660,7 @@ const sections = [
                 />
               </QCardSection>
             </QExpansionItem>
-            <div class="flex flex-row justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly">
               <q-input
                 v-model="specimen.georeference.locationRemarks"
                 :disable="!props.enableEdit"
@@ -670,7 +670,7 @@ const sections = [
                 type="textarea"
               />
             </div>
-            <div class="flex flex-row justify-evenly mb-1">
+            <div class="mb-1 flex flex-row justify-evenly">
               <q-input
                 v-model="specimen.georeference.footprintWkt"
                 :disable="!props.enableEdit"
@@ -712,7 +712,7 @@ const sections = [
             v-if="specimen?.secondary"
             class="my-1"
           >
-            <div class="flex flex-row justify-evenly mb-1 gap-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.secondary.molt"
                 :disable="!props.enableEdit"
@@ -725,7 +725,7 @@ const sections = [
                 v-model.number="specimen.secondary.weight"
                 :disable="!props.enableEdit"
                 autogrow
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
                 label="Weight"
                 type="number"
               />
@@ -733,13 +733,13 @@ const sections = [
                 v-model="specimen.secondary.weightUnits"
                 :disable="!props.enableEdit"
                 autogrow
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
                 label="Weight Units"
                 type="text"
               />
             </div>
 
-            <div class="flex flex-row justify-evenly mb-1 gap-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <q-input
                 v-model="specimen.secondary.condition"
                 :disable="!props.enableEdit"
@@ -752,18 +752,18 @@ const sections = [
                 v-model="specimen.secondary.notes"
                 :disable="!props.enableEdit"
                 autogrow
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
                 label="Notes"
                 type="textarea"
               />
             </div>
-            <div class="flex flex-row justify-evenly mb-1 gap-1">
+            <div class="mb-1 flex flex-row justify-evenly gap-1">
               <QSelect
                 v-model="specimen.secondary.sex"
                 :disable="!props.enableEdit"
                 :options="secondarySexOptions"
                 autogrow
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
                 label="Sex"
               />
               <QSelect
@@ -771,7 +771,7 @@ const sections = [
                 :disable="!props.enableEdit"
                 :options="secondaryAgeOptions"
                 autogrow
-                class="flex-grow my-1"
+                class="my-1 flex-grow"
                 label="Age"
               />
             </div>
@@ -794,11 +794,11 @@ const sections = [
                     push
                   >
                     <q-popup-proxy class="">
-                      <div class="flex flex-row gap-2 items-center p-2">
+                      <div class="flex flex-row items-center gap-2 p-2">
                         <QInput
                           v-model="newPreparationName"
                           :disable="!props.enableEdit"
-                          class="flex-grow my-1"
+                          class="my-1 flex-grow"
                           label="New Preparation"
                           type="text"
                         />
@@ -821,7 +821,7 @@ const sections = [
                   v-model="specimen.secondary.preparations[key].verbatim"
                   :disable="!props.enableEdit"
                   :label="`Preparation: ${key}`"
-                  class="flex-grow my-1"
+                  class="my-1 flex-grow"
                   type="text"
                 >
                   <template
@@ -854,17 +854,17 @@ const sections = [
           <QCardSection class="ml-4 flex flex-col gap-4">
             <q-btn
               v-if="props.enableEdit"
-              class="bg-green-300 flex-grow"
+              class="flex-grow bg-green-300"
               label="New Loans"
               push
             >
               <q-popup-proxy>
                 <!-- <q-banner> -->
-                <div class="flex flex-row gap-2 p-2 items-center">
+                <div class="flex flex-row items-center gap-2 p-2">
                   <QInput
                     v-model="newLoanName"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="New Loan"
                     type="text"
                   />
@@ -892,14 +892,14 @@ const sections = [
                   <QInput
                     v-model="specimen.loans[key].loanedTo"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="Loaned To"
                     type="text"
                   />
                   <QInput
                     v-model="specimen.loans[key].loanedBy"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="Loaned by"
                     type="text"
                   />
@@ -907,7 +907,7 @@ const sections = [
                 <QInput
                   v-model="specimen.loans[key].description"
                   :disable="!props.enableEdit"
-                  class="flex-grow my-1"
+                  class="my-1 flex-grow"
                   label="Description"
                   type="textarea"
                 />
@@ -937,17 +937,17 @@ const sections = [
           <QCardSection class="ml-4 flex flex-col gap-4">
             <q-btn
               v-if="props.enableEdit"
-              class="bg-green-300 flex-grow"
+              class="flex-grow bg-green-300"
               label="New Grants"
               push
             >
               <q-popup-proxy>
                 <!-- <q-banner> -->
-                <div class="flex flex-row gap-2 p-2 items-center">
+                <div class="flex flex-row items-center gap-2 p-2">
                   <QInput
                     v-model="newGrantName"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="New Grant"
                     type="text"
                   />
@@ -971,14 +971,14 @@ const sections = [
                   <QInput
                     v-model="specimen.grants[key].grantedTo"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="Grant To"
                     type="text"
                   />
                   <QInput
                     v-model="specimen.grants[key].grantedBy"
                     :disable="!props.enableEdit"
-                    class="flex-grow my-1"
+                    class="my-1 flex-grow"
                     label="Granted by"
                     type="text"
                   />
@@ -986,7 +986,7 @@ const sections = [
                 <QInput
                   v-model="specimen.grants[key].description"
                   :disable="!props.enableEdit"
-                  class="flex-grow my-1"
+                  class="my-1 flex-grow"
                   label="Description"
                   type="textarea"
                 />
@@ -1024,10 +1024,10 @@ const sections = [
 
 <style scoped>
 .DateExpansion {
-  @apply text-center  bg-gray-100 mx-4 my-2;
+  @apply mx-4  my-2 bg-gray-100 text-center;
 }
 
 .DateSection {
-  @apply flex flex-row gap-4 justify-evenly;
+  @apply flex flex-row justify-evenly gap-4;
 }
 </style>
