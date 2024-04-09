@@ -1,0 +1,30 @@
+{
+  "$id": "auth.Polices.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "default_excluded_types": {
+      "description": "The types that are excluded from the default policy",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "default_policy": {
+      "$ref": "auth.PathPolicy.schema.json",
+      "description": "Default policy for all items"
+    },
+    "item_policies": {
+      "additionalProperties": {
+        "$ref": "auth.PathPolicy.schema.json"
+      },
+      "description": "key is the item type",
+      "propertyNames": {
+        "type": "string"
+      },
+      "type": "object"
+    }
+  },
+  "title": "Polices",
+  "type": "object"
+}

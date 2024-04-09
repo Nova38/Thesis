@@ -1,0 +1,15 @@
+{
+  "$id": "auth.common.SuggestionListByItemResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "suggestions": {
+      "items": {
+        "$ref": "auth.Suggestion.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Suggestion List By Item Response",
+  "type": "object"
+}

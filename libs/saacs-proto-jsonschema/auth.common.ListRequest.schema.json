@@ -1,0 +1,22 @@
+{
+  "$id": "auth.common.ListRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "List of a type",
+  "properties": {
+    "bookmark": {
+      "type": "string"
+    },
+    "key": {
+      "$ref": "auth.ItemKey.schema.json",
+      "description": "auth.Item item = 3;"
+    },
+    "limit": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "title": "List Request",
+  "type": "object"
+}

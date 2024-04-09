@@ -1,0 +1,15 @@
+{
+  "$id": "auth.RoleIDList.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "role_id": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "title": "RoleID List",
+  "type": "object"
+}

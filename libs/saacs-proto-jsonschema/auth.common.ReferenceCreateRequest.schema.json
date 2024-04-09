@@ -1,0 +1,12 @@
+{
+  "$id": "auth.common.ReferenceCreateRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ref_key": {
+      "$ref": "auth.ReferenceKey.schema.json"
+    }
+  },
+  "title": "Reference Create Request",
+  "type": "object"
+}

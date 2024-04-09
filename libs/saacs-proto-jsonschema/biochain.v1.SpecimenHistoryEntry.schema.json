@@ -1,0 +1,33 @@
+{
+  "$id": "biochain.v1.SpecimenHistoryEntry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "is_delete": {
+      "description": "Whether the item was deleted",
+      "type": "boolean"
+    },
+    "is_hidden": {
+      "description": "Whether the transaction was hidden",
+      "type": "boolean"
+    },
+    "note": {
+      "description": "A note about the change",
+      "type": "string"
+    },
+    "timestamp": {
+      "$ref": "google.protobuf.Timestamp.schema.json",
+      "description": "The timestamp of the change"
+    },
+    "tx_id": {
+      "description": "The transaction id that caused the change",
+      "type": "string"
+    },
+    "value": {
+      "$ref": "biochain.v1.Specimen.schema.json",
+      "description": "The value of the item"
+    }
+  },
+  "title": "Specimen History Entry",
+  "type": "object"
+}

@@ -1,0 +1,21 @@
+{
+  "$id": "sample.Group.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_id": {
+      "type": "string"
+    },
+    "group_id": {
+      "type": "string"
+    },
+    "item1": {
+      "$ref": "sample.SimpleItem.schema.json"
+    },
+    "item2": {
+      "$ref": "sample.SimpleItem.schema.json"
+    }
+  },
+  "title": "Group",
+  "type": "object"
+}

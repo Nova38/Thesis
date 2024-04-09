@@ -1,0 +1,25 @@
+{
+  "$id": "auth.common.ListByAttrsRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bookmark": {
+      "type": "string"
+    },
+    "key": {
+      "$ref": "auth.ItemKey.schema.json"
+    },
+    "limit": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "num_attrs": {
+      "exclusiveMaximum": 2147483648,
+      "minimum": -2147483648,
+      "type": "integer"
+    }
+  },
+  "title": "List By Attrs Request",
+  "type": "object"
+}
