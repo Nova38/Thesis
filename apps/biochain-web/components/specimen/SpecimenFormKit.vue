@@ -7,6 +7,12 @@ const specimen = defineModel<PlainSpecimen>('specimen', {
   default: () => MakeEmptySpecimen(),
 })
 
+const mode = defineModel<FormMode>('mode', {
+  default: 'view' as FormMode,
+})
+
+const headerColor = computed(() => toModeColor(mode.value))
+
 const submitHandler = async () => {
   try {
     console.log('submitHandler', specimen.value)
@@ -33,12 +39,10 @@ const dirtyLabel = (node: FormKitNode) => {
     : 'text-surface-700 dark:text-surface-0/80'
 }
 
-const curValue = ref('{}')
-
 const form = useFormKitContext((node) => {
-  curValue.value = JSON.stringify(node.value, null, 2)
   node.node.on('settled.deep', (v) => {
-    curValue.value = JSON.stringify(v.origin.value, null, 2)
+    console.log('settled.deep', v)
+    // readValue.value = v
   })
 })
 </script>
@@ -62,8 +66,50 @@ const form = useFormKitContext((node) => {
       dirty-behavior="compare"
       :plugins="[autoId, dirtyLabel]"
     >
-      <PCard>
+      <PCard
+        class="min-w-2xl max-w-3xl"
+        :pt-options="{ mergeProps: true }"
+        :pt="{
+          title: headerColor,
+          subtitle: headerColor,
+          header: headerColor,
+        }"
+      >
+        <template #header>
+          <!-- <PTag :value="specimen.collectionId" /> -->
+          <slot name="Header"> </slot>
+        </template>
+        <template #title>
+          <div class="flex flex-row">
+            {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
+          </div>
+        </template>
+        <template #subtitle>
+          <div class="flex flex-grow flex-row">
+            <UBadge
+              class="flex-grow"
+              color="purple"
+              variant="solid"
+              size="md"
+              :label="`Collection: ${specimen.collectionId}`"
+            />
+            <UBadge
+              class="flex-grow"
+              color="red"
+              variant="solid"
+              size="md"
+              v-if="specimen.primary?.catalogNumber"
+              :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
+            />
+          </div>
+        </template>
         <template #content>
+          <FormKit
+            name="specimenId"
+            type="hidden"
+            value="user_32135"
+          />
+
           <SpecimenFormTaxon />
           <SpecimenFormPrimary />
           <SpecimenFormGeoreference />
@@ -76,10 +122,20 @@ const form = useFormKitContext((node) => {
             >
               <Shiki
                 lang="json"
+                class="max-w-2xl overflow-x-scroll"
                 :code="JSON.stringify(value, null, 2)"
               />
             </PFieldset>
           </DevOnly>
+        </template>
+
+        <template #footer>
+          <FormKit
+            type="submit"
+            class="w-full"
+          >
+            Submit
+          </FormKit>
         </template>
       </PCard>
     </FormKit>
