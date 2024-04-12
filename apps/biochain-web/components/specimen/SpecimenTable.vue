@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { titleCase } from 'scule'
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
-import type { DataTableOperatorFilterMetaData } from 'primevue/datatable'
+import type {
+  DataTableFilterMeta,
+  DataTableOperatorFilterMetaData,
+} from 'primevue/datatable'
 
 const props = defineProps<{
   specimenList: PlainSpecimen[]
@@ -361,18 +364,33 @@ const filterFields = computed(() => {
   return SelectedColumns.value.map((col) => col.field)
 })
 
-function initFilter() {
-  const filters: Record<string, DataTableOperatorFilterMetaData> = {}
-  filterFields.value.forEach((field) => {
-    filters[field] = {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    }
-  })
-  return filters
-}
+const filters = useState<DataTableFilterMeta>('filters', () => {
+  return {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 
-const filters = ref(initFilter())
+    specimenId: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.catalogNumber': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+  }
+})
+
+function initFilter() {
+  filters.value = filterFields.value.reduce(
+    (acc: Record<string, DataTableOperatorFilterMetaData>, field) => {
+      acc[field] = {
+        operator: FilterOperator.AND,
+        constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+      }
+      return acc
+    },
+    {} as Record<string, DataTableOperatorFilterMetaData>,
+  )
+}
 
 // const filterss = ref({
 //   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -408,6 +426,8 @@ const filters = ref(initFilter())
       :rows-per-page-options="[5, 10, 20, 50]"
       :global-filter-fields="filterFields"
       filter-display="menu"
+      stateStorage="session"
+      stateKey="dt-state-demo-session"
       :filters="filters"
       :pt="{}"
     >
@@ -416,7 +436,7 @@ const filters = ref(initFilter())
           <PMultiSelect
             :model-value="SelectedColumns"
             :options="ColDefs"
-            class="w-full md:w-[20rem]"
+            class="w-full"
             option-label="headerName"
             display="chip"
             placeholder="Select Columns"
@@ -427,7 +447,6 @@ const filters = ref(initFilter())
             placeholder="Select Columns" @update:model-value="onToggle"
 
           /> -->
-          header
         </div>
       </template>
 
@@ -449,14 +468,48 @@ const filters = ref(initFilter())
             :header="col.headerName"
             sortable
             header-class="text-nowrap"
-            :filter-field="col.field"
-            class=""
           >
             <template #filter="{ filterModel }">
+              {{ filterModel.value }}
               <PInputText
                 v-model="filterModel.value"
                 mode="text"
               />
+            </template>
+            <template #filterclear="data">
+              <PButton
+                type="button"
+                icon="pi pi-times"
+                @click="
+                  async (e) => {
+                    console.log({ e, data })
+                    data.filterCallback()
+
+                    await nextTick()
+                    filters[data.field] = data.filterModel
+                  }
+                "
+                severity="secondary"
+              />
+            </template>
+            <template #filterapply="data">
+              <PButton
+                type="button"
+                icon="pi pi-check"
+                @click="
+                  async (e) => {
+                    console.log({ e, data })
+                    data.filterCallback()
+
+                    await nextTick()
+                    filters[data.field] = data.filterModel
+                  }
+                "
+                severity="success"
+              />
+            </template>
+            <template #filterfooter>
+              <div class="px-3 pb-3 pt-0 text-center">Customized Buttons</div>
             </template>
           </PColumn>
         </PRow>
