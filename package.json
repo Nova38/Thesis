@@ -7,7 +7,7 @@
   "keywords": [],
   "scripts": {
     "test": "vitest --ui",
-    "dev": "pnpm --filter biochain-nuxt dev",
+    "dev": "bun --filter biochain-nuxt dev",
     "build:es": "pnpm --filter @saacs/protos-es build",
     "build": "pnpm --filter pkg/web/biochain build",
     "bio": "pnpm --filter biochain-nuxt",
@@ -16,8 +16,7 @@
   "dependencies": {
     "@iconify/json": "2.2.192",
     "@sinclair/typebox": "^0.32.20",
-    "@vue/test-utils": "2.4.5",
-    "happy-dom": "13.8.6",
+    "happy-dom": "^14.7.1",
     "primevue": "3.50.0"
   },
   "devDependencies": {
@@ -36,6 +35,12 @@
     "vite-node": "^1.5.0",
     "vitest": "^1.5.0"
   },
+  "workspaces": [
+    "libs/*",
+    "libs/nuxt/*",
+    "cmd/*",
+    "apps/*"
+  ],
   "pnpm": {
     "patchedDependencies": {
       "@bufbuild/protobuf@1.8.0": "patches/@bufbuild__protobuf@1.8.0.patch"

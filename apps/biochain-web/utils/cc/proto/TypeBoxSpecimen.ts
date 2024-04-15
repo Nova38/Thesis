@@ -35,101 +35,101 @@ const StateActivity = Type.Object({
   note: Type.String(),
 })
 
-// enum EnumTransactionType {
-//   UNSPECIFIED = 0,
-//   INVOKE = 1,
-//   QUERY = 2,
-// }
+enum EnumTransactionType {
+  UNSPECIFIED = 0,
+  INVOKE = 1,
+  QUERY = 2,
+}
 
-// type TransactionType = Static<typeof TransactionType>
-// const TransactionType = Type.Enum(EnumTransactionType)
+type TransactionType = Static<typeof TransactionType>
+const TransactionType = Type.Enum(EnumTransactionType)
 
-// enum EnumAuthType {
-//   UNSPECIFIED = 0,
-//   NONE = 1,
-//   ROLE = 2,
-//   IDENTITY = 3,
-//   EMBEDDED_ROLE = 4,
-// }
+enum EnumAuthType {
+  UNSPECIFIED = 0,
+  NONE = 1,
+  ROLE = 2,
+  IDENTITY = 3,
+  EMBEDDED_ROLE = 4,
+}
 
-// type AuthType = Static<typeof AuthType>
-// const AuthType = Type.Enum(EnumAuthType)
+type AuthType = Static<typeof AuthType>
+const AuthType = Type.Enum(EnumAuthType)
 
-// enum EnumItemKind {
-//   UNSPECIFIED = 0,
-//   PRIMARY_ITEM = 2,
-//   SUB_ITEM = 3,
-//   REFERENCE = 4,
-// }
+enum EnumItemKind {
+  UNSPECIFIED = 0,
+  PRIMARY_ITEM = 2,
+  SUB_ITEM = 3,
+  REFERENCE = 4,
+}
 
-// type ItemKind = Static<typeof ItemKind>
-// const ItemKind = Type.Enum(EnumItemKind)
+type ItemKind = Static<typeof ItemKind>
+const ItemKind = Type.Enum(EnumItemKind)
 
-// enum EnumAction {
-//   UNSPECIFIED = 0,
-//   UTILITY = 1,
-//   VIEW = 10,
-//   CREATE = 11,
-//   UPDATE = 12,
-//   DELETE = 13,
-//   SUGGEST_VIEW = 14,
-//   SUGGEST_CREATE = 15,
-//   SUGGEST_DELETE = 16,
-//   SUGGEST_APPROVE = 17,
-//   VIEW_HISTORY = 18,
-//   VIEW_HIDDEN_TXS = 19,
-//   HIDE_TX = 20,
-//   UNHIDE_TX = 21,
-//   REFERENCE_CREATE = 30,
-//   REFERENCE_DELETE = 31,
-//   REFERENCE_VIEW = 32,
-// }
+enum EnumAction {
+  UNSPECIFIED = 0,
+  UTILITY = 1,
+  VIEW = 10,
+  CREATE = 11,
+  UPDATE = 12,
+  DELETE = 13,
+  SUGGEST_VIEW = 14,
+  SUGGEST_CREATE = 15,
+  SUGGEST_DELETE = 16,
+  SUGGEST_APPROVE = 17,
+  VIEW_HISTORY = 18,
+  VIEW_HIDDEN_TXS = 19,
+  HIDE_TX = 20,
+  UNHIDE_TX = 21,
+  REFERENCE_CREATE = 30,
+  REFERENCE_DELETE = 31,
+  REFERENCE_VIEW = 32,
+}
 
-// type Action = Static<typeof Action>
-// const Action = Type.Enum(EnumAction)
+type Action = Static<typeof Action>
+const Action = Type.Enum(EnumAction)
 
-// enum EnumTxError {
-//   UNSPECIFIED = 0,
-//   REQUEST_INVALID = 1,
-//   RUNTIME = 2,
-//   RUNTIME_BAD_OPS = 3,
-//   KEY_NOT_FOUND = 4,
-//   KEY_ALREADY_EXISTS = 5,
-//   COLLECTION_INVALID_ID = 11,
-//   COLLECTION_UNREGISTERED = 12,
-//   COLLECTION_ALREADY_REGISTERED = 13,
-//   COLLECTION_INVALID = 14,
-//   COLLECTION_INVALID_ITEM_TYPE = 15,
-//   COLLECTION_INVALID_ROLE_ID = 16,
-//   USER_INVALID_ID = 20,
-//   USER_UNREGISTERED = 21,
-//   USER_ALREADY_REGISTERED = 22,
-//   USER_INVALID = 23,
-//   USER_NO_ROLE = 24,
-//   USER_PERMISSION_DENIED = 26,
-//   ITEM_INVALID_ID = 31,
-//   ITEM_UNREGISTERED = 32,
-//   ITEM_ALREADY_REGISTERED = 33,
-//   ITEM_INVALID = 34,
-//   INVALID_ITEM_FIELD_PATH = 35,
-//   INVALID_ITEM_FIELD_VALUE = 36,
-// }
+enum EnumTxError {
+  UNSPECIFIED = 0,
+  REQUEST_INVALID = 1,
+  RUNTIME = 2,
+  RUNTIME_BAD_OPS = 3,
+  KEY_NOT_FOUND = 4,
+  KEY_ALREADY_EXISTS = 5,
+  COLLECTION_INVALID_ID = 11,
+  COLLECTION_UNREGISTERED = 12,
+  COLLECTION_ALREADY_REGISTERED = 13,
+  COLLECTION_INVALID = 14,
+  COLLECTION_INVALID_ITEM_TYPE = 15,
+  COLLECTION_INVALID_ROLE_ID = 16,
+  USER_INVALID_ID = 20,
+  USER_UNREGISTERED = 21,
+  USER_ALREADY_REGISTERED = 22,
+  USER_INVALID = 23,
+  USER_NO_ROLE = 24,
+  USER_PERMISSION_DENIED = 26,
+  ITEM_INVALID_ID = 31,
+  ITEM_UNREGISTERED = 32,
+  ITEM_ALREADY_REGISTERED = 33,
+  ITEM_INVALID = 34,
+  INVALID_ITEM_FIELD_PATH = 35,
+  INVALID_ITEM_FIELD_VALUE = 36,
+}
 
-// type TxError = Static<typeof TxError>
-// const TxError = Type.Enum(EnumTxError)
+type TxError = Static<typeof TxError>
+const TxError = Type.Enum(EnumTxError)
 
-// type User = Static<typeof User>
-// const User = Type.Object({
-//   mspId: Type.String(),
-//   userId: Type.String(),
-// })
+type User = Static<typeof User>
+const User = Type.Object({
+  mspId: Type.String(),
+  userId: Type.String(),
+})
 
-// type KeySchema = Static<typeof KeySchema>
-// const KeySchema = Type.Object({
-//   itemType: Type.String(),
-//   itemKind: ItemKind,
-//   properties: Type.Optional(FieldMask),
-// })
+type KeySchema = Static<typeof KeySchema>
+const KeySchema = Type.Object({
+  itemType: Type.String(),
+  itemKind: ItemKind,
+  properties: Type.Optional(FieldMask),
+})
 
 // type StateActivity = Static<typeof StateActivity>
 // const StateActivity = Type.Object({
@@ -471,8 +471,6 @@ const SpecimenHistory = Type.Object({
   hiddenTxs: Type.Optional(HiddenTxList),
 })
 
-
 export const Schema = {
-  Specimen: Specimen
+  Specimen: Specimen,
 }
-

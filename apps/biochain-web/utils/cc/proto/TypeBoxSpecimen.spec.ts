@@ -176,10 +176,16 @@ const _csvFlat = {
   'taxon.subspecies': 'brooksi',
 }
 
+import { TypeCompiler } from '@sinclair/typebox/compiler'
+
 describe('suite name', () => {
   beforeAll(() => {})
+  const C = TypeCompiler.Compile(Schema.Specimen)
+
   it('simpleParse', () => {
-    expect(() => Schema.Specimen.parse(raw)).not.toThrowError()
+    const x = C.Check(raw)
+    console.log(x)
+    Schema.Specimen.expect(() => Schema.Specimen.parse(raw)).not.toThrowError()
     expect(() => {
       new ccbio.Specimen(Schema.Specimen.parse.parse(raw))
     }).not.toThrowError()
