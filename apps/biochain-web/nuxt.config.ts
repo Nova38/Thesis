@@ -11,25 +11,13 @@ export default defineNuxtConfig({
 
   css: [resolve(__dirname, './assets/css/main.css')],
 
-  // primevue: {
-  //   components: {
-  //     prefix: 'P',
-  //   },
-  //   composables: {
-  //     exclude: ['useToast'],
-  //   },
-  //   importPT: { from: resolve(__dirname, 'lib/primevue/presets/wind/') }, // import and apply preset
-  //   options: {
-  //     unstyled: true,
-  //   },
-  // },
   // formkit: {
   //   configFile: resolve(__dirname, './formkit.config.ts'),
   // },
 
   ssr: false,
 
-  debug: true,
+  // debug: true,
 
   devServer: {
     // https: true,
@@ -88,16 +76,15 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    // '@formkit/nuxt',
-    // '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
-    // 'nuxt-quasar-ui',
-    '@formkit/nuxt', // '@hebilicious/vue-query-nuxt',
+    // '@hebilicious/vue-query-nuxt',
+    '@formkit/nuxt',
     '@nuxt/eslint',
     'nuxt-build-cache',
     'nuxt-jsoneditor',
+    '@nuxt/ui',
   ],
 
   nitro: {

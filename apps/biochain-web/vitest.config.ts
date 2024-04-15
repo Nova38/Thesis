@@ -36,6 +36,6 @@ export default defineVitestConfig({
     // environmentOptions: {},
     // api: 15555,
     // // setupFiles: './tests/setup/mocks.ts',
-    globals: true,
+    // globals: true,
   },
 })

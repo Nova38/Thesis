@@ -76,6 +76,8 @@
           />
 
           <SpecimenFormDate name="determinedDate" />
+        </div>
+        <div class="subGroup">
           <FormKit
             type="textarea"
             name="determinedReason"
@@ -94,6 +96,6 @@
 
 <style scoped>
 .subGroup {
-  @apply flex flex-wrap gap-2 py-2;
+  @apply container flex flex-wrap gap-2 py-2;
 }
 </style>

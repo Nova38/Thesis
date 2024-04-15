@@ -194,13 +194,13 @@ function addPreparation() {
           />
         </div>
       </FormKit>
-      <DevOnly>
+      <!-- <DevOnly>
         <Shiki
           v-if="secondary"
           lang="json"
           :code="curValue"
         />
-      </DevOnly>
+      </DevOnly> -->
     </PFieldset>
   </div>
 </template>

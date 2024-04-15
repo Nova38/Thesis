@@ -5,6 +5,7 @@ import type {
   DataTableFilterMeta,
   DataTableOperatorFilterMetaData,
 } from 'primevue/datatable'
+import { first } from 'radash'
 
 const props = defineProps<{
   specimenList: PlainSpecimen[]
@@ -325,7 +326,9 @@ const ColDefs = ref([
 /**
  * The columns that are currently selected
  */
-const SelectedColumns = ref(ColDefs.value)
+const SelectedColumns = useState('SelectedColumns', () => {
+  return ColDefs.value.slice(0, 5)
+})
 function onToggle(val: unknown[]) {
   SelectedColumns.value = ColDefs.value.filter((col) => val.includes(col))
 }
@@ -384,7 +387,7 @@ function initFilter() {
     (acc: Record<string, DataTableOperatorFilterMetaData>, field) => {
       acc[field] = {
         operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        constraints: [{ value: '', matchMode: FilterMatchMode.CONTAINS }],
       }
       return acc
     },
@@ -392,6 +395,20 @@ function initFilter() {
   )
 }
 
+const pageState = useState<{
+  first: number
+  sortField: string
+  sortOrder: string[]
+}>('pageState', () => {
+  return { first: 0, sortField: 'catalogNumber', sortOrder: [] }
+})
+onMounted(() => {
+  if (!pageState.value.first) {
+    pageState.value.first = 0
+  }
+})
+
+// initFilter()
 // const filterss = ref({
 //   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 //   'name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -420,16 +437,16 @@ function initFilter() {
       sort-mode="multiple"
       column-resize-mode="expand"
       data-key="specimenId"
+      :first="pageState?.first ?? 0"
       :value="props.specimenList"
       :paginator="true"
-      :rows="5"
-      :rows-per-page-options="[5, 10, 20, 50]"
+      :rows="10"
+      :rows-per-page-options="[5, 10, 25, 50, 100]"
       :global-filter-fields="filterFields"
       filter-display="menu"
-      stateStorage="session"
-      stateKey="dt-state-demo-session"
       :filters="filters"
       :pt="{}"
+      @page="({ first }) => (pageState.first = first)"
     >
       <template #header>
         <div style="text-align: left">
@@ -470,19 +487,16 @@ function initFilter() {
             header-class="text-nowrap"
           >
             <template #filter="{ filterModel }">
-              {{ filterModel.value }}
               <PInputText
                 v-model="filterModel.value"
                 mode="text"
               />
             </template>
             <template #filterclear="data">
-              <PButton
-                type="button"
-                icon="pi pi-times"
+              <UButton
+                label="Clear"
                 @click="
-                  async (e) => {
-                    console.log({ e, data })
+                  async () => {
                     data.filterCallback()
 
                     await nextTick()
@@ -493,12 +507,10 @@ function initFilter() {
               />
             </template>
             <template #filterapply="data">
-              <PButton
-                type="button"
-                icon="pi pi-check"
+              <UButton
+                label="Apply"
                 @click="
-                  async (e) => {
-                    console.log({ e, data })
+                  async () => {
                     data.filterCallback()
 
                     await nextTick()
@@ -507,9 +519,6 @@ function initFilter() {
                 "
                 severity="success"
               />
-            </template>
-            <template #filterfooter>
-              <div class="px-3 pb-3 pt-0 text-center">Customized Buttons</div>
             </template>
           </PColumn>
         </PRow>
