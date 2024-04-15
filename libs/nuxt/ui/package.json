@@ -25,12 +25,12 @@
     "postinstall": "nuxt prepare .playground"
   },
   "dependencies": {
-    "@formkit/addons": "^1.6.1",
-    "@formkit/icons": "^1.6.1",
-    "@formkit/nuxt": "^1.6.1",
-    "@nuxt/ui": "^2.15.1",
+    "@formkit/addons": "^1.6.2",
+    "@formkit/icons": "^1.6.2",
+    "@formkit/nuxt": "^1.6.2",
+    "@nuxt/ui": "^2.15.2",
     "@vueuse/nuxt": "^10.9.0",
-    "json-editor-vue": "^0.13.0",
+    "json-editor-vue": "^0.14.0",
     "nuxt-primevue": "^0.3.1",
     "nuxt-shiki": "^0.3.0",
     "pathe": "^1.1.2",
@@ -38,10 +38,15 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.1.5",
+    "@nuxt/test-utils": "^3.12.1",
+    "@vue/test-utils": "^2.4.5",
     "eslint": "^9.0.0",
+    "happy-dom": "^14.7.1",
     "nuxt": "^3.11.2",
-    "typescript": "^5.4.4",
+    "playwright-core": "^1.43.1",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8",
-    "vue": "^3.4.21"
+    "vitest": "^1.5.0",
+    "vue": "^3.4.22"
   }
 }

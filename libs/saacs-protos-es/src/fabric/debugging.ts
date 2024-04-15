@@ -8,6 +8,8 @@
 import { resolve, join } from 'pathe'
 import { promises as fs } from 'fs'
 import * as crypto from 'crypto'
+import * as grpc from '@grpc/grpc-js'
+
 import {
   connect,
   Contract,
@@ -15,6 +17,7 @@ import {
   Signer,
   signers,
 } from '@hyperledger/fabric-gateway'
+import { createBiochainGateway } from './client'
 
 const baseDir = join(
   process.env.USERPROFILE || '~',
@@ -35,7 +38,12 @@ const OrgUsersDir = join(
 
 type UserCrypto = { signer: Signer; identity: Identity }
 const mspId = 'Org1MSP'
+const peerEndpoint = 'localhost:5051'
 const OrgUsers = await fs.readdir(OrgUsersDir)
+
+async function newGRPCClient() {
+  return new grpc.Client(peerEndpoint, grpc.credentials.createInsecure())
+}
 
 async function getUserCryptoFiles(user: string) {
   const userDir = join(OrgUsersDir, user, 'msp')
@@ -76,4 +84,18 @@ const Users = userCrypto.reduce(
   {},
 )
 
-console.log(Users)
+const client = await newGRPCClient()
+console.log('Users:', Users)
+
+const gateway = connect({
+  client,
+  identity: Users.Org1Admin.identity,
+  signer: Users.Org1Admin.signer,
+})
+
+const network = await gateway.getNetwork('mychannel')
+const contract = network.getContract('mycontract')
+
+const BiochainClient = createBiochainGateway(contract)
+
+BiochainClient.get({ key: {} })
