@@ -10,18 +10,14 @@ export async function authLogin(username: string, password: string) {
   try {
     // const useLoggedIn = () => useState('loggedIn')
 
-    const result = await useCustomFetch('/api/auth/login', {
+    const result = await $fetch('/api/auth/login', {
+      method: 'POST',
       body: {
         password,
         username,
       },
-      method: 'POST',
     })
-    console.log(result)
-    if (result.error.value) {
-      // useError;
-      throw result.error.value
-    }
+
     useLoggedIn().value = true
     useAuth().redirectTo.value = null
     await useAuth().updateSession()

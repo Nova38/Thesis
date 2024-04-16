@@ -7,7 +7,7 @@
   "keywords": [],
   "scripts": {
     "test": "vitest --ui",
-    "dev": "bun --filter biochain-nuxt dev",
+    "dev": "pnpm --filter biochain-nuxt dev",
     "build:es": "pnpm --filter @saacs/protos-es build",
     "build": "pnpm --filter pkg/web/biochain build",
     "bio": "pnpm --filter biochain-nuxt",
