@@ -1,6 +1,7 @@
 export interface User {
   createdAt: string
   credentials: string
+
   id: string
 
   certSubject: string
@@ -22,36 +23,48 @@ export interface UserChaincodeIdentity {
   username: string
 }
 
+export async function getKeys() {
+  return await useStorage('.data:auth').getKeys()
+}
+
 export async function findUserByUsername(username: string): Promise<User> {
   const storage = useStorage('.data:auth')
-  const key = getUserKey(username)
+  // const key = getUserKey(username)
+  // console.log(key)
+  const allKeys = await storage.getKeys()
+  console.log(allKeys)
 
-  const user = await storage.getItem(key)
-  if (!user) throw createError({ message: 'User not found!', statusCode: 404 })
+  const user = await storage.getItem(username)
+  if (!user) throw createError({ message: 'User not found!', statusCode: 403 })
 
   return user as User
 }
 
 export async function findUserById(id: string): Promise<User> {
   const storage = useStorage('.data:auth')
-  const key = getUserKey(id)
+  // const key = getUserKey(id)
 
-  const user = await storage.getItem(key)
+  const user = await storage.getItem(id)
   if (!user) throw createError({ message: 'User not found!', statusCode: 404 })
 
   return user as User
 }
 
 export async function createUser(user: Partial<User>) {
-  const key = getUserKey(user.username!)
-  if (await useStorage('.data:auth').hasItem(key)) {
+  if (!user.username) {
+    throw createError({
+      message: 'Username is required!',
+      statusCode: 400,
+    })
+  }
+  if (await useStorage('.data:auth').hasItem(user.username)) {
     throw createError({
       message: 'Username already exists!',
       statusCode: 409,
     })
   }
   console.log('createUser', user)
-  return await useStorage('.data:auth').setItem(key, user)
+  return await useStorage('.data:auth').setItem(user.username, user)
 }
 
 export async function updateUserByUsername(
@@ -60,14 +73,14 @@ export async function updateUserByUsername(
 ) {
   const storage = useStorage('.data:auth')
   const user = await findUserByUsername(username)
-  const key = getUserKey(user.username)
+  // const key = getUserKey(user.username)
 
-  return await storage.setItem(key, {
+  return await storage.setItem(user.username, {
     ...user,
     ...updates,
   })
 }
 
-function getUserKey(username: string) {
-  return `db:usersDB:${encodeURIComponent(username)}`
-}
+// function getUserKey(username: string) {
+//   return `db:usersDB:${encodeURIComponent(username)}`
+// }

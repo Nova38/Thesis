@@ -104,6 +104,7 @@ async function BuildIdentity(event: H3Event) {
       key: fabricConfig.public.key,
       mspId: fabricConfig.public.msp,
       password: '',
+      certSubject: '',
       userId: '',
       username: '',
     }
