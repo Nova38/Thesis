@@ -5,6 +5,8 @@ import { ccbio, type PlainSpecimen } from '#imports'
 import { FieldMask } from '@bufbuild/protobuf'
 import type { MeterItem } from 'primevue/metergroup'
 export const useBulkStore = defineStore('Bulk', () => {
+  const toast = useToast()
+
   const Loading = ref(false)
 
   const CollectionId = ref<string>('')
@@ -46,7 +48,7 @@ export const useBulkStore = defineStore('Bulk', () => {
     collectionId: string
     specimenIdHeader: string
     headers: string[]
-    rows: string[][]
+    rows: Record<string, string>[]
     rawRowsMeta: Map<string, ImportRowMeta>
     mappedSpecimen: PlainSpecimen[]
     specimenIds: string[]
@@ -97,11 +99,19 @@ export const useBulkStore = defineStore('Bulk', () => {
           primary: {
             catalogNumber: catNum,
           },
-          secondary: {},
+          secondary: {
+            preparations: {
+              '1': {},
+            },
+          },
           georeference: {},
-          grants: {},
+          grants: {
+            1: {},
+          },
           images: {},
-          loans: {},
+          loans: {
+            '1': {},
+          },
           taxon: {},
           lastModified: {},
         }),
@@ -436,11 +446,25 @@ export const useBulkStore = defineStore('Bulk', () => {
             meta.statusMessage = 'updated successfully'
             processing.value.success++
             console.log('Imported Specimen', r)
+
+            toast.add({
+              id: 'imported',
+              title: `Imported Specimen ${specimen.primary?.catalogNumber}`,
+              timeout: 5000,
+            })
           } catch (error) {
             console.error('Error updating specimen', error)
             meta.status = 'error'
             processing.value.fail++
-            if (error instanceof Error) meta.statusMessage = error.toString()
+            if (error instanceof Error) {
+              toast.add({
+                id: 'failedImported',
+                title: `Failed to Imported Specimen ${specimen.primary?.catalogNumber}`,
+                timeout: 5000,
+                description: error.toString(),
+              })
+              meta.statusMessage = error.toString()
+            }
           }
 
           break

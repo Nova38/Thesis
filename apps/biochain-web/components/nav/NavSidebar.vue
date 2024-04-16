@@ -9,7 +9,7 @@ const { data, error, pending } = await useCustomFetch(
   '/api/cc/collections/listCollections',
   {
     transform: (data) => {
-      return data.collections.map((col) => {
+      return data?.collections.map((col) => {
         return {
           col,
           id: col.collectionId,
@@ -50,15 +50,15 @@ const links = computed(() => {
         icon: 'carbon:pedestrian',
       },
       {
-        label: 'Bulk Import',
+        label: 'Bulk Process',
         to: `${specimenBase}/bulk/import`,
         icon: 'carbon:data-bin',
       },
-      {
-        label: 'Bulk Update',
-        to: `${specimenBase}/bulk/update`,
-        icon: 'carbon:data-backup',
-      },
+      // {
+      //   label: 'Bulk Update',
+      //   to: `${specimenBase}/bulk/update`,
+      //   icon: 'carbon:data-backup',
+      // },
       {
         label: 'New Specimen',
         to: `${specimenBase}/New`,

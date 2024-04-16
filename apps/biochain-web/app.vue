@@ -22,6 +22,7 @@
           <NuxtPage class="p-2" />
           <!-- </NuxtErrorBoundary> -->
         </div>
+          <UNotifications />
       </div>
     </div>
   </div>
