@@ -4,12 +4,16 @@ export type FieldMask = Static<typeof FieldMask>
 export const FieldMask = Type.Object({
   paths: Type.Array(Type.String()),
 })
+const Timestamp = Type.Transform(Type.Number())
+  .Decode((value) => new Date(value)) // decode: number to Date
+  .Encode((value) => value.getTime())
+type T = Static<typeof Timestamp>
 
-export type Timestamp = Static<typeof Timestamp>
-export const Timestamp = Type.Object({
-  seconds: Type.Number(),
-  nanos: Type.Number(),
-})
+// export type Timestamp = Static<typeof Timestamp>
+// export const Timestamp = Type.Object({
+//   seconds: Type.Number(),
+//   nanos: Type.Number(),
+// })
 
 export type ProtoAny = Static<typeof ProtoAny>
 export const ProtoAny = Type.Object({
@@ -20,7 +24,7 @@ export const ProtoAny = Type.Object({
 type ProtoDate = Static<typeof ProtoDate>
 const ProtoDate = Type.Object({
   verbatim: Type.String(),
-  timestamp: Type.Optional(Timestamp),
+  timestamp: Type.Optional(Type.Date()),
   year: Type.Number(),
   month: Type.String(),
   day: Type.Number(),
@@ -31,7 +35,7 @@ const StateActivity = Type.Object({
   txId: Type.String(),
   mspId: Type.String(),
   userId: Type.String(),
-  timestamp: Type.Optional(Timestamp),
+  timestamp: Type.Optional(Type.String({ format: 'date-time' })),
   note: Type.String(),
 })
 

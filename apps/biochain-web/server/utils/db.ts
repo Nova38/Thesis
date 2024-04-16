@@ -3,6 +3,8 @@ export interface User {
   credentials: string
   id: string
 
+  certSubject: string
+
   key: string
 
   mspId: string

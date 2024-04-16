@@ -2,6 +2,9 @@ import { writeFileSync } from 'node:fs'
 import { createRegistry } from '@bufbuild/protobuf'
 import { construct, crush } from 'radash'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { TypeCompiler } from '@sinclair/typebox/compiler'
+
+import { ccbio } from '@saacs/saacs-pb'
 
 import { Schema } from './TypeBoxSpecimen'
 // import { ccbio } from 'saacs'
@@ -176,21 +179,29 @@ const _csvFlat = {
   'taxon.subspecies': 'brooksi',
 }
 
-import { TypeCompiler } from '@sinclair/typebox/compiler'
-
 describe('suite name', () => {
   beforeAll(() => {})
   const C = TypeCompiler.Compile(Schema.Specimen)
 
   it('simpleParse', () => {
     const x = C.Check(raw)
-    console.log(x)
-    Schema.Specimen.expect(() => Schema.Specimen.parse(raw)).not.toThrowError()
+    if (!x) {
+      console.log([...C.Errors(raw)])
+    }
+
+    console.log()
+
     expect(() => {
       new ccbio.Specimen(Schema.Specimen.parse.parse(raw))
     }).not.toThrowError()
 
     // console.log(new ccbio.Specimen(Specimen.parse(raw)));
+  })
+  it('encode', () => {
+    const x = C.Encode(raw)
+    console.log(x)
+    const y = C.Check(x)
+    console.log(y)
   })
   it('parseFlat', () => {
     // const specimen = ccbio.Specimen.fromJson(raw)

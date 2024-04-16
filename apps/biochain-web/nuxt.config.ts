@@ -9,6 +9,10 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
+  tailwindcss: {
+    exposeConfig: true,
+  },
+
   css: [resolve(__dirname, './assets/css/main.css')],
 
   // formkit: {
@@ -50,7 +54,7 @@ export default defineNuxtConfig({
         imports: ['PlainMessage'],
       },
       {
-        from: '~/lib/pb',
+        from: '@saacs/saacs-pb',
         imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
       },
       {
@@ -85,6 +89,7 @@ export default defineNuxtConfig({
     'nuxt-build-cache',
     'nuxt-jsoneditor',
     '@nuxt/ui',
+    '@formkit/auto-animate',
   ],
 
   nitro: {
@@ -170,6 +175,10 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: true,
+
+  testUtils: {
+    logToConsole: true,
+  },
 
   vite: {
     define: {
