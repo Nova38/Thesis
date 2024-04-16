@@ -56,7 +56,7 @@ const links = computed(() => {
       },
       {
         label: 'Bulk Update',
-        to: `${specimenBase}/bulk/update`,
+        to: `${specimenBase}/bulk/import`,
         icon: 'carbon:data-backup',
       },
       {
