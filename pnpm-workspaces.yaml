@@ -1,10 +1,4 @@
 packages:
-  - "./pkg/*"
-  - ./apps/*
-  - ./lib/*
-  - "./pkg/cmd/*"
-  - ./caliper
-  - cmd/protoc-gen-saacs-es
-  - "./pkg/web/*"
-  - pkg/saacs-es
-  - pkg/web/biochain
+  - "apps/**"
+  - "libs/**"
+  - "cmd/**"

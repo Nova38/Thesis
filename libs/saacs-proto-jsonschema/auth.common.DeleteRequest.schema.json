@@ -1,0 +1,15 @@
+{
+  "$id": "auth.common.DeleteRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "key": {
+      "$ref": "auth.ItemKey.schema.json"
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "title": "Delete Request",
+  "type": "object"
+}

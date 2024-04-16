@@ -4,6 +4,8 @@ import (
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/models"
+	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/apps/saacs-cc/state"
 	"github.com/samber/oops"
 
@@ -315,6 +317,102 @@ func (ctx *BaseTxCtx) GetViewMask() (mask *fieldmaskpb.FieldMask) {
 	return ctx.ops.GetPaths()
 }
 
-func (ctx *BaseTxCtx) Authorize(ops []*authpb.Operation) (auth bool, err error) {
-	panic("Should Never Be Called, Implement in child class")
+func (ctx *BaseTxCtx) GetSubLogger(name string) *slog.Logger {
+	return ctx.Logger.WithGroup(name)
+}
+
+func (ctx *BaseTxCtx) Authorize(operations []*authpb.Operation) (auth bool, err error) {
+
+	opsByCol := make(map[string][]*authpb.Operation)
+
+	// Group the operations by collection
+	for _, op := range operations {
+		if op.GetAction() == authpb.Action_ACTION_CREATE && op.GetItemType() == common.CollectionItemType {
+			ctx.GetLogger().Info("Operation Is to Create Collection")
+			// TODO: Implement Special auth case for creating a collection
+		} else {
+			if _, ok := opsByCol[op.GetCollectionId()]; !ok {
+				opsByCol[op.GetCollectionId()] = []*authpb.Operation{}
+			}
+			opsByCol[op.GetCollectionId()] = append(opsByCol[op.GetCollectionId()], op)
+		}
+
+	}
+
+	for colId, ops := range opsByCol {
+		var (
+			col        *authpb.Collection
+			Authorizer common.Authorizer
+		)
+
+		if col, err = ctx.GetCollection(colId); err != nil {
+			return false, oops.Wrap(err)
+		}
+
+		// Validate Operation
+		for _, op := range ops {
+			if valid, err := policy.ValidateOperation(col, op); err != nil {
+				return false, oops.Wrap(err)
+			} else if !valid {
+				return false, oops.Wrap(common.RuntimeBadOps)
+			}
+		}
+
+		switch col.GetAuthType() {
+		case authpb.AuthType_AUTH_TYPE_NONE:
+			Authorizer = &models.NoAuth{
+				Collection: col,
+				Logger:     ctx.GetSubLogger("NoAuth"),
+				TxCtx:      ctx,
+			}
+
+		case authpb.AuthType_AUTH_TYPE_ROLE:
+			Authorizer = &models.RBAC{
+				Collection: col,
+				Logger:     ctx.GetSubLogger("RBAC"),
+				TxCtx:      ctx,
+				UserRoles:  make(map[string][]*authpb.Role),
+			}
+		case authpb.AuthType_AUTH_TYPE_EMBEDDED_ROLE:
+			Authorizer = &models.ERBAC{
+				Collection: col,
+				Logger:     ctx.GetSubLogger("ERBAC"),
+				TxCtx:      ctx,
+				UserRoles:  make(map[string][]*authpb.Role),
+			}
+
+		case authpb.AuthType_AUTH_TYPE_IDENTITY:
+			Authorizer = &models.IAC{
+				Collection:            col,
+				CollectionMemberships: map[string]*authpb.UserDirectMembership{},
+				Logger:                ctx.GetSubLogger("IAC"),
+				TxCtx:                 ctx,
+			}
+
+		case authpb.AuthType_AUTH_TYPE_ATTRIBUTE:
+			Authorizer = &models.ABAC{
+				Collection:     col,
+				UserAttributes: []*authpb.Attribute{},
+				Logger:         ctx.GetSubLogger("ABAC"),
+				TxCtx:          ctx,
+			}
+
+		case authpb.AuthType_AUTH_TYPE_UNSPECIFIED:
+			return false, oops.Wrap(common.CollectionInvalid)
+		default:
+			return false, oops.Wrap(common.RuntimeBadOps)
+		}
+
+		for _, op := range ops {
+			if auth, err := Authorizer.Authorize(op); err != nil {
+				return false, oops.Wrap(err)
+			} else if !auth {
+				ctx.GetLogger().Info("User is not authorized")
+				return false, nil
+			}
+		}
+
+	}
+
+	return true, nil
 }

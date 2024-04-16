@@ -1,0 +1,18 @@
+{
+  "$id": "auth.common.ReferenceByItemResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bookmark": {
+      "type": "string"
+    },
+    "references": {
+      "items": {
+        "$ref": "auth.ReferenceKey.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Reference By Item Response",
+  "type": "object"
+}

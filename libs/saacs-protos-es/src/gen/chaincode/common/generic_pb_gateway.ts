@@ -20,9 +20,10 @@ export class GenericServiceClient  {
 
 
     /**
-     * ══════════════════════════════════ Helper ═════════════════════════════════════
-     * ────────────────────────────────── Query ──────────────────────────────────────
-     * rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
+     * ══════════════════════════════════ Helper
+     * ═════════════════════════════════════ ──────────────────────────────────
+     * Query ────────────────────────────────────── rpc
+     * GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) {
      *   option (auth.transaction_type) = TRANSACTION_TYPE_QUERY;
      *   option (auth.operation) = {action: ACTION_UTILITY};
      * }
@@ -37,7 +38,8 @@ export class GenericServiceClient  {
   }
 
     /**
-     * ──────────────────────────────── Invoke ───────────────────────────────────────
+     * ──────────────────────────────── Invoke
+     * ───────────────────────────────────────
      *
      * @generated from rpc auth.common.GenericService.Bootstrap
      */
@@ -270,7 +272,8 @@ export class GenericServiceClient  {
     }
 
     /**
-     * ──────────────────────────────── Invoke ───────────────────────────────────────
+     * ──────────────────────────────── Invoke
+     * ───────────────────────────────────────
      *
      * @generated from rpc auth.common.GenericService.SuggestionCreate
      */

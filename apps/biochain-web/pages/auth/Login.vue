@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-const $q = useQuasar()
-const form = ref({
-  password: '',
-  username: '',
-})
+import type { FormKitNode } from '@formkit/core'
 
 const router = useRouter()
 
@@ -12,16 +8,17 @@ const submitting = ref(false)
 const isPwd = ref(true)
 
 // const that = this;
+type Form = {
+  username: string
+  password: string
+}
 
-async function submit(username: string, password: string) {
+async function submit(data: Form, node: FormKitNode) {
+  console.log('submitting', data)
   submitting.value = true
-  const res = await authLogin(username, password)
+  const res = await authLogin(data.username, data.password)
     .then(() => {
       submitting.value = false
-      $q.notify({
-        message: 'Login successful',
-        type: 'positive',
-      })
 
       router.push('/').catch((err) => {
         console.log(err)
@@ -30,41 +27,29 @@ async function submit(username: string, password: string) {
     .catch((err) => {
       submitting.value = false
       console.log(err)
-      $q.notify({
-        message: 'Login failed',
-        type: 'negative',
-      })
     })
   console.log(res)
 }
 </script>
 
 <template>
-  <q-form @submit="submit(form.username, form.password)">
-    <q-card class="flex flex-row gap-2 p-4 items-center">
-      <q-input v-model="form.username" label="Username" />
-      <!-- <q-input type="password" v-model="form.password" label="Password" /> -->
-      <q-input
-        v-model="form.password"
-        :type="isPwd ? 'password' : 'text'"
+  <UCard class="m-4">
+    <FormKit
+      type="form"
+      @submit="submit"
+    >
+      <FormKit
+        type="text"
+        name="username"
+        label="Username"
+        validation="required"
+      />
+      <FormKit
+        type="password"
+        name="password"
         label="Password"
-      >
-        <template #append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
-        </template>
-      </q-input>
-      <q-card-actions align="right">
-        <q-btn
-          :loading="submitting"
-          color="primary"
-          label="Login"
-          type="submit"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-form>
+        validation="required"
+      />
+    </FormKit>
+  </UCard>
 </template>

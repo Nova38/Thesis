@@ -9,31 +9,23 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
+  tailwindcss: {
+    exposeConfig: true,
+  },
+
   css: [resolve(__dirname, './assets/css/main.css')],
 
-  // primevue: {
-  //   components: {
-  //     prefix: 'P',
-  //   },
-  //   composables: {
-  //     exclude: ['useToast'],
-  //   },
-  //   importPT: { from: resolve(__dirname, 'lib/primevue/presets/wind/') }, // import and apply preset
-  //   options: {
-  //     unstyled: true,
-  //   },
-  // },
   // formkit: {
   //   configFile: resolve(__dirname, './formkit.config.ts'),
   // },
 
   ssr: false,
 
-  debug: true,
+  // debug: true,
 
   devServer: {
     // https: true,
-    port: 8080,
+    port: 8000,
   },
   devtools: {
     disableAuthorization: true,
@@ -62,7 +54,7 @@ export default defineNuxtConfig({
         imports: ['PlainMessage'],
       },
       {
-        from: '~/lib/pb',
+        from: '@saacs/saacs-pb',
         imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
       },
       {
@@ -73,18 +65,31 @@ export default defineNuxtConfig({
   },
   formkit: {
     // configFile: 'node_modules/@saacs/ui/formkit.config.ts',
+    // autoImport: true,
+  },
+
+  jsoneditor: {
+    componentName: 'JsonEditor',
+    options: {
+      /**
+       *
+       * SET GLOBAL OPTIONS
+       *
+       * */
+    },
   },
 
   modules: [
-    // '@formkit/nuxt',
-    // '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
-    'nuxt-quasar-ui',
+    // '@hebilicious/vue-query-nuxt',
     '@formkit/nuxt',
     '@nuxt/eslint',
-    '@hebilicious/vue-query-nuxt',
+    'nuxt-build-cache',
+    'nuxt-jsoneditor',
+    '@nuxt/ui',
+    '@formkit/auto-animate',
   ],
 
   nitro: {
@@ -94,6 +99,7 @@ export default defineNuxtConfig({
         driver: 'fs',
       },
     },
+
     esbuild: {
       options: {
         target: 'esnext',
@@ -101,6 +107,10 @@ export default defineNuxtConfig({
     },
     experimental: {
       tasks: true,
+      typescriptBundlerResolution: true,
+      openAPI: true,
+      // asyncContext: true,
+      database: true,
     },
     imports: {
       dirs: ['lib/pb/*'],
@@ -114,30 +124,30 @@ export default defineNuxtConfig({
     },
   },
 
-  quasar: {
-    components: {
-      deepDefaults: true,
-      defaults: {
-        QInput: {
-          dense: true,
-          outlined: true,
-          stackLabel: true,
-        },
-      },
-    },
-    config: {
-      loadingBar: {
-        color: 'secondary',
-        position: 'bottom',
-        size: '4px',
-      },
-    },
-    extras: {
-      font: 'roboto-font',
-      fontIcons: ['themify', 'material-icons'],
-    },
-    plugins: ['LoadingBar', 'Notify'],
-  },
+  // quasar: {
+  //   components: {
+  //     deepDefaults: true,
+  //     defaults: {
+  //       QInput: {
+  //         dense: true,
+  //         outlined: true,
+  //         stackLabel: true,
+  //       },
+  //     },
+  //   },
+  //   config: {
+  //     loadingBar: {
+  //       color: 'secondary',
+  //       position: 'bottom',
+  //       size: '4px',
+  //     },
+  //   },
+  //   extras: {
+  //     font: 'roboto-font',
+  //     fontIcons: ['themify', 'material-icons'],
+  //   },
+  //   plugins: ['LoadingBar', 'Notify'],
+  // },
 
   runtimeConfig: {
     auth: {
@@ -165,6 +175,10 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: true,
+
+  testUtils: {
+    logToConsole: true,
+  },
 
   vite: {
     define: {

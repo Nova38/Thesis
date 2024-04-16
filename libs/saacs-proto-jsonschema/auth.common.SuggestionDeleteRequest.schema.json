@@ -1,0 +1,18 @@
+{
+  "$id": "auth.common.SuggestionDeleteRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "item_key": {
+      "$ref": "auth.ItemKey.schema.json"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "suggestion_id": {
+      "type": "string"
+    }
+  },
+  "title": "Suggestion Delete Request",
+  "type": "object"
+}

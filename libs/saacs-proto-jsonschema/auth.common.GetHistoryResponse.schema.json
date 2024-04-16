@@ -1,0 +1,16 @@
+{
+  "$id": "auth.common.GetHistoryResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "history": {
+      "$ref": "auth.History.schema.json"
+    },
+    "key": {
+      "$ref": "auth.ItemKey.schema.json",
+      "description": "repeated auth. s = 1;"
+    }
+  },
+  "title": "Get History Response",
+  "type": "object"
+}

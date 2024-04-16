@@ -1,0 +1,20 @@
+{
+  "$id": "auth.common.SuggestionListByCollectionRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bookmark": {
+      "type": "string"
+    },
+    "collection_id": {
+      "type": "string"
+    },
+    "limit": {
+      "exclusiveMaximum": 4294967296,
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "title": "Suggestion List By Collection Request",
+  "type": "object"
+}

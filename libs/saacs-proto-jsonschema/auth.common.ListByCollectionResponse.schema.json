@@ -1,0 +1,18 @@
+{
+  "$id": "auth.common.ListByCollectionResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bookmark": {
+      "type": "string"
+    },
+    "items": {
+      "items": {
+        "$ref": "auth.Item.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "List By Collection Response",
+  "type": "object"
+}

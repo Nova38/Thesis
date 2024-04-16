@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "lib": [
-            "es2023"
-        ],
-        "module": "esnext",
-        "moduleResolution": "node16",
-        "strict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true
-    }
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "es2023"
+    ],
+    "module": "esnext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  }
 }

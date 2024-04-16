@@ -1,0 +1,27 @@
+{
+  "$id": "auth.FullItem.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "history": {
+      "$ref": "auth.History.schema.json"
+    },
+    "item": {
+      "$ref": "auth.Item.schema.json"
+    },
+    "references": {
+      "items": {
+        "$ref": "auth.Reference.schema.json"
+      },
+      "type": "array"
+    },
+    "suggestions": {
+      "items": {
+        "$ref": "auth.Suggestion.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Full Item",
+  "type": "object"
+}

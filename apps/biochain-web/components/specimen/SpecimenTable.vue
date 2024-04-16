@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import { titleCase } from 'scule'
 import { FilterMatchMode, FilterOperator } from 'primevue/api'
-import type { DataTableOperatorFilterMetaData } from 'primevue/datatable'
+import type {
+  DataTableFilterMeta,
+  DataTableOperatorFilterMetaData,
+} from 'primevue/datatable'
+import { first } from 'radash'
 
 const props = defineProps<{
   specimenList: PlainSpecimen[]
@@ -322,7 +326,9 @@ const ColDefs = ref([
 /**
  * The columns that are currently selected
  */
-const SelectedColumns = ref(ColDefs.value)
+const SelectedColumns = useState('SelectedColumns', () => {
+  return ColDefs.value.slice(0, 5)
+})
 function onToggle(val: unknown[]) {
   SelectedColumns.value = ColDefs.value.filter((col) => val.includes(col))
 }
@@ -361,19 +367,48 @@ const filterFields = computed(() => {
   return SelectedColumns.value.map((col) => col.field)
 })
 
-function initFilter() {
-  const filters: Record<string, DataTableOperatorFilterMetaData> = {}
-  filterFields.value.forEach((field) => {
-    filters[field] = {
+const filters = useState<DataTableFilterMeta>('filters', () => {
+  return {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+
+    specimenId: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    }
-  })
-  return filters
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.catalogNumber': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+  }
+})
+
+function initFilter() {
+  filters.value = filterFields.value.reduce(
+    (acc: Record<string, DataTableOperatorFilterMetaData>, field) => {
+      acc[field] = {
+        operator: FilterOperator.AND,
+        constraints: [{ value: '', matchMode: FilterMatchMode.CONTAINS }],
+      }
+      return acc
+    },
+    {} as Record<string, DataTableOperatorFilterMetaData>,
+  )
 }
 
-const filters = ref(initFilter())
+const pageState = useState<{
+  first: number
+  sortField: string
+  sortOrder: string[]
+}>('pageState', () => {
+  return { first: 0, sortField: 'catalogNumber', sortOrder: [] }
+})
+onMounted(() => {
+  if (!pageState.value.first) {
+    pageState.value.first = 0
+  }
+})
 
+// initFilter()
 // const filterss = ref({
 //   'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 //   'name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -402,21 +437,23 @@ const filters = ref(initFilter())
       sort-mode="multiple"
       column-resize-mode="expand"
       data-key="specimenId"
+      :first="pageState?.first ?? 0"
       :value="props.specimenList"
       :paginator="true"
-      :rows="5"
-      :rows-per-page-options="[5, 10, 20, 50]"
+      :rows="10"
+      :rows-per-page-options="[5, 10, 25, 50, 100]"
       :global-filter-fields="filterFields"
       filter-display="menu"
       :filters="filters"
       :pt="{}"
+      @page="({ first }) => (pageState.first = first)"
     >
       <template #header>
         <div style="text-align: left">
           <PMultiSelect
             :model-value="SelectedColumns"
             :options="ColDefs"
-            class="w-full md:w-[20rem]"
+            class="w-full"
             option-label="headerName"
             display="chip"
             placeholder="Select Columns"
@@ -427,7 +464,6 @@ const filters = ref(initFilter())
             placeholder="Select Columns" @update:model-value="onToggle"
 
           /> -->
-          header
         </div>
       </template>
 
@@ -449,13 +485,39 @@ const filters = ref(initFilter())
             :header="col.headerName"
             sortable
             header-class="text-nowrap"
-            :filter-field="col.field"
-            class=""
           >
             <template #filter="{ filterModel }">
               <PInputText
                 v-model="filterModel.value"
                 mode="text"
+              />
+            </template>
+            <template #filterclear="data">
+              <UButton
+                label="Clear"
+                @click="
+                  async () => {
+                    data.filterCallback()
+
+                    await nextTick()
+                    filters[data.field] = data.filterModel
+                  }
+                "
+                severity="secondary"
+              />
+            </template>
+            <template #filterapply="data">
+              <UButton
+                label="Apply"
+                @click="
+                  async () => {
+                    data.filterCallback()
+
+                    await nextTick()
+                    filters[data.field] = data.filterModel
+                  }
+                "
+                severity="success"
               />
             </template>
           </PColumn>

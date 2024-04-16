@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "name": "Web",
+      "path": "./apps/biochain-web"
+    }
+  ]
+}

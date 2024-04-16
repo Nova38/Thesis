@@ -1,0 +1,17 @@
+{
+  "$id": "auth.ReferenceKey.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Reference Keys\r\n {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]",
+  "properties": {
+    "key1": {
+      "$ref": "auth.ItemKey.schema.json",
+      "description": "string reference_type = 2;"
+    },
+    "key2": {
+      "$ref": "auth.ItemKey.schema.json"
+    }
+  },
+  "title": "Reference Key",
+  "type": "object"
+}

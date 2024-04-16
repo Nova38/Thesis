@@ -1,22 +1,22 @@
 {
-    "name": "@thesis/user-add",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.ts",
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@bufbuild/protobuf": "^1.8.0",
-        "@bufbuild/protoplugin": "^1.8.0",
-        "saacs": "workspace:^"
-    },
-    "devDependencies": {
-        "@types/node": "^20.11.30",
-        "typescript": "^5.4.2"
-    }
+  "name": "@thesis/user-add",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protoplugin": "^1.8.0",
+    "@saacs/saacs-pb": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
 }

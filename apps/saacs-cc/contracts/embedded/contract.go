@@ -165,7 +165,7 @@ func (c *EmbededContract) CreateCollection(
 		}
 	}
 
-	userState.Roles[col.GetCollectionId()] = &v1.RoleList{RoleId: []string{"manager"}}
+	userState.Roles[col.GetCollectionId()] = &v1.RoleIDList{RoleId: []string{"manager"}}
 
 	col.ItemTypes = append(col.GetItemTypes(), []string{role.ItemType(), userState.ItemType()}...)
 	col.ItemTypes = lo.Uniq(col.GetItemTypes())

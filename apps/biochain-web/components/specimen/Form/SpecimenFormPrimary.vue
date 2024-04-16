@@ -10,41 +10,83 @@
         type="group"
         id="primary"
         name="primary"
+        :config="{
+          classes: {
+            outer: 'min-w-20',
+          },
+        }"
       >
-        <div class="inline-flex gap-4">
-          <div class="inline-flex flex-row flex-wrap gap-1 justify-evenly">
-            <FormKit
-              type="text"
-              name="tissueNumber"
-              id="tissueNumber"
-              label="Tissue Number"
-              outer-class="min-w-20"
-            />
-            <FormKit
-              type="text"
-              name="accessionNumber"
-              id="accessionNumber"
-              label="Accession Number"
-              outer-class="min-w-20"
-            />
-          </div>
-          <div class="inline-flex flex-wrap gap-2">
-            <FormKit
-              type="text"
-              name="cataloger"
-              id="cataloger"
-              label="Cataloger"
-              outer-class="min-w-20"
-            />
-            <FormKit
-              type="text"
-              name="catalogNumber"
-              id="catalogNumber"
-              label="Catalog Number"
-              outer-class="min-w-20"
-            />
-          </div>
+        <div class="subGroup">
+          <FormKit
+            type="text"
+            name="tissueNumber"
+            label="Tissue Number"
+          />
+          <FormKit
+            type="text"
+            name="accessionNumber"
+            label="Accession Number"
+          />
+        </div>
 
+        <div class="subGroup">
+          <FormKit
+            type="text"
+            name="catalogNumber"
+            label="Catalog Number"
+          />
+          <FormKit
+            type="text"
+            name="cataloger"
+            label="Cataloger"
+          />
+
+          <SpecimenFormDate name="catalogDate" />
+        </div>
+
+        <UDivider />
+
+        <div class="subGroup">
+          <FormKit
+            type="text"
+            name="fieldNumber"
+            label="Field Number"
+          />
+          <FormKit
+            type="text"
+            name="collector"
+            label="Collector"
+          />
+
+          <SpecimenFormDate name="fieldDate" />
+        </div>
+        <UDivider />
+
+        <div class="subGroup">
+          <FormKit
+            type="text"
+            name="determiner"
+            id="determiner"
+            label="Determiner"
+          />
+          <FormKit
+            type="text"
+            name="cataloger"
+            label="Cataloger"
+          />
+
+          <SpecimenFormDate name="determinedDate" />
+        </div>
+        <div class="subGroup">
+          <FormKit
+            type="textarea"
+            name="determinedReason"
+            label="Determined Reason"
+          />
+        </div>
+        <SpecimenFormDate name="originalDate" />
+
+        <div class="inline-flex flex-wrap gap-2">
           <div class="inline-flex flex-wrap gap-2"></div>
         </div>
       </FormKit>
@@ -52,4 +94,8 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.subGroup {
+  @apply container flex flex-wrap gap-2 py-2;
+}
+</style>

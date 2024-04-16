@@ -6,7 +6,8 @@
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
 import { Operation, User } from "../../auth/v1/auth_pb.js";
-import { Collection, FullItem, HiddenTx, HiddenTxList, History, Item, ItemKey, Suggestion, UserCollectionRoles, UserDirectMembership } from "../../auth/v1/objects_pb.js";
+import { UserCollectionRoles, UserDirectMembership } from "../../auth/v1/models_pb.js";
+import { Collection, FullItem, HiddenTx, HiddenTxList, History, Item, ItemKey, Suggestion } from "../../auth/v1/objects_pb.js";
 
 /**
  * @generated from message auth.common.GetCurrentUserResponse
@@ -812,8 +813,8 @@ export class ListByAttrsResponse extends Message<ListByAttrsResponse> {
 }
 
 /**
- * ──────────────────────────────── Invoke ───────────────────────────────────────
- * Create
+ * ──────────────────────────────── Invoke
+ * ─────────────────────────────────────── Create
  *
  * @generated from message auth.common.CreateRequest
  */

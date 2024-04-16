@@ -73,11 +73,21 @@ message Collection {
   option (key_schema).properties = {
     paths: ["collection_id"]
   };
+  
+  option (buf.validate.message).cel = {
+    id: "Collection.Auth.UseParent",
+    message: "To Use Parents the auth_type must be role or embedded roles",
+    expression: "this.use_auth_parents == true && this.auth_type in [2,4]",
+  };
 
   // The key for the ledger
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name = 2 [(buf.validate.field).string.min_len = 1];
-  AuthType auth_type = 3;
+  AuthType auth_type = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+  
 
   repeated string item_types = 4 [(buf.validate.field).repeated = {
     unique: true,
@@ -85,124 +95,16 @@ message Collection {
   }];
 
   Polices default = 5 [(buf.validate.field).required = true];
+
+  bool use_auth_parents = 6;
+
 }
 
-// ─────────────────────────────────────────────────────────────────────────────────
-// Access Control Items
-// ─────────────────────────────────────────────────────────────────────────────────
 
-message Role {
-  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties = {
-    paths: ["role_id"]
-  };
 
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  string role_id = 2 [(buf.validate.field).string.min_len = 1];
 
-  Polices polices = 4 [(buf.validate.field).required = true];
 
-  string note = 5;
-  repeated string parent_role_ids = 6;
-}
 
-// An attribute is used to define permissions via the value of the attribute in the
-// users certificate for a given msp
-message Attribute {
-  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties = {
-    paths: [
-      "msp_id",
-      "oid",
-      "role_id"
-    ]
-  };
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-
-  // The msp of the organization that this attribute applies to
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  // The oid of the attribute
-  string oid = 3 [(buf.validate.field).string.min_len = 1];
-  // The value of the attribute required to be satisfied by the user to have the
-  // role
-  string value = 4 [(buf.validate.field).string.min_len = 1];
-  // The Permission that the user will have if they have the attribute
-  Polices polices = 5 [(buf.validate.field).required = true];
-
-  string note = 6;
-}
-
-// Membership is used to store permissions for a user in a collection
-message UserDirectMembership {
-  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties = {
-    paths: [
-      "msp_id",
-      "user_id"
-    ]
-  };
-
-  // The collection that the user is a member of
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  // The msp of the organization that the user's certificate is from
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  // The id of the user from the certificate
-  string user_id = 3 [(buf.validate.field).string.min_len = 1];
-  // The Permissions that the user will have
-  Polices polices = 4 [(buf.validate.field).required = true];
-
-  string note = 6;
-}
-
-message UserEmbeddedRoles {
-  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties = {
-    paths: [
-      "msp_id",
-      "user_id"
-    ]
-  };
-
-  string collection_id = 1 [(buf.validate.field).string.const = "global"];
-  // The msp of the organization that the user's certificate is from
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  // The id of the user from the certificate
-  string user_id = 3 [(buf.validate.field).string.min_len = 1];
-
-  // The roles that the user has in the collection
-  // key is the collection id
-  // value is the list of rolesIds
-  map<string, RoleList> roles = 4;
-}
-
-message RoleList {
-  repeated string role_id = 1;
-}
-
-message UserCollectionRoles {
-  option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
-  option (auth.key_schema).properties = {
-    paths: [
-      "msp_id",
-      "user_id"
-    ]
-  };
-
-  // The collection that the user is a member of
-  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
-  // The msp of the organization that the user's certificate is from
-  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
-  // The id of the user from the certificate
-  string user_id = 3 [(buf.validate.field).string.min_len = 1];
-
-  // The roles that the user has in the collection
-  repeated string role_ids = 4 [(buf.validate.field).repeated = {
-    unique: true,
-    min_items: 1
-  }];
-
-  string note = 6;
-}
 
 // ═════════════════════════════════════════════════════════════════════════════════
 // Sub Item Types
@@ -278,42 +180,3 @@ message History {
   HiddenTxList hidden_txs = 2;
 }
 
-// ═════════════════════════════════════════════
-// Access Control
-// ═════════════════════════════════════════════
-
-// This message is the tree node for operations on the state item
-message PathPolicy {
-  // The path is a sub path of a field mask
-  string path = 1;
-  string full_path = 2;
-
-  bool allow_sub_paths = 3;
-  // The key is a valid sub path in the type of state item
-  map<string, PathPolicy> sub_paths = 4;
-
-  // If the policy is not set than use a parent policy unless nested policy is set
-  repeated Action actions = 5;
-
-  option (buf.validate.message).cel = {
-    id: "SubPathsAllowed"
-    message: "Sub Paths are not allowed"
-    expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
-  };
-  // option (buf.validate.message).cel = {
-  //   id: "pathAndFullPath"
-  //   message: "Path must be a sub path of full path"
-  //   expression: "!this.allow_sub_paths && this.sub_paths.size() > 0"
-  // };
-}
-
-message Polices {
-  // key is the item type
-  map<string, PathPolicy> item_policies = 1;
-
-  // Default policy for all items
-  PathPolicy default_policy = 2;
-
-  // The types that are excluded from the default policy
-  repeated string default_excluded_types = 3;
-}

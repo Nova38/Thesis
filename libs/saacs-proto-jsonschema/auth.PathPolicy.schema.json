@@ -1,0 +1,66 @@
+{
+  "$id": "auth.PathPolicy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "This message is the tree node for operations on the state item",
+  "properties": {
+    "actions": {
+      "description": "If the policy is not set than use a parent policy unless nested policy is set",
+      "items": {
+        "anyOf": [
+          {
+            "enum": [
+              "ACTION_UNSPECIFIED",
+              "ACTION_UTILITY",
+              "ACTION_VIEW",
+              "ACTION_CREATE",
+              "ACTION_UPDATE",
+              "ACTION_DELETE",
+              "ACTION_SUGGEST_VIEW",
+              "ACTION_SUGGEST_CREATE",
+              "ACTION_SUGGEST_DELETE",
+              "ACTION_SUGGEST_APPROVE",
+              "ACTION_VIEW_HISTORY",
+              "ACTION_VIEW_HIDDEN_TXS",
+              "ACTION_HIDE_TX",
+              "ACTION_UNHIDE_TX",
+              "ACTION_REFERENCE_CREATE",
+              "ACTION_REFERENCE_DELETE",
+              "ACTION_REFERENCE_VIEW"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          {
+            "maximum": 2147483647,
+            "minimum": -2147483648,
+            "type": "integer"
+          }
+        ]
+      },
+      "type": "array"
+    },
+    "allow_sub_paths": {
+      "type": "boolean"
+    },
+    "full_path": {
+      "type": "string"
+    },
+    "path": {
+      "description": "The path is a sub path of a field mask",
+      "type": "string"
+    },
+    "sub_paths": {
+      "additionalProperties": {
+        "$ref": "auth.PathPolicy.schema.json"
+      },
+      "description": "The key is a valid sub path in the type of state item",
+      "propertyNames": {
+        "type": "string"
+      },
+      "type": "object"
+    }
+  },
+  "title": "Path Policy",
+  "type": "object"
+}

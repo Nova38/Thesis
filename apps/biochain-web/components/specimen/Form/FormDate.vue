@@ -27,6 +27,7 @@ const formPlug = (node: FormKitNode) => {
     <PFieldset
       :legend="nameAsTitle"
       :toggleable="true"
+      collapsed
       class="max-w-fit"
       :pt="{
         root: {
@@ -37,7 +38,7 @@ const formPlug = (node: FormKitNode) => {
             'px-5 md:px-6 py-5',
 
             // Shape
-            'rounded-md rounded-lg',
+            'rounded-lg',
 
             // Color
             'bg-surface-100 dark:bg-surface-900',
@@ -75,9 +76,10 @@ const formPlug = (node: FormKitNode) => {
             outer-class="min-w-20"
           />
           <FormKit
-            type="text"
+            type="number"
             name="year"
             id="year"
+            number
             label="year"
             outer-class="min-w-20"
           />
@@ -89,8 +91,9 @@ const formPlug = (node: FormKitNode) => {
             outer-class="min-w-20"
           />
           <FormKit
-            type="text"
+            type="number"
             name="day"
+            number
             id="day"
             label="day"
             outer-class="min-w-20"

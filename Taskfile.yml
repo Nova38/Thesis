@@ -21,7 +21,7 @@ tasks:
       Install all the protoc plugins
 
     cmds:
-      - go install ./pkg/cmd/protoc-gen-saacs-go
+      - go install ./cmd/protoc-gen-saacs-go
 
   gen:clean:
     cmds:
@@ -114,7 +114,7 @@ tasks:
     cmd: pnpm run api
   build:es:
     dir: ./pkg/saacs-es
-    cmd: pnpm run build
+    cmd: pnpm run build:es
 
   deploy:prod:api:
     dir: ./pkg/web

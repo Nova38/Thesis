@@ -1,0 +1,16 @@
+{
+  "$id": "auth.common.HideTxRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "hidden_tx": {
+      "$ref": "auth.HiddenTx.schema.json"
+    },
+    "key": {
+      "$ref": "auth.ItemKey.schema.json",
+      "description": "auth.Item item = 1;"
+    }
+  },
+  "title": "Hide Tx Request",
+  "type": "object"
+}

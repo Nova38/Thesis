@@ -1,0 +1,19 @@
+{
+  "$id": "auth.Reference.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Used to return the values of the items that are referenced",
+  "properties": {
+    "item1": {
+      "$ref": "auth.Item.schema.json"
+    },
+    "item2": {
+      "$ref": "auth.Item.schema.json"
+    },
+    "reference": {
+      "$ref": "auth.ReferenceKey.schema.json"
+    }
+  },
+  "title": "Reference",
+  "type": "object"
+}

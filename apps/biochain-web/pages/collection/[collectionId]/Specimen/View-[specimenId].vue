@@ -2,6 +2,8 @@
 import { ccbio } from '#imports'
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
+import { useFormKitNodeById } from '@formkit/vue'
+
 // import { ccbio } from 'saacs'
 const route = useRoute()
 
@@ -80,6 +82,16 @@ const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
 const mode: Ref<FormMode> = ref('view')
 const modeColor = computed(() => toModeColor(mode.value))
 
+const specimen = ref<PlainSpecimen>(dirty.value)
+
+const nodeRef = useFormKitNodeById('Main-form', (node) => {
+  // perform an effect when the node is available
+  node.on('settled.deep', (v) => {
+    console.log('settled.deep', v)
+    specimen.value = v.payload
+  })
+})
+
 // const history = await useGetSpecimenHistory();
 
 async function submitHandler() {
@@ -120,54 +132,37 @@ async function submitHandler() {
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
       <div v-if="spec.data">
-        <SpecimenForm
-          :enable-edit="mode !== 'view'"
-          :header-color="toModeColor(mode)"
-          :specimen="dirty"
-        >
-          <template #Header>
+        <UCard>
+          <template #header>
             <div>
-              <div
-                class=""
-                :class="`${modeColor} flex flex-row items-center gap-2 px-2`"
-              >
-                <div class="font-bold">Current Mode: {{ modeCapitalized }}</div>
-
-                <div class="flex-grow" />
-                <!-- <space /> -->
-                <UTooltip text="Set the current mode to View">
-                  <UButton
-                    :class="`${toModeColor('view')}text-black`"
-                    @click="() => (mode = 'view')"
-                  >
-                    View
-                  </UButton>
-                </UTooltip>
-
-                <UTooltip text="Set the current mode to Update">
-                  <UButton
-                    :class="toModeColor('update')"
-                    name="Update"
-                    @click="() => (mode = 'update')"
-                  >
-                    Update
-                  </UButton>
-                </UTooltip>
-
-                <UTooltip text="Set the current mode to Suggest Update">
-                  <UButton
-                    variant="solid"
-                    :class="toModeColor('suggest')"
-                    :color="toModeColor('suggest')"
-                    @click="() => (mode = 'suggest')"
-                  >
-                    Suggest Update
-                  </UButton>
-                </UTooltip>
+              <div class="flex flex-row">
+                {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
               </div>
-              <UDivider />
+              <div class="flex flex-grow flex-row">
+                <UBadge
+                  class="flex-grow"
+                  color="purple"
+                  variant="solid"
+                  size="md"
+                  :label="`Collection: ${specimen.collectionId}`"
+                />
+                <UBadge
+                  class="flex-grow"
+                  color="red"
+                  variant="solid"
+                  size="md"
+                  v-if="specimen.primary?.catalogNumber"
+                  :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
+                />
+              </div>
             </div>
           </template>
+
+          <SpecimenForm
+            :enable-edit="mode !== 'view'"
+            :header-color="toModeColor(mode)"
+            :specimen="dirty"
+          />
           <template #Footer>
             <div class="flex flex-col">
               <UButton
@@ -179,7 +174,7 @@ async function submitHandler() {
               />
             </div>
           </template>
-        </SpecimenForm>
+        </UCard>
       </div>
     </div>
 
@@ -190,7 +185,7 @@ async function submitHandler() {
         class="basis-size-1/4"
       />
       <UCard v-if="false">
-        <div class="flex flex-row text-lg items-center justify-center">
+        <div class="flex flex-row items-center justify-center text-lg">
           Suggestions
         </div>
       </UCard>

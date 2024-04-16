@@ -1,0 +1,15 @@
+{
+  "$id": "auth.common.SuggestionApproveResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "item": {
+      "$ref": "auth.Item.schema.json"
+    },
+    "suggestion": {
+      "$ref": "auth.Suggestion.schema.json"
+    }
+  },
+  "title": "Suggestion Approve Response",
+  "type": "object"
+}

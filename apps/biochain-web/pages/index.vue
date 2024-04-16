@@ -1,10 +1,21 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div></div>
+  <div>
+    <Feildset/>
+
+  </div>
 </template>
 
-<style></style>
+<style>
+legend {
+  background-color: #000;
+  color: #fff;
+  padding: 3px 6px;
+}
+
+
+</style>
 
 <!-- { "": { "collectionId": "", "specimenId": "", "primary": { "catalogNumber": "",
 "accessionNumber": "", "fieldNumber": "", "tissueNumber": "", "cataloger": "",
