@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ccbio } from '#imports'
+import { type PlainSpecimen, ccbio } from '#imports'
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
 import { useFormKitNodeById } from '@formkit/vue'
@@ -7,7 +7,7 @@ import { useFormKitNodeById } from '@formkit/vue'
 // import { ccbio } from 'saacs'
 const route = useRoute()
 
-const dirty = ref(MakeEmptySpecimen())
+const dirty = ref<PlainSpecimen>()
 
 const cur = ref(MakeEmptySpecimen())
 const history = ref(new ccbio.SpecimenHistory())
@@ -45,8 +45,17 @@ const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
 
   onResponse: async ({ response }) => {
     console.log('current', response._data)
-    dirty.value.fromJson(response._data)
-    cur.value.fromJson(response._data)
+    // dirty.value.fromJson(response._data)
+    dirty.value = ccbio.Specimen.fromJson(response._data)
+    if (dirty.value.primary) {
+      dirty.value.primary.catalogDate ??= new ccbio.Date()
+      dirty.value.primary.fieldDate ??= new ccbio.Date()
+      dirty.value.primary.originalDate ??= new ccbio.Date()
+      dirty.value.primary.determinedDate ??= new ccbio.Date()
+    }
+
+
+    cur.value = ccbio.Specimen.fromJson(response._data)
     console.log(keys(response._data))
     console.log(dirty.value)
   },
@@ -82,19 +91,19 @@ const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
 const mode: Ref<FormMode> = ref('view')
 const modeColor = computed(() => toModeColor(mode.value))
 
-const specimen = ref<PlainSpecimen>(dirty.value)
+// const specimen = ref<PlainSpecimen>(dirty.value)
 
-const nodeRef = useFormKitNodeById('Main-form', (node) => {
-  // perform an effect when the node is available
-  node.on('settled.deep', (v) => {
-    console.log('settled.deep', v)
-    specimen.value = v.payload
-  })
-})
+// const nodeRef = useFormKitNodeById('Main-form', (node) => {
+//   // perform an effect when the node is available
+//   node.on('settled.deep', (v) => {
+//     console.log('settled.deep', v)
+//     specimen.value = v.payload
+//   })
+// })
 
 // const history = await useGetSpecimenHistory();
 
-async function submitHandler() {
+async function submitHandler(value: {specimen: PlainSpecimen, mode: FormMode})  {
   const oldMode = mode.value
   try {
     mode.value = 'view'
@@ -131,50 +140,12 @@ async function submitHandler() {
 <template>
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
-      <div v-if="spec.data">
-        <UCard>
-          <template #header>
-            <div>
-              <div class="flex flex-row">
-                {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
-              </div>
-              <div class="flex flex-grow flex-row">
-                <UBadge
-                  class="flex-grow"
-                  color="purple"
-                  variant="solid"
-                  size="md"
-                  :label="`Collection: ${specimen.collectionId}`"
-                />
-                <UBadge
-                  class="flex-grow"
-                  color="red"
-                  variant="solid"
-                  size="md"
-                  v-if="specimen.primary?.catalogNumber"
-                  :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
-                />
-              </div>
-            </div>
-          </template>
-
-          <SpecimenForm
-            :enable-edit="mode !== 'view'"
-            :header-color="toModeColor(mode)"
-            :specimen="dirty"
+      <div v-if="dirty">
+        <SpecimenFormCard
+          :specimen="dirty"
+          :mode="mode"
+          @submit="submitHandler"
           />
-          <template #Footer>
-            <div class="flex flex-col">
-              <UButton
-                v-if="mode !== 'view'"
-                :class="modeColor"
-                :label="mode === 'update' ? 'Update' : 'Suggest Update'"
-                class="flex-grow"
-                @click="submitHandler"
-              />
-            </div>
-          </template>
-        </UCard>
       </div>
     </div>
 

@@ -1,30 +1,51 @@
 <script lang="ts" setup>
+import type { FieldMask } from '#imports';
 import { useFormKitNodeById } from '@formkit/vue'
 
 const mode = defineModel<FormMode>('mode', {
   default: 'view' as FormMode,
 })
+const specimen = defineModel<PlainSpecimen>('specimen', {
+  default: MakeEmptySpecimen(),
+})
+
+
+const emit = defineEmits<{
+  (e: 'submit', value: {specimen: PlainSpecimen, mode: FormMode}): void
+}>()
+
 
 const headerColor = computed(() => toModeColor(mode.value))
 
-const props = withDefaults(
-  defineProps<{
-    specimen: PlainSpecimen
-  }>(),
-  {
-    specimen: () => MakeEmptySpecimen(),
-  },
-)
+// const props = withDefaults(
+//   defineProps<{
+//     specimen: PlainSpecimen
+//   }>(),
+//   {
+//     specimen: () => MakeEmptySpecimen(),
+//   },
+// )
 
-const specimen = ref<PlainSpecimen>(props.specimen)
+const specimenValue = ref<PlainSpecimen>()
 
 const nodeRef = useFormKitNodeById('Main-form', (node) => {
   // perform an effect when the node is available
   node.on('settled.deep', (v) => {
-    console.log('settled.deep', v)
-    specimen.value = v.payload
+    // console.log('settled.deep', v)
+    // specimenValue.value = v.payload
+    // console.log('specimenValue', specimenValue.value)
   })
 })
+
+
+const submitHandler = () => {
+  console.log('submitHandler', specimen.value)
+  // emit('submit', {
+  //   specimen: specimen.value,
+  //   mode: mode.value,
+  // })
+}
+
 </script>
 
 <template>
@@ -38,8 +59,13 @@ const nodeRef = useFormKitNodeById('Main-form', (node) => {
       }"
     >
       <template #header>
-        <!-- <PTag :value="specimen.collectionId" /> -->
         <div>
+          <div >
+            <UButton  @click="submitHandler">View</UButton>
+            <UButton  @click="submitHandler">Update</UButton>
+            <UButton  @click="submitHandler">Suggest</UButton>
+          </div>
+          <UDivider />
           <div class="flex flex-row">
             {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
           </div>
@@ -49,7 +75,7 @@ const nodeRef = useFormKitNodeById('Main-form', (node) => {
               color="purple"
               variant="solid"
               size="md"
-              :label="`Collection: ${specimen.collectionId}`"
+              :label="`Collection: ${specimen?.collectionId}`"
             />
             <UBadge
               class="flex-grow"
@@ -63,16 +89,19 @@ const nodeRef = useFormKitNodeById('Main-form', (node) => {
         </div>
       </template>
       <SpecimenForm
-        :specimen="props.specimen"
+        :specimen="specimen"
         form-prefix="Main"
       />
       <template #footer>
         <FormKit
           type="submit"
           class="w-full"
+          @click="submitHandler"
         >
           Submit
         </FormKit>
+        <UButton block @click="submitHandler">Button</UButton>
+
       </template>
     </UCard>
   </div>
