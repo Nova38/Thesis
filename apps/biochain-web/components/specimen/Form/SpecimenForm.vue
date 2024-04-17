@@ -2,6 +2,7 @@
 import { titleCase } from 'scule'
 import { type FormKitNode } from '@formkit/core'
 import { useFormKitContext } from '@formkit/vue'
+import { DirtyLabelPlugin } from '#imports'
 
 const specimen = defineModel<PlainSpecimen>('specimen', {
   default: () => MakeEmptySpecimen(),
@@ -28,20 +29,6 @@ const autoId = (node: FormKitNode) => {
   }
 }
 
-const dirtyLabel = (node: FormKitNode) => {
-  if (!node.context) return
-  console.log(node.context)
-  node.context.classes.label = node.context?.state.dirty
-    ? 'text-red-500'
-    : 'text-surface-700 dark:text-surface-0/80'
-  node.on('commit', (v) => {
-    if (node.context?.state.dirty) {
-      node.context.help = '* Modified'
-    }
-    console.log('commit', v)
-  })
-}
-
 // const form = useFormKitContext((node) => {
 //   node.node.on('settled.deep', (v) => {
 //     console.log('settled.deep', v)
@@ -60,7 +47,7 @@ const FormId = computed(() => `${props.formPrefix}-form`)
     #default="{ value }"
     dirty-behavior="compare"
     :actions="false"
-    :plugins="[autoId, dirtyLabel]"
+    :plugins="[autoId, DirtyLabelPlugin]"
     validation-visibility="live"
   >
     <FormKit
@@ -72,6 +59,7 @@ const FormId = computed(() => `${props.formPrefix}-form`)
     <SpecimenFormTaxon />
     <SpecimenFormPrimary />
     <SpecimenFormGeoreference />
+    <SpecimenFormGeoreferenceGrid />
     <SpecimenFormSecondary />
     <SpecimenFormLoans />
     <DevOnly>

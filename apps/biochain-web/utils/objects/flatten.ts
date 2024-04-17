@@ -1,3 +1,5 @@
+import { crush, keys } from 'radash'
+
 // https://decipher.dev/30-seconds-of-typescript/docs/flattenObject/
 export function FlattenObject(obj, prefix = '') {
   return Object.keys(obj).reduce((acc, k) => {
@@ -212,3 +214,29 @@ export function isFlatSpecimenKey(key: string): key is FlatSpecimenKeys {
 }
 
 export type EmptyOrFlatSpecimenKeys = FlatSpecimenKeys | undefined
+
+const s = MakeEmptySpecimen()
+s.collectionId = 'collectionId'
+console.log('s', s)
+const SpecimenKeys = FlattenObject(s)
+
+console.log('SpecimenKeys', SpecimenKeys)
+
+const ra = {
+  name: 'ra',
+  power: 100,
+  friend: {
+    name: 'loki',
+    power: 80,
+  },
+  enemies: [
+    {
+      name: 'hathor',
+      power: 12,
+    },
+  ],
+}
+
+console.log(crush(ra))
+console.log(keys(ra))
+console.log(keys(s.toJson({ emitDefaultValues: true }) as object))

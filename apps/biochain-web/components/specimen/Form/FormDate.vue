@@ -5,6 +5,16 @@ const props = defineProps<{
   name: string
 }>()
 
+const collapsed = defineModel<boolean>('collapsed', { default: true })
+
+const c = ref(false)
+const wrapperClass = computed(() => {
+  return {
+    'grid-col-span-3 col-start-1': c.value,
+    'grid-col-span-1': !c.value,
+  }
+})
+
 const nameAsTitle = computed(() => {
   return titleCase(props.name)
 })
@@ -23,11 +33,23 @@ const formPlug = (node: FormKitNode) => {
 </script>
 
 <template>
-  <div>
+  <div
+    :class="wrapperClass"
+    @click="
+      (e) => {
+        console.log(e)
+      }
+    "
+  >
     <PFieldset
       :legend="nameAsTitle"
       :toggleable="true"
-      collapsed
+      :collapsed
+      @toggle="
+        (e) => {
+          console.log('toggle', e)
+        }
+      "
       class="max-w-fit"
       :pt="{
         root: {

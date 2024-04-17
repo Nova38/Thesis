@@ -48,7 +48,7 @@ export default defineNuxtConfig({
   extends: [['@saacs/ui', { install: true }]],
 
   imports: {
-    dirs: ['composables/cc/**', 'utils/**'],
+    dirs: ['composables/cc/**', 'utils/**', 'utils/formkit/*'],
     presets: [
       {
         from: 'protobuf-es',

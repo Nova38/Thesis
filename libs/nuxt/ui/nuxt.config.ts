@@ -3,9 +3,7 @@ import { resolve, join } from 'pathe'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: [
-    resolve(__dirname, './assets/css/main.css'),
-  ],
+  css: [resolve(__dirname, './assets/css/main.css')],
 
   modules: [
     'nuxt-primevue',
