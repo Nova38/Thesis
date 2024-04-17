@@ -49,8 +49,8 @@ function addPreparation() {
       :toggleable="true"
     >
       <FormKit
-        type="group"
         id="secondary"
+        type="group"
         name="secondary"
       >
         <div class="subGroup">
@@ -77,8 +77,8 @@ function addPreparation() {
         </div>
         <div class="subGroup">
           <FormKit
-            type="select"
             id="sex"
+            type="select"
             name="sex"
             label="Sex"
             outer-class="min-w-20"
@@ -106,8 +106,8 @@ function addPreparation() {
             ]"
           />
           <FormKit
-            type="select"
             id="age"
+            type="select"
             name="age"
             label="Age"
             outer-class="min-w-20"
@@ -160,21 +160,21 @@ function addPreparation() {
         </div>
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
-            type="group"
             id="preparations"
+            v-slot="{ value }"
+            type="group"
             name="preparations"
-            #default="{ value }"
           >
             <template v-for="(v, name) in value">
               <template v-if="typeof name === 'string'">
                 <FormKit
-                  type="group"
                   :id="name"
+                  type="group"
                   :name="name"
                 >
                   <FormKit
-                    type="text"
                     id="verbatim"
+                    type="text"
                     :label="`Preparation #${name}`"
                     name="verbatim"
                     outer-class="min-w-20"

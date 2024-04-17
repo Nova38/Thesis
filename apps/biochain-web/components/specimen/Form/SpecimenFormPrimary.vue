@@ -7,8 +7,8 @@
       :toggleable="true"
     >
       <FormKit
-        type="group"
         id="primary"
+        type="group"
         name="primary"
         :config="{
           classes: {
@@ -64,9 +64,9 @@
 
         <div class="subGroup">
           <FormKit
+            id="determiner"
             type="text"
             name="determiner"
-            id="determiner"
             label="Determiner"
           />
           <FormKit

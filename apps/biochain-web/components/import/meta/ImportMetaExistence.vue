@@ -57,7 +57,10 @@ const severity = computed(() => {
 
 <template>
   <div>
-    <PInlineMessage :severity class="text-nowrap">
+    <PInlineMessage
+      :severity
+      class="text-nowrap"
+    >
       {{ exists }}
     </PInlineMessage>
   </div>

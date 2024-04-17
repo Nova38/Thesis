@@ -495,6 +495,7 @@ onMounted(() => {
             <template #filterclear="data">
               <UButton
                 label="Clear"
+                severity="secondary"
                 @click="
                   async () => {
                     data.filterCallback()
@@ -503,12 +504,12 @@ onMounted(() => {
                     filters[data.field] = data.filterModel
                   }
                 "
-                severity="secondary"
               />
             </template>
             <template #filterapply="data">
               <UButton
                 label="Apply"
+                severity="success"
                 @click="
                   async () => {
                     data.filterCallback()
@@ -517,7 +518,6 @@ onMounted(() => {
                     filters[data.field] = data.filterModel
                   }
                 "
-                severity="success"
               />
             </template>
           </PColumn>

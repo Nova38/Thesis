@@ -40,9 +40,9 @@ function addLoan() {
         @click="addLoan"
       />
       <FormKit
+        v-slot="{ value }"
         type="group"
         name="loans"
-        #default="{ value }"
       >
         <template v-for="(v, name) in value">
           <template v-if="typeof name === 'string'">

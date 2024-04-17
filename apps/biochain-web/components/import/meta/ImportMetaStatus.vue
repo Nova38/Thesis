@@ -32,8 +32,15 @@ const severity = computed(() => {
 
 <template>
   <div>
-    <UPopover :text="meta.statusMessage" mode="hover" :popper="{ arrow: true }">
-      <PInlineMessage :severity class="text-nowrap">
+    <UPopover
+      :text="meta.statusMessage"
+      mode="hover"
+      :popper="{ arrow: true }"
+    >
+      <PInlineMessage
+        :severity
+        class="text-nowrap"
+      >
         {{ meta.status }}
       </PInlineMessage>
 

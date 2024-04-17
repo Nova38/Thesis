@@ -2,7 +2,7 @@ import { diff } from 'ohash'
 import { cluster, get, set } from 'radash'
 // import { ccbio } from 'saacs'
 import { ccbio, type PlainSpecimen } from '#imports'
-import { FieldMask } from '@bufbuild/protobuf'
+import type { FieldMask } from '@bufbuild/protobuf'
 import type { MeterItem } from 'primevue/metergroup'
 export const useBulkStore = defineStore('Bulk', () => {
   const toast = useToast()

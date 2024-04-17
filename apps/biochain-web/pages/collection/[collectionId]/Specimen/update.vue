@@ -331,12 +331,19 @@ function statusToChipColor(status: ProcessingStatus) {
         <p class="font-bold">Bulk Update Specimens</p>
       </QCardSection>
 
-      <ImportCsvFile :headers="headers" :csv="csv" />
+      <ImportCsvFile
+        :headers="headers"
+        :csv="csv"
+      />
 
       <ImportUpdateTableRaw />
 
-      <QCardSection class="flex flex-row items-center gap-2 justify-center">
-        <QTable :hide-bottom="true" :rows="SexOptions" dense />
+      <QCardSection class="flex flex-row items-center justify-center gap-2">
+        <QTable
+          :hide-bottom="true"
+          :rows="SexOptions"
+          dense
+        />
         <QTable
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
@@ -346,10 +353,14 @@ function statusToChipColor(status: ProcessingStatus) {
       </QCardSection>
 
       <UCard>
-        <div class="text-xl font-semibold border-blue-400 border-solid mb-2">
+        <div class="mb-2 border-solid border-blue-400 text-xl font-semibold">
           Current Selected Specimen Values
         </div>
-        <QTable :columns="MappingHeaders" :rows="selectedCurrent" dense />
+        <QTable
+          :columns="MappingHeaders"
+          :rows="selectedCurrent"
+          dense
+        />
       </UCard>
 
       <ImportUpdateTablePreview

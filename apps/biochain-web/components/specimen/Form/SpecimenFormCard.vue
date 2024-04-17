@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FieldMask } from '#imports';
+import type { FieldMask } from '#imports'
 import { useFormKitNodeById } from '@formkit/vue'
 
 const mode = defineModel<FormMode>('mode', {
@@ -9,11 +9,9 @@ const specimen = defineModel<PlainSpecimen>('specimen', {
   default: MakeEmptySpecimen(),
 })
 
-
 const emit = defineEmits<{
-  (e: 'submit', value: {specimen: PlainSpecimen, mode: FormMode}): void
+  (e: 'submit', value: { specimen: PlainSpecimen; mode: FormMode }): void
 }>()
-
 
 const headerColor = computed(() => toModeColor(mode.value))
 
@@ -37,7 +35,6 @@ const nodeRef = useFormKitNodeById('Main-form', (node) => {
   })
 })
 
-
 const submitHandler = () => {
   console.log('submitHandler', specimen.value)
   // emit('submit', {
@@ -45,7 +42,6 @@ const submitHandler = () => {
   //   mode: mode.value,
   // })
 }
-
 </script>
 
 <template>
@@ -60,10 +56,10 @@ const submitHandler = () => {
     >
       <template #header>
         <div>
-          <div >
-            <UButton  @click="submitHandler">View</UButton>
-            <UButton  @click="submitHandler">Update</UButton>
-            <UButton  @click="submitHandler">Suggest</UButton>
+          <div>
+            <UButton @click="submitHandler">View</UButton>
+            <UButton @click="submitHandler">Update</UButton>
+            <UButton @click="submitHandler">Suggest</UButton>
           </div>
           <UDivider />
           <div class="flex flex-row">
@@ -78,11 +74,11 @@ const submitHandler = () => {
               :label="`Collection: ${specimen?.collectionId}`"
             />
             <UBadge
+              v-if="specimen.primary?.catalogNumber"
               class="flex-grow"
               color="red"
               variant="solid"
               size="md"
-              v-if="specimen.primary?.catalogNumber"
               :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
             />
           </div>
@@ -100,8 +96,11 @@ const submitHandler = () => {
         >
           Submit
         </FormKit>
-        <UButton block @click="submitHandler">Button</UButton>
-
+        <UButton
+          block
+          @click="submitHandler"
+          >Button</UButton
+        >
       </template>
     </UCard>
   </div>

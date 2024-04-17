@@ -41,10 +41,10 @@ const FormId = computed(() => `${props.formPrefix}-form`)
 
 <template>
   <FormKit
-    type="form"
     :id="FormId"
+    v-slot="{ value }"
     v-model="specimen"
-    #default="{ value }"
+    type="form"
     dirty-behavior="compare"
     :actions="false"
     :plugins="[autoId, DirtyLabelPlugin]"

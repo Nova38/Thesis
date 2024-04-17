@@ -399,14 +399,22 @@ function statusToChipColor(status: status) {
       </QCardSection>
       <q-card-section>
         <h2>Select CSV file to import from</h2>
-        <q-file v-model="file" accept=".csv" outlined>
+        <q-file
+          v-model="file"
+          accept=".csv"
+          outlined
+        >
           <template #prepend>
             <q-icon name="attach_file" />
           </template>
         </q-file>
       </q-card-section>
-      <QCardSection class="flex flex-row items-center gap-2 justify-center">
-        <QTable :hide-bottom="true" :rows="SexOptions" dense />
+      <QCardSection class="flex flex-row items-center justify-center gap-2">
+        <QTable
+          :hide-bottom="true"
+          :rows="SexOptions"
+          dense
+        />
         <QTable
           :hide-bottom="true"
           :pagination="{ rowsPerPage: 0 }"
@@ -424,7 +432,10 @@ function statusToChipColor(status: status) {
         >
           <template #body-cell-status="props">
             <q-td :props="props">
-              <UPopover :popper="{ adaptive: true }" mode="hover">
+              <UPopover
+                :popper="{ adaptive: true }"
+                mode="hover"
+              >
                 <UBadge
                   :color="statusToChipColor(props.row[props.col.field])"
                   :label="props.row[props.col.field]"
@@ -470,7 +481,11 @@ function statusToChipColor(status: status) {
       <!-- {{ (ageMapping, sexMapping) }} -->
       <q-card-section>
         <div v-if="possessedData">
-          <q-table :columns="MappingHeaders" :rows="possessedData" dense>
+          <q-table
+            :columns="MappingHeaders"
+            :rows="possessedData"
+            dense
+          >
             <template #header-cell="props">
               <q-th :props="props">
                 <div class="">
@@ -484,7 +499,10 @@ function statusToChipColor(status: status) {
                   label-color="teal-10"
                   stack-label
                 >
-                  <template v-if="specimenMapping[props.col.label]" #append>
+                  <template
+                    v-if="specimenMapping[props.col.label]"
+                    #append
+                  >
                     <q-icon
                       class="cursor-pointer"
                       color="red"

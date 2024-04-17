@@ -244,7 +244,11 @@ function statusToChipColor(status: status) {
       </UCard>
       <UCard>
         <h2>Select CSV file to import from</h2>
-        <q-file v-model="file" accept=".csv" outlined>
+        <q-file
+          v-model="file"
+          accept=".csv"
+          outlined
+        >
           <template #prepend>
             <q-icon name="attach_file" />
           </template>
@@ -261,7 +265,10 @@ function statusToChipColor(status: status) {
           >
             <template #body-cell-status="props">
               <q-td :props="props">
-                <UPopover :popper="{ adaptive: true }" mode="hover">
+                <UPopover
+                  :popper="{ adaptive: true }"
+                  mode="hover"
+                >
                   <UBadge
                     :color="statusToChipColor(props.row[props.col.field])"
                     :label="props.row[props.col.field]"
@@ -298,7 +305,10 @@ function statusToChipColor(status: status) {
           </q-table>
         </UCard>
         {{ SexOptions }}
-        <div v-for="(item, index) in SexOptions" :key="index">
+        <div
+          v-for="(item, index) in SexOptions"
+          :key="index"
+        >
           {{ item.label.substring(4) }} : {{ item.mappings }}
         </div>
         <UContainer class="flex flex-row items-center gap-2">
@@ -318,7 +328,7 @@ function statusToChipColor(status: status) {
                     v-model="SexOptions[item.enumValue].mappings"
                     :multiple="true"
                     :options="sexStrings"
-                    class="w-full lg:w-30"
+                    class="lg:w-30 w-full"
                     placeholder="Select strings to map"
                     searchable
                     searchable-placeholder="Select strings to map"
@@ -356,16 +366,18 @@ function statusToChipColor(status: status) {
                     v-model="AgeOptions[item.value.enumValue].value.mappings"
                     :multiple="true"
                     :options="ageStrings"
-                    class="w-full lg:w-30"
+                    class="lg:w-30 w-full"
                     placeholder="Select strings to map"
                     searchable
                     searchable-placeholder="Select strings to map"
                   >
                     <template #label>
                       <div class="">
-                        <span v-if="ageStrings[item.value]" class="truncate">{{
-                          ageMapping[item.value].join(', ')
-                        }}</span>
+                        <span
+                          v-if="ageStrings[item.value]"
+                          class="truncate"
+                          >{{ ageMapping[item.value].join(', ') }}</span
+                        >
                         <span v-else>Select Age Strings</span>
                       </div>
                     </template>
@@ -378,7 +390,11 @@ function statusToChipColor(status: status) {
         </UContainer>
       </UCard>
       <UCard>
-        <q-table :columns="MappingHeaders" :rows="SpecimenFlatList" dense>
+        <q-table
+          :columns="MappingHeaders"
+          :rows="SpecimenFlatList"
+          dense
+        >
           <template #header-cell="props">
             <q-th :props="props">
               <div class="">
@@ -392,7 +408,10 @@ function statusToChipColor(status: status) {
                 label-color="teal-10"
                 stack-label
               >
-                <template v-if="HeaderMapping[props.col.label]" #append>
+                <template
+                  v-if="HeaderMapping[props.col.label]"
+                  #append
+                >
                   <q-icon
                     class="cursor-pointer"
                     color="red"
@@ -407,7 +426,11 @@ function statusToChipColor(status: status) {
             </q-th>
           </template>
         </q-table>
-        <q-table :columns="MappingHeaders" :rows="SpecimenFlatList" dense>
+        <q-table
+          :columns="MappingHeaders"
+          :rows="SpecimenFlatList"
+          dense
+        >
           <template #header-cell="props">
             <q-th :props="props">
               <div class="">
@@ -422,7 +445,10 @@ function statusToChipColor(status: status) {
                 label-color="teal-10"
                 stack-label
               >
-                <template v-if="HeaderMapping[props.col.label]" #append>
+                <template
+                  v-if="HeaderMapping[props.col.label]"
+                  #append
+                >
                   <q-icon
                     class="cursor-pointer"
                     color="red"

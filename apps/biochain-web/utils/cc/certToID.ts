@@ -1,4 +1,4 @@
-import { X509Certificate } from 'crypto'
+import type { X509Certificate } from 'crypto'
 
 export default (cert: X509Certificate) => {
   const formatDN = (dn: string) => {

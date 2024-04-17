@@ -7,57 +7,57 @@
       toggleable
     >
       <FormKit
-        type="group"
         id="Taxon"
+        type="group"
         name="taxon"
       >
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
-            type="text"
             id="kingdom"
+            type="text"
             label="Kingdom"
             name="kingdom"
           />
           <FormKit
-            type="text"
             id="phylum"
+            type="text"
             name="phylum"
             label="Phylum"
           />
           <FormKit
-            type="text"
             id="class"
+            type="text"
             name="class"
             label="Class"
           />
           <FormKit
+            id="order"
             type="text"
             name="order"
-            id="order"
             label="Order"
           />
           <FormKit
+            id="family"
             type="text"
             name="family"
-            id="family"
             label="Family"
           />
           <FormKit
+            id="genus"
             type="text"
             name="genus"
-            id="genus"
             label="Genus"
           />
           <FormKit
+            id="species"
             type="text"
             name="species"
-            id="species"
             label="Species"
           />
           <FormKit
+            id="subspecies"
             type="text"
             name="subspecies"
-            id="subspecies"
             label="SubSpecies"
           />
         </div>

@@ -18,11 +18,10 @@ const isDark = computed({
       variant="ghost"
       aria-label="Theme"
       class="mx-2"
-
       @click="isDark = !isDark"
     />
     <template #fallback>
-      <div class="w-8 h-8" />
+      <div class="h-8 w-8" />
     </template>
   </ClientOnly>
 </template>

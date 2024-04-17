@@ -1,1 +1,1 @@
-export * from "./auth_pb.js"
+export * from './auth_pb.js'

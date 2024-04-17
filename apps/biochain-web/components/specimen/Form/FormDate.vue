@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { titleCase } from 'scule'
 
+import { type FormKitNode } from '@formkit/core'
+
 const props = defineProps<{
   name: string
 }>()
@@ -18,8 +20,6 @@ const wrapperClass = computed(() => {
 const nameAsTitle = computed(() => {
   return titleCase(props.name)
 })
-
-import { type FormKitNode } from '@formkit/core'
 
 const formPlug = (node: FormKitNode) => {
   if (!node.props.id) return
@@ -45,11 +45,6 @@ const formPlug = (node: FormKitNode) => {
       :legend="nameAsTitle"
       :toggleable="true"
       :collapsed
-      @toggle="
-        (e) => {
-          console.log('toggle', e)
-        }
-      "
       class="max-w-fit"
       :pt="{
         root: {
@@ -69,17 +64,22 @@ const formPlug = (node: FormKitNode) => {
           ],
         },
       }"
+      @toggle="
+        (e) => {
+          console.log('toggle', e)
+        }
+      "
     >
       <FormKit
-        type="group"
         :id="props.name"
+        type="group"
         :name="props.name"
         :plugins="[formPlug]"
       >
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
-            type="text"
             id="verbatim"
+            type="text"
             outer-class="min-w-20"
           />
           <!-- <FormKit
@@ -91,32 +91,32 @@ const formPlug = (node: FormKitNode) => {
           /> -->
 
           <FormKit
+            id="timestamp"
             type="text"
             name="timestamp"
-            id="timestamp"
             label="timestamp"
             outer-class="min-w-20"
           />
           <FormKit
+            id="year"
             type="number"
             name="year"
-            id="year"
             number
             label="year"
             outer-class="min-w-20"
           />
           <FormKit
+            id="month"
             type="text"
             name="month"
-            id="month"
             label="month"
             outer-class="min-w-20"
           />
           <FormKit
+            id="day"
             type="number"
             name="day"
             number
-            id="day"
             label="day"
             outer-class="min-w-20"
           />

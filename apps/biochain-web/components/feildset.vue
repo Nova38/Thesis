@@ -1,27 +1,33 @@
 <script lang="ts" setup>
-
 const shown = ref(true)
 const dropdown = ref() // we need a DOM node
-
 </script>
 
 <template>
   <div>
-    <fieldset class="border border-gray-300 rounded p-4 relative" v-auto-animate>
-    <legend class="text-sm text-gray-700 px-2 bg-white absolute top-0 left-2 -mt-2" @click="()=>{shown = !shown}">
-      hi this is a legend
-    </legend>
-    <div v-if="shown">
-          <FormKit
-      type="text"
-      name="weightUnits"
-      label="Weight Units"
-    />
-    </div>
-  </fieldset>
+    <fieldset
+      v-auto-animate
+      class="relative rounded border border-gray-300 p-4"
+    >
+      <legend
+        class="absolute left-2 top-0 -mt-2 bg-white px-2 text-sm text-gray-700"
+        @click="
+          () => {
+            shown = !shown
+          }
+        "
+      >
+        hi this is a legend
+      </legend>
+      <div v-if="shown">
+        <FormKit
+          type="text"
+          name="weightUnits"
+          label="Weight Units"
+        />
+      </div>
+    </fieldset>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

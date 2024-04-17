@@ -70,8 +70,8 @@ onMounted(() => {
       striped-rows
       size="small"
       scrollable
-      scrollHeight="800px"
-      :virtualScrollerOptions="{ itemSize: 46 }"
+      scroll-height="800px"
+      :virtual-scroller-options="{ itemSize: 46 }"
     >
       <PColumnGroup type="header">
         <PRow>

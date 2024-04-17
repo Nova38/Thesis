@@ -54,7 +54,6 @@ const getCurrent = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/get`, {
       dirty.value.primary.determinedDate ??= new ccbio.Date()
     }
 
-
     cur.value = ccbio.Specimen.fromJson(response._data)
     console.log(keys(response._data))
     console.log(dirty.value)
@@ -103,7 +102,10 @@ const modeColor = computed(() => toModeColor(mode.value))
 
 // const history = await useGetSpecimenHistory();
 
-async function submitHandler(value: {specimen: PlainSpecimen, mode: FormMode})  {
+async function submitHandler(value: {
+  specimen: PlainSpecimen
+  mode: FormMode
+}) {
   const oldMode = mode.value
   try {
     mode.value = 'view'
@@ -145,7 +147,7 @@ async function submitHandler(value: {specimen: PlainSpecimen, mode: FormMode})  
           :specimen="dirty"
           :mode="mode"
           @submit="submitHandler"
-          />
+        />
       </div>
     </div>
 

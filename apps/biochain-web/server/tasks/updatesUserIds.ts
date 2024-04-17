@@ -1,5 +1,5 @@
 import certToID from '~/utils/cc/certToID'
-import { User } from '../utils/db'
+import type { User } from '../utils/db'
 import { X509Certificate } from 'crypto'
 
 export default defineTask({
