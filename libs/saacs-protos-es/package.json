@@ -21,7 +21,7 @@
     "build"
   ],
   "scripts": {
-    "build": "pnpm unbuild",
+    "build": "unbuild",
     "api": "ts-node ./src/api/main.ts",
     "csv": "ts-node ./src/api/specimens.ts",
     "remote": "ts-node ./src/api/main-remote.ts",
@@ -56,5 +56,5 @@
     "radash": "^12.1.0",
     "zod": "^3.22.4"
   },
-  "packageManager": "pnpm@8.15.7"
+  "packageManager": "pnpm@9.0.1"
 }

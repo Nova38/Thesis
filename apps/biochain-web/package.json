@@ -84,5 +84,9 @@
     "typescript": "^5.4.5",
     "vite-plugin-vue-devtools": "^7.0.27",
     "vitest": "^1.5.0"
-  }
+  },
+  "trustedDependencies": [
+    "@saacs/ui",
+    "protobufjs"
+  ]
 }

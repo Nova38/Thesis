@@ -1,5 +1,12 @@
 <script lang="ts" setup>
+import { crush,keys } from 'radash';
+
 const bulk = useBulkStore()
+
+
+const SpecimenKeys = keys(MakeEmptySpecimen())
+
+console.log('SpecimenKeys', SpecimenKeys)
 
 const MappingOptions = ref<
   {

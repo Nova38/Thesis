@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  debug: true,
+  // debug: true,
 
   devServer: {
     // https: true,
@@ -71,13 +71,7 @@ export default defineNuxtConfig({
 
   jsoneditor: {
     componentName: 'JsonEditor',
-    options: {
-      /**
-       *
-       * SET GLOBAL OPTIONS
-       *
-       * */
-    },
+    options: {},
   },
 
   modules: [
@@ -110,7 +104,6 @@ export default defineNuxtConfig({
       tasks: true,
       typescriptBundlerResolution: true,
       openAPI: true,
-      // asyncContext: true,
       database: true,
     },
     imports: {
