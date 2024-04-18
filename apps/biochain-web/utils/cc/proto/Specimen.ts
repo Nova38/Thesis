@@ -1,6 +1,6 @@
 import { Timestamp } from '@bufbuild/protobuf'
 import z from 'zod'
-import { ccbio } from '@/lib/pb'
+import { ccbio } from '#imports'
 
 export function MakeEmptySpecimen() {
   return new ccbio.Specimen({
@@ -23,14 +23,14 @@ export function MakeEmptySpecimen() {
   })
 }
 
-const SexOptions = [
+const _SexOptions = [
   { label: 'SEX_UNKNOWN', value: 1 },
   { label: 'SEX_ATYPICAL', value: 2 },
   { label: 'SEX_MALE', value: 3 },
   { label: 'SEX_FEMALE', value: 4 },
 ] as const
 
-const AgeOptions = [
+const _AgeOptions = [
   { label: 'AGE_UNKNOWN', value: 1 },
   { label: 'AGE_NEST', value: 2 },
   { label: 'AGE_EMBRYO_EGG', value: 3 },

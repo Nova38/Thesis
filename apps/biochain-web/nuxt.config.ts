@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  // debug: true,
+  debug: true,
 
   devServer: {
     // https: true,
@@ -107,8 +107,13 @@ export default defineNuxtConfig({
       database: true,
     },
     imports: {
-      dirs: ['lib/pb/*'],
       mergeExisting: true,
+      presets: [
+        {
+          from: '@saacs/saacs-pb',
+          imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
+        },
+      ],
       // presets: [
       //   {
       //     from: './lib/pb/index.ts',
