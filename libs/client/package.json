@@ -29,6 +29,8 @@
     "build"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "api": "ts-node ./src/api/main.ts",
     "build": "unbuild",
     "csv": "jiti ./src/api/specimens.ts",

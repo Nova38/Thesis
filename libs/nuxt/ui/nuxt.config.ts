@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-shiki',
     'nuxt-build-cache',
+    "@nuxt/eslint"
   ],
 
   tailwindcss: {

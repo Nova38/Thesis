@@ -167,11 +167,11 @@
     "yaml",
     "toml"
   ],
-  "eslint.workingDirectories": [
-    "./libs/client",
-    "./libs/nuxt/ui",
-    "./apps/biochain-web"
-  ],
+  // "eslint.workingDirectories": [
+  //   "./libs/client",
+  //   "./libs/nuxt/ui",
+  //   "./apps/biochain-web"
+  // ],
   // "eslint.workingDirectories": [
   //   {
   //     "mode": "auto"

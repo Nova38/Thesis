@@ -1,5 +1,5 @@
 {
-  "description": "",
+  "description": "describe",
   "version": "1.0.0",
   "author": "Thomas Atkins",
   "dependencies": {
@@ -45,5 +45,6 @@
     "libs/nuxt/*",
     "cmd/*",
     "apps/*"
-  ]
+  ],
+  "packageManager": "pnpm@9.0.1"
 }

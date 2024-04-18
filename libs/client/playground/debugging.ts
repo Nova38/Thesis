@@ -5,16 +5,17 @@
 // Since the Fabric debugger network does not use TLS, Peer TLS certificate path and Peer SSL Hostname override are not required.
 // In addition, ensure that you create the GRPC connection without TLS. In node.js, something like the below will work:
 
-import { resolve, join } from 'pathe'
-import { promises as fs } from 'fs'
-import * as crypto from 'crypto'
+import { promises as fs } from 'node:fs'
+import * as crypto from 'node:crypto'
+import { join } from 'pathe'
 import * as grpc from '@grpc/grpc-js'
 
-import {
-  connect,
-  Contract,
+import type {
   Identity,
   Signer,
+} from '@hyperledger/fabric-gateway'
+import {
+  connect,
   signers,
 } from '@hyperledger/fabric-gateway'
 import { createBiochainGateway } from '../src/fabric/client'
@@ -36,7 +37,7 @@ const OrgUsersDir = join(
   'users',
 )
 
-type UserCrypto = { signer: Signer; identity: Identity }
+interface UserCrypto { signer: Signer, identity: Identity }
 const mspId = 'Org1MSP'
 const peerEndpoint = 'localhost:5051'
 const OrgUsers = await fs.readdir(OrgUsersDir)
