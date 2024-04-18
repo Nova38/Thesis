@@ -22,9 +22,9 @@
     "@hyperledger/caliper-core": "0.5.1-unstable-20240403171520",
     "@hyperledger/caliper-fabric": "0.5.1-unstable-20240403171520",
     "@hyperledger/fabric-gateway": "^1.5.1",
+    "@saacs/saacs-pb": "workspace:^",
     "@tsconfig/node18": "^18.2.4",
-    "jiti": "^1.21.0",
-    "@saacs/saacs-pb": "workspace:^"
+    "jiti": "^1.21.0"
   },
   "devDependencies": {
     "esbuild": "0.19.7",

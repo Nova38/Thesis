@@ -6,6 +6,7 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.8.0",
     "@bufbuild/protoplugin": "^1.8.0",
+    "knitwork": "^1.1.0",
     "pathe": "^1.1.2"
   },
   "devDependencies": {

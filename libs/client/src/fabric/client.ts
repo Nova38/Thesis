@@ -6,7 +6,7 @@ import {
   type PartialMessage,
   type ServiceType,
 } from '@bufbuild/protobuf'
-import { common } from '@saacs/saacs-pb'
+import { common } from '@saacs/saacs-pb/'
 import type { Contract } from '@hyperledger/fabric-gateway'
 
 // based on connect promise client
@@ -22,9 +22,8 @@ export type GatewayClient<T extends ServiceType> = {
 export type BiochainGateway = GatewayClient<
   typeof common.generic.GenericService
 >
-
-export function createBiochainGateway(contract: Contract) {
-  return createPromiseClient(common.generic.GenericService, contract)
+export function createBiochainGateway(contract: Contract): GatewayClient<typeof common.generic.GenericService> {
+  return createPromiseClient<typeof common.generic.GenericService>(common.generic.GenericService, contract)
 }
 
 /**

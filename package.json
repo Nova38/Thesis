@@ -4,11 +4,11 @@
   "author": "Thomas Atkins",
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@iconify/json": "2.2.192",
+    "@iconify/json": "^2.2.202",
     "@parcel/watcher": "^2.4.1",
     "@sinclair/typebox": "^0.32.20",
     "happy-dom": "^14.7.1",
-    "primevue": "3.50.0"
+    "primevue": "^3.51.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.15.0",
@@ -18,8 +18,8 @@
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "@vitest/ui": "^1.5.0",
-    "eslint": "^8.57.0",
-    "prettier": "3.2.5",
+    "eslint": "^9.0.0",
+    "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "quokka-plugin-subdir": "^0.1.0",
     "syncpack": "^12.3.0",
@@ -32,12 +32,13 @@
   "license": "ISC",
   "scripts": {
     "bio": "pnpm --filter biochain-nuxt",
-    "build": "pnpm proto-es && pnpm --filter @saacs/client build && pnpm --filter biochain-nuxt build",
+    "build": "pnpm build:proto-es && pnpm build:client",
     "build:proto-es": "pnpm --filter @saacs/saacs-pb build",
     "build:client": "pnpm --filter @saacs/client build",
     "dev": "pnpm --filter biochain-nuxt dev",
     "nuxt:install": "pnpm -r --filter !caliper  install ",
-    "test": "vitest --ui"
+    "test": "vitest --ui",
+    "postinstall": "syncpack fix-mismatches"
   },
   "type": "module",
   "workspaces": [
@@ -46,5 +47,5 @@
     "cmd/*",
     "apps/*"
   ],
-  "packageManager": "pnpm@9.0.1"
+  "packageManager": "pnpm@9.0.2"
 }
