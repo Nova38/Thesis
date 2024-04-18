@@ -31,7 +31,9 @@ export function generateIndex(schema: Schema) {
         }
 
         if (file.services.length > 0) {
+
             f.print(`export * from "./${base}_pb_gateway.js"`);
+            f.print(`export * from "./${base}_connect.js"`);
         }
     }
 

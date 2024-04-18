@@ -9,6 +9,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./gen": {
+      "types": "./dist/gen/*.d.ts",
+      "import": "./dist/gen/*.mjs",
+      "require": "./dist/gen/*.cjs"
     }
   },
   "directories": {
@@ -29,7 +34,8 @@
     "dev": "vitest dev",
     "play": "jiti playground",
     "prepack": "pnpm run build",
-    "stub": "pnpm unbuild --stub"
+    "stub": "pnpm unbuild --stub",
+    "postinstall": "pnpm run build"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -40,7 +46,7 @@
     "jiti": "^1.21.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
-    "unbuild": "^2.0.0",
+    "unbuild": "3.0.0-rc.1",
     "vitest": "^1.5.0"
   },
   "dependencies": {

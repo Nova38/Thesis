@@ -15,7 +15,7 @@
       "additionalProperties": {
         "$ref": "auth.RoleIDList.schema.json"
       },
-      "description": "The roles that the user has in the collection\n key is the collection id\n value is the list of rolesIds",
+      "description": "The roles that the user has in the collection\r\n key is the collection id\r\n value is the list of rolesIds",
       "propertyNames": {
         "type": "string"
       },
