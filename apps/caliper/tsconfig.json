@@ -1,0 +1,21 @@
+// {
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "*.ts",
+    "t.mts",
+    "t.mts"
+  ],
+}
+//     "extends": "@tsconfig/node18/tsconfig.json",
+//     "compilerOptions": {
+//         /* Visit https://aka.ms/tsconfig to read more about this file */
+//         "outDir": "./dist", // Specify the output directory for emitted files
+//         "moduleResolution": "node",
+//         "module": "commonjs",
+//         "allowJs": true,
+//         "noImplicitAny": false
+//     }
+// }
