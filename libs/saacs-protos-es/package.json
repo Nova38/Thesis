@@ -1,54 +1,7 @@
 {
   "name": "@saacs/saacs-pb",
-  "version": "0.0.0",
   "description": "",
-  "sideEffects": false,
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    },
-    "./gen": {
-      "types": "./dist/gen/*.d.ts",
-      "import": "./dist/gen/*.mjs",
-      "require": "./dist/gen/*.cjs"
-    }
-  },
-  "directories": {
-    "lib": "src/gen"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "build"
-  ],
-  "scripts": {
-    "build": "unbuild",
-    "api": "ts-node ./src/api/main.ts",
-    "csv": "ts-node ./src/api/specimens.ts",
-    "remote": "ts-node ./src/api/main-remote.ts",
-    "csv-remote": "ts-node ./src/api/specimens-remote.ts",
-    "dev": "vitest dev",
-    "play": "jiti playground",
-    "prepack": "pnpm run build",
-    "stub": "pnpm unbuild --stub",
-    "postinstall": "pnpm run build"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "@tsconfig/node21": "^21.0.3",
-    "@types/node": "^20.12.7",
-    "@vitest/coverage-v8": "^1.5.0",
-    "eslint": "^9.0.0",
-    "jiti": "^1.21.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.5",
-    "unbuild": "3.0.0-rc.1",
-    "vitest": "^1.5.0"
-  },
+  "version": "0.0.0",
   "dependencies": {
     "@bufbuild/protobuf": "^1.8.0",
     "@bufbuild/protoplugin": "^1.8.0",
@@ -62,5 +15,52 @@
     "radash": "^12.1.0",
     "zod": "^3.22.4"
   },
-  "packageManager": "pnpm@9.0.1"
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@tsconfig/node21": "^21.0.3",
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "^1.5.0",
+    "eslint": "^8.57.0",
+    "jiti": "^1.21.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "unbuild": "3.0.0-rc.1",
+    "vitest": "^1.5.0"
+  },
+  "directories": {
+    "lib": "src/gen"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./gen": {
+      "types": "./dist/gen/*.d.ts",
+      "import": "./dist/gen/*.mjs",
+      "require": "./dist/gen/*.cjs"
+    }
+  },
+  "files": [
+    "build"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "packageManager": "pnpm@9.0.1",
+  "scripts": {
+    "api": "ts-node ./src/api/main.ts",
+    "build": "unbuild",
+    "csv": "ts-node ./src/api/specimens.ts",
+    "csv-remote": "ts-node ./src/api/specimens-remote.ts",
+    "dev": "vitest dev",
+    "play": "jiti playground",
+    "postinstall": "pnpm run build",
+    "prepack": "pnpm run build",
+    "remote": "ts-node ./src/api/main-remote.ts",
+    "stub": "pnpm unbuild --stub"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./dist/index.d.ts"
 }

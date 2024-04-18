@@ -3,6 +3,7 @@ import { type PlainSpecimen, ccbio } from '#imports'
 import { Timestamp, createRegistry } from '@bufbuild/protobuf'
 import { keys } from 'radash'
 import { useFormKitNodeById } from '@formkit/vue'
+import SpecimenEditCard from '~/components/specimen/SpecimenEditCard.vue'
 
 // import { ccbio } from 'saacs'
 const route = useRoute()
@@ -12,12 +13,15 @@ const dirty = ref<PlainSpecimen>()
 const cur = ref(MakeEmptySpecimen())
 const history = ref(new ccbio.SpecimenHistory())
 
-const spec = useNuxtData(
+const id = useNuxtData<{ specimenId: string; collectionId: string }>(
   makeSpecimenKey(
     route.params?.collectionId.toString(),
     route.params?.specimenId.toString(),
   ),
 )
+
+const specimenId = computed(() => route.params?.specimenId.toString() ?? '')
+const collectionId = computed(() => route.params?.collectionId.toString() ?? '')
 
 const modeCapitalized = computed(
   () => mode.value[0].toUpperCase() + mode.value.slice(1),
@@ -143,8 +147,10 @@ async function submitHandler(value: {
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
       <div v-if="dirty">
-        <SpecimenFormCard
+        <SpecimenEditCard
           :specimen="dirty"
+          :specimenId
+          :collectionId
           :mode="mode"
           @submit="submitHandler"
         />

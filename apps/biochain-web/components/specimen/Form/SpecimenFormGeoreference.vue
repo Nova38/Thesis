@@ -11,19 +11,26 @@
         type="group"
         name="georeference"
       >
-        <div class="inline-flex flex-wrap gap-2">
+        <div
+          class="grid grid-cols-1 content-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
+        >
           <FormKit
             id="continent"
             type="text"
             name="continent"
             label="Continent"
-            outer-class="min-w-20"
+            outer-class="grid-col-span-3 min-w-20"
+            :wrapper-class="{
+              non: true,
+            }"
           />
+
           <FormKit
             id="country"
             type="text"
             name="country"
             label="Country"
+            class="grid-col-span-3"
             outer-class="min-w-20"
           />
           <FormKit
@@ -31,33 +38,32 @@
             type="text"
             name="stateProvince"
             label="State Province"
-            outer-class="min-w-20"
+            outer-class="grid-col-span-3 min-w-20"
           />
           <FormKit
             id="county"
             type="text"
             name="county"
             label="County"
-            outer-class="min-w-20"
+            outer-class="grid-col-span-3 min-w-20"
           />
           <FormKit
             id="habitat"
             type="text"
             name="habitat"
             label="Habitat"
-            outer-class="min-w-20"
+            outer-class="grid-col-span-3 min-w-20"
           />
           <FormKit
             id="locality"
             type="text"
             name="locality"
             label="Locality"
-            outer-class="min-w-20"
+            outer-class="grid-col-span-3 min-w-20"
           />
-        </div>
 
-        <UDivider />
-        <div class="inline-flex flex-wrap gap-2">
+          <UDivider class="col-span-full col-start-1" />
+
           <FormKit
             type="number"
             step="any"
@@ -83,10 +89,9 @@
             label="Coordinate Uncertainty In Meters"
             outer-class="min-w-20"
           />
-        </div>
-        <UDivider />
 
-        <div class="inline-flex flex-wrap gap-2">
+          <UDivider class="col-span-full col-start-1" />
+
           <FormKit
             id="georeferenceBy"
             type="text"
@@ -100,34 +105,36 @@
             type="text"
             name="geodeticDatum"
             label="Geodetic Datum"
+            auto-height
             outer-class="min-w-20"
           />
           <FormKit
             id="georeferenceProtocol"
-            type="text"
+            type="textarea"
             name="georeferenceProtocol"
             label="Georeference Protocol"
-            outer-class="min-w-20"
+            outer-class="min-w-50"
           />
-        </div>
 
-        <SpecimenFormDate name="georeferenceDate" />
+          <SpecimenFormDate name="georeferenceDate" />
 
-        <UDivider class="py-2" />
+          <UDivider class="col-span-full col-start-1" />
 
-        <div class="inline-flex w-full flex-wrap gap-2">
           <FormKit
             type="textarea"
+            auto-height
             name="georeferenceRemarks"
             label="Georeference Remarks"
           />
 
           <FormKit
             type="textarea"
+            auto-height
             name="footprintWkt"
             label="Footprint Well Known Type"
           />
           <FormKit
+            auto-height
             type="textarea"
             name="notes"
             label="Notes"

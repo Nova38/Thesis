@@ -1,21 +1,21 @@
 {
-    "name": "@thesis/protoc-gen-es-saacs",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@bufbuild/protobuf": "^1.8.0",
-        "@bufbuild/protoplugin": "^1.8.0",
-        "pathe": "^1.1.2"
-    },
-    "devDependencies": {
-        "@types/node": "^20.12.7",
-        "typescript": "^5.4.5"
-    }
+  "name": "@thesis/protoc-gen-es-saacs",
+  "description": "",
+  "version": "1.0.0",
+  "author": "",
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protoplugin": "^1.8.0",
+    "pathe": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

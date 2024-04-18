@@ -1,21 +1,5 @@
 {
   "name": "biochain-nuxt",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "test": "vitest --ui ",
-    "preview": "nuxt preview --dot-env=.env.prod",
-    "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "lint:view": "eslint-flat-config-viewer",
-    "build:prod": "nuxi build --dot-env=.env.prod",
-    "build:prod-static": "nuxi generate --dot-env=.env.prod",
-    "update:theme": "pnpm dlx formkit theme"
-  },
   "dependencies": {
     "@bufbuild/protobuf": "^1.8.0",
     "@formkit/addons": "^1.6.2",
@@ -86,8 +70,24 @@
     "vite-plugin-vue-devtools": "^7.0.27",
     "vitest": "^1.5.0"
   },
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "build:prod": "nuxi build --dot-env=.env.prod",
+    "build:prod-static": "nuxi generate --dot-env=.env.prod",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "lint:view": "eslint-flat-config-viewer",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview --dot-env=.env.prod",
+    "test": "vitest --ui ",
+    "update:theme": "pnpm dlx formkit theme"
+  },
   "trustedDependencies": [
     "@saacs/ui",
     "protobufjs"
-  ]
+  ],
+  "type": "module"
 }

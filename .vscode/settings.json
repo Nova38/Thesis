@@ -1,263 +1,277 @@
 {
-    // Disable the default formatter, use eslint instead
-    // "editor.formatOnSave": false,
-    "[typescript][vue]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": "explicit"
-        },
-        "editor.formatOnSave": true
-    },
-    "[vue]": {
-        "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": "always"
-        },
-        // "editor.formatOnSave": false,
-        "prettier.enable": true
-    },
-    "conventionalCommits.scopes": [
-        "proto"
-    ],
-    "cSpell.enabled": true,
-    "cSpell.enableFiletypes": [
-        "!json",
-        "!yaml",
-        "proto3"
-    ],
-    "cSpell.ignorePaths": [
-        "package-lock.json",
-        "node_modules",
-        "vscode-extension",
-        ".git/objects",
-        ".vscode",
-        ".vscode-insiders",
-        "presets"
-    ],
-    // Add to VS Code settings.js file
-    "cSpell.languageSettings": [
-        // GoLang settings
-        {
-            // Turn off compound words, because it is only checking strings.
-            "allowCompoundWords": false,
-            // Exclude imports, because they are also strings.
-            "ignoreRegExpList": [
-                // ignore mulltiline imports
-                "import\\s*\\((.|[\r\n])*?\\)",
-                // ignore single line imports
-                "import\\s*.*\".*?\"",
-                // ignore go generate directive
-                "//\\s*go:generate.*",
-                // ignore nolint directive
-                "//\\s*nolint:.*"
-            ],
-            // Only check comments and strings
-            "includeRegExpList": [
-                "CStyleComment",
-                "string"
-            ],
-            "languageId": "go"
-        }
-    ],
-    "cSpell.words": [
-        "ABAC",
-        "anypb",
-        "authpb",
-        "autogrow",
-        "cckey",
-        "connectrpc",
-        "contractapi",
-        "defu",
-        "descriptorpb",
-        "formkit",
-        "golines",
-        "gridlines",
-        "heroicons",
-        "iconify",
-        "jiti",
-        "jsoneditor",
-        "noauth",
-        "nuxtjs",
-        "ofetch",
-        "oneof",
-        "pathe",
-        "pdfauthor",
-        "pdfsubject",
-        "primevue",
-        "protogen",
-        "protoplugin",
-        "protoreflect",
-        "protos",
-        "radash",
-        "saacs",
-        "segmentio",
-        "Sfixed",
-        "spydra",
-        "SUBADULT",
-        "tailwindcss",
-        "toggleable",
-        "urlcolor"
-    ],
-    // Auto fix
+  // Disable the default formatter, use eslint instead
+  // "editor.formatOnSave": false,
+  "[typescript][vue]": {
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit",
-        "source.organizeImports": "never"
+      "source.fixAll.eslint": "explicit"
     },
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
-    "editor.minimap.enabled": false,
-    "editor.quickSuggestions": {
-        "strings": true
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
     },
-    "eslint.experimental.useFlatConfig": true,
-    "eslint.format.enable": true,
-    "eslint.lintTask.enable": true,
-    // Silent the stylistic rules in you IDE, but still auto fix them
-    "eslint.rules.customizations": [
-        {
-            "rule": "prettier/*",
-            "severity": "off"
-        },
-        {
-            "rule": "format/*",
-            "severity": "off"
-        },
-        {
-            "rule": "*-indent",
-            "severity": "off"
-        },
-        {
-            "rule": "*-spacing",
-            "severity": "off"
-        },
-        {
-            "rule": "*-spaces",
-            "severity": "off"
-        },
-        {
-            "rule": "*-order",
-            "severity": "off"
-        },
-        {
-            "rule": "*-dangle",
-            "severity": "off"
-        },
-        {
-            "rule": "*-newline",
-            "severity": "off"
-        },
-        {
-            "rule": "*quotes",
-            "severity": "off"
-        },
-        {
-            "rule": "*semi",
-            "severity": "off"
-        }
-    ],
-    // Enable eslint for all supported languages
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "vue",
-        "html",
-        "markdown",
-        "json",
-        "jsonc",
-        "yaml",
-        "toml"
-    ],
-    "eslint.workingDirectories": [
-        "./pkg/web/biochain"
-    ],
-    "explorerExclude.backup": {},
-    "files.associations": {
-        "*.css": "tailwindcss"
+    // "editor.formatOnSave": false,
+    "prettier.enable": true
+  },
+  "conventionalCommits.scopes": [
+    "proto"
+  ],
+  "cSpell.enabled": true,
+  "cSpell.enableFiletypes": [
+    "!json",
+    "!yaml",
+    "proto3"
+  ],
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "presets"
+  ],
+  // Add to VS Code settings.js file
+  "cSpell.languageSettings": [
+    // GoLang settings
+    {
+      // Turn off compound words, because it is only checking strings.
+      "allowCompoundWords": false,
+      // Exclude imports, because they are also strings.
+      "ignoreRegExpList": [
+        // ignore mulltiline imports
+        "import\\s*\\((.|[\r\n])*?\\)",
+        // ignore single line imports
+        "import\\s*.*\".*?\"",
+        // ignore go generate directive
+        "//\\s*go:generate.*",
+        // ignore nolint directive
+        "//\\s*nolint:.*"
+      ],
+      // Only check comments and strings
+      "includeRegExpList": [
+        "CStyleComment",
+        "string"
+      ],
+      "languageId": "go"
+    }
+  ],
+  "cSpell.words": [
+    "ABAC",
+    "anypb",
+    "authpb",
+    "autogrow",
+    "cckey",
+    "connectrpc",
+    "contractapi",
+    "defu",
+    "descriptorpb",
+    "formkit",
+    "golines",
+    "gridlines",
+    "heroicons",
+    "iconify",
+    "jiti",
+    "jsoneditor",
+    "noauth",
+    "nuxtjs",
+    "ofetch",
+    "oneof",
+    "pathe",
+    "pdfauthor",
+    "pdfsubject",
+    "primevue",
+    "protogen",
+    "protoplugin",
+    "protoreflect",
+    "protos",
+    "radash",
+    "saacs",
+    "segmentio",
+    "Sfixed",
+    "spydra",
+    "SUBADULT",
+    "tailwindcss",
+    "toggleable",
+    "urlcolor"
+  ],
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "eslint.experimental.useFlatConfig": false,
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    {
+      "rule": "prettier/*",
+      "severity": "off"
     },
-    "files.exclude": {
-        "**/.DS_Store": true,
-        "**/.git": true,
-        "**/.hg": true,
-        "**/.idea": true,
-        "**/.svn": true,
-        "**/.task": true,
-        "**/CVS": true,
-        "**/Thumbs.db": true,
-        ".task/*.*": true
+    {
+      "rule": "format/*",
+      "severity": "off"
     },
-    "json.schemas": [
-        {
-            "fileMatch": [
-                "*.specimen.json"
-            ],
-            "url": "./gen/json_schema/Specimen.json"
-            // "url": "./gen/schema.json"
-        }
-        // {
-        //     "fileMatch": [
-        //         "*.fabric"
-        //     ],
-        //     // "url": "./gen/schema.json"
-        // }
-    ],
-    "nuxtr.defaultPackageManager": "pnpm",
-    "nuxtr.monorepoMode.DirectoryName": "apps/biochain-web",
-    "nuxtr.openItemsAfterCreation": true,
-    // "prettier.enable": false,
-    "protoc": {
-        "options": [
-            "--proto_path=${workspaceFolder}",
-            "--proto_path=${userHome}/.cache/buf/v1/module/data/"
-        ]
+    {
+      "rule": "*-indent",
+      "severity": "off"
     },
-    "spellright.documentTypes": [
-        "markdown",
-        "latex",
-        "plaintext",
-        "Log",
-        "go"
-    ],
-    "spellright.language": [
-        "en"
-    ],
-    "spellright.parserByClass": {
-        "Log": {
-            "parser": "code"
-        }
+    {
+      "rule": "*-spacing",
+      "severity": "off"
     },
-    "tailwindCSS.classAttributes": [
-        "class",
-        "className",
-        "ngClass",
-        "ui",
-        "pt"
+    {
+      "rule": "*-spaces",
+      "severity": "off"
+    },
+    {
+      "rule": "*-order",
+      "severity": "off"
+    },
+    {
+      "rule": "*-dangle",
+      "severity": "off"
+    },
+    {
+      "rule": "*-newline",
+      "severity": "off"
+    },
+    {
+      "rule": "*quotes",
+      "severity": "off"
+    },
+    {
+      "rule": "*semi",
+      "severity": "off"
+    }
+  ],
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml"
+  ],
+  "eslint.workingDirectories": [
+    "./libs/client",
+    "./libs/nuxt/ui",
+    "./apps/biochain-web"
+  ],
+  // "eslint.workingDirectories": [
+  //   {
+  //     "mode": "auto"
+  //   }
+  // ],
+  "explorerExclude.backup": {},
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.idea": true,
+    "**/.svn": true,
+    "**/.task": true,
+    "**/CVS": true,
+    "**/Thumbs.db": true,
+    ".task/*.*": true
+  },
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "*.specimen.json"
+      ],
+      "url": "./gen/json_schema/Specimen.json"
+      // "url": "./gen/schema.json"
+    }
+    // {
+    //     "fileMatch": [
+    //         "*.fabric"
+    //     ],
+    //     // "url": "./gen/schema.json"
+    // }
+  ],
+  "nuxtr.defaultPackageManager": "pnpm",
+  "nuxtr.monorepoMode.DirectoryName": "apps/biochain-web",
+  "nuxtr.openItemsAfterCreation": true,
+  // "prettier.enable": false,
+  "protoc": {
+    "options": [
+      "--proto_path=${workspaceFolder}",
+      "--proto_path=${userHome}/.cache/buf/v1/module/data/"
+    ]
+  },
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "Log",
+    "go"
+  ],
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.parserByClass": {
+    "Log": {
+      "parser": "code"
+    }
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "classes",
+    "className",
+    "ngClass",
+    "ui",
+    "pt"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "class\\s*=\\s*\"([^\"]*)",
+      "/class:*'([^']+)"
     ],
-    "tailwindCSS.experimental.classRegex": [
-        [
-            "class\\s*=\\s*\"([^\"]*)",
-            "/class:*'([^']+)"
-        ],
-        [
-            "ui:\\s*{([^)]*)\\s*}",
-            "[\"'`]([^\"'`]*).*?[\"'`]"
-        ],
-        [
-            "pt:\\s*{([^)]*)\\s*}",
-            "[\"'`]([^\"'`]*).*?[\"'`]"
-        ],
-        [
-            "/\\*ui\\*/\\s*{([^;]*)}",
-            ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
-        ]
+    [
+      "ui:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
     ],
-    "todo-tree.general.showActivityBarBadge": true,
-    // Add to VS Code settings.js file
-    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
-    "todo-tree.general.statusBar": "current file",
-    "todo-tree.tree.buttons.export": false,
-    "todo-tree.tree.disableCompactFolders": true,
-    "todo-tree.tree.scanMode": "workspace only",
-    "todo-tree.tree.showBadges": true,
-    "todo-tree.tree.showCountsInTree": false,
-    "prettier.semi": false
+    [
+      "pt:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "classes:\\s*{([^)]*)\\s*}",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "/\\*ui\\*/\\s*{([^;]*)}",
+      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
+    ]
+  ],
+  "todo-tree.general.showActivityBarBadge": true,
+  // Add to VS Code settings.js file
+  "todo-tree.general.showIconsInsteadOfTagsInStatusBar": true,
+  "todo-tree.general.statusBar": "current file",
+  "todo-tree.tree.buttons.export": false,
+  "todo-tree.tree.disableCompactFolders": true,
+  "todo-tree.tree.scanMode": "workspace only",
+  "todo-tree.tree.showBadges": true,
+  "todo-tree.tree.showCountsInTree": false,
+  "prettier.semi": false,
+  "tailwindCSS.experimental.configFile": "./apps/biochain-web/tailwind.config.ts",
+  "eslint.debug": true,
 }

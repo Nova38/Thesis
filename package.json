@@ -1,18 +1,7 @@
 {
-  "type": "module",
-  "version": "1.0.0",
   "description": "",
+  "version": "1.0.0",
   "author": "Thomas Atkins",
-  "license": "ISC",
-  "keywords": [],
-  "scripts": {
-    "test": "vitest --ui",
-    "dev": "pnpm --filter biochain-nuxt dev",
-    "build:es": "pnpm --filter @saacs/protos-es build",
-    "build": "pnpm --filter pkg/web/biochain build",
-    "bio": "pnpm --filter biochain-nuxt",
-    "nuxt:install": "pnpm -r --filter !caliper  install "
-  },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "@iconify/json": "2.2.192",
@@ -22,13 +11,14 @@
     "primevue": "3.50.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "2.8.3",
+    "@antfu/eslint-config": "^2.15.0",
     "@bufbuild/protobuf": "^1.8.0",
     "@tsconfig/node21": "^21.0.3",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "@vitest/ui": "^1.5.0",
+    "eslint": "^8.57.0",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "quokka-plugin-subdir": "^0.1.0",
@@ -38,6 +28,18 @@
     "vite-plugin-eslint2": "^4.4.0",
     "vitest": "^1.5.0"
   },
+  "keywords": [],
+  "license": "ISC",
+  "scripts": {
+    "bio": "pnpm --filter biochain-nuxt",
+    "build": "pnpm proto-es && pnpm --filter @saacs/client build && pnpm --filter biochain-nuxt build",
+    "build:proto-es": "pnpm --filter @saacs/saacs-pb build",
+    "build:client": "pnpm --filter @saacs/client build",
+    "dev": "pnpm --filter biochain-nuxt dev",
+    "nuxt:install": "pnpm -r --filter !caliper  install ",
+    "test": "vitest --ui"
+  },
+  "type": "module",
   "workspaces": [
     "libs/*",
     "libs/nuxt/*",

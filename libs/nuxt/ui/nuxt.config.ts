@@ -27,10 +27,6 @@ export default defineNuxtConfig({
     editorSupport: true,
   },
 
-  // formkit: {
-  //   configFile: resolve(__dirname, "./formkit.config.ts"),
-  // },
-
   primevue: {
     components: {
       prefix: 'P',

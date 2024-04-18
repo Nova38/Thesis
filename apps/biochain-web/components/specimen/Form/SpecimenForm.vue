@@ -19,23 +19,6 @@ const props = withDefaults(
   },
 )
 
-const autoId = (node: FormKitNode) => {
-  if (!node.props.id) return
-  console.log('AutoPropsFromIdPlugin', node.props.id)
-  node.name ??= node.props.id // auto set name to id
-  node.props.label ??= titleCase(node.props.id) // auto set label
-  if (!['button', 'submit'].includes(node.props.type)) {
-    // automatically set help text, but exclude buttons
-  }
-}
-
-// const form = useFormKitContext((node) => {
-//   node.node.on('settled.deep', (v) => {
-//     console.log('settled.deep', v)
-//     // readValue.value = v
-//   })
-// })
-
 const FormId = computed(() => `${props.formPrefix}-form`)
 </script>
 
@@ -44,10 +27,10 @@ const FormId = computed(() => `${props.formPrefix}-form`)
     :id="FormId"
     v-slot="{ value }"
     v-model="specimen"
-    type="form"
+    type="group"
     dirty-behavior="compare"
     :actions="false"
-    :plugins="[autoId, DirtyLabelPlugin]"
+    :plugins="[DirtyLabelPlugin]"
     validation-visibility="live"
   >
     <FormKit
@@ -59,7 +42,7 @@ const FormId = computed(() => `${props.formPrefix}-form`)
     <SpecimenFormTaxon />
     <SpecimenFormPrimary />
     <SpecimenFormGeoreference />
-    <SpecimenFormGeoreferenceGrid />
+
     <SpecimenFormSecondary />
     <SpecimenFormLoans />
     <DevOnly>
