@@ -1,9 +1,14 @@
 // {
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": true,
+  },
   "include": [
+    "playground/**/*.ts",
     "src/**/*.ts",
     "src/**/*.js",
+    "**/*.ts",
     "*.ts",
     "t.mts",
     "t.mts"

@@ -2,6 +2,7 @@
   "name": "caliper",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "bind": "caliper bind --caliper-bind-sut fabric:2.4",
@@ -13,6 +14,10 @@
     "launch": "caliper launch manager  --Caliper-ProjectConfig caliper.yaml ",
     "bench:noauth": "caliper launch manager "
   },
+  "files": [
+    "benchmarks/**/*",
+    "playground"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -24,11 +29,18 @@
     "@hyperledger/fabric-gateway": "^1.5.1",
     "@saacs/client": "workspace:../../libs/saacs-protos-es",
     "@saacs/saacs-pb": "workspace:../../libs/saacs-protos-es",
+    "@types/node": "^20.12.7",
     "jiti": "^1.21.0"
   },
   "devDependencies": {
     "esbuild": "0.19.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@hyperledger/caliper-cli@0.5.1-unstable-20240403171520": "patches/@hyperledger__caliper-cli@0.5.1-unstable-20240403171520.patch",
+      "@hyperledger/caliper-core@0.5.1-unstable-20240403171520": "patches/@hyperledger__caliper-core@0.5.1-unstable-20240403171520.patch"
+    }
   }
 }

@@ -1,0 +1,248 @@
+diff --git a/lib/common/utils/caliper-utils.js b/lib/common/utils/caliper-utils.js
+index d85ad10857e252d649c51c1c4b7dd0bc0a1e0397..6a2d8d4e1b7d3ad0f5b62c3feab4cc193b384a0e 100644
+--- a/lib/common/utils/caliper-utils.js
++++ b/lib/common/utils/caliper-utils.js
+@@ -13,6 +13,7 @@
+ */
+ 
+ 'use strict';
++const jiti = require('jiti')(__filename, { esmResolve: true })
+ 
+ const loggingUtil = require('./logging-util.js');
+ const Config = require('../config/config-util');
+@@ -110,7 +111,7 @@ class CaliperUtils {
+      * @param {Function} requireFunction The "require" function (with appropriate scoping) to use to load the module.
+      * @return {object} The loaded module.
+      */
+-    static loadModule(modulePath, requireFunction = require) {
++    static loadModule(modulePath, requireFunction = jiti) {
+         try {
+             return requireFunction(modulePath);
+         } catch (err) {
+diff --git a/package.json b/package.json
+index 18091135f3a686889d80a45e4b02cf5e7edae259..113387c6606dacd4c089c94f85fa8df0024a1ca4 100644
+--- a/package.json
++++ b/package.json
+@@ -1,112 +1,113 @@
+ {
+-    "name": "@hyperledger/caliper-core",
+-    "description": "Core Hyperledger Caliper module, used for running performance benchmarks that interact with blockchain technologies",
+-    "version": "0.5.1-unstable-20240403171520",
+-    "repository": {
+-        "type": "git",
+-        "url": "https://github.com/hyperledger/caliper",
+-        "directory": "packages/caliper-core"
+-    },
+-    "publishConfig": {
+-        "access": "public"
+-    },
+-    "scripts": {
+-        "pretest": "npm run licchk",
+-        "licchk": "license-check-and-add",
+-        "test": "npm run lint && npm run nyc",
+-        "lint": "npx eslint .",
+-        "nyc": "nyc --reporter=text --reporter=clover mocha --recursive -t 10000"
+-    },
+-    "engines": {
+-        "node": ">=18.19.0",
+-        "npm": ">=6.14.16"
+-    },
+-    "dependencies": {
+-        "color-scheme": "^1.0.1",
+-        "compare-versions": "^3.4.0",
+-        "dockerode": "3.3.1",
+-        "express": "4.17.1",
+-        "js-yaml": "^3.13.1",
+-        "mustache": "^2.3.0",
+-        "mqtt": "3.0.0",
+-        "nconf": "0.12.0",
+-        "nconf-yaml": "^1.0.2",
+-        "pidusage": "^1.1.6",
+-        "prom-client": "12.0.0",
+-        "prometheus-gc-stats": "0.6.3",
+-        "ps-node": "^0.1.6",
+-        "table": "^4.0.1",
+-        "winston": "^3.2.1",
+-        "winston-daily-rotate-file": "^4.2.1",
+-        "triple-beam": "^1.3.0",
+-        "logform": "^2.1.2",
+-        "colors": "1.4.0"
+-    },
+-    "devDependencies": {
+-        "chai": "^3.5.0",
+-        "eslint": "^5.16.0",
+-        "mocha": "3.4.2",
+-        "mockery": "^2.1.0",
+-        "nyc": "11.1.0",
+-        "rewire": "^4.0.0",
+-        "sinon": "^7.3.2",
+-        "license-check-and-add": "2.3.6"
+-    },
+-    "license-check-and-add-config": {
+-        "folder": ".",
+-        "license": "../../LICENSE.txt",
+-        "exact_paths_method": "EXCLUDE",
+-        "exact_paths": [
+-            "node_modules",
+-            ".nyc_output",
+-            "coverage",
+-            ".gitignore",
+-            "log",
+-            ".DS_Store"
+-        ],
+-        "file_type_method": "EXCLUDE",
+-        "file_types": [
+-            ".yml",
+-            ".md",
+-            ".html",
+-            ".php",
+-            ".log"
+-        ],
+-        "insert_license": false,
+-        "license_formats": {
+-            "js": {
+-                "prepend": "/*",
+-                "append": "*/",
+-                "eachLine": {
+-                    "prepend": "* "
+-                }
+-            },
+-            "editorconfig|yaml": {
+-                "prepend": "#",
+-                "append": "#",
+-                "eachLine": {
+-                    "prepend": "# "
+-                }
+-            }
++  "name": "@hyperledger/caliper-core",
++  "description": "Core Hyperledger Caliper module, used for running performance benchmarks that interact with blockchain technologies",
++  "version": "0.5.1-unstable-20240403171520",
++  "repository": {
++    "type": "git",
++    "url": "https://github.com/hyperledger/caliper",
++    "directory": "packages/caliper-core"
++  },
++  "publishConfig": {
++    "access": "public"
++  },
++  "scripts": {
++    "pretest": "npm run licchk",
++    "licchk": "license-check-and-add",
++    "test": "npm run lint && npm run nyc",
++    "lint": "npx eslint .",
++    "nyc": "nyc --reporter=text --reporter=clover mocha --recursive -t 10000"
++  },
++  "engines": {
++    "node": ">=18.19.0",
++    "npm": ">=6.14.16"
++  },
++  "dependencies": {
++    "color-scheme": "^1.0.1",
++    "compare-versions": "^3.4.0",
++    "dockerode": "3.3.1",
++    "express": "4.17.1",
++    "js-yaml": "^3.13.1",
++    "mustache": "^2.3.0",
++    "mqtt": "3.0.0",
++    "nconf": "0.12.0",
++    "nconf-yaml": "^1.0.2",
++    "pidusage": "^1.1.6",
++    "prom-client": "12.0.0",
++    "prometheus-gc-stats": "0.6.3",
++    "ps-node": "^0.1.6",
++    "table": "^4.0.1",
++    "winston": "^3.2.1",
++    "winston-daily-rotate-file": "^4.2.1",
++    "triple-beam": "^1.3.0",
++    "logform": "^2.1.2",
++    "colors": "1.4.0",
++    "jiti": "^1.21.0"
++  },
++  "devDependencies": {
++    "chai": "^3.5.0",
++    "eslint": "^5.16.0",
++    "mocha": "3.4.2",
++    "mockery": "^2.1.0",
++    "nyc": "11.1.0",
++    "rewire": "^4.0.0",
++    "sinon": "^7.3.2",
++    "license-check-and-add": "2.3.6"
++  },
++  "license-check-and-add-config": {
++    "folder": ".",
++    "license": "../../LICENSE.txt",
++    "exact_paths_method": "EXCLUDE",
++    "exact_paths": [
++      "node_modules",
++      ".nyc_output",
++      "coverage",
++      ".gitignore",
++      "log",
++      ".DS_Store"
++    ],
++    "file_type_method": "EXCLUDE",
++    "file_types": [
++      ".yml",
++      ".md",
++      ".html",
++      ".php",
++      ".log"
++    ],
++    "insert_license": false,
++    "license_formats": {
++      "js": {
++        "prepend": "/*",
++        "append": "*/",
++        "eachLine": {
++          "prepend": "* "
+         }
+-    },
+-    "optionalDependencies": {
+-        "ajv": "6.12.0"
+-    },
+-    "nyc": {
+-        "exclude": [
+-            "test/**"
+-        ],
+-        "reporter": [
+-            "text-summary",
+-            "html"
+-        ],
+-        "all": true,
+-        "check-coverage": true,
+-        "statements": 1,
+-        "branches": 1,
+-        "functions": 1,
+-        "lines": 1
+-    },
+-    "license": "Apache-2.0"
++      },
++      "editorconfig|yaml": {
++        "prepend": "#",
++        "append": "#",
++        "eachLine": {
++          "prepend": "# "
++        }
++      }
++    }
++  },
++  "optionalDependencies": {
++    "ajv": "6.12.0"
++  },
++  "nyc": {
++    "exclude": [
++      "test/**"
++    ],
++    "reporter": [
++      "text-summary",
++      "html"
++    ],
++    "all": true,
++    "check-coverage": true,
++    "statements": 1,
++    "branches": 1,
++    "functions": 1,
++    "lines": 1
++  },
++  "license": "Apache-2.0"
+ }
