@@ -1,3 +1,0 @@
-[submodule "network/k8s/deps/kube-prometheus"]
-	path = network/k8s/deps/kube-prometheus
-	url = https://github.com/prometheus-operator/kube-prometheus.git
