@@ -9,8 +9,10 @@
     "@connectrpc/connect-node": "^1.4.0",
     "@connectrpc/connect-web": "^1.4.0",
     "@hyperledger/fabric-gateway": "^1.5.1",
+    "ajv-cli": "^5.0.0",
     "csv": "^6.3.8",
     "csv-parser": "^3.0.0",
+    "knitwork": "^1.1.0",
     "ofetch": "^1.3.4",
     "radash": "^12.1.0",
     "zod": "^3.22.4"
@@ -22,6 +24,7 @@
     "@vitest/coverage-v8": "^1.5.0",
     "eslint": "^9.0.0",
     "jiti": "^1.21.0",
+    "magicast": "^0.3.4",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "unbuild": "3.0.0-rc.1",
@@ -40,10 +43,16 @@
       "types": "./dist/gen/*.d.ts",
       "import": "./dist/gen/*.mjs",
       "require": "./dist/gen/*.cjs"
+    },
+    "./schema": {
+      "types": "./dist/schema/*.d.ts",
+      "import": "./dist/schema/*.mjs",
+      "require": "./dist/schema/*.cjs"
     }
   },
   "files": [
-    "build"
+    "dist/gen",
+    "dist/schema"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

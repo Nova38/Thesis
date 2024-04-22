@@ -1,5 +1,7 @@
 import { defineBuildConfig } from 'unbuild'
 
+import { BundleSchemas } from './src/build/schema'
+
 export default defineBuildConfig({
   // If entries is not provided, will be automatically inferred from package.json
   entries: [
@@ -19,6 +21,11 @@ export default defineBuildConfig({
       outDir: './dist/gen',
       format: 'esm',
     },
+    {
+      builder: 'mkdist',
+      input: './src/schema/',
+      outDir: './dist/schema/',
+    },
   ],
 
   clean: true,
@@ -28,7 +35,13 @@ export default defineBuildConfig({
 
   // Generates .d.ts declaration file
   declaration: true,
-
+  hooks: {
+    'build:before': async () => {
+      console.info('Bundling schemas ...')
+      BundleSchemas()
+      console.info('Bundling schemas done')
+    },
+  },
   rollup: {
     emitCJS: true,
   },

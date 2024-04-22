@@ -1,0 +1,17 @@
+import { assert, beforeAll, describe, expect, it } from 'vitest'
+
+describe('Ho', () => {
+  beforeAll(() => {})
+
+  it('foo', () => {
+    assert.equal(Math.sqrt(4), 2)
+  })
+
+  it('bar', () => {
+    expect(1 + 1).eq(2)
+  })
+
+  it('snapshot', () => {
+    expect({ foo: 'bar' }).toMatchSnapshot()
+  })
+})

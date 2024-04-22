@@ -69,7 +69,7 @@ plugins:
   # JSON Schema
 
   - plugin: buf.build/bufbuild/protoschema-jsonschema
-    out: ./libs/saacs-proto-jsonschema/
+    out: libs/saacs-protos-es/src/schema/gen
 
   #
 #     - plugin: protoc-gen-es-tools
