@@ -5,13 +5,15 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: [resolve(__dirname, './assets/css/main.css')],
 
+  debug: true,
+
   modules: [
     'nuxt-primevue',
     '@nuxt/ui',
     '@vueuse/nuxt',
     'nuxt-shiki',
     'nuxt-build-cache',
-    "@nuxt/eslint"
+    '@nuxt/eslint',
   ],
 
   tailwindcss: {

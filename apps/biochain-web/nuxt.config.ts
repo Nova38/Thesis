@@ -9,10 +9,6 @@ export default defineNuxtConfig({
     preference: 'light',
   },
 
-  tailwindcss: {
-    exposeConfig: true,
-  },
-
   css: [resolve(__dirname, './assets/css/main.css')],
 
   // formkit: {
@@ -21,7 +17,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  debug: true,
+  // debug: true,
 
   devServer: {
     // https: true,
@@ -45,7 +41,7 @@ export default defineNuxtConfig({
     watcher: 'parcel',
   },
 
-  extends: [['@saacs/ui', { install: true }]],
+  // extends: [['@saacs/ui', { install: true }]],
 
   imports: {
     dirs: ['composables/cc/**', 'utils/**', 'utils/formkit/*'],
@@ -69,11 +65,6 @@ export default defineNuxtConfig({
     // autoImport: true,
   },
 
-  jsoneditor: {
-    componentName: 'JsonEditor',
-    options: {},
-  },
-
   modules: [
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
@@ -82,9 +73,11 @@ export default defineNuxtConfig({
     '@formkit/nuxt',
     '@nuxt/eslint',
     'nuxt-build-cache',
-    'nuxt-jsoneditor',
+    // 'nuxt-jsoneditor',
     '@nuxt/ui',
     '@formkit/auto-animate',
+    'nuxt-primevue',
+    'nuxt-shiki',
   ],
 
   nitro: {
@@ -123,30 +116,18 @@ export default defineNuxtConfig({
     },
   },
 
-  // quasar: {
-  //   components: {
-  //     deepDefaults: true,
-  //     defaults: {
-  //       QInput: {
-  //         dense: true,
-  //         outlined: true,
-  //         stackLabel: true,
-  //       },
-  //     },
-  //   },
-  //   config: {
-  //     loadingBar: {
-  //       color: 'secondary',
-  //       position: 'bottom',
-  //       size: '4px',
-  //     },
-  //   },
-  //   extras: {
-  //     font: 'roboto-font',
-  //     fontIcons: ['themify', 'material-icons'],
-  //   },
-  //   plugins: ['LoadingBar', 'Notify'],
-  // },
+  primevue: {
+    components: {
+      prefix: 'P',
+    },
+    composables: {
+      exclude: ['useToast'],
+    },
+    importPT: { from: resolve(__dirname, './primevue/presets/wind/') }, // import and apply preset
+    options: {
+      unstyled: true,
+    },
+  },
 
   runtimeConfig: {
     auth: {

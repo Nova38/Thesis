@@ -4,15 +4,15 @@ import type { Config } from 'tailwindcss'
 export default <Partial<Config>>{
   content: [
     './app.vue',
+    // './node_modules/@saacs/ui/**/*.{js,vue,ts}',
 
     './formkit.theme.ts',
     './components/**/*.{js,vue,ts}',
     './layouts/**/*.vue',
     './**/*.vue',
     './plugins/**/*.{js,ts}',
-    './primevue/presets/**/*.{js,vue,ts}',
     './error.vue',
-    './lib/primevue/presets/wind/**/*.{js,vue,ts}',
+    './primevue/presets/wind/**/*.{js,vue,ts}',
   ],
   // darkMode: 'class',
 
