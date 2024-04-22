@@ -12,11 +12,11 @@
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/packages/cmd/protoc-gen-es-saacs" />
       <excludeFolder url="file://$MODULE_DIR$/packages/saacs-es" />
-      <excludeFolder url="file://$MODULE_DIR$/apps/saacs-cc/ccbio/v1" />
       <excludeFolder url="file://$MODULE_DIR$/apps/biochain-web" />
       <excludeFolder url="file://$MODULE_DIR$/cmd/protoc-gen-saacs-es" />
       <excludeFolder url="file://$MODULE_DIR$/libs/nuxt" />
       <excludeFolder url="file://$MODULE_DIR$/libs/saacs-protos-es" />
+      <excludeFolder url="file://$MODULE_DIR$/pkg/saacs-cc/ccbio/v1" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

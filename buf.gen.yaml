@@ -3,7 +3,7 @@ managed:
   enabled: true
 
   go_package_prefix:
-    default: github.com/nova38/saacs/libs/saacs-protos-go
+    default: github.com/nova38/saacs/pkg/saacs-protos
     except:
       - buf.build/googleapis/googleapis
       - buf.build/bufbuild/protovalidate
@@ -11,21 +11,21 @@ managed:
 plugins:
   # Go
   - plugin: buf.build/protocolbuffers/go
-    out: libs/saacs-protos-go
+    out: pkg/saacs-protos
     opt:
       - paths=source_relative
   - plugin: saacs-go
-    out: libs/saacs-protos-go
+    out: pkg/saacs-protos
     opt:
       - paths=source_relative
 
   - plugin: buf.build/bufbuild/validate-go
-    out: libs/saacs-protos-go
+    out: pkg/saacs-protos
     opt:
       - paths=source_relative
 
   - plugin: buf.build/community/mfridman-go-json:v1.3.1
-    out: libs/saacs-protos-go
+    out: pkg/saacs-protos
     opt:
       - paths=source_relative
       - emit_defaults=true

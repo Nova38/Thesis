@@ -1,7 +1,7 @@
 package generators
 
 import (
-	authpb "github.com/nova38/saacs/libs/saacs-protos-go/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 )
