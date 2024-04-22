@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { FieldMask } from '#imports'
 import { useFormKitNodeById } from '@formkit/vue'
 
 const mode = defineModel<FormMode>('mode', {
@@ -13,14 +12,13 @@ const props = withDefaults(
     collectionId: string
     specimenId: string
     formPrefix?: string
-    disabled?: boolean
   }>(),
   {
     formPrefix: 'specimen',
   },
 )
 
-const emit = defineEmits<{
+const _emit = defineEmits<{
   (e: 'submit', value: { specimen: PlainSpecimen; mode: FormMode }): void
 }>()
 
@@ -30,12 +28,14 @@ const FormId = computed(
 
 const headerColor = computed(() => toModeColor(mode.value))
 
+const FormDisabled = computed(() => mode.value === 'view')
+
 const modeOptions = ref([
   {
     label: 'View',
     value: 'view' as FormMode,
     attrs: {
-      mode: 'view',
+      'data-mode': 'view',
     },
   },
   {
@@ -54,7 +54,7 @@ const modeOptions = ref([
   },
 ])
 
-const nodeRef = useFormKitNodeById(FormId.value, (node) => {
+const _nodeRef = useFormKitNodeById(FormId.value, (node) => {
   // perform an effect when the node is available
   node.on('settled.deep', (v) => {})
 
@@ -63,9 +63,9 @@ const nodeRef = useFormKitNodeById(FormId.value, (node) => {
   })
 })
 
-async function submit(FormData) {
+async function submit(FormData: unknown) {
   console.log('submitHandler', FormData)
-  const x = new Promise((r) => setTimeout(r, 2000))
+  new Promise((r) => setTimeout(r, 2000))
 }
 </script>
 
@@ -73,10 +73,10 @@ async function submit(FormData) {
   <div>
     <FormKit
       :id="FormId"
-      v-slot="{ value }"
+      v-slot="{}"
       type="form"
       :actions="false"
-      :plugins="[AutoPropsFromIdPlugin, DirtyLabelPlugin]"
+      :plugins="[DirtyLabelPlugin]"
       validation-visibility="live"
       @submit="submit"
     >
@@ -85,6 +85,7 @@ async function submit(FormData) {
         :ui="{
           header: {
             background: headerColor,
+            padding: '',
           },
         }"
       >
@@ -94,27 +95,24 @@ async function submit(FormData) {
               <FormKit
                 v-model="mode"
                 type="radio"
-                label="Mailing List"
                 :options="modeOptions"
                 :classes="{
-                  fieldset: 'border-none ',
                   wrapper: 'group/wrapper',
+                  options: 'grid grid-cols-3 items-stretch ',
                   option:
-                    'relative border p-6 rounded-md formkit-checked:border-none',
+                    '$reset group/option  relative border formkit-checked:border-none    border-none  text-center dark:bg-gray-900 ',
+                  outer: '$reset group dark:bg-gray-900 w-full grow px-0 py-0',
                   decorator:
-                    '$reset absolute top-0 left-0 right-0 bottom-0 rounded-md group-data-[checked=true]/wrapper:ring',
+                    '$reset absolute top-0 left-0 right-0 bottom-0  group-data-[checked=true]/wrapper:bg-gray-700/25 dark:group-data-[checked=true]/wrapper:bg-gray-100/50',
                   decoratorIcon: '$reset hidden',
-                  label: '$reset text-lg text-bold mt-0',
-                  optionHelp: '$reset text-sm',
-                  options: 'grid grid-cols-3 gap-4 items-strech',
-                  outer:
-                    '$remove:max-w-[20em]bg-gray-100 dark:bg-gray-900 p-3 max-w-100 grow',
+                  label: '!text-md',
+                  help: '$reset hidden',
                 }"
-                help="Choose your preferred list"
               />
             </div>
             <UDivider />
-            <div class="flex flex-row">
+
+            <div class="flex flex-row p-4">
               {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
             </div>
             <div class="flex flex-grow flex-row">
@@ -123,6 +121,9 @@ async function submit(FormData) {
                 color="purple"
                 variant="solid"
                 size="md"
+                :ui="{
+                  rounded: '',
+                }"
                 :label="`Collection: ${specimen?.collectionId}`"
               />
               <UBadge
@@ -130,6 +131,9 @@ async function submit(FormData) {
                 class="flex-grow"
                 color="red"
                 variant="solid"
+                :ui="{
+                  rounded: '',
+                }"
                 size="md"
                 :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
               />
@@ -138,18 +142,20 @@ async function submit(FormData) {
         </template>
         <SpecimenForm
           :specimen="specimen"
+          :disabled="FormDisabled"
           form-prefix="Main"
         />
 
         <template #footer>
           <FormKit
             type="submit"
-            @click="submit"
             :outer-class="{
               'max-w-[22em]': false,
               'w-full': true,
             }"
+            :disabled="FormDisabled"
             input-class="w-full justify-center items-center flex"
+            @click="submit"
           >
             Send
           </FormKit>
@@ -159,4 +165,8 @@ async function submit(FormData) {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+input[data-mode='view'] {
+  background: #000;
+}
+</style>

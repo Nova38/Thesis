@@ -92,7 +92,6 @@ const getHistory = useCustomFetch<ccbio.Specimen>(`/api/cc/specimens/history`, {
 // };
 
 const mode: Ref<FormMode> = ref('view')
-const modeColor = computed(() => toModeColor(mode.value))
 
 // const specimen = ref<PlainSpecimen>(dirty.value)
 
@@ -106,7 +105,7 @@ const modeColor = computed(() => toModeColor(mode.value))
 
 // const history = await useGetSpecimenHistory();
 
-async function submitHandler(value: {
+async function submitHandler(_value: {
   specimen: PlainSpecimen
   mode: FormMode
 }) {
@@ -149,8 +148,8 @@ async function submitHandler(value: {
       <div v-if="dirty">
         <SpecimenEditCard
           :specimen="dirty"
-          :specimenId
-          :collectionId
+          :specimen-id
+          :collection-id
           :mode="mode"
           @submit="submitHandler"
         />
@@ -158,15 +157,24 @@ async function submitHandler(value: {
     </div>
 
     <div class="flex flex-col gap-4">
-      <SpecimenTimeline
-        :can-hide="$auth.loggedIn || false"
-        :history="history"
-        class="basis-size-1/4"
-      />
-      <UCard v-if="false">
-        <div class="flex flex-row items-center justify-center text-lg">
-          Suggestions
-        </div>
+      <UCard>
+        <template #header>
+          <div class="flex flex-row items-center justify-center text-lg">
+            History
+          </div>
+        </template>
+        <SpecimenTimeline
+          :can-hide="$auth.loggedIn || false"
+          :history="history"
+          class="basis-size-1/4"
+        />
+      </UCard>
+      <UCard>
+        <template #header>
+          <div class="flex flex-row items-center justify-center text-lg">
+            Suggestions
+          </div>
+        </template>
       </UCard>
     </div>
   </div>

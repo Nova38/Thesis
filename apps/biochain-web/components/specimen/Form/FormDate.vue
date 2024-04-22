@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { titleCase } from 'scule'
 
-import { type FormKitNode } from '@formkit/core'
-
 const props = defineProps<{
   name: string
 }>()
@@ -20,23 +18,13 @@ const wrapperClass = computed(() => {
 const nameAsTitle = computed(() => {
   return titleCase(props.name)
 })
-
-const formPlug = (node: FormKitNode) => {
-  if (!node.props.id) return
-  console.log('AutoPropsFromIdPlugin', node.props.id)
-  node.name = node.props.id // auto set name to id
-  node.props.label = titleCase(node.props.id) // auto set label
-  if (!['button', 'submit'].includes(node.props.type)) {
-    // automatically set help text, but exclude buttons
-  }
-}
 </script>
 
 <template>
   <PFieldset
     :legend="nameAsTitle"
     :toggleable="true"
-    @update:collapsed="collapsed = $event"
+    :collapsed="collapsed"
     class="col-span-full col-start-1 max-w-fit"
     :pt="{
       root: {
@@ -56,6 +44,7 @@ const formPlug = (node: FormKitNode) => {
         ],
       },
     }"
+    @update:collapsed="collapsed = $event"
     @toggle="
       (e) => {
         console.log('toggle', e)
@@ -66,12 +55,13 @@ const formPlug = (node: FormKitNode) => {
       :id="props.name"
       type="group"
       :name="props.name"
-      :plugins="[formPlug]"
+      :plugins="[]"
     >
       <div class="inline-flex flex-wrap gap-2">
         <FormKit
-          id="verbatim"
+          name="verbatim"
           type="text"
+          label="verbatim"
           outer-class="min-w-20"
         />
         <!-- <FormKit
@@ -83,14 +73,12 @@ const formPlug = (node: FormKitNode) => {
           /> -->
 
         <FormKit
-          id="timestamp"
           type="text"
           name="timestamp"
           label="timestamp"
           outer-class="min-w-20"
         />
         <FormKit
-          id="year"
           type="number"
           name="year"
           number
@@ -98,14 +86,12 @@ const formPlug = (node: FormKitNode) => {
           outer-class="min-w-20"
         />
         <FormKit
-          id="month"
           type="text"
           name="month"
           label="month"
           outer-class="min-w-20"
         />
         <FormKit
-          id="day"
           type="number"
           name="day"
           number
