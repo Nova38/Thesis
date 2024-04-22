@@ -194,4 +194,3 @@ export class Book extends Message<Book> {
     return proto3.util.equals(Book, a, b);
   }
 }
-

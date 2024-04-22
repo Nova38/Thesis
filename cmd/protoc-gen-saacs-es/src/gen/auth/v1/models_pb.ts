@@ -387,4 +387,3 @@ export class Attribute extends Message<Attribute> {
     return proto3.util.equals(Attribute, a, b);
   }
 }
-

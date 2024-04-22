@@ -108,18 +108,18 @@ tasks:
       - docker tag nova38/saacs:latest nova38/saacs:latest
       - docker push nova38/saacs:latest
 
-  build:es-stub:
-    cmd: cd ./pkg/saacs-es && pnpm run stub
+  #  build:es-stub:
+  #    cmd: cd ./pkg/saacs-es && pnpm run stub
 
   # build:gen-lint:
   #   cmd: cd ./pkg/web/biochain && pnpm lint-gen:fix
 
-  es:run:
-    dir: ./pkg/saacs-es
-    cmd: pnpm run api
-  build:es:
-    dir: ./pkg/saacs-es
-    cmd: pnpm run build
+  #es:run:
+  #  dir: ./pkg/saacs-es
+  #  cmd: pnpm run api
+  #build:es:
+  #  dir: ./pkg/saacs-es
+  #  cmd: pnpm run build
 
   deploy:prod:api:
     dir: ./pkg/web

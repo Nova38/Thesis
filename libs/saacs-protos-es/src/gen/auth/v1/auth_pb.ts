@@ -791,8 +791,8 @@ export class PathPolicy extends Message<PathPolicy> {
  * @generated from extension: auth.Operation operation = 57775;
  */
 export const operation = proto3.makeExtension<MethodOptions, Operation>(
-  "auth.operation", 
-  MethodOptions, 
+  "auth.operation",
+  MethodOptions,
   () => ({ no: 57775, kind: "message", T: Operation }),
 );
 
@@ -800,8 +800,8 @@ export const operation = proto3.makeExtension<MethodOptions, Operation>(
  * @generated from extension: auth.TransactionType transaction_type = 50556;
  */
 export const transaction_type = proto3.makeExtension<MethodOptions, TransactionType>(
-  "auth.transaction_type", 
-  MethodOptions, 
+  "auth.transaction_type",
+  MethodOptions,
   () => ({ no: 50556, kind: "enum", T: proto3.getEnumType(TransactionType) }),
 );
 
@@ -809,8 +809,8 @@ export const transaction_type = proto3.makeExtension<MethodOptions, TransactionT
  * @generated from extension: auth.KeySchema key_schema = 54599;
  */
 export const key_schema = proto3.makeExtension<MessageOptions, KeySchema>(
-  "auth.key_schema", 
-  MessageOptions, 
+  "auth.key_schema",
+  MessageOptions,
   () => ({ no: 54599, kind: "message", T: KeySchema }),
 );
 
@@ -818,8 +818,7 @@ export const key_schema = proto3.makeExtension<MessageOptions, KeySchema>(
  * @generated from extension: auth.AuthType auth_type = 55888;
  */
 export const auth_type = proto3.makeExtension<MessageOptions, AuthType>(
-  "auth.auth_type", 
-  MessageOptions, 
+  "auth.auth_type",
+  MessageOptions,
   () => ({ no: 55888, kind: "enum", T: proto3.getEnumType(AuthType) }),
 );
-

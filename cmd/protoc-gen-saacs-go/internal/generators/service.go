@@ -96,13 +96,13 @@ func (sv *ServiceGenerator) GenerateInterface(
 	g *protogen.GeneratedFile,
 	v *protogen.Service,
 ) {
-	//ctx := g.QualifiedGoIdent(
+	// ctx := g.QualifiedGoIdent(
 	//	protogen.GoIdent{
 	//		GoName: "GenericTxCtxInterface",
 	//
 	//		GoImportPath: "github.com/nova38/saacs/pkg/saacs-cc/common",
 	//	},
-	//)
+	// )
 	// shortName, _ := strings.CutSuffix(v.GoName, "Service")
 	// ctx := shortName + "TxCtx"
 

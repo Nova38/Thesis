@@ -4,10 +4,10 @@ index d85ad10857e252d649c51c1c4b7dd0bc0a1e0397..6a2d8d4e1b7d3ad0f5b62c3feab4cc19
 +++ b/lib/common/utils/caliper-utils.js
 @@ -13,6 +13,7 @@
  */
- 
+
  'use strict';
 +const jiti = require('jiti')(__filename, { esmResolve: true })
- 
+
  const loggingUtil = require('./logging-util.js');
  const Config = require('../config/config-util');
 @@ -110,7 +111,7 @@ class CaliperUtils {

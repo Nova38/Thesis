@@ -327,7 +327,8 @@ func (ctx *BaseTxCtx) Authorize(operations []*authpb.Operation) (auth bool, err 
 
 	// Group the operations by collection
 	for _, op := range operations {
-		if op.GetAction() == authpb.Action_ACTION_CREATE && op.GetItemType() == common.CollectionItemType {
+		if op.GetAction() == authpb.Action_ACTION_CREATE &&
+			op.GetItemType() == common.CollectionItemType {
 			ctx.GetLogger().Info("Operation Is to Create Collection")
 			// TODO: Implement Special auth case for creating a collection
 		} else {

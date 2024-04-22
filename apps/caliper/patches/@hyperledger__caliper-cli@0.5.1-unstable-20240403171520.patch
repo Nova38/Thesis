@@ -4,7 +4,7 @@ index 37351792ac022202029d43e8589532722ebcd784..11f22cf7327643e5f73abb8782925ad9
 +++ b/lib/lib/bindCommon.js
 @@ -167,8 +167,8 @@ class BindCommon {
              argArray = argArray.concat(packages);
- 
+
              logger.info(`Using working directory: ${cwd}`);
 -            logger.info(`Calling npm with: ${argArray.join(' ')}`);
 -            await CaliperUtils.invokeCommand(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', argArray,  { ...settings.env, ...process.env }, cwd);

@@ -5,7 +5,7 @@ import { Book, Group, SimpleItem } from "./sample/v0/items_pb.js";
 import { KeySchema } from "./auth/v1/auth_pb.js";
 import { isMessage  } from "@bufbuild/protobuf";
 
-export type ItemType = 
+export type ItemType =
   | UserDirectMembership
   | Role
   | UserCollectionRoles
@@ -86,7 +86,7 @@ export const ItemKeySchema : Record<string, KeySchema> = {
     "properties": "isbn"
 }),
 }
-export type PrimaryItemType = 
+export type PrimaryItemType =
   | UserDirectMembership
   | Role
   | UserCollectionRoles
@@ -150,7 +150,7 @@ export const PrimaryItemKeySchema : Record<string, KeySchema> = {
     "properties": "isbn"
 }),
 }
-export type SecondaryItemType = 
+export type SecondaryItemType =
   | Suggestion
   | HiddenTxList
 
