@@ -13,7 +13,10 @@ require (
 	google.golang.org/protobuf v1.33.0
 )
 
+require github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240422144942-998f95d5de3f
+
 require (
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.33.0-20240401165935-b983156c5e99.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	google.golang.org/genproto v0.0.0-20231016165738-49dd2c1f3d0b // indirect

@@ -8,6 +8,7 @@ require (
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20240124143825-7dec3c7e7d45
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
 	github.com/mennanov/fmutils v0.3.0
+	github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240422144942-998f95d5de3f
 	github.com/onsi/ginkgo/v2 v2.17.1
 	github.com/onsi/gomega v1.32.0
 	github.com/samber/lo v1.39.0
