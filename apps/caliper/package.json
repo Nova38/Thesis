@@ -27,8 +27,8 @@
     "@hyperledger/caliper-core": "0.5.1-unstable-20240403171520",
     "@hyperledger/caliper-fabric": "0.5.1-unstable-20240403171520",
     "@hyperledger/fabric-gateway": "^1.5.1",
-    "@saacs/client": "workspace:../../libs/saacs-protos-es",
-    "@saacs/saacs-pb": "workspace:../../libs/saacs-protos-es",
+    "@saacs/client": "0.0.0",
+    "@saacs/saacs-pb": "0.0.0",
     "@types/node": "^20.12.7",
     "jiti": "^1.21.0"
   },

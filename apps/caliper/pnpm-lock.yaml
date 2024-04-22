@@ -32,10 +32,10 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
       '@saacs/client':
-        specifier: workspace:../../libs/saacs-protos-es
-        version: link:../../libs/saacs-protos-es
+        specifier: 0.0.0
+        version: link:../../libs/client
       '@saacs/saacs-pb':
-        specifier: workspace:../../libs/saacs-protos-es
+        specifier: 0.0.0
         version: link:../../libs/saacs-protos-es
       '@types/node':
         specifier: ^20.12.7

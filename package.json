@@ -40,8 +40,7 @@
     "build:client": "pnpm --filter @saacs/client build",
     "dev": "pnpm --filter biochain-nuxt dev",
     "nuxt:install": "pnpm -r --filter !caliper  install ",
-    "test": "vitest --ui",
-    "postinstall": "syncpack fix-mismatches"
+    "test": "vitest --ui"
   },
   "type": "module",
   "workspaces": [
@@ -50,5 +49,10 @@
     "cmd/*",
     "apps/*"
   ],
-  "packageManager": "pnpm@9.0.2"
+  "packageManager": "pnpm@9.0.2",
+  "pnpm": {
+    "patchedDependencies": {
+      "@bufbuild/protobuf@1.8.0": "patches/@bufbuild__protobuf@1.8.0.patch"
+    }
+  }
 }

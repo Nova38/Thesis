@@ -14,7 +14,7 @@
     "vue-json-pretty": "^2.4.0"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^1.1.5",
+    "@nuxt/devtools": "^1.2.0",
     "@nuxt/eslint": "^0.3.8",
     "@nuxt/test-utils": "^3.12.1",
     "@vue/test-utils": "^2.4.5",
