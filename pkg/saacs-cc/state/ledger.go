@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
-	"github.com/nova38/saacs/apps/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )

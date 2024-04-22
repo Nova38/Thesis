@@ -11,10 +11,10 @@ import (
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 
-	"github.com/nova38/saacs/apps/saacs-cc/common"
-	"github.com/nova38/saacs/apps/saacs-cc/contracts/identity"
-	"github.com/nova38/saacs/apps/saacs-cc/contracts/noauth"
-	"github.com/nova38/saacs/apps/saacs-cc/contracts/roles"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/contracts/identity"
+	"github.com/nova38/saacs/pkg/saacs-cc/contracts/noauth"
+	"github.com/nova38/saacs/pkg/saacs-cc/contracts/roles"
 
 	_ "github.com/nova38/saacs/pkg/saacs-protos/biochain/v1"
 	_ "github.com/nova38/saacs/pkg/saacs-protos/sample/v0"

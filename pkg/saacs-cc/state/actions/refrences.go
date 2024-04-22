@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"strconv"
 
-	"github.com/nova38/saacs/apps/saacs-cc/common"
-	"github.com/nova38/saacs/apps/saacs-cc/state"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/state"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"

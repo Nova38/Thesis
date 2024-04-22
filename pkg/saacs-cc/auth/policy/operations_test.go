@@ -3,7 +3,7 @@ package policy_test
 import (
 	"testing"
 
-	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
+	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
 	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
 	"github.com/stretchr/testify/assert"
 )

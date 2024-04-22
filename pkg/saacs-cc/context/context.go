@@ -4,9 +4,9 @@ import (
 	"log/slog"
 
 	"github.com/bufbuild/protovalidate-go"
-	"github.com/nova38/saacs/apps/saacs-cc/auth/models"
-	"github.com/nova38/saacs/apps/saacs-cc/auth/policy"
-	"github.com/nova38/saacs/apps/saacs-cc/state"
+	"github.com/nova38/saacs/pkg/saacs-cc/auth/models"
+	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
+	"github.com/nova38/saacs/pkg/saacs-cc/state"
 	"github.com/samber/oops"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -15,8 +15,8 @@ import (
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/nova38/saacs/apps/saacs-cc/common"
-	"github.com/nova38/saacs/apps/saacs-cc/internal/biochain"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/internal/biochain"
 
 	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
 )
@@ -141,14 +141,14 @@ func (ctx *BaseTxCtx) CloseQueryIterator(resultIterator common.CommonIteratorInt
 
 // EnabledSuggestions returns true if the hidden tx feature is enabled,
 // Enabled by default, can be disabled through build flags
-// github.com/nova38/saacs/apps/saacs-cc/common.EnabledSuggestions = ""
+// github.com/nova38/saacs/pkg/saacs-cc/common.EnabledSuggestions = ""
 func (ctx *BaseTxCtx) EnabledSuggestions() bool {
 	return ctx.EnableSuggestion
 }
 
 // EnableHiddenTx returns true if the hidden tx feature is enabled,
 // Enabled by default, can be disabled through build flags
-// github.com/nova38/saacs/apps/saacs-cc/common.EnableHiddenTx = ""
+// github.com/nova38/saacs/pkg/saacs-cc/common.EnableHiddenTx = ""
 func (ctx *BaseTxCtx) EnabledHidden() bool {
 	return ctx.EnableHiddenTx
 }

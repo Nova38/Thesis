@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/nova38/saacs/apps/saacs-cc/serializer"
+	"github.com/nova38/saacs/pkg/saacs-cc/serializer"
 	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
 	_ "github.com/nova38/saacs/pkg/saacs-protos/biochain/v1"
 	_ "github.com/nova38/saacs/pkg/saacs-protos/sample/v0"
 
-	"github.com/nova38/saacs/apps/saacs-cc/common"
-	"github.com/nova38/saacs/apps/saacs-cc/state"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/state"
 	cc "github.com/nova38/saacs/pkg/saacs-protos/chaincode/common"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"

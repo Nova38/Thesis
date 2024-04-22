@@ -30,7 +30,7 @@ jobs:
           version: v1.57.2
 
           # Optional: working directory, useful for monorepos
-          working-directory: ./apps/saacs-cc/
+          working-directory: ./pkg/saacs-cc/
 
           # Optional: golangci-lint command line arguments.
           #

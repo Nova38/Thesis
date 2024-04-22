@@ -1,8 +1,8 @@
 package base
 
 import (
-	"github.com/nova38/saacs/apps/saacs-cc/common"
-	"github.com/nova38/saacs/apps/saacs-cc/state/actions"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/state/actions"
 	ccpb "github.com/nova38/saacs/pkg/saacs-protos/chaincode/common"
 	"github.com/samber/oops"
 )

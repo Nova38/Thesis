@@ -3,7 +3,7 @@ package state
 import (
 	"encoding/json"
 
-	"github.com/nova38/saacs/apps/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/proto"
 )

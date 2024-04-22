@@ -1,7 +1,7 @@
 package state
 
 import (
-	"github.com/nova38/saacs/apps/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
 	"github.com/samber/oops"
 )
