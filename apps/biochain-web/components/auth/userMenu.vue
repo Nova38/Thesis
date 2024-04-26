@@ -2,6 +2,7 @@
 // import type { UButton } from "#build/components";
 const loggedIn = useState('loggedIn')
 
+
 const auth = useAuth()
 
 async function authLogout() {

@@ -75,6 +75,27 @@ export function* getAllMessages(
   }
 }
 
+export function* getAllEnum(desc: DescFile | DescMessage): Iterable<DescEnum> {
+  switch (desc.kind) {
+    case 'file':
+      for (const enumType of desc.enums) {
+        yield enumType
+      }
+      for (const message of desc.messages) {
+        yield* getAllEnum(message)
+      }
+      break
+    case 'message':
+      for (const enumType of desc.nestedEnums) {
+        yield enumType
+      }
+      for (const message of desc.nestedMessages) {
+        yield* getAllEnum(message)
+      }
+      break
+  }
+}
+
 export function* allMessagesWithExtension<E extends Message<E>, V>(
   desc: DescFile | DescMessage,
   extensionType: Extension<any, V>,

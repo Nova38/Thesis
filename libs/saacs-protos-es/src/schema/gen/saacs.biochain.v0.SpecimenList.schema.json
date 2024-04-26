@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.biochain.v0.SpecimenList.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "specimens": {
+      "items": {
+        "$ref": "saacs.biochain.v0.Specimen.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Specimen List",
+  "type": "object"
+}

@@ -4,7 +4,9 @@ import (
 	"slices"
 
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/samber/oops"
 )
 
@@ -15,7 +17,7 @@ import (
 // - Operation is not nil
 // - Collection item types is not nil and not empty
 // - Checks per the type of action (see below)
-func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (bool, error) {
+func ValidateOperation(collection *authpb.Collection, op *pb.Operation) (bool, error) {
 
 	// Sanity checks
 	if collection == nil || op == nil {
@@ -38,7 +40,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 		return false, oops.With("op", op).Errorf("Operation collection id is empty")
 	case op.GetItemType() == "":
 		return false, oops.Errorf("Operation item type is empty")
-	case op.GetAction() == authpb.Action_ACTION_UNSPECIFIED:
+	case op.GetAction() == pb.Action_ACTION_UNSPECIFIED:
 		return false, oops.Errorf("Operation action is empty")
 
 	}
@@ -61,11 +63,11 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 	switch op.GetAction() {
 
 	case
-		authpb.Action_ACTION_CREATE,
-		authpb.Action_ACTION_DELETE,
-		authpb.Action_ACTION_HIDE_TX,
-		authpb.Action_ACTION_VIEW_HISTORY,
-		authpb.Action_ACTION_VIEW_HIDDEN_TXS:
+		pb.Action_ACTION_CREATE,
+		pb.Action_ACTION_DELETE,
+		pb.Action_ACTION_HIDE_TX,
+		pb.Action_ACTION_VIEW_HISTORY,
+		pb.Action_ACTION_VIEW_HIDDEN_TXS:
 
 		// These actions should not have paths
 		if op.GetPaths() != nil && len(op.GetPaths().GetPaths()) > 0 {
@@ -79,7 +81,7 @@ func ValidateOperation(collection *authpb.Collection, op *authpb.Operation) (boo
 
 // --------------------------------------------------
 
-func ActionOnPathPolicy(p *authpb.PathPolicy, action authpb.Action) (authorized bool, found bool) {
+func ActionOnPathPolicy(p *authpb.PathPolicy, action pb.Action) (authorized bool, found bool) {
 	if p == nil && p.GetActions() == nil {
 		return false, false
 	}

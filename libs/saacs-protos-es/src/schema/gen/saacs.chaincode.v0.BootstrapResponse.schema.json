@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.chaincode.v0.BootstrapResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection": {
+      "$ref": "saacs.auth.v0.Collection.schema.json"
+    },
+    "success": {
+      "type": "boolean"
+    }
+  },
+  "title": "Bootstrap Response",
+  "type": "object"
+}

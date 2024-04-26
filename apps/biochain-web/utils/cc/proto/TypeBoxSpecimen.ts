@@ -53,7 +53,7 @@ enum EnumAuthType {
   NONE = 1,
   ROLE = 2,
   IDENTITY = 3,
-  EMBEDDED_ROLE = 4,
+  GLOBAL_ROLE = 4,
 }
 
 type AuthType = Static<typeof AuthType>
@@ -218,8 +218,8 @@ const Item = Type.Object({
 //   note: Type.String(),
 // })
 
-// type UserEmbeddedRoles = Static<typeof UserEmbeddedRoles>
-// const UserEmbeddedRoles = Type.Object({
+// type UserGlobalRoles = Static<typeof UserGlobalRoles>
+// const UserGlobalRoles = Type.Object({
 //   collectionId: Type.String(),
 //   mspId: Type.String(),
 //   userId: Type.String(),

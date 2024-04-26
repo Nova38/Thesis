@@ -6,7 +6,9 @@ import (
 	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	"github.com/nova38/saacs/pkg/saacs-cc/state"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/samber/oops"
 )
 
@@ -17,7 +19,7 @@ type IAC struct {
 	Logger                *slog.Logger
 }
 
-func (ac *IAC) Authorize(op *authpb.Operation) (bool, error) {
+func (ac *IAC) Authorize(op *pb.Operation) (bool, error) {
 
 	ac.Logger.Info("Authenticate")
 

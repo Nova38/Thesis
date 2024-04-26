@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package saacs.auth.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/auth/v0/policy.proto";
+import "saacs/auth/v0/type.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────────
+// An attribute is used to define permissions via the value of the attribute in
+// the users certificate for a given msp
+message Attribute {
+  option (auth_type) = AUTH_TYPE_ATTRIBUTE;
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: [
+      "msp_id",
+      "oid",
+      "value"
+    ]
+  };
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+
+  // The msp of the organization that this attribute applies to
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The oid of the attribute
+  string oid = 3 [(buf.validate.field).string.min_len = 1];
+  // The value of the attribute required to be satisfied by the user to have the
+  // role
+  string value = 4 [(buf.validate.field).string.min_len = 1];
+
+  // The Permission that the user will have if they have the attribute
+  Polices polices = 5 [(buf.validate.field).required = true];
+}

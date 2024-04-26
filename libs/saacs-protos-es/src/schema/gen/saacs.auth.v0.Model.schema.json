@@ -1,0 +1,8 @@
+{
+  "$id": "saacs.auth.v0.Model.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {},
+  "title": "Model",
+  "type": "object"
+}

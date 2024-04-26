@@ -40,8 +40,8 @@
     - [Suggestion](#auth-Suggestion)
     - [UserCollectionRoles](#auth-UserCollectionRoles)
     - [UserDirectMembership](#auth-UserDirectMembership)
-    - [UserEmbeddedRoles](#auth-UserEmbeddedRoles)
-    - [UserEmbeddedRoles.RolesEntry](#auth-UserEmbeddedRoles-RolesEntry)
+    - [UserGlobalRoles](#auth-UserGlobalRoles)
+    - [UserGlobalRoles.RolesEntry](#auth-UserGlobalRoles-RolesEntry)
 
 - [biochain/v1/state.proto](#biochain_v1_state-proto)
     - [Researcher](#ccbio-schema-v0-Researcher)
@@ -147,11 +147,11 @@
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_type | [string](#string) |  | The item type of the key |
-| item_kind | [ItemKind](#auth-ItemKind) |  | The kind of item that the key is for |
-| properties | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  | The paths that make up the key |
+| Field      | Type                                                    | Label | Description                          |
+| ---------- | ------------------------------------------------------- | ----- | ------------------------------------ |
+| item_type  | [string](#string)                                       |       | The item type of the key             |
+| item_kind  | [ItemKind](#auth-ItemKind)                              |       | The kind of item that the key is for |
+| properties | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |       | The paths that make up the key       |
 
 
 
@@ -164,12 +164,12 @@
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| action | [Action](#auth-Action) |  |  |
-| collection_id | [string](#string) |  |  |
-| item_type | [string](#string) |  |  |
-| paths | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
+| Field         | Type                                                    | Label | Description |
+| ------------- | ------------------------------------------------------- | ----- | ----------- |
+| action        | [Action](#auth-Action)                                  |       |             |
+| collection_id | [string](#string)                                       |       |             |
+| item_type     | [string](#string)                                       |       |             |
+| paths         | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |       |             |
 
 
 
@@ -182,13 +182,13 @@
 Can be used as the history entry
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| tx_id | [string](#string) |  | The transaction id that caused the change |
-| msp_id | [string](#string) |  | The msp of the user that caused the change |
-| user_id | [string](#string) |  | The id of the user that caused the change |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp of the change |
-| note | [string](#string) |  | A note about the change |
+| Field     | Type                                                    | Label | Description                                |
+| --------- | ------------------------------------------------------- | ----- | ------------------------------------------ |
+| tx_id     | [string](#string)                                       |       | The transaction id that caused the change  |
+| msp_id    | [string](#string)                                       |       | The msp of the user that caused the change |
+| user_id   | [string](#string)                                       |       | The id of the user that caused the change  |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |       | The timestamp of the change                |
+| note      | [string](#string)                                       |       | A note about the change                    |
 
 
 
@@ -201,10 +201,10 @@ Can be used as the history entry
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| msp_id | [string](#string) |  |  |
-| user_id | [string](#string) |  |  |
+| Field   | Type              | Label | Description |
+| ------- | ----------------- | ----- | ----------- |
+| msp_id  | [string](#string) |       |             |
+| user_id | [string](#string) |       |             |
 
 
 
@@ -218,25 +218,25 @@ Can be used as the history entry
 ### Action
 
 
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ACTION_UNSPECIFIED | 0 | Should throw an error if used |
-| ACTION_UTILITY | 1 |  |
-| ACTION_VIEW | 10 | View the contents of an item |
-| ACTION_CREATE | 11 | Create a new item - key must not already exist |
-| ACTION_UPDATE | 12 | Update an existing item - key must already exist - potential has paths |
-| ACTION_DELETE | 13 | Delete an existing item, key must already exist |
-| ACTION_SUGGEST_VIEW | 14 | Suggest a change to an item, key must already exist |
-| ACTION_SUGGEST_CREATE | 15 | Suggest a change to an item, key must already exist |
-| ACTION_SUGGEST_DELETE | 16 | Delete a suggestion, key must already exist |
-| ACTION_SUGGEST_APPROVE | 17 | Approve a suggestion and apply it to the item, key must already exist |
-| ACTION_VIEW_HISTORY | 18 |  |
-| ACTION_VIEW_HIDDEN_TXS | 19 |  |
-| ACTION_HIDE_TX | 20 |  |
-| ACTION_UNHIDE_TX | 21 |  |
-| ACTION_REFERENCE_CREATE | 30 |  |
-| ACTION_REFERENCE_DELETE | 31 |  |
-| ACTION_REFERENCE_VIEW | 32 |  |
+| Name                    | Number | Description                                                            |
+| ----------------------- | ------ | ---------------------------------------------------------------------- |
+| ACTION_UNSPECIFIED      | 0      | Should throw an error if used                                          |
+| ACTION_UTILITY          | 1      |                                                                        |
+| ACTION_VIEW             | 10     | View the contents of an item                                           |
+| ACTION_CREATE           | 11     | Create a new item - key must not already exist                         |
+| ACTION_UPDATE           | 12     | Update an existing item - key must already exist - potential has paths |
+| ACTION_DELETE           | 13     | Delete an existing item, key must already exist                        |
+| ACTION_SUGGEST_VIEW     | 14     | Suggest a change to an item, key must already exist                    |
+| ACTION_SUGGEST_CREATE   | 15     | Suggest a change to an item, key must already exist                    |
+| ACTION_SUGGEST_DELETE   | 16     | Delete a suggestion, key must already exist                            |
+| ACTION_SUGGEST_APPROVE  | 17     | Approve a suggestion and apply it to the item, key must already exist  |
+| ACTION_VIEW_HISTORY     | 18     |                                                                        |
+| ACTION_VIEW_HIDDEN_TXS  | 19     |                                                                        |
+| ACTION_HIDE_TX          | 20     |                                                                        |
+| ACTION_UNHIDE_TX        | 21     |                                                                        |
+| ACTION_REFERENCE_CREATE | 30     |                                                                        |
+| ACTION_REFERENCE_DELETE | 31     |                                                                        |
+| ACTION_REFERENCE_VIEW   | 32     |                                                                        |
 
 
 
@@ -245,12 +245,12 @@ Can be used as the history entry
 ### AuthType
 
 
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| AUTH_TYPE_UNSPECIFIED | 0 |  |
-| AUTH_TYPE_NONE | 1 |  |
-| AUTH_TYPE_ROLE | 2 |  |
-| AUTH_TYPE_IDENTITY | 3 |  |
+| Name                  | Number | Description |
+| --------------------- | ------ | ----------- |
+| AUTH_TYPE_UNSPECIFIED | 0      |             |
+| AUTH_TYPE_NONE        | 1      |             |
+| AUTH_TYPE_ROLE        | 2      |             |
+| AUTH_TYPE_IDENTITY    | 3      |             |
 
 
 
@@ -259,12 +259,12 @@ Can be used as the history entry
 ### ItemKind
 
 
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ITEM_KIND_UNSPECIFIED | 0 |  |
-| ITEM_KIND_PRIMARY_ITEM | 2 | ITEM_KIND_GLOBAL_ITEM = 1; Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
-| ITEM_KIND_SUB_ITEM | 3 | Item&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths} |
-| ITEM_KIND_REFERENCE | 4 |  |
+| Name                   | Number | Description                                                                      |
+| ---------------------- | ------ | -------------------------------------------------------------------------------- |
+| ITEM_KIND_UNSPECIFIED  | 0      |                                                                                  |
+| ITEM_KIND_PRIMARY_ITEM | 2      | ITEM_KIND_GLOBAL_ITEM = 1; Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths] |
+| ITEM_KIND_SUB_ITEM     | 3      | Item&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}          |
+| ITEM_KIND_REFERENCE    | 4      |                                                                                  |
 
 
 
@@ -273,11 +273,11 @@ Can be used as the history entry
 ### TransactionType
 
 
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| TRANSACTION_TYPE_UNSPECIFIED | 0 |  |
-| TRANSACTION_TYPE_INVOKE | 1 |  |
-| TRANSACTION_TYPE_QUERY | 2 |  |
+| Name                         | Number | Description |
+| ---------------------------- | ------ | ----------- |
+| TRANSACTION_TYPE_UNSPECIFIED | 0      |             |
+| TRANSACTION_TYPE_INVOKE      | 1      |             |
+| TRANSACTION_TYPE_QUERY       | 2      |             |
 
 
 
@@ -286,32 +286,32 @@ Can be used as the history entry
 ### TxError
 
 
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| UNSPECIFIED | 0 |  |
-| REQUEST_INVALID | 1 |  |
-| RUNTIME | 2 |  |
-| RUNTIME_BAD_OPS | 3 |  |
-| KEY_NOT_FOUND | 4 | The provided key is not in the world state |
-| KEY_ALREADY_EXISTS | 5 | The provided key is already in the world state |
-| COLLECTION_INVALID_ID | 11 | The collection id is invalid |
-| COLLECTION_UNREGISTERED | 12 | The collection is not registered and thus cannot be accessed |
-| COLLECTION_ALREADY_REGISTERED | 13 | The collection is already registered and thus cannot be registered again |
-| COLLECTION_INVALID | 14 | The collection is invalid (e.g. the collection does not have a default ACLEntry) |
-| COLLECTION_INVALID_ITEM_TYPE | 15 | The item type in the collection is invalid |
-| COLLECTION_INVALID_ROLE_ID | 16 | The role id in the collection is invalid |
-| USER_INVALID_ID | 20 | The user does not have permission to perform the operation |
-| USER_UNREGISTERED | 21 | The certificate is not registered as a user and thus cannot be used |
-| USER_ALREADY_REGISTERED | 22 | The certificate is already registered as a user and thus cannot be registered again |
-| USER_INVALID | 23 | The user is invalid |
-| USER_NO_ROLE | 24 | The user does not have a role |
-| USER_PERMISSION_DENIED | 26 | USER_DELETED_ROLE = 25; The user does not have permission to perform the operation |
-| ITEM_INVALID_ID | 31 | The Item&#39;s key is invalid |
-| ITEM_UNREGISTERED | 32 | The Item is not registered and thus cannot be accessed |
-| ITEM_ALREADY_REGISTERED | 33 | The Item is already registered and thus cannot be registered again |
-| ITEM_INVALID | 34 | The Item is invalid |
-| INVALID_ITEM_FIELD_PATH | 35 | The item field path is invalid for the item type |
-| INVALID_ITEM_FIELD_VALUE | 36 | The value at the item field path is invalid for the item type |
+| Name                          | Number | Description                                                                         |
+| ----------------------------- | ------ | ----------------------------------------------------------------------------------- |
+| UNSPECIFIED                   | 0      |                                                                                     |
+| REQUEST_INVALID               | 1      |                                                                                     |
+| RUNTIME                       | 2      |                                                                                     |
+| RUNTIME_BAD_OPS               | 3      |                                                                                     |
+| KEY_NOT_FOUND                 | 4      | The provided key is not in the world state                                          |
+| KEY_ALREADY_EXISTS            | 5      | The provided key is already in the world state                                      |
+| COLLECTION_INVALID_ID         | 11     | The collection id is invalid                                                        |
+| COLLECTION_UNREGISTERED       | 12     | The collection is not registered and thus cannot be accessed                        |
+| COLLECTION_ALREADY_REGISTERED | 13     | The collection is already registered and thus cannot be registered again            |
+| COLLECTION_INVALID            | 14     | The collection is invalid (e.g. the collection does not have a default ACLEntry)    |
+| COLLECTION_INVALID_ITEM_TYPE  | 15     | The item type in the collection is invalid                                          |
+| COLLECTION_INVALID_ROLE_ID    | 16     | The role id in the collection is invalid                                            |
+| USER_INVALID_ID               | 20     | The user does not have permission to perform the operation                          |
+| USER_UNREGISTERED             | 21     | The certificate is not registered as a user and thus cannot be used                 |
+| USER_ALREADY_REGISTERED       | 22     | The certificate is already registered as a user and thus cannot be registered again |
+| USER_INVALID                  | 23     | The user is invalid                                                                 |
+| USER_NO_ROLE                  | 24     | The user does not have a role                                                       |
+| USER_PERMISSION_DENIED        | 26     | USER_DELETED_ROLE = 25; The user does not have permission to perform the operation  |
+| ITEM_INVALID_ID               | 31     | The Item&#39;s key is invalid                                                       |
+| ITEM_UNREGISTERED             | 32     | The Item is not registered and thus cannot be accessed                              |
+| ITEM_ALREADY_REGISTERED       | 33     | The Item is already registered and thus cannot be registered again                  |
+| ITEM_INVALID                  | 34     | The Item is invalid                                                                 |
+| INVALID_ITEM_FIELD_PATH       | 35     | The item field path is invalid for the item type                                    |
+| INVALID_ITEM_FIELD_VALUE      | 36     | The value at the item field path is invalid for the item type                       |
 
 
 
@@ -320,11 +320,11 @@ Can be used as the history entry
 <a name="auth_v1_auth-proto-extensions"></a>
 
 ### File-level Extensions
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| key_schema | KeySchema | .google.protobuf.MessageOptions | 54599 |  |
-| operation | Operation | .google.protobuf.MethodOptions | 57775 |  |
-| transaction_type | TransactionType | .google.protobuf.MethodOptions | 50556 |  |
+| Extension        | Type            | Base                            | Number | Description |
+| ---------------- | --------------- | ------------------------------- | ------ | ----------- |
+| key_schema       | KeySchema       | .google.protobuf.MessageOptions | 54599  |             |
+| operation        | Operation       | .google.protobuf.MethodOptions  | 57775  |             |
+| transaction_type | TransactionType | .google.protobuf.MethodOptions  | 50556  |             |
 
 
 
@@ -346,14 +346,14 @@ An attribute is used to define permissions via the value of the attribute in the
 users certificate for a given msp
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| msp_id | [string](#string) |  | The msp of the organization that this attribute applies to |
-| oid | [string](#string) |  | The oid of the attribute |
-| value | [string](#string) |  | The value of the attribute required to be satisfied by the user to have the role |
-| polices | [Polices](#auth-Polices) |  | The Permission that the user will have if they have the attribute |
-| note | [string](#string) |  |  |
+| Field         | Type                     | Label | Description                                                                      |
+| ------------- | ------------------------ | ----- | -------------------------------------------------------------------------------- |
+| collection_id | [string](#string)        |       |                                                                                  |
+| msp_id        | [string](#string)        |       | The msp of the organization that this attribute applies to                       |
+| oid           | [string](#string)        |       | The oid of the attribute                                                         |
+| value         | [string](#string)        |       | The value of the attribute required to be satisfied by the user to have the role |
+| polices       | [Polices](#auth-Polices) |       | The Permission that the user will have if they have the attribute                |
+| note          | [string](#string)        |       |                                                                                  |
 
 
 
@@ -370,13 +370,13 @@ Note that the types of items are stored in the default ACLEntry
 key := {COLLECTION}{COLLECTION_ID}
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  | The key for the ledger |
-| name | [string](#string) |  |  |
-| auth_type | [AuthType](#auth-AuthType) |  |  |
-| item_types | [string](#string) | repeated |  |
-| default | [Polices](#auth-Polices) |  |  |
+| Field         | Type                       | Label    | Description            |
+| ------------- | -------------------------- | -------- | ---------------------- |
+| collection_id | [string](#string)          |          | The key for the ledger |
+| name          | [string](#string)          |          |                        |
+| auth_type     | [AuthType](#auth-AuthType) |          |                        |
+| item_types    | [string](#string)          | repeated |                        |
+| default       | [Polices](#auth-Polices)   |          |                        |
 
 
 
@@ -389,12 +389,12 @@ key := {COLLECTION}{COLLECTION_ID}
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [Item](#auth-Item) |  |  |
-| history | [History](#auth-History) |  |  |
-| suggestions | [Suggestion](#auth-Suggestion) | repeated |  |
-| references | [Reference](#auth-Reference) | repeated |  |
+| Field       | Type                           | Label    | Description |
+| ----------- | ------------------------------ | -------- | ----------- |
+| item        | [Item](#auth-Item)             |          |             |
+| history     | [History](#auth-History)       |          |             |
+| suggestions | [Suggestion](#auth-Suggestion) | repeated |             |
+| references  | [Reference](#auth-Reference)   | repeated |             |
 
 
 
@@ -407,13 +407,13 @@ key := {COLLECTION}{COLLECTION_ID}
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| tx_id | [string](#string) |  |  |
-| msp_id | [string](#string) |  |  |
-| user_id | [string](#string) |  |  |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| note | [string](#string) |  |  |
+| Field     | Type                                                    | Label | Description |
+| --------- | ------------------------------------------------------- | ----- | ----------- |
+| tx_id     | [string](#string)                                       |       |             |
+| msp_id    | [string](#string)                                       |       |             |
+| user_id   | [string](#string)                                       |       |             |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |       |             |
+| note      | [string](#string)                                       |       |             |
 
 
 
@@ -426,10 +426,10 @@ key := {COLLECTION}{COLLECTION_ID}
 Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| primary_key | [ItemKey](#auth-ItemKey) |  | The key that is used to store the item |
-| txs | [HiddenTx](#auth-HiddenTx) | repeated | The list of hidden txs by tx_id |
+| Field       | Type                       | Label    | Description                            |
+| ----------- | -------------------------- | -------- | -------------------------------------- |
+| primary_key | [ItemKey](#auth-ItemKey)   |          | The key that is used to store the item |
+| txs         | [HiddenTx](#auth-HiddenTx) | repeated | The list of hidden txs by tx_id        |
 
 
 
@@ -442,10 +442,10 @@ Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| entries | [HistoryEntry](#auth-HistoryEntry) | repeated |  |
-| hidden_txs | [HiddenTxList](#auth-HiddenTxList) |  |  |
+| Field      | Type                               | Label    | Description |
+| ---------- | ---------------------------------- | -------- | ----------- |
+| entries    | [HistoryEntry](#auth-HistoryEntry) | repeated |             |
+| hidden_txs | [HiddenTxList](#auth-HiddenTxList) |          |             |
 
 
 
@@ -458,14 +458,14 @@ Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| tx_id | [string](#string) |  | The transaction id that caused the change |
-| is_delete | [bool](#bool) |  | Whether the item was deleted |
-| is_hidden | [bool](#bool) |  | Whether the transaction was hidden |
-| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp of the change |
-| note | [string](#string) |  | A note about the change |
-| value | [google.protobuf.Any](#google-protobuf-Any) |  | The value of the item |
+| Field     | Type                                                    | Label | Description                               |
+| --------- | ------------------------------------------------------- | ----- | ----------------------------------------- |
+| tx_id     | [string](#string)                                       |       | The transaction id that caused the change |
+| is_delete | [bool](#bool)                                           |       | Whether the item was deleted              |
+| is_hidden | [bool](#bool)                                           |       | Whether the transaction was hidden        |
+| timestamp | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |       | The timestamp of the change               |
+| note      | [string](#string)                                       |       | A note about the change                   |
+| value     | [google.protobuf.Any](#google-protobuf-Any)             |       | The value of the item                     |
 
 
 
@@ -478,10 +478,10 @@ Key should be {COLLECTION_ID}{auth.HiddenTxList}{ITEM_TYPE}{...ITEM_ID}
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [ItemKey](#auth-ItemKey) |  |  |
-| value | [google.protobuf.Any](#google-protobuf-Any) |  |  |
+| Field | Type                                        | Label | Description |
+| ----- | ------------------------------------------- | ----- | ----------- |
+| key   | [ItemKey](#auth-ItemKey)                    |       |             |
+| value | [google.protobuf.Any](#google-protobuf-Any) |       |             |
 
 
 
@@ -511,12 +511,12 @@ Examples
 - HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| item_type | [string](#string) |  |  |
-| item_kind | [ItemKind](#auth-ItemKind) |  |  |
-| item_key_parts | [string](#string) | repeated |  |
+| Field          | Type                       | Label    | Description |
+| -------------- | -------------------------- | -------- | ----------- |
+| collection_id  | [string](#string)          |          |             |
+| item_type      | [string](#string)          |          |             |
+| item_kind      | [ItemKind](#auth-ItemKind) |          |             |
+| item_key_parts | [string](#string)          | repeated |             |
 
 
 
@@ -529,13 +529,13 @@ Examples
 This message is the tree node for operations on the state item
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| path | [string](#string) |  | The path is a sub path of a field mask |
-| full_path | [string](#string) |  |  |
-| allow_sub_paths | [bool](#bool) |  |  |
-| sub_paths | [PathPolicy.SubPathsEntry](#auth-PathPolicy-SubPathsEntry) | repeated | The key is a valid sub path in the type of state item |
-| actions | [Action](#auth-Action) | repeated | If the policy is not set than use a parent policy unless nested policy is set |
+| Field           | Type                                                       | Label    | Description                                                                   |
+| --------------- | ---------------------------------------------------------- | -------- | ----------------------------------------------------------------------------- |
+| path            | [string](#string)                                          |          | The path is a sub path of a field mask                                        |
+| full_path       | [string](#string)                                          |          |                                                                               |
+| allow_sub_paths | [bool](#bool)                                              |          |                                                                               |
+| sub_paths       | [PathPolicy.SubPathsEntry](#auth-PathPolicy-SubPathsEntry) | repeated | The key is a valid sub path in the type of state item                         |
+| actions         | [Action](#auth-Action)                                     | repeated | If the policy is not set than use a parent policy unless nested policy is set |
 
 
 
@@ -548,10 +548,10 @@ This message is the tree node for operations on the state item
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [PathPolicy](#auth-PathPolicy) |  |  |
+| Field | Type                           | Label | Description |
+| ----- | ------------------------------ | ----- | ----------- |
+| key   | [string](#string)              |       |             |
+| value | [PathPolicy](#auth-PathPolicy) |       |             |
 
 
 
@@ -564,11 +564,11 @@ This message is the tree node for operations on the state item
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_policies | [Polices.ItemPoliciesEntry](#auth-Polices-ItemPoliciesEntry) | repeated | key is the item type |
-| default_policy | [PathPolicy](#auth-PathPolicy) |  | Default policy for all items |
-| default_excluded_types | [string](#string) | repeated | The types that are excluded from the default policy |
+| Field                  | Type                                                         | Label    | Description                                         |
+| ---------------------- | ------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| item_policies          | [Polices.ItemPoliciesEntry](#auth-Polices-ItemPoliciesEntry) | repeated | key is the item type                                |
+| default_policy         | [PathPolicy](#auth-PathPolicy)                               |          | Default policy for all items                        |
+| default_excluded_types | [string](#string)                                            | repeated | The types that are excluded from the default policy |
 
 
 
@@ -581,10 +581,10 @@ This message is the tree node for operations on the state item
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [PathPolicy](#auth-PathPolicy) |  |  |
+| Field | Type                           | Label | Description |
+| ----- | ------------------------------ | ----- | ----------- |
+| key   | [string](#string)              |       |             |
+| value | [PathPolicy](#auth-PathPolicy) |       |             |
 
 
 
@@ -597,11 +597,11 @@ This message is the tree node for operations on the state item
 Used to return the values of the items that are referenced
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| reference | [ReferenceKey](#auth-ReferenceKey) |  |  |
-| item1 | [Item](#auth-Item) |  |  |
-| item2 | [Item](#auth-Item) |  |  |
+| Field     | Type                               | Label | Description |
+| --------- | ---------------------------------- | ----- | ----------- |
+| reference | [ReferenceKey](#auth-ReferenceKey) |       |             |
+| item1     | [Item](#auth-Item)                 |       |             |
+| item2     | [Item](#auth-Item)                 |       |             |
 
 
 
@@ -615,10 +615,10 @@ Reference Keys
 {auth.Reference}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key1 | [ItemKey](#auth-ItemKey) |  | string reference_type = 2; |
-| key2 | [ItemKey](#auth-ItemKey) |  |  |
+| Field | Type                     | Label | Description                |
+| ----- | ------------------------ | ----- | -------------------------- |
+| key1  | [ItemKey](#auth-ItemKey) |       | string reference_type = 2; |
+| key2  | [ItemKey](#auth-ItemKey) |       |                            |
 
 
 
@@ -631,13 +631,13 @@ Reference Keys
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| role_id | [string](#string) |  |  |
-| polices | [Polices](#auth-Polices) |  |  |
-| note | [string](#string) |  |  |
-| parent_role_ids | [string](#string) | repeated |  |
+| Field           | Type                     | Label    | Description |
+| --------------- | ------------------------ | -------- | ----------- |
+| collection_id   | [string](#string)        |          |             |
+| role_id         | [string](#string)        |          |             |
+| polices         | [Polices](#auth-Polices) |          |             |
+| note            | [string](#string)        |          |             |
+| parent_role_ids | [string](#string)        | repeated |             |
 
 
 
@@ -650,9 +650,9 @@ Reference Keys
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| role_id | [string](#string) | repeated |  |
+| Field   | Type              | Label    | Description |
+| ------- | ----------------- | -------- | ----------- |
+| role_id | [string](#string) | repeated |             |
 
 
 
@@ -666,12 +666,12 @@ Key should be
 {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| primary_key | [ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
-| paths | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
-| value | [google.protobuf.Any](#google-protobuf-Any) |  |  |
+| Field         | Type                                                    | Label | Description |
+| ------------- | ------------------------------------------------------- | ----- | ----------- |
+| primary_key   | [ItemKey](#auth-ItemKey)                                |       |             |
+| suggestion_id | [string](#string)                                       |       |             |
+| paths         | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |       |             |
+| value         | [google.protobuf.Any](#google-protobuf-Any)             |       |             |
 
 
 
@@ -684,13 +684,13 @@ Key should be
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  | The collection that the user is a member of |
-| msp_id | [string](#string) |  | The msp of the organization that the user&#39;s certificate is from |
-| user_id | [string](#string) |  | The id of the user from the certificate |
-| role_ids | [string](#string) | repeated | The roles that the user has in the collection |
-| note | [string](#string) |  |  |
+| Field         | Type              | Label    | Description                                                         |
+| ------------- | ----------------- | -------- | ------------------------------------------------------------------- |
+| collection_id | [string](#string) |          | The collection that the user is a member of                         |
+| msp_id        | [string](#string) |          | The msp of the organization that the user&#39;s certificate is from |
+| user_id       | [string](#string) |          | The id of the user from the certificate                             |
+| role_ids      | [string](#string) | repeated | The roles that the user has in the collection                       |
+| note          | [string](#string) |          |                                                                     |
 
 
 
@@ -703,47 +703,47 @@ Key should be
 Membership is used to store permissions for a user in a collection
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  | The collection that the user is a member of |
-| msp_id | [string](#string) |  | The msp of the organization that the user&#39;s certificate is from |
-| user_id | [string](#string) |  | The id of the user from the certificate |
-| polices | [Polices](#auth-Polices) |  | The Permissions that the user will have |
-| note | [string](#string) |  |  |
+| Field         | Type                     | Label | Description                                                         |
+| ------------- | ------------------------ | ----- | ------------------------------------------------------------------- |
+| collection_id | [string](#string)        |       | The collection that the user is a member of                         |
+| msp_id        | [string](#string)        |       | The msp of the organization that the user&#39;s certificate is from |
+| user_id       | [string](#string)        |       | The id of the user from the certificate                             |
+| polices       | [Polices](#auth-Polices) |       | The Permissions that the user will have                             |
+| note          | [string](#string)        |       |                                                                     |
 
 
 
 
 
 
-<a name="auth-UserEmbeddedRoles"></a>
+<a name="auth-UserGlobalRoles"></a>
 
-### UserEmbeddedRoles
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| msp_id | [string](#string) |  | The msp of the organization that the user&#39;s certificate is from |
-| user_id | [string](#string) |  | The id of the user from the certificate |
-| roles | [UserEmbeddedRoles.RolesEntry](#auth-UserEmbeddedRoles-RolesEntry) | repeated | The roles that the user has in the collection key is the collection id value is the list of rolesIds |
+### UserGlobalRoles
 
 
+
+| Field         | Type                                                           | Label    | Description                                                                                          |
+| ------------- | -------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| collection_id | [string](#string)                                              |          |                                                                                                      |
+| msp_id        | [string](#string)                                              |          | The msp of the organization that the user&#39;s certificate is from                                  |
+| user_id       | [string](#string)                                              |          | The id of the user from the certificate                                                              |
+| roles         | [UserGlobalRoles.RolesEntry](#auth-UserGlobalRoles-RolesEntry) | repeated | The roles that the user has in the collection key is the collection id value is the list of rolesIds |
 
 
 
 
-<a name="auth-UserEmbeddedRoles-RolesEntry"></a>
-
-### UserEmbeddedRoles.RolesEntry
 
 
+<a name="auth-UserGlobalRoles-RolesEntry"></a>
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [RoleList](#auth-RoleList) |  |  |
+### UserGlobalRoles.RolesEntry
+
+
+
+| Field | Type                       | Label | Description |
+| ----- | -------------------------- | ----- | ----------- |
+| key   | [string](#string)          |       |             |
+| value | [RoleList](#auth-RoleList) |       |             |
 
 
 
@@ -772,11 +772,11 @@ Membership is used to store permissions for a user in a collection
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| first_name | [string](#string) |  |  |
-| last_name | [string](#string) |  |  |
-| middle_name | [string](#string) |  |  |
+| Field       | Type              | Label | Description |
+| ----------- | ----------------- | ----- | ----------- |
+| first_name  | [string](#string) |       |             |
+| last_name   | [string](#string) |       |             |
+| middle_name | [string](#string) |       |             |
 
 
 
@@ -789,17 +789,17 @@ Membership is used to store permissions for a user in a collection
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| specimen_id | [string](#string) |  |  |
-| primary | [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary) |  |  |
-| secondary | [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary) |  |  |
-| taxon | [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon) |  |  |
-| georeference | [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference) |  |  |
-| images | [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry) | repeated |  |
-| loans | [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry) | repeated |  |
-| grants | [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry) | repeated |  |
+| Field         | Type                                                            | Label    | Description |
+| ------------- | --------------------------------------------------------------- | -------- | ----------- |
+| collection_id | [string](#string)                                               |          |             |
+| specimen_id   | [string](#string)                                               |          |             |
+| primary       | [Specimen.Primary](#ccbio-schema-v0-Specimen-Primary)           |          |             |
+| secondary     | [Specimen.Secondary](#ccbio-schema-v0-Specimen-Secondary)       |          |             |
+| taxon         | [Specimen.Taxon](#ccbio-schema-v0-Specimen-Taxon)               |          |             |
+| georeference  | [Specimen.Georeference](#ccbio-schema-v0-Specimen-Georeference) |          |             |
+| images        | [Specimen.ImagesEntry](#ccbio-schema-v0-Specimen-ImagesEntry)   | repeated |             |
+| loans         | [Specimen.LoansEntry](#ccbio-schema-v0-Specimen-LoansEntry)     | repeated |             |
+| grants        | [Specimen.GrantsEntry](#ccbio-schema-v0-Specimen-GrantsEntry)   | repeated |             |
 
 
 
@@ -812,17 +812,17 @@ Membership is used to store permissions for a user in a collection
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| country | [string](#string) |  |  |
-| state_province | [string](#string) |  |  |
-| county | [string](#string) |  |  |
-| locality | [string](#string) |  |  |
-| latitude | [string](#string) |  |  |
-| longitude | [string](#string) |  |  |
-| habitat | [string](#string) |  |  |
-| notes | [string](#string) | repeated |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field          | Type                                      | Label    | Description |
+| -------------- | ----------------------------------------- | -------- | ----------- |
+| country        | [string](#string)                         |          |             |
+| state_province | [string](#string)                         |          |             |
+| county         | [string](#string)                         |          |             |
+| locality       | [string](#string)                         |          |             |
+| latitude       | [string](#string)                         |          |             |
+| longitude      | [string](#string)                         |          |             |
+| habitat        | [string](#string)                         |          |             |
+| notes          | [string](#string)                         | repeated |             |
+| last_modified  | [auth.StateActivity](#auth-StateActivity) |          |             |
 
 
 
@@ -835,14 +835,14 @@ Membership is used to store permissions for a user in a collection
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| granted_by | [string](#string) |  |  |
-| granted_to | [string](#string) |  |  |
-| granted_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field         | Type                                                    | Label | Description |
+| ------------- | ------------------------------------------------------- | ----- | ----------- |
+| id            | [string](#string)                                       |       |             |
+| description   | [string](#string)                                       |       |             |
+| granted_by    | [string](#string)                                       |       |             |
+| granted_to    | [string](#string)                                       |       |             |
+| granted_date  | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |       |             |
+| last_modified | [auth.StateActivity](#auth-StateActivity)               |       |             |
 
 
 
@@ -855,10 +855,10 @@ Membership is used to store permissions for a user in a collection
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant) |  |  |
+| Field | Type                                              | Label | Description |
+| ----- | ------------------------------------------------- | ----- | ----------- |
+| key   | [string](#string)                                 |       |             |
+| value | [Specimen.Grant](#ccbio-schema-v0-Specimen-Grant) |       |             |
 
 
 
@@ -871,13 +871,13 @@ Membership is used to store permissions for a user in a collection
 Mapped Types
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| url | [string](#string) |  |  |
-| notes | [string](#string) |  |  |
-| hash | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field         | Type                                      | Label | Description |
+| ------------- | ----------------------------------------- | ----- | ----------- |
+| id            | [string](#string)                         |       |             |
+| url           | [string](#string)                         |       |             |
+| notes         | [string](#string)                         |       |             |
+| hash          | [string](#string)                         |       |             |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |       |             |
 
 
 
@@ -890,10 +890,10 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Image](#ccbio-schema-v0-Specimen-Image) |  |  |
+| Field | Type                                              | Label | Description |
+| ----- | ------------------------------------------------- | ----- | ----------- |
+| key   | [string](#string)                                 |       |             |
+| value | [Specimen.Image](#ccbio-schema-v0-Specimen-Image) |       |             |
 
 
 
@@ -906,14 +906,14 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
-| description | [string](#string) |  |  |
-| loaned_by | [string](#string) |  |  |
-| loaned_to | [string](#string) |  |  |
-| loaned_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field         | Type                                                    | Label | Description |
+| ------------- | ------------------------------------------------------- | ----- | ----------- |
+| id            | [string](#string)                                       |       |             |
+| description   | [string](#string)                                       |       |             |
+| loaned_by     | [string](#string)                                       |       |             |
+| loaned_to     | [string](#string)                                       |       |             |
+| loaned_date   | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |       |             |
+| last_modified | [auth.StateActivity](#auth-StateActivity)               |       |             |
 
 
 
@@ -926,10 +926,10 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan) |  |  |
+| Field | Type                                            | Label | Description |
+| ----- | ----------------------------------------------- | ----- | ----------- |
+| key   | [string](#string)                               |       |             |
+| value | [Specimen.Loan](#ccbio-schema-v0-Specimen-Loan) |       |             |
 
 
 
@@ -942,20 +942,20 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| catalog_number | [string](#string) |  |  |
-| accession_number | [string](#string) |  |  |
-| field_number | [string](#string) |  |  |
-| tissue_number | [string](#string) |  |  |
-| cataloger | [string](#string) |  |  |
-| collector | [Researcher](#ccbio-schema-v0-Researcher) | repeated |  |
-| determiner | [string](#string) |  |  |
-| field_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| catalog_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| determined_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
-| determined_reason | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field             | Type                                                    | Label    | Description |
+| ----------------- | ------------------------------------------------------- | -------- | ----------- |
+| catalog_number    | [string](#string)                                       |          |             |
+| accession_number  | [string](#string)                                       |          |             |
+| field_number      | [string](#string)                                       |          |             |
+| tissue_number     | [string](#string)                                       |          |             |
+| cataloger         | [string](#string)                                       |          |             |
+| collector         | [Researcher](#ccbio-schema-v0-Researcher)               | repeated |             |
+| determiner        | [string](#string)                                       |          |             |
+| field_date        | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |          |             |
+| catalog_date      | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |          |             |
+| determined_date   | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |          |             |
+| determined_reason | [string](#string)                                       |          |             |
+| last_modified     | [auth.StateActivity](#auth-StateActivity)               |          |             |
 
 
 
@@ -968,12 +968,12 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| preparation | [string](#string) |  |  |
-| condition | [string](#string) |  |  |
-| notes | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field         | Type                                      | Label | Description |
+| ------------- | ----------------------------------------- | ----- | ----------- |
+| preparation   | [string](#string)                         |       |             |
+| condition     | [string](#string)                         |       |             |
+| notes         | [string](#string)                         |       |             |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |       |             |
 
 
 
@@ -986,17 +986,17 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| kingdom | [string](#string) |  |  |
-| phylum | [string](#string) |  |  |
-| class | [string](#string) |  |  |
-| order | [string](#string) |  |  |
-| family | [string](#string) |  |  |
-| genus | [string](#string) |  |  |
-| species | [string](#string) |  |  |
-| subspecies | [string](#string) |  |  |
-| last_modified | [auth.StateActivity](#auth-StateActivity) |  |  |
+| Field         | Type                                      | Label | Description |
+| ------------- | ----------------------------------------- | ----- | ----------- |
+| kingdom       | [string](#string)                         |       |             |
+| phylum        | [string](#string)                         |       |             |
+| class         | [string](#string)                         |       |             |
+| order         | [string](#string)                         |       |             |
+| family        | [string](#string)                         |       |             |
+| genus         | [string](#string)                         |       |             |
+| species       | [string](#string)                         |       |             |
+| subspecies    | [string](#string)                         |       |             |
+| last_modified | [auth.StateActivity](#auth-StateActivity) |       |             |
 
 
 
@@ -1025,9 +1025,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| operation | [auth.Operation](#auth-Operation) |  |  |
+| Field     | Type                              | Label | Description |
+| --------- | --------------------------------- | ----- | ----------- |
+| operation | [auth.Operation](#auth-Operation) |       |             |
 
 
 
@@ -1040,9 +1040,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| authorized | [bool](#bool) |  |  |
+| Field      | Type          | Label | Description |
+| ---------- | ------------- | ----- | ----------- |
+| authorized | [bool](#bool) |       |             |
 
 
 
@@ -1055,9 +1055,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collections | [auth.Collection](#auth-Collection) | repeated |  |
+| Field       | Type                                | Label    | Description |
+| ----------- | ----------------------------------- | -------- | ----------- |
+| collections | [auth.Collection](#auth-Collection) | repeated |             |
 
 
 
@@ -1070,9 +1070,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| success | [bool](#bool) |  |  |
+| Field   | Type          | Label | Description |
+| ------- | ------------- | ----- | ----------- |
+| success | [bool](#bool) |       |             |
 
 
 
@@ -1085,9 +1085,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection | [auth.Collection](#auth-Collection) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| collection | [auth.Collection](#auth-Collection) |       |             |
 
 
 
@@ -1100,9 +1100,9 @@ Mapped Types
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection | [auth.Collection](#auth-Collection) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| collection | [auth.Collection](#auth-Collection) |       |             |
 
 
 
@@ -1116,9 +1116,9 @@ Mapped Types
 Create
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1131,9 +1131,9 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1146,10 +1146,10 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| reason | [string](#string) |  |  |
+| Field  | Type                          | Label | Description |
+| ------ | ----------------------------- | ----- | ----------- |
+| key    | [auth.ItemKey](#auth-ItemKey) |       |             |
+| reason | [string](#string)             |       |             |
 
 
 
@@ -1162,9 +1162,9 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1177,12 +1177,12 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| user | [auth.User](#auth-User) |  |  |
-| registered | [bool](#bool) |  |  |
-| user_collection_roles | [auth.UserCollectionRoles](#auth-UserCollectionRoles) | repeated |  |
-| user_memberships | [auth.UserDirectMembership](#auth-UserDirectMembership) | repeated |  |
+| Field                 | Type                                                    | Label    | Description |
+| --------------------- | ------------------------------------------------------- | -------- | ----------- |
+| user                  | [auth.User](#auth-User)                                 |          |             |
+| registered            | [bool](#bool)                                           |          |             |
+| user_collection_roles | [auth.UserCollectionRoles](#auth-UserCollectionRoles)   | repeated |             |
+| user_memberships      | [auth.UserDirectMembership](#auth-UserDirectMembership) | repeated |             |
 
 
 
@@ -1195,10 +1195,10 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| user | [auth.User](#auth-User) |  |  |
-| registered | [bool](#bool) |  |  |
+| Field      | Type                    | Label | Description |
+| ---------- | ----------------------- | ----- | ----------- |
+| user       | [auth.User](#auth-User) |       |             |
+| registered | [bool](#bool)           |       |             |
 
 
 
@@ -1211,10 +1211,10 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| show_hidden | [bool](#bool) |  |  |
+| Field       | Type                          | Label | Description |
+| ----------- | ----------------------------- | ----- | ----------- |
+| key         | [auth.ItemKey](#auth-ItemKey) |       |             |
+| show_hidden | [bool](#bool)                 |       |             |
 
 
 
@@ -1227,9 +1227,9 @@ Create
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| full_item | [auth.FullItem](#auth-FullItem) |  |  |
+| Field     | Type                            | Label | Description |
+| --------- | ------------------------------- | ----- | ----------- |
+| full_item | [auth.FullItem](#auth-FullItem) |       |             |
 
 
 
@@ -1242,9 +1242,9 @@ Create
 GetHiddenTx
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1257,10 +1257,10 @@ GetHiddenTx
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| hidden_txs | [auth.HiddenTx](#auth-HiddenTx) | repeated |  |
+| Field         | Type                            | Label    | Description |
+| ------------- | ------------------------------- | -------- | ----------- |
+| collection_id | [string](#string)               |          |             |
+| hidden_txs    | [auth.HiddenTx](#auth-HiddenTx) | repeated |             |
 
 
 
@@ -1273,11 +1273,11 @@ GetHiddenTx
 GetHistory
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| include_hidden | [bool](#bool) |  |  |
-| bookmark | [string](#string) |  |  |
+| Field          | Type                          | Label | Description |
+| -------------- | ----------------------------- | ----- | ----------- |
+| key            | [auth.ItemKey](#auth-ItemKey) |       |             |
+| include_hidden | [bool](#bool)                 |       |             |
+| bookmark       | [string](#string)             |       |             |
 
 
 
@@ -1290,10 +1290,10 @@ GetHistory
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  | repeated auth. s = 1; |
-| history | [auth.History](#auth-History) |  |  |
+| Field   | Type                          | Label | Description           |
+| ------- | ----------------------------- | ----- | --------------------- |
+| key     | [auth.ItemKey](#auth-ItemKey) |       | repeated auth. s = 1; |
+| history | [auth.History](#auth-History) |       |                       |
 
 
 
@@ -1306,9 +1306,9 @@ GetHistory
 Get
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
+| Field | Type                          | Label | Description         |
+| ----- | ----------------------------- | ----- | ------------------- |
+| key   | [auth.ItemKey](#auth-ItemKey) |       | auth.Item item = 3; |
 
 
 
@@ -1321,9 +1321,9 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1336,10 +1336,10 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
+| Field         | Type                          | Label | Description |
+| ------------- | ----------------------------- | ----- | ----------- |
+| item_key      | [auth.ItemKey](#auth-ItemKey) |       |             |
+| suggestion_id | [string](#string)             |       |             |
 
 
 
@@ -1352,9 +1352,9 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |       |             |
 
 
 
@@ -1367,10 +1367,10 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 1; |
-| hidden_tx | [auth.HiddenTx](#auth-HiddenTx) |  |  |
+| Field     | Type                            | Label | Description         |
+| --------- | ------------------------------- | ----- | ------------------- |
+| key       | [auth.ItemKey](#auth-ItemKey)   |       | auth.Item item = 1; |
+| hidden_tx | [auth.HiddenTx](#auth-HiddenTx) |       |                     |
 
 
 
@@ -1383,10 +1383,10 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |  |  |
+| Field      | Type                                    | Label | Description |
+| ---------- | --------------------------------------- | ----- | ----------- |
+| key        | [auth.ItemKey](#auth-ItemKey)           |       |             |
+| hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |       |             |
 
 
 
@@ -1399,12 +1399,12 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| num_attrs | [int32](#int32) |  |  |
+| Field     | Type                          | Label | Description |
+| --------- | ----------------------------- | ----- | ----------- |
+| bookmark  | [string](#string)             |       |             |
+| limit     | [uint32](#uint32)             |       |             |
+| key       | [auth.ItemKey](#auth-ItemKey) |       |             |
+| num_attrs | [int32](#int32)               |       |             |
 
 
 
@@ -1417,10 +1417,10 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| items | [auth.Item](#auth-Item) | repeated |  |
+| Field    | Type                    | Label    | Description |
+| -------- | ----------------------- | -------- | ----------- |
+| bookmark | [string](#string)       |          |             |
+| items    | [auth.Item](#auth-Item) | repeated |             |
 
 
 
@@ -1433,11 +1433,11 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  | auth.Item item = 3; |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| Field    | Type                          | Label | Description         |
+| -------- | ----------------------------- | ----- | ------------------- |
+| bookmark | [string](#string)             |       |                     |
+| limit    | [uint32](#uint32)             |       | auth.Item item = 3; |
+| key      | [auth.ItemKey](#auth-ItemKey) |       |                     |
 
 
 
@@ -1450,10 +1450,10 @@ Get
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| items | [auth.Item](#auth-Item) | repeated |  |
+| Field    | Type                    | Label    | Description |
+| -------- | ----------------------- | -------- | ----------- |
+| bookmark | [string](#string)       |          |             |
+| items    | [auth.Item](#auth-Item) | repeated |             |
 
 
 
@@ -1466,11 +1466,11 @@ Get
 List of a type
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
+| Field    | Type                          | Label | Description         |
+| -------- | ----------------------------- | ----- | ------------------- |
+| bookmark | [string](#string)             |       |                     |
+| limit    | [uint32](#uint32)             |       |                     |
+| key      | [auth.ItemKey](#auth-ItemKey) |       | auth.Item item = 3; |
 
 
 
@@ -1483,10 +1483,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| items | [auth.Item](#auth-Item) | repeated |  |
+| Field    | Type                    | Label    | Description |
+| -------- | ----------------------- | -------- | ----------- |
+| bookmark | [string](#string)       |          |             |
+| items    | [auth.Item](#auth-Item) | repeated |             |
 
 
 
@@ -1499,11 +1499,11 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
-| reason | [string](#string) |  |  |
+| Field         | Type                          | Label | Description |
+| ------------- | ----------------------------- | ----- | ----------- |
+| item_key      | [auth.ItemKey](#auth-ItemKey) |       |             |
+| suggestion_id | [string](#string)             |       |             |
+| reason        | [string](#string)             |       |             |
 
 
 
@@ -1516,10 +1516,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |       |             |
+| item       | [auth.Item](#auth-Item)             |       |             |
 
 
 
@@ -1532,13 +1532,13 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| num_attrs | [int32](#int32) |  |  |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
+| Field         | Type                          | Label | Description |
+| ------------- | ----------------------------- | ----- | ----------- |
+| bookmark      | [string](#string)             |       |             |
+| limit         | [uint32](#uint32)             |       |             |
+| num_attrs     | [int32](#int32)               |       |             |
+| item_key      | [auth.ItemKey](#auth-ItemKey) |       |             |
+| suggestion_id | [string](#string)             |       |             |
 
 
 
@@ -1551,10 +1551,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |  |
+| Field       | Type                                | Label    | Description |
+| ----------- | ----------------------------------- | -------- | ----------- |
+| bookmark    | [string](#string)                   |          |             |
+| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |             |
 
 
 
@@ -1567,9 +1567,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |       |             |
 
 
 
@@ -1582,9 +1582,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |       |             |
 
 
 
@@ -1597,11 +1597,11 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| suggestion_id | [string](#string) |  |  |
-| reason | [string](#string) |  |  |
+| Field         | Type                          | Label | Description |
+| ------------- | ----------------------------- | ----- | ----------- |
+| item_key      | [auth.ItemKey](#auth-ItemKey) |       |             |
+| suggestion_id | [string](#string)             |       |             |
+| reason        | [string](#string)             |       |             |
 
 
 
@@ -1614,9 +1614,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestion | [auth.Suggestion](#auth-Suggestion) |  |  |
+| Field      | Type                                | Label | Description |
+| ---------- | ----------------------------------- | ----- | ----------- |
+| suggestion | [auth.Suggestion](#auth-Suggestion) |       |             |
 
 
 
@@ -1629,11 +1629,11 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| collection_id | [string](#string) |  |  |
+| Field         | Type              | Label | Description |
+| ------------- | ----------------- | ----- | ----------- |
+| bookmark      | [string](#string) |       |             |
+| limit         | [uint32](#uint32) |       |             |
+| collection_id | [string](#string) |       |             |
 
 
 
@@ -1646,10 +1646,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |  |
+| Field       | Type                                | Label    | Description |
+| ----------- | ----------------------------------- | -------- | ----------- |
+| bookmark    | [string](#string)                   |          |             |
+| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |             |
 
 
 
@@ -1662,9 +1662,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| Field    | Type                          | Label | Description |
+| -------- | ----------------------------- | ----- | ----------- |
+| item_key | [auth.ItemKey](#auth-ItemKey) |       |             |
 
 
 
@@ -1677,9 +1677,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |  |
+| Field       | Type                                | Label    | Description |
+| ----------- | ----------------------------------- | -------- | ----------- |
+| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |             |
 
 
 
@@ -1692,11 +1692,11 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 3; |
+| Field    | Type                          | Label | Description         |
+| -------- | ----------------------------- | ----- | ------------------- |
+| bookmark | [string](#string)             |       |                     |
+| limit    | [uint32](#uint32)             |       |                     |
+| key      | [auth.ItemKey](#auth-ItemKey) |       | auth.Item item = 3; |
 
 
 
@@ -1709,10 +1709,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |  |
+| Field       | Type                                | Label    | Description |
+| ----------- | ----------------------------------- | -------- | ----------- |
+| bookmark    | [string](#string)                   |          |             |
+| suggestions | [auth.Suggestion](#auth-Suggestion) | repeated |             |
 
 
 
@@ -1725,10 +1725,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  | auth.Item item = 1; |
-| tx_id | [string](#string) |  |  |
+| Field | Type                          | Label | Description         |
+| ----- | ----------------------------- | ----- | ------------------- |
+| key   | [auth.ItemKey](#auth-ItemKey) |       | auth.Item item = 1; |
+| tx_id | [string](#string)             |       |                     |
 
 
 
@@ -1741,10 +1741,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [auth.ItemKey](#auth-ItemKey) |  |  |
-| hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |  |  |
+| Field      | Type                                    | Label | Description |
+| ---------- | --------------------------------------- | ----- | ----------- |
+| key        | [auth.ItemKey](#auth-ItemKey)           |       |             |
+| hidden_txs | [auth.HiddenTxList](#auth-HiddenTxList) |       |             |
 
 
 
@@ -1757,10 +1757,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
-| update_mask | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |  |  |
+| Field       | Type                                                    | Label | Description |
+| ----------- | ------------------------------------------------------- | ----- | ----------- |
+| item        | [auth.Item](#auth-Item)                                 |       |             |
+| update_mask | [google.protobuf.FieldMask](#google-protobuf-FieldMask) |       |             |
 
 
 
@@ -1773,9 +1773,9 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| item | [auth.Item](#auth-Item) |  |  |
+| Field | Type                    | Label | Description |
+| ----- | ----------------------- | ----- | ----------- |
+| item  | [auth.Item](#auth-Item) |       |             |
 
 
 
@@ -1793,29 +1793,29 @@ List of a type
 ### GenericService
 
 
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| GetCurrentUser | [.google.protobuf.Empty](#google-protobuf-Empty) | [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse) | ══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ────────────────────────────────────── rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) { option (auth.transaction_type) = TRANSACTION_TYPE_QUERY; option (auth.operation) = {action: ACTION_UTILITY}; } |
-| Bootstrap | [BootstrapRequest](#auth-common-BootstrapRequest) | [BootstrapResponse](#auth-common-BootstrapResponse) | ──────────────────────────────── Invoke ─────────────────────────────────────── |
-| AuthorizeOperation | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse) |  |
-| Get | [GetRequest](#auth-common-GetRequest) | [GetResponse](#auth-common-GetResponse) |  |
-| GetFull | [GetFullRequest](#auth-common-GetFullRequest) | [GetFullResponse](#auth-common-GetFullResponse) |  |
-| List | [ListRequest](#auth-common-ListRequest) | [ListResponse](#auth-common-ListResponse) |  |
-| ListByCollection | [ListByCollectionRequest](#auth-common-ListByCollectionRequest) | [ListByCollectionResponse](#auth-common-ListByCollectionResponse) |  |
-| ListByAttrs | [ListByAttrsRequest](#auth-common-ListByAttrsRequest) | [ListByAttrsResponse](#auth-common-ListByAttrsResponse) |  |
-| Create | [CreateRequest](#auth-common-CreateRequest) | [CreateResponse](#auth-common-CreateResponse) |  |
-| Update | [UpdateRequest](#auth-common-UpdateRequest) | [UpdateResponse](#auth-common-UpdateResponse) |  |
-| Delete | [DeleteRequest](#auth-common-DeleteRequest) | [DeleteResponse](#auth-common-DeleteResponse) |  |
-| GetHistory | [GetHistoryRequest](#auth-common-GetHistoryRequest) | [GetHistoryResponse](#auth-common-GetHistoryResponse) |  |
-| GetHiddenTx | [GetHiddenTxRequest](#auth-common-GetHiddenTxRequest) | [GetHiddenTxResponse](#auth-common-GetHiddenTxResponse) |  |
-| HideTx | [HideTxRequest](#auth-common-HideTxRequest) | [HideTxResponse](#auth-common-HideTxResponse) |  |
-| UnHideTx | [UnHideTxRequest](#auth-common-UnHideTxRequest) | [UnHideTxResponse](#auth-common-UnHideTxResponse) |  |
-| GetSuggestion | [GetSuggestionRequest](#auth-common-GetSuggestionRequest) | [GetSuggestionResponse](#auth-common-GetSuggestionResponse) |  |
-| SuggestionListByCollection | [SuggestionListByCollectionRequest](#auth-common-SuggestionListByCollectionRequest) | [SuggestionListByCollectionResponse](#auth-common-SuggestionListByCollectionResponse) |  |
-| SuggestionByPartialKey | [SuggestionByPartialKeyRequest](#auth-common-SuggestionByPartialKeyRequest) | [SuggestionByPartialKeyResponse](#auth-common-SuggestionByPartialKeyResponse) |  |
-| SuggestionCreate | [SuggestionCreateRequest](#auth-common-SuggestionCreateRequest) | [SuggestionCreateResponse](#auth-common-SuggestionCreateResponse) | ──────────────────────────────── Invoke ─────────────────────────────────────── |
-| SuggestionDelete | [SuggestionDeleteRequest](#auth-common-SuggestionDeleteRequest) | [SuggestionDeleteResponse](#auth-common-SuggestionDeleteResponse) |  |
-| SuggestionApprove | [SuggestionApproveRequest](#auth-common-SuggestionApproveRequest) | [SuggestionApproveResponse](#auth-common-SuggestionApproveResponse) |  |
+| Method Name                | Request Type                                                                        | Response Type                                                                         | Description                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GetCurrentUser             | [.google.protobuf.Empty](#google-protobuf-Empty)                                    | [GetCurrentUserResponse](#auth-common-GetCurrentUserResponse)                         | ══════════════════════════════════ Helper ═════════════════════════════════════ ────────────────────────────────── Query ────────────────────────────────────── rpc GetAllTypes(google.protobuf.Empty) returns (GetAllTypesResponse) { option (auth.transaction_type) = TRANSACTION_TYPE_QUERY; option (auth.operation) = {action: ACTION_UTILITY}; } |
+| Bootstrap                  | [BootstrapRequest](#auth-common-BootstrapRequest)                                   | [BootstrapResponse](#auth-common-BootstrapResponse)                                   | ──────────────────────────────── Invoke ───────────────────────────────────────                                                                                                                                                                                                                                                                       |
+| AuthorizeOperation         | [AuthorizeOperationRequest](#auth-common-AuthorizeOperationRequest)                 | [AuthorizeOperationResponse](#auth-common-AuthorizeOperationResponse)                 |                                                                                                                                                                                                                                                                                                                                                       |
+| Get                        | [GetRequest](#auth-common-GetRequest)                                               | [GetResponse](#auth-common-GetResponse)                                               |                                                                                                                                                                                                                                                                                                                                                       |
+| GetFull                    | [GetFullRequest](#auth-common-GetFullRequest)                                       | [GetFullResponse](#auth-common-GetFullResponse)                                       |                                                                                                                                                                                                                                                                                                                                                       |
+| List                       | [ListRequest](#auth-common-ListRequest)                                             | [ListResponse](#auth-common-ListResponse)                                             |                                                                                                                                                                                                                                                                                                                                                       |
+| ListByCollection           | [ListByCollectionRequest](#auth-common-ListByCollectionRequest)                     | [ListByCollectionResponse](#auth-common-ListByCollectionResponse)                     |                                                                                                                                                                                                                                                                                                                                                       |
+| ListByAttrs                | [ListByAttrsRequest](#auth-common-ListByAttrsRequest)                               | [ListByAttrsResponse](#auth-common-ListByAttrsResponse)                               |                                                                                                                                                                                                                                                                                                                                                       |
+| Create                     | [CreateRequest](#auth-common-CreateRequest)                                         | [CreateResponse](#auth-common-CreateResponse)                                         |                                                                                                                                                                                                                                                                                                                                                       |
+| Update                     | [UpdateRequest](#auth-common-UpdateRequest)                                         | [UpdateResponse](#auth-common-UpdateResponse)                                         |                                                                                                                                                                                                                                                                                                                                                       |
+| Delete                     | [DeleteRequest](#auth-common-DeleteRequest)                                         | [DeleteResponse](#auth-common-DeleteResponse)                                         |                                                                                                                                                                                                                                                                                                                                                       |
+| GetHistory                 | [GetHistoryRequest](#auth-common-GetHistoryRequest)                                 | [GetHistoryResponse](#auth-common-GetHistoryResponse)                                 |                                                                                                                                                                                                                                                                                                                                                       |
+| GetHiddenTx                | [GetHiddenTxRequest](#auth-common-GetHiddenTxRequest)                               | [GetHiddenTxResponse](#auth-common-GetHiddenTxResponse)                               |                                                                                                                                                                                                                                                                                                                                                       |
+| HideTx                     | [HideTxRequest](#auth-common-HideTxRequest)                                         | [HideTxResponse](#auth-common-HideTxResponse)                                         |                                                                                                                                                                                                                                                                                                                                                       |
+| UnHideTx                   | [UnHideTxRequest](#auth-common-UnHideTxRequest)                                     | [UnHideTxResponse](#auth-common-UnHideTxResponse)                                     |                                                                                                                                                                                                                                                                                                                                                       |
+| GetSuggestion              | [GetSuggestionRequest](#auth-common-GetSuggestionRequest)                           | [GetSuggestionResponse](#auth-common-GetSuggestionResponse)                           |                                                                                                                                                                                                                                                                                                                                                       |
+| SuggestionListByCollection | [SuggestionListByCollectionRequest](#auth-common-SuggestionListByCollectionRequest) | [SuggestionListByCollectionResponse](#auth-common-SuggestionListByCollectionResponse) |                                                                                                                                                                                                                                                                                                                                                       |
+| SuggestionByPartialKey     | [SuggestionByPartialKeyRequest](#auth-common-SuggestionByPartialKeyRequest)         | [SuggestionByPartialKeyResponse](#auth-common-SuggestionByPartialKeyResponse)         |                                                                                                                                                                                                                                                                                                                                                       |
+| SuggestionCreate           | [SuggestionCreateRequest](#auth-common-SuggestionCreateRequest)                     | [SuggestionCreateResponse](#auth-common-SuggestionCreateResponse)                     | ──────────────────────────────── Invoke ───────────────────────────────────────                                                                                                                                                                                                                                                                       |
+| SuggestionDelete           | [SuggestionDeleteRequest](#auth-common-SuggestionDeleteRequest)                     | [SuggestionDeleteResponse](#auth-common-SuggestionDeleteResponse)                     |                                                                                                                                                                                                                                                                                                                                                       |
+| SuggestionApprove          | [SuggestionApproveRequest](#auth-common-SuggestionApproveRequest)                   | [SuggestionApproveResponse](#auth-common-SuggestionApproveResponse)                   |                                                                                                                                                                                                                                                                                                                                                       |
 
 
 
@@ -1834,11 +1834,11 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| collection_id | [string](#string) |  |  |
+| Field         | Type              | Label | Description |
+| ------------- | ----------------- | ----- | ----------- |
+| bookmark      | [string](#string) |       |             |
+| limit         | [uint32](#uint32) |       |             |
+| collection_id | [string](#string) |       |             |
 
 
 
@@ -1851,10 +1851,10 @@ List of a type
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+| Field      | Type                                    | Label    | Description |
+| ---------- | --------------------------------------- | -------- | ----------- |
+| bookmark   | [string](#string)                       |          |             |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |             |
 
 
 
@@ -1867,12 +1867,12 @@ List of a type
 Get all of the collections
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| collection_id | [string](#string) |  |  |
-| item_key | [auth.ItemKey](#auth-ItemKey) |  |  |
+| Field         | Type                          | Label | Description |
+| ------------- | ----------------------------- | ----- | ----------- |
+| bookmark      | [string](#string)             |       |             |
+| limit         | [uint32](#uint32)             |       |             |
+| collection_id | [string](#string)             |       |             |
+| item_key      | [auth.ItemKey](#auth-ItemKey) |       |             |
 
 
 
@@ -1885,10 +1885,10 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+| Field      | Type                                    | Label    | Description |
+| ---------- | --------------------------------------- | -------- | ----------- |
+| bookmark   | [string](#string)                       |          |             |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |             |
 
 
 
@@ -1901,11 +1901,11 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| limit | [uint32](#uint32) |  |  |
-| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+| Field     | Type                                    | Label | Description |
+| --------- | --------------------------------------- | ----- | ----------- |
+| bookmark  | [string](#string)                       |       |             |
+| limit     | [uint32](#uint32)                       |       |             |
+| reference | [auth.ReferenceKey](#auth-ReferenceKey) |       |             |
 
 
 
@@ -1918,10 +1918,10 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| bookmark | [string](#string) |  |  |
-| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |  |
+| Field      | Type                                    | Label    | Description |
+| ---------- | --------------------------------------- | -------- | ----------- |
+| bookmark   | [string](#string)                       |          |             |
+| references | [auth.ReferenceKey](#auth-ReferenceKey) | repeated |             |
 
 
 
@@ -1934,9 +1934,9 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+| Field   | Type                                    | Label | Description |
+| ------- | --------------------------------------- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |       |             |
 
 
 
@@ -1949,9 +1949,9 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+| Field   | Type                                    | Label | Description |
+| ------- | --------------------------------------- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |       |             |
 
 
 
@@ -1964,9 +1964,9 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+| Field   | Type                                    | Label | Description |
+| ------- | --------------------------------------- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |       |             |
 
 
 
@@ -1979,9 +1979,9 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |  |  |
+| Field   | Type                                    | Label | Description |
+| ------- | --------------------------------------- | ----- | ----------- |
+| ref_key | [auth.ReferenceKey](#auth-ReferenceKey) |       |             |
 
 
 
@@ -1995,9 +1995,9 @@ Get all of the collections
 ──────────────────────────────── Query ──────────────────────────────────────────
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| reference | [auth.ReferenceKey](#auth-ReferenceKey) |  | buf:lint:ignore FIELD_SAME_TYPE |
+| Field     | Type                                    | Label | Description                     |
+| --------- | --------------------------------------- | ----- | ------------------------------- |
+| reference | [auth.ReferenceKey](#auth-ReferenceKey) |       | buf:lint:ignore FIELD_SAME_TYPE |
 
 
 
@@ -2010,10 +2010,10 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| exists | [bool](#bool) |  |  |
-| reference | [auth.Reference](#auth-Reference) |  |  |
+| Field     | Type                              | Label | Description |
+| --------- | --------------------------------- | ----- | ----------- |
+| exists    | [bool](#bool)                     |       |             |
+| reference | [auth.Reference](#auth-Reference) |       |             |
 
 
 
@@ -2032,13 +2032,13 @@ Get all of the collections
 ════════════════════════════════ References ══════════════════════════════════
 ──────────────────────────────── Query ────────────────────────────────────────
 
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| Reference | [ReferenceRequest](#auth-common-ReferenceRequest) | [ReferenceResponse](#auth-common-ReferenceResponse) |  |
-| ReferenceByItem | [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest) | [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse) |  |
-| ReferenceByPartialKey | [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest) | [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse) |  |
-| ReferenceCreate | [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest) | [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse) |  |
-| ReferenceDelete | [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest) | [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse) |  |
+| Method Name           | Request Type                                                              | Response Type                                                               | Description |
+| --------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------- |
+| Reference             | [ReferenceRequest](#auth-common-ReferenceRequest)                         | [ReferenceResponse](#auth-common-ReferenceResponse)                         |             |
+| ReferenceByItem       | [ReferenceByItemRequest](#auth-common-ReferenceByItemRequest)             | [ReferenceByItemResponse](#auth-common-ReferenceByItemResponse)             |             |
+| ReferenceByPartialKey | [ReferenceByPartialKeyRequest](#auth-common-ReferenceByPartialKeyRequest) | [ReferenceByPartialKeyResponse](#auth-common-ReferenceByPartialKeyResponse) |             |
+| ReferenceCreate       | [ReferenceCreateRequest](#auth-common-ReferenceCreateRequest)             | [ReferenceCreateResponse](#auth-common-ReferenceCreateResponse)             |             |
+| ReferenceDelete       | [ReferenceDeleteRequest](#auth-common-ReferenceDeleteRequest)             | [ReferenceDeleteResponse](#auth-common-ReferenceDeleteResponse)             |             |
 
 
 
@@ -2057,16 +2057,16 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| isbn | [string](#string) |  |  |
-| book_title | [string](#string) |  |  |
-| author | [string](#string) |  |  |
-| year | [int32](#int32) |  |  |
-| publisher | [string](#string) |  |  |
-| language | [string](#string) |  |  |
-| description | [string](#string) |  |  |
+| Field         | Type              | Label | Description |
+| ------------- | ----------------- | ----- | ----------- |
+| collection_id | [string](#string) |       |             |
+| isbn          | [string](#string) |       |             |
+| book_title    | [string](#string) |       |             |
+| author        | [string](#string) |       |             |
+| year          | [int32](#int32)   |       |             |
+| publisher     | [string](#string) |       |             |
+| language      | [string](#string) |       |             |
+| description   | [string](#string) |       |             |
 
 
 
@@ -2079,12 +2079,12 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| group_id | [string](#string) |  |  |
-| item1 | [SimpleItem](#sample-SimpleItem) |  |  |
-| item2 | [SimpleItem](#sample-SimpleItem) |  |  |
+| Field         | Type                             | Label | Description |
+| ------------- | -------------------------------- | ----- | ----------- |
+| collection_id | [string](#string)                |       |             |
+| group_id      | [string](#string)                |       |             |
+| item1         | [SimpleItem](#sample-SimpleItem) |       |             |
+| item2         | [SimpleItem](#sample-SimpleItem) |       |             |
 
 
 
@@ -2097,12 +2097,12 @@ Get all of the collections
 
 
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| id | [string](#string) |  |  |
-| name | [string](#string) |  |  |
-| quantity | [int32](#int32) |  |  |
+| Field         | Type              | Label | Description |
+| ------------- | ----------------- | ----- | ----------- |
+| collection_id | [string](#string) |       |             |
+| id            | [string](#string) |       |             |
+| name          | [string](#string) |       |             |
+| quantity      | [int32](#int32)   |       |             |
 
 
 
@@ -2120,20 +2120,20 @@ Get all of the collections
 
 ## Scalar Value Types
 
-| .proto Type | Notes | C++ | Java | Python | Go | C# | PHP | Ruby |
-| ----------- | ----- | --- | ---- | ------ | -- | -- | --- | ---- |
-| <a name="double" /> double |  | double | double | float | float64 | double | float | Float |
-| <a name="float" /> float |  | float | float | float | float32 | float | float | Float |
-| <a name="int32" /> int32 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
-| <a name="int64" /> int64 | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead. | int64 | long | int/long | int64 | long | integer/string | Bignum |
-| <a name="uint32" /> uint32 | Uses variable-length encoding. | uint32 | int | int/long | uint32 | uint | integer | Bignum or Fixnum (as required) |
-| <a name="uint64" /> uint64 | Uses variable-length encoding. | uint64 | long | int/long | uint64 | ulong | integer/string | Bignum or Fixnum (as required) |
-| <a name="sint32" /> sint32 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
-| <a name="sint64" /> sint64 | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s. | int64 | long | int/long | int64 | long | integer/string | Bignum |
-| <a name="fixed32" /> fixed32 | Always four bytes. More efficient than uint32 if values are often greater than 2^28. | uint32 | int | int | uint32 | uint | integer | Bignum or Fixnum (as required) |
-| <a name="fixed64" /> fixed64 | Always eight bytes. More efficient than uint64 if values are often greater than 2^56. | uint64 | long | int/long | uint64 | ulong | integer/string | Bignum |
-| <a name="sfixed32" /> sfixed32 | Always four bytes. | int32 | int | int | int32 | int | integer | Bignum or Fixnum (as required) |
-| <a name="sfixed64" /> sfixed64 | Always eight bytes. | int64 | long | int/long | int64 | long | integer/string | Bignum |
-| <a name="bool" /> bool |  | bool | boolean | boolean | bool | bool | boolean | TrueClass/FalseClass |
-| <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode | string | string | string | String (UTF-8) |
-| <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str | []byte | ByteString | string | String (ASCII-8BIT) |
+| .proto Type                    | Notes                                                                                                                                           | C++    | Java       | Python      | Go      | C#         | PHP            | Ruby                           |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---------- | ----------- | ------- | ---------- | -------------- | ------------------------------ |
+| <a name="double" /> double     |                                                                                                                                                 | double | double     | float       | float64 | double     | float          | Float                          |
+| <a name="float" /> float       |                                                                                                                                                 | float  | float      | float       | float32 | float      | float          | Float                          |
+| <a name="int32" /> int32       | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead. | int32  | int        | int         | int32   | int        | integer        | Bignum or Fixnum (as required) |
+| <a name="int64" /> int64       | Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead. | int64  | long       | int/long    | int64   | long       | integer/string | Bignum                         |
+| <a name="uint32" /> uint32     | Uses variable-length encoding.                                                                                                                  | uint32 | int        | int/long    | uint32  | uint       | integer        | Bignum or Fixnum (as required) |
+| <a name="uint64" /> uint64     | Uses variable-length encoding.                                                                                                                  | uint64 | long       | int/long    | uint64  | ulong      | integer/string | Bignum or Fixnum (as required) |
+| <a name="sint32" /> sint32     | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.                            | int32  | int        | int         | int32   | int        | integer        | Bignum or Fixnum (as required) |
+| <a name="sint64" /> sint64     | Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.                            | int64  | long       | int/long    | int64   | long       | integer/string | Bignum                         |
+| <a name="fixed32" /> fixed32   | Always four bytes. More efficient than uint32 if values are often greater than 2^28.                                                            | uint32 | int        | int         | uint32  | uint       | integer        | Bignum or Fixnum (as required) |
+| <a name="fixed64" /> fixed64   | Always eight bytes. More efficient than uint64 if values are often greater than 2^56.                                                           | uint64 | long       | int/long    | uint64  | ulong      | integer/string | Bignum                         |
+| <a name="sfixed32" /> sfixed32 | Always four bytes.                                                                                                                              | int32  | int        | int         | int32   | int        | integer        | Bignum or Fixnum (as required) |
+| <a name="sfixed64" /> sfixed64 | Always eight bytes.                                                                                                                             | int64  | long       | int/long    | int64   | long       | integer/string | Bignum                         |
+| <a name="bool" /> bool         |                                                                                                                                                 | bool   | boolean    | boolean     | bool    | bool       | boolean        | TrueClass/FalseClass           |
+| <a name="string" /> string     | A string must always contain UTF-8 encoded or 7-bit ASCII text.                                                                                 | string | String     | str/unicode | string  | string     | string         | String (UTF-8)                 |
+| <a name="bytes" /> bytes       | May contain any arbitrary sequence of bytes.                                                                                                    | string | ByteString | str         | []byte  | ByteString | string         | String (ASCII-8BIT)            |

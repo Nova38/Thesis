@@ -1,0 +1,21 @@
+{
+  "$id": "saacs.sample.v0.ItemWithNestedKey.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_id": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "nested": {
+      "$ref": "saacs.sample.v0.Nested.schema.json"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "title": "Item With Nested Key",
+  "type": "object"
+}

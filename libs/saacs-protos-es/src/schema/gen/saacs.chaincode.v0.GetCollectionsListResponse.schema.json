@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.chaincode.v0.GetCollectionsListResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collections": {
+      "items": {
+        "$ref": "saacs.auth.v0.Collection.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Get Collections List Response",
+  "type": "object"
+}

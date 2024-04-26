@@ -5,11 +5,13 @@ import (
 	"slices"
 	"strings"
 
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
 	"github.com/samber/lo"
 )
 
-func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error) {
+func AuthorizedPolicy(policy *authpb.Polices, op *pb.Operation) (bool, error) {
 
 	// Check to see if there is a policy that matches the operation object type
 	// We assume that the more specific policy would be more permisive
@@ -47,7 +49,7 @@ func AuthorizedPolicy(policy *authpb.Polices, op *authpb.Operation) (bool, error
 	return false, nil
 }
 
-func AuthorizePathPolicy(pathPolicy *authpb.PathPolicy, op *authpb.Operation) bool {
+func AuthorizePathPolicy(pathPolicy *authpb.PathPolicy, op *pb.Operation) bool {
 
 	if pathPolicy.GetActions() != nil {
 
@@ -87,7 +89,7 @@ func AuthorizePathPolicy(pathPolicy *authpb.PathPolicy, op *authpb.Operation) bo
 
 }
 
-func walkSubPaths(pathPolicy *authpb.PathPolicy, action authpb.Action, paths []string) bool {
+func walkSubPaths(pathPolicy *authpb.PathPolicy, action pb.Action, paths []string) bool {
 
 	subPaths := make(map[string][]string)
 
@@ -119,7 +121,7 @@ func walkSubPaths(pathPolicy *authpb.PathPolicy, action authpb.Action, paths []s
 
 func authorizeSubPaths(
 	subPathPolicy *authpb.PathPolicy,
-	action authpb.Action,
+	action pb.Action,
 	paths []string,
 ) bool {
 

@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.common.v0.Item.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "key": {
+      "$ref": "saacs.common.v0.ItemKey.schema.json"
+    },
+    "value": {
+      "$ref": "google.protobuf.Any.schema.json"
+    }
+  },
+  "title": "Item",
+  "type": "object"
+}

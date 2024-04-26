@@ -1,4 +1,6 @@
 import { en } from '@formkit/i18n'
+import { createLocalStoragePlugin } from '@formkit/addons'
+import { createAutoHeightTextareaPlugin } from '@formkit/addons'
 
 // import { defineFormKitConfig } from "@formkit/vue";
 import { genesisIcons } from '@formkit/icons'
@@ -22,7 +24,21 @@ export default defaultConfig(
       classes: generateClasses({}),
     },
     plugins: [
-      createFloatingLabelsPlugin({
+      createAutoHeightTextareaPlugin(),
+
+      createLocalStoragePlugin({
+        // plugin defaults:
+        prefix: 'formkit',
+        key: undefined,
+        control: undefined,
+        maxAge: 3600000, // 1 hour
+        debounce: 200,
+        beforeSave: undefined,
+        beforeLoad: undefined
+      }),
+
+
+    createFloatingLabelsPlugin({
         // useAsDefault: true, // defaults to false
       }),
     ],

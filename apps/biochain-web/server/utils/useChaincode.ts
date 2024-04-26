@@ -7,6 +7,7 @@ import { connect, signers } from '@hyperledger/fabric-gateway'
 import type { User } from './db'
 
 import { sessionConfig } from './session'
+import { chaincode } from '@saacs/saacs-pb'
 
 export interface FabricConfig {
   chaincode: {
@@ -142,15 +143,20 @@ export async function useChaincode<T extends H3Event>(event: T) {
   const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
   const contract = network.getContract(fabricConfig.chaincode.chaincode)
 
-  const service = new common.generic.GenericServiceClient(
+  const service = new chaincode.chaincode.ItemServiceClient(
     contract,
     GlobalRegistry,
   )
 
+  const utilService = new chaincode.utils.UtilsServiceClient(
+    contract,
+    GlobalRegistry,
+  )
   return {
     connection,
     contract,
     service,
+    utilService,
   }
 }
 
@@ -160,7 +166,7 @@ export async function useFabric() {
   const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
   const contract = network.getContract(fabricConfig.chaincode.chaincode)
 
-  const service = new common.generic.GenericServiceClient(
+  const service = new chaincode.chaincode.ItemServiceClient(
     contract,
     GlobalRegistry,
   )

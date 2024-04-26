@@ -17,11 +17,11 @@ export default defineEventHandler(async (event) => {
   console.log({ data: query.data })
 
   const result = await cc.service.listByAttrs(
-    new common.generic.ListByAttrsRequest({
-      key: new auth.objects.ItemKey({
+    new pb.ListByAttrsRequest({
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.models.UserCollectionRoles.typeName,
+        itemType: pb.UserCollectionRoles.typeName,
       }),
       numAttrs: 1,
     }),
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
   // console.log(result);
   const UserRoles = result.items.map((i) => {
-    const s = new auth.models.UserCollectionRoles()
+    const s = new pb.UserCollectionRoles()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })

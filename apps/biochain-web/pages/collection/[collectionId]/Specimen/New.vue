@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 //    ^?
-const nuxtApp = useNuxtApp()
+import type { FormKitNode } from '@formkit/core'
+import { pb, type PlainSpecimen } from '#imports'
 
-const specimen = ref(
-  new ccbio.Specimen({
+const nuxtApp = useNuxtApp()
+const toast = useToast()
+
+const specimen = ref({
+  specimen: new ccbio.Specimen({
     collectionId: nuxtApp.$collectionId.value,
     specimenId: '',
 
@@ -12,7 +16,15 @@ const specimen = ref(
     },
     grants: {},
     images: {},
-    loans: {},
+    loans: {
+      initial: {
+        loanedDate: {},
+        description: '',
+        loanedTo: '',
+        id: '',
+        loanedBy: '',
+      },
+    },
     primary: {
       catalogNumber: '',
       catalogDate: {},
@@ -22,77 +34,111 @@ const specimen = ref(
     },
     secondary: {
       preparations: {
-        t: {},
+        initial: {},
       },
     },
     taxon: {},
   }),
-)
-
-watchDeep(specimen, (value, oldValue) => {
-  if (value?.primary?.catalogNumber) {
-    console.log('catalogNumber', value.primary.catalogNumber)
-
-    nextTick(
-      () =>
-        (value.specimenId = CatNumToUUID(value?.primary?.catalogNumber || '')),
-    )
-  }
-
-  console.log('specimen', value.specimenId)
 })
 
-const api = useCustomFetch(`/api/cc/specimens/create`, {
-  method: 'POST',
-  immediate: false,
+// watchDeep(specimen, (value, _oldValue) => {
+//   if (value?.specimen?.primary?.catalogNumber) {
+//     console.log('catalogNumber', value.specimen?.primary.catalogNumber)
+//
+//     nextTick(
+//       () =>
+//         (value.specimen.specimenId = CatNumToUUID(value.specimen?.primary?.catalogNumber || '')),
+//     )
+//   }
+//
+//   console.log('specimen', value.specimenId)
+// })
 
-  onRequest: ({ options }) => {
-    options.body = new ccbio.Specimen(toValue(specimen)).toJsonString({
-      emitDefaultValues: true,
-      enumAsInteger: true,
-    })
-  },
-})
+//  const api = useCustomFetch(`/api/cc/specimens/create`, {
+//    method: 'POST',
+//    immediate: false,
+//
+//    onRequest: ({ options }) => {
+//      options.body = new ccbio.Specimen(toValue(specimen)).toJsonString({
+//        emitDefaultValues: true,
+//      })
+//    },
+//  })
 
-async function submitHandler() {
-  // console.log("submitHandler", value);
+async function submitHandler(
+  specimen: { specimen: PlainSpecimen },
+  node: FormKitNode,
+) {
+  console.log({ specimen, node })
+
+  const s = specimen.specimen
+  s.specimenId = CatNumToUUID(s?.primary?.catalogNumber ?? '')
+
+  console.log({ s, node })
+
+  const m = toast.add({
+    title: 'Creating Specimen',
+    description: 'Please wait...',
+    timeout: 2000,
+    closeButton: true,
+  })
 
   try {
-    console.log(api.data.value)
+    const value = await $fetch('/api/cc/specimens/create', {
+      method: 'POST',
+      body: new ccbio.Specimen(s).toJsonString({ enumAsInteger: true }),
+    })
 
-    const response = await api.execute()
-    console.log({ api, response, specimen: specimen.value })
-    if (api.status.value === 'success') {
+    if (value) {
       nuxtApp.$router.push(
-        `/collection/${nuxtApp.$collectionId.value}/specimen/View-${specimen.value.specimenId}`,
+        `/collection/${value.unpacked.collectionId}/specimen/View-${value.unpacked.specimenId}`,
       )
     }
   } catch (error) {
-    console.error('error', error)
+    console.log('error', error)
+    node.setErrors(['Something went wrong with the server, please try again'])
+    // comment out this line and refresh after submit
+    // to see how values would otherwise be lost.
+    node?.restoreCache()
   }
 }
 </script>
 
 <template>
   <div>
-    <div class="">
-      <!-- <div class="col">
-        <SpecimenForm :specimen="specimen">
-          <template #Footer>
-            <div>
-              <UButton
-                label="Submit"
-                @click="submitHandler"
-              />
-            </div>
-          </template>
-        </SpecimenForm>
-      </div> -->
-      <div class="col">
-        <SpecimenForm v-model="specimen" />
-      </div>
-      <!-- <pre wrap>{{ value }}</pre> -->
-    </div>
+    <FormKit
+      id="NewSpecimen"
+      v-slot="{ disabled }"
+      v-model="specimen"
+      type="form"
+      :plugins="[]"
+      use-local-storage
+      submit-label="Create Character"
+      :actions="false"
+      @submit="submitHandler"
+    >
+      <UCard class="min-w-2xl max-w-3xl">
+        <template #header>
+          <h3 class="text-lg font-semibold">New Specimen</h3>
+        </template>
+
+        <SpecimenForm form-prefix="New" />
+
+        <template #footer>
+          <FormKit
+            type="submit"
+            :outer-class="{
+              'max-w-[22em]': false,
+              'w-full': true,
+            }"
+            input-class="w-full justify-center items-center flex"
+            :disabled="disabled"
+          >
+            Send
+          </FormKit>
+        </template>
+      </UCard>
+    </FormKit>
   </div>
 </template>
 

@@ -106,6 +106,7 @@ onMounted(() => {
                   :label="col.name"
                   :name="`map-${col.name}`"
                   :options="options"
+                  :disabled="bulk.Uploading"
                   label-class="text-nowrap "
                   @input="(val) => bulk.SetMapping(val as string, col)"
                 />

@@ -1,0 +1,19 @@
+{
+  "$id": "saacs.biochain.v0.SpecimenHistory.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "option go_package =\n \"github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1\";",
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "saacs.biochain.v0.SpecimenHistoryEntry.schema.json"
+      },
+      "type": "array"
+    },
+    "hidden_txs": {
+      "$ref": "saacs.common.v0.HiddenTxList.schema.json"
+    }
+  },
+  "title": "Specimen History",
+  "type": "object"
+}

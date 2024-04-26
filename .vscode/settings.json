@@ -7,6 +7,18 @@
     },
     "editor.formatOnSave": true
   },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "keep",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.formatOnSave": false,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    }
+  },
   "[vue]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "always"
@@ -59,6 +71,7 @@
   ],
   "cSpell.words": [
     "ABAC",
+    "Alloc",
     "anypb",
     "authpb",
     "autogrow",
@@ -72,6 +85,7 @@
     "gridlines",
     "heroicons",
     "iconify",
+    "Inuse",
     "jiti",
     "jsoneditor",
     "noauth",
@@ -83,9 +97,11 @@
     "pdfsubject",
     "primevue",
     "protogen",
+    "protoimpl",
     "protoplugin",
     "protoreflect",
     "protos",
+    "protoscope",
     "radash",
     "saacs",
     "segmentio",
@@ -108,7 +124,7 @@
     "strings": true
   },
   "eslint.experimental.useFlatConfig": false,
-  "eslint.format.enable": true,
+  // "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
@@ -164,8 +180,6 @@
     "markdown",
     "json",
     "jsonc",
-    "yaml",
-    "toml"
   ],
   // "eslint.workingDirectories": [
   //   "./libs/client",
@@ -273,5 +287,25 @@
   "todo-tree.tree.showCountsInTree": false,
   "prettier.semi": false,
   "tailwindCSS.experimental.configFile": "./apps/biochain-web/tailwind.config.ts",
-  "eslint.debug": true,
+  "eslint.debug": false,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#1f6fd0",
+    "activityBar.background": "#1f6fd0",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#ee90bb",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#1f6fd0",
+    "statusBar.background": "#1857a4",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#1f6fd0",
+    "statusBarItem.remoteBackground": "#1857a4",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#1857a4",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#1857a499",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#1857a4",
 }

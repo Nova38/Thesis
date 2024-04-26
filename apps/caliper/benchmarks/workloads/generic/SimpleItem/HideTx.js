@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// HideTx hlf.pb.common.generic.HideTxRequest
+// HideTx hlf.pb.pb.HideTxRequest
 
 /**
  * Assemble TXs for the round.
@@ -58,7 +58,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
 async submitTransaction() {
     /** @type {PeerGateway.FabricRequestSettings}*/
 
-    const item = new hlf.pb.common.generic.HideTxRequest({})
+    const item = new hlf.pb.pb.HideTxRequest({})
 
 
     const myArgs = {

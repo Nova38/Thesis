@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
 	"github.com/samber/lo"
 )
 

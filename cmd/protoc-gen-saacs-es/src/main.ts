@@ -2,62 +2,60 @@
 
 // See here how to run this plugin: https://github.com/bufbuild/protobuf-es/tree/main/pkg/protoplugin-example
 
-import { createEcmaScriptPlugin, runNodeJs } from "@bufbuild/protoplugin";
-import {
-    ImportSymbol,
-    Schema,
-} from "@bufbuild/protoplugin/ecmascript";
+import { createEcmaScriptPlugin, runNodeJs } from '@bufbuild/protoplugin'
+import { ImportSymbol, Schema } from '@bufbuild/protoplugin/ecmascript'
 import type {
-    AnyMessage,
-    DescMessage,
-    FileDescriptorSet,
-} from "@bufbuild/protobuf";
-import { localName } from "@bufbuild/protoplugin/ecmascript";
+  AnyMessage,
+  DescMessage,
+  FileDescriptorSet,
+} from '@bufbuild/protobuf'
+import { localName } from '@bufbuild/protoplugin/ecmascript'
 
-import { Empty, MethodKind, createDescriptorSet } from "@bufbuild/protobuf";
+import { Empty, MethodKind, createDescriptorSet } from '@bufbuild/protobuf'
 
-
-import { registry } from "./utils";
-import { generateRegistry, GenTypes } from "./generators/registry";
-import { generateIndex } from "./generators/indexs";
-import { generateGateway } from "./generators/gateway";
-import { generateKeySchema } from "./generators/keys";
+import { registry } from './utils'
+import { generateRegistry, GenTypes } from './generators/registry'
+import { generateIndex } from './generators/indexs'
+import { generateGateway } from './generators/gateway'
+import { generateKeySchema } from './generators/keys'
 
 const protocGenReg = createEcmaScriptPlugin({
-    name: "protoc-gen-reg",
-    version: `v1`,
-    generateTs,
-    //   parseOptions:
-});
+  name: 'protoc-gen-reg',
+  version: `v1`,
+  generateTs,
+  //   parseOptions:
+})
 
-runNodeJs(protocGenReg);
+runNodeJs(protocGenReg)
 
 function generateTs(schema: Schema) {
-    generateGateway(schema);
-    generateFabricTest(schema);
-
-    generateRegistry(schema);
-    GenTypes(schema);
-    generateIndex(schema);
-    generateKeySchema(schema);
+  generateGateway(schema)
+  generateFabricTest(schema)
+  generateRegistry(schema)
+  GenTypes(schema)
+  generateIndex(schema)
+  generateKeySchema(schema)
 }
 
 function populateFields(message: AnyMessage): AnyMessage {
-    for (const fieldInfo of message.getType().fields.byNumber()) {
-        if (fieldInfo.kind == "message") {
-            const subType = registry.findMessage(fieldInfo.T.typeName);
+  for (const fieldInfo of message.getType().fields.byNumber()) {
+    if (fieldInfo.kind == 'message') {
+      if (fieldInfo.oneof) {
+        continue
+      }
+      const subType = registry.findMessage(fieldInfo.T.typeName)
 
-            if (!subType) {
-                return new Empty();
-            }
-            const subMesg = new subType();
-            message[fieldInfo.localName] = populateFields(subMesg);
-        }
-        //   const value = message[fieldInfo.localName];
-        //   console.log(`field ${fieldInfo.localName}: ${value}`);
+      if (!subType) {
+        return new Empty()
+      }
+      const subMesg = new subType()
+      message[fieldInfo.localName] = populateFields(subMesg)
     }
+    //   const value = message[fieldInfo.localName];
+    //   console.log(`field ${fieldInfo.localName}: ${value}`);
+  }
 
-    return message;
+  return message
 }
 
 // for (const file of schema.files) {
@@ -72,7 +70,7 @@ function populateFields(message: AnyMessage): AnyMessage {
 //                 return
 //             }
 
-//             const options = findCustomMessageOption(descType, 54599, authpb.KeySchema )
+//             const options = findCustomMessageOption(descType, 54599, pb.KeySchema )
 
 //             const {
 //                 Message,
@@ -80,7 +78,7 @@ function populateFields(message: AnyMessage): AnyMessage {
 //             } = schema.runtime;
 //             f.print`// ${Message}`;
 
-//             if (options?.itemKind == authpb.ItemKind.PRIMARY_ITEM) {
+//             if (options?.itemKind == pb.ItemKind.PRIMARY_ITEM) {
 //                 f.print`// Primary Item:  ${descType.name}\n`
 //                 // f.print`// }`
 
@@ -141,44 +139,44 @@ function populateFields(message: AnyMessage): AnyMessage {
 // }
 
 function generateFabricTest(schema: Schema) {
-    for (const file of schema.files) {
-        const f = schema.generateFile(file.name + ".fabric");
-        // const registry = createRegistryFromDescriptors(createDescriptorSet(schema.proto.sourceFileDescriptors) )
+  for (const file of schema.files) {
+    const f = schema.generateFile(file.name + '.fabric')
+    // const registry = createRegistryFromDescriptors(createDescriptorSet(schema.proto.sourceFileDescriptors) )
 
-        f.preamble(file);
-        const { Message, JsonValue } = schema.runtime;
-        // Convert the Message ImportSymbol to a type-only ImportSymbol
-        const MessageAsType = Message.toTypeOnly();
+    f.preamble(file)
+    const { Message, JsonValue } = schema.runtime
+    // Convert the Message ImportSymbol to a type-only ImportSymbol
+    const MessageAsType = Message.toTypeOnly()
 
-        f.print`[`;
+    f.print`[`
 
-        for (const service of file.services) {
-            const localServiceName = localName(service);
+    for (const service of file.services) {
+      const localServiceName = localName(service)
 
-            for (const method of service.methods) {
-                let x = "";
-                const inputType = registry.findMessage(method.input.typeName);
+      for (const method of service.methods) {
+        let x = ''
+        const inputType = registry.findMessage(method.input.typeName)
 
-                if (inputType) {
-                    f.print`// ${method.name} ${inputType.name}`;
-                    const input = new inputType();
-                    const populated = populateFields(input);
-                    x = populated.toJsonString({ emitDefaultValues: false });
-                } else {
-                    x = "{}";
-                }
-
-                if (method.methodKind === MethodKind.Unary) {
-                    f.print`    {`;
-                    f.print`        "invoke": "${localName(method)}",`;
-                    f.print`        "args": [`;
-                    f.print`            ${x}`;
-                    // (request: ${method.input}, evaluate: bool ): Promise< ${method.output}> {`;
-                    f.print`        ]`;
-                    f.print`    },`;
-                }
-            }
+        if (inputType) {
+          f.print`// ${method.name} ${inputType.name}`
+          const input = new inputType()
+          const populated = populateFields(input)
+          x = populated.toJsonString({ emitDefaultValues: false })
+        } else {
+          x = '{}'
         }
-        f.print`]`;
+
+        if (method.methodKind === MethodKind.Unary) {
+          f.print`    {`
+          f.print`        "invoke": "${localName(method)}",`
+          f.print`        "args": [`
+          f.print`            ${x}`
+          // (request: ${method.input}, evaluate: bool ): Promise< ${method.output}> {`;
+          f.print`        ]`
+          f.print`    },`
+        }
+      }
     }
+    f.print`]`
+  }
 }

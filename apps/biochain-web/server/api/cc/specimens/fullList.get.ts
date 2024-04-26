@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { PlainSpecimen } from '~/utils/types'
 // import { auth, ccbio, common } from 'saacs'
 
 const querySchema = z.object({
@@ -17,23 +18,25 @@ export default defineEventHandler(async (event) => {
 
   let bookmark = ''
   let lastBookmark = '-'
-  const SpecimenMap: Record<string, ccbio.Specimen> = {}
+  const SpecimenMap: Record<string, PlainSpecimen> = {}
 
   while (bookmark !== lastBookmark) {
     const result = await cc.service.listByAttrs(
-      new common.generic.ListByAttrsRequest({
-        bookmark: bookmark ?? '',
-        key: new auth.objects.ItemKey({
+      new pb.ListByAttrsRequest({
+        pagination: {
+          bookmark: bookmark ?? '',
+          pageSize: query.data.limit ?? 1000,
+        },
+        key: new pb.ItemKey({
           collectionId: query.data.collectionId,
           itemKeyParts: [query.data.collectionId],
           itemType: ccbio.Specimen.typeName,
         }),
-        limit: query.data.limit ?? 1000,
         numAttrs: 0,
       }),
     )
     lastBookmark = bookmark
-    bookmark = result.bookmark
+    bookmark = result.pagination?.bookmark ?? ''
 
     result.items.forEach((i) => {
       const s = new ccbio.Specimen()

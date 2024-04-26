@@ -2,7 +2,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "noImplicitAny": true,
+    "noImplicitAny": false,
   },
   "include": [
     "playground/**/*.ts",
@@ -11,7 +11,8 @@
     "**/*.ts",
     "*.ts",
     "t.mts",
-    "t.mts"
+    "t.mts",
+    "benchmarks/workloads/auth/saacs/bootstrap.js"
   ],
 }
 //     "extends": "@tsconfig/node18/tsconfig.json",

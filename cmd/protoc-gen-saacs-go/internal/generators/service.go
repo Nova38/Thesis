@@ -1,7 +1,7 @@
 package generators
 
 import (
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 	_ "google.golang.org/protobuf/proto"
@@ -118,7 +118,7 @@ func (sv *ServiceGenerator) GenerateInterface(
 			mComments += "// " + m.GoName + "\n // \n"
 		}
 
-		op, ok := proto.GetExtension(m.Desc.Options(), authpb.E_Operation).(*authpb.Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), pb.E_Operation).(*pb.Operation)
 
 		if !ok {
 			mComments += "// No operation defined for " + m.GoName + "\n"
@@ -171,13 +171,13 @@ func (sv *ServiceGenerator) GenerateStructEvaluateTransactions(
 	var fns []string
 
 	for _, m := range v.Methods {
-		tt, ok := proto.GetExtension(m.Desc.Options(), authpb.E_TransactionType).(authpb.TransactionType)
+		tt, ok := proto.GetExtension(m.Desc.Options(), pb.E_TransactionType).(pb.TransactionType)
 
 		if !ok {
 			continue
 		}
 
-		if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
+		if tt == pb.TransactionType_TRANSACTION_TYPE_QUERY {
 			fns = append(fns, m.GoName)
 		}
 	}
@@ -201,7 +201,7 @@ func GenerateOperationLookup(
 	opImport := g.QualifiedGoIdent(
 		protogen.GoIdent{
 			GoName:       "Operation",
-			GoImportPath: "github.com/nova38/saacs/pkg/saacs-protos/auth/v1",
+			GoImportPath: "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0",
 		},
 	)
 	// fmtImport := (protogen.GoIdent{GoImportPath: "fmt"})
@@ -212,7 +212,7 @@ func GenerateOperationLookup(
 	g.P("switch txName {")
 	for _, m := range v.Methods {
 		g.P("case \"", m.GoName, "\":")
-		op, ok := proto.GetExtension(m.Desc.Options(), authpb.E_Operation).(*authpb.Operation)
+		op, ok := proto.GetExtension(m.Desc.Options(), pb.E_Operation).(*pb.Operation)
 		g.P("//", op)
 		if !ok {
 			g.P("// No operation defined for ", m.GoName)
@@ -271,14 +271,14 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 
 		in := m.Input.GoIdent.GoName
 		out := m.Output.GoIdent.GoName
-		tt, ok := proto.GetExtension(m.Desc.Options(), authpb.E_TransactionType).(authpb.TransactionType)
+		tt, ok := proto.GetExtension(m.Desc.Options(), pb.E_TransactionType).(pb.TransactionType)
 
 		if !ok {
 			continue
 		}
 		if in == "Empty" {
 			g.P("func (s *", v.GoName, "Handler)", m.GoName, "( )(out *", out, "){")
-			if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
+			if tt == pb.TransactionType_TRANSACTION_TYPE_QUERY {
 				g.P(
 					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName+\":",
 					m.GoName,
@@ -295,7 +295,7 @@ func (sv *ServiceGenerator) GenerateGoGatewayHandler(
 			g.P("return nil")
 			g.P("}")
 
-			if tt == authpb.TransactionType_TRANSACTION_TYPE_QUERY {
+			if tt == pb.TransactionType_TRANSACTION_TYPE_QUERY {
 				g.P(
 					"evaluateResult, err:= s.contract.EvaluateTransaction(s.ChaincodeName\":",
 					m.GoName, "\", string(inBytes) )")

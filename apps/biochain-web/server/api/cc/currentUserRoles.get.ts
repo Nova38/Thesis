@@ -12,21 +12,21 @@ export default defineEventHandler(async (event) => {
   console.log(query)
   if (!query.success) throw query.error.issues
 
-  const { user } = await cc.service.getCurrentUser()
+  const { user } = await cc.utilService.getCurrentUser({})
   if (!user) throw new Error('User not found')
 
   const result = await cc.service.get(
-    new common.generic.GetRequest({
-      key: new auth.objects.ItemKey({
+    new pb.GetRequest({
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [user.mspId, user.userId],
-        itemType: auth.models.UserCollectionRoles.typeName,
+        itemType: pb.UserCollectionRoles.typeName,
       }),
     }),
   )
   console.log(result)
 
-  const role = new auth.models.UserCollectionRoles()
+  const role = new pb.UserCollectionRoles()
   result.item?.value?.unpackTo(role)
 
   return role

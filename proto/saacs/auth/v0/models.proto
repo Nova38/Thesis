@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package saacs.auth.v0;
+
+import "buf/validate/validate.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/auth/v0/collection.proto";
+import "saacs/auth/v0/identity.proto";
+import "saacs/auth/v0/roles.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+
+message Model {
+  message Identity {
+    Collection collection = 1;
+    repeated UserDirectMembership user_direct_membership = 2;
+    option (buf.validate.message).cel = {
+      id: "saacs.auth.v0.AuthModel.Identity"
+      message: "Collection must be set to Role"
+      expression: "this.collection.auth_type == 2"
+    };
+  }
+  message Roles {
+    Collection collection = 1;
+    repeated Role roles = 2;
+    repeated UserCollectionRoles user_collection_roles = 3;
+    option (buf.validate.message).cel = {
+      id: "saacs.auth.v0.AuthModel.RBAC"
+      message: "Collection must be set to Role"
+      expression: "this.collection.auth_type == 3"
+    };
+  }
+  message GlobalRoles {
+    Collection collection = 1;
+    repeated Role roles = 2;
+    repeated UserGlobalRoles user_collection_roles = 3;
+    option (buf.validate.message).cel = {
+      id: "saacs.auth.v0.AuthModel.GRBAC"
+      message: "Collection must be set to Role"
+      expression: "this.collection.auth_type == 4"
+    };
+  }
+
+  message Attribute {
+    Collection collection = 1;
+    repeated Attribute attribute = 2;
+    option (buf.validate.message).cel = {
+      id: "saacs.auth.v0.AuthModel.Attribute"
+      message: "Collection must be set to Role"
+      expression: "this.collection.auth_type == 5"
+    };
+  }
+}
+
+message AuthModel {
+  string name = 1;
+  oneof model {
+    Model.Identity identity = 2;
+    Model.Roles roles = 3;
+    Model.GlobalRoles global_roles = 4;
+    Model.Attribute attribute = 5;
+  }
+}
+
+// message BootstrapCollection {
+//   message DefaultCollection {
+//     string name = 1;
+//     AuthType auth_type = 2;
+//   }
+
+//   oneof collection {
+//     DefaultCollection default_collection = 1;
+//     Collection full_collection = 2;
+//   }
+
+//   AuthModels auth_models = 3;
+// }

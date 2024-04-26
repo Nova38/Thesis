@@ -8,7 +8,8 @@ import {
 } from '../utils'
 import { camelCase } from 'scule'
 
-import { KeySchema, key_schema } from '../gen/auth/v1/auth_pb'
+import { KeySchema } from '../gen/saacs/common/v0/item_pb'
+import { key_schema } from '../gen/saacs/common/v0/options_pb'
 import {
   DescExtension,
   DescMessage,
@@ -30,7 +31,7 @@ function getMessageImport(f: GeneratedFile, schema: Schema, name: string) {
 }
 
 function getKeySchemaDesc(schema: Schema) {
-  return getDesc(schema, 'auth.KeySchema')
+  return getDesc(schema, 'saacs.common.v0.KeySchema')
 }
 
 // prettier-ignore
@@ -42,9 +43,13 @@ export function generateKeySchema(schema: Schema) {
 
 
 
-  const KeySchemaImport =  getMessageImport(f, schema, 'auth.KeySchema')
-  const ItemKeyImport = getMessageImport(f, schema, 'auth.ItemKey')
-  const ItemImport = getMessageImport(f, schema, 'auth.Item')
+  const KeySchemaImport = getMessageImport(
+    f,
+    schema,
+    'saacs.common.v0.KeySchema',
+  )
+  const ItemKeyImport = getMessageImport(f, schema, 'saacs.common.v0.ItemKey')
+  const ItemImport = getMessageImport(f, schema, 'saacs.common.v0.Item')
 
     const Items = [...AllMessagesWithExtension(schema, key_schema)].map(
       (item) => {
@@ -58,7 +63,7 @@ export function generateKeySchema(schema: Schema) {
 
 
   const exportFunction = (prefix: string,items: { message: DescMessage, extension: KeySchema }[]) => {
-    f.print`${f.exportDecl('type', prefix + 'ItemType')} = `
+    f.print`${f.exportDecl('type', prefix + 'ItemTypeMessage')} = `
 
     items.forEach(({ message }) => {f.print`  | ${message}`    })
     f.print('')
@@ -70,6 +75,7 @@ export function generateKeySchema(schema: Schema) {
         .toJsonString({emitDefaultValues: true, enumAsInteger: true, prettySpaces: 4})}),`
     })
     f.print`}`
+  f.print``
 
   }
 
@@ -78,7 +84,7 @@ export function generateKeySchema(schema: Schema) {
   exportFunction('Secondary', SecondaryItems)
 
 
-  f.print`${f.exportDecl('function', 'PrimaryToKeySchema')} (item: PrimaryItemType){`
+  f.print`${f.exportDecl('function', 'PrimaryToKeySchema')} (item: PrimaryItemTypeMessage){`
   f.print`  switch (true) {`
   PrimaryItems.map(({ message, extension }) => {
     f.print`// ${extension.properties?.paths.join(', ')?? ''}`
@@ -96,13 +102,15 @@ export function generateKeySchema(schema: Schema) {
     f.print`        itemType: '${message.typeName}',`
     f.print`        itemKind: ${extension.itemKind},`
     f.print`        collectionId: item?.collectionId,`
-    f.print`        itemKeyParts: [ ${paths?.join(', ') ?? ''} ]`
+    f.print`        itemKeyParts: [ ${paths?.join('?? \'\', ') ?? ''} ?? '' ]`
     f.print`      })`
   })
   f.print`    default:`
   f.print`      throw new Error('Unknown item type')`
   f.print`  }`
   f.print`}`
+  f.print``
+
 
 
   //   const ToKeySchemaExport = f.exportDecl('const', 'ToKeySchema')

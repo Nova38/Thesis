@@ -117,7 +117,7 @@ class GetWorkload extends WorkloadModuleBase {
         // let key = this.items[this.nextNum]
 
 
-        // const arg = new hlf.pb.common.generic.GetRequest({
+        // const arg = new hlf.pb.pb.GetRequest({
         //     type: key.itemType,
         //     key: key,
         // });
@@ -125,8 +125,8 @@ class GetWorkload extends WorkloadModuleBase {
         // // logger.info('this', this)
         // logger.info('arg', arg);
 
-        const arg = new hlf.pb.common.generic.ListRequest({
-            key: new hlf.pb.auth.objects.ItemKey({
+        const arg = new hlf.pb.pb.ListRequest({
+            key: new hlf.pb.pb.ItemKey({
                 itemType: typeName(this.type),
             })
         })

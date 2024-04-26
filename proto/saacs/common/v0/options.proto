@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "google/protobuf/descriptor.proto";
+import "saacs/common/v0/enums.proto";
+import "saacs/common/v0/item.proto";
+import "saacs/common/v0/operation.proto";
+
+// Define method options
+extend google.protobuf.MethodOptions {
+  Operation operation = 57775;
+  TransactionType transaction_type = 50556;
+
+}
+extend google.protobuf.MessageOptions {
+  KeySchema key_schema = 54599;
+}

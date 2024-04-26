@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.biochain.v0.SpecimenUpdate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "mask": {
+      "$ref": "google.protobuf.FieldMask.schema.json"
+    },
+    "specimen": {
+      "$ref": "saacs.biochain.v0.Specimen.schema.json"
+    }
+  },
+  "title": "Specimen Update",
+  "type": "object"
+}

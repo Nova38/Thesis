@@ -1,15 +1,17 @@
 package state
 
 import (
-	"encoding/json"
 	"log/slog"
 	"strconv"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	"github.com/nova38/saacs/pkg/saacs-cc/serializer"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
+
+type Ledger[T common.ItemInterface] struct{}
 
 // UTIL Functions
 
@@ -41,7 +43,7 @@ func GetFromKey[T common.ItemInterface](ctx common.TxCtxInterface, key string, o
 			Wrap(err)
 	}
 
-	if err = json.Unmarshal(bytes, obj); err != nil {
+	if err = serializer.Unmarshal(bytes, obj); err != nil {
 		return oops.With(
 			"Key", obj.StateKey(),
 			"ItemType", obj.ItemType(),
@@ -74,7 +76,7 @@ func Get[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 			Wrap(err)
 	}
 
-	if err = json.Unmarshal(bytes, obj); err != nil {
+	if err = serializer.Unmarshal(bytes, obj); err != nil {
 		return oops.With(
 			"Key", obj.StateKey(),
 			"ItemType", obj.ItemType(),
@@ -105,7 +107,7 @@ func Insert[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error
 // Put puts the item into the ledger after json marshalling it
 func Put[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err error) {
 
-	if bytes, err := json.Marshal(obj); err != nil {
+	if bytes, err := serializer.Marshal(obj); err != nil {
 		return oops.Hint("Failed to Marshal").With(
 			"Key", obj.StateKey(),
 			"ItemType", obj.ItemType(),
@@ -164,11 +166,12 @@ func GetPartialKeyList[T common.ItemInterface](
 
 	var (
 		itemtype = obj.ItemType()
-		attr     = obj.KeyAttr()
+		attr     = obj.ItemKey().GetItemKeyParts()
 	)
 
 	if len(attr) == 0 || len(attr) < numAttr {
-		return nil, "", oops.Wrap(common.ItemInvalid)
+		return nil, "", oops.With("object", obj, "attr", attr, "numAttr", numAttr).
+			Wrap(common.ItemInvalid)
 	}
 
 	// Extract the attributes to search for
@@ -217,7 +220,7 @@ func GetPartialKeyList[T common.ItemInterface](
 			return nil, "", oops.Wrapf(err, "Error getting next item")
 		}
 
-		if err = json.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
+		if err = serializer.Unmarshal(queryResponse.GetValue(), tmpObj); err != nil {
 			return nil, "", oops.Wrap(err)
 		}
 

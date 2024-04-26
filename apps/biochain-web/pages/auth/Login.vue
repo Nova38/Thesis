@@ -5,15 +5,13 @@ const router = useRouter()
 
 const submitting = ref(false)
 
-const isPwd = ref(true)
-
 // const that = this;
 type Form = {
   username: string
   password: string
 }
 
-async function submit(data: Form, node: FormKitNode) {
+async function submit(data: Form, _node: FormKitNode) {
   console.log('submitting', data)
   submitting.value = true
   const res = await authLogin(data.username, data.password)

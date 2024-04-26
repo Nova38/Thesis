@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package saacs.auth.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/auth/v0/policy.proto";
+import "saacs/auth/v0/type.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+// ═════════════════════════════════════════════════════════════════════════════════
+// Collection Items
+// ═════════════════════════════════════════════════════════════════════════════════
+
+// Collection
+// ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+// Note that the types of items are stored in the default ACLEntry
+//
+// key := {COLLECTION}{COLLECTION_ID}
+message Collection {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: ["collection_id"]
+  };
+
+  option (buf.validate.message).cel = {
+    id: "Collection.Auth.UseParent",
+    message: "To Use Parents the auth_type must be role or embedded roles",
+    expression: "(this.use_auth_parents == true && this.auth_type in [3,4]) || this.use_auth_parents == false",
+  };
+
+  option (buf.validate.message).cel = {
+    id: "Collection.AuthType.ItemTypes",
+    message: "Collection is missing the required item types for the auth type",
+    expression:
+      "( this.auth_type == 2"
+      "&& 'saacs.auth.v0.UserDirectMembership' in this.item_types"
+      ")||( this.auth_type == 3"
+      "&& 'saacs.auth.v0.UserCollectionRoles' in this.item_types"
+      "&& 'saacs.auth.v0.Role' in this.item_types"
+      ")||( this.auth_type == 4"
+      "&& 'saacs.auth.v0.Role' in this.item_types"
+      "&& 'saacs.auth.v0.UserGlobalRoles' in this.item_types"
+      ")||( this.auth_type == 5"
+      "&& 'saacs.auth.v0.Attribute' in this.item_types"
+      ")"
+  };
+
+  // option (buf.validate.message).cel = {
+  //   id: "Collection.AuthType.Roles.OnlyInGlobal",
+  //   message: "When using global roles, UserGlobalRoles must only be in the Global User Collection",
+  //   expression: "false"
+  // };
+
+  // The key for the ledger
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string name = 2 [(buf.validate.field).string.min_len = 1];
+  AuthType auth_type = 3 [(buf.validate.field).enum = {
+    defined_only: true
+    not_in: [0]
+  }];
+
+  repeated string item_types = 4 [(buf.validate.field).repeated = {
+    unique: true,
+    min_items: 1
+  }];
+
+  Polices default = 5 [(buf.validate.field).required = true];
+
+  bool use_auth_parents = 6;
+}

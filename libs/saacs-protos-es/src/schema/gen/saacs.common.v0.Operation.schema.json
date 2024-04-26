@@ -1,0 +1,49 @@
+{
+  "$id": "saacs.common.v0.Operation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "anyOf": [
+        {
+          "enum": [
+            "ACTION_UNSPECIFIED",
+            "ACTION_UTILITY",
+            "ACTION_VIEW",
+            "ACTION_CREATE",
+            "ACTION_UPDATE",
+            "ACTION_DELETE",
+            "ACTION_SUGGEST_VIEW",
+            "ACTION_SUGGEST_CREATE",
+            "ACTION_SUGGEST_DELETE",
+            "ACTION_SUGGEST_APPROVE",
+            "ACTION_VIEW_HISTORY",
+            "ACTION_VIEW_HIDDEN_TXS",
+            "ACTION_HIDE_TX",
+            "ACTION_UNHIDE_TX",
+            "ACTION_HIDE_MSP_TX",
+            "ACTION_UNHIDE_MSP_TX"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "type": "integer"
+        }
+      ]
+    },
+    "collection_id": {
+      "type": "string"
+    },
+    "item_type": {
+      "type": "string"
+    },
+    "paths": {
+      "$ref": "google.protobuf.FieldMask.schema.json"
+    }
+  },
+  "title": "Operation",
+  "type": "object"
+}

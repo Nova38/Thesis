@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from 'path'
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
@@ -52,7 +53,7 @@ export default defineNuxtConfig({
       },
       {
         from: '@saacs/saacs-pb',
-        imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
+        imports: ['auth', 'ccbio', 'common', 'GlobalRegistry', 'pb'],
       },
       {
         from: 'defu',
@@ -104,7 +105,7 @@ export default defineNuxtConfig({
       presets: [
         {
           from: '@saacs/saacs-pb',
-          imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
+          imports: ['auth', 'ccbio', 'common', 'GlobalRegistry', 'pb'],
         },
       ],
       // presets: [

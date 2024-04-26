@@ -14,48 +14,47 @@ channels:
       - id: roles
       - id: rbacWithParent
       - id: test
-      - id: identity
+      - id: saacs
 
 organizations:
   - mspid: Org1MSP
     connectionProfile:
       discover: true
-      path: ../network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml
+      path: ../../infra/network/organizations/peerOrganizations/org1.example.com/connection-org1.yaml
     identities:
       certificates:
         - name: Admin
           admin: true
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
-
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
         - name: "User1"
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem"
 
         - name: "User2"
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/signcerts/cert.pem"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/signcerts/cert.pem"
 
         - name: "User3"
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/signcerts/cert.pem"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/signcerts/cert.pem"
 
         - name: "User4"
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/signcerts/cert.pem"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/signcerts/cert.pem"
 
         - name: "User5"
           clientPrivateKey:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/keystore/priv_sk"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/keystore/priv_sk"
           clientSignedCert:
-            path: "../../network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/signcerts/cert.pem"
+            path: "../../infra/network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/signcerts/cert.pem"

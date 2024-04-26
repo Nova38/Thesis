@@ -1,0 +1,25 @@
+version: v1
+managed:
+  enabled: true
+
+  go_package_prefix:
+    default: github.com/nova38/saacs/pkg/saacs-protos
+    except:
+      - buf.build/googleapis/googleapis
+      - buf.build/bufbuild/protovalidate
+
+plugins:
+  # Go
+  - plugin: buf.build/protocolbuffers/go
+    out: pkg/saacs-protos
+    opt:
+      - paths=source_relative
+
+  - plugin: saacs-go
+    out: pkg/saacs-protos
+    opt:
+      - paths=source_relative
+
+  - plugin: buf.build/bufbuild/es
+    out: cmd/protoc-gen-saacs-es/src/gen
+    opt: target=ts

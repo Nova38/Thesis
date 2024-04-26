@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package saacs.auth.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "saacs/auth/v0/policy.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/auth/v0/type.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+// Shared Auth Object for Role Based Authentication
+message Role {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: ["role_id"]
+  };
+
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string role_id = 2 [(buf.validate.field).string.min_len = 1];
+
+  Polices polices = 4 [(buf.validate.field).required = true];
+
+  string note = 5;
+  repeated string parent_role_ids = 6;
+}
+
+message RoleIDList {
+  repeated string role_id = 1;
+}
+
+// Auth Object For RBAC
+message UserCollectionRoles {
+  option (auth_type) = AUTH_TYPE_ROLE;
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: [
+      "msp_id",
+      "user_id"
+    ]
+  };
+
+  // The collection that the user is a member of
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The msp of the organization that the user's certificate is from
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user from the certificate
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  // The roles that the user has in the collection
+  repeated string role_ids = 4 [(buf.validate.field).repeated = {
+    unique: true,
+    min_items: 1
+  }];
+
+  string note = 6;
+}
+
+
+// Auth Object For Embedded RBAC
+message UserGlobalRoles {
+  option (auth_type) = AUTH_TYPE_GLOBAL_ROLE;
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: [
+      "msp_id",
+      "user_id"
+    ]
+  };
+
+  string collection_id = 1 [(buf.validate.field).string.const = "USERS"];
+  // The msp of the organization that the user's certificate is from
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user from the certificate
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+
+  // The roles that the user has in the collection
+  // key is the collection id
+  // value is the list of rolesIds
+  map<string, RoleIDList> roles = 4;
+}

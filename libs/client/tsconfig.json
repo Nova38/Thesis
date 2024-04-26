@@ -20,7 +20,21 @@
   //   "build.config.ts",
   //   "playground"
   // ],
+  "compilerOptions": {
+    "paths": {
+      "@": [
+        "./src"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true
+  },
   "include": [
-    "**/*.ts"
-  ]
+    "**/*.ts",
+    "playground",
+    "src/imports/test.mts"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

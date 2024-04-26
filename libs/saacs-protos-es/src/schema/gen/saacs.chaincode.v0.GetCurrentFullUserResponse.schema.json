@@ -1,0 +1,27 @@
+{
+  "$id": "saacs.chaincode.v0.GetCurrentFullUserResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "registered": {
+      "type": "boolean"
+    },
+    "user": {
+      "$ref": "saacs.common.v0.User.schema.json"
+    },
+    "user_collection_roles": {
+      "items": {
+        "$ref": "saacs.auth.v0.UserCollectionRoles.schema.json"
+      },
+      "type": "array"
+    },
+    "user_memberships": {
+      "items": {
+        "$ref": "saacs.auth.v0.UserDirectMembership.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Get Current Full User Response",
+  "type": "object"
+}

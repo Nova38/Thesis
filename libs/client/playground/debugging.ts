@@ -18,10 +18,80 @@ import {
   connect,
   signers,
 } from '@hyperledger/fabric-gateway'
-import { createBiochainGateway } from '../src/fabric/client'
+import type { pb } from '@saacs/saacs-pb'
+import type { PlainMessage } from '@bufbuild/protobuf'
+import { createBiochainGateway, createUtilGateway } from '../src/fabric/client'
+
+interface UserCrypto { signer: Signer, identity: Identity }
+
+export async function BuildFromBaseDir(path: string) {
+  const OrgUsersDir = join(
+    path,
+    'organizations',
+    'peerOrganizations',
+    'org1.debugger.com',
+    'users',
+  )
+
+  const mspId = 'Org1MSP'
+  const peerEndpoint = 'localhost:5051'
+  const OrgUsers = await fs.readdir(OrgUsersDir)
+
+  async function newGRPCClient() {
+    return new grpc.Client(peerEndpoint, grpc.credentials.createInsecure())
+  }
+
+  async function getUserCryptoFiles(user: string) {
+    const userDir = join(OrgUsersDir, user, 'msp')
+    const keyDir = join(userDir, 'keystore')
+    const keyName = (await fs.readdir(keyDir)).pop() || ''
+
+    const privateKey = await fs.readFile(join(userDir, 'keystore', keyName))
+    const credentials = await fs.readFile(join(userDir, 'signcerts', 'cert.pem'))
+
+    return {
+      key: privateKey,
+      credentials,
+    }
+  }
+
+  async function getUserCrypto(user: string): Promise<UserCrypto> {
+    const { key, credentials } = await getUserCryptoFiles(user)
+    const privateKey = crypto.createPrivateKey(key)
+    const signer = signers.newPrivateKeySigner(privateKey)
+
+    return {
+      signer,
+      identity: { mspId, credentials },
+    }
+  }
+
+  const userCrypto = await Promise.all(
+    OrgUsers.map(async (user) => {
+      return { username: user, crypto: await getUserCrypto(user) }
+    }),
+  )
+
+  const Users = userCrypto.reduce(
+    (acc: Record<string, UserCrypto>, { username, crypto }) => {
+      acc[username] = crypto
+      return acc
+    },
+    {},
+  )
+  const client = await newGRPCClient()
+  console.log('Users:', Users)
+
+  const gateway = connect({
+    client,
+    identity: Users.Org1Admin.identity,
+    signer: Users.Org1Admin.signer,
+  })
+
+  return { gateway, client }
+}
 
 const baseDir = join(
-  // eslint-disable-next-line node/prefer-global/process
   process.env.USERPROFILE || '~',
   '.vscode',
   'extensions',
@@ -30,74 +100,27 @@ const baseDir = join(
   'local',
 )
 
-const OrgUsersDir = join(
-  baseDir,
-  'organizations',
-  'peerOrganizations',
-  'org1.debugger.com',
-  'users',
-)
+const { gateway, client } = await BuildFromBaseDir(baseDir)
 
-interface UserCrypto { signer: Signer, identity: Identity }
-const mspId = 'Org1MSP'
-const peerEndpoint = 'localhost:5051'
-const OrgUsers = await fs.readdir(OrgUsersDir)
+const network = await gateway.getNetwork('default')
+const contract = network.getContract('saacs-caas')
 
-async function newGRPCClient() {
-  return new grpc.Client(peerEndpoint, grpc.credentials.createInsecure())
-}
-
-async function getUserCryptoFiles(user: string) {
-  const userDir = join(OrgUsersDir, user, 'msp')
-  const keyDir = join(userDir, 'keystore')
-  const keyName = (await fs.readdir(keyDir)).pop() || ''
-
-  const privateKey = await fs.readFile(join(userDir, 'keystore', keyName))
-  const credentials = await fs.readFile(join(userDir, 'signcerts', 'cert.pem'))
-
-  return {
-    key: privateKey,
-    credentials,
-  }
-}
-
-async function getUserCrypto(user: string): Promise<UserCrypto> {
-  const { key, credentials } = await getUserCryptoFiles(user)
-  const privateKey = crypto.createPrivateKey(key)
-  const signer = signers.newPrivateKeySigner(privateKey)
-
-  return {
-    signer,
-    identity: { mspId, credentials },
-  }
-}
-
-const userCrypto = await Promise.all(
-  OrgUsers.map(async (user) => {
-    return { username: user, crypto: await getUserCrypto(user) }
-  }),
-)
-
-const Users = userCrypto.reduce(
-  (acc: Record<string, UserCrypto>, { username, crypto }) => {
-    acc[username] = crypto
-    return acc
-  },
-  {},
-)
-
-const client = await newGRPCClient()
-console.log('Users:', Users)
-
-const gateway = connect({
-  client,
-  identity: Users.Org1Admin.identity,
-  signer: Users.Org1Admin.signer,
-})
-
-const network = await gateway.getNetwork('mychannel')
-const contract = network.getContract('mycontract')
-
+const utils = createUtilGateway(contract)
 const BiochainClient = createBiochainGateway(contract)
+try {
+  const u = await utils.getCurrentUser({})
+  console.log(u)
 
-BiochainClient.get({ key: {} })
+  // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
+  //   'saacs.biochain.v0.Specimen',
+  // ] } })
+
+  // console.log(r)
+
+  const r2 = await utils.getCollectionsList({})
+  console.log(r2)
+}
+
+catch (error) {
+  console.error(error)
+}

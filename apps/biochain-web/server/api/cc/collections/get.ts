@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
   if (!query.success) throw query.error.issues
 
   const result = await cc.service.get(
-    new common.generic.GetRequest({
-      key: new auth.objects.ItemKey({
+    new pb.GetRequest({
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
         itemType: 'auth.Collection',
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
     }),
   )
 
-  const c = new auth.objects.Collection()
+  const c = new pb.Collection()
   result.item?.value?.unpackTo(c)
   return c
 })

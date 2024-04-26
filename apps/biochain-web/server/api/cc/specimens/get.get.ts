@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ZSpecimen } from '~/utils/cc/proto/Specimen'
 // import { ccbio, common } from 'saacs'
 
 const querySchema = z.object({
@@ -19,7 +20,7 @@ export default defineEventHandler(async (event) => {
   // console.log(r);
 
   const result = await cc.service.get(
-    new common.generic.GetRequest({
+    new pb.GetRequest({
       key: {
         collectionId: r.data.collectionId,
         itemKeyParts: [r.data.specimenId],
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
   )
 
   // console.log(result);
-  const unpacked = new ccbio.Specimen()
+  const unpacked = new pb.Specimen()
   result.item?.value?.unpackTo(unpacked)
 
   // console.log({ unpacked });

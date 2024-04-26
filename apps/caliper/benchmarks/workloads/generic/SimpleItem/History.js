@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// History hlf.pb.common.generic.HistoryRequest
+// History hlf.pb.pb.HistoryRequest
 
 /**
  * Assemble TXs for the round.
@@ -58,7 +58,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
 async submitTransaction() {
     /** @type {PeerGateway.FabricRequestSettings}*/
 
-    const item = new hlf.pb.common.generic.HistoryRequest({})
+    const item = new hlf.pb.pb.HistoryRequest({})
 
 
     const myArgs = {

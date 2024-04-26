@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 )
 
 // func TestKeyExists(t *testing.T) {
@@ -30,7 +30,7 @@ import (
 
 func TestMakeItemKeyAttr(t *testing.T) {
 	type args struct {
-		key *authpb.ItemKey
+		key *pb.ItemKey
 	}
 	tests := []struct {
 		name string
@@ -40,7 +40,7 @@ func TestMakeItemKeyAttr(t *testing.T) {
 		{
 			name: "1 part",
 			args: args{
-				key: &authpb.ItemKey{
+				key: &pb.ItemKey{
 					CollectionId: "collection",
 					ItemKeyParts: []string{"id"},
 				},
@@ -52,7 +52,7 @@ func TestMakeItemKeyAttr(t *testing.T) {
 		{
 			name: "2 parts",
 			args: args{
-				key: &authpb.ItemKey{
+				key: &pb.ItemKey{
 					CollectionId: "collection",
 					ItemKeyParts: []string{"id1", "id2"},
 				},

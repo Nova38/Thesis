@@ -1,4 +1,5 @@
 import { Any } from '@bufbuild/protobuf'
+import { pb } from '@saacs/saacs-pb'
 // import { auth, ccbio, common } from 'saacs'
 import { ZSpecimen } from '~/utils/cc/proto/Specimen'
 
@@ -30,9 +31,9 @@ export default defineEventHandler(async (event) => {
   console.log(specimen.toJsonString())
 
   const v = Any.pack(specimen)
-  const req = new common.generic.CreateRequest({
+  const req = new pb.CreateRequest({
     item: {
-      key: new auth.objects.ItemKey({
+      key: new pb.ItemKey({
         collectionId: specimen.collectionId,
         itemKeyParts: [specimen.specimenId],
         itemType: ccbio.Specimen.typeName,

@@ -3,25 +3,26 @@ package common
 import (
 	"testing"
 
-	v1 "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/proto"
 )
 
 func TestNewItemWithKey(t *testing.T) {
 	type args struct {
-		itemKey *v1.ItemKey
+		itemKey *pb.ItemKey
 	}
 	type testCase[T ItemInterface] struct {
 		name string
 		args args
 		want T
 	}
-	tests := []testCase[*v1.Collection]{
+	tests := []testCase[*authpb.Collection]{
 		{
 			name: "TestNewItemWithKey",
 			args: args{
-				itemKey: &v1.ItemKey{
+				itemKey: &pb.ItemKey{
 					CollectionId: "cid",
 					ItemType:     "auth.Collection",
 					ItemKind:     0,
@@ -30,7 +31,7 @@ func TestNewItemWithKey(t *testing.T) {
 					},
 				},
 			},
-			want: &v1.Collection{
+			want: &authpb.Collection{
 				CollectionId: "cid",
 				Name:         "",
 				AuthType:     0,
@@ -41,7 +42,7 @@ func TestNewItemWithKey(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotItem := lo.FromPtr(new(v1.Collection))
+			gotItem := lo.FromPtr(new(authpb.Collection))
 
 			gotItem.SetKey(tt.args.itemKey)
 			if !proto.Equal(&gotItem, tt.want) {

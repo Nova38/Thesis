@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
   try {
-    return await cc.service.getCollectionsList()
+    return await cc.utilService.getCollectionsList({})
   } catch (error) {
     // console.error('Error in listCollections', error)
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       //   cause: error,
       // })
 
-      return new common.generic.GetCollectionsListResponse({
+      return new pb.GetCollectionsListResponse({
         collections: [
           {
             collectionId: 'TestingID',

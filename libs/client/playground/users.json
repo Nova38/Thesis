@@ -1,0 +1,34 @@
+{
+  "identities": [
+    {
+      "name": "Admin",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+    },
+    {
+      "name": "User1",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "../../../infra/network//organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem"
+    },
+    {
+      "name": "User2",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User2@org1.example.com/msp/signcerts/cert.pem"
+    },
+    {
+      "name": "User3",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User3@org1.example.com/msp/signcerts/cert.pem"
+    },
+    {
+      "name": "User4",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User4@org1.example.com/msp/signcerts/cert.pem"
+    },
+    {
+      "name": "User5",
+      "clientPrivateKey": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/keystore/priv_sk",
+      "clientSignedCert": "../../../infra/network/organizations/peerOrganizations/org1.example.com/users/User5@org1.example.com/msp/signcerts/cert.pem"
+    }
+  ]
+}

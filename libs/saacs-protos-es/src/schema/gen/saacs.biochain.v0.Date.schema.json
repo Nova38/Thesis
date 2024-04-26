@@ -1,0 +1,29 @@
+{
+  "$id": "saacs.biochain.v0.Date.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "────────────────────────────────────────────────--\n Specimen\n ────────────────────────────────────────────────--",
+  "properties": {
+    "day": {
+      "exclusiveMaximum": 2147483648,
+      "minimum": -2147483648,
+      "type": "integer"
+    },
+    "month": {
+      "type": "string"
+    },
+    "timestamp": {
+      "$ref": "google.protobuf.Timestamp.schema.json"
+    },
+    "verbatim": {
+      "type": "string"
+    },
+    "year": {
+      "exclusiveMaximum": 2147483648,
+      "minimum": -2147483648,
+      "type": "integer"
+    }
+  },
+  "title": "Date",
+  "type": "object"
+}

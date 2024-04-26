@@ -1,0 +1,24 @@
+{
+  "$id": "saacs.auth.v0.AuthModel.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attribute": {
+      "$ref": "saacs.auth.v0.Model.Attribute.schema.json"
+    },
+    "global_roles": {
+      "$ref": "saacs.auth.v0.Model.GlobalRoles.schema.json"
+    },
+    "identity": {
+      "$ref": "saacs.auth.v0.Model.Identity.schema.json"
+    },
+    "name": {
+      "type": "string"
+    },
+    "roles": {
+      "$ref": "saacs.auth.v0.Model.Roles.schema.json"
+    }
+  },
+  "title": "Auth Model",
+  "type": "object"
+}

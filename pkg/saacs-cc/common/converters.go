@@ -1,7 +1,8 @@
 package common
 
 import (
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/samber/oops"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/reflect/protoregistry"
@@ -12,7 +13,7 @@ import (
 // ──────────────────────────────── Item Utils ──────────────────────────────────────────
 
 // ItemKeyToItemType Does not populate the item's key
-func ItemKeyToItemType(key *authpb.ItemKey) (item ItemInterface, err error) {
+func ItemKeyToItemType(key *pb.ItemKey) (item ItemInterface, err error) {
 	if key == nil {
 		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
@@ -27,21 +28,27 @@ func ItemKeyToItemType(key *authpb.ItemKey) (item ItemInterface, err error) {
 	item, ok := t.New().Interface().(ItemInterface)
 
 	if !ok {
-		return nil, oops.In("GetItem").Errorf("Item is not a state.Item")
+		return nil, oops.In("KeyToItem").
+			Hint("Failed to match the Item Interface").
+			Wrap(ItemInvalid)
 	}
 
 	return item, nil
 }
 
 // ItemKeyToItem creates the item of the keys type and populates the item's key
-func ItemKeyToItem(key *authpb.ItemKey) (item ItemInterface, err error) {
+func ItemKeyToItem(key *pb.ItemKey) (item ItemInterface, err error) {
 	item, err = ItemKeyToItemType(key)
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}
 
 	if key.GetItemKeyParts() == nil {
-		return nil, oops.Errorf("ItemKey is nil")
+		return nil, oops.
+			In("Converter").
+			With("key", key).
+			Code(pb.TxError_INVALID_ITEM_FIELD_VALUE.String()).
+			Wrap(InvalidItemFieldValue)
 	}
 
 	item.SetKey(key)
@@ -51,7 +58,7 @@ func ItemKeyToItem(key *authpb.ItemKey) (item ItemInterface, err error) {
 
 // ──────────────────────────────── Packing ──────────────────────────────────────────
 
-func UnPackItem(obj *authpb.Item) (item ItemInterface, err error) {
+func UnPackItem(obj *pb.Item) (item ItemInterface, err error) {
 	if obj == nil || obj.GetValue() == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -69,7 +76,7 @@ func UnPackItem(obj *authpb.Item) (item ItemInterface, err error) {
 	return item, nil
 }
 
-func PackItem(item ItemInterface) (obj *authpb.Item, err error) {
+func PackItem(item ItemInterface) (obj *pb.Item, err error) {
 	if item == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -84,14 +91,14 @@ func PackItem(item ItemInterface) (obj *authpb.Item, err error) {
 		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
 
-	obj = &authpb.Item{
+	obj = &pb.Item{
 		Value: msg,
 	}
 
 	return obj, nil
 }
 
-func ListItemToProtos(list []ItemInterface) (objs []*authpb.Item, err error) {
+func ListItemToProtos(list []ItemInterface) (objs []*pb.Item, err error) {
 	for _, item := range list {
 		msg, err := PackItem(item)
 		if err != nil {
@@ -104,7 +111,7 @@ func ListItemToProtos(list []ItemInterface) (objs []*authpb.Item, err error) {
 
 // ──────────────────────────────── Suggestions ──────────────────────────────────────────
 
-func ItemToSuggestion(obj ItemInterface) (suggestion *authpb.Suggestion, err error) {
+func ItemToSuggestion(obj ItemInterface) (suggestion *pb.Suggestion, err error) {
 	if obj == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -119,7 +126,7 @@ func ItemToSuggestion(obj ItemInterface) (suggestion *authpb.Suggestion, err err
 		return nil, oops.In("GetItem").Errorf("ItemKey is nil")
 	}
 
-	suggestion = &authpb.Suggestion{
+	suggestion = &pb.Suggestion{
 		PrimaryKey: primaryKey,
 		Paths:      &fieldmaskpb.FieldMask{},
 		Value:      msg,
@@ -128,7 +135,7 @@ func ItemToSuggestion(obj ItemInterface) (suggestion *authpb.Suggestion, err err
 	return suggestion, nil
 }
 
-func SuggestionToItem(s *authpb.Suggestion) (obj ItemInterface, err error) {
+func SuggestionToItem(s *pb.Suggestion) (obj ItemInterface, err error) {
 	if s == nil {
 		return nil, oops.In("GetItem").Errorf("Item is nil")
 	}
@@ -148,58 +155,13 @@ func SuggestionToItem(s *authpb.Suggestion) (obj ItemInterface, err error) {
 
 // ──────────────────────────────── References ──────────────────────────────────────────
 
-// ReferenceKeyToItems converts a reference key to the item object
-
-func ReferenceKeyToItems(
-	ref *authpb.ReferenceKey,
-) (item1 ItemInterface, item2 ItemInterface, err error) {
-	if ref == nil {
-		return nil, nil, oops.In("GetItem").Errorf("Item is nil")
+func MaybePagation(p *pb.Pagination) (pagination *pb.Pagination) {
+	if p != nil {
+		return p
 	}
 
-	if ref.GetKey1() == nil && ref.GetKey2() == nil {
-		return nil, nil, oops.In("GetItem").Errorf("ItemKey is nil")
+	return &pb.Pagination{
+		PageSize: DefaultPageSize,
+		Bookmark: "",
 	}
-
-	if ref.GetKey1() != nil {
-		// Get the items from the ledger
-		item1, err = ItemKeyToItem(ref.GetKey1())
-		if err != nil {
-			return nil, nil, oops.Wrap(err)
-		}
-	}
-
-	if ref.GetKey2() != nil {
-		item2, err = ItemKeyToItem(ref.GetKey2())
-		if err != nil {
-			return item1, nil, oops.Wrap(err)
-		}
-	}
-
-	return item1, item2, nil
-}
-
-// PackReference packs the items into anypb and returns the reference
-func PackReference(
-	ref *authpb.ReferenceKey,
-	item1 ItemInterface,
-	item2 ItemInterface,
-) (reference *authpb.Reference, err error) {
-	reference = &authpb.Reference{
-		Reference: ref,
-		Item1:     &authpb.Item{},
-		Item2:     &authpb.Item{},
-	}
-
-	reference.Item1, err = PackItem(item1)
-	if err != nil {
-		return nil, oops.Hint("Error packing item1").Wrap(err)
-	}
-
-	reference.Item2, err = PackItem(item2)
-	if err != nil {
-		return nil, oops.Hint("Error packing item2").Wrap(err)
-	}
-
-	return reference, nil
 }

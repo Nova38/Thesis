@@ -1,0 +1,28 @@
+{
+  "$id": "saacs.common.v0.History.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "saacs.common.v0.HistoryEntry.schema.json"
+      },
+      "type": "array"
+    },
+    "hidden_txs": {
+      "$ref": "saacs.common.v0.HiddenTxList.schema.json"
+    },
+    "hidden_txs_by_msp_id": {
+      "additionalProperties": {
+        "$ref": "saacs.common.v0.HiddenTxList.schema.json"
+      },
+      "description": "The key is the msp_id of the group that is hiding the tx",
+      "propertyNames": {
+        "type": "string"
+      },
+      "type": "object"
+    }
+  },
+  "title": "History",
+  "type": "object"
+}

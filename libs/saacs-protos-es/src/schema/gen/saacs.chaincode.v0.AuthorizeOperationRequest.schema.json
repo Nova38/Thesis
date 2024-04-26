@@ -1,0 +1,12 @@
+{
+  "$id": "saacs.chaincode.v0.AuthorizeOperationRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "operation": {
+      "$ref": "saacs.common.v0.Operation.schema.json"
+    }
+  },
+  "title": "Authorize Operation Request",
+  "type": "object"
+}

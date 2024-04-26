@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// Delete hlf.pb.common.generic.DeleteRequest
+// Delete hlf.pb.pb.DeleteRequest
 
 /**
  * Assemble TXs for the round.
@@ -57,7 +57,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  */
 async submitTransaction() {
 
-    const item = new hlf.pb.common.generic.DeleteRequest({arg.item})
+    const item = new hlf.pb.pb.DeleteRequest({arg.item})
 
     /** @type {PeerGateway.FabricRequestSettings}*/
     const myArgs = {

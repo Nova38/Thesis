@@ -1,0 +1,12 @@
+{
+  "$id": "saacs.chaincode.v0.GetCurrentUserRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "empty": {
+      "type": "boolean"
+    }
+  },
+  "title": "Get Current User Request",
+  "type": "object"
+}

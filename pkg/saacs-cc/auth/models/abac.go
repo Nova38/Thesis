@@ -5,7 +5,9 @@ import (
 
 	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/samber/oops"
 )
 
@@ -18,7 +20,7 @@ type ABAC struct {
 	Logger *slog.Logger
 }
 
-func (ac *ABAC) Authorize(op *authpb.Operation) (bool, error) {
+func (ac *ABAC) Authorize(op *pb.Operation) (bool, error) {
 	// ═════════════════════════════════════════════
 	// Default Policy
 	// ═════════════════════════════════════════════

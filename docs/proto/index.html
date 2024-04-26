@@ -1,0 +1,6590 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Protocol Documentation</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic"/>
+    <style>
+      body {
+        width: 60em;
+        margin: 1em auto;
+        color: #222;
+        font-family: "Ubuntu", sans-serif;
+        padding-bottom: 4em;
+      }
+
+      h1 {
+        font-weight: normal;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+      }
+
+      h2 {
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+        margin: 1.5em 0;
+      }
+
+      h3 {
+        font-weight: normal;
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 0.5ex;
+      }
+
+      a {
+        text-decoration: none;
+        color: #567e25;
+      }
+
+      table {
+        width: 100%;
+        font-size: 80%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        font-weight: 700;
+        background-color: #dcdcdc;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #fbfbfb;
+      }
+
+      td {
+        border: 1px solid #ccc;
+        padding: 0.5ex 2ex;
+      }
+
+      td p {
+        text-indent: 1em;
+        margin: 0;
+      }
+
+      td p:nth-child(1) {
+        text-indent: 0;
+      }
+
+
+      .field-table td:nth-child(1) {
+        width: 10em;
+      }
+      .field-table td:nth-child(2) {
+        width: 10em;
+      }
+      .field-table td:nth-child(3) {
+        width: 6em;
+      }
+      .field-table td:nth-child(4) {
+        width: auto;
+      }
+
+
+      .extension-table td:nth-child(1) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(2) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(3) {
+        width: 10em;
+      }
+      .extension-table td:nth-child(4) {
+        width: 5em;
+      }
+      .extension-table td:nth-child(5) {
+        width: auto;
+      }
+
+
+      .enum-table td:nth-child(1) {
+        width: 10em;
+      }
+      .enum-table td:nth-child(2) {
+        width: 10em;
+      }
+      .enum-table td:nth-child(3) {
+        width: auto;
+      }
+
+
+      .scalar-value-types-table tr {
+        height: 3em;
+      }
+
+
+      #toc-container ul {
+        list-style-type: none;
+        padding-left: 1em;
+        line-height: 180%;
+        margin: 0;
+      }
+      #toc > li > a {
+        font-weight: bold;
+      }
+
+
+      .file-heading {
+        width: 100%;
+        display: table;
+        border-bottom: 1px solid #aaa;
+        margin: 4em 0 1.5em 0;
+      }
+      .file-heading h2 {
+        border: none;
+        display: table-cell;
+      }
+      .file-heading a {
+        text-align: right;
+        display: table-cell;
+      }
+
+
+      .badge {
+        width: 1.6em;
+        height: 1.6em;
+        display: inline-block;
+
+        line-height: 1.6em;
+        text-align: center;
+        font-weight: bold;
+        font-size: 60%;
+
+        color: #89ba48;
+        background-color: #dff0c8;
+
+        margin: 0.5ex 1em 0.5ex -1em;
+        border: 1px solid #fbfbfb;
+        border-radius: 1ex;
+      }
+    </style>
+
+
+    <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+  </head>
+
+  <body>
+
+    <h1 id="title">Protocol Documentation</h1>
+
+    <h2>Table of Contents</h2>
+
+    <div id="toc-container">
+      <ul id="toc">
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fenums.proto">saacs/common/v0/enums.proto</a>
+            <ul>
+
+
+                <li>
+                  <a href="#saacs.common.v0.Action"><span class="badge">E</span>Action</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.ItemKind"><span class="badge">E</span>ItemKind</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.TransactionType"><span class="badge">E</span>TransactionType</a>
+                </li>
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2fpolicy.proto">saacs/auth/v0/policy.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.PathPolicy"><span class="badge">M</span>PathPolicy</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.PathPolicy.SubPathsEntry"><span class="badge">M</span>PathPolicy.SubPathsEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Polices"><span class="badge">M</span>Polices</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Polices.ItemPoliciesEntry"><span class="badge">M</span>Polices.ItemPoliciesEntry</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2ftype.proto">saacs/auth/v0/type.proto</a>
+            <ul>
+
+
+                <li>
+                  <a href="#saacs.auth.v0.AuthType"><span class="badge">E</span>AuthType</a>
+                </li>
+
+
+                <li>
+                  <a href="#saacs%2fauth%2fv0%2ftype.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fitem.proto">saacs/common/v0/item.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.Item"><span class="badge">M</span>Item</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.ItemKey"><span class="badge">M</span>ItemKey</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.KeySchema"><span class="badge">M</span>KeySchema</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.ReadWriteSet"><span class="badge">M</span>ReadWriteSet</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2foperation.proto">saacs/common/v0/operation.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.Operation"><span class="badge">M</span>Operation</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2foptions.proto">saacs/common/v0/options.proto</a>
+            <ul>
+
+
+
+                <li>
+                  <a href="#saacs%2fcommon%2fv0%2foptions.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+                <li>
+                  <a href="#saacs%2fcommon%2fv0%2foptions.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+                <li>
+                  <a href="#saacs%2fcommon%2fv0%2foptions.proto-extensions"><span class="badge">X</span>File-level Extensions</a>
+                </li>
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2fattribute.proto">saacs/auth/v0/attribute.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.Attribute"><span class="badge">M</span>Attribute</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2fcollection.proto">saacs/auth/v0/collection.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.Collection"><span class="badge">M</span>Collection</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2fidentity.proto">saacs/auth/v0/identity.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.UserDirectMembership"><span class="badge">M</span>UserDirectMembership</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2froles.proto">saacs/auth/v0/roles.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.Role"><span class="badge">M</span>Role</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.RoleIDList"><span class="badge">M</span>RoleIDList</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.UserCollectionRoles"><span class="badge">M</span>UserCollectionRoles</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.UserGlobalRoles"><span class="badge">M</span>UserGlobalRoles</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.UserGlobalRoles.RolesEntry"><span class="badge">M</span>UserGlobalRoles.RolesEntry</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fauth%2fv0%2fmodels.proto">saacs/auth/v0/models.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.auth.v0.AuthModel"><span class="badge">M</span>AuthModel</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model"><span class="badge">M</span>Model</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model.Attribute"><span class="badge">M</span>Model.Attribute</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model.GlobalRoles"><span class="badge">M</span>Model.GlobalRoles</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model.Identity"><span class="badge">M</span>Model.Identity</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model.Roles"><span class="badge">M</span>Model.Roles</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2factivity.proto">saacs/common/v0/activity.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.StateActivity"><span class="badge">M</span>StateActivity</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fhistory.proto">saacs/common/v0/history.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.HiddenOptions"><span class="badge">M</span>HiddenOptions</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.HiddenTx"><span class="badge">M</span>HiddenTx</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.HiddenTxList"><span class="badge">M</span>HiddenTxList</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.History"><span class="badge">M</span>History</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.History.HiddenTxsByMspIdEntry"><span class="badge">M</span>History.HiddenTxsByMspIdEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.HistoryEntry"><span class="badge">M</span>HistoryEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.HistoryOptions"><span class="badge">M</span>HistoryOptions</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fbiochain%2fv0%2fstate.proto">saacs/biochain/v0/state.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Date"><span class="badge">M</span>Date</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Researcher"><span class="badge">M</span>Researcher</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen"><span class="badge">M</span>Specimen</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Georeference"><span class="badge">M</span>Specimen.Georeference</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Grant"><span class="badge">M</span>Specimen.Grant</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.GrantsEntry"><span class="badge">M</span>Specimen.GrantsEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Image"><span class="badge">M</span>Specimen.Image</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.ImagesEntry"><span class="badge">M</span>Specimen.ImagesEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Loan"><span class="badge">M</span>Specimen.Loan</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.LoansEntry"><span class="badge">M</span>Specimen.LoansEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Primary"><span class="badge">M</span>Specimen.Primary</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Secondary"><span class="badge">M</span>Specimen.Secondary</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Secondary.Preparation"><span class="badge">M</span>Specimen.Secondary.Preparation</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Secondary.PreparationsEntry"><span class="badge">M</span>Specimen.Secondary.PreparationsEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Taxon"><span class="badge">M</span>Specimen.Taxon</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenHistory"><span class="badge">M</span>SpecimenHistory</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenHistoryEntry"><span class="badge">M</span>SpecimenHistoryEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenList"><span class="badge">M</span>SpecimenList</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenMap"><span class="badge">M</span>SpecimenMap</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenMap.SpecimensEntry"><span class="badge">M</span>SpecimenMap.SpecimensEntry</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.SpecimenUpdate"><span class="badge">M</span>SpecimenUpdate</a>
+                </li>
+
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Secondary.AGE"><span class="badge">E</span>Specimen.Secondary.AGE</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.biochain.v0.Specimen.Secondary.SEX"><span class="badge">E</span>Specimen.Secondary.SEX</a>
+                </li>
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fsuggestion.proto">saacs/common/v0/suggestion.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.Suggestion"><span class="badge">M</span>Suggestion</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fpacking.proto">saacs/common/v0/packing.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.FullItem"><span class="badge">M</span>FullItem</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.common.v0.Pagination"><span class="badge">M</span>Pagination</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fchaincode%2fv0%2fchaincode.proto">saacs/chaincode/v0/chaincode.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.BatchCreateRequest"><span class="badge">M</span>BatchCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.BatchCreateResponse"><span class="badge">M</span>BatchCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.CreateRequest"><span class="badge">M</span>CreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.CreateResponse"><span class="badge">M</span>CreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.DeleteRequest"><span class="badge">M</span>DeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.DeleteResponse"><span class="badge">M</span>DeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetFullRequest"><span class="badge">M</span>GetFullRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetFullResponse"><span class="badge">M</span>GetFullResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetHiddenTxRequest"><span class="badge">M</span>GetHiddenTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetHiddenTxResponse"><span class="badge">M</span>GetHiddenTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetHistoryRequest"><span class="badge">M</span>GetHistoryRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetHistoryResponse"><span class="badge">M</span>GetHistoryResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetRequest"><span class="badge">M</span>GetRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetResponse"><span class="badge">M</span>GetResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetSuggestionRequest"><span class="badge">M</span>GetSuggestionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetSuggestionResponse"><span class="badge">M</span>GetSuggestionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.HideTxRequest"><span class="badge">M</span>HideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.HideTxResponse"><span class="badge">M</span>HideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.ListByAttrsRequest"><span class="badge">M</span>ListByAttrsRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.ListByAttrsResponse"><span class="badge">M</span>ListByAttrsResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.ListRequest"><span class="badge">M</span>ListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.ListResponse"><span class="badge">M</span>ListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionApproveRequest"><span class="badge">M</span>SuggestionApproveRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionApproveResponse"><span class="badge">M</span>SuggestionApproveResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionByPartialKeyRequest"><span class="badge">M</span>SuggestionByPartialKeyRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionByPartialKeyResponse"><span class="badge">M</span>SuggestionByPartialKeyResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionCreateRequest"><span class="badge">M</span>SuggestionCreateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionCreateResponse"><span class="badge">M</span>SuggestionCreateResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionDeleteRequest"><span class="badge">M</span>SuggestionDeleteRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionDeleteResponse"><span class="badge">M</span>SuggestionDeleteResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListByCollectionRequest"><span class="badge">M</span>SuggestionListByCollectionRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListByCollectionResponse"><span class="badge">M</span>SuggestionListByCollectionResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListByItemRequest"><span class="badge">M</span>SuggestionListByItemRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListByItemResponse"><span class="badge">M</span>SuggestionListByItemResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListRequest"><span class="badge">M</span>SuggestionListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.SuggestionListResponse"><span class="badge">M</span>SuggestionListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.UnHideTxRequest"><span class="badge">M</span>UnHideTxRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.UnHideTxResponse"><span class="badge">M</span>UnHideTxResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.UpdateRequest"><span class="badge">M</span>UpdateRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.UpdateResponse"><span class="badge">M</span>UpdateResponse</a>
+                </li>
+
+
+
+
+                <li>
+                  <a href="#saacs.chaincode.v0.ItemService"><span class="badge">S</span>ItemService</a>
+                </li>
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2fuser.proto">saacs/common/v0/user.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.User"><span class="badge">M</span>User</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fchaincode%2fv0%2fevents.proto">saacs/chaincode/v0/events.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.OperationsPerformed"><span class="badge">M</span>OperationsPerformed</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fchaincode%2fv0%2futils.proto">saacs/chaincode/v0/utils.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.AuthorizeOperationRequest"><span class="badge">M</span>AuthorizeOperationRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.AuthorizeOperationResponse"><span class="badge">M</span>AuthorizeOperationResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.BootstrapRequest"><span class="badge">M</span>BootstrapRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.BootstrapResponse"><span class="badge">M</span>BootstrapResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCollectionAuthModelRequest"><span class="badge">M</span>GetCollectionAuthModelRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCollectionsListRequest"><span class="badge">M</span>GetCollectionsListRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCollectionsListResponse"><span class="badge">M</span>GetCollectionsListResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCurrentFullUserResponse"><span class="badge">M</span>GetCurrentFullUserResponse</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCurrentUserRequest"><span class="badge">M</span>GetCurrentUserRequest</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.chaincode.v0.GetCurrentUserResponse"><span class="badge">M</span>GetCurrentUserResponse</a>
+                </li>
+
+
+
+
+                <li>
+                  <a href="#saacs.chaincode.v0.UtilsService"><span class="badge">S</span>UtilsService</a>
+                </li>
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fcommon%2fv0%2ferrors.proto">saacs/common/v0/errors.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.common.v0.ErrorWrapper"><span class="badge">M</span>ErrorWrapper</a>
+                </li>
+
+
+                <li>
+                  <a href="#saacs.common.v0.TxError"><span class="badge">E</span>TxError</a>
+                </li>
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fexample%2fv0%2fbook.proto">saacs/example/v0/book.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.sample.v0.Book"><span class="badge">M</span>Book</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fexample%2fv0%2fitems.proto">saacs/example/v0/items.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.sample.v0.Group"><span class="badge">M</span>Group</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.sample.v0.SimpleItem"><span class="badge">M</span>SimpleItem</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+
+          <li>
+            <a href="#saacs%2fexample%2fv0%2fnested.proto">saacs/example/v0/nested.proto</a>
+            <ul>
+
+                <li>
+                  <a href="#saacs.sample.v0.ItemWithNestedKey"><span class="badge">M</span>ItemWithNestedKey</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.sample.v0.Nested"><span class="badge">M</span>Nested</a>
+                </li>
+
+
+
+
+            </ul>
+          </li>
+
+        <li><a href="#scalar-value-types">Scalar Value Types</a></li>
+      </ul>
+    </div>
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/enums.proto">saacs/common/v0/enums.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+
+
+        <h3 id="saacs.common.v0.Action">Action</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>ACTION_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Should throw an error if used</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UTILITY</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW</td>
+                <td>10</td>
+                <td><p>View the contents of an item</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_CREATE</td>
+                <td>11</td>
+                <td><p>Create a new item
+ - key must not already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UPDATE</td>
+                <td>12</td>
+                <td><p>Update an existing item
+  - key must already exist
+  - potential has paths</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_DELETE</td>
+                <td>13</td>
+                <td><p>Delete an existing item, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_VIEW</td>
+                <td>14</td>
+                <td><p>Suggest a change to an item, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_CREATE</td>
+                <td>15</td>
+                <td><p>Suggest a change to an item, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_DELETE</td>
+                <td>16</td>
+                <td><p>Delete a suggestion, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_SUGGEST_APPROVE</td>
+                <td>17</td>
+                <td><p>Approve a suggestion and apply it to the item, key must already exist</p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW_HISTORY</td>
+                <td>18</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_VIEW_HIDDEN_TXS</td>
+                <td>19</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_HIDE_TX</td>
+                <td>20</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UNHIDE_TX</td>
+                <td>21</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_HIDE_MSP_TX</td>
+                <td>22</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ACTION_UNHIDE_MSP_TX</td>
+                <td>23</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="saacs.common.v0.ItemKind">ItemKind</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>ITEM_KIND_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_KIND_PRIMARY_ITEM</td>
+                <td>2</td>
+                <td><p>ITEM_KIND_GLOBAL_ITEM = 1;
+Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_KIND_SUB_ITEM</td>
+                <td>3</td>
+                <td><p>Item&#39;s key := {COLLECTION_ID}{TYPE}&lt;PrimaryKey&gt;{...key_paths}</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_KIND_REFERENCE</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="saacs.common.v0.TransactionType">TransactionType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>TRANSACTION_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>TRANSACTION_TYPE_INVOKE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>TRANSACTION_TYPE_QUERY</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/policy.proto">saacs/auth/v0/policy.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.PathPolicy">PathPolicy</h3>
+        <p>This message is the tree node for operations on the state item</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The path is a sub path of a field mask </p></td>
+                </tr>
+
+                <tr>
+                  <td>full_path</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>allow_sub_paths</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>sub_paths</td>
+                  <td><a href="#saacs.auth.v0.PathPolicy.SubPathsEntry">PathPolicy.SubPathsEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>The key is a valid sub path in the type of state item </p></td>
+                </tr>
+
+                <tr>
+                  <td>actions</td>
+                  <td><a href="#saacs.common.v0.Action">saacs.common.v0.Action</a></td>
+                  <td>repeated</td>
+                  <td><p>If the policy is not set than use a parent policy unless nested policy is set </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.PathPolicy.SubPathsEntry">PathPolicy.SubPathsEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.auth.v0.PathPolicy">PathPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Polices">Polices</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_policies</td>
+                  <td><a href="#saacs.auth.v0.Polices.ItemPoliciesEntry">Polices.ItemPoliciesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>key is the item type </p></td>
+                </tr>
+
+                <tr>
+                  <td>default_policy</td>
+                  <td><a href="#saacs.auth.v0.PathPolicy">PathPolicy</a></td>
+                  <td></td>
+                  <td><p>Default policy for all items </p></td>
+                </tr>
+
+                <tr>
+                  <td>default_excluded_types</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The types that are excluded from the default policy </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Polices.ItemPoliciesEntry">Polices.ItemPoliciesEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.auth.v0.PathPolicy">PathPolicy</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/type.proto">saacs/auth/v0/type.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+
+
+        <h3 id="saacs.auth.v0.AuthType">AuthType</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>AUTH_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p>Invalid authentication type/Non Specified</p></td>
+              </tr>
+
+              <tr>
+                <td>AUTH_TYPE_NONE</td>
+                <td>1</td>
+                <td><p>No authentication, all users have access to all collections actions</p></td>
+              </tr>
+
+              <tr>
+                <td>AUTH_TYPE_IDENTITY</td>
+                <td>2</td>
+                <td><p>Identity-based authentication, Identities are stored per user per collection</p></td>
+              </tr>
+
+              <tr>
+                <td>AUTH_TYPE_ROLE</td>
+                <td>3</td>
+                <td><p>Role-based authentication, Roles are stored per user per collection</p></td>
+              </tr>
+
+              <tr>
+                <td>AUTH_TYPE_GLOBAL_ROLE</td>
+                <td>4</td>
+                <td><p>Global role-based authentication, Roles are stored per user</p></td>
+              </tr>
+
+              <tr>
+                <td>AUTH_TYPE_ATTRIBUTE</td>
+                <td>5</td>
+                <td><p>Attribute-based authentication, Attributes are stored per msp per collection</p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+        <h3 id="saacs/auth/v0/type.proto-extensions">File-level Extensions</h3>
+        <table class="extension-table">
+          <thead>
+            <tr><td>Extension</td><td>Type</td><td>Base</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>auth_type</td>
+                <td><a href="#saacs.auth.v0.AuthType">AuthType</a></td>
+                <td><a href="#google.protobuf.MessageOptions">.google.protobuf.MessageOptions</a></td>
+                <td>55888</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/item.proto">saacs/common/v0/item.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.Item">Item</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.ItemKey">ItemKey</h3>
+        <p>Keys</p><p>─────────────────────────────────────────────────────────────────────────────────────</p><p>Item Keys</p><p>When converted to its string form it will be:</p><p>- Key := {ITEM_TYPE}{COLLECTION_ID}{...ITEM_ID}</p><p>Reference Keys</p><p>Used to store references to items for case like a user having a role</p><p>When converted to its string form it will be:</p><p>{Ref}{REFERENCE_TYPE}{COLLECTION_ID}[{ITEM1_TYPE}{...ITEM1_ID}][{ITEM2_TYPE}{...ITEM2_ID}]</p><p>SubKeys</p><p>When converted to its string form it will be:</p><p>{SUB_ITEM_TYPE}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUB_ITEM_ID}</p><p>Examples</p><p>- Suggestion := {auth.Suggestion}  {COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}</p><p>- HiddenTxList := {auth.HiddenTxList}{COLLECTION_ID}{ITEM_TYPE} {...ITEM_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_kind</td>
+                  <td><a href="#saacs.common.v0.ItemKind">ItemKind</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_key_parts</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.KeySchema">KeySchema</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The item type of the key </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_kind</td>
+                  <td><a href="#saacs.common.v0.ItemKind">ItemKind</a></td>
+                  <td></td>
+                  <td><p>The kind of item that the key is for </p></td>
+                </tr>
+
+                <tr>
+                  <td>properties</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p>The paths that make up the key </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.ReadWriteSet">ReadWriteSet</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>read_set</td>
+                  <td><a href="#saacs.common.v0.Item">Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>write_set</td>
+                  <td><a href="#saacs.common.v0.Item">Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/operation.proto">saacs/common/v0/operation.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.Operation">Operation</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>action</td>
+                  <td><a href="#saacs.common.v0.Action">Action</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>paths</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/options.proto">saacs/common/v0/options.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+
+
+
+
+        <h3 id="saacs/common/v0/options.proto-extensions">File-level Extensions</h3>
+        <table class="extension-table">
+          <thead>
+            <tr><td>Extension</td><td>Type</td><td>Base</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>key_schema</td>
+                <td><a href="#saacs.common.v0.KeySchema">KeySchema</a></td>
+                <td><a href="#google.protobuf.MessageOptions">.google.protobuf.MessageOptions</a></td>
+                <td>54599</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>operation</td>
+                <td><a href="#saacs.common.v0.Operation">Operation</a></td>
+                <td><a href="#google.protobuf.MethodOptions">.google.protobuf.MethodOptions</a></td>
+                <td>57775</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>transaction_type</td>
+                <td><a href="#saacs.common.v0.TransactionType">TransactionType</a></td>
+                <td><a href="#google.protobuf.MethodOptions">.google.protobuf.MethodOptions</a></td>
+                <td>50556</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/attribute.proto">saacs/auth/v0/attribute.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.Attribute">Attribute</h3>
+        <p>─────────────────────────────────────────────────────────────────────────────────</p><p>An attribute is used to define permissions via the value of the attribute in</p><p>the users certificate for a given msp</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that this attribute applies to </p></td>
+                </tr>
+
+                <tr>
+                  <td>oid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The oid of the attribute </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The value of the attribute required to be satisfied by the user to have the
+role </p></td>
+                </tr>
+
+                <tr>
+                  <td>polices</td>
+                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p>The Permission that the user will have if they have the attribute </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/collection.proto">saacs/auth/v0/collection.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.Collection">Collection</h3>
+        <p>Collection</p><p>┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</p><p>Note that the types of items are stored in the default ACLEntry</p><p>key := {COLLECTION}{COLLECTION_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The key for the ledger </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>auth_type</td>
+                  <td><a href="#saacs.auth.v0.AuthType">AuthType</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item_types</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>default</td>
+                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>use_auth_parents</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/identity.proto">saacs/auth/v0/identity.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.UserDirectMembership">UserDirectMembership</h3>
+        <p>Identity Auth Object</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The collection that the user is a member of </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user from the certificate </p></td>
+                </tr>
+
+                <tr>
+                  <td>polices</td>
+                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p>The Permissions that the user will have </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/roles.proto">saacs/auth/v0/roles.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.Role">Role</h3>
+        <p>Shared Auth Object for Role Based Authentication</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>role_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>polices</td>
+                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>parent_role_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.RoleIDList">RoleIDList</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>role_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.UserCollectionRoles">UserCollectionRoles</h3>
+        <p>Auth Object For RBAC</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The collection that the user is a member of </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user from the certificate </p></td>
+                </tr>
+
+                <tr>
+                  <td>role_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>The roles that the user has in the collection </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.UserGlobalRoles">UserGlobalRoles</h3>
+        <p>Auth Object For Embedded RBAC</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that the user&#39;s certificate is from </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user from the certificate </p></td>
+                </tr>
+
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#saacs.auth.v0.UserGlobalRoles.RolesEntry">UserGlobalRoles.RolesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>The roles that the user has in the collection
+key is the collection id
+value is the list of rolesIds </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.UserGlobalRoles.RolesEntry">UserGlobalRoles.RolesEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.auth.v0.RoleIDList">RoleIDList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/auth/v0/models.proto">saacs/auth/v0/models.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.auth.v0.AuthModel">AuthModel</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>identity</td>
+                  <td><a href="#saacs.auth.v0.Model.Identity">Model.Identity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#saacs.auth.v0.Model.Roles">Model.Roles</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>global_roles</td>
+                  <td><a href="#saacs.auth.v0.Model.GlobalRoles">Model.GlobalRoles</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>attribute</td>
+                  <td><a href="#saacs.auth.v0.Model.Attribute">Model.Attribute</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model">Model</h3>
+        <p></p>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model.Attribute">Model.Attribute</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>attribute</td>
+                  <td><a href="#saacs.auth.v0.Model.Attribute">Model.Attribute</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model.GlobalRoles">Model.GlobalRoles</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#saacs.auth.v0.Role">Role</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_collection_roles</td>
+                  <td><a href="#saacs.auth.v0.UserGlobalRoles">UserGlobalRoles</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model.Identity">Model.Identity</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_direct_membership</td>
+                  <td><a href="#saacs.auth.v0.UserDirectMembership">UserDirectMembership</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model.Roles">Model.Roles</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#saacs.auth.v0.Role">Role</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_collection_roles</td>
+                  <td><a href="#saacs.auth.v0.UserCollectionRoles">UserCollectionRoles</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/activity.proto">saacs/common/v0/activity.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.StateActivity">StateActivity</h3>
+        <p>Can be used as the history entry</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The transaction id that caused the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the user that caused the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The id of the user that caused the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>The timestamp of the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>A note about the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>object</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p>object </p></td>
+                </tr>
+
+                <tr>
+                  <td>mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/history.proto">saacs/common/v0/history.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.HiddenOptions">HiddenOptions</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>include</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.HiddenTx">HiddenTx</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.HiddenTxList">HiddenTxList</h3>
+        <p>Key should be {COLLECTION_ID}{auth.HiddenTxList}{?msp_id}{ITEM_TYPE}{...ITEM_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>primary_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">ItemKey</a></td>
+                  <td></td>
+                  <td><p>The key that is used to store the item </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTx">HiddenTx</a></td>
+                  <td>repeated</td>
+                  <td><p>The list of hidden txs by tx_id </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.History">History</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>entries</td>
+                  <td><a href="#saacs.common.v0.HistoryEntry">HistoryEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTxList">HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs_by_msp_id</td>
+                  <td><a href="#saacs.common.v0.History.HiddenTxsByMspIdEntry">History.HiddenTxsByMspIdEntry</a></td>
+                  <td>repeated</td>
+                  <td><p>The key is the msp_id of the group that is hiding the tx </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.History.HiddenTxsByMspIdEntry">History.HiddenTxsByMspIdEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.common.v0.HiddenTxList">HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.HistoryEntry">HistoryEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The transaction id that caused the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_delete</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Whether the item was deleted </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_hidden</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Whether the transaction was hidden </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>The timestamp of the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>A note about the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p>The value of the item </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.HistoryOptions">HistoryOptions</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>include</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden</td>
+                  <td><a href="#saacs.common.v0.HiddenOptions">HiddenOptions</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/biochain/v0/state.proto">saacs/biochain/v0/state.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.biochain.v0.Date">Date</h3>
+        <p>────────────────────────────────────────────────--</p><p>Specimen</p><p>────────────────────────────────────────────────--</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>verbatim</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>month</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>day</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Researcher">Researcher</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>first_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>middle_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen">Specimen</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>specimen_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>primary</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Primary">Specimen.Primary</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>secondary</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Secondary">Specimen.Secondary</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>taxon</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Taxon">Specimen.Taxon</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>georeference</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Georeference">Specimen.Georeference</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>images</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.ImagesEntry">Specimen.ImagesEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loans</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.LoansEntry">Specimen.LoansEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>grants</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.GrantsEntry">Specimen.GrantsEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Georeference">Specimen.Georeference</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>country</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>state_province</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>county</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>locality</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>latitude</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>longitude</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>habitat</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>continent</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.continent -string 32 characters </p></td>
+                </tr>
+
+                <tr>
+                  <td>location_remarks</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.locationRemarks -string 100-1k characters </p></td>
+                </tr>
+
+                <tr>
+                  <td>coordinate_uncertainty_in_meters</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Georeference.coordinateUncercaintyInMeters -integer 7 digits </p></td>
+                </tr>
+
+                <tr>
+                  <td>georeference_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.georeferenceBy -string 64 characters </p></td>
+                </tr>
+
+                <tr>
+                  <td>georeference_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p>Georeference.georeferenceDate -string MM/DD/YYYY </p></td>
+                </tr>
+
+                <tr>
+                  <td>georeference_protocol</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.georeferenceProtocol -string 256 chars (weblink) </p></td>
+                </tr>
+
+                <tr>
+                  <td>geodetic_datum</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.geodeticDatum -string 16 characters </p></td>
+                </tr>
+
+                <tr>
+                  <td>footprint_wkt</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Georeference.footprintWKT -string 10-100k characters </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Grant">Specimen.Grant</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_to</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>granted_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.GrantsEntry">Specimen.GrantsEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Grant">Specimen.Grant</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Image">Specimen.Image</h3>
+        <p>Mapped Types</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>url</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hash</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.ImagesEntry">Specimen.ImagesEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Image">Specimen.Image</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Loan">Specimen.Loan</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_by</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_to</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>loaned_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.LoansEntry">Specimen.LoansEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Loan">Specimen.Loan</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Primary">Specimen.Primary</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>catalog_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>accession_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>field_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tissue_number</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>cataloger</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collector</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determiner</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>field_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>catalog_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determined_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>determined_reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>original_date</td>
+                  <td><a href="#saacs.biochain.v0.Date">Date</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Secondary">Specimen.Secondary</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>sex</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Secondary.SEX">Specimen.Secondary.SEX</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>age</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Secondary.AGE">Specimen.Secondary.AGE</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>weight</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>weight_units</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>preparations</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Secondary.PreparationsEntry">Specimen.Secondary.PreparationsEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>condition</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>molt</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Secondary.Preparation">Specimen.Secondary.Preparation</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>verbatim</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Secondary.PreparationsEntry">Specimen.Secondary.PreparationsEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen.Secondary.Preparation">Specimen.Secondary.Preparation</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Taxon">Specimen.Taxon</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>kingdom</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>phylum</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>class</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>order</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>family</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>genus</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>species</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>subspecies</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>last_modified</td>
+                  <td><a href="#saacs.common.v0.StateActivity">saacs.common.v0.StateActivity</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenHistory">SpecimenHistory</h3>
+        <p>option go_package =</p><p>"github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1";</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>entries</td>
+                  <td><a href="#saacs.biochain.v0.SpecimenHistoryEntry">SpecimenHistoryEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTxList">saacs.common.v0.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenHistoryEntry">SpecimenHistoryEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The transaction id that caused the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_delete</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Whether the item was deleted </p></td>
+                </tr>
+
+                <tr>
+                  <td>is_hidden</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Whether the transaction was hidden </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>The timestamp of the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>note</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>A note about the change </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p>The value of the item </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenList">SpecimenList</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimens</td>
+                  <td><a href="#saacs.biochain.v0.Specimen">Specimen</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenMap">SpecimenMap</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimens</td>
+                  <td><a href="#saacs.biochain.v0.SpecimenMap.SpecimensEntry">SpecimenMap.SpecimensEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenMap.SpecimensEntry">SpecimenMap.SpecimensEntry</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#saacs.biochain.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.SpecimenUpdate">SpecimenUpdate</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>specimen</td>
+                  <td><a href="#saacs.biochain.v0.Specimen">Specimen</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+        <h3 id="saacs.biochain.v0.Specimen.Secondary.AGE">Specimen.Secondary.AGE</h3>
+        <p>Secondary.age -field with limited options: NEST, EMBRYO_EGG,</p><p>CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>AGE_UNDEFINED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_UNKNOWN</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_NEST</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_EMBRYO_EGG</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_CHICK_SUBADULT</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_ADULT</td>
+                <td>5</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AGE_CONTINGENT</td>
+                <td>6</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+        <h3 id="saacs.biochain.v0.Specimen.Secondary.SEX">Specimen.Secondary.SEX</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>SEX_UNDEFINED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SEX_UNKNOWN</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SEX_ATYPICAL</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SEX_MALE</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SEX_FEMALE</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/suggestion.proto">saacs/common/v0/suggestion.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.Suggestion">Suggestion</h3>
+        <p>Key should be</p><p>{auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>primary_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>paths</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#google.protobuf.Any">google.protobuf.Any</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/packing.proto">saacs/common/v0/packing.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.FullItem">FullItem</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#saacs.common.v0.History">History</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.common.v0.Pagination">Pagination</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>page_size</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>bookmark</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/chaincode/v0/chaincode.proto">saacs/chaincode/v0/chaincode.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.chaincode.v0.BatchCreateRequest">BatchCreateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>items</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.BatchCreateResponse">BatchCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>items</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.CreateRequest">CreateRequest</h3>
+        <p>──────────────────────────────── Invoke</p><p>─────────────────────────────────────── Create</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.CreateResponse">CreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.DeleteRequest">DeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.DeleteResponse">DeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetFullRequest">GetFullRequest</h3>
+        <p>Get</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p>saacs.common.v0.Item item = 3; </p></td>
+                </tr>
+
+                <tr>
+                  <td>history_options</td>
+                  <td><a href="#saacs.common.v0.HistoryOptions">saacs.common.v0.HistoryOptions</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>include_suggestions</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetFullResponse">GetFullResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#saacs.common.v0.History">saacs.common.v0.History</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetHiddenTxRequest">GetHiddenTxRequest</h3>
+        <p>GetHiddenTx</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_ids</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetHiddenTxResponse">GetHiddenTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTx">saacs.common.v0.HiddenTx</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetHistoryRequest">GetHistoryRequest</h3>
+        <p>GetHistory</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history_options</td>
+                  <td><a href="#saacs.common.v0.HiddenOptions">saacs.common.v0.HiddenOptions</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetHistoryResponse">GetHistoryResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>history</td>
+                  <td><a href="#saacs.common.v0.History">saacs.common.v0.History</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetRequest">GetRequest</h3>
+        <p>Get</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p>saacs.common.v0.Item item = 3; </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetResponse">GetResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetSuggestionRequest">GetSuggestionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetSuggestionResponse">GetSuggestionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.HideTxRequest">HideTxRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_tx</td>
+                  <td><a href="#saacs.common.v0.HiddenTx">saacs.common.v0.HiddenTx</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.HideTxResponse">HideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTxList">saacs.common.v0.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.ListByAttrsRequest">ListByAttrsRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>num_attrs</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.ListByAttrsResponse">ListByAttrsResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>items</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.ListRequest">ListRequest</h3>
+        <p>List of a type</p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.ListResponse">ListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>items</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionApproveRequest">SuggestionApproveRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionApproveResponse">SuggestionApproveResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionByPartialKeyRequest">SuggestionByPartialKeyRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>num_attrs</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionByPartialKeyResponse">SuggestionByPartialKeyResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionCreateRequest">SuggestionCreateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionCreateResponse">SuggestionCreateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionDeleteRequest">SuggestionDeleteRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestion_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionDeleteResponse">SuggestionDeleteResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListByCollectionRequest">SuggestionListByCollectionRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListByCollectionResponse">SuggestionListByCollectionResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListByItemRequest">SuggestionListByItemRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item_key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListByItemResponse">SuggestionListByItemResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListRequest">SuggestionListRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p>saacs.common.v0.Item item = 3; </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.SuggestionListResponse">SuggestionListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>suggestions</td>
+                  <td><a href="#saacs.common.v0.Suggestion">saacs.common.v0.Suggestion</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>pagination</td>
+                  <td><a href="#saacs.common.v0.Pagination">saacs.common.v0.Pagination</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.UnHideTxRequest">UnHideTxRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>tx_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.UnHideTxResponse">UnHideTxResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>key</td>
+                  <td><a href="#saacs.common.v0.ItemKey">saacs.common.v0.ItemKey</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>hidden_txs</td>
+                  <td><a href="#saacs.common.v0.HiddenTxList">saacs.common.v0.HiddenTxList</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.UpdateRequest">UpdateRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>update_mask</td>
+                  <td><a href="#google.protobuf.FieldMask">google.protobuf.FieldMask</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.UpdateResponse">UpdateResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>item</td>
+                  <td><a href="#saacs.common.v0.Item">saacs.common.v0.Item</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.ItemService">ItemService</h3>
+        <p>rpc CreateCollection(CreateCollectionRequest) returns</p><p>(CreateCollectionResponse) {</p><p>option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;</p><p>option (saacs.common.v0.operation) = {action: ACTION_CREATE, item_type:</p><p>"Collection"};</p><p>}</p><p>══════════════════════════════════ Item</p><p>═════════════════════════════════════</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>Get</td>
+                <td><a href="#saacs.chaincode.v0.GetRequest">GetRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetResponse">GetResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>GetFull</td>
+                <td><a href="#saacs.chaincode.v0.GetFullRequest">GetFullRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetFullResponse">GetFullResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>List</td>
+                <td><a href="#saacs.chaincode.v0.ListRequest">ListRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.ListResponse">ListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>ListByAttrs</td>
+                <td><a href="#saacs.chaincode.v0.ListByAttrsRequest">ListByAttrsRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.ListByAttrsResponse">ListByAttrsResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Create</td>
+                <td><a href="#saacs.chaincode.v0.CreateRequest">CreateRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.CreateResponse">CreateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Update</td>
+                <td><a href="#saacs.chaincode.v0.UpdateRequest">UpdateRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.UpdateResponse">UpdateResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Delete</td>
+                <td><a href="#saacs.chaincode.v0.DeleteRequest">DeleteRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.DeleteResponse">DeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>GetHistory</td>
+                <td><a href="#saacs.chaincode.v0.GetHistoryRequest">GetHistoryRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetHistoryResponse">GetHistoryResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>GetHiddenTx</td>
+                <td><a href="#saacs.chaincode.v0.GetHiddenTxRequest">GetHiddenTxRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetHiddenTxResponse">GetHiddenTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>HideTx</td>
+                <td><a href="#saacs.chaincode.v0.HideTxRequest">HideTxRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.HideTxResponse">HideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>UnHideTx</td>
+                <td><a href="#saacs.chaincode.v0.UnHideTxRequest">UnHideTxRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.UnHideTxResponse">UnHideTxResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>GetSuggestion</td>
+                <td><a href="#saacs.chaincode.v0.GetSuggestionRequest">GetSuggestionRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetSuggestionResponse">GetSuggestionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionListByCollection</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionListByCollectionRequest">SuggestionListByCollectionRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionListByCollectionResponse">SuggestionListByCollectionResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionListByItem</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionListByItemRequest">SuggestionListByItemRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionListByItemResponse">SuggestionListByItemResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionByPartialKey</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionByPartialKeyRequest">SuggestionByPartialKeyRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionByPartialKeyResponse">SuggestionByPartialKeyResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionCreate</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionCreateRequest">SuggestionCreateRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionCreateResponse">SuggestionCreateResponse</a></td>
+                <td><p>──────────────────────────────── Invoke ───────────────────────────────────────</p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionDelete</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionDeleteRequest">SuggestionDeleteRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionDeleteResponse">SuggestionDeleteResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionApprove</td>
+                <td><a href="#saacs.chaincode.v0.SuggestionApproveRequest">SuggestionApproveRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.SuggestionApproveResponse">SuggestionApproveResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+          <h4>Methods with idempotency_level option</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Option</td>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>Get</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>GetFull</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>List</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>ListByAttrs</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>GetHistory</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>GetHiddenTx</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>GetSuggestion</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionListByCollection</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionListByItem</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>SuggestionByPartialKey</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/user.proto">saacs/common/v0/user.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.User">User</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/chaincode/v0/events.proto">saacs/chaincode/v0/events.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.chaincode.v0.OperationsPerformed">OperationsPerformed</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>operations</td>
+                  <td><a href="#saacs.common.v0.Operation">saacs.common.v0.Operation</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#saacs.common.v0.User">saacs.common.v0.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>timestamp</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/chaincode/v0/utils.proto">saacs/chaincode/v0/utils.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.chaincode.v0.AuthorizeOperationRequest">AuthorizeOperationRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>operation</td>
+                  <td><a href="#saacs.common.v0.Operation">saacs.common.v0.Operation</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.AuthorizeOperationResponse">AuthorizeOperationResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>authorized</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.BootstrapRequest">BootstrapRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">saacs.auth.v0.Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.BootstrapResponse">BootstrapResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">saacs.auth.v0.Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCollectionAuthModelRequest">GetCollectionAuthModelRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCollectionsListRequest">GetCollectionsListRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>empty</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCollectionsListResponse">GetCollectionsListResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collections</td>
+                  <td><a href="#saacs.auth.v0.Collection">saacs.auth.v0.Collection</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCurrentFullUserResponse">GetCurrentFullUserResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#saacs.common.v0.User">saacs.common.v0.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>registered</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_collection_roles</td>
+                  <td><a href="#saacs.auth.v0.UserCollectionRoles">saacs.auth.v0.UserCollectionRoles</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>user_memberships</td>
+                  <td><a href="#saacs.auth.v0.UserDirectMembership">saacs.auth.v0.UserDirectMembership</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCurrentUserRequest">GetCurrentUserRequest</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>empty</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.GetCurrentUserResponse">GetCurrentUserResponse</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>user</td>
+                  <td><a href="#saacs.common.v0.User">saacs.common.v0.User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>registered</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+        <h3 id="saacs.chaincode.v0.UtilsService">UtilsService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>GetCurrentUser</td>
+                <td><a href="#saacs.chaincode.v0.GetCurrentUserRequest">GetCurrentUserRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetCurrentUserResponse">GetCurrentUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>Bootstrap</td>
+                <td><a href="#saacs.chaincode.v0.BootstrapRequest">BootstrapRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.BootstrapResponse">BootstrapResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>AuthorizeOperation</td>
+                <td><a href="#saacs.chaincode.v0.AuthorizeOperationRequest">AuthorizeOperationRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.AuthorizeOperationResponse">AuthorizeOperationResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>GetCollectionsList</td>
+                <td><a href="#saacs.chaincode.v0.GetCollectionsListRequest">GetCollectionsListRequest</a></td>
+                <td><a href="#saacs.chaincode.v0.GetCollectionsListResponse">GetCollectionsListResponse</a></td>
+                <td><p></p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+          <h4>Methods with idempotency_level option</h4>
+          <table>
+            <thead>
+              <tr>
+                <td>Method Name</td>
+                <td>Option</td>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>GetCurrentUser</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>AuthorizeOperation</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+              <tr>
+                <td>GetCollectionsList</td>
+                <td><p>NO_SIDE_EFFECTS</p></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/common/v0/errors.proto">saacs/common/v0/errors.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.common.v0.ErrorWrapper">ErrorWrapper</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>code</td>
+                  <td><a href="#saacs.common.v0.TxError">TxError</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>error</td>
+                  <td><a href="#google.protobuf.Struct">google.protobuf.Struct</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+        <h3 id="saacs.common.v0.TxError">TxError</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+
+              <tr>
+                <td>UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>REQUEST_INVALID</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>RUNTIME</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>RUNTIME_BAD_OPS</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+
+              <tr>
+                <td>KEY_NOT_FOUND</td>
+                <td>4</td>
+                <td><p>The provided key is not in the world state</p></td>
+              </tr>
+
+              <tr>
+                <td>KEY_ALREADY_EXISTS</td>
+                <td>5</td>
+                <td><p>The provided key is already in the world state</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_ID</td>
+                <td>11</td>
+                <td><p>The collection id is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_UNREGISTERED</td>
+                <td>12</td>
+                <td><p>The collection is not registered and thus cannot be accessed</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_ALREADY_REGISTERED</td>
+                <td>13</td>
+                <td><p>The collection is already registered and thus cannot be registered again</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID</td>
+                <td>14</td>
+                <td><p>The collection is invalid (e.g. the collection does not have a default ACLEntry)</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_ITEM_TYPE</td>
+                <td>15</td>
+                <td><p>The item type in the collection is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>COLLECTION_INVALID_ROLE_ID</td>
+                <td>16</td>
+                <td><p>The role id in the collection is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_INVALID_ID</td>
+                <td>20</td>
+                <td><p>The user does not have permission to perform the operation</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_UNREGISTERED</td>
+                <td>21</td>
+                <td><p>The certificate is not registered as a user and thus cannot be used</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_ALREADY_REGISTERED</td>
+                <td>22</td>
+                <td><p>The certificate is already registered as a user and thus cannot be registered again</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_INVALID</td>
+                <td>23</td>
+                <td><p>The user is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_NO_ROLE</td>
+                <td>24</td>
+                <td><p>The user does not have a role</p></td>
+              </tr>
+
+              <tr>
+                <td>USER_PERMISSION_DENIED</td>
+                <td>26</td>
+                <td><p>USER_DELETED_ROLE          = 25;
+The user does not have permission to perform the operation</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_INVALID_ID</td>
+                <td>31</td>
+                <td><p>The Item&#39;s key is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_UNREGISTERED</td>
+                <td>32</td>
+                <td><p>The Item is not registered and thus cannot be accessed</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_ALREADY_REGISTERED</td>
+                <td>33</td>
+                <td><p>The Item is already registered and thus cannot be registered again</p></td>
+              </tr>
+
+              <tr>
+                <td>ITEM_INVALID</td>
+                <td>34</td>
+                <td><p>The Item is invalid</p></td>
+              </tr>
+
+              <tr>
+                <td>INVALID_ITEM_FIELD_PATH</td>
+                <td>35</td>
+                <td><p>The item field path is invalid for the item type</p></td>
+              </tr>
+
+              <tr>
+                <td>INVALID_ITEM_FIELD_VALUE</td>
+                <td>36</td>
+                <td><p>The value at the item field path is invalid for the item type</p></td>
+              </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/example/v0/book.proto">saacs/example/v0/book.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.sample.v0.Book">Book</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>isbn</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>book_title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>author</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>publisher</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>language</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/example/v0/items.proto">saacs/example/v0/items.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.sample.v0.Group">Group</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>group_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item1</td>
+                  <td><a href="#saacs.sample.v0.SimpleItem">SimpleItem</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>item2</td>
+                  <td><a href="#saacs.sample.v0.SimpleItem">SimpleItem</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.sample.v0.SimpleItem">SimpleItem</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>quantity</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="file-heading">
+        <h2 id="saacs/example/v0/nested.proto">saacs/example/v0/nested.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+
+        <h3 id="saacs.sample.v0.ItemWithNestedKey">ItemWithNestedKey</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>nested</td>
+                  <td><a href="#saacs.sample.v0.Nested">Nested</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.sample.v0.Nested">Nested</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>part1</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>part2</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h2 id="scalar-value-types">Scalar Value Types</h2>
+    <table class="scalar-value-types-table">
+      <thead>
+        <tr><td>.proto Type</td><td>Notes</td><td>C++</td><td>Java</td><td>Python</td><td>Go</td><td>C#</td><td>PHP</td><td>Ruby</td></tr>
+      </thead>
+      <tbody>
+
+          <tr id="double">
+            <td>double</td>
+            <td></td>
+            <td>double</td>
+            <td>double</td>
+            <td>float</td>
+            <td>float64</td>
+            <td>double</td>
+            <td>float</td>
+            <td>Float</td>
+          </tr>
+
+          <tr id="float">
+            <td>float</td>
+            <td></td>
+            <td>float</td>
+            <td>float</td>
+            <td>float</td>
+            <td>float32</td>
+            <td>float</td>
+            <td>float</td>
+            <td>Float</td>
+          </tr>
+
+          <tr id="int32">
+            <td>int32</td>
+            <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="int64">
+            <td>int64</td>
+            <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="uint32">
+            <td>uint32</td>
+            <td>Uses variable-length encoding.</td>
+            <td>uint32</td>
+            <td>int</td>
+            <td>int/long</td>
+            <td>uint32</td>
+            <td>uint</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="uint64">
+            <td>uint64</td>
+            <td>Uses variable-length encoding.</td>
+            <td>uint64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>uint64</td>
+            <td>ulong</td>
+            <td>integer/string</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sint32">
+            <td>sint32</td>
+            <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sint64">
+            <td>sint64</td>
+            <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="fixed32">
+            <td>fixed32</td>
+            <td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+            <td>uint32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>uint32</td>
+            <td>uint</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="fixed64">
+            <td>fixed64</td>
+            <td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+            <td>uint64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>uint64</td>
+            <td>ulong</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="sfixed32">
+            <td>sfixed32</td>
+            <td>Always four bytes.</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>int</td>
+            <td>int32</td>
+            <td>int</td>
+            <td>integer</td>
+            <td>Bignum or Fixnum (as required)</td>
+          </tr>
+
+          <tr id="sfixed64">
+            <td>sfixed64</td>
+            <td>Always eight bytes.</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>int/long</td>
+            <td>int64</td>
+            <td>long</td>
+            <td>integer/string</td>
+            <td>Bignum</td>
+          </tr>
+
+          <tr id="bool">
+            <td>bool</td>
+            <td></td>
+            <td>bool</td>
+            <td>boolean</td>
+            <td>boolean</td>
+            <td>bool</td>
+            <td>bool</td>
+            <td>boolean</td>
+            <td>TrueClass/FalseClass</td>
+          </tr>
+
+          <tr id="string">
+            <td>string</td>
+            <td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+            <td>string</td>
+            <td>String</td>
+            <td>str/unicode</td>
+            <td>string</td>
+            <td>string</td>
+            <td>string</td>
+            <td>String (UTF-8)</td>
+          </tr>
+
+          <tr id="bytes">
+            <td>bytes</td>
+            <td>May contain any arbitrary sequence of bytes.</td>
+            <td>string</td>
+            <td>ByteString</td>
+            <td>str</td>
+            <td>[]byte</td>
+            <td>ByteString</td>
+            <td>string</td>
+            <td>String (ASCII-8BIT)</td>
+          </tr>
+
+      </tbody>
+    </table>
+  </body>
+</html>

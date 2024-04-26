@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 // import { useFormKitContext } from '#imports'
-
+const sNode = ref(null)
+const collapsed = defineModel<boolean>('collapsed', {
+  default: true,
+})
 import { ccbio } from '#imports'
 import { useFormKitContext } from '@formkit/vue'
 
-const secondary = useFormKitContext('secondary', (node) => {
+const secondary = useFormKitContext('specimen.secondary', (node) => {
   curValue.value = JSON.stringify(node.value, null, 2)
   node.node.on('settled.deep', (v) => {
     curValue.value = JSON.stringify(v.origin.value, null, 2)
@@ -40,18 +43,23 @@ function addPreparation() {
     })
   }
 }
+
+
+
 </script>
 
 <template>
   <div>
     <PFieldset
       legend="Secondary"
-      :toggleable="true"
+      toggleable
+      :collapsed
     >
       <FormKit
         id="secondary"
         type="group"
         name="secondary"
+        ref="sNode"
       >
         <div class="subGroup">
           <FormKit
@@ -165,7 +173,10 @@ function addPreparation() {
             type="group"
             name="preparations"
           >
-            <template v-for="(v, name) in value">
+            <template
+              v-for="(v, name) in value"
+              :key="name"
+            >
               <template v-if="typeof name === 'string'">
                 <FormKit
                   :id="name"
@@ -185,11 +196,12 @@ function addPreparation() {
           </FormKit>
         </div>
 
-        <div class="inline-flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2">
           <FormKit
             outer-class="w-full flex-grow"
             type="button"
             label="Add Preparation"
+
             @click="addPreparation()"
           />
         </div>

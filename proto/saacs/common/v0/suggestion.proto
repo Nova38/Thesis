@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
+// import "saacs/common/v0/enums.proto";
+import "saacs/common/v0/item.proto";
+import "saacs/common/v0/options.proto";
+
+// Key should be
+// {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}
+message Suggestion {
+  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
+  option (key_schema).properties = {
+    paths: ["suggestion_id"]
+  };
+
+  ItemKey primary_key = 1 [(buf.validate.field).required = true];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.FieldMask paths = 5 [(buf.validate.field).required = true];
+  google.protobuf.Any value = 6 [(buf.validate.field).required = true];
+}

@@ -17,28 +17,28 @@ export default defineEventHandler(async (event) => {
   console.log({ data: query.data })
 
   const r1 = await cc.service.listByAttrs(
-    new common.generic.ListByAttrsRequest({
-      key: new auth.objects.ItemKey({
+    new pb.ListByAttrsRequest({
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.models.UserCollectionRoles.typeName,
+        itemType: pb.UserCollectionRoles.typeName,
       }),
       numAttrs: 1,
     }),
   )
 
   const UserRoles = r1.items.map((i) => {
-    const s = new auth.models.UserCollectionRoles()
+    const s = new pb.UserCollectionRoles()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })
 
   const r2 = await cc.service.listByAttrs(
-    new common.generic.ListByAttrsRequest({
-      key: new auth.objects.ItemKey({
+    new pb.ListByAttrsRequest({
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
-        itemType: auth.models.Role.typeName,
+        itemType: pb.Role.typeName,
       }),
       numAttrs: 0,
     }),
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
     const o = i.toJsonString({ typeRegistry: cc.service.registry })
     console.log(o)
 
-    const s = new auth.models.Role()
+    const s = new pb.Role()
     i.value?.unpackTo(s)
     return s.toJson({ emitDefaultValues: true })
   })

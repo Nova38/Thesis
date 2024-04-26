@@ -67,14 +67,14 @@ class CreateCollectionWorkload extends WorkloadModuleBase {
     async submitTransaction() {
 
 
-        const arg = new hlf.pb.common.generic.CreateCollectionRequest()
+        const arg = new hlf.pb.pb.CreateCollectionRequest()
         for (let i = 0; i < this.numCollections; i++) {
-            arg.collections.push(new hlf.pb.auth.objects.Collection({
+            arg.collections.push(new hlf.pb.pb.Collection({
                 name: `collection${i}`,
-                authType: hlf.pb.auth.auth.AuthType.NONE,
-                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName, hlf.pb.auth.objects.Collection.typeName],
+                authType: hlf.pb.pb.AuthType.NONE,
+                itemTypes: [hlf.pb.sample.Book.typeName, hlf.pb.sample.SimpleItem.typeName, hlf.pb.pb.Collection.typeName],
                 collectionId: `collection${i}`,
-                default: new hlf.pb.auth.objects.PathPolicy(),
+                default: new hlf.pb.pb.PathPolicy(),
             }))
         }
 

@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// List hlf.pb.common.generic.ListRequest
+// List hlf.pb.pb.ListRequest
 
 /**
  * Assemble TXs for the round.
@@ -57,7 +57,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  */
 async submitTransaction() {
 
-    const item = new hlf.pb.common.generic.ListRequest({arg.item})
+    const item = new hlf.pb.pb.ListRequest({arg.item})
 
     /** @type {PeerGateway.FabricRequestSettings}*/
     const myArgs = {

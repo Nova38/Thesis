@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// SuggestionApprove hlf.pb.common.generic.SuggestionApproveRequest
+// SuggestionApprove hlf.pb.pb.SuggestionApproveRequest
 
 /**
  * Assemble TXs for the round.
@@ -58,7 +58,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
 async submitTransaction() {
     /** @type {PeerGateway.FabricRequestSettings}*/
 
-    const item = new hlf.pb.common.generic.SuggestionApproveRequest({})
+    const item = new hlf.pb.pb.SuggestionApproveRequest({})
 
 
     const myArgs = {

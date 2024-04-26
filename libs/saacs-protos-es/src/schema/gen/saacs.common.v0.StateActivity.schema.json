@@ -1,0 +1,37 @@
+{
+  "$id": "saacs.common.v0.StateActivity.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Can be used as the history entry",
+  "properties": {
+    "mask": {
+      "$ref": "google.protobuf.FieldMask.schema.json"
+    },
+    "msp_id": {
+      "description": "The msp of the user that caused the change",
+      "type": "string"
+    },
+    "note": {
+      "description": "A note about the change",
+      "type": "string"
+    },
+    "object": {
+      "$ref": "google.protobuf.Any.schema.json",
+      "description": "object"
+    },
+    "timestamp": {
+      "$ref": "google.protobuf.Timestamp.schema.json",
+      "description": "The timestamp of the change"
+    },
+    "tx_id": {
+      "description": "The transaction id that caused the change",
+      "type": "string"
+    },
+    "user_id": {
+      "description": "The id of the user that caused the change",
+      "type": "string"
+    }
+  },
+  "title": "State Activity",
+  "type": "object"
+}

@@ -1,0 +1,12 @@
+{
+  "$id": "saacs.chaincode.v0.AuthorizeOperationResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorized": {
+      "type": "boolean"
+    }
+  },
+  "title": "Authorize Operation Response",
+  "type": "object"
+}

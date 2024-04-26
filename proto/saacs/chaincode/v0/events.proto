@@ -1,0 +1,12 @@
+syntax = "proto3";
+package saacs.chaincode.v0;
+
+import "google/protobuf/timestamp.proto";
+import "saacs/common/v0/operation.proto";
+import "saacs/common/v0/user.proto";
+
+message OperationsPerformed {
+  repeated saacs.common.v0.Operation operations = 1;
+  saacs.common.v0.User user = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}

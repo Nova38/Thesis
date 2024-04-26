@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+// ═════════════════════════════════════════════
+// Enums
+// ═════════════════════════════════════════════
+
+enum TransactionType {
+  TRANSACTION_TYPE_UNSPECIFIED = 0;
+  TRANSACTION_TYPE_INVOKE = 1;
+  TRANSACTION_TYPE_QUERY = 2;
+}
+
+enum ItemKind {
+  ITEM_KIND_UNSPECIFIED = 0;
+  // ITEM_KIND_GLOBAL_ITEM = 1;
+  // Item's key := {COLLECTION_ID}{TYPE}[...key_paths]
+  ITEM_KIND_PRIMARY_ITEM = 2;
+  // Item's key := {COLLECTION_ID}{TYPE}<PrimaryKey>{...key_paths}
+  ITEM_KIND_SUB_ITEM = 3;
+  ITEM_KIND_REFERENCE = 4;
+}
+
+enum Action {
+  // Should throw an error if used
+  ACTION_UNSPECIFIED = 0;
+  ACTION_UTILITY = 1;
+
+  // View the contents of an item
+  ACTION_VIEW = 10;
+  // Create a new item
+  //  - key must not already exist
+  ACTION_CREATE = 11;
+  // Update an existing item
+  //   - key must already exist
+  //   - potential has paths
+  ACTION_UPDATE = 12;
+  // Delete an existing item, key must already exist
+  ACTION_DELETE = 13;
+
+  // Suggest a change to an item, key must already exist
+  ACTION_SUGGEST_VIEW = 14;
+
+  // Suggest a change to an item, key must already exist
+  ACTION_SUGGEST_CREATE = 15;
+  // Delete a suggestion, key must already exist
+  ACTION_SUGGEST_DELETE = 16;
+  // Approve a suggestion and apply it to the item, key must already exist
+  ACTION_SUGGEST_APPROVE = 17;
+
+  // View the history of an item
+
+  ACTION_VIEW_HISTORY = 18;
+  ACTION_VIEW_HIDDEN_TXS = 19;
+
+  ACTION_HIDE_TX = 20;
+  ACTION_UNHIDE_TX = 21;
+
+  ACTION_HIDE_MSP_TX = 22;
+  ACTION_UNHIDE_MSP_TX = 23;
+}

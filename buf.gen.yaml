@@ -9,11 +9,16 @@ managed:
       - buf.build/bufbuild/protovalidate
 
 plugins:
+  # Documentation
+  - plugin: buf.build/community/pseudomuto-doc:v1.5.1
+    out: docs/proto
+
   # Go
   - plugin: buf.build/protocolbuffers/go
     out: pkg/saacs-protos
     opt:
       - paths=source_relative
+
   - plugin: saacs-go
     out: pkg/saacs-protos
     opt:
@@ -29,20 +34,17 @@ plugins:
     opt:
       - paths=source_relative
       - emit_defaults=true
-      - enums_as_ints=true
-
-  ## Javascript
-
-  - plugin: buf.build/bufbuild/es
-    out: libs/saacs-protos-es/src/gen
-    opt: target=ts
 
   - plugin: buf.build/bufbuild/es
     out: cmd/protoc-gen-saacs-es/src/gen
     opt: target=ts
 
-  - plugin: buf.build/connectrpc/es
+  - plugin: buf.build/bufbuild/es
+    out: libs/saacs-protos-es/src/gen
+    opt: target=ts
 
+  #
+  - plugin: buf.build/connectrpc/es
     out: libs/saacs-protos-es/src/gen
     opt: target=ts
 
@@ -52,26 +54,25 @@ plugins:
     out: libs/saacs-protos-es/src/gen
     strategy: all
 
-  # JSON Schema
-
+  #  # JSON Schema
+  #
   - plugin: buf.build/bufbuild/protoschema-jsonschema
     out: libs/saacs-protos-es/src/schema/gen
+# - plugin: buf.build/connectrpc/es
+#   out: apps/biochain-web/lib/pb
+#   opt: target=ts
 
-  # - plugin: buf.build/connectrpc/es
-  #   out: apps/biochain-web/lib/pb
-  #   opt: target=ts
+# - plugin: protoc-gen-saacs-es
+#   path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
+#   opt: target=ts
+#   out: apps/biochain-web/lib/pb
+#   strategy: all
 
-  # - plugin: protoc-gen-saacs-es
-  #   path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
-  #   opt: target=ts
-  #   out: apps/biochain-web/lib/pb
-  #   strategy: all
+# - plugin: buf.build/bufbuild/es
+#   out: apps/biochain-web/lib/pb
+#   opt: target=ts
 
-  # - plugin: buf.build/bufbuild/es
-  #   out: apps/biochain-web/lib/pb
-  #   opt: target=ts
-
-  #
+#
 #     - plugin: protoc-gen-es-tools
 #       path: ["tsx", "tools/cmd/protoc-gen-es-hlf/src/workload_templates.ts"]
 #       opt: target=ts

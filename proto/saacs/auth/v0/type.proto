@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package saacs.auth.v0;
+
+import "google/protobuf/descriptor.proto";
+
+enum AuthType {
+  // Invalid authentication type/Non Specified
+  AUTH_TYPE_UNSPECIFIED = 0;
+
+  // No authentication, all users have access to all collections actions
+  AUTH_TYPE_NONE = 1;
+
+  // Identity-based authentication, Identities are stored per user per collection
+  AUTH_TYPE_IDENTITY = 2;
+
+  // Role-based authentication, Roles are stored per user per collection
+  AUTH_TYPE_ROLE = 3;
+
+  // Global role-based authentication, Roles are stored per user
+  AUTH_TYPE_GLOBAL_ROLE = 4;
+
+  // Attribute-based authentication, Attributes are stored per msp per collection
+  AUTH_TYPE_ATTRIBUTE = 5;
+}
+
+extend google.protobuf.MessageOptions {
+  AuthType auth_type = 55888;
+}

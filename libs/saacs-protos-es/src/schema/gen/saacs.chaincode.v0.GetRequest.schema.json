@@ -1,0 +1,14 @@
+{
+  "$id": "saacs.chaincode.v0.GetRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Get",
+  "properties": {
+    "key": {
+      "$ref": "saacs.common.v0.ItemKey.schema.json",
+      "description": "saacs.common.v0.Item item = 3;"
+    }
+  },
+  "title": "Get Request",
+  "type": "object"
+}

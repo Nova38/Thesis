@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.sample.v0.Nested.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "part1": {
+      "type": "string"
+    },
+    "part2": {
+      "type": "string"
+    }
+  },
+  "title": "Nested",
+  "type": "object"
+}

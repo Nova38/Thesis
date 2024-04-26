@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ccbio } from '#imports'
-
+import { ccbio, pb } from '#imports'
+import { type PlainMessage, Timestamp } from '@bufbuild/protobuf'
 // const items = [
 //   {
 //     label: 'Getting Started',
@@ -33,19 +33,22 @@ import { ccbio } from '#imports'
 //     tx: '33434343434',
 //   },
 // ]
-const props = withDefaults(
-  defineProps<{
-    history: ccbio.SpecimenHistory
-  }>(),
-  {
-    history: () => new ccbio.SpecimenHistory(),
-  },
-)
+const props = defineProps<{
+  history: PlainMessage<pb.SpecimenHistory>
+}>()
 
 const items = computed(() => {
   return props.history.entries.map((entry) => {
+    if (!entry.timestamp) {
+      return {
+        label: 'Unknown',
+        icon: 'i-heroicons-calendar',
+        tx: entry.txId,
+        specimen: entry.value,
+      }
+    }
     return {
-      label: entry.timestamp?.toDate().toDateString() ?? 'Unknown',
+      label: entry.timestamp ?? 'Unknown',
       icon: 'i-heroicons-calendar',
       tx: entry.txId,
       specimen: entry.value,

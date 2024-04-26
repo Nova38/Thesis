@@ -20,11 +20,14 @@ importers:
       '@formkit/nuxt':
         specifier: ^1.6.2
         version: 1.6.2(esbuild@0.20.2)(rollup@4.16.1)(tailwindcss@3.4.3)(unocss@0.59.4(postcss@8.4.38)(rollup@4.16.1)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3))(vue@3.4.23(typescript@5.4.5))
+      '@formkit/zod':
+        specifier: ^1.6.2
+        version: 1.6.2(zod@3.23.0)
       '@hebilicious/vue-query-nuxt':
         specifier: ^0.3.0
         version: 0.3.0(@tanstack/vue-query@5.31.0(vue@3.4.23(typescript@5.4.5)))(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(encoding@0.1.13)(eslint@8.57.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.16.1))(vue@3.4.23(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.3)(rollup@4.16.1)(sass@1.75.0)(terser@5.30.3)(typescript@5.4.5)(unocss@0.59.4(postcss@8.4.38)(rollup@4.16.1)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(rollup@4.16.1)
       '@hyperledger/fabric-gateway':
-        specifier: ^1.5.1
+        specifier: ^1.5.0
         version: 1.5.1
       '@iconify/json':
         specifier: ^2.2.202
@@ -831,6 +834,11 @@ packages:
     resolution: {integrity: sha512-IRcYv4iHn872bezx9jy7ipYKA1Ctiq8y7owxsjaC+5+FKHubduetrnvVjEaqcRpwm9dVc8vLG5RgDOAlHdU0Fw==}
     peerDependencies:
       vue: ^3.4.0
+
+  '@formkit/zod@1.6.2':
+    resolution: {integrity: sha512-SgcBYqMQmQp9XqN/rFeyLJzM/GesOdX5dRlS+8RPWcRFtNlJPvjSyb3DWjcjTqGeZYnwlncQjtF59YkEIz9O3Q==}
+    peerDependencies:
+      zod: ^3.0.0
 
   '@fortawesome/fontawesome-common-types@6.5.2':
     resolution: {integrity: sha512-gBxPg3aVO6J0kpfHNILc+NMhXnqHumFxOmjYCFfOiLZfwhnnfhtsdA2hfJlDnj+8PjAs6kKQPenOTKj3Rf7zHw==}
@@ -6579,6 +6587,11 @@ snapshots:
       - tailwindcss
       - unocss
       - windicss
+
+  '@formkit/zod@1.6.2(zod@3.23.0)':
+    dependencies:
+      '@formkit/core': 1.6.2
+      zod: 3.23.0
 
   '@fortawesome/fontawesome-common-types@6.5.2': {}
 

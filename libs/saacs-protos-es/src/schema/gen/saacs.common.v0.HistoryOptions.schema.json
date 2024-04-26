@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.common.v0.HistoryOptions.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "hidden": {
+      "$ref": "saacs.common.v0.HiddenOptions.schema.json"
+    },
+    "include": {
+      "type": "boolean"
+    }
+  },
+  "title": "History Options",
+  "type": "object"
+}

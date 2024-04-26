@@ -1,10 +1,10 @@
 package state
 
 import (
-	"encoding/json"
 	"testing"
 
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	"github.com/nova38/saacs/pkg/saacs-cc/serializer"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -22,7 +22,7 @@ func TestUnmarshalPrimary(t *testing.T) {
 		name: "",
 		args: args{
 			bytes: []byte(
-				`{"collection_id":"","msp_id":"msp_id","user_id":"user_id","name":"Name"}`,
+				`{"collection_id":"","msp_id":"msp_id","user_id":"user_id"}`,
 			),
 		},
 		wantItem: &authpb.UserDirectMembership{
@@ -37,7 +37,7 @@ func TestUnmarshalPrimary(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			gotItem := new(authpb.UserDirectMembership)
 
-			err := json.Unmarshal(tt.args.bytes, gotItem)
+			err := serializer.Unmarshal(tt.args.bytes, gotItem)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UnmarshalNewPrimary() error = %v, wantErr %v", err, tt.wantErr)
 				return

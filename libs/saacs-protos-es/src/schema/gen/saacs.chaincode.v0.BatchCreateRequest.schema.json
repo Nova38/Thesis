@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.chaincode.v0.BatchCreateRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "items": {
+      "items": {
+        "$ref": "saacs.common.v0.Item.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Batch Create Request",
+  "type": "object"
+}

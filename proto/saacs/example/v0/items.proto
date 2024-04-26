@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package saacs.sample.v0;
+
+import "buf/validate/validate.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+message SimpleItem {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: ["id"]
+  };
+  string collection_id = 1;
+  string id = 2;
+  string name = 3;
+  int32 quantity = 4;
+}
+
+message Group {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: ["group_id"]
+  };
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string group_id = 2 [(buf.validate.field).string.min_len = 1];
+  SimpleItem item1 = 3;
+  SimpleItem item2 = 4;
+}
+
+// message Degree {
+//   string degree_name = 1;
+//   string institute = 2;
+//   google.protobuf.Timestamp degree_date = 3;
+// }
+
+// message Awards {
+//   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+//   option (auth.key_schema).keys          = {
+//     paths: [  "award_name" ]
+//   };
+//   string collection_id = 1;
+//   string award_name = 2;
+//   google.protobuf.Timestamp award_date = 3;
+//   string award_description = 4;
+// }
+
+// message Author {
+//   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+//   option (auth.key_schema).keys          = {
+//     paths: [ "author_id" ]
+//   };
+
+//   string collection_id = 1;
+
+//   string author_id = 2;
+//   string author_name = 3;
+//   repeated Book books = 4;
+//   // Key: degree_name
+//   map<string, Degree> degrees = 5;
+// // }
+// message Person {
+//   option (auth.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+//   option (auth.key_schema).keys          = {
+//     paths: [ "name" ]
+//   };
+
+//   string collection_id = 1;
+//   string name = 2;
+//   int32 age = 3;
+//   repeated string friends = 4;
+//   repeated Group groups = 5;
+// }

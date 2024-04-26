@@ -20,14 +20,16 @@ export default defineEventHandler(async (event) => {
   // console.log("1");
 
   const result = await cc.service.listByAttrs(
-    new common.generic.ListByAttrsRequest({
-      bookmark: query.data.bookmark ?? '',
-      key: new auth.objects.ItemKey({
+    new pb.ListByAttrsRequest({
+      pagination: {
+        bookmark: query.data.bookmark ?? '',
+        pageSize: query.data.limit ?? 1000,
+      },
+      key: new pb.ItemKey({
         collectionId: query.data.collectionId,
         itemKeyParts: [query.data.collectionId],
         itemType: ccbio.Specimen.typeName,
       }),
-      limit: query.data.limit ?? 1000,
       numAttrs: 0,
     }),
   )
@@ -36,7 +38,7 @@ export default defineEventHandler(async (event) => {
   // console.log(result);
   // const specimenMap: Record<string, any> = {}
   const response = new ccbio.SpecimenMap({
-    bookmark: result.bookmark,
+    bookmark: result.pagination?.bookmark ?? '',
     specimens: Object.fromEntries(
       result.items.map((i) => {
         const s = new ccbio.Specimen()

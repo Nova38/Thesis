@@ -1,0 +1,15 @@
+{
+  "$id": "saacs.common.v0.User.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "msp_id": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    }
+  },
+  "title": "User",
+  "type": "object"
+}

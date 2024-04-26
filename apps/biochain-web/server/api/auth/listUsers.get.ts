@@ -1,10 +1,20 @@
+import type { User } from '~/server/utils/db'
+
 export default defineEventHandler(async () => {
-  const keys = await useStorage('.data:auth').getKeys()
-  const users = []
-  for (const key of keys) {
-    const user = await useStorage('.data:auth').getItem(key)
-    console.log({ user })
-    users.push(user)
-  }
-  return users
+  const users = await Promise.all(
+    (await useStorage('.data:auth').getKeys()).map((key) =>
+      useStorage('.data:auth').getItem(key),
+    ),
+  )
+
+  return users.map((user) => {
+    if (!user) return {}
+    const u = user as User
+    return {
+      key: u?.username,
+      username: u?.username,
+      id: u?.id,
+      mspId: u?.mspId,
+    }
+  })
 })

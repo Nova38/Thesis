@@ -1,14 +1,21 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const collapsed = defineModel<boolean>('collapsed', {
+  default: false,
+})
+
+</script>
 
 <template>
   <div>
     <PFieldset
       legend="Primary"
-      :toggleable="true"
+      toggleable
+      :collapsed
     >
       <FormKit
         id="primary"
         type="group"
+        #default="{value}"
         name="primary"
         :config="{
           classes: {
@@ -34,6 +41,7 @@
             type="text"
             name="catalogNumber"
             label="Catalog Number"
+            validation="required"
           />
           <FormKit
             type="text"
@@ -41,7 +49,7 @@
             label="Cataloger"
           />
 
-          <SpecimenFormDate name="catalogDate" />
+          <SpecimenFormDate v-if="value?.catalogDate" name="catalogDate" />
         </div>
 
         <UDivider />
@@ -58,7 +66,7 @@
             label="Collector"
           />
 
-          <SpecimenFormDate name="fieldDate" />
+          <SpecimenFormDate v-if="value?.fieldDate" name="fieldDate" />
         </div>
         <UDivider />
 
@@ -75,16 +83,17 @@
             label="Cataloger"
           />
 
-          <SpecimenFormDate name="determinedDate" />
+          <SpecimenFormDate v-if="value?.determinedDate" name="determinedDate" />
         </div>
         <div class="subGroup">
           <FormKit
             type="textarea"
+            auto-height
             name="determinedReason"
             label="Determined Reason"
           />
         </div>
-        <SpecimenFormDate name="originalDate" />
+        <SpecimenFormDate v-if="value?.originalDate" name="originalDate" />
 
         <div class="inline-flex flex-wrap gap-2">
           <div class="inline-flex flex-wrap gap-2"></div>

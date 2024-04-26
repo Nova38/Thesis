@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "saacs/common/v0/item.proto";
+import "saacs/common/v0/options.proto";
+
+message HiddenTx {
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  string note = 5;
+}
+
+// Key should be {COLLECTION_ID}{auth.HiddenTxList}{?msp_id}{ITEM_TYPE}{...ITEM_ID}
+message HiddenTxList {
+  option (key_schema).item_kind = ITEM_KIND_SUB_ITEM;
+  option (key_schema).properties = {
+    // the msp_id of the group that is hiding the tx
+    paths: ['msp_id']
+  };
+  ItemKey primary_key = 1 [(buf.validate.field).required = true]; // The key that is used to store the item
+  string msp_id = 2;
+  repeated HiddenTx txs = 4; // The list of hidden txs by tx_id
+}
+
+message HistoryEntry {
+  // The transaction id that caused the change
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  // Whether the item was deleted
+  bool is_delete = 2;
+  // Whether the transaction was hidden
+  bool is_hidden = 3;
+  // The timestamp of the change
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  // A note about the change
+  string note = 5;
+  // The value of the item
+  google.protobuf.Any value = 6;
+}
+
+message History {
+  repeated HistoryEntry entries = 1;
+  HiddenTxList hidden_txs = 2;
+
+  // The key is the msp_id of the group that is hiding the tx
+  map<string, HiddenTxList> hidden_txs_by_msp_id = 3;
+}
+
+message HistoryOptions {
+  bool include = 1;
+  HiddenOptions hidden = 2;
+}
+
+message HiddenOptions {
+  bool include = 1;
+  repeated string msp_ids = 3;
+}

@@ -6,7 +6,9 @@ import (
 	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	"github.com/nova38/saacs/pkg/saacs-cc/state"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
@@ -20,7 +22,7 @@ type RBAC struct {
 }
 
 //nolint:dupl
-func (ac *RBAC) Authorize(op *authpb.Operation) (bool, error) {
+func (ac *RBAC) Authorize(op *pb.Operation) (bool, error) {
 
 	// ═════════════════════════════════════════════
 	// Default Policy
@@ -127,7 +129,7 @@ func (ac *RBAC) getRoles(collectionId string, roleIDs []string) ([]*authpb.Role,
 func (ac *RBAC) checkParents(
 	roles []*authpb.Role,
 	checked []string,
-	op *authpb.Operation,
+	op *pb.Operation,
 ) (bool, []string, error) {
 
 	var parents []string

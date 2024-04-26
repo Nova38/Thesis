@@ -5,7 +5,9 @@ const props = defineProps<{
   name: string
 }>()
 
-const collapsed = defineModel<boolean>('collapsed', { default: true })
+const collapsed = defineModel<boolean>('collapsed', {
+  default: true,
+})
 
 const c = ref(false)
 const wrapperClass = computed(() => {
@@ -52,7 +54,6 @@ const nameAsTitle = computed(() => {
     "
   >
     <FormKit
-      :id="props.name"
       type="group"
       :name="props.name"
       :plugins="[]"

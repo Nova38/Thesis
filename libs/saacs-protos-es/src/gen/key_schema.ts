@@ -1,262 +1,287 @@
-import { Attribute, Role, UserCollectionRoles, UserDirectMembership, UserEmbeddedRoles } from "./auth/v1/models_pb.js";
-import { Collection, HiddenTxList, ItemKey, ReferenceKey, Suggestion } from "./auth/v1/objects_pb.js";
-import { Specimen } from "./biochain/v1/state_pb.js";
-import { Book, Group, SimpleItem } from "./sample/v0/items_pb.js";
-import { KeySchema } from "./auth/v1/auth_pb.js";
+import { Attribute } from "./saacs/auth/v0/attribute_pb.js";
+import { Collection } from "./saacs/auth/v0/collection_pb.js";
+import { UserDirectMembership } from "./saacs/auth/v0/identity_pb.js";
+import { Role, UserCollectionRoles, UserGlobalRoles } from "./saacs/auth/v0/roles_pb.js";
+import { HiddenTxList } from "./saacs/common/v0/history_pb.js";
+import { Specimen } from "./saacs/biochain/v0/state_pb.js";
+import { Suggestion } from "./saacs/common/v0/suggestion_pb.js";
+import { Book } from "./saacs/example/v0/book_pb.js";
+import { Group, SimpleItem } from "./saacs/example/v0/items_pb.js";
+import { ItemWithNestedKey } from "./saacs/example/v0/nested_pb.js";
+import { ItemKey, KeySchema } from "./saacs/common/v0/item_pb.js";
 import { isMessage  } from "@bufbuild/protobuf";
 
-export type ItemType =
+export type ItemTypeMessage =
+  | Attribute
+  | Collection
   | UserDirectMembership
   | Role
   | UserCollectionRoles
-  | UserEmbeddedRoles
-  | Attribute
-  | ReferenceKey
-  | Collection
-  | Suggestion
+  | UserGlobalRoles
   | HiddenTxList
   | Specimen
+  | Suggestion
+  | Book
   | SimpleItem
   | Group
-  | Book
+  | ItemWithNestedKey
 
 export const ItemKeySchema : Record<string, KeySchema> = {
-  'auth.UserDirectMembership': KeySchema.fromJson({
-    "itemType": "auth.UserDirectMembership",
+  'saacs.auth.v0.Attribute': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Attribute",
     "itemKind": 2,
-    "properties": "mspId,userId"
+    "properties": "mspId,oid,value"
 }),
-  'auth.Role': KeySchema.fromJson({
-    "itemType": "auth.Role",
-    "itemKind": 2,
-    "properties": "roleId"
-}),
-  'auth.UserCollectionRoles': KeySchema.fromJson({
-    "itemType": "auth.UserCollectionRoles",
-    "itemKind": 2,
-    "properties": "mspId,userId"
-}),
-  'auth.UserEmbeddedRoles': KeySchema.fromJson({
-    "itemType": "auth.UserEmbeddedRoles",
-    "itemKind": 2,
-    "properties": "mspId,userId"
-}),
-  'auth.Attribute': KeySchema.fromJson({
-    "itemType": "auth.Attribute",
-    "itemKind": 2,
-    "properties": "mspId,oidvalue"
-}),
-  'auth.ReferenceKey': KeySchema.fromJson({
-    "itemType": "auth.ReferenceKey",
-    "itemKind": 4
-}),
-  'auth.Collection': KeySchema.fromJson({
-    "itemType": "auth.Collection",
+  'saacs.auth.v0.Collection': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Collection",
     "itemKind": 2,
     "properties": "collectionId"
 }),
-  'auth.Suggestion': KeySchema.fromJson({
-    "itemType": "auth.Suggestion",
-    "itemKind": 3,
-    "properties": "suggestionId"
+  'saacs.auth.v0.UserDirectMembership': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserDirectMembership",
+    "itemKind": 2,
+    "properties": "mspId,userId"
 }),
-  'auth.HiddenTxList': KeySchema.fromJson({
-    "itemType": "auth.HiddenTxList",
-    "itemKind": 3,
-    "properties": ""
+  'saacs.auth.v0.Role': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Role",
+    "itemKind": 2,
+    "properties": "roleId"
 }),
-  'biochain.v1.Specimen': KeySchema.fromJson({
-    "itemType": "biochain.v1.Specimen",
+  'saacs.auth.v0.UserCollectionRoles': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserCollectionRoles",
+    "itemKind": 2,
+    "properties": "mspId,userId"
+}),
+  'saacs.auth.v0.UserGlobalRoles': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserGlobalRoles",
+    "itemKind": 2,
+    "properties": "mspId,userId"
+}),
+  'saacs.common.v0.HiddenTxList': KeySchema.fromJson({
+    "itemType": "saacs.common.v0.HiddenTxList",
+    "itemKind": 3,
+    "properties": "mspId"
+}),
+  'saacs.biochain.v0.Specimen': KeySchema.fromJson({
+    "itemType": "saacs.biochain.v0.Specimen",
     "itemKind": 2,
     "properties": "specimenId"
 }),
-  'sample.SimpleItem': KeySchema.fromJson({
-    "itemType": "sample.SimpleItem",
-    "itemKind": 2,
-    "properties": "id"
+  'saacs.common.v0.Suggestion': KeySchema.fromJson({
+    "itemType": "saacs.common.v0.Suggestion",
+    "itemKind": 3,
+    "properties": "suggestionId"
 }),
-  'sample.Group': KeySchema.fromJson({
-    "itemType": "sample.Group",
-    "itemKind": 2,
-    "properties": "groupId"
-}),
-  'sample.Book': KeySchema.fromJson({
-    "itemType": "sample.Book",
+  'saacs.sample.v0.Book': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.Book",
     "itemKind": 2,
     "properties": "isbn"
 }),
+  'saacs.sample.v0.SimpleItem': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.SimpleItem",
+    "itemKind": 2,
+    "properties": "id"
+}),
+  'saacs.sample.v0.Group': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.Group",
+    "itemKind": 2,
+    "properties": "groupId"
+}),
+  'saacs.sample.v0.ItemWithNestedKey': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.ItemWithNestedKey",
+    "itemKind": 2,
+    "properties": "id,nested.part1,nested.part2"
+}),
 }
-export type PrimaryItemType =
+
+export type PrimaryItemTypeMessage =
+  | Attribute
+  | Collection
   | UserDirectMembership
   | Role
   | UserCollectionRoles
-  | UserEmbeddedRoles
-  | Attribute
-  | Collection
+  | UserGlobalRoles
   | Specimen
+  | Book
   | SimpleItem
   | Group
-  | Book
+  | ItemWithNestedKey
 
 export const PrimaryItemKeySchema : Record<string, KeySchema> = {
-  'auth.UserDirectMembership': KeySchema.fromJson({
-    "itemType": "auth.UserDirectMembership",
+  'saacs.auth.v0.Attribute': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Attribute",
     "itemKind": 2,
-    "properties": "mspId,userId"
+    "properties": "mspId,oid,value"
 }),
-  'auth.Role': KeySchema.fromJson({
-    "itemType": "auth.Role",
-    "itemKind": 2,
-    "properties": "roleId"
-}),
-  'auth.UserCollectionRoles': KeySchema.fromJson({
-    "itemType": "auth.UserCollectionRoles",
-    "itemKind": 2,
-    "properties": "mspId,userId"
-}),
-  'auth.UserEmbeddedRoles': KeySchema.fromJson({
-    "itemType": "auth.UserEmbeddedRoles",
-    "itemKind": 2,
-    "properties": "mspId,userId"
-}),
-  'auth.Attribute': KeySchema.fromJson({
-    "itemType": "auth.Attribute",
-    "itemKind": 2,
-    "properties": "mspId,oidvalue"
-}),
-  'auth.Collection': KeySchema.fromJson({
-    "itemType": "auth.Collection",
+  'saacs.auth.v0.Collection': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Collection",
     "itemKind": 2,
     "properties": "collectionId"
 }),
-  'biochain.v1.Specimen': KeySchema.fromJson({
-    "itemType": "biochain.v1.Specimen",
+  'saacs.auth.v0.UserDirectMembership': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserDirectMembership",
+    "itemKind": 2,
+    "properties": "mspId,userId"
+}),
+  'saacs.auth.v0.Role': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.Role",
+    "itemKind": 2,
+    "properties": "roleId"
+}),
+  'saacs.auth.v0.UserCollectionRoles': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserCollectionRoles",
+    "itemKind": 2,
+    "properties": "mspId,userId"
+}),
+  'saacs.auth.v0.UserGlobalRoles': KeySchema.fromJson({
+    "itemType": "saacs.auth.v0.UserGlobalRoles",
+    "itemKind": 2,
+    "properties": "mspId,userId"
+}),
+  'saacs.biochain.v0.Specimen': KeySchema.fromJson({
+    "itemType": "saacs.biochain.v0.Specimen",
     "itemKind": 2,
     "properties": "specimenId"
 }),
-  'sample.SimpleItem': KeySchema.fromJson({
-    "itemType": "sample.SimpleItem",
-    "itemKind": 2,
-    "properties": "id"
-}),
-  'sample.Group': KeySchema.fromJson({
-    "itemType": "sample.Group",
-    "itemKind": 2,
-    "properties": "groupId"
-}),
-  'sample.Book': KeySchema.fromJson({
-    "itemType": "sample.Book",
+  'saacs.sample.v0.Book': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.Book",
     "itemKind": 2,
     "properties": "isbn"
 }),
+  'saacs.sample.v0.SimpleItem': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.SimpleItem",
+    "itemKind": 2,
+    "properties": "id"
+}),
+  'saacs.sample.v0.Group': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.Group",
+    "itemKind": 2,
+    "properties": "groupId"
+}),
+  'saacs.sample.v0.ItemWithNestedKey': KeySchema.fromJson({
+    "itemType": "saacs.sample.v0.ItemWithNestedKey",
+    "itemKind": 2,
+    "properties": "id,nested.part1,nested.part2"
+}),
 }
-export type SecondaryItemType =
-  | Suggestion
+
+export type SecondaryItemTypeMessage =
   | HiddenTxList
+  | Suggestion
 
 export const SecondaryItemKeySchema : Record<string, KeySchema> = {
-  'auth.Suggestion': KeySchema.fromJson({
-    "itemType": "auth.Suggestion",
+  'saacs.common.v0.HiddenTxList': KeySchema.fromJson({
+    "itemType": "saacs.common.v0.HiddenTxList",
+    "itemKind": 3,
+    "properties": "mspId"
+}),
+  'saacs.common.v0.Suggestion': KeySchema.fromJson({
+    "itemType": "saacs.common.v0.Suggestion",
     "itemKind": 3,
     "properties": "suggestionId"
 }),
-  'auth.HiddenTxList': KeySchema.fromJson({
-    "itemType": "auth.HiddenTxList",
-    "itemKind": 3,
-    "properties": ""
-}),
 }
-export function PrimaryToKeySchema (item: PrimaryItemType){
+
+export function PrimaryToKeySchema (item: PrimaryItemTypeMessage){
   switch (true) {
-// msp_id, user_id
-// item.mspId, item.userId
-    case isMessage (item, UserDirectMembership):
-      return new ItemKey({
-        itemType: 'auth.UserDirectMembership',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.mspId, item.userId ]
-      })
-// role_id
-// item.roleId
-    case isMessage (item, Role):
-      return new ItemKey({
-        itemType: 'auth.Role',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.roleId ]
-      })
-// msp_id, user_id
-// item.mspId, item.userId
-    case isMessage (item, UserCollectionRoles):
-      return new ItemKey({
-        itemType: 'auth.UserCollectionRoles',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.mspId, item.userId ]
-      })
-// msp_id, user_id
-// item.mspId, item.userId
-    case isMessage (item, UserEmbeddedRoles):
-      return new ItemKey({
-        itemType: 'auth.UserEmbeddedRoles',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.mspId, item.userId ]
-      })
-// msp_id, oidvalue
-// item.mspId, item.oidvalue
+// msp_id, oid, value
+// item.mspId, item.oid, item.value
     case isMessage (item, Attribute):
       return new ItemKey({
-        itemType: 'auth.Attribute',
+        itemType: 'saacs.auth.v0.Attribute',
         itemKind: 2,
         collectionId: item?.collectionId,
-        itemKeyParts: [ item.mspId, item.oidvalue ]
+        itemKeyParts: [ item.mspId?? '', item.oid?? '', item.value ?? '' ]
       })
 // collection_id
 // item.collectionId
     case isMessage (item, Collection):
       return new ItemKey({
-        itemType: 'auth.Collection',
+        itemType: 'saacs.auth.v0.Collection',
         itemKind: 2,
         collectionId: item?.collectionId,
-        itemKeyParts: [ item.collectionId ]
+        itemKeyParts: [ item.collectionId ?? '' ]
+      })
+// msp_id, user_id
+// item.mspId, item.userId
+    case isMessage (item, UserDirectMembership):
+      return new ItemKey({
+        itemType: 'saacs.auth.v0.UserDirectMembership',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.mspId?? '', item.userId ?? '' ]
+      })
+// role_id
+// item.roleId
+    case isMessage (item, Role):
+      return new ItemKey({
+        itemType: 'saacs.auth.v0.Role',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.roleId ?? '' ]
+      })
+// msp_id, user_id
+// item.mspId, item.userId
+    case isMessage (item, UserCollectionRoles):
+      return new ItemKey({
+        itemType: 'saacs.auth.v0.UserCollectionRoles',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.mspId?? '', item.userId ?? '' ]
+      })
+// msp_id, user_id
+// item.mspId, item.userId
+    case isMessage (item, UserGlobalRoles):
+      return new ItemKey({
+        itemType: 'saacs.auth.v0.UserGlobalRoles',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.mspId?? '', item.userId ?? '' ]
       })
 // specimen_id
 // item.specimenId
     case isMessage (item, Specimen):
       return new ItemKey({
-        itemType: 'biochain.v1.Specimen',
+        itemType: 'saacs.biochain.v0.Specimen',
         itemKind: 2,
         collectionId: item?.collectionId,
-        itemKeyParts: [ item.specimenId ]
-      })
-// id
-// item.id
-    case isMessage (item, SimpleItem):
-      return new ItemKey({
-        itemType: 'sample.SimpleItem',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.id ]
-      })
-// group_id
-// item.groupId
-    case isMessage (item, Group):
-      return new ItemKey({
-        itemType: 'sample.Group',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [ item.groupId ]
+        itemKeyParts: [ item.specimenId ?? '' ]
       })
 // isbn
 // item.isbn
     case isMessage (item, Book):
       return new ItemKey({
-        itemType: 'sample.Book',
+        itemType: 'saacs.sample.v0.Book',
         itemKind: 2,
         collectionId: item?.collectionId,
-        itemKeyParts: [ item.isbn ]
+        itemKeyParts: [ item.isbn ?? '' ]
+      })
+// id
+// item.id
+    case isMessage (item, SimpleItem):
+      return new ItemKey({
+        itemType: 'saacs.sample.v0.SimpleItem',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.id ?? '' ]
+      })
+// group_id
+// item.groupId
+    case isMessage (item, Group):
+      return new ItemKey({
+        itemType: 'saacs.sample.v0.Group',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.groupId ?? '' ]
+      })
+// id, nested.part1, nested.part2
+// item.id, item.nested?.part1, item.nested?.part2
+    case isMessage (item, ItemWithNestedKey):
+      return new ItemKey({
+        itemType: 'saacs.sample.v0.ItemWithNestedKey',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [ item.id?? '', item.nested?.part1?? '', item.nested?.part2 ?? '' ]
       })
     default:
       throw new Error('Unknown item type')

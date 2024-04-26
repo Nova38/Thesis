@@ -1,6 +1,0 @@
-[
-    {
-        "query": "ReadAsset",
-        "args": ["asset1"]
-    }
-]

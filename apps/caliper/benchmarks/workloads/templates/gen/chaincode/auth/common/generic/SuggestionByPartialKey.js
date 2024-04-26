@@ -49,7 +49,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
     this.contractVersion = args.contractVersion;
 }
 // workload path hlf.pb.common.generic
-// SuggestionByPartialKey hlf.pb.common.generic.SuggestionByPartialKeyRequest
+// SuggestionByPartialKey hlf.pb.pb.SuggestionByPartialKeyRequest
 
 /**
  * Assemble TXs for the round.
@@ -57,7 +57,7 @@ async initializeWorkloadModule(workerIndex, totalWorkers, roundIndex, roundArgum
  */
 async submitTransaction() {
 
-    const item = new hlf.pb.common.generic.SuggestionByPartialKeyRequest({arg.item})
+    const item = new hlf.pb.pb.SuggestionByPartialKeyRequest({arg.item})
 
     /** @type {PeerGateway.FabricRequestSettings}*/
     const myArgs = {

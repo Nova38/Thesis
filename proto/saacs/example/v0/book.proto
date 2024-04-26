@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package saacs.sample.v0;
+
+import "buf/validate/validate.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+message Book {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: ["isbn"]
+  };
+
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string isbn = 2 [(buf.validate.field).string.min_len = 1];
+  string book_title = 3;
+  string author = 4;
+  int32 year = 5;
+  string publisher = 6;
+  string language = 7;
+  string description = 8;
+}

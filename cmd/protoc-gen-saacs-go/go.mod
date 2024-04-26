@@ -2,7 +2,7 @@ module github.com/nova38/saacs/cmd/protoc-gen-saacs-go
 
 go 1.22.2
 
-//replace github.com/nova38/saacs/pkg/saacs-protos => ./../../pkg/saacs-protos/
+replace github.com/nova38/saacs/pkg/saacs-protos => ./../../pkg/saacs-protos/
 
 //
 require (

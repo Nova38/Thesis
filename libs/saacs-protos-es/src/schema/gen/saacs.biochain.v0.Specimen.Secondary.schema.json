@@ -1,0 +1,93 @@
+{
+  "$id": "saacs.biochain.v0.Specimen.Secondary.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "age": {
+      "anyOf": [
+        {
+          "enum": [
+            "AGE_UNDEFINED",
+            "AGE_UNKNOWN",
+            "AGE_NEST",
+            "AGE_EMBRYO_EGG",
+            "AGE_CHICK_SUBADULT",
+            "AGE_ADULT",
+            "AGE_CONTINGENT"
+          ],
+          "title": "AGE",
+          "type": "string"
+        },
+        {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "type": "integer"
+        }
+      ]
+    },
+    "condition": {
+      "type": "string"
+    },
+    "last_modified": {
+      "$ref": "saacs.common.v0.StateActivity.schema.json"
+    },
+    "molt": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "preparations": {
+      "additionalProperties": {
+        "$ref": "saacs.biochain.v0.Specimen.Secondary.Preparation.schema.json"
+      },
+      "propertyNames": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "sex": {
+      "anyOf": [
+        {
+          "enum": [
+            "SEX_UNDEFINED",
+            "SEX_UNKNOWN",
+            "SEX_ATYPICAL",
+            "SEX_MALE",
+            "SEX_FEMALE"
+          ],
+          "title": "SEX",
+          "type": "string"
+        },
+        {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "type": "integer"
+        }
+      ]
+    },
+    "weight": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "enum": [
+            "NaN",
+            "Infinity",
+            "-Infinity"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "weight_units": {
+      "type": "string"
+    }
+  },
+  "title": "Secondary",
+  "type": "object"
+}

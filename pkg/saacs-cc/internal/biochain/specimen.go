@@ -5,8 +5,9 @@ import (
 	"strings"
 
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
-	biochainpb "github.com/nova38/saacs/pkg/saacs-protos/biochain/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
+	biochainpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/biochain/v0"
 	"github.com/samber/lo"
 	"github.com/samber/oops"
 )
@@ -14,7 +15,7 @@ import (
 func SpecimenPostActionProcessing(
 	ctx common.TxCtxInterface,
 	item common.ItemInterface,
-	ops []*authpb.Operation,
+	ops []*pb.Operation,
 ) error {
 
 	specimen, ok := item.(*biochainpb.Specimen)
@@ -27,7 +28,7 @@ func SpecimenPostActionProcessing(
 		op := ops[0]
 		switch op.GetAction() {
 
-		case authpb.Action_ACTION_CREATE:
+		case pb.Action_ACTION_CREATE:
 			// Make sure all of the fields are there
 			if specimen.GetPrimary() == nil {
 				specimen.Primary = &biochainpb.Specimen_Primary{}
@@ -47,7 +48,7 @@ func SpecimenPostActionProcessing(
 			specimen.Taxon.LastModified = activity
 			specimen.Georeference.LastModified = activity
 
-		case authpb.Action_ACTION_UPDATE:
+		case pb.Action_ACTION_UPDATE:
 			paths := op.GetPaths().GetPaths()
 
 			rootPaths := lo.UniqBy(paths, func(p string) string {

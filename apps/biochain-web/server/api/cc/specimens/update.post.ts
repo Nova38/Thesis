@@ -18,9 +18,9 @@ export default defineEventHandler(async (event) => {
     const specimen = new ccbio.Specimen().fromJson(body.specimen)
     const value = Any.pack(specimen)
 
-    const req = new common.generic.UpdateRequest({
+    const req = new pb.UpdateRequest({
       item: {
-        key: new auth.objects.ItemKey({
+        key: new pb.ItemKey({
           collectionId: specimen.collectionId,
           itemKeyParts: [specimen.specimenId],
           itemType: ccbio.Specimen.typeName,

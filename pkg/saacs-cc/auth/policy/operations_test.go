@@ -3,8 +3,10 @@ package policy_test
 import (
 	"testing"
 
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
+
 	"github.com/nova38/saacs/pkg/saacs-cc/auth/policy"
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,10 +16,10 @@ func TestValidateOperation(t *testing.T) {
 	}
 
 	t.Run("Valid operation", func(t *testing.T) {
-		op := &authpb.Operation{
+		op := &pb.Operation{
 			CollectionId: "collection1",
 			ItemType:     "item1",
-			Action:       authpb.Action_ACTION_CREATE,
+			Action:       pb.Action_ACTION_CREATE,
 		}
 
 		valid, err := policy.ValidateOperation(collection, op)
@@ -26,10 +28,10 @@ func TestValidateOperation(t *testing.T) {
 	})
 
 	t.Run("Invalid collection", func(t *testing.T) {
-		op := &authpb.Operation{
+		op := &pb.Operation{
 			CollectionId: "collection1",
 			ItemType:     "item3",
-			Action:       authpb.Action_ACTION_CREATE,
+			Action:       pb.Action_ACTION_CREATE,
 		}
 
 		valid, err := policy.ValidateOperation(nil, op)
@@ -38,10 +40,10 @@ func TestValidateOperation(t *testing.T) {
 	})
 
 	t.Run("Invalid operation", func(t *testing.T) {
-		op := &authpb.Operation{
+		op := &pb.Operation{
 			CollectionId: "collection1",
 			ItemType:     "",
-			Action:       authpb.Action_ACTION_UNSPECIFIED,
+			Action:       pb.Action_ACTION_UNSPECIFIED,
 		}
 
 		valid, err := policy.ValidateOperation(collection, op)

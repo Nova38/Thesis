@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package saacs.sample.v0;
+
+import "buf/validate/validate.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/options.proto";
+
+message ItemWithNestedKey {
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: [
+      "id",
+      "nested.part1",
+      "nested.part2"
+    ]
+  };
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  string id = 2 [(buf.validate.field).string.min_len = 1];
+  Nested nested = 4 [(buf.validate.field).required = true];
+  string value = 3 [(buf.validate.field).string.min_len = 1];
+}
+
+message Nested {
+  string part1 = 1 [(buf.validate.field).string.min_len = 1];
+  string part2 = 2 [(buf.validate.field).string.min_len = 1];
+}

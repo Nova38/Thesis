@@ -362,18 +362,6 @@ const colDef = ref<QTableProps['columns']>([
     sortable: true,
   },
 ])
-
-const visibleColumns = ref([
-  'View',
-  'SpecimenID',
-  'Catalog Number',
-  'genus',
-  'species',
-  'Country',
-  'stateProvince',
-  'locality',
-  'Field Date',
-])
 </script>
 
 <template>

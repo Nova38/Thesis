@@ -1,5 +1,4 @@
-import { diff } from 'ohash'
-import { cluster, get, set } from 'radash'
+import { get, set } from 'radash'
 // import { ccbio } from 'saacs'
 import { ccbio, type PlainSpecimen } from '#imports'
 import type { FieldMask } from '@bufbuild/protobuf'
@@ -8,6 +7,7 @@ export const useBulkStore = defineStore('Bulk', () => {
   const toast = useToast()
 
   const Loading = ref(false)
+  const Uploading = ref(false)
 
   const CollectionId = ref<string>('')
   const Mode = ref<BulkMode>('hybrid')
@@ -174,7 +174,6 @@ export const useBulkStore = defineStore('Bulk', () => {
         })
 
         res.filteredList.forEach(([key, value]) => {
-          // const c = ccbio.Specimen.fromJsonString(JSON.stringify(value))
           const c = value as PlainSpecimen
           if (c?.primary?.lastModified) {
             c.primary.lastModified = undefined
@@ -194,10 +193,11 @@ export const useBulkStore = defineStore('Bulk', () => {
 
           specimens.set(key, Object.freeze(c))
         })
-
+        Loading.value = false
         return Object.freeze(specimens)
       } catch (e) {
         console.error(e)
+        Loading.value = false
         throw new Error('Failed To fetch specimens from specimenIds', {
           cause: e,
         })
@@ -256,44 +256,45 @@ export const useBulkStore = defineStore('Bulk', () => {
       const cur = CurrentSpecimens.value?.get(mapped.specimenId)
       const rawV = RawRows.value.find((x) => x.id === mapped.specimenId)
       if (!rawV) throw new Error('RawRow not found')
-      console.group(`SetMapping: ${mapped.specimenId}`)
+      // console.group(`SetMapping: ${mapped.specimenId}`)
 
       const meta = RawRowsMeta.value.get(mapped.specimenId)
       if (!meta) throw new Error('meta missing')
+
       // Empty/Unset
       if (newMapping === '' || newMapping === ' ') {
         // If specimen is current
         if (cur) {
           mapped = set(mapped, def.mapped, get(cur, def.mapped))
-          console.log({
-            id: mapped.specimenId,
-            action: 'Clearing Value: Resting to Current',
-            newMapping,
-            col: col.name,
-            mapped,
-          })
+          // console.log({
+          //   id: mapped.specimenId,
+          //   action: 'Clearing Value: Resting to Current',
+          //   newMapping,
+          //   col: col.nam e,
+          //   mapped,
+          // })
         } else {
           mapped = set(mapped, def.mapped, '')
-          console.log({
-            id: mapped.specimenId,
+          // console.log({
+          //   id: mapped.specimenId,
 
-            action: 'Clearing Value: Setting to undefined',
-            newMapping,
-            col: col.name,
-            mapped,
-          })
+          //   action: 'Clearing Value: Setting to undefined',
+          //   newMapping,
+          //   col: col.name,
+          //   mapped,
+          // })
         }
       }
 
       // Date type
       // Set Any
       else {
-        console.log({
-          action: 'Setting Value',
-          newMapping,
-          raw: rawV.raw,
-          rawV: rawV.raw[col.name],
-        })
+        // console.log({
+        //   action: 'Setting Value',
+        //   newMapping,
+        //   raw: rawV.raw,
+        //   rawV: rawV.raw[col.name],
+        // })
         set(mapped, newMapping, rawV.raw[col.name])
       }
 
@@ -307,13 +308,13 @@ export const useBulkStore = defineStore('Bulk', () => {
         meta.status = 'loading'
         meta.statusMessage = ''
       }
-      console.log(mapped)
-      console.groupEnd()
+      // console.log(mapped)
+      // console.groupEnd()
       return mapped
     })
     def.mapped = newMapping
 
-    console.log(col, newMapping, def.mapped, RawColDefs.value)
+    // console.log(col, newMapping, def.mapped, RawColDefs.value)
   }
 
   // const SetMapping = (
@@ -402,7 +403,7 @@ export const useBulkStore = defineStore('Bulk', () => {
 
       if (meta.status === 'pre-existing') {
         const mask = diffToFieldMaskPath(base, specimen).mask
-        console.log('diff', mask)
+        // console.log('diff', mask)
 
         differences.value.set(specimen.specimenId, mask)
         meta.statusMessage = mask?.paths.join(', ')
@@ -411,18 +412,23 @@ export const useBulkStore = defineStore('Bulk', () => {
   })
 
   const importSpecimens = async () => {
+    Uploading.value = true
+
     console.log('importing specimens', Mode.value)
     processing.value.total = MappedSpecimen.value.length
 
     // for (const group of groups) {
     //   const uploads = group.map(async (specimen) => {
-    for (const specimen of MappedSpecimen.value) {
-      const meta = RawRowsMeta.value.get(specimen.specimenId)
+    for (const s of MappedSpecimen.value) {
+      const meta = RawRowsMeta.value.get(s.specimenId)
       if (!meta) throw new Error('meta missing')
-      if (meta.status === 'parsing-error') {
-        console.error('Skipping Specimen due to parsing error', specimen)
+      const parsed = ZSpecimen.safeParse(s)
+      if (meta.status === 'parsing-error' || !parsed.success) {
+        console.error('Skipping Specimen due to parsing error', s)
         continue
       }
+
+      const specimen = parsed.data
 
       switch (meta.exist) {
         case 'pre-existing': {
@@ -436,7 +442,13 @@ export const useBulkStore = defineStore('Bulk', () => {
             mask: differences.value.get(specimen.specimenId)?.paths ?? {},
             specimen: specimen,
           }
-          // meta.statusMessage = 'updating specimen'
+
+          const cToast = toast.add({
+            id: 'Updating Specimen',
+            title: `Imported Specimen ${specimen.primary?.catalogNumber}`,
+            timeout: 5000,
+          })
+
           try {
             const r = await $fetch('/api/cc/specimens/update', {
               method: 'post',
@@ -446,17 +458,13 @@ export const useBulkStore = defineStore('Bulk', () => {
             meta.statusMessage = 'updated successfully'
             processing.value.success++
             console.log('Imported Specimen', r)
-
-            toast.add({
-              id: 'imported',
-              title: `Imported Specimen ${specimen.primary?.catalogNumber}`,
-              timeout: 5000,
-            })
+            cToast.timeout = 0
           } catch (error) {
             console.error('Error updating specimen', error)
             meta.status = 'error'
             processing.value.fail++
             if (error instanceof Error) {
+              cToast.timeout = 0
               toast.add({
                 id: 'failedImported',
                 title: `Failed to Imported Specimen ${specimen.primary?.catalogNumber}`,
@@ -477,13 +485,24 @@ export const useBulkStore = defineStore('Bulk', () => {
 
           meta.status = 'submitting'
           meta.statusMessage = 'importing specimen'
+
+          const cToast = toast.add({
+            id: 'Creating New',
+            title: `Imported Specimen ${specimen.primary?.catalogNumber}`,
+            timeout: 5000,
+          })
+
+          if (!body.success) {
+            meta.status = 'error'
+            processing.value.fail++
+            meta.statusMessage = body.error.toString()
+            continue
+          }
+
           try {
             const r = await $fetch('/api/cc/specimens/create', {
               method: 'post',
-              body: new ccbio.Specimen(specimen).toJsonString({
-                emitDefaultValues: true,
-                enumAsInteger: true,
-              }),
+              body: body.data,
             })
             meta.status = 'success'
             meta.statusMessage = 'imported successfully'
@@ -506,6 +525,8 @@ export const useBulkStore = defineStore('Bulk', () => {
       }
     }
 
+    Uploading.value = false
+
     // await Promise.all(uploads)
   }
 
@@ -516,6 +537,7 @@ export const useBulkStore = defineStore('Bulk', () => {
   }
 
   const $reset = () => {
+    Loading.value = false
     RawRows.value = []
     RawRowsMeta.value = new Map()
     RawHeaders.value = []
@@ -525,6 +547,10 @@ export const useBulkStore = defineStore('Bulk', () => {
   }
 
   return {
+    Uploading,
+    Loading,
+    processing,
+
     CollectionId,
     Mode,
 

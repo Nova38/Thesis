@@ -1,0 +1,18 @@
+{
+  "$id": "saacs.chaincode.v0.GetHiddenTxResponse.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_id": {
+      "type": "string"
+    },
+    "hidden_txs": {
+      "items": {
+        "$ref": "saacs.common.v0.HiddenTx.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Get Hidden Tx Response",
+  "type": "object"
+}

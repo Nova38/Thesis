@@ -1,0 +1,366 @@
+syntax = "proto3";
+
+package saacs.chaincode.v0;
+// ─────────────────────────────────────────────────────────────────────────────────
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+// import "saacs/auth/v0/collection.proto";
+// import "saacs/auth/v0/identity.proto";
+// import "saacs/auth/v0/roles.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+// import "saacs/common/v0/activity.proto";
+// import "saacs/common/v0/enums.proto";
+import "saacs/common/v0/history.proto";
+import "saacs/common/v0/item.proto";
+// import "saacs/common/v0/operation.proto";
+import "saacs/common/v0/options.proto";
+import "saacs/common/v0/packing.proto";
+import "saacs/common/v0/suggestion.proto";
+// import "saacs/common/v0/user.proto";
+
+// import "google/protobuf/any.proto";
+
+service ItemService {
+  // rpc CreateCollection(CreateCollectionRequest) returns
+  // (CreateCollectionResponse) {
+  //   option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+  //   option (saacs.common.v0.operation) = {action: ACTION_CREATE, item_type:
+  //   "Collection"};
+  // }
+  // ══════════════════════════════════ Item
+  // ═════════════════════════════════════
+
+  // ────────────────────────────────── Query
+  // ──────────────────────────────────────
+
+  rpc Get(GetRequest) returns (GetResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+  rpc GetFull(GetFullRequest) returns (GetFullResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc List(ListRequest) returns (ListResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc ListByAttrs(ListByAttrsRequest) returns (ListByAttrsResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // ──────────────────────────────── Invoke
+  // ───────────────────────────────────────
+
+  rpc Create(CreateRequest) returns (CreateResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_CREATE};
+  }
+
+  // rpc BatchCreate(BatchCreateRequest) returns (BatchCreateResponse) {
+  //   option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+  //   option (saacs.common.v0.operation) = {action: ACTION_CREATE};
+  // }
+
+  rpc Update(UpdateRequest) returns (UpdateResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_UPDATE};
+  }
+
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_DELETE};
+  }
+
+  // ════════════════════════════════ History
+  // ══════════════════════════════════════ ────────────────────────────────
+  // Query ────────────────────────────────────────
+
+  rpc GetHistory(GetHistoryRequest) returns (GetHistoryResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW_HISTORY};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc GetHiddenTx(GetHiddenTxRequest) returns (GetHiddenTxResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW_HIDDEN_TXS};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // ──────────────────────────────── Invoke
+  // ───────────────────────────────────────
+
+  rpc HideTx(HideTxRequest) returns (HideTxResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_HIDE_TX};
+  }
+
+  rpc UnHideTx(UnHideTxRequest) returns (UnHideTxResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_UNHIDE_TX};
+  }
+
+  // ════════════════════════════════ Suggestions
+  // ══════════════════════════════════ ──────────────────────────────── Query
+  // ────────────────────────────────────────
+
+  rpc GetSuggestion(GetSuggestionRequest) returns (GetSuggestionResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc SuggestionListByCollection(SuggestionListByCollectionRequest) returns (SuggestionListByCollectionResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+  rpc SuggestionListByItem(SuggestionListByItemRequest) returns (SuggestionListByItemResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc SuggestionByPartialKey(SuggestionByPartialKeyRequest) returns (SuggestionByPartialKeyResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // ──────────────────────────────── Invoke ───────────────────────────────────────
+  rpc SuggestionCreate(SuggestionCreateRequest) returns (SuggestionCreateResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_CREATE};
+  }
+
+  rpc SuggestionDelete(SuggestionDeleteRequest) returns (SuggestionDeleteResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_DELETE};
+  }
+
+  rpc SuggestionApprove(SuggestionApproveRequest) returns (SuggestionApproveResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_SUGGEST_CREATE};
+  }
+}
+
+// ══════════════════════════════ Generic Item
+// ════════════════════════════════════ ────────────────────────────── Query
+// ───────────────────────────────────────-
+
+// Get
+message GetRequest {
+  //  saacs.common.v0.Item item = 3;
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+}
+
+message GetResponse {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+}
+
+// Get
+message GetFullRequest {
+  //  saacs.common.v0.Item item = 3;
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.HistoryOptions history_options = 2;
+  bool include_suggestions = 3;
+}
+
+message GetFullResponse {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.History history = 2;
+  repeated saacs.common.v0.Suggestion suggestions = 3;
+}
+
+// List of a type
+message ListRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Pagination pagination = 2;
+}
+message ListResponse {
+  repeated saacs.common.v0.Item items = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Pagination pagination = 2;
+}
+
+message ListByAttrsRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  int32 num_attrs = 2 [(buf.validate.field).int32 = {gte: 0}];
+  saacs.common.v0.Pagination pagination = 3;
+}
+
+message ListByAttrsResponse {
+  repeated saacs.common.v0.Item items = 1;
+  saacs.common.v0.Pagination pagination = 2;
+}
+
+// ──────────────────────────────── Invoke
+// ─────────────────────────────────────── Create
+message CreateRequest {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+}
+message CreateResponse {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+}
+
+message BatchCreateRequest {
+  repeated saacs.common.v0.Item items = 1 [(buf.validate.field).required = true];
+}
+message BatchCreateResponse {
+  repeated saacs.common.v0.Item items = 1 [(buf.validate.field).required = true];
+}
+
+message UpdateRequest {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+  google.protobuf.FieldMask update_mask = 2 [(buf.validate.field).required = true];
+}
+message UpdateResponse {
+  saacs.common.v0.Item item = 21 [(buf.validate.field).required = true];
+}
+
+message DeleteRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  string reason = 2;
+}
+message DeleteResponse {
+  saacs.common.v0.Item item = 3 [(buf.validate.field).required = true];
+}
+
+// ══════════════════════════════ History══════════════════════════════════════════
+// ────────────────────────────────Query ──────────────────────────────────────────
+
+// GetHistory
+message GetHistoryRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.HiddenOptions history_options = 2;
+  saacs.common.v0.Pagination pagination = 3;
+}
+
+message GetHistoryResponse {
+  saacs.common.v0.ItemKey key = 1;
+  saacs.common.v0.History history = 2;
+  saacs.common.v0.Pagination pagination = 3;
+}
+
+// GetHiddenTx
+message GetHiddenTxRequest {
+  saacs.common.v0.Item item = 1 [(buf.validate.field).required = true];
+  repeated string msp_ids = 2;
+}
+message GetHiddenTxResponse {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  repeated saacs.common.v0.HiddenTx hidden_txs = 2;
+}
+
+// ──────────────────────────────── Invoke ─────────────────────────────────────────
+
+message HideTxRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.HiddenTx hidden_tx = 2 [(buf.validate.field).required = true];
+}
+message HideTxResponse {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.HiddenTxList hidden_txs = 2;
+}
+
+message UnHideTxRequest {
+  saacs.common.v0.ItemKey key = 3 [(buf.validate.field).required = true];
+  string tx_id = 2 [(buf.validate.field).string.min_len = 1];
+}
+message UnHideTxResponse {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.HiddenTxList hidden_txs = 2;
+}
+
+// ════════════════════════════════ Suggestions ════════════════════════════════════
+//
+// ──────────────────────────────── Query ──────────────────────────────────────────
+
+message GetSuggestionRequest {
+  saacs.common.v0.ItemKey item_key = 1 [(buf.validate.field).required = true];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+}
+message GetSuggestionResponse {
+  saacs.common.v0.Suggestion suggestion = 1;
+}
+
+message SuggestionListRequest {
+  saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Pagination pagination = 2;
+  // saacs.common.v0.Item item = 3;
+}
+message SuggestionListResponse {
+  repeated saacs.common.v0.Suggestion suggestions = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Pagination pagination = 2;
+}
+
+message SuggestionListByCollectionRequest {
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+  saacs.common.v0.Pagination pagination = 2;
+}
+message SuggestionListByCollectionResponse {
+  repeated saacs.common.v0.Suggestion suggestions = 1;
+  saacs.common.v0.Pagination pagination = 2;
+}
+
+message SuggestionListByItemRequest {
+  saacs.common.v0.ItemKey item_key = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Pagination pagination = 2;
+}
+message SuggestionListByItemResponse {
+  saacs.common.v0.Pagination pagination = 1;
+
+  repeated saacs.common.v0.Suggestion suggestions = 2;
+}
+
+message SuggestionByPartialKeyRequest {
+  saacs.common.v0.ItemKey item_key = 1 [(buf.validate.field).required = true];
+  int32 num_attrs = 2 [(buf.validate.field).int32 = {gte: 0}];
+  string suggestion_id = 3;
+
+  saacs.common.v0.Pagination pagination = 4;
+}
+message SuggestionByPartialKeyResponse {
+  saacs.common.v0.Pagination pagination = 1;
+  repeated saacs.common.v0.Suggestion suggestions = 2;
+}
+
+// ───────────────────────────────── Invoke
+// ──────────────────────────────────────── GetSuggestions
+
+message SuggestionCreateRequest {
+  saacs.common.v0.Suggestion suggestion = 1 [(buf.validate.field).required = true];
+}
+message SuggestionCreateResponse {
+  saacs.common.v0.Suggestion suggestion = 1 [(buf.validate.field).required = true];
+}
+
+message SuggestionDeleteRequest {
+  saacs.common.v0.ItemKey item_key = 1 [(buf.validate.field).required = true];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  string reason = 3;
+}
+message SuggestionDeleteResponse {
+  saacs.common.v0.Suggestion suggestion = 4 [(buf.validate.field).required = true];
+}
+
+message SuggestionApproveRequest {
+  saacs.common.v0.ItemKey item_key = 1 [(buf.validate.field).required = true];
+  string suggestion_id = 2 [(buf.validate.field).string.min_len = 1];
+  string reason = 3;
+}
+
+message SuggestionApproveResponse {
+  saacs.common.v0.Suggestion suggestion = 1 [(buf.validate.field).required = true];
+  saacs.common.v0.Item item = 2 [(buf.validate.field).required = true];
+}

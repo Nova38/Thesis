@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+// Can be used as the history entry
+message StateActivity {
+  // The transaction id that caused the change
+  string tx_id = 1 [(buf.validate.field).string.min_len = 1];
+  // The msp of the user that caused the change
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The id of the user that caused the change
+  string user_id = 3 [(buf.validate.field).string.min_len = 1];
+  // The timestamp of the change
+  google.protobuf.Timestamp timestamp = 4 [(buf.validate.field).required = true];
+  // A note about the change
+  string note = 5;
+
+  // object
+  google.protobuf.Any object = 6;
+  google.protobuf.FieldMask mask = 7;
+}

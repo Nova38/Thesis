@@ -1,10 +1,17 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+const collapsed = defineModel<boolean>('collapsed', {
+  default: false,
+})
+
+</script>
 
 <template>
   <div>
     <PFieldset
       legend="Taxon"
       toggleable
+      :collapsed
     >
       <FormKit
         id="Taxon"

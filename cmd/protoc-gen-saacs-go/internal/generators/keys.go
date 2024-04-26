@@ -3,7 +3,7 @@ package generators
 import (
 	"strings"
 
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -19,8 +19,9 @@ const (
 	// stringsPackage = protogen.GoImportPath("strings")
 
 	authPackage = protogen.GoImportPath(
-		"github.com/nova38/saacs/pkg/saacs-protos/auth/v1",
+		"github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0",
 	)
+	pbPackage = protogen.GoImportPath("github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0")
 
 	stringspkg         = protogen.GoImportPath("strings")
 	fieldmaskpbPackage = protogen.GoImportPath("google.golang.org/protobuf/types/known/fieldmaskpb")
@@ -68,8 +69,8 @@ func (kg *KeyGenerator) GenerateMessage(
 	msg *protogen.Message,
 ) (notUsed bool) {
 	keySchema := KeySchemaOptions(msg)
-	ItemKind := g.QualifiedGoIdent(authPackage.Ident("ItemKind"))
-	KeySchemaImport := g.QualifiedGoIdent(authPackage.Ident("KeySchema"))
+	ItemKind := g.QualifiedGoIdent(pbPackage.Ident("ItemKind"))
+	KeySchemaImport := g.QualifiedGoIdent(pbPackage.Ident("KeySchema"))
 	FieldMask := g.QualifiedGoIdent(fieldmaskpbPackage.Ident("FieldMask"))
 	stringJoin := g.QualifiedGoIdent(stringspkg.Ident("Join"))
 
@@ -88,13 +89,13 @@ func (kg *KeyGenerator) GenerateMessage(
 	g.P("// ──────────────────────────────────────────────────")
 	g.P("// ", msg.Desc.FullName())
 
-	switch authpb.ItemKind(keySchema.GetItemKind().Number()) {
-	case authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM:
+	switch pb.ItemKind(keySchema.GetItemKind().Number()) {
+	case pb.ItemKind_ITEM_KIND_PRIMARY_ITEM:
 		g.P("// Primary Item")
 		g.P()
 
 		GeneratePrimaryItem(gen, g, msg)
-	case authpb.ItemKind_ITEM_KIND_SUB_ITEM:
+	case pb.ItemKind_ITEM_KIND_SUB_ITEM:
 		g.P("// Sub Item")
 		g.P()
 
@@ -102,7 +103,7 @@ func (kg *KeyGenerator) GenerateMessage(
 	}
 
 	g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKind()", ItemKind, "{")
-	g.P("return ", ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()))
+	g.P("return ", ItemKind, "_", pb.ItemKind(keySchema.GetItemKind().Number()))
 	g.P("}")
 	g.P()
 
@@ -114,7 +115,7 @@ func (kg *KeyGenerator) GenerateMessage(
 	// Return the key schema
 	g.P("func (m *", msg.GoIdent.GoName, ") ", "KeySchema()", "(*", KeySchemaImport, ") {")
 	g.P("return &", KeySchemaImport, "{")
-	g.P("ItemKind: ", ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()), ",")
+	g.P("ItemKind: ", ItemKind, "_", pb.ItemKind(keySchema.GetItemKind().Number()), ",")
 
 	if keySchema.GetProperties().GetPaths() != nil &&
 		len(keySchema.GetProperties().GetPaths()) > 0 {
@@ -134,6 +135,9 @@ func (kg *KeyGenerator) GenerateMessage(
 		if len(keySchema.GetProperties().GetPaths()) > 1 {
 			g.P("}},")
 		}
+	} else {
+		g.P("Properties: &", FieldMask, "{ Paths: []string{}},")
+
 	}
 
 	g.P("}")
@@ -141,7 +145,7 @@ func (kg *KeyGenerator) GenerateMessage(
 	g.P("")
 
 	{
-		ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+		ItemKey := g.QualifiedGoIdent(pbPackage.Ident("ItemKey"))
 		g.P(`
             // NewFromKey - Creates a new item from a key
             func (m *`, msg.GoIdent.GoName, `) NewFromKey(key *`, ItemKey, `)  (* `, msg.GoIdent.GoName, `) {
@@ -196,7 +200,7 @@ func GeneratePrimaryItem(
 	msg *protogen.Message,
 ) {
 
-	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+	ItemKey := g.QualifiedGoIdent(pbPackage.Ident("ItemKey"))
 	keySchema := KeySchemaOptions(msg)
 
 	{
@@ -234,7 +238,7 @@ func GeneratePrimaryItem(
 		g.P("func (m *", msg.GoIdent.GoName, ") ", "ItemKey()", "(*", ItemKey, ") {")
 		g.P("key := &", ItemKey, "{")
 		g.P("CollectionId: m.GetCollectionId(),")
-		g.P("ItemKind: ", authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM.Number(), ",")
+		g.P("ItemKind: ", pb.ItemKind_ITEM_KIND_PRIMARY_ITEM.Number(), ",")
 		g.P("ItemType: \"", string(msg.Desc.FullName()), "\",")
 		g.P("ItemKeyParts: m.KeyAttr(),")
 		g.P("}")
@@ -276,16 +280,16 @@ func GenerateSubItem(
 ) {
 
 	g.Import("google.golang.org/protobuf/reflect/protoreflect")
-	ItemKey := g.QualifiedGoIdent(authPackage.Ident("ItemKey"))
+	ItemKey := g.QualifiedGoIdent(pbPackage.Ident("ItemKey"))
 	// ItemInterface := g.QualifiedGoIdent(authPackage.Ident("ItemInterface"))
 	GlobalTypes := g.QualifiedGoIdent(registryPackage.Ident("GlobalTypes"))
-	KeySchemaImport := g.QualifiedGoIdent(authPackage.Ident("KeySchema"))
+	KeySchemaImport := g.QualifiedGoIdent(pbPackage.Ident("KeySchema"))
 	// ProtoRegImport := g.QualifiedGoIdent(protoreflectPackage.Ident("protoreflect"))
 	ProtoReflectPackage := g.QualifiedGoIdent(
 		protogen.GoIdent{GoImportPath: "google.golang.org/protobuf/reflect/protoreflect"},
 	)
 	// ProtoReflect := g.QualifiedGoIdent()
-	ItemKind := g.QualifiedGoIdent(authPackage.Ident("ItemKind"))
+	ItemKind := g.QualifiedGoIdent(pbPackage.Ident("ItemKind"))
 
 	keySchema := KeySchemaOptions(msg)
 
@@ -354,7 +358,7 @@ func GenerateSubItem(
 
 	    key := &`, ItemKey, `{
             CollectionId: m.GetPrimaryKey().GetCollectionId(),
-            ItemKind: `, ItemKind, "_", authpb.ItemKind(keySchema.GetItemKind().Number()), `,
+            ItemKind: `, ItemKind, "_", pb.ItemKind(keySchema.GetItemKind().Number()), `,
             ItemType: "`, string(msg.Desc.FullName()), `",
             ItemKeyParts: []string{
                 m.GetPrimaryKey().GetItemType(),
@@ -457,8 +461,8 @@ func toSubPaths(rawPaths string) []string {
 	return p
 }
 
-func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
-	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_KeySchema).(*authpb.KeySchema)
+func KeySchemaOptions(m *protogen.Message) *pb.KeySchema {
+	v, ok := proto.GetExtension(m.Desc.Options(), pb.E_KeySchema).(*pb.KeySchema)
 
 	if !ok {
 		return nil
@@ -466,8 +470,8 @@ func KeySchemaOptions(m *protogen.Message) *authpb.KeySchema {
 	return v
 }
 
-// func GetItemKind(m *protogen.Message) *authpb.ItemKind {
-// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ItemKind).(*authpb.ItemKind)
+// func GetItemKind(m *protogen.Message) *pb.ItemKind {
+// 	v, ok := proto.GetExtension(m.Desc.Options(), authpb.E_ItemKind).(*pb.ItemKind)
 
 // 	if !ok {
 // 		return nil

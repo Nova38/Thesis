@@ -1,0 +1,14 @@
+version: 3
+includes:
+  caliper:
+    taskfile: ./caliper/Taskfile.yml
+    dir: ./caliper
+
+tasks:
+  install:deps:
+    desc: Install all the dependencies
+    cmds:
+      - go mod download
+      - go mod vendor
+      - go mod tidy
+      - go mod verify

@@ -1,0 +1,21 @@
+{
+  "$id": "saacs.common.v0.ReadWriteSet.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "read_set": {
+      "items": {
+        "$ref": "saacs.common.v0.Item.schema.json"
+      },
+      "type": "array"
+    },
+    "write_set": {
+      "items": {
+        "$ref": "saacs.common.v0.Item.schema.json"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Read Write Set",
+  "type": "object"
+}

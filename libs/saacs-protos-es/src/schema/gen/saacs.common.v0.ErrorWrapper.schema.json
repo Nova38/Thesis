@@ -1,0 +1,54 @@
+{
+  "$id": "saacs.common.v0.ErrorWrapper.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "anyOf": [
+        {
+          "enum": [
+            "UNSPECIFIED",
+            "REQUEST_INVALID",
+            "RUNTIME",
+            "RUNTIME_BAD_OPS",
+            "KEY_NOT_FOUND",
+            "KEY_ALREADY_EXISTS",
+            "COLLECTION_INVALID_ID",
+            "COLLECTION_UNREGISTERED",
+            "COLLECTION_ALREADY_REGISTERED",
+            "COLLECTION_INVALID",
+            "COLLECTION_INVALID_ITEM_TYPE",
+            "COLLECTION_INVALID_ROLE_ID",
+            "USER_INVALID_ID",
+            "USER_UNREGISTERED",
+            "USER_ALREADY_REGISTERED",
+            "USER_INVALID",
+            "USER_NO_ROLE",
+            "USER_PERMISSION_DENIED",
+            "ITEM_INVALID_ID",
+            "ITEM_UNREGISTERED",
+            "ITEM_ALREADY_REGISTERED",
+            "ITEM_INVALID",
+            "INVALID_ITEM_FIELD_PATH",
+            "INVALID_ITEM_FIELD_VALUE"
+          ],
+          "title": "Tx Error",
+          "type": "string"
+        },
+        {
+          "maximum": 2147483647,
+          "minimum": -2147483648,
+          "type": "integer"
+        }
+      ]
+    },
+    "error": {
+      "$ref": "google.protobuf.Struct.schema.json"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "title": "Error Wrapper",
+  "type": "object"
+}

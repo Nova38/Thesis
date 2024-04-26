@@ -1,0 +1,27 @@
+{
+  "$id": "saacs.biochain.v0.Specimen.Loan.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "last_modified": {
+      "$ref": "saacs.common.v0.StateActivity.schema.json"
+    },
+    "loaned_by": {
+      "type": "string"
+    },
+    "loaned_date": {
+      "$ref": "saacs.biochain.v0.Date.schema.json"
+    },
+    "loaned_to": {
+      "type": "string"
+    }
+  },
+  "title": "Loan",
+  "type": "object"
+}

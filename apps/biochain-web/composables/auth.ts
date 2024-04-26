@@ -17,7 +17,6 @@ export async function authLogin(username: string, password: string) {
         username,
       },
     })
-
     useLoggedIn().value = true
     useAuth().redirectTo.value = null
     await useAuth().updateSession()

@@ -520,8 +520,6 @@ github.com/mennanov/fieldmask-utils v1.1.2 h1:f5hd3hYeWdl+q2thiKYyZZmqTqn90uayWG
 github.com/mennanov/fieldmask-utils v1.1.2/go.mod h1:xRqd9Fjz/gFEDYCQw7pxGouxqLhSPrkOdx2yhEAXEls=
 github.com/mennanov/fmutils v0.3.0 h1:2YSyrO8oOLQQwB/iKe+xDDGO6xCUHiIAj3gYhY7D4Ao=
 github.com/mennanov/fmutils v0.3.0/go.mod h1:ph1jsu8gV1gUgMURCmfIVbXKG3O2/O5o/UbPbbqu8zs=
-github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240422144942-998f95d5de3f h1:u8t8BLdJqrRk5f4/BqU55Uk0yTLEVk/Xk8OdZQux5nU=
-github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240422144942-998f95d5de3f/go.mod h1:cuQWouRtB7TwQlDCTISL2uHJuBFkhhmQ5ia3SPEJd2U=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

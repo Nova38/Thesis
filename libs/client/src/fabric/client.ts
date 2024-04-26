@@ -6,7 +6,7 @@ import {
   type PartialMessage,
   type ServiceType,
 } from '@bufbuild/protobuf'
-import { common } from '@saacs/saacs-pb/'
+import { GlobalRegistry, chaincode, pb } from '@saacs/saacs-pb'
 import type { Contract } from '@hyperledger/fabric-gateway'
 
 // based on connect promise client
@@ -20,12 +20,14 @@ export type GatewayClient<T extends ServiceType> = {
 }
 
 export type BiochainGateway = GatewayClient<
-  typeof common.generic.GenericService
+  typeof chaincode.chaincode.ItemService
 >
-export function createBiochainGateway(contract: Contract): GatewayClient<typeof common.generic.GenericService> {
-  return createPromiseClient<typeof common.generic.GenericService>(common.generic.GenericService, contract)
+export function createBiochainGateway(contract: Contract): GatewayClient<typeof chaincode.chaincode.ItemService> {
+  return createPromiseClient<typeof chaincode.chaincode.ItemService>(chaincode.chaincode.ItemService, contract)
 }
-
+export function createUtilGateway(contract: Contract): GatewayClient<typeof chaincode.utils.UtilsService> {
+  return createPromiseClient<typeof chaincode.utils.UtilsService>(chaincode.utils.UtilsService, contract)
+}
 /**
  * Create a PromiseClient for the given service, invoking RPCs through the
  * given transport.
@@ -55,22 +57,35 @@ function createContractFn<I extends Message<I>, O extends Message<O>>(
   contract: Contract,
   method: MethodInfo<I, O>,
 ): ContractFn<I, O> {
+  const utf8Decoder = new TextDecoder()
+
   return async function (input, options) {
     const params
       = (options?.serializer ?? 'json') === 'json'
-        ? new method.I(input).toJsonString()
+        ? new method.I(input).toJsonString({ emitDefaultValues: true, typeRegistry: GlobalRegistry })
         : new method.I(input).toBinary()
 
     const decode = (reply: Uint8Array) =>
       (options?.serializer ?? 'json') === 'json'
-        ? method.O.fromJsonString(reply.toString())
+        ? method.O.fromJsonString(utf8Decoder.decode(reply), { typeRegistry: GlobalRegistry })
         : method.O.fromBinary(reply)
 
-    switch (method.idempotency) {
-      case MethodIdempotency.Idempotent || MethodIdempotency.NoSideEffects:
-        return decode(await contract.evaluateTransaction(method.name, params))
-      default:
-        return decode(await contract.submitTransaction(method.name, params))
+    console.log('params', params)
+
+    try {
+      if (method.idempotency === MethodIdempotency.Idempotent
+        || method.idempotency === MethodIdempotency.NoSideEffects) {
+        return contract.evaluateTransaction(method.name, params).then((e) => {
+          console.log(e)
+          return decode(e)
+        })
+      }
+
+      return contract.submitTransaction(method.name, params).then(decode)
+    }
+    catch (error) {
+      console.error('Error:', error)
+      throw error
     }
   }
 }

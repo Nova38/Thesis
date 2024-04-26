@@ -1,15 +1,23 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+const collapsed = defineModel<boolean>('collapsed', {
+  default: false,
+})
+
+</script>
 
 <template>
   <div>
     <PFieldset
       legend="Georeference"
-      :toggleable="true"
+      toggleable
+      :collapsed
     >
       <FormKit
         id="georeference"
         type="group"
         name="georeference"
+        #default="{value}"
       >
         <div
           class="grid grid-cols-1 content-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
@@ -116,7 +124,7 @@
             outer-class="min-w-50"
           />
 
-          <SpecimenFormDate name="georeferenceDate" />
+          <SpecimenFormDate v-if="value?.georeferenceDate" name="georeferenceDate" />
 
           <UDivider class="col-span-full col-start-1" />
 

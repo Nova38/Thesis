@@ -32,9 +32,8 @@ run:
   timeout: "1m"
   tests: true
   concurrency: 4
-  skip-dirs-use-default: true
   allow-parallel-runners: false
-  go: "1.21.4"
+  go: "1.22"
 
 linters-settings:
   # govet:

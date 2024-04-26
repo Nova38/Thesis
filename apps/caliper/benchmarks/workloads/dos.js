@@ -16,17 +16,17 @@ function randomTime(){
 
 function randomUpdateArgs() {
 
-    let args = new hlf.pb.common.generic.UpdateRequest({
+    let args = new hlf.pb.pb.UpdateRequest({
         updateMask: new FieldMask({
             paths: ["name"],
         }),
-        item:new hlf.pb.auth.objects.Item({
-            key: new hlf.pb.auth.objects.ItemKey({
+        item:new hlf.pb.pb.Item({
+            key: new hlf.pb.pb.ItemKey({
                 collectionId: "collection0",
                 itemType: "auth.Collection",
                 itemKeyParts: ["collection0"],
             }),
-            value: Any.pack( new hlf.pb.auth.objects.Collection({
+            value: Any.pack( new hlf.pb.pb.Collection({
                 collectionId: "collection0",
                 name: `write-${randomInt(0, 100)}`,
             })),
@@ -35,15 +35,15 @@ function randomUpdateArgs() {
 
 
     return args.toJsonString({
-        typeRegistry: createRegistry(...hlf.pb.sample.allMessages, ...hlf.pb.auth.objects.allMessages),
+        typeRegistry: createRegistry(...hlf.pb.sample.allMessages, ...hlf.pb.pb.allMessages),
     });
 }
 
 function randomNewBookArgs() {
     Date.now().toString()
 
-    let args = new hlf.pb.common.generic.CreateRequest({
-        item: new hlf.pb.auth.objects.Item({
+    let args = new hlf.pb.pb.CreateRequest({
+        item: new hlf.pb.pb.Item({
             value: Any.pack(
                 new hlf.pb.sample.Book({
                     collectionId: "collection0",
@@ -55,7 +55,7 @@ function randomNewBookArgs() {
     return args.toJsonString({
         typeRegistry: createRegistry(
             ...hlf.pb.sample.allMessages,
-            ...hlf.pb.auth.objects.allMessages
+            ...hlf.pb.pb.allMessages
         ),
     });
 }
@@ -94,13 +94,13 @@ class NoAuthTestWorkload extends WorkloadModuleBase {
         this.chaincodeID = args.chaincodeID;
         this.updateAuthChance = args.updateAuthChance;
 
-        this.key = new hlf.pb.auth.objects.ItemKey({
+        this.key = new hlf.pb.pb.ItemKey({
             collectionId: "collection0",
             itemType: "auth.Collection",
             itemKeyParts: ["collection0"],
         });
 
-        let ReadArg = new hlf.pb.common.generic.GetRequest({
+        let ReadArg = new hlf.pb.pb.GetRequest({
             key: this.key,
         });
 

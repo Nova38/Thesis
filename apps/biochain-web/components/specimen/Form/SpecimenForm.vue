@@ -18,14 +18,14 @@ const props = withDefaults(
   },
 )
 
-const FormId = computed(() => `${props.formPrefix}-form`)
+// type Sections = "taxon" | "primary" | "secondary" | "georeference" | "loans" | "grants"
 </script>
 
 <template>
   <FormKit
-    :id="FormId"
     v-slot="{ value }"
     v-model="specimen"
+    name="specimen"
     type="group"
     dirty-behavior="compare"
     :actions="false"
@@ -39,13 +39,18 @@ const FormId = computed(() => `${props.formPrefix}-form`)
         type="hidden"
         value=""
       />
-
+      <FormKit
+        name="collectionId"
+        type="hidden"
+        value=""
+      />
       <SpecimenFormTaxon class="py-1" />
       <SpecimenFormPrimary />
       <SpecimenFormGeoreference />
 
       <SpecimenFormSecondary />
       <SpecimenFormLoans />
+      <SpecimenFormGrants />
 
       <DevOnly>
         <PFieldset

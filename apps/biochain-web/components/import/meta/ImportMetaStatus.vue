@@ -20,10 +20,14 @@ const severity = computed(() => {
       return 'info'
     case 'new':
       return 'info'
+    case 'pre-existing':
+      return 'info'
     case 'parsing-error':
       return 'warn'
     case 'error':
       return 'error'
+    case 'success':
+      return 'success'
     default:
       return 'info'
   }

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "google/protobuf/struct.proto";
+
+message ErrorWrapper {
+  TxError code = 1;
+  google.protobuf.Struct error = 2;
+  string message = 3;
+}
+
+enum TxError {
+  UNSPECIFIED = 0;
+  REQUEST_INVALID = 1;
+  RUNTIME = 2;
+  RUNTIME_BAD_OPS = 3;
+  // The provided key is not in the world state
+  KEY_NOT_FOUND = 4;
+  // The provided key is already in the world state
+  KEY_ALREADY_EXISTS = 5;
+
+  /* Collection Errors */
+
+  // The collection id is invalid
+  COLLECTION_INVALID_ID = 11;
+  // The collection is not registered and thus cannot be accessed
+  COLLECTION_UNREGISTERED = 12;
+  // The collection is already registered and thus cannot be registered again
+  COLLECTION_ALREADY_REGISTERED = 13;
+  // The collection is invalid (e.g. the collection does not have a default ACLEntry)
+  COLLECTION_INVALID = 14;
+
+  // The item type in the collection is invalid
+  COLLECTION_INVALID_ITEM_TYPE = 15;
+  // The role id in the collection is invalid
+  COLLECTION_INVALID_ROLE_ID = 16;
+
+  /* User Errors */
+
+  // The user does not have permission to perform the operation
+  USER_INVALID_ID = 20;
+  // The certificate is not registered as a user and thus cannot be used
+  USER_UNREGISTERED = 21;
+  // The certificate is already registered as a user and thus cannot be registered again
+  USER_ALREADY_REGISTERED = 22;
+  // The user is invalid
+  USER_INVALID = 23;
+  // The user does not have a role
+  USER_NO_ROLE = 24;
+  // USER_DELETED_ROLE          = 25;
+  // The user does not have permission to perform the operation
+  USER_PERMISSION_DENIED = 26;
+  // The Item's key is invalid
+  ITEM_INVALID_ID = 31;
+  // The Item is not registered and thus cannot be accessed
+  ITEM_UNREGISTERED = 32;
+  // The Item is already registered and thus cannot be registered again
+  ITEM_ALREADY_REGISTERED = 33;
+  // The Item is invalid
+  ITEM_INVALID = 34;
+
+  // The item field path is invalid for the item type
+  INVALID_ITEM_FIELD_PATH = 35;
+  // The value at the item field path is invalid for the item type
+  INVALID_ITEM_FIELD_VALUE = 36;
+}

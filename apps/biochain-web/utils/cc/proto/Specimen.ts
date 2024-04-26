@@ -71,13 +71,20 @@ export const LastModified = z.object({
   userId: z.string().trim().optional(),
 })
 
-const sex = z.enum([
+export const sex = z.enum([
   'SEX_UNDEFINED',
   'SEX_UNKNOWN',
   'SEX_ATYPICAL',
   'SEX_MALE',
   'SEX_FEMALE',
-])
+]).transform((val)=> pb.Specimen_Secondary_SEX[val])
+  .or(z.nativeEnum(ccbio.Specimen_Secondary_SEX))
+  .default(0)
+  .optional()
+
+const castToSex = z.preprocess((val) => String(val), z.string());
+
+
 
 const age = z.enum([
   'AGE_UNDEFINED',
@@ -87,7 +94,12 @@ const age = z.enum([
   'AGE_CHICK_SUBADULT',
   'AGE_ADULT',
   'AGE_CONTINGENT',
-])
+]).transform((val)=> pb.Specimen_Secondary_AGE[val])
+  .or(z.nativeEnum(ccbio.Specimen_Secondary_AGE))
+  .default(0)
+  .optional()
+
+sex.or(z.nativeEnum(ccbio.Specimen_Secondary_SEX).default(0).optional())
 
 // const ageValues = proto3.getEnumType(ccbio.Specimen_Secondary_AGE).values.reduce
 // ((cur: (string|number)[], v)=>{
@@ -177,7 +189,7 @@ export const ZSpecimen = z.object({
     .default({}),
   secondary: z
     .object({
-      age: z.nativeEnum(ccbio.Specimen_Secondary_AGE).default(0).optional(), // age.default('AGE_UNDEFINED'), // 'AGE_UNDEFINED'), // ,
+      age: age, // age.default('AGE_UNDEFINED'), // 'AGE_UNDEFINED'), // ,
       condition: z.string().trim().optional(),
       lastModified: LastModified.optional(),
       molt: z.string().trim().optional(),
@@ -189,7 +201,7 @@ export const ZSpecimen = z.object({
           }),
         )
         .default({}),
-      sex: z.nativeEnum(ccbio.Specimen_Secondary_SEX).default(0).optional(), // sex.default('SEX_UNDEFINED'),
+      sex: sex,// z.nativeEnum(ccbio.Specimen_Secondary_SEX).default(0).optional(), // sex.default('SEX_UNDEFINED'),
       weight: z.coerce.number().optional(),
       weightUnits: z.string().trim().optional(),
     })

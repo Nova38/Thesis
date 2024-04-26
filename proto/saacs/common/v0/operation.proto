@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/field_mask.proto";
+import "saacs/common/v0/enums.proto";
+
+message Operation {
+  Action action = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  string collection_id = 2 [(buf.validate.field).string.min_len = 1];
+  string item_type = 3 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.FieldMask paths = 5;
+}

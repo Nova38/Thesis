@@ -4,9 +4,10 @@ import (
 	"testing"
 
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
+	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 
-	authpb "github.com/nova38/saacs/pkg/saacs-protos/auth/v1"
-	sample "github.com/nova38/saacs/pkg/saacs-protos/sample/v0"
+	authpb "github.com/nova38/saacs/pkg/saacs-protos/saacs/auth/v0"
+	sample "github.com/nova38/saacs/pkg/saacs-protos/saacs/example/v0"
 )
 
 func TestMakePrimaryKeyAttr(t *testing.T) {
@@ -43,11 +44,11 @@ func TestMakePrimaryKeyAttr(t *testing.T) {
 		{
 			name: "Suggestion Item",
 			args: args{
-				obj: &authpb.Suggestion{
-					PrimaryKey: &authpb.ItemKey{
+				obj: &pb.Suggestion{
+					PrimaryKey: &pb.ItemKey{
 						CollectionId: "ColId",
 						ItemType:     "auth.Role",
-						ItemKind:     authpb.ItemKind_ITEM_KIND_PRIMARY_ITEM,
+						ItemKind:     pb.ItemKind_ITEM_KIND_PRIMARY_ITEM,
 						ItemKeyParts: []string{"RoleId"},
 					},
 					SuggestionId: "SuggestionId",

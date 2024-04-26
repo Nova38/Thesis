@@ -1,0 +1,68 @@
+version: "3"
+tasks:
+  bootstrap:noauth:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.boot.yaml
+        --caliper-report-path=./out/noauth/boot-report.html
+  bootstrap:saacs:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/SAACS.boot.yaml
+        --caliper-report-path=./out/noauth/boot-report.html
+
+  bootstrap:noauth-nosub:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth-NoSub.boot.yaml
+        --caliper-report-path=./out/noauth-nosub/boot-report.html
+
+  bootstrap:role:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/Role.boot.yaml
+        --caliper-report-path=./out/role/boot-report.html
+
+  bench:role:
+    cmds:
+      - echo "Bootstrapping Role..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/Role.bench.yaml
+        --caliper-report-path=./out/role/bench-final-report.html
+
+  bootstrap:identity:
+    cmds:
+      - echo "Bootstrapping identity..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/identity.boot.yaml
+        --caliper-report-path=./out/identity/boot-report.html
+
+  bench:identity:
+    cmds:
+      - echo "benching identity..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/identity.bench.yaml
+        --caliper-report-path=./out/identity/bench-report.html
+
+  bench:base:noauth:
+    cmds:
+      - pnpm run launch --caliper-benchconfig=benchmarks/noauth.base.bench.yaml
+        --caliper-report-path=./out/noauth/base-bench-report.html
+
+  bench:noauth:
+    cmds:
+      - pnpm run launch --caliper-benchconfig=benchmarks/NoAuth.bench.yaml
+        --caliper-report-path=./out/noauth/bench-report.html
+
+  bench:noauth-nosub:
+    cmds:
+      - echo "Bootstrapping no auth..."
+      - pnpm run launch --caliper-benchconfig=benchmarks/noAuth-noSub.bench.yaml
+        --caliper-report-path=./out/noauth-nosub/bench-report.html
+
+  bench:noauth:dos:
+    cmds:
+      - pnpm run launch --caliper-benchconfig=benchmarks/AC-NoAuth-DOS.yaml
+        --caliper-report-path=./out/noauth/dos-report.html
+
+  bench:role:dos:
+    cmds:
+      - pnpm run launch --caliper-benchconfig=benchmarks/AC-Role-DOS.yaml
+        --caliper-report-path=./out/role/dos-report.html

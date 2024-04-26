@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package saacs.chaincode.v0;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/descriptor.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/auth/v0/collection.proto";
+import "saacs/auth/v0/identity.proto";
+import "saacs/auth/v0/roles.proto";
+import "saacs/auth/v0/type.proto";
+// ─────────────────────────────────────────────────────────────────────────────────
+import "saacs/common/v0/operation.proto";
+import "saacs/common/v0/options.proto";
+import "saacs/common/v0/user.proto";
+
+service UtilsService {
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc Bootstrap(BootstrapRequest) returns (BootstrapResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_UTILITY};
+  }
+
+  rpc AuthorizeOperation(AuthorizeOperationRequest) returns (AuthorizeOperationResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_INVOKE;
+    option (saacs.common.v0.operation) = {action: ACTION_UTILITY};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  rpc GetCollectionsList(GetCollectionsListRequest) returns (GetCollectionsListResponse) {
+    option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+    option (saacs.common.v0.operation) = {action: ACTION_VIEW};
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+
+  // rpc GetCollectionAuthModel(GetCollectionAuthModelRequest) returns (GetCollectionAuthModelResponse) {
+  //   option (saacs.common.v0.transaction_type) = TRANSACTION_TYPE_QUERY;
+  //   option (saacs.common.v0.operation) = {action: ACTION_UTILITY};
+  //   option idempotency_level = NO_SIDE_EFFECTS;
+  // }
+}
+
+message GetCurrentUserRequest {
+  bool empty = 1;
+}
+
+message GetCurrentUserResponse {
+  saacs.common.v0.User user = 1;
+  bool registered = 2;
+}
+message GetCurrentFullUserResponse {
+  saacs.common.v0.User user = 1;
+  bool registered = 2;
+
+  repeated saacs.auth.v0.UserCollectionRoles user_collection_roles = 3;
+  repeated saacs.auth.v0.UserDirectMembership user_memberships = 4;
+}
+
+message AuthorizeOperationRequest {
+  saacs.common.v0.Operation operation = 1;
+}
+
+message AuthorizeOperationResponse {
+  bool authorized = 1;
+}
+
+message GetCollectionsListRequest {
+  bool empty = 1;
+}
+message GetCollectionsListResponse {
+  repeated saacs.auth.v0.Collection collections = 1;
+}
+
+message BootstrapRequest {
+  option (buf.validate.message).disabled = true;
+
+  saacs.auth.v0.Collection collection = 1;
+}
+
+message BootstrapResponse {
+  bool success = 1;
+  saacs.auth.v0.Collection collection = 2;
+}
+
+message GetCollectionAuthModelRequest {
+  string collection_id = 1;
+}
+
+// message GetCollectionAuthModelResponse {
+//   google.protobuf.Any value = 1 [(buf.validate.field).any = {
+//     in: ["type.googleapis.com/saacs.auth.v0.AuthModel"]
+//   }];
+// }

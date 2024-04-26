@@ -1,0 +1,32 @@
+{
+  "$id": "saacs.auth.v0.UserCollectionRoles.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Auth Object For RBAC",
+  "properties": {
+    "collection_id": {
+      "description": "The collection that the user is a member of",
+      "type": "string"
+    },
+    "msp_id": {
+      "description": "The msp of the organization that the user's certificate is from",
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "role_ids": {
+      "description": "The roles that the user has in the collection",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "user_id": {
+      "description": "The id of the user from the certificate",
+      "type": "string"
+    }
+  },
+  "title": "User Collection Roles",
+  "type": "object"
+}

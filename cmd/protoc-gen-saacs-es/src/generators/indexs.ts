@@ -18,7 +18,11 @@ export function generateIndex(schema: Schema) {
     const f = schema.generateFile(folder + 'index_' + base + '_pb.ts')
 
     // f.preamble(file);
-    if (file.messages.length > 0) {
+    if (
+      file.messages.length > 0 ||
+      file.enums.length > 0 ||
+      file.extensions.length > 0
+    ) {
       f.print(`export * from "./${base}_pb.js"`)
       // f.print(`export * from "./${base}_pb_reg.js"`);
     }
@@ -27,6 +31,7 @@ export function generateIndex(schema: Schema) {
       f.print(`export * from "./${base}_pb_gateway.js"`)
       f.print(`export * from "./${base}_connect.js"`)
     }
+    f.print``
   }
 
   folders.forEach((files, folder) => {
@@ -40,6 +45,7 @@ export function generateIndex(schema: Schema) {
         f.print(`export * as ${file} from "./index_${file}_pb.js"`)
       })
     }
+    f.print``
   })
 
   // Base index
@@ -47,4 +53,5 @@ export function generateIndex(schema: Schema) {
   baseIndexFile.print(`export * from "./global_reg.js"`)
   baseIndexFile.print(`export * from "./types_pb.js"`)
   baseIndexFile.print(`export * from "./key_schema.js"`)
+  baseIndexFile.print('')
 }

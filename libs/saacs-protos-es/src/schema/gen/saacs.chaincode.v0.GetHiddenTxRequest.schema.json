@@ -1,0 +1,19 @@
+{
+  "$id": "saacs.chaincode.v0.GetHiddenTxRequest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "GetHiddenTx",
+  "properties": {
+    "item": {
+      "$ref": "saacs.common.v0.Item.schema.json"
+    },
+    "msp_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "title": "Get Hidden Tx Request",
+  "type": "object"
+}

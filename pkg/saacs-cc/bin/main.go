@@ -7,21 +7,19 @@ import (
 
 	_ "net/http/pprof"
 
+	"github.com/charmbracelet/log"
 	_ "github.com/grafana/pyroscope-go/godeltaprof/http/pprof"
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
+	"github.com/nova38/saacs/pkg/saacs-cc/config"
+	"github.com/nova38/saacs/pkg/saacs-cc/contract"
 
-	"github.com/nova38/saacs/pkg/saacs-cc/common"
-	"github.com/nova38/saacs/pkg/saacs-cc/contracts/identity"
-	"github.com/nova38/saacs/pkg/saacs-cc/contracts/noauth"
-	"github.com/nova38/saacs/pkg/saacs-cc/contracts/roles"
-
-	_ "github.com/nova38/saacs/pkg/saacs-protos/biochain/v1"
-	_ "github.com/nova38/saacs/pkg/saacs-protos/sample/v0"
+	_ "github.com/nova38/saacs/pkg/saacs-protos/saacs/biochain/v0"
+	_ "github.com/nova38/saacs/pkg/saacs-protos/saacs/example/v0"
 )
 
 var (
-	config common.ServerConfig
+	// config common.ServerConfig
 	// protoscopePushEnabled = false
 	// protoscopePullEnabled = true
 
@@ -31,13 +29,25 @@ var (
 )
 
 func init() {
-	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
+	handler := log.New(os.Stderr)
+
+	switch config.GetLogLevel() {
+	case slog.LevelDebug:
+		handler.SetLevel(log.DebugLevel)
+	case slog.LevelInfo:
+		handler.SetLevel(log.InfoLevel)
+	}
+
+	logger := slog.New(handler)
+
+	// slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: config.GetLogLevel()})))
+	slog.SetDefault(logger)
 
 	// Get the saacs-cc server config
-	config = common.ServerConfig{
-		CCID:    os.Getenv("CHAINCODE_ID"),
-		Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
-	}
+	// config = common.ServerConfig{
+	// 	CCID:    os.Getenv("CHAINCODE_ID"),
+	// 	Address: os.Getenv("CHAINCODE_SERVER_ADDRESS"),
+	// }
 
 	if e := os.Getenv("PROTOSCOPE"); e == "PUSH" {
 		protoscopeMode = "PUSH"
@@ -56,22 +66,24 @@ func init() {
 		}
 	}
 
-	switch authMode {
-	case "noauth":
-		slog.Info("Using NoAuth Contract")
-		sm = noauth.BuildContract()
-	case "noauth-no-sub":
-		slog.Info("Using NoAuthNoSub Contract")
-		sm = noauth.NoSubBuildContract()
-	case "roles":
-		slog.Info("Using Roles Contract")
-		sm = roles.BuildContract()
-	case "identity":
-		slog.Info("Using Identity Contract")
-		sm = identity.BuildContract()
-	default:
-		sm = roles.BuildContract()
-	}
+	sm = contract.BuildContract()
+
+	// switch authMode {
+	// case "noauth":
+	// 	slog.Info("Using NoAuth Contract")
+	// 	sm = noauth.BuildContract()
+	// case "noauth-no-sub":
+	// 	slog.Info("Using NoAuthNoSub Contract")
+	// 	sm = noauth.NoSubBuildContract()
+	// case "roles":
+	// 	slog.Info("Using Roles Contract")
+	// 	sm = roles.BuildContract()
+	// case "identity":
+	// 	slog.Info("Using Identity Contract")
+	// 	sm = identity.BuildContract()
+	// default:
+	// 	sm = roles.BuildContract()
+	// }
 
 	slog.Info("Using Auth Mode", "mode", authMode)
 	slog.Info("Using Protoscope Mode", "mode", protoscopeMode)
@@ -145,8 +157,8 @@ func main() {
 	}
 
 	server := &shim.ChaincodeServer{
-		CCID:    config.CCID,
-		Address: config.Address,
+		CCID:    config.GetCCID(),
+		Address: config.GetAddress(),
 		CC:      sm,
 		TLSProps: shim.TLSProperties{
 			Disabled: true,
@@ -154,7 +166,7 @@ func main() {
 	}
 
 	slog.Info("Starting Chaincode Server",
-		"config", config,
+		"config", config.GetConfig(),
 		"server", server,
 	)
 

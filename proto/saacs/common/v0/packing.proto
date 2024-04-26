@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package saacs.common.v0;
+
+import "buf/validate/validate.proto";
+// import "saacs/common/v0/enums.proto";
+import "saacs/common/v0/history.proto";
+import "saacs/common/v0/item.proto";
+import "saacs/common/v0/suggestion.proto";
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Collection Item Wrapper Types
+// ═════════════════════════════════════════════════════════════════════════════
+
+message FullItem {
+  Item item = 1 [(buf.validate.field).required = true];
+  History history = 2 [(buf.validate.field).required = true];
+
+  repeated Suggestion suggestions = 3;
+}
+
+message Pagination {
+  int32 page_size = 1;
+  string bookmark = 2;
+}

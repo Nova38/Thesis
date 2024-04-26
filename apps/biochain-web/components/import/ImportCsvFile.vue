@@ -12,6 +12,7 @@ export interface ImportRowsData {
 const emit = defineEmits<{
   parse: [payload: ParseResult<Record<string, string>>]
   idHeaderSelection: [data: ImportRowsData]
+  reset: [value: boolean]
 }>()
 
 // const file = ref<File | null>(null)
@@ -110,6 +111,15 @@ function handleForm(data: any, node: FormKitNode) {
           </div>
         </FormKit>
       </div>
+    </template>
+    <template #footer>
+      <UButton
+        block
+        color="red"
+        @click="() => emit('reset', true)"
+      >
+        Reset
+      </UButton>
     </template>
   </PCard>
 </template>

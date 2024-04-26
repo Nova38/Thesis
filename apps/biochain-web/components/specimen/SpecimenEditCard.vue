@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { useFormKitNodeById } from '@formkit/vue'
+import type { FormKitNode } from '@formkit/core'
 
-const mode = defineModel<FormMode>('mode', {
-  default: 'view' as FormMode,
-})
-const specimen = defineModel<PlainSpecimen>('specimen', {
-  default: MakeEmptySpecimen(),
-})
+const mode = defineModel<FormMode>('mode', { required: true })
+const specimen = defineModel<PlainSpecimen>('specimen', { required: true })
 const props = withDefaults(
   defineProps<{
     collectionId: string
@@ -26,7 +22,7 @@ const FormId = computed(
   () => `${props.formPrefix}-${props.collectionId}-${props.specimenId}-form`,
 )
 
-const headerColor = computed(() => toModeColor(mode.value))
+const headerColor = computed(() => toModeColor(mode.value ?? 'view'))
 
 const FormDisabled = computed(() => mode.value === 'view')
 
@@ -54,18 +50,11 @@ const modeOptions = ref([
   },
 ])
 
-const _nodeRef = useFormKitNodeById(FormId.value, (node) => {
-  // perform an effect when the node is available
-  node.on('settled.deep', (v) => {})
-
-  node.at('mode')?.on('settled', (v) => {
-    console.log('mode settled', v)
-  })
-})
-
-async function submit(FormData: unknown) {
-  console.log('submitHandler', FormData)
-  new Promise((r) => setTimeout(r, 2000))
+async function submitHandler(
+  specimen: { specimen: PlainSpecimen },
+  node: FormKitNode,
+) {
+  console.log({ specimen, node })
 }
 </script>
 
@@ -78,7 +67,7 @@ async function submit(FormData: unknown) {
       :actions="false"
       :plugins="[DirtyLabelPlugin]"
       validation-visibility="live"
-      @submit="submit"
+      @submit-handler="submitHandler"
     >
       <UCard
         class="min-w-2xl max-w-3xl"
@@ -127,7 +116,7 @@ async function submit(FormData: unknown) {
                 :label="`Collection: ${specimen?.collectionId}`"
               />
               <UBadge
-                v-if="specimen.primary?.catalogNumber"
+                v-if="specimen?.primary?.catalogNumber"
                 class="flex-grow"
                 color="red"
                 variant="solid"
@@ -135,7 +124,7 @@ async function submit(FormData: unknown) {
                   rounded: '',
                 }"
                 size="md"
-                :label="`Catalog Number: ${specimen.primary?.catalogNumber}`"
+                :label="`Catalog Number: ${specimen?.primary?.catalogNumber}`"
               />
             </div>
           </div>
@@ -155,7 +144,6 @@ async function submit(FormData: unknown) {
             }"
             :disabled="FormDisabled"
             input-class="w-full justify-center items-center flex"
-            @click="submit"
           >
             Send
           </FormKit>

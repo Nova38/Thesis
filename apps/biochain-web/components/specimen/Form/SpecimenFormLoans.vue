@@ -2,7 +2,7 @@
 import { ccbio } from '#imports'
 import { useFormKitContext } from '@formkit/vue'
 
-const loans = useFormKitContext('loans')
+const loans = useFormKitContext('specimen.loans')
 
 function addLoan() {
   console.log('addLoan', loans.value)
@@ -38,6 +38,11 @@ function addLoan() {
         type="button"
         label="Add Loan"
         @click="addLoan"
+        :outer-class="{
+            'max-w-[22em]': false,
+            'w-full': true,
+          }"
+        input-class="w-full justify-center items-center flex"
       />
       <FormKit
         v-slot="{ value }"
@@ -47,13 +52,15 @@ function addLoan() {
         <template v-for="(v, name) in value">
           <template v-if="typeof name === 'string'">
             <FormKit
+              :key="name"
               type="group"
+              #default="{value}"
               :name="name"
             >
               <div class="inline-flex flex-wrap gap-2">
                 <FormKit
                   type="text"
-                  :label="`Loan #${name}`"
+                  :label="`Loan: ${name}`"
                   name="id"
                   outer-class="min-w-20"
                 />
@@ -73,36 +80,13 @@ function addLoan() {
                   name="description"
                   label="Description"
                 />
-                <SpecimenFormDate name="loanedDate" />
+                <SpecimenFormDate v-if="value?.loanedDate" name="loanedDate" />
               </div>
             </FormKit>
+            <UDivider class="my-2"/>
           </template>
         </template>
-        <!-- <template v-for="(v, name) in value">
-          <template v-if="typeof name === 'string'">
-            <FormKit
-              type="group"
-              :id="name"
-              :name="name"
-            >
-              <div class="inline-flex gap-4">
-                <div
-                  class="inline-flex flex-row flex-wrap gap-1 justify-evenly"
-                >
-                  <FormKit
-                    type="text"
-                    name="id"
-                    id="id"
-                    label="id"
-                    outer-class="min-w-20"
-                  />
-                </div>
 
-                <div class="inline-flex flex-wrap gap-2"></div>
-              </div>
-            </FormKit>
-          </template>
-        </template> -->
       </FormKit>
     </PFieldset>
   </div>

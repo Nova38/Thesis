@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-// const { data, pending, error } = await useFetch(
-//   "/api/cc/collections/listCollections",
-// );
-
 import type { VerticalNavigationLink } from '#ui/types'
 
 const { data, error, pending } = await useCustomFetch(
@@ -19,6 +15,10 @@ const { data, error, pending } = await useCustomFetch(
     },
   },
 )
+
+
+
+
 
 const links = computed(() => {
   if (!data.value || data.value.length === 0 || error.value) {
@@ -54,11 +54,7 @@ const links = computed(() => {
         to: `${specimenBase}/bulk/import`,
         icon: 'carbon:data-bin',
       },
-      // {
-      //   label: 'Bulk Update',
-      //   to: `${specimenBase}/bulk/update`,
-      //   icon: 'carbon:data-backup',
-      // },
+
       {
         label: 'New Specimen',
         to: `${specimenBase}/New`,

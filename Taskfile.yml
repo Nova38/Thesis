@@ -1,19 +1,19 @@
 version: 3
 dotenv:
   - ".env"
-  - "./network/k8s/.env"
+  - "./infra/network/k8s/.env"
 
 includes:
   # network:
-  #   taskfile: ./network/Taskfile.yml
-  #   dir: ./network
+  #   taskfile: ./infra/network/Taskfile.yml
+  #   dir: ./infra/network
   # k8s:
-  #   taskfile: ./network/k8s/Taskfile.yml
-  #   dir: ./network/k8Hi
+  #   taskfile: ./infra/network/k8s/Taskfile.yml
+  #   dir: ./infra/network/k8Hi
 
   caliper:
-    taskfile: ./caliper/Taskfile.yml
-    dir: ./caliper
+    taskfile: ./apps/caliper/Taskfile.yml
+    dir: ./apps/caliper
 
 tasks:
   cleanup:node:modules:
@@ -21,7 +21,7 @@ tasks:
     cmds:
       - find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 
-  install:
+  install:proto:
     desc: |
       Install all the protoc plugins
 
@@ -34,17 +34,25 @@ tasks:
       - rm -rf ./lib/go/gen/*
       - rm -rf ./lib/es/gen/*
 
+  install:bin:
+    desc: |
+      Install all the binaries
+
+    cmds:
+      - bash -c "cd ./infra/network && curl -sSLO
+        https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh
+        && chmod +x install-fabric.sh && ./install-fabric.sh b d"
   net:up:
     desc: |
       Start the network
 
       up:
     cmds:
-      - bash -c "cd ./network && ./network.sh up createChannel -ca -s couchdb -c
-        mychannel"
-      - python ./network/scripts/build_configs.py
-      - docker-compose -f ./network/explorer/docker-compose.yaml up -d
-      - docker-compose -f ./network/prometheus-grafana/docker-compose.yaml up -d
+      - bash -c "cd ./infra/network && ./network.sh up createChannel -ca -s
+        couchdb -c mychannel"
+      - python ./infra/network/scripts/build_configs.py
+      - docker-compose -f ./infra/network/explorer/docker-compose.yaml up -d
+      - docker-compose -f ./infra/network/prometheus-grafana/docker-compose.yaml up -d
       - task: cc:deploy:biochain
 
   net:down:
@@ -52,10 +60,9 @@ tasks:
       Stop the network
 
     cmds:
-      - docker-compose -f ./network/explorer/docker-compose.yaml down -v
-      - docker-compose -f ./network/prometheus-grafana/docker-compose.yaml down
-        -v
-      - bash -c "cd ./network && ./network.sh down"
+      - docker-compose -f ./infra/network/explorer/docker-compose.yaml down -v
+      - docker-compose -f ./infra/network/prometheus-grafana/docker-compose.yaml down -v
+      - bash -c "cd ./infra/network && ./network.sh down"
 
   net:restart:
     desc: |
@@ -67,40 +74,45 @@ tasks:
 
   cc:reload:
     cmds:
-      - go mod tidy
+      # - go mod tidy
       - task: cc:build
-      - task: cc:redeploy
+      # - task: cc:redeploy
+      - task: cc:redeploy:biochain
 
   cc:deploy:
     desc: Deploy saacs-cc to the channel and start the saacs-cc container
     cmds:
       - buf generate
-      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
+      - for: ["saacs"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd:
-          bash -c "cd ./network && ./network.sh deployCCAAS -ccn {{ .ITEM }}
-          -ccp ../pkg/saacs-cc/ "
+          bash -c "cd ./infra/network && ./network.sh deployCCAAS -ccn {{
+          .ITEM }} -ccp ../../ "
 
-  cc:redeploy:
-    desc: Deploy Updated saacs-cc containers
-    cmds:
-      - for: ["noauth", "noauth-no-sub", "identity", "roles"]
-        # cmd: bash -c "echo {{ .ITEM }}"
-        cmd: bash -c "cd ./network && ./cc_restart/{{ .ITEM }}.sh "
+  # cc:redeploy:
+  #   desc: Deploy Updated saacs-cc containers
+  #   cmds:
+  #     - for: ["saacs"]
+  #       # cmd: bash -c "echo {{ .ITEM }}"
+  #       cmd: bash -c "cd ./infra/network && ./cc_restart/{{ .ITEM }}.sh "
 
-  cc:deploy:biochain:
-    desc: Deploy saacs-cc to the channel and start the saacs-cc container
-    cmds:
-      - buf generate
-      - cmd:
-          bash -c "cd ./network && ./network.sh deployCCAAS -ccn roles -ccp
-          ../pkg/saacs-cc/ "
+  # cc:deploy:biochain:
+  #   desc: Deploy saacs-cc to the channel and start the saacs-cc container
+  #   cmds:
+  #     - buf generate
+  #     - cmd:
+  #         bash -c "cd ./infra/network && ./network.sh deployCCAAS -ccn
+  #         roles -ccp ../../ "
+
   cc:redeploy:biochain:
     desc: Deploy saacs-cc to the channel and start the saacs-cc container
-    cmd: bash -c "cd ./network && ./cc_restart/roles.sh "
+    cmd: bash -c "./infra/network/cc_restart/roles.sh "
 
   cc:build:
-    cmd: docker build -t nova38/saacs:latest -f ./pkg/saacs-cc/Dockerfile .
+    cmds:
+      - docker build -t nova38/saacs:latest .
+      - docker tag nova38/saacs:latest saacs_ccaas:latest
+
 
   build:cc:push:
     cmds:
@@ -117,9 +129,9 @@ tasks:
   #es:run:
   #  dir: ./pkg/saacs-es
   #  cmd: pnpm run api
-  #build:es:
-  #  dir: ./pkg/saacs-es
-  #  cmd: pnpm run build
+  build:es:
+    dir: ./libs/saacs-protos-es
+    cmd: pnpm run build
 
   deploy:prod:api:
     dir: ./pkg/web
@@ -152,6 +164,13 @@ tasks:
   #   cmds:
   #     - bash -c "cd network && peer saacs-cc query -C default -n Thesis -c
   #       '{"Args":["org.hyperledger.fabric:GetMetadata"]}' "
+
+  build:protoc-saacs-es:
+    desc: Cleanup and build the libary needed for the protoc-gen-saacs-es to work
+    cmds:
+      - rm -rf ./cmd/protoc-gen-saacs-es/src/gen
+      - buf generate --template .\buf.cmd.gen.yaml
+
 
   default:
     sources:

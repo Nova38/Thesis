@@ -114,7 +114,7 @@ class GetWorkload extends WorkloadModuleBase {
 
         this.nextNum = (this.nextNum + 1) % this.numItems
 
-        const arg = new hlf.pb.common.generic.GetRequest({
+        const arg = new hlf.pb.pb.GetRequest({
             type: key.itemType,
             key: key,
         });
