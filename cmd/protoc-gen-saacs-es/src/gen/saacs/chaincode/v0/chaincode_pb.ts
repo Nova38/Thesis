@@ -883,6 +883,11 @@ export class HideTxRequest extends Message<HideTxRequest> {
    */
   hiddenTx?: HiddenTx;
 
+  /**
+   * @generated from field: bool for_msp = 3;
+   */
+  forMsp = false;
+
   constructor(data?: PartialMessage<HideTxRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -893,6 +898,7 @@ export class HideTxRequest extends Message<HideTxRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "key", kind: "message", T: ItemKey },
     { no: 2, name: "hidden_tx", kind: "message", T: HiddenTx },
+    { no: 3, name: "for_msp", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HideTxRequest {
@@ -926,6 +932,11 @@ export class HideTxResponse extends Message<HideTxResponse> {
    */
   hiddenTxs?: HiddenTxList;
 
+  /**
+   * @generated from field: bool for_msp = 3;
+   */
+  forMsp = false;
+
   constructor(data?: PartialMessage<HideTxResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -936,6 +947,7 @@ export class HideTxResponse extends Message<HideTxResponse> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "key", kind: "message", T: ItemKey },
     { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
+    { no: 3, name: "for_msp", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): HideTxResponse {
@@ -965,6 +977,11 @@ export class UnHideTxRequest extends Message<UnHideTxRequest> {
   key?: ItemKey;
 
   /**
+   * @generated from field: bool for_msp = 1;
+   */
+  forMsp = false;
+
+  /**
    * @generated from field: string tx_id = 2;
    */
   txId = "";
@@ -978,6 +995,7 @@ export class UnHideTxRequest extends Message<UnHideTxRequest> {
   static readonly typeName = "saacs.chaincode.v0.UnHideTxRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 3, name: "key", kind: "message", T: ItemKey },
+    { no: 1, name: "for_msp", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
     { no: 2, name: "tx_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
   ]);
 
@@ -1012,6 +1030,11 @@ export class UnHideTxResponse extends Message<UnHideTxResponse> {
    */
   hiddenTxs?: HiddenTxList;
 
+  /**
+   * @generated from field: bool for_msp = 3;
+   */
+  forMsp = false;
+
   constructor(data?: PartialMessage<UnHideTxResponse>) {
     super();
     proto3.util.initPartial(data, this);
@@ -1022,6 +1045,7 @@ export class UnHideTxResponse extends Message<UnHideTxResponse> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "key", kind: "message", T: ItemKey },
     { no: 2, name: "hidden_txs", kind: "message", T: HiddenTxList },
+    { no: 3, name: "for_msp", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): UnHideTxResponse {

@@ -1,1 +1,1 @@
-export * from "./attribute_pb.js"
+export * from './attribute_pb.js'

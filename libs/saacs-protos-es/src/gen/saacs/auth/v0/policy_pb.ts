@@ -3,9 +3,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
-import { Action } from "../../common/v0/enums_pb.js";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf'
+import { Message, proto3 } from '@bufbuild/protobuf'
+import { Action } from '../../common/v0/enums_pb.js'
 
 /**
  * @generated from message saacs.auth.v0.Polices
@@ -16,49 +23,73 @@ export class Polices extends Message<Polices> {
    *
    * @generated from field: map<string, saacs.auth.v0.PathPolicy> item_policies = 1;
    */
-  itemPolicies: { [key: string]: PathPolicy } = {};
+  itemPolicies: { [key: string]: PathPolicy } = {}
 
   /**
    * Default policy for all items
    *
    * @generated from field: saacs.auth.v0.PathPolicy default_policy = 2;
    */
-  defaultPolicy?: PathPolicy;
+  defaultPolicy?: PathPolicy
 
   /**
    * The types that are excluded from the default policy
    *
    * @generated from field: repeated string default_excluded_types = 3;
    */
-  defaultExcludedTypes: string[] = [];
+  defaultExcludedTypes: string[] = []
 
   constructor(data?: PartialMessage<Polices>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.auth.v0.Polices";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.auth.v0.Polices'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "item_policies", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
-    { no: 2, name: "default_policy", kind: "message", T: PathPolicy },
-    { no: 3, name: "default_excluded_types", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-  ]);
+    {
+      no: 1,
+      name: 'item_policies',
+      kind: 'map',
+      K: 9 /* ScalarType.STRING */,
+      V: { kind: 'message', T: PathPolicy },
+    },
+    { no: 2, name: 'default_policy', kind: 'message', T: PathPolicy },
+    {
+      no: 3,
+      name: 'default_excluded_types',
+      kind: 'scalar',
+      T: 9 /* ScalarType.STRING */,
+      repeated: true,
+    },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Polices {
-    return new Polices().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): Polices {
+    return new Polices().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Polices {
-    return new Polices().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): Polices {
+    return new Polices().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Polices {
-    return new Polices().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): Polices {
+    return new Polices().fromJsonString(jsonString, options)
   }
 
-  static equals(a: Polices | PlainMessage<Polices> | undefined, b: Polices | PlainMessage<Polices> | undefined): boolean {
-    return proto3.util.equals(Polices, a, b);
+  static equals(
+    a: Polices | PlainMessage<Polices> | undefined,
+    b: Polices | PlainMessage<Polices> | undefined,
+  ): boolean {
+    return proto3.util.equals(Polices, a, b)
   }
 }
 
@@ -73,60 +104,89 @@ export class PathPolicy extends Message<PathPolicy> {
    *
    * @generated from field: string path = 1;
    */
-  path = "";
+  path = ''
 
   /**
    * @generated from field: string full_path = 2;
    */
-  fullPath = "";
+  fullPath = ''
 
   /**
    * @generated from field: bool allow_sub_paths = 3;
    */
-  allowSubPaths = false;
+  allowSubPaths = false
 
   /**
    * The key is a valid sub path in the type of state item
    *
    * @generated from field: map<string, saacs.auth.v0.PathPolicy> sub_paths = 4;
    */
-  subPaths: { [key: string]: PathPolicy } = {};
+  subPaths: { [key: string]: PathPolicy } = {}
 
   /**
    * If the policy is not set than use a parent policy unless nested policy is set
    *
    * @generated from field: repeated saacs.common.v0.Action actions = 5;
    */
-  actions: Action[] = [];
+  actions: Action[] = []
 
   constructor(data?: PartialMessage<PathPolicy>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.auth.v0.PathPolicy";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.auth.v0.PathPolicy'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "full_path", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "allow_sub_paths", kind: "scalar", T: 8 /* ScalarType.BOOL */ },
-    { no: 4, name: "sub_paths", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "message", T: PathPolicy} },
-    { no: 5, name: "actions", kind: "enum", T: proto3.getEnumType(Action), repeated: true },
-  ]);
+    { no: 1, name: 'path', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'full_path', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    {
+      no: 3,
+      name: 'allow_sub_paths',
+      kind: 'scalar',
+      T: 8 /* ScalarType.BOOL */,
+    },
+    {
+      no: 4,
+      name: 'sub_paths',
+      kind: 'map',
+      K: 9 /* ScalarType.STRING */,
+      V: { kind: 'message', T: PathPolicy },
+    },
+    {
+      no: 5,
+      name: 'actions',
+      kind: 'enum',
+      T: proto3.getEnumType(Action),
+      repeated: true,
+    },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): PathPolicy {
-    return new PathPolicy().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): PathPolicy {
+    return new PathPolicy().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): PathPolicy {
-    return new PathPolicy().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): PathPolicy {
+    return new PathPolicy().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): PathPolicy {
-    return new PathPolicy().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): PathPolicy {
+    return new PathPolicy().fromJsonString(jsonString, options)
   }
 
-  static equals(a: PathPolicy | PlainMessage<PathPolicy> | undefined, b: PathPolicy | PlainMessage<PathPolicy> | undefined): boolean {
-    return proto3.util.equals(PathPolicy, a, b);
+  static equals(
+    a: PathPolicy | PlainMessage<PathPolicy> | undefined,
+    b: PathPolicy | PlainMessage<PathPolicy> | undefined,
+  ): boolean {
+    return proto3.util.equals(PathPolicy, a, b)
   }
 }

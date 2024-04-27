@@ -1,17 +1,12 @@
-import { fakerEN_US } from '@faker-js/faker';
+import { fakerEN_US } from '@faker-js/faker'
 
 // // import { samplepb } from '../gen/saacs-cc/sample/v0/items_pb';
 
-import { Timestamp } from '@bufbuild/protobuf';
+import { Timestamp } from '@bufbuild/protobuf'
 
 // import { auth } from '../gen';
 // import { ccbio } from '../gen';
 // import { sample } from '../gen';
-
-
-
-
-
 
 // export function MakeSpecimen(seed: number[], collectionId: string, id: string): ccbio.state.Specimen {
 //     const faker = fakerEN_US;
@@ -32,8 +27,6 @@ import { Timestamp } from '@bufbuild/protobuf';
 
 //     return specimen;
 // }
-
-
 
 // import { Book, Degree } from '../gen/saacs-cc/sample/v0/items_pb';
 
@@ -71,7 +64,6 @@ import { Timestamp } from '@bufbuild/protobuf';
 
 // // }
 
-
 // // function MakeAuthor(seed: number[], collectionId: string): samplepb.Author{
 // //     const faker = fakerEN_US;
 // //     faker.seed(seed);
@@ -83,7 +75,6 @@ import { Timestamp } from '@bufbuild/protobuf';
 // //         books: MakeBooks(seed, collectionId),
 // //         degrees: MakeDegrees(seed, collectionId),
 // //     });
-
 
 // //     return author;
 

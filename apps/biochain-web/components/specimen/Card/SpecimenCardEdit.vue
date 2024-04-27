@@ -15,7 +15,29 @@ const toast = useToast()
 const mode = ref<FormMode>('view')
 const headerColor = computed(() => toModeColor(mode.value ?? 'view'))
 const FormDisabled = computed(() => mode.value === 'view')
-
+const modeOptions = ref([
+  {
+    label: 'View',
+    value: 'view' as FormMode,
+    attrs: {
+      'data-mode': 'view',
+    },
+  },
+  {
+    label: 'Update',
+    value: 'update' as FormMode,
+    attrs: {
+      mode: 'update',
+    },
+  },
+  {
+    label: 'Suggest',
+    value: 'suggest' as FormMode,
+    attrs: {
+      mode: 'suggest',
+    },
+  },
+])
 const props = withDefaults(
   defineProps<{
     collectionId: string
@@ -30,15 +52,9 @@ const FormId = computed(
   () => `${props.formPrefix}-${props.collectionId}-${props.specimenId}-form`,
 )
 
-const [zodPlugin, submitHandler] = createZodPlugin(zodSchema, (formData) => {
-  console.log(formData)
-  const x = new pb.Specimen(formData.specimen)
-  console.log(x.toJsonString({ emitDefaultValues: true }))
-})
-
 const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
 const { isSuccess, data } = useQuery({
-  queryKey: [props.collectionId],
+  queryKey: ['specimen', props.collectionId, props.specimenId],
   queryFn: async () => {
     const raw = await $fetch('/api/cc/specimens/get', {
       query: {
@@ -57,15 +73,14 @@ const { isSuccess, data } = useQuery({
   },
 })
 
-useMutation({
-  mutationFn: async (specimen: PlainSpecimen) => {
-    const x = new pb.Specimen(specimen)
-    console.log(x.toJsonString({ emitDefaultValues: true }))
-    return specimen
-  },
+const { mutate } = useMutation({
+  mutationFn: (specimen: PlainSpecimen) =>
+    $fetch('/api/cc/specimens/update', {
+      method: 'POST',
+      body: new pb.Specimen(specimen),
+    }),
+
   onMutate: async (formData: PlainSpecimen) => {
-    const x = new pb.Specimen(formData)
-    console.log(x.toJsonString({ emitDefaultValues: true }))
     return formData
   },
   onSuccess: async (formData) => {
@@ -74,6 +89,7 @@ useMutation({
       description: JSON.stringify(formData),
     })
     console.log(formData)
+    reset(FormId.value, formData)
   },
 })
 
@@ -81,11 +97,11 @@ onMounted(() => {
   reset(FormId.value, data)
 })
 
-const submit = () => {
-  console.log('submitForm')
-  submitForm(FormId.value)
-}
-
+const [zodPlugin, submitHandler] = createZodPlugin(zodSchema, (formData) => {
+  console.log(formData)
+  const s = new pb.Specimen(formData.specimen)
+  return mutate(s)
+})
 // const { _data, refresh } = await useFetch('/api/cc/specimens/get', {
 //   query: {
 //     collectionId: props.collectionId,
@@ -128,7 +144,25 @@ const submit = () => {
     >
       <template #header>
         <div>
-          <div>
+          <FormKit
+            v-model="mode"
+            type="radio"
+            :options="modeOptions"
+            :classes="{
+              wrapper: 'group/wrapper',
+              options: 'grid grid-cols-3 items-stretch ',
+              option:
+                '$reset group/option  relative border formkit-checked:border-none    border-none  text-center dark:bg-gray-900 ',
+              outer: '$reset group dark:bg-gray-900 w-full grow px-0 py-0',
+              decorator:
+                '$reset absolute top-0 left-0 right-0 bottom-0  group-data-[checked=true]/wrapper:bg-gray-700/25 dark:group-data-[checked=true]/wrapper:bg-gray-100/50',
+              decoratorIcon: '$reset hidden',
+              label: '!text-md',
+              help: '$reset hidden',
+            }"
+          />
+
+          <!-- <div>
             <UButton
               label="View"
               @click="
@@ -153,7 +187,7 @@ const submit = () => {
                 }
               "
             />
-          </div>
+          </div> -->
           <UDivider />
 
           <div class="flex flex-row p-4">

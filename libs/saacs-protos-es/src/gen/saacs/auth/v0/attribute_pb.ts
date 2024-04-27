@@ -3,9 +3,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3 } from "@bufbuild/protobuf";
-import { Polices } from "./policy_pb.js";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf'
+import { Message, proto3 } from '@bufbuild/protobuf'
+import { Polices } from './policy_pb.js'
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────────
@@ -18,21 +25,21 @@ export class Attribute extends Message<Attribute> {
   /**
    * @generated from field: string collection_id = 1;
    */
-  collectionId = "";
+  collectionId = ''
 
   /**
    * The msp of the organization that this attribute applies to
    *
    * @generated from field: string msp_id = 2;
    */
-  mspId = "";
+  mspId = ''
 
   /**
    * The oid of the attribute
    *
    * @generated from field: string oid = 3;
    */
-  oid = "";
+  oid = ''
 
   /**
    * The value of the attribute required to be satisfied by the user to have the
@@ -40,43 +47,60 @@ export class Attribute extends Message<Attribute> {
    *
    * @generated from field: string value = 4;
    */
-  value = "";
+  value = ''
 
   /**
    * The Permission that the user will have if they have the attribute
    *
    * @generated from field: saacs.auth.v0.Polices polices = 5;
    */
-  polices?: Polices;
+  polices?: Polices
 
   constructor(data?: PartialMessage<Attribute>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.auth.v0.Attribute";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.auth.v0.Attribute'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "polices", kind: "message", T: Polices },
-  ]);
+    {
+      no: 1,
+      name: 'collection_id',
+      kind: 'scalar',
+      T: 9 /* ScalarType.STRING */,
+    },
+    { no: 2, name: 'msp_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'oid', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: 'value', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: 'polices', kind: 'message', T: Polices },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Attribute {
-    return new Attribute().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): Attribute {
+    return new Attribute().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Attribute {
-    return new Attribute().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): Attribute {
+    return new Attribute().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Attribute {
-    return new Attribute().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): Attribute {
+    return new Attribute().fromJsonString(jsonString, options)
   }
 
-  static equals(a: Attribute | PlainMessage<Attribute> | undefined, b: Attribute | PlainMessage<Attribute> | undefined): boolean {
-    return proto3.util.equals(Attribute, a, b);
+  static equals(
+    a: Attribute | PlainMessage<Attribute> | undefined,
+    b: Attribute | PlainMessage<Attribute> | undefined,
+  ): boolean {
+    return proto3.util.equals(Attribute, a, b)
   }
 }

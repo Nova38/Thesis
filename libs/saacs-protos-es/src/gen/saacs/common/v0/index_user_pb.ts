@@ -1,1 +1,1 @@
-export * from "./user_pb.js"
+export * from './user_pb.js'

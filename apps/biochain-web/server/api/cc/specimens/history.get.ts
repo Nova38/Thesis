@@ -40,7 +40,9 @@ export default defineEventHandler(async (event) => {
     // console.log(result.toJsonString({ typeRegistry: GlobalRegistry }));
     const history = new ccbio.SpecimenHistory({})
 
-    if (!result.history) return { results: [] }
+    if (!result.history) {
+      return history
+    }
 
     for (const item of result.history.entries) {
       const s = new ccbio.Specimen()

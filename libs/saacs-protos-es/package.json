@@ -58,10 +58,11 @@
   "module": "./dist/index.mjs",
   "scripts": {
     "api": "ts-node ./src/api/main.ts",
-    "prepare": "pnpm run build",
+    "prepare": "pnpm format && pnpm run build",
     "build": "unbuild",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
+    "format": "prettier ./src --write",
     "dev": "vitest dev",
     "play": "jiti playground",
     "postinstall": "pnpm run build",

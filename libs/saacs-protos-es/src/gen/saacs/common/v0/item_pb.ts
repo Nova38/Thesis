@@ -3,9 +3,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Any, FieldMask, Message, proto3 } from "@bufbuild/protobuf";
-import { ItemKind } from "./enums_pb.js";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf'
+import { Any, FieldMask, Message, proto3 } from '@bufbuild/protobuf'
+import { ItemKind } from './enums_pb.js'
 
 /**
  * Keys
@@ -33,51 +40,74 @@ export class ItemKey extends Message<ItemKey> {
   /**
    * @generated from field: string collection_id = 1;
    */
-  collectionId = "";
+  collectionId = ''
 
   /**
    * @generated from field: string item_type = 2;
    */
-  itemType = "";
+  itemType = ''
 
   /**
    * @generated from field: saacs.common.v0.ItemKind item_kind = 3;
    */
-  itemKind = ItemKind.UNSPECIFIED;
+  itemKind = ItemKind.UNSPECIFIED
 
   /**
    * @generated from field: repeated string item_key_parts = 4;
    */
-  itemKeyParts: string[] = [];
+  itemKeyParts: string[] = []
 
   constructor(data?: PartialMessage<ItemKey>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.common.v0.ItemKey";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.common.v0.ItemKey'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "item_kind", kind: "enum", T: proto3.getEnumType(ItemKind) },
-    { no: 4, name: "item_key_parts", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
-  ]);
+    {
+      no: 1,
+      name: 'collection_id',
+      kind: 'scalar',
+      T: 9 /* ScalarType.STRING */,
+    },
+    { no: 2, name: 'item_type', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: 'item_kind', kind: 'enum', T: proto3.getEnumType(ItemKind) },
+    {
+      no: 4,
+      name: 'item_key_parts',
+      kind: 'scalar',
+      T: 9 /* ScalarType.STRING */,
+      repeated: true,
+    },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ItemKey {
-    return new ItemKey().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): ItemKey {
+    return new ItemKey().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ItemKey {
-    return new ItemKey().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): ItemKey {
+    return new ItemKey().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ItemKey {
-    return new ItemKey().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): ItemKey {
+    return new ItemKey().fromJsonString(jsonString, options)
   }
 
-  static equals(a: ItemKey | PlainMessage<ItemKey> | undefined, b: ItemKey | PlainMessage<ItemKey> | undefined): boolean {
-    return proto3.util.equals(ItemKey, a, b);
+  static equals(
+    a: ItemKey | PlainMessage<ItemKey> | undefined,
+    b: ItemKey | PlainMessage<ItemKey> | undefined,
+  ): boolean {
+    return proto3.util.equals(ItemKey, a, b)
   }
 }
 
@@ -88,39 +118,51 @@ export class Item extends Message<Item> {
   /**
    * @generated from field: saacs.common.v0.ItemKey key = 1;
    */
-  key?: ItemKey;
+  key?: ItemKey
 
   /**
    * @generated from field: google.protobuf.Any value = 2;
    */
-  value?: Any;
+  value?: Any
 
   constructor(data?: PartialMessage<Item>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.common.v0.Item";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.common.v0.Item'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "key", kind: "message", T: ItemKey },
-    { no: 2, name: "value", kind: "message", T: Any },
-  ]);
+    { no: 1, name: 'key', kind: 'message', T: ItemKey },
+    { no: 2, name: 'value', kind: 'message', T: Any },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Item {
-    return new Item().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): Item {
+    return new Item().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Item {
-    return new Item().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): Item {
+    return new Item().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Item {
-    return new Item().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): Item {
+    return new Item().fromJsonString(jsonString, options)
   }
 
-  static equals(a: Item | PlainMessage<Item> | undefined, b: Item | PlainMessage<Item> | undefined): boolean {
-    return proto3.util.equals(Item, a, b);
+  static equals(
+    a: Item | PlainMessage<Item> | undefined,
+    b: Item | PlainMessage<Item> | undefined,
+  ): boolean {
+    return proto3.util.equals(Item, a, b)
   }
 }
 
@@ -133,49 +175,61 @@ export class KeySchema extends Message<KeySchema> {
    *
    * @generated from field: string item_type = 1;
    */
-  itemType = "";
+  itemType = ''
 
   /**
    * The kind of item that the key is for
    *
    * @generated from field: saacs.common.v0.ItemKind item_kind = 2;
    */
-  itemKind = ItemKind.UNSPECIFIED;
+  itemKind = ItemKind.UNSPECIFIED
 
   /**
    * The paths that make up the key
    *
    * @generated from field: google.protobuf.FieldMask properties = 3;
    */
-  properties?: FieldMask;
+  properties?: FieldMask
 
   constructor(data?: PartialMessage<KeySchema>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.common.v0.KeySchema";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.common.v0.KeySchema'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "item_kind", kind: "enum", T: proto3.getEnumType(ItemKind) },
-    { no: 3, name: "properties", kind: "message", T: FieldMask },
-  ]);
+    { no: 1, name: 'item_type', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: 'item_kind', kind: 'enum', T: proto3.getEnumType(ItemKind) },
+    { no: 3, name: 'properties', kind: 'message', T: FieldMask },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeySchema {
-    return new KeySchema().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): KeySchema {
+    return new KeySchema().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): KeySchema {
-    return new KeySchema().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): KeySchema {
+    return new KeySchema().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): KeySchema {
-    return new KeySchema().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): KeySchema {
+    return new KeySchema().fromJsonString(jsonString, options)
   }
 
-  static equals(a: KeySchema | PlainMessage<KeySchema> | undefined, b: KeySchema | PlainMessage<KeySchema> | undefined): boolean {
-    return proto3.util.equals(KeySchema, a, b);
+  static equals(
+    a: KeySchema | PlainMessage<KeySchema> | undefined,
+    b: KeySchema | PlainMessage<KeySchema> | undefined,
+  ): boolean {
+    return proto3.util.equals(KeySchema, a, b)
   }
 }
 
@@ -186,38 +240,50 @@ export class ReadWriteSet extends Message<ReadWriteSet> {
   /**
    * @generated from field: repeated saacs.common.v0.Item read_set = 1;
    */
-  readSet: Item[] = [];
+  readSet: Item[] = []
 
   /**
    * @generated from field: repeated saacs.common.v0.Item write_set = 2;
    */
-  writeSet: Item[] = [];
+  writeSet: Item[] = []
 
   constructor(data?: PartialMessage<ReadWriteSet>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.common.v0.ReadWriteSet";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.common.v0.ReadWriteSet'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "read_set", kind: "message", T: Item, repeated: true },
-    { no: 2, name: "write_set", kind: "message", T: Item, repeated: true },
-  ]);
+    { no: 1, name: 'read_set', kind: 'message', T: Item, repeated: true },
+    { no: 2, name: 'write_set', kind: 'message', T: Item, repeated: true },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ReadWriteSet {
-    return new ReadWriteSet().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): ReadWriteSet {
+    return new ReadWriteSet().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ReadWriteSet {
-    return new ReadWriteSet().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): ReadWriteSet {
+    return new ReadWriteSet().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ReadWriteSet {
-    return new ReadWriteSet().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): ReadWriteSet {
+    return new ReadWriteSet().fromJsonString(jsonString, options)
   }
 
-  static equals(a: ReadWriteSet | PlainMessage<ReadWriteSet> | undefined, b: ReadWriteSet | PlainMessage<ReadWriteSet> | undefined): boolean {
-    return proto3.util.equals(ReadWriteSet, a, b);
+  static equals(
+    a: ReadWriteSet | PlainMessage<ReadWriteSet> | undefined,
+    b: ReadWriteSet | PlainMessage<ReadWriteSet> | undefined,
+  ): boolean {
+    return proto3.util.equals(ReadWriteSet, a, b)
   }
 }

@@ -172,6 +172,11 @@ export enum Action {
    * @generated from enum value: ACTION_UNHIDE_MSP_TX = 23;
    */
   UNHIDE_MSP_TX = 23,
+
+  /**
+   * @generated from enum value: ACTION_VIEW_MSP_HIDDEN_TX = 24;
+   */
+  VIEW_MSP_HIDDEN_TX = 24,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Action)
 proto3.util.setEnumType(Action, "saacs.common.v0.Action", [
@@ -191,4 +196,5 @@ proto3.util.setEnumType(Action, "saacs.common.v0.Action", [
   { no: 21, name: "ACTION_UNHIDE_TX" },
   { no: 22, name: "ACTION_HIDE_MSP_TX" },
   { no: 23, name: "ACTION_UNHIDE_MSP_TX" },
+  { no: 24, name: "ACTION_VIEW_MSP_HIDDEN_TX" },
 ]);

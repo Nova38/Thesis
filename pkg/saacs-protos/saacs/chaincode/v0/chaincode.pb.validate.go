@@ -3093,6 +3093,8 @@ func (m *HideTxRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ForMsp
+
 	if len(errors) > 0 {
 		return HideTxRequestMultiError(errors)
 	}
@@ -3251,6 +3253,8 @@ func (m *HideTxResponse) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ForMsp
+
 	if len(errors) > 0 {
 		return HideTxResponseMultiError(errors)
 	}
@@ -3379,6 +3383,8 @@ func (m *UnHideTxRequest) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for ForMsp
 
 	// no validation rules for TxId
 
@@ -3539,6 +3545,8 @@ func (m *UnHideTxResponse) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for ForMsp
 
 	if len(errors) > 0 {
 		return UnHideTxResponseMultiError(errors)

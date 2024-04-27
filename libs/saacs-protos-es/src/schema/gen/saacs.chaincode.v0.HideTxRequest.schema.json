@@ -3,6 +3,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "for_msp": {
+      "type": "boolean"
+    },
     "hidden_tx": {
       "$ref": "saacs.common.v0.HiddenTx.schema.json"
     },

@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import { type PlainSpecimen, ccbio, pb } from '#imports'
-import { Timestamp, createRegistry, toPlainMessage } from '@bufbuild/protobuf'
-import { keys } from 'radash'
-import { useFormKitNodeById } from '@formkit/vue'
-import SpecimenEditCard from '~/components/specimen/SpecimenEditCard.vue'
-import type { AsyncDataRequestStatus } from '#app/composables/asyncData'
+import { ccbio, pb } from '#imports'
 
 import type { PlainMessage } from '@bufbuild/protobuf'
 
@@ -16,10 +11,6 @@ const history = ref<PlainMessage<pb.SpecimenHistory>>(
 
 const specimenId = computed(() => route.params?.specimenId.toString() ?? '')
 const collectionId = computed(() => route.params?.collectionId.toString() ?? '')
-
-const modeCapitalized = computed(
-  () => mode.value[0].toUpperCase() + mode.value.slice(1),
-)
 
 // const specimen =  await $fetch(`/api/cc/specimens/get`)
 
@@ -42,8 +33,6 @@ const getHistory = await useCustomFetch<ccbio.Specimen>(
     },
   },
 )
-
-const mode: Ref<FormMode> = ref('view')
 
 // const specimen = ref<PlainSpecimen>(dirty.value)
 
@@ -92,32 +81,6 @@ const mode: Ref<FormMode> = ref('view')
 //     console.error(error)
 //   }
 // }
-const headerColor = computed(() => toModeColor(mode.value))
-
-const FormDisabled = computed(() => mode.value === 'view')
-const modeOptions = ref([
-  {
-    label: 'View',
-    value: 'view' as FormMode,
-    attrs: {
-      'data-mode': 'view',
-    },
-  },
-  {
-    label: 'Update',
-    value: 'update' as FormMode,
-    attrs: {
-      mode: 'update',
-    },
-  },
-  {
-    label: 'Suggest',
-    value: 'suggest' as FormMode,
-    attrs: {
-      mode: 'suggest',
-    },
-  },
-])
 </script>
 
 <template>
@@ -133,18 +96,6 @@ const modeOptions = ref([
       <UCard>
         <template #header>
           <div class="flex flex-row items-center justify-center text-lg">
-            History
-          </div>
-        </template>
-        <SpecimenTimeline
-          v-if="history"
-          :history="history"
-          class="basis-size-1/4"
-        />
-      </UCard>
-      <UCard>
-        <template #header>
-          <div class="flex flex-row items-center justify-center text-lg">
             Suggestions
           </div>
         </template>
@@ -154,21 +105,3 @@ const modeOptions = ref([
 </template>
 
 <style></style>
-
-<!-- <FormKit
-                v-model="
-                type="radio"
-                :options="modeOptions"
-                :classes="{
-                  wrapper: 'group/wrapper',
-                  options: 'grid grid-cols-3 items-stretch ',
-                  option:
-                    '$reset group/option  relative border formkit-checked:border-none    border-none  text-center dark:bg-gray-900 ',
-                  outer: '$reset group dark:bg-gray-900 w-full grow px-0 py-0',
-                  decorator:
-                    '$reset absolute top-0 left-0 right-0 bottom-0  group-data-[checked=true]/wrapper:bg-gray-700/25 dark:group-data-[checked=true]/wrapper:bg-gray-100/50',
-                  decoratorIcon: '$reset hidden',
-                  label: '!text-md',
-                  help: '$reset hidden',
-                }"
-              />-->

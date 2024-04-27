@@ -38,6 +38,9 @@ importers:
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
+      '@saacs/client':
+        specifier: workspace:../../libs/client
+        version: link:../../libs/client
       '@saacs/saacs-pb':
         specifier: workspace:../../libs/saacs-protos-es
         version: link:../../libs/saacs-protos-es
