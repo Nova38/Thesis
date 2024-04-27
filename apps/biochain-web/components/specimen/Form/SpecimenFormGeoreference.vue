@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-
 const collapsed = defineModel<boolean>('collapsed', {
   default: false,
 })
-
 </script>
 
 <template>
@@ -15,9 +13,9 @@ const collapsed = defineModel<boolean>('collapsed', {
     >
       <FormKit
         id="georeference"
+        v-slot="{ value }"
         type="group"
         name="georeference"
-        #default="{value}"
       >
         <div
           class="grid grid-cols-1 content-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
@@ -124,7 +122,10 @@ const collapsed = defineModel<boolean>('collapsed', {
             outer-class="min-w-50"
           />
 
-          <SpecimenFormDate v-if="value?.georeferenceDate" name="georeferenceDate" />
+          <SpecimenFormDate
+            v-if="value?.georeferenceDate"
+            name="georeferenceDate"
+          />
 
           <UDivider class="col-span-full col-start-1" />
 

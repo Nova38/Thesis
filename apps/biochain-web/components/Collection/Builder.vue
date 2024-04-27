@@ -2,44 +2,48 @@
 
 <template>
   <div>
-    <FormKit
-      type="form"
-      :actions="false"
-    >
+    <UCard>
       <FormKit
-        type="multi-step"
-        tab-style="tab"
+        type="form"
+        class="w-full"
+        :actions="false"
       >
         <FormKit
-          type="step"
-          name="personalInfo"
+          type="multi-step"
+          class="w-full"
+          tab-style="progress"
         >
-          <!-- component for example brevity. -->
-          <StepOne />
-        </FormKit>
+          <FormKit
+            type="step"
+            name="Collection Information"
+          >
+            <!-- component for example brevity. -->
+            <StepOne />
+          </FormKit>
 
-        <FormKit
-          type="step"
-          name="references"
-        >
-          <!-- component for example brevity. -->
-          <StepTwo />
-        </FormKit>
+          <FormKit
+            type="step"
+            name="Roles"
+          >
+            <!-- component for example brevity. -->
+            <StepTwo />
+          </FormKit>
 
-        <FormKit
-          type="step"
-          name="Supplemental"
-        >
-          <!-- component for example brevity. -->
-          <StepThree />
+          <FormKit
+            type="step"
+            name="Users"
+          >
+            <!-- component for example brevity. -->
+            <StepThree />
 
-          <!-- using step slot for submit button-->
-          <template #stepNext>
-            <FormKit type="submit" />
-          </template>
+            <!-- using step slot for submit button-->
+            <template #stepNext>
+              <FormKit type="submit" />
+            </template>
+          </FormKit>
         </FormKit>
       </FormKit>
-    </FormKit>
+    </UCard>
   </div>
 </template>
 

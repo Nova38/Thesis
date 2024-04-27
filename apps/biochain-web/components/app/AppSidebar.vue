@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { VerticalNavigationLink } from '#ui/types'
 
-const { data, error, pending } = await useCustomFetch(
+const { data, error } = await useCustomFetch(
   '/api/cc/collections/listCollections',
   {
     transform: (data) => {
@@ -15,10 +15,6 @@ const { data, error, pending } = await useCustomFetch(
     },
   },
 )
-
-
-
-
 
 const links = computed(() => {
   if (!data.value || data.value.length === 0 || error.value) {
@@ -51,7 +47,7 @@ const links = computed(() => {
       },
       {
         label: 'Bulk Process',
-        to: `${specimenBase}/bulk/import`,
+        to: `${specimenBase}/bulk`,
         icon: 'carbon:data-bin',
       },
 
@@ -66,7 +62,12 @@ const links = computed(() => {
 </script>
 
 <template>
-  <div class="min-w-40">
+  <div class="flex min-w-40 flex-col">
+    <UButton
+      block
+      label="Create Collection"
+      to="/NewCollection"
+    />
     <UVerticalNavigation
       :links="links"
       :ui="{

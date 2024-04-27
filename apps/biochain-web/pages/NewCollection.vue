@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 definePageMeta({
-  key(route) {
-    return route.fullPath
-  },
-  layout: 'auth',
+  // auth: true,
 })
 </script>
 
 <template>
-  <div>hello</div>
+  <div class="container">
+    <CollectionBuilder />
+  </div>
 </template>
 
 <style></style>

@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import { toPlainMessage } from '@bufbuild/protobuf'
 import type { FormKitNode } from '@formkit/core'
-import { reset } from '@formkit/core'
+import { reset, submitForm } from '@formkit/core'
 import { useQueryClient, useQuery, useMutation } from '@tanstack/vue-query'
 
 import { createZodPlugin } from '@formkit/zod'
-// const zodSchema = z.object({
+import { z } from 'zod'
+const zodSchema = z.object({
+  specimen: ZSpecimen,
+})
+
 const toast = useToast()
 
 const mode = ref<FormMode>('view')
@@ -26,7 +30,14 @@ const FormId = computed(
   () => `${props.formPrefix}-${props.collectionId}-${props.specimenId}-form`,
 )
 
-const { _status, data, _error } = useQuery({
+const [zodPlugin, submitHandler] = createZodPlugin(zodSchema, (formData) => {
+  console.log(formData)
+  const x = new pb.Specimen(formData.specimen)
+  console.log(x.toJsonString({ emitDefaultValues: true }))
+})
+
+const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
+const { isSuccess, data } = useQuery({
   queryKey: [props.collectionId],
   queryFn: async () => {
     const raw = await $fetch('/api/cc/specimens/get', {
@@ -35,12 +46,18 @@ const { _status, data, _error } = useQuery({
         specimenId: props.specimenId,
       },
     })
+    toast.add({
+      title: 'Specimen loaded',
+      id: 'specimen-status',
+      timeout: 5000,
+      icon: 'line-md:square-to-confirm-square-transition',
+    })
     reset(FormId.value, { specimen: raw })
     return raw
   },
 })
 
-const mutation = useMutation({
+useMutation({
   mutationFn: async (specimen: PlainSpecimen) => {
     const x = new pb.Specimen(specimen)
     console.log(x.toJsonString({ emitDefaultValues: true }))
@@ -64,13 +81,38 @@ onMounted(() => {
   reset(FormId.value, data)
 })
 
-const [zodPlugin, submitHandler] = createZodPlugin(
-  ZSpecimen,
-  async (formData) => {
-    mutation.mutate(formData)
-  },
-)
-const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
+const submit = () => {
+  console.log('submitForm')
+  submitForm(FormId.value)
+}
+
+// const { _data, refresh } = await useFetch('/api/cc/specimens/get', {
+//   query: {
+//     collectionId: props.collectionId,
+//     specimenId: props.specimenId,
+//   },
+//   onResponse({ response }) {
+//     console.log(response)
+//     if (response.ok) {
+//       console.log(response._data)
+//       // reset(FormId.value, { specimen: ZSpecimen.parse(response._data) })
+//       toast.add({
+//         title: 'Specimen loaded',
+//         id: 'specimen-status',
+//         timeout: 5000,
+//         icon: 'line-md:square-to-confirm-square-transition',
+//       })
+//     }
+//   },
+//   onResponseError({ request, response, options }) {
+//     toast.add({
+//       title: 'Specimen Failed to load',
+//       id: 'specimen-status',
+//       timeout: 5000,
+//       icon: 'line-md:alert',
+//     })
+//   },
+// })
 </script>
 
 <template>
@@ -115,7 +157,7 @@ const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
           <UDivider />
 
           <div class="flex flex-row p-4">
-            {{ specimen?.taxon?.genus }}
+            {{ data?.taxon?.genus }}
             {{ specimen?.taxon?.species }}
           </div>
           <div class="flex flex-grow flex-row">
@@ -154,18 +196,19 @@ const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
         validation-visibility="live"
         @submit="submitHandler"
       >
-        <SpecimenForm />
+        <SpecimenForm v-if="isSuccess" />
       </FormKit>
 
       <template #footer>
         <FormKit
-          type="submit"
+          type="button"
           :outer-class="{
             'max-w-[22em]': false,
             'w-full': true,
           }"
           :disabled="FormDisabled"
           input-class="w-full justify-center items-center flex"
+          @click="submitForm(FormId)"
         >
           Send
         </FormKit>

@@ -42,15 +42,10 @@ function addGrant() {
         type="group"
         name="grants"
       >
-        <FormKit
-          type="button"
-          label="Add Grant"
-          :outer-class="{
-            'max-w-[22em]': false,
-            'w-full': true,
-          }"
+        <UButton
+          block
           :disabled="disabled"
-          input-class="w-full justify-center items-center flex"
+          label="Add Preparation"
           @click="addGrant"
         />
         <template v-for="(v, name) in value">

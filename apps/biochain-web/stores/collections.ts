@@ -85,11 +85,8 @@ export const useCollectionsStore = defineStore('Collections', () => {
     while (Bookmark.value !== lastBookmark) {
       console.log('loadBatch', Bookmark.value, lastBookmark)
       lastBookmark = Bookmark.value ?? ''
-      const v = await LoadRows()
-      if (v.error.value) {
-        console.log(v.error)
-        break
-      }
+      await LoadRows()
+
       if (lastBookmark === Bookmark.value) {
         console.log('no change', Bookmark.value, lastBookmark)
         break

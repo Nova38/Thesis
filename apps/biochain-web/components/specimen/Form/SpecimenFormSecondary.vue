@@ -5,7 +5,7 @@ import { toPlainMessage } from '@bufbuild/protobuf'
 import { useFormKitContext } from '@formkit/vue'
 const sNode = ref(null)
 const collapsed = defineModel<boolean>('collapsed', {
-  default: true,
+  default: false,
 })
 
 const defaultSecondary = toPlainMessage(new ccbio.Specimen_Secondary({}))
@@ -188,19 +188,12 @@ function addPreparation() {
             </template>
           </FormKit>
         </div>
-
-        <div class="flex flex-wrap gap-2">
+        <div>
           <UButton
             block
+            :disabled="disabled"
             label="Add Preparation"
             @click="addPreparation"
-          />
-          <FormKit
-            outer-class="w-full flex-grow"
-            type="button"
-            label="Add Preparation"
-            :disabled="disabled"
-            @click="addPreparation()"
           />
         </div>
       </FormKit>

@@ -2,6 +2,7 @@
 
 export default defineNuxtPlugin({
   name: 'auth',
+
   async setup() {
     //   const { data: session, refresh: refreshSession } =
     //     await useCustomFetch<AuthSession>('/api/auth/session')
@@ -11,8 +12,11 @@ export default defineNuxtPlugin({
     const username = useState('username', () => {
       return session?.username
     })
-    const loggedIn = useState('loggedIn')
-    loggedIn.value = !!username.value
+    const redirectTo = useState('authRedirect', () => '')
+
+    const loggedIn = useState('loggedIn', () => {
+      return !!username.value
+    })
 
     const updateSession = async () => {
       const tmp = await $fetch('/api/auth/session')
@@ -20,16 +24,28 @@ export default defineNuxtPlugin({
       username.value = session?.username ?? ''
       loggedIn.value = !!username.value
     }
+
     const clearSession = () => {
       username.value = ''
-      loggedIn.value = ''
+      loggedIn.value = false
     }
+
+    addRouteMiddleware(
+      'auth',
+      (to) => {
+        if (to.meta.auth && !loggedIn.value) {
+          redirectTo.value = to.path
+          return '/auth/login'
+        }
+      },
+      { global: true },
+    )
 
     return {
       provide: {
         auth: {
           loggedIn,
-
+          redirectTo,
           updateSession,
           username,
           clearSession,

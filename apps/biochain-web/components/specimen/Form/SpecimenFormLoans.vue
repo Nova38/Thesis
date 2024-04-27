@@ -44,15 +44,10 @@ function addLoan() {
         type="group"
         name="loans"
       >
-        <FormKit
-          type="button"
-          label="Add Loan"
-          :outer-class="{
-            'max-w-[22em]': false,
-            'w-full': true,
-          }"
+        <UButton
+          block
           :disabled="disabled"
-          input-class="w-full justify-center items-center flex"
+          label="Add Preparation"
           @click="addLoan"
         />
         <template v-for="(v, name) in value">
