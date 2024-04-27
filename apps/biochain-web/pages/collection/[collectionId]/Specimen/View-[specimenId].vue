@@ -13,7 +13,6 @@ const route = useRoute()
 const history = ref<PlainMessage<pb.SpecimenHistory>>(
   new ccbio.SpecimenHistory(),
 )
-const specimen = ref<PlainSpecimen>()
 
 const specimenId = computed(() => route.params?.specimenId.toString() ?? '')
 const collectionId = computed(() => route.params?.collectionId.toString() ?? '')
@@ -23,21 +22,6 @@ const modeCapitalized = computed(
 )
 
 // const specimen =  await $fetch(`/api/cc/specimens/get`)
-
-const SpecimenFetch = await useFetch(`/api/cc/specimens/get`, {
-  key: makeSpecimenKey(
-    route.params?.collectionId.toString(),
-    route.params?.specimenId.toString(),
-  ),
-  onResponse: ({ response }) => {
-    console.log('specimen', response._data)
-    specimen.value = new ccbio.Specimen(response._data)
-  },
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
-})
 
 const getHistory = await useCustomFetch<ccbio.Specimen>(
   `/api/cc/specimens/history`,
@@ -139,14 +123,11 @@ const modeOptions = ref([
 <template>
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
-      <div v-if="specimen">
-        <SpecimenEditCard
-          :specimen="specimen"
-          :specimen-id
-          :collection-id
-          :mode="mode"
-        />
-      </div>
+      <SpecimenEditCard
+        :specimen-id
+        :collection-id
+        :mode="mode"
+      />
     </div>
 
     <div class="flex flex-col gap-4">
@@ -174,3 +155,21 @@ const modeOptions = ref([
 </template>
 
 <style></style>
+
+<!-- <FormKit
+                v-model="
+                type="radio"
+                :options="modeOptions"
+                :classes="{
+                  wrapper: 'group/wrapper',
+                  options: 'grid grid-cols-3 items-stretch ',
+                  option:
+                    '$reset group/option  relative border formkit-checked:border-none    border-none  text-center dark:bg-gray-900 ',
+                  outer: '$reset group dark:bg-gray-900 w-full grow px-0 py-0',
+                  decorator:
+                    '$reset absolute top-0 left-0 right-0 bottom-0  group-data-[checked=true]/wrapper:bg-gray-700/25 dark:group-data-[checked=true]/wrapper:bg-gray-100/50',
+                  decoratorIcon: '$reset hidden',
+                  label: '!text-md',
+                  help: '$reset hidden',
+                }"
+              />-->

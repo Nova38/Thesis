@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bufbuild/protobuf':
-        specifier: ^1.8.0
-        version: 1.8.0
+        specifier: ^1.9.0
+        version: 1.9.0
       '@formkit/addons':
         specifier: ^1.6.2
         version: 1.6.2
@@ -44,6 +44,9 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.31.0
         version: 5.31.0(vue@3.4.23(typescript@5.4.5))
+      '@tanstack/vue-query-devtools':
+        specifier: ^5.32.0
+        version: 5.32.0(@tanstack/vue-query@5.31.0(vue@3.4.23(typescript@5.4.5)))(vue@3.4.23(typescript@5.4.5))
       '@vue/compiler-sfc':
         specifier: ^3.4.23
         version: 3.4.23
@@ -153,9 +156,6 @@ importers:
       nuxt-primevue:
         specifier: ^0.3.1
         version: 0.3.1(rollup@4.16.1)(vue@3.4.23(typescript@5.4.5))
-      nuxt-quasar-ui:
-        specifier: ^2.0.8
-        version: 2.0.8(@quasar/extras@1.16.11)(quasar@2.15.3)(rollup@4.16.1)
       playwright-core:
         specifier: ^1.43.1
         version: 1.43.1
@@ -380,8 +380,8 @@ packages:
     resolution: {integrity: sha512-+j7a5c253RfKh8iABBhywc8NSfP5LURe7Uh4qpsh6jc+aLJguvmIUBdjSdEMQv2bENrCR5MfRdjGo7vzS/ob7w==}
     engines: {node: '>=6.9.0'}
 
-  '@bufbuild/protobuf@1.8.0':
-    resolution: {integrity: sha512-qR9FwI8QKIveDnUYutvfzbC21UZJJryYrLuZGjeZ/VGz+vXelUkK+xgkOHsvPEdYEdxtgUUq4313N8QtOehJ1Q==}
+  '@bufbuild/protobuf@1.9.0':
+    resolution: {integrity: sha512-W7gp8Q/v1NlCZLsv8pQ3Y0uCu/SHgXOVFK+eUluUKWXmsb6VHkpNx0apdOWWcDbB9sJoKeP8uPrjmehJz6xETQ==}
 
   '@cloudflare/kv-asset-handler@0.3.1':
     resolution: {integrity: sha512-lKN2XCfKCmpKb86a1tl4GIwsJYDy9TGuwjhDELLmpKygQhw8X2xR4dusgpC5Tg7q1pB96Eb0rBo81kxSILQMwA==}
@@ -1300,9 +1300,6 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@quasar/extras@1.16.11':
-    resolution: {integrity: sha512-sbTBHOA+Hi7ah0P6qSm+xfRXqwJ94ct3NKA3Lkq3iNPYuHD7VXbSWtP2eA7Cu9Fd0WjVoPbngf6yFGg46U3IfQ==}
-
   '@replit/codemirror-indentation-markers@6.5.1':
     resolution: {integrity: sha512-9MfwbNdARjwx0X+duBgeJJ7vnpyHWfEwk+p4FlWVs2ntvSyQmKI/FH2iEfEUOMyafIiQxzyLn0y2RS5f54hN5A==}
     peerDependencies:
@@ -1573,8 +1570,17 @@ packages:
   '@tanstack/query-core@5.31.0':
     resolution: {integrity: sha512-r1V6RXB1LUGoEp7HGHVK4Tl59kOvAfwI9/kNNwPsb6cR5oHgfn1683sQnoH/3xEDUKOen3fEO90EnGE+OjRw5A==}
 
+  '@tanstack/query-devtools@5.28.10':
+    resolution: {integrity: sha512-5UN629fKa5/1K/2Pd26gaU7epxRrYiT1gy+V+pW5K6hnf1DeUKK3pANSb2eHKlecjIKIhTwyF7k9XdyE2gREvQ==}
+
   '@tanstack/virtual-core@3.4.0':
     resolution: {integrity: sha512-75jXqXxqq5M5Veb9KP1STi8kA5u408uOOAefk2ftHDGCpUk3RP6zX++QqfbmHJTBiU72NQ+ghgCZVts/Wocz8Q==}
+
+  '@tanstack/vue-query-devtools@5.32.0':
+    resolution: {integrity: sha512-MSHVdIBm7d6iEnw31CRFiW5sKc0kZIH1etyIJ3Gb4Ll7oyl/tqoYOBlh+PdDtX1RfdzgFT9e8mVyRmkpNZYuSw==}
+    peerDependencies:
+      '@tanstack/vue-query': ^5.32.0
+      vue: ^3.3.0
 
   '@tanstack/vue-query@5.31.0':
     resolution: {integrity: sha512-/aS0DaxgI2axtNeItVPnUyYdw4Y14eMNqnMBOF6mN7h4MWY498uor3eul/EMSvL1loy3dmANLx7yl9sdnoS9ZA==}
@@ -2171,10 +2177,6 @@ packages:
   ast-kit@0.9.5:
     resolution: {integrity: sha512-kbL7ERlqjXubdDd+szuwdlQ1xUxEz9mCz1+m07ftNVStgwRb2RWw+U6oKo08PAvOishMxiqz1mlJyLl8yQx2Qg==}
     engines: {node: '>=16.14.0'}
-
-  ast-types@0.16.1:
-    resolution: {integrity: sha512-6t10qk83GOG8p0vKmaCr8eiilZwO171AvbROMtvvNiwrTly62t+7XkA8RdIIVbpMhCASAsxgAzdRSwh6nw/5Dg==}
-    engines: {node: '>=4'}
 
   ast-walker-scope@0.5.0:
     resolution: {integrity: sha512-NsyHMxBh4dmdEHjBo1/TBZvCKxffmZxRYhmclfu0PP6Aftre47jOHYaYaNqJcV0bxihxFXhDkzLHUwHc0ocd0Q==}
@@ -2960,11 +2962,6 @@ packages:
   espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  esprima@4.0.1:
-    resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
-    engines: {node: '>=4'}
-    hasBin: true
 
   esquery@1.5.0:
     resolution: {integrity: sha512-YQLXUplAwJgCydQ78IMJywZCceoqk1oH01OERdSAJc/7U2AylwjhSCLDEtqwg811idIS/9fIU5GjG73IgjKMVg==}
@@ -3813,9 +3810,6 @@ packages:
   magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
 
-  magicast@0.2.11:
-    resolution: {integrity: sha512-6saXbRDA1HMkqbsvHOU6HBjCVgZT460qheRkLhJQHWAbhXoWESI3Kn/dGGXyKs15FFKR85jsUqFx2sMK0wy/5g==}
-
   magicast@0.3.4:
     resolution: {integrity: sha512-TyDF/Pn36bBji9rWKHlZe+PZb6Mx5V8IHCSxk7X4aljM4e/vyDvZZYwHewdVaqiA0nb3ghfHU/6AUpDxWoER2Q==}
 
@@ -4161,12 +4155,6 @@ packages:
   nuxt-primevue@0.3.1:
     resolution: {integrity: sha512-wTFvUbniEhntFamnRP4znMqU9a4lYr7eXvA7FW5nGX51YCV3nJzXZlCML4l6kEL0pyJsSV4DTb0Qo61nZnn9JQ==}
 
-  nuxt-quasar-ui@2.0.8:
-    resolution: {integrity: sha512-YpZ2ijqPrSo+/j57QKu9CMFn/3eeS9AdFC9AYMTvYRCHDtWmKwkpe0lFmYSn6nCXOM42o98sCqvhCAiwkULZZQ==}
-    peerDependencies:
-      '@quasar/extras': ^1
-      quasar: ^2.8.0
-
   nuxt-security@1.3.2:
     resolution: {integrity: sha512-S585sJXWSiscne4BgixaWfT5uhY7ywEMxLY9e9y/Fbh8HeTIKPd7xSjPxh67FHqyO1yimwbgJcre3wdvRnicoQ==}
 
@@ -4282,10 +4270,6 @@ packages:
   p-map@4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
-
-  p-memoize@7.1.1:
-    resolution: {integrity: sha512-DZ/bONJILHkQ721hSr/E9wMz5Am/OTJ9P6LhLFo2Tu+jL8044tgc9LwHO8g4PiaYePnlVVRAJcKmgy8J9MVFrA==}
-    engines: {node: '>=14.16'}
 
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
@@ -4793,10 +4777,6 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  quasar@2.15.3:
-    resolution: {integrity: sha512-+6g6D1t/O95dhuov4b6SwR3asowr01xwV1A2JWh5cVQc1hTmolXzgQNPbrOApLjGX7N1cQ119DWajJ/G8KzXPQ==}
-    engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
-
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -4863,10 +4843,6 @@ packages:
   readdirp@3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
-
-  recast@0.23.6:
-    resolution: {integrity: sha512-9FHoNjX1yjuesMwuthAmPKabxYQdOgihFYmT5ebXfYGBcnqXZf3WOVz+5foEZ8Y83P4ZY6yQD5GMmtV+pgCCAQ==}
-    engines: {node: '>= 4'}
 
   redis-errors@1.2.0:
     resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
@@ -6191,7 +6167,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  '@bufbuild/protobuf@1.8.0': {}
+  '@bufbuild/protobuf@1.9.0': {}
 
   '@cloudflare/kv-asset-handler@0.3.1':
     dependencies:
@@ -7381,8 +7357,6 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@quasar/extras@1.16.11': {}
-
   '@replit/codemirror-indentation-markers@6.5.1(@codemirror/language@6.10.1)(@codemirror/state@6.4.1)(@codemirror/view@6.26.3)':
     dependencies:
       '@codemirror/language': 6.10.1
@@ -7630,7 +7604,15 @@ snapshots:
 
   '@tanstack/query-core@5.31.0': {}
 
+  '@tanstack/query-devtools@5.28.10': {}
+
   '@tanstack/virtual-core@3.4.0': {}
+
+  '@tanstack/vue-query-devtools@5.32.0(@tanstack/vue-query@5.31.0(vue@3.4.23(typescript@5.4.5)))(vue@3.4.23(typescript@5.4.5))':
+    dependencies:
+      '@tanstack/query-devtools': 5.28.10
+      '@tanstack/vue-query': 5.31.0(vue@3.4.23(typescript@5.4.5))
+      vue: 3.4.23(typescript@5.4.5)
 
   '@tanstack/vue-query@5.31.0(vue@3.4.23(typescript@5.4.5))':
     dependencies:
@@ -8506,10 +8488,6 @@ snapshots:
       pathe: 1.1.2
     transitivePeerDependencies:
       - rollup
-
-  ast-types@0.16.1:
-    dependencies:
-      tslib: 2.6.2
 
   ast-walker-scope@0.5.0(rollup@4.16.1):
     dependencies:
@@ -9416,8 +9394,6 @@ snapshots:
       acorn: 8.11.3
       acorn-jsx: 5.3.2(acorn@8.11.3)
       eslint-visitor-keys: 3.4.3
-
-  esprima@4.0.1: {}
 
   esquery@1.5.0:
     dependencies:
@@ -10328,12 +10304,6 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  magicast@0.2.11:
-    dependencies:
-      '@babel/parser': 7.24.4
-      '@babel/types': 7.24.0
-      recast: 0.23.6
-
   magicast@0.3.4:
     dependencies:
       '@babel/parser': 7.24.4
@@ -10784,18 +10754,6 @@ snapshots:
       - supports-color
       - vue
 
-  nuxt-quasar-ui@2.0.8(@quasar/extras@1.16.11)(quasar@2.15.3)(rollup@4.16.1):
-    dependencies:
-      '@nuxt/kit': 3.11.2(rollup@4.16.1)
-      '@quasar/extras': 1.16.11
-      magic-string: 0.30.10
-      magicast: 0.2.11
-      p-memoize: 7.1.1
-      quasar: 2.15.3
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-
   nuxt-security@1.3.2(rollup@4.16.1):
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.16.1)
@@ -11046,11 +11004,6 @@ snapshots:
   p-map@4.0.0:
     dependencies:
       aggregate-error: 3.1.0
-
-  p-memoize@7.1.1:
-    dependencies:
-      mimic-fn: 4.0.0
-      type-fest: 3.13.1
 
   p-try@2.2.0: {}
 
@@ -11478,8 +11431,6 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  quasar@2.15.3: {}
-
   queue-microtask@1.2.3: {}
 
   queue-tick@1.0.1: {}
@@ -11563,14 +11514,6 @@ snapshots:
   readdirp@3.6.0:
     dependencies:
       picomatch: 2.3.1
-
-  recast@0.23.6:
-    dependencies:
-      ast-types: 0.16.1
-      esprima: 4.0.1
-      source-map: 0.6.1
-      tiny-invariant: 1.3.3
-      tslib: 2.6.2
 
   redis-errors@1.2.0: {}
 

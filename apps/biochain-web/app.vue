@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 // import 'primevue/resources/themes/aura-light-green/theme.css'
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 
 // import { devtools } from '@vue/devtools'
 // if (process.env.NODE_ENV === 'development')
@@ -26,6 +27,10 @@ const isOpen = ref(false)
           <NuxtLoadingIndicator />
 
           <NuxtPage class="p-2" />
+
+          <DevOnly>
+            <VueQueryDevtools />
+          </DevOnly>
         </div>
         <UNotifications />
       </div>

@@ -80,7 +80,6 @@ async function submitHandler(
     title: 'Creating Specimen',
     description: 'Please wait...',
     timeout: 2000,
-    closeButton: true,
   })
 
   try {
@@ -99,7 +98,6 @@ async function submitHandler(
     node.setErrors(['Something went wrong with the server, please try again'])
     // comment out this line and refresh after submit
     // to see how values would otherwise be lost.
-    node?.restoreCache()
   }
 }
 </script>
@@ -108,11 +106,10 @@ async function submitHandler(
   <div>
     <FormKit
       id="NewSpecimen"
-      v-slot="{ disabled }"
+      #default="{ disabled }"
       v-model="specimen"
       type="form"
       :plugins="[]"
-      use-local-storage
       submit-label="Create Character"
       :actions="false"
       @submit="submitHandler"
@@ -122,7 +119,7 @@ async function submitHandler(
           <h3 class="text-lg font-semibold">New Specimen</h3>
         </template>
 
-        <SpecimenForm form-prefix="New" />
+        <SpecimenForm />
 
         <template #footer>
           <FormKit

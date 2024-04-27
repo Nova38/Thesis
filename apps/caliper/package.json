@@ -21,7 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protobuf": "^1.9.0",
     "@grpc/grpc-js": "1.10.3",
     "@hyperledger/caliper-cli": "^0.5.1-unstable-20240228161447",
     "@hyperledger/caliper-core": "^0.5.1-unstable-20240228161447",

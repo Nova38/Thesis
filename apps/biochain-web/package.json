@@ -1,7 +1,7 @@
 {
   "name": "biochain-nuxt",
   "dependencies": {
-    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protobuf": "^1.9.0",
     "@formkit/addons": "^1.6.2",
     "@formkit/icons": "^1.6.2",
     "@formkit/nuxt": "^1.6.2",
@@ -13,6 +13,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@saacs/saacs-pb": "workspace:../../libs/saacs-protos-es",
     "@tanstack/vue-query": "^5.31.0",
+    "@tanstack/vue-query-devtools": "^5.32.0",
     "@vue/compiler-sfc": "^3.4.23",
     "flat": "^6.0.1",
     "nuxt-jsoneditor": "^1.8.4",
@@ -51,7 +52,6 @@
     "nuxt": "^3.11.2",
     "nuxt-build-cache": "^0.1.1",
     "nuxt-primevue": "^0.3.1",
-    "nuxt-quasar-ui": "^2.0.8",
     "nuxt-shiki": "^0.3.0",
     "playwright-core": "^1.43.1",
     "prettier": "^3.2.5",

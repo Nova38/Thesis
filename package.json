@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.15.0",
-    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protobuf": "^1.9.0",
     "@tsconfig/node21": "^21.0.3",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.0",
@@ -53,8 +53,6 @@
   ],
   "packageManager": "pnpm@9.0.6",
   "pnpm": {
-    "patchedDependencies": {
-      "@bufbuild/protobuf@1.8.0": "patches/@bufbuild__protobuf@1.8.0.patch"
-    }
+    "patchedDependencies": {}
   }
 }

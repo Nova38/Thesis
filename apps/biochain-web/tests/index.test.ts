@@ -1,5 +1,165 @@
 import { expect, it } from 'vitest'
 
 it('adds 1 + 2 to equal 3', () => {
-  expect(1 + 2).toBe(3)
+  const i = {
+    collectionId: 'orn',
+    specimenId: '017e3825-1f1e-5503-93d3-a0e385683b15',
+    primary: {
+      catalogNumber: '3',
+      accessionNumber: '',
+      fieldNumber: '',
+      tissueNumber: '3',
+      cataloger: '',
+      collector: '',
+      determiner: '',
+      fieldDate: {
+        verbatim: '',
+        timestamp: undefined,
+        year: 0,
+        month: '',
+        day: 0,
+      },
+      catalogDate: {
+        verbatim: '',
+        timestamp: undefined,
+        year: 0,
+        month: '',
+        day: 0,
+      },
+      determinedDate: {
+        verbatim: '',
+        timestamp: undefined,
+        year: 0,
+        month: '',
+        day: 0,
+      },
+      determinedReason: '',
+      originalDate: {
+        verbatim: '',
+        timestamp: undefined,
+        year: 0,
+        month: '',
+        day: 0,
+      },
+      lastModified: {
+        txId: 'b2eaedd0c406a0644e4aa35dde1b5ecc376eef2d2b120dbe445beda85e7184b3',
+        mspId: 'Org1MSP',
+        userId:
+          'eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT',
+        timestamp: {
+          seconds: 0n,
+          nanos: 0,
+        },
+        note: '',
+        object: undefined,
+        mask: undefined,
+      },
+    },
+    secondary: {
+      sex: 'SEX_UNDEFINED',
+      age: 'AGE_UNDEFINED',
+      weight: 0,
+      weightUnits: '',
+      preparations: {
+        initial: {
+          verbatim: '',
+        },
+      },
+      condition: '',
+      molt: '',
+      notes: '',
+      lastModified: {
+        txId: 'b2eaedd0c406a0644e4aa35dde1b5ecc376eef2d2b120dbe445beda85e7184b3',
+        mspId: 'Org1MSP',
+        userId:
+          'eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT',
+        timestamp: {
+          seconds: 0n,
+          nanos: 0,
+        },
+        note: '',
+        object: undefined,
+        mask: undefined,
+      },
+    },
+    taxon: {
+      kingdom: '',
+      phylum: '',
+      class: '',
+      order: '',
+      family: '',
+      genus: '',
+      species: '',
+      subspecies: '',
+      lastModified: {
+        txId: 'b2eaedd0c406a0644e4aa35dde1b5ecc376eef2d2b120dbe445beda85e7184b3',
+        mspId: 'Org1MSP',
+        userId:
+          'eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT',
+        timestamp: {
+          seconds: 0n,
+          nanos: 0,
+        },
+        note: '',
+        object: undefined,
+        mask: undefined,
+      },
+    },
+    georeference: {
+      country: '',
+      stateProvince: '',
+      county: '',
+      locality: '',
+      latitude: 0,
+      longitude: 0,
+      habitat: '',
+      continent: '',
+      locationRemarks: '',
+      coordinateUncertaintyInMeters: 0,
+      georeferenceBy: '',
+      georeferenceDate: {
+        verbatim: '',
+        timestamp: undefined,
+        year: 0,
+        month: '',
+        day: 0,
+      },
+      georeferenceProtocol: '',
+      geodeticDatum: '',
+      footprintWkt: '',
+      notes: '',
+      lastModified: {
+        txId: 'b2eaedd0c406a0644e4aa35dde1b5ecc376eef2d2b120dbe445beda85e7184b3',
+        mspId: 'Org1MSP',
+        userId:
+          'eDUwOTo6Q049b3JnMWFkbWluLE9VPWFkbWluLE89SHlwZXJsZWRnZXIsU1Q9Tm9ydGggQ2Fyb2xpbmEsQz1VUzo6Q049ZmFicmljLWNhLXNlcnZlcixPVT1GYWJyaWMsTz1IeXBlcmxlZGdlcixTVD1Ob3J0aCBDYXJvbGluYSxDPVVT',
+        timestamp: {
+          seconds: 0n,
+          nanos: 0,
+        },
+        note: '',
+        object: undefined,
+        mask: undefined,
+      },
+    },
+    images: {},
+    loans: {
+      initial: {
+        id: '',
+        description: '',
+        loanedBy: '',
+        loanedTo: '',
+        loanedDate: {
+          verbatim: '',
+          timestamp: undefined,
+          year: 0,
+          month: '',
+          day: 0,
+        },
+        lastModified: undefined,
+      },
+    },
+    grants: {},
+    lastModified: undefined,
+  }
 })

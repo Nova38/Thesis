@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { toPlainMessage } from '@bufbuild/protobuf'
 import type { FormKitNode } from '@formkit/core'
 
-const mode = defineModel<FormMode>('mode', { required: true })
-const specimen = defineModel<PlainSpecimen>('specimen', { required: true })
+import { useQueryClient, useQuery, useMutation } from '@tanstack/vue-query'
+
+const toast = useToast()
 const props = withDefaults(
   defineProps<{
     collectionId: string
@@ -14,60 +16,64 @@ const props = withDefaults(
   },
 )
 
-const _emit = defineEmits<{
-  (e: 'submit', value: { specimen: PlainSpecimen; mode: FormMode }): void
-}>()
-
 const FormId = computed(
   () => `${props.formPrefix}-${props.collectionId}-${props.specimenId}-form`,
 )
-
+const mode = ref<FormMode>('view')
 const headerColor = computed(() => toModeColor(mode.value ?? 'view'))
-
 const FormDisabled = computed(() => mode.value === 'view')
 
-const modeOptions = ref([
-  {
-    label: 'View',
-    value: 'view' as FormMode,
-    attrs: {
-      'data-mode': 'view',
-    },
-  },
-  {
-    label: 'Update',
-    value: 'update' as FormMode,
-    attrs: {
-      mode: 'update',
-    },
-  },
-  {
-    label: 'Suggest',
-    value: 'suggest' as FormMode,
-    attrs: {
-      mode: 'suggest',
-    },
-  },
-])
+const { isPending, isError, data, error } = useQuery({
+  queryKey: [props.collectionId],
+  queryFn: () =>
+    $fetch('/api/cc/specimens/get', {
+      query: {
+        collectionId: props.collectionId,
+        specimenId: props.specimenId,
+      },
+    }),
+})
 
-async function submitHandler(
-  specimen: { specimen: PlainSpecimen },
-  node: FormKitNode,
-) {
-  console.log({ specimen, node })
+async function submitHandler(value: PlainSpecimen, node: FormKitNode) {
+  const x = new pb.Specimen(specimen.value)
+  console.log(x)
+  console.log({ value, node })
+  const z = JSON.stringify(value)
+  const v = new pb.Specimen({ ...value })
+  const s = v.toJsonString()
+  console.log({ v, s, x, z })
+  try {
+    toast.add({
+      title: 'Success',
+      description: JSON.stringify(value),
+    })
+
+    node.reset(res)
+  } catch (e) {
+    console.error(e)
+
+    toast.add({
+      title: 'Error',
+      description: `Failed to update specimen: ${e}`,
+    })
+  }
 }
+
+const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
 </script>
 
 <template>
   <div>
     <FormKit
       :id="FormId"
-      v-slot="{}"
+      v-model="specimen"
       type="form"
+      :disabled="FormDisabled"
       :actions="false"
+      :value="data"
       :plugins="[DirtyLabelPlugin]"
       validation-visibility="live"
-      @submit-handler="submitHandler"
+      @submit="submitHandler"
     >
       <UCard
         class="min-w-2xl max-w-3xl"
@@ -81,28 +87,36 @@ async function submitHandler(
         <template #header>
           <div>
             <div>
-              <FormKit
-                v-model="mode"
-                type="radio"
-                :options="modeOptions"
-                :classes="{
-                  wrapper: 'group/wrapper',
-                  options: 'grid grid-cols-3 items-stretch ',
-                  option:
-                    '$reset group/option  relative border formkit-checked:border-none    border-none  text-center dark:bg-gray-900 ',
-                  outer: '$reset group dark:bg-gray-900 w-full grow px-0 py-0',
-                  decorator:
-                    '$reset absolute top-0 left-0 right-0 bottom-0  group-data-[checked=true]/wrapper:bg-gray-700/25 dark:group-data-[checked=true]/wrapper:bg-gray-100/50',
-                  decoratorIcon: '$reset hidden',
-                  label: '!text-md',
-                  help: '$reset hidden',
-                }"
+              <UButton
+                label="View"
+                @click="
+                  () => {
+                    mode = 'view'
+                  }
+                "
+              />
+              <UButton
+                label="Update"
+                @click="
+                  () => {
+                    mode = 'update'
+                  }
+                "
+              />
+              <UButton
+                label=" mode"
+                @click="
+                  () => {
+                    mode = 'suggest'
+                  }
+                "
               />
             </div>
             <UDivider />
 
             <div class="flex flex-row p-4">
-              {{ specimen?.taxon?.genus }} {{ specimen?.taxon?.species }}
+              {{ specimen?.taxon?.genus }}
+              {{ specimen?.taxon?.species }}
             </div>
             <div class="flex flex-grow flex-row">
               <UBadge
@@ -129,11 +143,26 @@ async function submitHandler(
             </div>
           </div>
         </template>
-        <SpecimenForm
-          :specimen="specimen"
-          :disabled="FormDisabled"
-          form-prefix="Main"
-        />
+
+        <div class="flex flex-col gap-2">
+          <FormKit
+            name="specimenId"
+            type="hidden"
+            value=""
+          />
+          <FormKit
+            name="collectionId"
+            type="hidden"
+            value=""
+          />
+          <SpecimenFormTaxon class="py-1" />
+          <SpecimenFormPrimary />
+          <SpecimenFormGeoreference />
+
+          <SpecimenFormSecondary />
+          <SpecimenFormLoans />
+          <SpecimenFormGrants />
+        </div>
 
         <template #footer>
           <FormKit
