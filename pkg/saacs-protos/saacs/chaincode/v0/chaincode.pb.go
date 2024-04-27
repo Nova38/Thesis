@@ -30,7 +30,7 @@ type GetRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// saacs.common.v0.Item item = 3;
+	//  saacs.common.v0.Item item = 3;
 	Key *v0.ItemKey `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 }
 
@@ -126,7 +126,7 @@ type GetFullRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// saacs.common.v0.Item item = 3;
+	//  saacs.common.v0.Item item = 3;
 	Key                *v0.ItemKey        `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	HistoryOptions     *v0.HistoryOptions `protobuf:"bytes,2,opt,name=history_options,json=historyOptions,proto3" json:"history_options,omitempty"`
 	IncludeSuggestions bool               `protobuf:"varint,3,opt,name=include_suggestions,json=includeSuggestions,proto3" json:"include_suggestions,omitempty"`

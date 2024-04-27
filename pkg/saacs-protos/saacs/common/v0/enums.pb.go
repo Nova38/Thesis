@@ -133,7 +133,7 @@ const (
 	// View the contents of an item
 	Action_ACTION_VIEW Action = 10
 	// Create a new item
-	//   - key must not already exist
+	//  - key must not already exist
 	Action_ACTION_CREATE Action = 11
 	// Update an existing item
 	//   - key must already exist

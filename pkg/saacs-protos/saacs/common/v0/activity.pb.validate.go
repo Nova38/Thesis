@@ -94,64 +94,6 @@ func (m *StateActivity) validate(all bool) error {
 
 	// no validation rules for Note
 
-	if all {
-		switch v := interface{}(m.GetObject()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "Object",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetObject()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return StateActivityValidationError{
-				field:  "Object",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetMask()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "Mask",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, StateActivityValidationError{
-					field:  "Mask",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetMask()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return StateActivityValidationError{
-				field:  "Mask",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
 	if len(errors) > 0 {
 		return StateActivityMultiError(errors)
 	}

@@ -2,7 +2,7 @@
   "$id": "saacs.auth.v0.Attribute.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "─────────────────────────────────────────────────────────────────────────────────\n An attribute is used to define permissions via the value of the attribute in\n the users certificate for a given msp",
+  "description": "─────────────────────────────────────────────────────────────────────────────────\r\n An attribute is used to define permissions via the value of the attribute in\r\n the users certificate for a given msp",
   "properties": {
     "collection_id": {
       "type": "string"
@@ -20,7 +20,7 @@
       "description": "The Permission that the user will have if they have the attribute"
     },
     "value": {
-      "description": "The value of the attribute required to be satisfied by the user to have the\n role",
+      "description": "The value of the attribute required to be satisfied by the user to have the\r\n role",
       "type": "string"
     }
   },

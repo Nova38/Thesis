@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { toPlainMessage } from '@bufbuild/protobuf'
 import type { FormKitNode } from '@formkit/core'
-
+import { reset } from '@formkit/core'
 import { useQueryClient, useQuery, useMutation } from '@tanstack/vue-query'
 
 const toast = useToast()
@@ -23,15 +23,26 @@ const mode = ref<FormMode>('view')
 const headerColor = computed(() => toModeColor(mode.value ?? 'view'))
 const FormDisabled = computed(() => mode.value === 'view')
 
-const { isPending, isError, data, error } = useQuery({
+const { status, data, error } = useQuery({
   queryKey: [props.collectionId],
-  queryFn: () =>
-    $fetch('/api/cc/specimens/get', {
+  queryFn: async () => {
+    const raw = await $fetch('/api/cc/specimens/get', {
       query: {
         collectionId: props.collectionId,
         specimenId: props.specimenId,
       },
-    }),
+    })
+
+    const data = new pb.Specimen()
+
+    return raw
+  },
+})
+
+watchEffect(() => {
+  if (status.value === 'success') {
+    reset(FormId.value, data.value)
+  }
 })
 
 async function submitHandler(value: PlainSpecimen, node: FormKitNode) {
