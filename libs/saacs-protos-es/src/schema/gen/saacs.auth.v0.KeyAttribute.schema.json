@@ -1,0 +1,28 @@
+{
+  "$id": "saacs.auth.v0.KeyAttribute.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "collection_id": {
+      "type": "string"
+    },
+    "msp_id": {
+      "description": "The msp of the organization that this attribute applies to",
+      "type": "string"
+    },
+    "oid": {
+      "description": "The oid of the attribute",
+      "type": "string"
+    },
+    "polices": {
+      "$ref": "saacs.auth.v0.Polices.schema.json",
+      "description": "The Permission that the user will have if they have the attribute"
+    },
+    "value": {
+      "description": "The value of the attribute required to be satisfied by the user to have the\n role",
+      "type": "string"
+    }
+  },
+  "title": "Key Attribute",
+  "type": "object"
+}

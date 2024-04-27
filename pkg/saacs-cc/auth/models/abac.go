@@ -14,7 +14,7 @@ import (
 type ABAC struct {
 	Collection *authpb.Collection
 
-	UserAttributes []*authpb.Attribute
+	UserAttributes []*authpb.KeyAttribute
 
 	TxCtx  common.TxCtxInterface
 	Logger *slog.Logger

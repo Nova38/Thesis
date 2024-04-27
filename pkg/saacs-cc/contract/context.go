@@ -422,7 +422,7 @@ func (ctx *TxCtx) Authorize(operations []*pb.Operation) (auth bool, err error) {
 		case authpb.AuthType_AUTH_TYPE_ATTRIBUTE:
 			Authorizer = &models.ABAC{
 				Collection:     col,
-				UserAttributes: []*authpb.Attribute{},
+				UserAttributes: []*authpb.KeyAttribute{},
 				Logger:         ctx.GetSubLogger("ABAC"),
 				TxCtx:          ctx,
 			}

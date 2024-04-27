@@ -3,11 +3,40 @@ syntax = "proto3";
 package saacs.auth.v0;
 
 import "buf/validate/validate.proto";
+// import "saacs/auth/v0/Attribute.proto";
 // ─────────────────────────────────────────────────────────────────────────────────
 import "saacs/auth/v0/collection.proto";
 import "saacs/auth/v0/identity.proto";
+import "saacs/auth/v0/policy.proto";
 import "saacs/auth/v0/roles.proto";
+import "saacs/auth/v0/type.proto";
+import "saacs/common/v0/options.proto";
+
 // ─────────────────────────────────────────────────────────────────────────────────
+
+message KeyAttribute {
+  option (auth_type) = AUTH_TYPE_ATTRIBUTE;
+  option (saacs.common.v0.key_schema).item_kind = ITEM_KIND_PRIMARY_ITEM;
+  option (saacs.common.v0.key_schema).properties = {
+    paths: [
+      "msp_id",
+      "oid",
+      "value"
+    ]
+  };
+  string collection_id = 1 [(buf.validate.field).string.min_len = 1];
+
+  // The msp of the organization that this attribute applies to
+  string msp_id = 2 [(buf.validate.field).string.min_len = 1];
+  // The oid of the attribute
+  string oid = 3 [(buf.validate.field).string.min_len = 1];
+  // The value of the attribute required to be satisfied by the user to have the
+  // role
+  string value = 4 [(buf.validate.field).string.min_len = 1];
+
+  // The Permission that the user will have if they have the attribute
+  Polices polices = 5 [(buf.validate.field).required = true];
+}
 
 message Model {
   message Identity {
@@ -40,9 +69,9 @@ message Model {
     };
   }
 
-  message Attribute {
+  message UserAttributes {
     Collection collection = 1;
-    repeated Attribute attribute = 2;
+    repeated KeyAttribute attributes = 2;
     option (buf.validate.message).cel = {
       id: "saacs.auth.v0.AuthModel.Attribute"
       message: "Collection must be set to Role"
@@ -57,7 +86,7 @@ message AuthModel {
     Model.Identity identity = 2;
     Model.Roles roles = 3;
     Model.GlobalRoles global_roles = 4;
-    Model.Attribute attribute = 5;
+    Model.UserAttributes user_attributes = 5;
   }
 }
 

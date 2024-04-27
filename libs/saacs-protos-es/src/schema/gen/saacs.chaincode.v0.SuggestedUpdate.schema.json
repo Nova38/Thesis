@@ -1,8 +1,0 @@
-{
-  "$id": "saacs.chaincode.v0.SuggestedUpdate.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
-  "properties": {},
-  "title": "Suggested Update",
-  "type": "object"
-}

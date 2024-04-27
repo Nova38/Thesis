@@ -33,9 +33,6 @@
     - [File-level Extensions](#saacs_common_v0_options-proto-extensions)
     - [File-level Extensions](#saacs_common_v0_options-proto-extensions)
 
-- [saacs/auth/v0/attribute.proto](#saacs_auth_v0_attribute-proto)
-    - [Attribute](#saacs-auth-v0-Attribute)
-
 - [saacs/auth/v0/collection.proto](#saacs_auth_v0_collection-proto)
     - [Collection](#saacs-auth-v0-Collection)
 
@@ -51,11 +48,12 @@
 
 - [saacs/auth/v0/models.proto](#saacs_auth_v0_models-proto)
     - [AuthModel](#saacs-auth-v0-AuthModel)
+    - [KeyAttribute](#saacs-auth-v0-KeyAttribute)
     - [Model](#saacs-auth-v0-Model)
-    - [Model.Attribute](#saacs-auth-v0-Model-Attribute)
     - [Model.GlobalRoles](#saacs-auth-v0-Model-GlobalRoles)
     - [Model.Identity](#saacs-auth-v0-Model-Identity)
     - [Model.Roles](#saacs-auth-v0-Model-Roles)
+    - [Model.UserAttributes](#saacs-auth-v0-Model-UserAttributes)
 
 - [saacs/common/v0/activity.proto](#saacs_common_v0_activity-proto)
     - [StateActivity](#saacs-common-v0-StateActivity)
@@ -540,43 +538,6 @@ Examples
 
 
 
-<a name="saacs_auth_v0_attribute-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## saacs/auth/v0/attribute.proto
-
-
-
-<a name="saacs-auth-v0-Attribute"></a>
-
-### Attribute
-─────────────────────────────────────────────────────────────────────────────────
-An attribute is used to define permissions via the value of the attribute in
-the users certificate for a given msp
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection_id | [string](#string) |  |  |
-| msp_id | [string](#string) |  | The msp of the organization that this attribute applies to |
-| oid | [string](#string) |  | The oid of the attribute |
-| value | [string](#string) |  | The value of the attribute required to be satisfied by the user to have the role |
-| polices | [Polices](#saacs-auth-v0-Polices) |  | The Permission that the user will have if they have the attribute |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <a name="saacs_auth_v0_collection-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -774,7 +735,26 @@ Auth Object For Embedded RBAC
 | identity | [Model.Identity](#saacs-auth-v0-Model-Identity) |  |  |
 | roles | [Model.Roles](#saacs-auth-v0-Model-Roles) |  |  |
 | global_roles | [Model.GlobalRoles](#saacs-auth-v0-Model-GlobalRoles) |  |  |
-| attribute | [Model.Attribute](#saacs-auth-v0-Model-Attribute) |  |  |
+| user_attributes | [Model.UserAttributes](#saacs-auth-v0-Model-UserAttributes) |  |  |
+
+
+
+
+
+
+<a name="saacs-auth-v0-KeyAttribute"></a>
+
+### KeyAttribute
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| collection_id | [string](#string) |  |  |
+| msp_id | [string](#string) |  | The msp of the organization that this attribute applies to |
+| oid | [string](#string) |  | The oid of the attribute |
+| value | [string](#string) |  | The value of the attribute required to be satisfied by the user to have the role |
+| polices | [Polices](#saacs-auth-v0-Polices) |  | The Permission that the user will have if they have the attribute |
 
 
 
@@ -785,22 +765,6 @@ Auth Object For Embedded RBAC
 
 ### Model
 
-
-
-
-
-
-
-<a name="saacs-auth-v0-Model-Attribute"></a>
-
-### Model.Attribute
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| collection | [Collection](#saacs-auth-v0-Collection) |  |  |
-| attribute | [Model.Attribute](#saacs-auth-v0-Model-Attribute) | repeated |  |
 
 
 
@@ -851,6 +815,22 @@ Auth Object For Embedded RBAC
 | collection | [Collection](#saacs-auth-v0-Collection) |  |  |
 | roles | [Role](#saacs-auth-v0-Role) | repeated |  |
 | user_collection_roles | [UserCollectionRoles](#saacs-auth-v0-UserCollectionRoles) | repeated |  |
+
+
+
+
+
+
+<a name="saacs-auth-v0-Model-UserAttributes"></a>
+
+### Model.UserAttributes
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| collection | [Collection](#saacs-auth-v0-Collection) |  |  |
+| attributes | [KeyAttribute](#saacs-auth-v0-KeyAttribute) | repeated |  |
 
 
 

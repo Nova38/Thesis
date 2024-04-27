@@ -309,21 +309,6 @@
 
 
           <li>
-            <a href="#saacs%2fauth%2fv0%2fattribute.proto">saacs/auth/v0/attribute.proto</a>
-            <ul>
-
-                <li>
-                  <a href="#saacs.auth.v0.Attribute"><span class="badge">M</span>Attribute</a>
-                </li>
-
-
-
-
-            </ul>
-          </li>
-
-
-          <li>
             <a href="#saacs%2fauth%2fv0%2fcollection.proto">saacs/auth/v0/collection.proto</a>
             <ul>
 
@@ -393,11 +378,11 @@
                 </li>
 
                 <li>
-                  <a href="#saacs.auth.v0.Model"><span class="badge">M</span>Model</a>
+                  <a href="#saacs.auth.v0.KeyAttribute"><span class="badge">M</span>KeyAttribute</a>
                 </li>
 
                 <li>
-                  <a href="#saacs.auth.v0.Model.Attribute"><span class="badge">M</span>Model.Attribute</a>
+                  <a href="#saacs.auth.v0.Model"><span class="badge">M</span>Model</a>
                 </li>
 
                 <li>
@@ -410,6 +395,10 @@
 
                 <li>
                   <a href="#saacs.auth.v0.Model.Roles"><span class="badge">M</span>Model.Roles</a>
+                </li>
+
+                <li>
+                  <a href="#saacs.auth.v0.Model.UserAttributes"><span class="badge">M</span>Model.UserAttributes</a>
                 </li>
 
 
@@ -1654,73 +1643,6 @@ Item&#39;s key := {COLLECTION_ID}{TYPE}[...key_paths]</p></td>
 
 
       <div class="file-heading">
-        <h2 id="saacs/auth/v0/attribute.proto">saacs/auth/v0/attribute.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-
-        <h3 id="saacs.auth.v0.Attribute">Attribute</h3>
-        <p>─────────────────────────────────────────────────────────────────────────────────</p><p>An attribute is used to define permissions via the value of the attribute in</p><p>the users certificate for a given msp</p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>collection_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>msp_id</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The msp of the organization that this attribute applies to </p></td>
-                </tr>
-
-                <tr>
-                  <td>oid</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The oid of the attribute </p></td>
-                </tr>
-
-                <tr>
-                  <td>value</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>The value of the attribute required to be satisfied by the user to have the
-role </p></td>
-                </tr>
-
-                <tr>
-                  <td>polices</td>
-                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
-                  <td></td>
-                  <td><p>The Permission that the user will have if they have the attribute </p></td>
-                </tr>
-
-            </tbody>
-          </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class="file-heading">
         <h2 id="saacs/auth/v0/collection.proto">saacs/auth/v0/collection.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
@@ -2124,10 +2046,63 @@ value is the list of rolesIds </p></td>
                 </tr>
 
                 <tr>
-                  <td>attribute</td>
-                  <td><a href="#saacs.auth.v0.Model.Attribute">Model.Attribute</a></td>
+                  <td>user_attributes</td>
+                  <td><a href="#saacs.auth.v0.Model.UserAttributes">Model.UserAttributes</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.KeyAttribute">KeyAttribute</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>msp_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The msp of the organization that this attribute applies to </p></td>
+                </tr>
+
+                <tr>
+                  <td>oid</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The oid of the attribute </p></td>
+                </tr>
+
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>The value of the attribute required to be satisfied by the user to have the
+role </p></td>
+                </tr>
+
+                <tr>
+                  <td>polices</td>
+                  <td><a href="#saacs.auth.v0.Polices">Polices</a></td>
+                  <td></td>
+                  <td><p>The Permission that the user will have if they have the attribute </p></td>
                 </tr>
 
             </tbody>
@@ -2139,37 +2114,6 @@ value is the list of rolesIds </p></td>
 
         <h3 id="saacs.auth.v0.Model">Model</h3>
         <p></p>
-
-
-
-
-
-        <h3 id="saacs.auth.v0.Model.Attribute">Model.Attribute</h3>
-        <p></p>
-
-
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                  <td>collection</td>
-                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-
-                <tr>
-                  <td>attribute</td>
-                  <td><a href="#saacs.auth.v0.Model.Attribute">Model.Attribute</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-
-            </tbody>
-          </table>
 
 
 
@@ -2271,6 +2215,37 @@ value is the list of rolesIds </p></td>
                 <tr>
                   <td>user_collection_roles</td>
                   <td><a href="#saacs.auth.v0.UserCollectionRoles">UserCollectionRoles</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+
+            </tbody>
+          </table>
+
+
+
+
+
+        <h3 id="saacs.auth.v0.Model.UserAttributes">Model.UserAttributes</h3>
+        <p></p>
+
+
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                  <td>collection</td>
+                  <td><a href="#saacs.auth.v0.Collection">Collection</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+
+                <tr>
+                  <td>attributes</td>
+                  <td><a href="#saacs.auth.v0.KeyAttribute">KeyAttribute</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>

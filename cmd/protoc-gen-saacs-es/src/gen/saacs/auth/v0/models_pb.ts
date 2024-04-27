@@ -5,9 +5,80 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Polices } from "./policy_pb.js";
 import { Collection } from "./collection_pb.js";
 import { UserDirectMembership } from "./identity_pb.js";
 import { Role, UserCollectionRoles, UserGlobalRoles } from "./roles_pb.js";
+
+/**
+ * @generated from message saacs.auth.v0.KeyAttribute
+ */
+export class KeyAttribute extends Message<KeyAttribute> {
+  /**
+   * @generated from field: string collection_id = 1;
+   */
+  collectionId = "";
+
+  /**
+   * The msp of the organization that this attribute applies to
+   *
+   * @generated from field: string msp_id = 2;
+   */
+  mspId = "";
+
+  /**
+   * The oid of the attribute
+   *
+   * @generated from field: string oid = 3;
+   */
+  oid = "";
+
+  /**
+   * The value of the attribute required to be satisfied by the user to have the
+   * role
+   *
+   * @generated from field: string value = 4;
+   */
+  value = "";
+
+  /**
+   * The Permission that the user will have if they have the attribute
+   *
+   * @generated from field: saacs.auth.v0.Polices polices = 5;
+   */
+  polices?: Polices;
+
+  constructor(data?: PartialMessage<KeyAttribute>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.auth.v0.KeyAttribute";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "msp_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "oid", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "value", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: "polices", kind: "message", T: Polices },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): KeyAttribute {
+    return new KeyAttribute().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): KeyAttribute {
+    return new KeyAttribute().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): KeyAttribute {
+    return new KeyAttribute().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: KeyAttribute | PlainMessage<KeyAttribute> | undefined, b: KeyAttribute | PlainMessage<KeyAttribute> | undefined): boolean {
+    return proto3.util.equals(KeyAttribute, a, b);
+  }
+}
 
 /**
  * @generated from message saacs.auth.v0.Model
@@ -182,45 +253,45 @@ export class Model_GlobalRoles extends Message<Model_GlobalRoles> {
 }
 
 /**
- * @generated from message saacs.auth.v0.Model.Attribute
+ * @generated from message saacs.auth.v0.Model.UserAttributes
  */
-export class Model_Attribute extends Message<Model_Attribute> {
+export class Model_UserAttributes extends Message<Model_UserAttributes> {
   /**
    * @generated from field: saacs.auth.v0.Collection collection = 1;
    */
   collection?: Collection;
 
   /**
-   * @generated from field: repeated saacs.auth.v0.Model.Attribute attribute = 2;
+   * @generated from field: repeated saacs.auth.v0.KeyAttribute attributes = 2;
    */
-  attribute: Model_Attribute[] = [];
+  attributes: KeyAttribute[] = [];
 
-  constructor(data?: PartialMessage<Model_Attribute>) {
+  constructor(data?: PartialMessage<Model_UserAttributes>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.auth.v0.Model.Attribute";
+  static readonly typeName = "saacs.auth.v0.Model.UserAttributes";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "collection", kind: "message", T: Collection },
-    { no: 2, name: "attribute", kind: "message", T: Model_Attribute, repeated: true },
+    { no: 2, name: "attributes", kind: "message", T: KeyAttribute, repeated: true },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Model_Attribute {
-    return new Model_Attribute().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Model_UserAttributes {
+    return new Model_UserAttributes().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Model_Attribute {
-    return new Model_Attribute().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Model_UserAttributes {
+    return new Model_UserAttributes().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Model_Attribute {
-    return new Model_Attribute().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Model_UserAttributes {
+    return new Model_UserAttributes().fromJsonString(jsonString, options);
   }
 
-  static equals(a: Model_Attribute | PlainMessage<Model_Attribute> | undefined, b: Model_Attribute | PlainMessage<Model_Attribute> | undefined): boolean {
-    return proto3.util.equals(Model_Attribute, a, b);
+  static equals(a: Model_UserAttributes | PlainMessage<Model_UserAttributes> | undefined, b: Model_UserAttributes | PlainMessage<Model_UserAttributes> | undefined): boolean {
+    return proto3.util.equals(Model_UserAttributes, a, b);
   }
 }
 
@@ -256,10 +327,10 @@ export class AuthModel extends Message<AuthModel> {
     case: "globalRoles";
   } | {
     /**
-     * @generated from field: saacs.auth.v0.Model.Attribute attribute = 5;
+     * @generated from field: saacs.auth.v0.Model.UserAttributes user_attributes = 5;
      */
-    value: Model_Attribute;
-    case: "attribute";
+    value: Model_UserAttributes;
+    case: "userAttributes";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
   constructor(data?: PartialMessage<AuthModel>) {
@@ -274,7 +345,7 @@ export class AuthModel extends Message<AuthModel> {
     { no: 2, name: "identity", kind: "message", T: Model_Identity, oneof: "model" },
     { no: 3, name: "roles", kind: "message", T: Model_Roles, oneof: "model" },
     { no: 4, name: "global_roles", kind: "message", T: Model_GlobalRoles, oneof: "model" },
-    { no: 5, name: "attribute", kind: "message", T: Model_Attribute, oneof: "model" },
+    { no: 5, name: "user_attributes", kind: "message", T: Model_UserAttributes, oneof: "model" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): AuthModel {

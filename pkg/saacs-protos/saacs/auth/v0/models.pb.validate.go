@@ -35,6 +35,142 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on KeyAttribute with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *KeyAttribute) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on KeyAttribute with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in KeyAttributeMultiError, or
+// nil if none found.
+func (m *KeyAttribute) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *KeyAttribute) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for CollectionId
+
+	// no validation rules for MspId
+
+	// no validation rules for Oid
+
+	// no validation rules for Value
+
+	if all {
+		switch v := interface{}(m.GetPolices()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, KeyAttributeValidationError{
+					field:  "Polices",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, KeyAttributeValidationError{
+					field:  "Polices",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPolices()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return KeyAttributeValidationError{
+				field:  "Polices",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return KeyAttributeMultiError(errors)
+	}
+
+	return nil
+}
+
+// KeyAttributeMultiError is an error wrapping multiple validation errors
+// returned by KeyAttribute.ValidateAll() if the designated constraints aren't met.
+type KeyAttributeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m KeyAttributeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m KeyAttributeMultiError) AllErrors() []error { return m }
+
+// KeyAttributeValidationError is the validation error returned by
+// KeyAttribute.Validate if the designated constraints aren't met.
+type KeyAttributeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e KeyAttributeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e KeyAttributeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e KeyAttributeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e KeyAttributeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e KeyAttributeValidationError) ErrorName() string { return "KeyAttributeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e KeyAttributeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sKeyAttribute.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = KeyAttributeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = KeyAttributeValidationError{}
+
 // Validate checks the field values on Model with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -281,7 +417,7 @@ func (m *AuthModel) validate(all bool) error {
 			}
 		}
 
-	case *AuthModel_Attribute:
+	case *AuthModel_UserAttributes:
 		if v == nil {
 			err := AuthModelValidationError{
 				field:  "Model",
@@ -294,11 +430,11 @@ func (m *AuthModel) validate(all bool) error {
 		}
 
 		if all {
-			switch v := interface{}(m.GetAttribute()).(type) {
+			switch v := interface{}(m.GetUserAttributes()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, AuthModelValidationError{
-						field:  "Attribute",
+						field:  "UserAttributes",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -306,16 +442,16 @@ func (m *AuthModel) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, AuthModelValidationError{
-						field:  "Attribute",
+						field:  "UserAttributes",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetAttribute()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetUserAttributes()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return AuthModelValidationError{
-					field:  "Attribute",
+					field:  "UserAttributes",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -961,22 +1097,22 @@ var _ interface {
 	ErrorName() string
 } = Model_GlobalRolesValidationError{}
 
-// Validate checks the field values on Model_Attribute with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *Model_Attribute) Validate() error {
+// Validate checks the field values on Model_UserAttributes with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *Model_UserAttributes) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on Model_Attribute with the rules
+// ValidateAll checks the field values on Model_UserAttributes with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// Model_AttributeMultiError, or nil if none found.
-func (m *Model_Attribute) ValidateAll() error {
+// Model_UserAttributesMultiError, or nil if none found.
+func (m *Model_UserAttributes) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *Model_Attribute) validate(all bool) error {
+func (m *Model_UserAttributes) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -987,7 +1123,7 @@ func (m *Model_Attribute) validate(all bool) error {
 		switch v := interface{}(m.GetCollection()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, Model_AttributeValidationError{
+				errors = append(errors, Model_UserAttributesValidationError{
 					field:  "Collection",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -995,7 +1131,7 @@ func (m *Model_Attribute) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, Model_AttributeValidationError{
+				errors = append(errors, Model_UserAttributesValidationError{
 					field:  "Collection",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -1004,7 +1140,7 @@ func (m *Model_Attribute) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetCollection()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return Model_AttributeValidationError{
+			return Model_UserAttributesValidationError{
 				field:  "Collection",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1012,23 +1148,23 @@ func (m *Model_Attribute) validate(all bool) error {
 		}
 	}
 
-	for idx, item := range m.GetAttribute() {
+	for idx, item := range m.GetAttributes() {
 		_, _ = idx, item
 
 		if all {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, Model_AttributeValidationError{
-						field:  fmt.Sprintf("Attribute[%v]", idx),
+					errors = append(errors, Model_UserAttributesValidationError{
+						field:  fmt.Sprintf("Attributes[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, Model_AttributeValidationError{
-						field:  fmt.Sprintf("Attribute[%v]", idx),
+					errors = append(errors, Model_UserAttributesValidationError{
+						field:  fmt.Sprintf("Attributes[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -1036,8 +1172,8 @@ func (m *Model_Attribute) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return Model_AttributeValidationError{
-					field:  fmt.Sprintf("Attribute[%v]", idx),
+				return Model_UserAttributesValidationError{
+					field:  fmt.Sprintf("Attributes[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1047,19 +1183,19 @@ func (m *Model_Attribute) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return Model_AttributeMultiError(errors)
+		return Model_UserAttributesMultiError(errors)
 	}
 
 	return nil
 }
 
-// Model_AttributeMultiError is an error wrapping multiple validation errors
-// returned by Model_Attribute.ValidateAll() if the designated constraints
-// aren't met.
-type Model_AttributeMultiError []error
+// Model_UserAttributesMultiError is an error wrapping multiple validation
+// errors returned by Model_UserAttributes.ValidateAll() if the designated
+// constraints aren't met.
+type Model_UserAttributesMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m Model_AttributeMultiError) Error() string {
+func (m Model_UserAttributesMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1068,11 +1204,11 @@ func (m Model_AttributeMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m Model_AttributeMultiError) AllErrors() []error { return m }
+func (m Model_UserAttributesMultiError) AllErrors() []error { return m }
 
-// Model_AttributeValidationError is the validation error returned by
-// Model_Attribute.Validate if the designated constraints aren't met.
-type Model_AttributeValidationError struct {
+// Model_UserAttributesValidationError is the validation error returned by
+// Model_UserAttributes.Validate if the designated constraints aren't met.
+type Model_UserAttributesValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1080,22 +1216,24 @@ type Model_AttributeValidationError struct {
 }
 
 // Field function returns field value.
-func (e Model_AttributeValidationError) Field() string { return e.field }
+func (e Model_UserAttributesValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e Model_AttributeValidationError) Reason() string { return e.reason }
+func (e Model_UserAttributesValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e Model_AttributeValidationError) Cause() error { return e.cause }
+func (e Model_UserAttributesValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e Model_AttributeValidationError) Key() bool { return e.key }
+func (e Model_UserAttributesValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e Model_AttributeValidationError) ErrorName() string { return "Model_AttributeValidationError" }
+func (e Model_UserAttributesValidationError) ErrorName() string {
+	return "Model_UserAttributesValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e Model_AttributeValidationError) Error() string {
+func (e Model_UserAttributesValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1107,14 +1245,14 @@ func (e Model_AttributeValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModel_Attribute.%s: %s%s",
+		"invalid %sModel_UserAttributes.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = Model_AttributeValidationError{}
+var _ error = Model_UserAttributesValidationError{}
 
 var _ interface {
 	Field() string
@@ -1122,4 +1260,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = Model_AttributeValidationError{}
+} = Model_UserAttributesValidationError{}

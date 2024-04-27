@@ -1,4 +1,3 @@
-import { Attribute } from './saacs/auth/v0/attribute_pb.js'
 import { Collection } from './saacs/auth/v0/collection_pb.js'
 import { UserDirectMembership } from './saacs/auth/v0/identity_pb.js'
 import {
@@ -6,6 +5,7 @@ import {
   UserCollectionRoles,
   UserGlobalRoles,
 } from './saacs/auth/v0/roles_pb.js'
+import { KeyAttribute } from './saacs/auth/v0/models_pb.js'
 import { HiddenTxList } from './saacs/common/v0/history_pb.js'
 import { Specimen } from './saacs/biochain/v0/state_pb.js'
 import { Suggestion } from './saacs/common/v0/suggestion_pb.js'
@@ -16,12 +16,12 @@ import { ItemKey, KeySchema } from './saacs/common/v0/item_pb.js'
 import { isMessage } from '@bufbuild/protobuf'
 
 export type ItemTypeMessage =
-  | Attribute
   | Collection
   | UserDirectMembership
   | Role
   | UserCollectionRoles
   | UserGlobalRoles
+  | KeyAttribute
   | HiddenTxList
   | Specimen
   | Suggestion
@@ -31,11 +31,6 @@ export type ItemTypeMessage =
   | ItemWithNestedKey
 
 export const ItemKeySchema: Record<string, KeySchema> = {
-  'saacs.auth.v0.Attribute': KeySchema.fromJson({
-    itemType: 'saacs.auth.v0.Attribute',
-    itemKind: 2,
-    properties: 'mspId,oid,value',
-  }),
   'saacs.auth.v0.Collection': KeySchema.fromJson({
     itemType: 'saacs.auth.v0.Collection',
     itemKind: 2,
@@ -60,6 +55,11 @@ export const ItemKeySchema: Record<string, KeySchema> = {
     itemType: 'saacs.auth.v0.UserGlobalRoles',
     itemKind: 2,
     properties: 'mspId,userId',
+  }),
+  'saacs.auth.v0.KeyAttribute': KeySchema.fromJson({
+    itemType: 'saacs.auth.v0.KeyAttribute',
+    itemKind: 2,
+    properties: 'mspId,oid,value',
   }),
   'saacs.common.v0.HiddenTxList': KeySchema.fromJson({
     itemType: 'saacs.common.v0.HiddenTxList',
@@ -99,12 +99,12 @@ export const ItemKeySchema: Record<string, KeySchema> = {
 }
 
 export type PrimaryItemTypeMessage =
-  | Attribute
   | Collection
   | UserDirectMembership
   | Role
   | UserCollectionRoles
   | UserGlobalRoles
+  | KeyAttribute
   | Specimen
   | Book
   | SimpleItem
@@ -112,11 +112,6 @@ export type PrimaryItemTypeMessage =
   | ItemWithNestedKey
 
 export const PrimaryItemKeySchema: Record<string, KeySchema> = {
-  'saacs.auth.v0.Attribute': KeySchema.fromJson({
-    itemType: 'saacs.auth.v0.Attribute',
-    itemKind: 2,
-    properties: 'mspId,oid,value',
-  }),
   'saacs.auth.v0.Collection': KeySchema.fromJson({
     itemType: 'saacs.auth.v0.Collection',
     itemKind: 2,
@@ -141,6 +136,11 @@ export const PrimaryItemKeySchema: Record<string, KeySchema> = {
     itemType: 'saacs.auth.v0.UserGlobalRoles',
     itemKind: 2,
     properties: 'mspId,userId',
+  }),
+  'saacs.auth.v0.KeyAttribute': KeySchema.fromJson({
+    itemType: 'saacs.auth.v0.KeyAttribute',
+    itemKind: 2,
+    properties: 'mspId,oid,value',
   }),
   'saacs.biochain.v0.Specimen': KeySchema.fromJson({
     itemType: 'saacs.biochain.v0.Specimen',
@@ -186,15 +186,6 @@ export const SecondaryItemKeySchema: Record<string, KeySchema> = {
 
 export function PrimaryToKeySchema(item: PrimaryItemTypeMessage) {
   switch (true) {
-    // msp_id, oid, value
-    // item.mspId, item.oid, item.value
-    case isMessage(item, Attribute):
-      return new ItemKey({
-        itemType: 'saacs.auth.v0.Attribute',
-        itemKind: 2,
-        collectionId: item?.collectionId,
-        itemKeyParts: [item.mspId ?? '', item.oid ?? '', item.value ?? ''],
-      })
     // collection_id
     // item.collectionId
     case isMessage(item, Collection):
@@ -239,6 +230,15 @@ export function PrimaryToKeySchema(item: PrimaryItemTypeMessage) {
         itemKind: 2,
         collectionId: item?.collectionId,
         itemKeyParts: [item.mspId ?? '', item.userId ?? ''],
+      })
+    // msp_id, oid, value
+    // item.mspId, item.oid, item.value
+    case isMessage(item, KeyAttribute):
+      return new ItemKey({
+        itemType: 'saacs.auth.v0.KeyAttribute',
+        itemKind: 2,
+        collectionId: item?.collectionId,
+        itemKeyParts: [item.mspId ?? '', item.oid ?? '', item.value ?? ''],
       })
     // specimen_id
     // item.specimenId

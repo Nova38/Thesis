@@ -42,7 +42,8 @@
     "build:client": "pnpm --filter @saacs/client build",
     "dev": "pnpm --filter biochain-nuxt dev",
     "nuxt:install": "pnpm -r --filter !caliper  install ",
-    "test": "vitest --ui"
+    "test": "vitest --ui",
+    "generate": "buf generate proto"
   },
   "type": "module",
   "workspaces": [

@@ -7,7 +7,6 @@ import {
   ReadWriteSet,
 } from './saacs/common/v0/item_pb.js'
 import { Operation } from './saacs/common/v0/operation_pb.js'
-import { Attribute } from './saacs/auth/v0/attribute_pb.js'
 import { Collection } from './saacs/auth/v0/collection_pb.js'
 import { UserDirectMembership } from './saacs/auth/v0/identity_pb.js'
 import {
@@ -18,11 +17,12 @@ import {
 } from './saacs/auth/v0/roles_pb.js'
 import {
   AuthModel,
+  KeyAttribute,
   Model,
-  Model_Attribute,
   Model_GlobalRoles,
   Model_Identity,
   Model_Roles,
+  Model_UserAttributes,
 } from './saacs/auth/v0/models_pb.js'
 import { StateActivity } from './saacs/common/v0/activity_pb.js'
 import {
@@ -123,18 +123,18 @@ export const GlobalRegistry: IMessageTypeRegistry = createRegistry(
   KeySchema,
   ReadWriteSet,
   Operation,
-  Attribute,
   Collection,
   UserDirectMembership,
   Role,
   RoleIDList,
   UserCollectionRoles,
   UserGlobalRoles,
+  KeyAttribute,
   Model,
   Model_Identity,
   Model_Roles,
   Model_GlobalRoles,
-  Model_Attribute,
+  Model_UserAttributes,
   AuthModel,
   StateActivity,
   HiddenTx,

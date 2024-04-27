@@ -58,8 +58,9 @@
   "module": "./dist/index.mjs",
   "scripts": {
     "api": "ts-node ./src/api/main.ts",
-    "prepare": "pnpm format && pnpm run build",
-    "build": "unbuild",
+    "prepare": "pnpm run build",
+    "prebuild": "pnpm format",
+    "build": "pnpm format && unbuild",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
     "format": "prettier ./src --write",

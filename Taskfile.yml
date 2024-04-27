@@ -29,10 +29,12 @@ tasks:
       - go install ./cmd/protoc-gen-saacs-go
 
   gen:clean:
-    cmds:
-      - rm -rf ./lib/go/gen/saacs-cc/*
-      - rm -rf ./lib/go/gen/*
-      - rm -rf ./lib/es/gen/*
+    cmd:
+      for:
+        - './pkg/saacs-protos/saacs'
+        - './libs/saacs-protos-es/src/gen'
+        - './libs/saacs-protos-es/src/schema/gen'
+      cmd: rm -rf {{ .ITEM }}
 
   install:bin:
     desc: |
@@ -169,7 +171,7 @@ tasks:
     desc: Cleanup and build the libary needed for the protoc-gen-saacs-es to work
     cmds:
       - rm -rf ./cmd/protoc-gen-saacs-es/src/gen
-      - buf generate --template .\buf.cmd.gen.yaml
+      - buf generate --template buf.cmd.gen.yaml
 
 
   default:

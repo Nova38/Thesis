@@ -80,7 +80,7 @@ func (o ContractImpl) GetFull(
 
 	}
 
-	full, err := actions.PrimaryGetFull(ctx, obj, req.GetHistoryOptions().Include)
+	full, err := actions.PrimaryGetFull(ctx, obj, req.GetHistoryOptions())
 	if err != nil {
 		ctx.LogError(err)
 		return nil, oops.Wrap(err)
