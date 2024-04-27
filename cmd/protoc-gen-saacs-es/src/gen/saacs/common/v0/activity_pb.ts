@@ -4,7 +4,7 @@
 // @ts-nocheck
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { Any, FieldMask, Message, proto3, Timestamp } from "@bufbuild/protobuf";
 
 /**
  * Can be used as the history entry
@@ -47,6 +47,18 @@ export class StateActivity extends Message<StateActivity> {
    */
   note = "";
 
+  /**
+   * object
+   *
+   * @generated from field: google.protobuf.Any object = 6;
+   */
+  object?: Any;
+
+  /**
+   * @generated from field: google.protobuf.FieldMask mask = 7;
+   */
+  mask?: FieldMask;
+
   constructor(data?: PartialMessage<StateActivity>) {
     super();
     proto3.util.initPartial(data, this);
@@ -60,6 +72,8 @@ export class StateActivity extends Message<StateActivity> {
     { no: 3, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 4, name: "timestamp", kind: "message", T: Timestamp },
     { no: 5, name: "note", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 6, name: "object", kind: "message", T: Any },
+    { no: 7, name: "mask", kind: "message", T: FieldMask },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StateActivity {

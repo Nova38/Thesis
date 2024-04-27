@@ -123,10 +123,9 @@ const modeOptions = ref([
 <template>
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
-      <SpecimenEditCard
+      <SpecimenCardEdit
         :specimen-id
         :collection-id
-        :mode="mode"
       />
     </div>
 

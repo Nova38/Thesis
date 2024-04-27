@@ -39,12 +39,6 @@ const { status, data, error } = useQuery({
   },
 })
 
-watchEffect(() => {
-  if (status.value === 'success') {
-    reset(FormId.value, data.value)
-  }
-})
-
 async function submitHandler(value: PlainSpecimen, node: FormKitNode) {
   const x = new pb.Specimen(specimen.value)
   console.log(x)
@@ -77,6 +71,7 @@ const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
   <div>
     <FormKit
       :id="FormId"
+      v-slot="{ value, node }"
       v-model="specimen"
       type="form"
       :disabled="FormDisabled"

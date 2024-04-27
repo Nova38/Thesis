@@ -22,4 +22,8 @@ message StateActivity {
   string note = 5;
 
   // object
+
+  // object
+  google.protobuf.Any object = 6;
+  google.protobuf.FieldMask mask = 7;
 }

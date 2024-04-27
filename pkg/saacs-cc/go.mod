@@ -4,26 +4,26 @@ go 1.22.2
 
 require (
 	github.com/bufbuild/protovalidate-go v0.6.0
+	github.com/charmbracelet/log v0.4.0
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.7
 	github.com/hyperledger/fabric-chaincode-go v0.0.0-20240124143825-7dec3c7e7d45
 	github.com/hyperledger/fabric-contract-api-go v1.2.2
 	github.com/mennanov/fmutils v0.3.0
-	github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240422144942-998f95d5de3f
+	github.com/nova38/saacs/pkg/saacs-protos v0.0.0-20240427004825-9ac222a89052
 	github.com/onsi/ginkgo/v2 v2.17.1
 	github.com/onsi/gomega v1.32.0
 	github.com/samber/lo v1.39.0
 	github.com/samber/oops v1.10.1
+	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/protobuf v1.33.0
 )
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.33.0-20240401165935-b983156c5e99.1 // indirect
-	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
-	github.com/charmbracelet/log v0.4.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
@@ -64,7 +64,6 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.18.2 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

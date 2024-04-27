@@ -190,6 +190,11 @@ function addPreparation() {
         </div>
 
         <div class="flex flex-wrap gap-2">
+          <UButton
+            block
+            label="Add Preparation"
+            @click="addPreparation"
+          />
           <FormKit
             outer-class="w-full flex-grow"
             type="button"

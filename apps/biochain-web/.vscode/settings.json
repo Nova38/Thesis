@@ -18,7 +18,9 @@
       "source.fixAll.eslint": "always"
     },
     "editor.formatOnSave": false,
-    "prettier.enable": false
+    "prettier.enable": true
+
+
   },
   "cSpell.enabled": true,
   "cSpell.enableFiletypes": [
@@ -142,6 +144,8 @@
       "severity": "off"
     }
   ],
+    // "eslint.format.enable": true,
+
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
@@ -228,7 +232,6 @@
   "nuxtr.openItemsAfterCreation": true,
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
-  "eslint.packageManager": "pnpm",
   "cSpell.ignorePaths": [
     "package-lock.json",
     "node_modules",
@@ -240,5 +243,6 @@
   ],
   "conventionalCommits.scopes": [
     "proto"
-  ]
+  ],
+  "eslint.packageManager":"pnpm",
 }
