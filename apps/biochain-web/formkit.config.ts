@@ -1,11 +1,15 @@
 import { en } from '@formkit/i18n'
-import { createLocalStoragePlugin } from '@formkit/addons'
-import { createAutoHeightTextareaPlugin } from '@formkit/addons'
+import {
+  createLocalStoragePlugin,
+  createAutoHeightTextareaPlugin,
+  createMultiStepPlugin,
+  createFloatingLabelsPlugin,
+} from '@formkit/addons'
+import '@formkit/addons/css/multistep'
 
 // import { defineFormKitConfig } from "@formkit/vue";
 import { genesisIcons } from '@formkit/icons'
 import { defaultConfig } from '@formkit/vue'
-import { createFloatingLabelsPlugin } from '@formkit/addons'
 import { generateClasses } from '@formkit/themes'
 
 import { rootClasses } from './formkit.theme'
@@ -25,7 +29,7 @@ export default defaultConfig(
     },
     plugins: [
       createAutoHeightTextareaPlugin(),
-
+      createMultiStepPlugin(),
       createLocalStoragePlugin({
         // plugin defaults:
         prefix: 'formkit',
@@ -34,11 +38,10 @@ export default defaultConfig(
         maxAge: 3600000, // 1 hour
         debounce: 200,
         beforeSave: undefined,
-        beforeLoad: undefined
+        beforeLoad: undefined,
       }),
 
-
-    createFloatingLabelsPlugin({
+      createFloatingLabelsPlugin({
         // useAsDefault: true, // defaults to false
       }),
     ],

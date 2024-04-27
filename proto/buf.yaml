@@ -8,9 +8,6 @@ deps:
 breaking:
   use:
     - FILE
-  ignore:
-    - rbac/rbac.proto
-    - rbac/auth_service.proto
 lint:
   use:
     - DEFAULT

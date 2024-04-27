@@ -135,6 +135,10 @@
       "severity": "off"
     },
     {
+      "rule": "style/*",
+      "severity": "off"
+    },
+    {
       "rule": "format/*",
       "severity": "off"
     },

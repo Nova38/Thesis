@@ -53,5 +53,4 @@ export function generateIndex(schema: Schema) {
   baseIndexFile.print(`export * from "./global_reg.js"`)
   baseIndexFile.print(`export * from "./types_pb.js"`)
   baseIndexFile.print(`export * from "./key_schema.js"`)
-  baseIndexFile.print('')
 }
