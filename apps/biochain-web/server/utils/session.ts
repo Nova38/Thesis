@@ -32,3 +32,14 @@ export async function hash(str: string) {
   const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
   return hashHex
 }
+
+export async function requireAdminSession(event: H3Event) {
+  const session = await useAuthSession(event)
+  if (!session.data.username) {
+    throw createError({
+      message: 'Not Authorized',
+      statusCode: 401,
+    })
+  }
+  return session
+}

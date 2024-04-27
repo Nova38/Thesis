@@ -28,7 +28,8 @@ func (c *RBAC) CreateCollection(
 	}
 
 	if state.Exists(ctx, col) {
-		return nil, oops.Errorf("Collection already exists")
+		ctx.GetLogger().Error("Collection already exists", slog.Any("collection", col))
+		return nil, oops.With(col).Errorf("Collection already exists")
 	}
 
 	if col.GetDefault() == nil {

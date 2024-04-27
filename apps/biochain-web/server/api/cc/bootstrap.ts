@@ -2,40 +2,53 @@
 import { z } from 'zod'
 import { saacs } from '@saacs/client'
 
-const querySchema = z.object({
-  collectionId: z.string().optional(),
-})
+// const querySchema =
 export default defineEventHandler(async (event) => {
-  const query = await getValidatedQuery(event, (body) =>
-    querySchema.safeParse(body),
-)
-if (!query.success) throw query.error.issues
+  const query = await getValidatedQuery(
+    event,
+    z.object({
+      collectionId: z.string().optional(),
+    }).parse,
+  )
+
+  await requireAuthSession(event)
+
   const cc = await useChaincode(event)
-  const model = saacs.BiochainModel(query.data.collectionId ?? 'biochain')
 
-  const bootstrapRequest = new pb.BootstrapRequest({
-    collection: model.model.value?.collection,
-  })
+  const requests = saacs.BootstrapBiochainRequests(query.collectionId)
 
+  // // Make the collection request
+  console.log('Bootstrap Biochain')
 
-  const bootstrap = await cc.utilService.bootstrap(bootstrapRequest)
+  console.log(' Make Rules')
 
-  switch (model.model.case) {
-    case 'roles':
-      const roleRequest = model.model.value.roles.map((role) => {
-        return new pb.CreateRequest({
-          collectionId: role.collectionId,
-          policies: role.polices,
-        })
-      }
-      break;
+  const replies = []
 
-    default:
-      break;
+  try {
+    const bootstrap = await cc.utilService.bootstrap(requests.bootstrap)
+    replies.push({
+      key: 'bootstrap',
+      reply: bootstrap.toJson({ typeRegistry: cc.service.registry }),
+    })
+  } catch (error) {
+    console.error('Failed to create', JSON.stringify(error))
+    replies.push({ key: 'bootstrap', error })
   }
 
+  for (const r of requests.create) {
+    const k = r?.item?.key?.itemKeyParts?.join(':')
+    console.log('Creating', k)
+    try {
+      const reply = await cc.service.create(r)
+      replies.push({
+        key: k,
+        reply: reply.toJson({ typeRegistry: cc.service.registry }),
+      })
+    } catch (error) {
+      console.error('Failed to create', k, JSON.stringify(error))
+      replies.push({ key: k, error })
+    }
+  }
 
-
-  console.log(bootstrap)
-  return bootstrap
+  return { replies }
 })

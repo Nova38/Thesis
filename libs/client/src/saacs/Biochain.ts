@@ -1,5 +1,5 @@
 import { pb } from '@saacs/saacs-pb'
-import { ActionsAlias } from '../operations/common'
+import { ActionsAlias } from './actions'
 
 export function BiochainModel(collectionId?: string): pb.AuthModel {
   collectionId ??= 'biochain'
@@ -139,23 +139,23 @@ export function BiochainModel(collectionId?: string): pb.AuthModel {
             },
           },
 
-          {
-            roleId: 'Suggester',
-            note: 'Suggest Updates to Specimens',
-            parentRoleIds: [],
-            collectionId,
-            polices: {
-              defaultPolicy: {
-                actions: [...ActionsAlias.all.level.suggest],
-              },
-              defaultExcludedTypes: [
-                pb.Collection.typeName,
-                pb.Role.typeName,
-                pb.UserCollectionRoles.typeName,
-              ],
-              itemPolicies: {},
-            },
-          },
+          // {
+          //   roleId: 'Suggester',
+          //   note: 'Suggest Updates to Specimens',
+          //   parentRoleIds: [],
+          //   collectionId,
+          //   polices: {
+          //     defaultPolicy: {
+          //       actions: [...ActionsAlias.all.level.suggest],
+          //     },
+          //     defaultExcludedTypes: [
+          //       pb.Collection.typeName,
+          //       pb.Role.typeName,
+          //       pb.UserCollectionRoles.typeName,
+          //     ],
+          //     itemPolicies: {},
+          //   },
+          // },
         ],
       },
     },

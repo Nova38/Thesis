@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import path from 'path'
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({

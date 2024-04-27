@@ -100,7 +100,7 @@
       "request": "launch",
       "name": "client: edge",
       "cwd": "${workspaceFolder}/apps/biochain-web",
-      "url": "https://localhost:8000",
+      "url": "http://localhost:8000",
       "smartStep": true,
       "userDataDir": false,
       "webRoot": "${workspaceFolder}/apps/biochain-web/"

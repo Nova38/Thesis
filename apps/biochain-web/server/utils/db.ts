@@ -15,12 +15,16 @@ export interface User {
   username: string
 }
 
+export interface UserInfo {
+  username: string
+  password: string
+}
+
 export interface UserChaincodeIdentity {
   credentials: string
   key: string
   mspId: string
   userId: string
-  username: string
 }
 
 export async function getKeys() {
@@ -77,7 +81,3 @@ export async function updateUserByUsername(
     ...updates,
   })
 }
-
-// function getUserKey(username: string) {
-//   return `db:usersDB:${encodeURIComponent(username)}`
-// }
