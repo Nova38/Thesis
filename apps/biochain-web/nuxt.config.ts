@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  // debug: true,
+  debug: true,
 
   devServer: {
     // https: true,
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   experimental: {
     // typedPages: false,
     asyncContext: true,
-    watcher: 'parcel',
+    // watcher: 'parcel',
   },
 
   imports: {
@@ -73,36 +73,6 @@ export default defineNuxtConfig({
     'nuxt-primevue',
     'nuxt-shiki',
   ],
-
-  nitro: {
-    storage: {
-      '.data:auth': {
-        base: './.data/db/usersDB',
-        driver: 'fs',
-      },
-    },
-
-    esbuild: {
-      options: {
-        target: 'esnext',
-      },
-    },
-    experimental: {
-      tasks: true,
-      typescriptBundlerResolution: true,
-      openAPI: true,
-      database: true,
-    },
-    imports: {
-      mergeExisting: true,
-      presets: [
-        {
-          from: '@saacs/saacs-pb',
-          imports: ['auth', 'ccbio', 'common', 'GlobalRegistry', 'pb'],
-        },
-      ],
-    },
-  },
 
   primevue: {
     components: { prefix: 'P' },
@@ -139,7 +109,9 @@ export default defineNuxtConfig({
 
   typescript: {
     tsConfig: {
-      exclude: ['eslint.config.mjs'],
+      compilerOptions: {
+        noEmit: true,
+      },
     },
   },
 
@@ -152,6 +124,44 @@ export default defineNuxtConfig({
   vite: {
     define: {
       __VUE_PROD_DEVTOOLS__: true,
+    },
+  },
+
+  nitro: {
+    storage: {
+      '.data:auth': {
+        base: './.data/db/usersDB',
+        driver: 'fs',
+      },
+    },
+
+    typescript: {
+      tsConfig: {
+        compilerOptions: {
+          noEmit: true,
+        },
+      },
+    },
+
+    esbuild: {
+      options: {
+        target: 'esnext',
+      },
+    },
+    experimental: {
+      tasks: true,
+      typescriptBundlerResolution: true,
+      openAPI: true,
+      database: true,
+    },
+    imports: {
+      mergeExisting: true,
+      presets: [
+        {
+          from: '@saacs/saacs-pb',
+          imports: ['auth', 'ccbio', 'common', 'GlobalRegistry', 'pb'],
+        },
+      ],
     },
   },
 })
