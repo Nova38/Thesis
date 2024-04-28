@@ -5,5 +5,5 @@ export default (cert: X509Certificate) => {
     return dn.split('\n').join(',')
   }
 
-  return `x509::${formatDN(cert.subject)}::${formatDN(cert.issuer)}`
+  return `x509::${formatDN(cert.issuer)}::${formatDN(cert.subject)}`
 }

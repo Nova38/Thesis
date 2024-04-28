@@ -9,11 +9,19 @@ import type { User } from './db'
 import { sessionConfig } from './session'
 import { chaincode } from '@saacs/saacs-pb'
 
+/**
+ * Description placeholder
+ *
+ * @export
+ * @interface FabricConfig
+ * @typedef {FabricConfig}
+ */
 export interface FabricConfig {
   chaincode: {
     chaincode: string
     channel: string
   }
+
   peer: {
     grpcOptions: {
       'ssl-target-name-override': string
@@ -23,6 +31,7 @@ export interface FabricConfig {
     }
     url: string
   }
+
   public: {
     credentials: string
     key: string
@@ -31,6 +40,7 @@ export interface FabricConfig {
 }
 
 export const fabricConfig: FabricConfig = useRuntimeConfig().fabric || {}
+
 export function userToIdentity(user: User) {
   if (!user.mspId || !user.credentials) {
     throw createError({
@@ -77,6 +87,53 @@ export async function newGRPCClient() {
   return client
 }
 
+// INSECURE - Do not expose this function to the public,
+// Must authenticate user before calling this function
+async function BuildIdentityAsUser(username: string) {
+  const user = await findUserByUsername(username)
+  const identity = userToIdentity(user)
+  const { privateKey } = userToPrivateKey(user)
+  const signer = signers.newPrivateKeySigner(privateKey)
+
+  return {
+    identity,
+    signer,
+  }
+}
+
+export async function ChaincodeAsUser(username: string) {
+  const { identity, signer } = await BuildIdentityAsUser(username)
+
+  const client = await newGRPCClient()
+  const gateway = connect({ client, identity, signer })
+
+  const network = gateway.getNetwork(fabricConfig.chaincode.channel)
+  const contract = network.getContract(fabricConfig.chaincode.chaincode)
+
+  const service = new chaincode.chaincode.ItemServiceClient(
+    contract,
+    GlobalRegistry,
+  )
+
+  const utilService = new chaincode.utils.UtilsServiceClient(
+    contract,
+    GlobalRegistry,
+  )
+  return {
+    [Symbol.asyncDispose]: async () => {
+      console.log('closing gateway')
+      gateway.close()
+      client.close()
+    },
+
+    client,
+    gateway,
+    contract,
+    service,
+    utilService,
+  }
+}
+
 async function BuildIdentity(event: H3Event) {
   try {
     const session = await useSession<AuthSession>(event, sessionConfig)
@@ -88,15 +145,7 @@ async function BuildIdentity(event: H3Event) {
       })
     }
 
-    const user = await findUserByUsername(session.data.username)
-    const identity = userToIdentity(user)
-    const { privateKey } = userToPrivateKey(user)
-    const signer = signers.newPrivateKeySigner(privateKey)
-
-    return {
-      identity,
-      signer,
-    }
+    return await BuildIdentityAsUser(session.data.username)
   } catch (error) {
     const publicUser: User = {
       createdAt: '',
@@ -157,23 +206,5 @@ export async function useChaincode<T extends H3Event>(event: T) {
     contract,
     service,
     utilService,
-  }
-}
-
-export async function useFabric() {
-  const connection = await BuildGateway(useEvent())
-
-  const network = connection.gateway.getNetwork(fabricConfig.chaincode.channel)
-  const contract = network.getContract(fabricConfig.chaincode.chaincode)
-
-  const service = new chaincode.chaincode.ItemServiceClient(
-    contract,
-    GlobalRegistry,
-  )
-
-  return {
-    connection,
-    contract,
-    service,
   }
 }

@@ -41,8 +41,6 @@ export default defineNuxtConfig({
     watcher: 'parcel',
   },
 
-  // extends: [['@saacs/ui', { install: true }]],
-
   imports: {
     dirs: ['composables/cc/**', 'utils/**', 'utils/formkit/*'],
     presets: [
@@ -59,10 +57,6 @@ export default defineNuxtConfig({
         imports: ['defu'],
       },
     ],
-  },
-  formkit: {
-    // configFile: 'node_modules/@saacs/ui/formkit.config.ts',
-    // autoImport: true,
   },
 
   modules: [
@@ -111,16 +105,10 @@ export default defineNuxtConfig({
   },
 
   primevue: {
-    components: {
-      prefix: 'P',
-    },
-    composables: {
-      exclude: ['useToast'],
-    },
+    components: { prefix: 'P' },
+    composables: { exclude: ['useToast'] },
     importPT: { from: resolve(__dirname, './primevue/presets/wind/') }, // import and apply preset
-    options: {
-      unstyled: true,
-    },
+    options: { unstyled: true },
   },
 
   runtimeConfig: {
@@ -148,6 +136,13 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  typescript: {
+    tsConfig: {
+      exclude: ['eslint.config.mjs'],
+    },
+  },
+
   sourcemap: true,
 
   testUtils: {

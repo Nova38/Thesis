@@ -81,3 +81,13 @@ export async function updateUserByUsername(
     ...updates,
   })
 }
+
+export async function GetAllUsers() {
+  const storage = useStorage('.data:auth')
+
+  return await Promise.all(
+    (await storage.getKeys()).map(async (key) => {
+      return await useStorage('.data:auth').getItem<User>(key)
+    }),
+  )
+}
