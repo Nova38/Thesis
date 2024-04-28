@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  // debug: true,
+  debug: true,
 
   devServer: {
     // https: true,
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   experimental: {
     // typedPages: false,
     asyncContext: true,
-    watcher: 'parcel',
+    // watcher: 'parcel',
   },
 
   // extends: [['@saacs/ui', { install: true }]],
