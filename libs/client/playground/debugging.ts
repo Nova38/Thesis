@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 // Path to crypto materials: On Windows machine - %USERPROFILE%.vscode\extensions\spydra.hyperledger-fabric-debugger-{version}\fabric\local\organizations\peerOrganizations\org1.debugger.com. On Linux and Mac, it will be - ~/.vscode/extensions/spydra.hyperledger-fabric-debugger-{version}/fabric/local/organizations/peerOrganizations/org1.debugger.com.
 // User key directory: users/Org1Admin/msp/keystore
 // User certificate path: users/Org1Admin/msp/signcerts/cert.pem
@@ -7,7 +8,7 @@
 
 import { promises as fs } from 'node:fs'
 import * as crypto from 'node:crypto'
-import { join } from 'pathe'
+import { join, resolve } from 'pathe'
 import * as grpc from '@grpc/grpc-js'
 
 import type {
@@ -25,24 +26,16 @@ import { createBiochainGateway, createUtilGateway } from '../src/fabric/client'
 interface UserCrypto { signer: Signer, identity: Identity }
 
 export async function BuildFromBaseDir(path: string) {
-  const OrgUsersDir = join(
-    path,
-    'organizations',
-    'peerOrganizations',
-    'org1.debugger.com',
-    'users',
-  )
-
   const mspId = 'Org1MSP'
   const peerEndpoint = 'localhost:5051'
-  const OrgUsers = await fs.readdir(OrgUsersDir)
+  const OrgUsers = await fs.readdir(path)
 
   async function newGRPCClient() {
     return new grpc.Client(peerEndpoint, grpc.credentials.createInsecure())
   }
 
   async function getUserCryptoFiles(user: string) {
-    const userDir = join(OrgUsersDir, user, 'msp')
+    const userDir = join(path, user, 'msp')
     const keyDir = join(userDir, 'keystore')
     const keyName = (await fs.readdir(keyDir)).pop() || ''
 
@@ -82,16 +75,10 @@ export async function BuildFromBaseDir(path: string) {
   const client = await newGRPCClient()
   console.log('Users:', Users)
 
-  const gateway = connect({
-    client,
-    identity: Users.Org1Admin.identity,
-    signer: Users.Org1Admin.signer,
-  })
-
-  return { gateway, client }
+  return { Users, client }
 }
 
-const baseDir = join(
+const _debug_baseDir = join(
   process.env.USERPROFILE || '~',
   '.vscode',
   'extensions',
@@ -99,14 +86,32 @@ const baseDir = join(
   'fabric',
   'local',
 )
+const OrgUsersDir = join(
+  _debug_baseDir,
+  'organizations',
+  'peerOrganizations',
+  'org1.debugger.com',
+  'users',
+)
 
-const { gateway, client } = await BuildFromBaseDir(baseDir)
+const userDir = resolve('.', 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
+
+const { Users, client } = await BuildFromBaseDir(userDir)
+
+const gateway = connect({
+  client,
+  identity: Users['Admin@org1.example.com'].identity,
+  signer: Users['Admin@org1.example.com'].signer,
+})
 
 const network = await gateway.getNetwork('default')
 const contract = network.getContract('saacs-caas')
 
 const utils = createUtilGateway(contract)
-const BiochainClient = createBiochainGateway(contract)
+// const BiochainClient = createBiochainGateway(contract)
+
+utils.getCurrentUser({})
+
 try {
   const u = await utils.getCurrentUser({})
   console.log(u)

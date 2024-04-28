@@ -21,11 +21,6 @@
   //   "playground"
   // ],
   "compilerOptions": {
-    "paths": {
-      "@": [
-        "./src"
-      ]
-    },
     "allowImportingTsExtensions": true,
     "esModuleInterop": true
   },

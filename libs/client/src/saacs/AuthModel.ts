@@ -1,6 +1,7 @@
 import { pb } from '@saacs/saacs-pb'
 import type { PartialMessage } from '@bufbuild/protobuf'
 import { PrimaryToItem } from './Item'
+import { BiochainModel } from './Biochain'
 
 // export interface AuthModel =
 
@@ -47,10 +48,10 @@ export function AuthModelToRequests(authModel: PartialMessage<pb.AuthModel>): {
         }),
       }
 
-    case 'attribute':
+    case 'userAttributes':
       return {
         bootstrap: bootstrapRequest,
-        create: model.value.attribute.map((attribute) => {
+        create: model.value.attributes.map((attribute) => {
           return new pb.CreateRequest({
             item: PrimaryToItem(attribute),
           })
@@ -61,4 +62,12 @@ export function AuthModelToRequests(authModel: PartialMessage<pb.AuthModel>): {
       throw new Error('AuthModel case not recognized')
       break
   }
+}
+
+export function BootstrapBiochainRequests(collectionId?: string): {
+  bootstrap: pb.BootstrapRequest
+  create: pb.CreateRequest[]
+} {
+  const authModel = BiochainModel(collectionId)
+  return AuthModelToRequests(authModel)
 }

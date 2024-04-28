@@ -114,10 +114,12 @@ func (o ContractImpl) Bootstrap(
 	req *cc.BootstrapRequest,
 ) (res *cc.BootstrapResponse, err error) {
 
-	ctx.GetStub().PutState("bootstrap", []byte("true"))
+	// ctx.GetStub().PutState("bootstrap", []byte("true"))
 
 	switch req.GetCollection().GetAuthType() {
 	case authpb.AuthType_AUTH_TYPE_GLOBAL_ROLE:
+		ctx.GetLogger().Info("Global Role Auth BootStrap")
+
 		builder := &collections.GlobalRBAC{}
 		if _, err = builder.CreateCollection(ctx, req.GetCollection()); err != nil {
 			ctx.LogError(err)
