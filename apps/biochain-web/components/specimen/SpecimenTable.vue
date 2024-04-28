@@ -326,8 +326,9 @@ const ColDefs = ref([
  * The columns that are currently selected
  */
 const SelectedColumns = useState('SelectedColumns', () => {
-  return ColDefs.value.slice(0, 5)
+  return ColDefs.value
 })
+
 function onToggle(val: unknown[]) {
   SelectedColumns.value = ColDefs.value.filter((col) => val.includes(col))
 }

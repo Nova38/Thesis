@@ -93,13 +93,17 @@ const getHistory = await useCustomFetch<ccbio.Specimen>(
     </div>
 
     <div class="flex flex-col gap-4">
-      <UCard>
+      <SpecimenCardTimeline
+        :collection-id
+        :specimenId
+      />
+      <!-- <UCard>
         <template #header>
           <div class="flex flex-row items-center justify-center text-lg">
             Suggestions
           </div>
         </template>
-      </UCard>
+      </UCard> -->
     </div>
   </div>
 </template>

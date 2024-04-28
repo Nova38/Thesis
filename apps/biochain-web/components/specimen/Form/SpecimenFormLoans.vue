@@ -10,6 +10,9 @@ const loans = useFormKitContext('specimen.loans')
 function addLoan() {
   console.log('addLoan', loans.value)
   if (!loans.value) return
+
+  // I don't know why the buttons are not beign disable
+
   const cur = loans.value.node.value as PlainMessage<pb.Specimen_Loan>
 
   if (!cur) {

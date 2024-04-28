@@ -1,5 +1,5 @@
 import { ccbio } from '#imports'
-import type { FieldMask } from '@bufbuild/protobuf'
+import { FieldMask } from '@bufbuild/protobuf'
 import { ZSpecimen } from '~/utils/cc/proto/Specimen'
 import { z } from 'zod'
 import { Any } from '@bufbuild/protobuf'
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
 
     const result = await cc.service.update({
       item: item,
-      updateMask: body.mask,
+      updateMask: body.mask ?? new FieldMask(),
     })
 
     console.log(result)

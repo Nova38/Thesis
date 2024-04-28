@@ -65,11 +65,28 @@ export const LastModified = z.object({
   note: z.string().trim().optional(),
   timestamp: z.coerce
     .date()
-    .transform((d) => Timestamp.fromDate(d))
+    .transform((d) => {
+      if (d instanceof Date) return Timestamp.fromDate(d)
+      else {
+        return Timestamp.fromDate(new Date())
+      }
+    })
     .optional(),
   txId: z.string().trim().optional(),
   userId: z.string().trim().optional(),
 })
+export const WithoutTimestampLastModified = LastModified.omit({
+  timestamp: true,
+})
+
+export type WithoutTimestampLastModified = z.infer<
+  typeof WithoutTimestampLastModified
+>
+
+const LastModifiedMaybeTimestamp = z.union([
+  LastModified,
+  WithoutTimestampLastModified,
+])
 
 export const sex = z
   .enum([
@@ -125,7 +142,7 @@ export const ZSpecimen = z.object({
       georeferenceDate: ProtoDate.optional(),
       georeferenceProtocol: z.string().trim().optional(),
       habitat: z.string().trim().optional(),
-      lastModified: LastModified.optional(),
+      lastModified: LastModifiedMaybeTimestamp.optional(),
       latitude: z.coerce.number().optional(),
       locality: z.coerce.string().trim().optional(),
       locationRemarks: z.string().trim().optional(),
@@ -144,7 +161,7 @@ export const ZSpecimen = z.object({
         grantedDate: ProtoDate.optional(),
         grantedTo: z.string().trim().optional(),
         id: z.string().trim().optional(),
-        lastModified: LastModified.optional(),
+        lastModified: LastModifiedMaybeTimestamp.optional(),
       }),
     )
     .default({}),
@@ -153,19 +170,19 @@ export const ZSpecimen = z.object({
       z.object({
         hash: z.string().trim().optional(),
         id: z.string().trim().optional(),
-        lastModified: LastModified.optional(),
+        lastModified: LastModifiedMaybeTimestamp.optional(),
         notes: z.string().trim().optional(),
         url: z.string().trim().optional(),
       }),
     )
     .default({}),
-  lastModified: LastModified.optional(),
+  lastModified: LastModifiedMaybeTimestamp.optional(),
   loans: z
     .record(
       z.object({
         description: z.string().trim().optional(),
         id: z.string().trim().optional(),
-        lastModified: LastModified.optional(),
+        lastModified: LastModifiedMaybeTimestamp.optional(),
         loanedBy: z.string().trim().optional(),
         loanedDate: ProtoDate.optional(),
         loanedTo: z.string().trim().optional(),
@@ -184,7 +201,7 @@ export const ZSpecimen = z.object({
       determiner: z.string().trim().optional(),
       fieldDate: ProtoDate.optional(),
       fieldNumber: z.string().trim().optional(),
-      lastModified: LastModified.optional(),
+      lastModified: LastModifiedMaybeTimestamp.optional(),
       originalDate: ProtoDate.optional(),
       tissueNumber: z.string().trim().optional(),
     })
@@ -193,7 +210,7 @@ export const ZSpecimen = z.object({
     .object({
       age: age, // age.default('AGE_UNDEFINED'), // 'AGE_UNDEFINED'), // ,
       condition: z.string().trim().optional(),
-      lastModified: LastModified.optional(),
+      lastModified: LastModifiedMaybeTimestamp.optional(),
       molt: z.string().trim().optional(),
       notes: z.string().trim().optional(),
       preparations: z
@@ -215,7 +232,7 @@ export const ZSpecimen = z.object({
       family: z.string().trim().default(''),
       genus: z.string().trim().default(''),
       kingdom: z.string().trim().default(''),
-      lastModified: LastModified.optional(),
+      lastModified: LastModifiedMaybeTimestamp.optional(),
       order: z.string().trim().default(''),
       phylum: z.string().trim().default(''),
       species: z.string().trim().default(''),

@@ -34,7 +34,6 @@ export async function getKeys() {
 export async function findUserByUsername(username: string): Promise<User> {
   const storage = useStorage('.data:auth')
   const allKeys = await storage.getKeys()
-  console.log(allKeys)
   const user = await storage.getItem(username)
   if (!user) throw createError({ message: 'User not found!', statusCode: 403 })
 

@@ -131,6 +131,10 @@ export default defineNuxtConfig({
         base: './.data/db/usersDB',
         driver: 'fs',
       },
+      'import:log': {
+        base: './.data/logs/import',
+        driver: 'fs',
+      },
     },
 
     typescript: {

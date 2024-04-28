@@ -56,52 +56,85 @@ const specimen = ref<PlainSpecimen>(MakeEmptySpecimen())
 const { isSuccess, data } = useQuery({
   queryKey: ['specimen', props.collectionId, props.specimenId],
   queryFn: async () => {
-    const raw = await $fetch('/api/cc/specimens/get', {
+    const raw = await $fetch<PlainSpecimen>('/api/cc/specimens/get', {
       query: {
         collectionId: props.collectionId,
         specimenId: props.specimenId,
       },
     })
+
+    const parsed = ZSpecimen.safeParse(raw)
+    if (!parsed.success) {
+      toast.add({
+        title: 'Specimen Failed to load',
+        id: 'specimen-status',
+        timeout: 5000,
+        icon: 'line-md:alert',
+      })
+      return
+    } else {
+      if (parsed.data?.primary) {
+        parsed.data.primary.originalDate ??= new pb.Date({})
+      }
+      if (parsed.data?.georeference) {
+        parsed.data.georeference.georeferenceDate ??= new pb.Date({})
+      }
+      if (parsed.data?.georeference) {
+        parsed.data.georeference.georeferenceDate ??= new pb.Date({})
+      }
+
+      if (parsed.data?.primary?.originalDate === undefined) {
+      }
+    }
+
     toast.add({
       title: 'Specimen loaded',
       id: 'specimen-status',
       timeout: 5000,
       icon: 'line-md:square-to-confirm-square-transition',
     })
-    reset(FormId.value, { specimen: raw })
-    return raw
+    reset(FormId.value, { specimen: parsed.data })
+    return parsed.data
   },
 })
 
-const { mutate } = useMutation({
-  mutationFn: (specimen: PlainSpecimen) =>
-    $fetch('/api/cc/specimens/update', {
-      method: 'POST',
-      body: new pb.Specimen(specimen),
-    }),
+// <!-- const { mutate } = useMutation({
+//   mutationFn: (specimen: PlainSpecimen) =>
+//     $fetch('/api/cc/specimens/update', {
+//       method: 'POST',
+//       body: new pb.Specimen(specimen),
+//     }),
 
-  onMutate: async (formData: PlainSpecimen) => {
-    return formData
-  },
-  onSuccess: async (formData) => {
-    toast.add({
-      title: 'Success',
-      description: JSON.stringify(formData),
-    })
-    console.log(formData)
-    reset(FormId.value, formData)
-  },
-})
+//   onMutate: async (formData: PlainSpecimen) => {
+//     return formData
+//   },
+//   onSuccess: async (formData) => {
+//     toast.add({
+//       title: 'Success',
+//       description: JSON.stringify(formData),
+//     })
+//     console.log(formData)
+//     reset(FormId.value, formData)
+//   },
+// }) -->
 
 onMounted(() => {
   reset(FormId.value, data)
 })
 
-const [zodPlugin, submitHandler] = createZodPlugin(zodSchema, (formData) => {
-  console.log(formData)
-  const s = new pb.Specimen(formData.specimen)
-  return mutate(s)
-})
+const [zodPlugin, submitHandler] = createZodPlugin(
+  zodSchema,
+  async (formData) => {
+    console.log(formData)
+
+    return await $fetch('/api/cc/specimens/update', {
+      method: 'POST',
+      body: {
+        specimen: new pb.Specimen(formData.specimen),
+      },
+    })
+  },
+)
 // const { _data, refresh } = await useFetch('/api/cc/specimens/get', {
 //   query: {
 //     collectionId: props.collectionId,

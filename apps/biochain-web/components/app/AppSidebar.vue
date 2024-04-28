@@ -101,13 +101,15 @@ const hide = useNuxtApp().$auth.isAdmin
   <UContainer
     :ui="{
       padding: 'px-0 md:px-0 lg:px-0 sm:px-0',
-      constrained: 'max-w-7xl lg:min-w-40 md:min-w-35',
+      constrained: 'max-w-7xl lg:min-w-40 md:min-w-40 sm:min-w-30 min-w-40',
       base: 'border-current bg-surface-200 dark:bg-surface-800 ',
     }"
   >
     <UAccordion
       multiple
       :items="groups"
+      variant="outline"
+      color="gray"
       :ui="{
         item: {
           padding: 'pt-0 ',
