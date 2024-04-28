@@ -59,30 +59,84 @@ const links = computed(() => {
     ] as VerticalNavigationLink[]
   })
 })
+
+const groups = computed(() => {
+  if (!data.value || data.value.length === 0 || error.value) {
+    return []
+  }
+
+  return data.value?.map((col) => {
+    return {
+      label: col.id,
+      links: [
+        {
+          label: 'Specimen Table',
+          to: `/collection/${col.id}/SpecimenTable`,
+          icon: 'carbon:data-table',
+        },
+        {
+          label: 'Access Control',
+          to: `/collection/${col.id}/AccessControl`,
+          icon: 'carbon:pedestrian',
+        },
+        {
+          label: 'Bulk Process',
+          to: `/collection/${col.id}/Specimen/bulk`,
+          icon: 'carbon:data-bin',
+        },
+        {
+          label: 'New Specimen',
+          to: `/collection/${col.id}/Specimen/New`,
+          icon: 'carbon:document-add',
+        },
+      ],
+    }
+  })
+})
+
+const hide = useNuxtApp().$auth.isAdmin
 </script>
 
 <template>
-  <div class="flex min-w-40 flex-col">
-    <UButton
-      block
-      label="Create Collection"
-      to="/NewCollection"
-    />
-    <UVerticalNavigation
-      :links="links"
+  <UContainer
+    :ui="{
+      padding: 'px-0 md:px-0 lg:px-0 sm:px-0',
+      constrained: 'max-w-7xl lg:min-w-40 md:min-w-35',
+      base: 'border-current bg-surface-200 dark:bg-surface-800 ',
+    }"
+  >
+    <UAccordion
+      multiple
+      :items="groups"
       :ui="{
-        wrapper: 'border-s border-gray-200 dark:border-gray-800 space-y-2',
-        base: 'group block border-s -ms-px leading-6 before:hidden',
-        padding: 'p-0 ps-4',
-        rounded: '',
-        font: '',
-        active:
-          'text-primary-500 dark:text-primary-400 border-current font-semibold',
-        inactive:
-          'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
+        item: {
+          padding: 'pt-0 ',
+
+          icon: 'text-gray-700 dark:text-gray-200',
+        },
+        default: {
+          class: 'mb-0 mt-1.5 mr-0.5 w-full ',
+        },
       }"
-    />
-  </div>
+    >
+      <template #item="{ item }">
+        <UVerticalNavigation
+          :links="item.links"
+          :ui="{
+            wrapper: 'ml-3 border-l-2 border-slate-600 dark:border-slate-200',
+          }"
+        />
+      </template>
+    </UAccordion>
+  </UContainer>
 </template>
 
 <style></style>
+
+<!-- <template v-if="hide">
+      <UButton
+        block
+        label="Create Collection"
+        to="/NewCollection"
+      />
+    </template> -->

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const query = await getValidatedQuery(
     event,
     z.object({
-      collectionId: z.string().optional(),
+      collectionId: z.string(),
     }).parse,
   )
 
@@ -16,16 +16,19 @@ export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
   const requests = saacs.BootstrapBiochainRequests(query.collectionId)
-
+  console.log(
+    'Requests',
+    requests.bootstrap.toJsonString({ typeRegistry: cc.service.registry }),
+  )
   // // Make the collection request
-  console.log('Bootstrap Biochain')
-
-  console.log(' Make Rules')
 
   const replies = []
 
   try {
+    console.log('Bootstrap Biochain')
+
     const bootstrap = await cc.utilService.bootstrap(requests.bootstrap)
+    console.log('Bootstrap Biochain successful')
     replies.push({
       key: 'bootstrap',
       reply: bootstrap.toJson({ typeRegistry: cc.service.registry }),

@@ -1,10 +1,5 @@
 import { z } from 'zod'
 
-const userSchema = z.object({
-  password: z.string(),
-  username: z.string(),
-})
-
 export default defineEventHandler(async (event) => {
   const session = await useAuthSession(event)
 
@@ -15,13 +10,15 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const result = await readValidatedBody(event, (body) =>
-    userSchema.safeParse(body),
+  const result = await readValidatedBody(
+    event,
+    z.object({
+      password: z.string(),
+      username: z.string(),
+    }).parse,
   )
 
-  if (!result.success) throw result.error.issues
-
-  const { password, username } = result.data
+  const { password, username } = result
 
   const user = await findUserByUsername(username)
 

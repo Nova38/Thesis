@@ -7,8 +7,8 @@ export const useLoggedIn = () => useState('loggedIn')
 // const { $auth } = useNuxtApp();
 
 export async function authLogin(username: string, password: string) {
+  // const useLoggedIn = () => useState('loggedIn')
   try {
-    // const useLoggedIn = () => useState('loggedIn')
     const auth = useAuth()
     const result = await $fetch('/api/auth/login', {
       method: 'POST',
@@ -19,14 +19,12 @@ export async function authLogin(username: string, password: string) {
     })
     useLoggedIn().value = true
     auth.redirectTo.value = ''
-    await useAuth().updateSession()
+    await useAuth().refresh()
     await navigateTo(useAuth().redirectTo.value || '/')
 
     return result
-  } catch (e) {
-    console.log(e)
-    createError(e ?? {})
-    throw e
+  } catch (error) {
+    console.error('Error in authLogin:', error)
   }
 }
 
@@ -48,5 +46,5 @@ export async function authLogout() {
     method: 'POST',
   })
   useLoggedIn.value = false
-  await useAuth().updateSession()
+  await useAuth().refresh()
 }

@@ -1,5 +1,7 @@
 // import type { AuthSession } from '~/server/utils/session'
 
+// derived from https://github.com/nuxt/examples/blob/main/examples/auth/local/auth/plugins/0.auth.ts
+
 export default defineNuxtPlugin({
   name: 'auth',
 
@@ -7,28 +9,14 @@ export default defineNuxtPlugin({
     //   const { data: session, refresh: refreshSession } =
     //     await useCustomFetch<AuthSession>('/api/auth/session')
 
-    const session = await $fetch('/api/auth/session')
+    const { data: session, refresh } = await useFetch('/api/auth/session')
 
-    const username = useState('username', () => {
-      return session?.username
-    })
-    const redirectTo = useState('authRedirect', () => '')
+    const username = computed(() => session.value?.username)
+    const redirectTo = useState('authRedirect', () => '/')
 
-    const loggedIn = useState('loggedIn', () => {
-      return !!username.value
-    })
+    const loggedIn = computed(() => !!username.value)
 
-    const updateSession = async () => {
-      const tmp = await $fetch('/api/auth/session')
-      console.log(tmp)
-      username.value = session?.username ?? ''
-      loggedIn.value = !!username.value
-    }
-
-    const clearSession = () => {
-      username.value = ''
-      loggedIn.value = false
-    }
+    const isAdmin = computed(() => username.value === 'thomas')
 
     addRouteMiddleware(
       'auth',
@@ -46,9 +34,9 @@ export default defineNuxtPlugin({
         auth: {
           loggedIn,
           redirectTo,
-          updateSession,
+          refresh,
+          isAdmin,
           username,
-          clearSession,
         },
       },
     }

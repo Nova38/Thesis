@@ -24,8 +24,6 @@ export default defineNuxtConfig({
     port: 8000,
   },
   devtools: {
-    disableAuthorization: true,
-
     enabled: true,
     timeline: {
       enabled: true,

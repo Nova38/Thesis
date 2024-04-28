@@ -17,7 +17,7 @@ const isOpen = ref(false)
       <!-- <UButton label="Open" @click="isOpen = true" /> -->
 
       <div class="flex max-w-full flex-grow flex-row flex-nowrap p-0.5">
-        <AppSidebar class="bg-zinc-100 dark:bg-zinc-800" />
+        <AppSidebar />
 
         <!--        <USlideover v-model="isOpen" :overlay="true">-->
         <!--          <NavSidebar class="bg-zinc-100 dark:bg-zinc-800" />-->

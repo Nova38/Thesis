@@ -1,32 +1,10 @@
 <script lang="ts" setup>
 import type { FormKitNode } from '@formkit/core'
 
-const router = useRouter()
-
-const submitting = ref(false)
-
 // const that = this;
 type Form = {
   username: string
   password: string
-}
-
-async function submit(data: Form, _node: FormKitNode) {
-  console.log('submitting', data)
-  submitting.value = true
-  const res = await authLogin(data.username, data.password)
-    .then(() => {
-      submitting.value = false
-
-      router.push('/').catch((err) => {
-        console.log(err)
-      })
-    })
-    .catch((err) => {
-      submitting.value = false
-      console.log(err)
-    })
-  console.log(res)
 }
 </script>
 
@@ -34,13 +12,14 @@ async function submit(data: Form, _node: FormKitNode) {
   <UCard class="m-4">
     <FormKit
       type="form"
-      @submit="submit"
+      @submit="(data) => authLogin(data.username, data.password)"
     >
       <FormKit
         type="text"
         name="username"
         label="Username"
         validation="required"
+        help="Please enter your username (without t- prefix)"
       />
       <FormKit
         type="password"
