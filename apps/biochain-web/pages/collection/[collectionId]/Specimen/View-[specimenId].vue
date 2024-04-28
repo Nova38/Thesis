@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import { type PlainSpecimen, ccbio, pb } from '#imports'
-import { Timestamp, createRegistry, toPlainMessage } from '@bufbuild/protobuf'
-import { keys } from 'radash'
-import { useFormKitNodeById } from '@formkit/vue'
-import SpecimenEditCard from '~/components/specimen/SpecimenEditCard.vue'
-import type { AsyncDataRequestStatus } from '#app/composables/asyncData'
+import { ccbio, pb } from '#imports'
 
 import type { PlainMessage } from '@bufbuild/protobuf'
 
@@ -13,31 +8,11 @@ const route = useRoute()
 const history = ref<PlainMessage<pb.SpecimenHistory>>(
   new ccbio.SpecimenHistory(),
 )
-const specimen = ref<PlainSpecimen>()
 
 const specimenId = computed(() => route.params?.specimenId.toString() ?? '')
 const collectionId = computed(() => route.params?.collectionId.toString() ?? '')
 
-const modeCapitalized = computed(
-  () => mode.value[0].toUpperCase() + mode.value.slice(1),
-)
-
 // const specimen =  await $fetch(`/api/cc/specimens/get`)
-
-const SpecimenFetch = await useFetch(`/api/cc/specimens/get`, {
-  key: makeSpecimenKey(
-    route.params?.collectionId.toString(),
-    route.params?.specimenId.toString(),
-  ),
-  onResponse: ({ response }) => {
-    console.log('specimen', response._data)
-    specimen.value = new ccbio.Specimen(response._data)
-  },
-  query: {
-    collectionId: toValue(route.params?.collectionId.toString()),
-    specimenId: toValue(route.params?.specimenId.toString()),
-  },
-})
 
 const getHistory = await useCustomFetch<ccbio.Specimen>(
   `/api/cc/specimens/history`,
@@ -58,8 +33,6 @@ const getHistory = await useCustomFetch<ccbio.Specimen>(
     },
   },
 )
-
-const mode: Ref<FormMode> = ref('view')
 
 // const specimen = ref<PlainSpecimen>(dirty.value)
 
@@ -108,60 +81,18 @@ const mode: Ref<FormMode> = ref('view')
 //     console.error(error)
 //   }
 // }
-const headerColor = computed(() => toModeColor(mode.value))
-
-const FormDisabled = computed(() => mode.value === 'view')
-const modeOptions = ref([
-  {
-    label: 'View',
-    value: 'view' as FormMode,
-    attrs: {
-      'data-mode': 'view',
-    },
-  },
-  {
-    label: 'Update',
-    value: 'update' as FormMode,
-    attrs: {
-      mode: 'update',
-    },
-  },
-  {
-    label: 'Suggest',
-    value: 'suggest' as FormMode,
-    attrs: {
-      mode: 'suggest',
-    },
-  },
-])
 </script>
 
 <template>
   <div class="flex flex-row gap-4 p-4">
     <div class="basis-size-3/4 min-w-lg">
-      <div v-if="specimen">
-        <SpecimenEditCard
-          :specimen="specimen"
-          :specimen-id
-          :collection-id
-          :mode="mode"
-        />
-      </div>
+      <SpecimenCardEdit
+        :specimen-id
+        :collection-id
+      />
     </div>
 
     <div class="flex flex-col gap-4">
-      <UCard>
-        <template #header>
-          <div class="flex flex-row items-center justify-center text-lg">
-            History
-          </div>
-        </template>
-        <SpecimenTimeline
-          v-if="history"
-          :history="history"
-          class="basis-size-1/4"
-        />
-      </UCard>
       <UCard>
         <template #header>
           <div class="flex flex-row items-center justify-center text-lg">

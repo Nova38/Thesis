@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { MessageOptions, proto3 } from "@bufbuild/protobuf";
+import { MessageOptions, proto3 } from '@bufbuild/protobuf'
 
 /**
  * @generated from enum saacs.auth.v0.AuthType
@@ -52,20 +52,20 @@ export enum AuthType {
   ATTRIBUTE = 5,
 }
 // Retrieve enum metadata with: proto3.getEnumType(AuthType)
-proto3.util.setEnumType(AuthType, "saacs.auth.v0.AuthType", [
-  { no: 0, name: "AUTH_TYPE_UNSPECIFIED" },
-  { no: 1, name: "AUTH_TYPE_NONE" },
-  { no: 2, name: "AUTH_TYPE_IDENTITY" },
-  { no: 3, name: "AUTH_TYPE_ROLE" },
-  { no: 4, name: "AUTH_TYPE_GLOBAL_ROLE" },
-  { no: 5, name: "AUTH_TYPE_ATTRIBUTE" },
-]);
+proto3.util.setEnumType(AuthType, 'saacs.auth.v0.AuthType', [
+  { no: 0, name: 'AUTH_TYPE_UNSPECIFIED' },
+  { no: 1, name: 'AUTH_TYPE_NONE' },
+  { no: 2, name: 'AUTH_TYPE_IDENTITY' },
+  { no: 3, name: 'AUTH_TYPE_ROLE' },
+  { no: 4, name: 'AUTH_TYPE_GLOBAL_ROLE' },
+  { no: 5, name: 'AUTH_TYPE_ATTRIBUTE' },
+])
 
 /**
  * @generated from extension: saacs.auth.v0.AuthType auth_type = 55888;
  */
 export const auth_type = proto3.makeExtension<MessageOptions, AuthType>(
-  "saacs.auth.v0.auth_type",
+  'saacs.auth.v0.auth_type',
   MessageOptions,
-  () => ({ no: 55888, kind: "enum", T: proto3.getEnumType(AuthType) }),
-);
+  () => ({ no: 55888, kind: 'enum', T: proto3.getEnumType(AuthType) }),
+)

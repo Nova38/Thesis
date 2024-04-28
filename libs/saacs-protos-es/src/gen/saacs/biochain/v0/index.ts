@@ -1,1 +1,1 @@
-export * from "./index_state_pb.js"
+export * from './index_state_pb.js'

@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+definePageMeta({
+  auth: true,
+})
+</script>
 
 <template>
   <div>Access Control</div>

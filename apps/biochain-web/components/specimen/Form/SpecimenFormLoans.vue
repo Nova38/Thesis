@@ -1,26 +1,31 @@
 <script lang="ts" setup>
+import type { pb } from '#imports'
 import { ccbio } from '#imports'
 import { useFormKitContext } from '@formkit/vue'
+import { type PlainMessage } from '@bufbuild/protobuf'
+import { toPlainMessage } from '@bufbuild/protobuf'
 
 const loans = useFormKitContext('specimen.loans')
 
 function addLoan() {
   console.log('addLoan', loans.value)
   if (!loans.value) return
-  const cur = loans.value.node.value as ccbio.Specimen_Loan
+  const cur = loans.value.node.value as PlainMessage<pb.Specimen_Loan>
 
   if (!cur) {
     loans.value.node.input({
       '1': new ccbio.Specimen_Loan({
         loanedDate: new ccbio.Date({}),
-      }).toJson(),
+      }),
     })
   } else {
     loans.value.node.input({
       ...cur,
-      [Object.keys(cur).length + 1]: new ccbio.Specimen_Loan({
-        loanedDate: new ccbio.Date({}),
-      }),
+      [Object.keys(cur).length + 1]: toPlainMessage(
+        new ccbio.Specimen_Loan({
+          loanedDate: new ccbio.Date({}),
+        }),
+      ),
     })
   }
 
@@ -35,26 +40,22 @@ function addLoan() {
       :toggleable="true"
     >
       <FormKit
-        type="button"
-        label="Add Loan"
-        @click="addLoan"
-        :outer-class="{
-            'max-w-[22em]': false,
-            'w-full': true,
-          }"
-        input-class="w-full justify-center items-center flex"
-      />
-      <FormKit
-        v-slot="{ value }"
+        v-slot="{ value, state: { disabled } }"
         type="group"
         name="loans"
       >
+        <UButton
+          block
+          :disabled="disabled"
+          label="Add Preparation"
+          @click="addLoan"
+        />
         <template v-for="(v, name) in value">
           <template v-if="typeof name === 'string'">
             <FormKit
               :key="name"
+              v-slot="{ value: loan }"
               type="group"
-              #default="{value}"
               :name="name"
             >
               <div class="inline-flex flex-wrap gap-2">
@@ -80,13 +81,14 @@ function addLoan() {
                   name="description"
                   label="Description"
                 />
-                <SpecimenFormDate v-if="value?.loanedDate" name="loanedDate" />
+                <SpecimenFormDate
+                  v-if="loan?.loanedDate"
+                  name="loanedDate"
+                />
               </div>
             </FormKit>
-            <UDivider class="my-2"/>
           </template>
         </template>
-
       </FormKit>
     </PFieldset>
   </div>

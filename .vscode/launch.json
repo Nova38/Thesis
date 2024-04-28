@@ -94,6 +94,50 @@
       "env": {
         "CORE_CHAINCODE_LOGGING_LEVEL": "DEBUG"
       }
+    },
+    {
+      "type": "msedge",
+      "request": "launch",
+      "name": "client: edge",
+      "cwd": "${workspaceFolder}/apps/biochain-web",
+      "url": "https://localhost:8000",
+      "smartStep": true,
+      "userDataDir": false,
+      "webRoot": "${workspaceFolder}/apps/biochain-web/"
+    },
+    {
+      "type": "vscode-edge-devtools.debug",
+      "request": "launch",
+      "name": "client: edge-in-code",
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}/apps/biochain-web/"
+    },
+    // {
+    //   "type": "vscode-edge-devtools.debug",
+    //   "request": "launch",
+    //   "name": "Launch Microsoft Edge and open the Edge DevTools",
+    //   "url": "http://localhost:8000",
+    //   "webRoot": "${workspaceFolder}"
+    // },
+    {
+      "name": "server: nuxt",
+      "type": "node",
+      "request": "launch",
+      "outputCapture": "std",
+      "cwd": "${workspaceFolder}/apps/biochain-web",
+      "program": "${workspaceFolder}/apps/biochain-web/node_modules/nuxi/bin/nuxi.mjs",
+      "args": [
+        "dev"
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "fullstack: nuxt",
+      "configurations": [
+        "server: nuxt",
+        "client: edge"
+      ]
     }
   ]
 }

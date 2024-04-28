@@ -267,19 +267,24 @@ message GetHiddenTxResponse {
 message HideTxRequest {
   saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
   saacs.common.v0.HiddenTx hidden_tx = 2 [(buf.validate.field).required = true];
+
+  bool for_msp = 3;
 }
 message HideTxResponse {
   saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
   saacs.common.v0.HiddenTxList hidden_txs = 2;
+  bool for_msp = 3;
 }
 
 message UnHideTxRequest {
   saacs.common.v0.ItemKey key = 3 [(buf.validate.field).required = true];
+  bool for_msp = 1;
   string tx_id = 2 [(buf.validate.field).string.min_len = 1];
 }
 message UnHideTxResponse {
   saacs.common.v0.ItemKey key = 1 [(buf.validate.field).required = true];
   saacs.common.v0.HiddenTxList hidden_txs = 2;
+  bool for_msp = 3;
 }
 
 // ════════════════════════════════ Suggestions ════════════════════════════════════

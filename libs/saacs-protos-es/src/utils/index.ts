@@ -1,9 +1,9 @@
-import * as factory from './factory.js';
-import * as fakers from './fakers.js';
-import { GlobalRegistry } from '../gen/global_reg.js';
+import * as factory from './factory.js'
+import * as fakers from './fakers.js'
+import { GlobalRegistry } from '../gen/global_reg.js'
 
 export const utils = {
-    factory,
-    fakers,
-    GlobalRegistry
-};
+  factory,
+  fakers,
+  GlobalRegistry,
+}

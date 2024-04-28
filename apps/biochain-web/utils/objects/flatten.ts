@@ -217,10 +217,10 @@ export type EmptyOrFlatSpecimenKeys = FlatSpecimenKeys | undefined
 
 const s = MakeEmptySpecimen()
 s.collectionId = 'collectionId'
-console.log('s', s)
-const SpecimenKeys = FlattenObject(s)
+// console.log('s', s)
+// const SpecimenKeys = FlattenObject(s)
 
-console.log('SpecimenKeys', SpecimenKeys)
+// console.log('SpecimenKeys', SpecimenKeys)
 
 const ra = {
   name: 'ra',
@@ -237,6 +237,6 @@ const ra = {
   ],
 }
 
-console.log(crush(ra))
-console.log(keys(ra))
-console.log(keys(s.toJson({ emitDefaultValues: true }) as object))
+// console.log(crush(ra))
+// console.log(keys(ra))
+// console.log(keys(s.toJson({ emitDefaultValues: true }) as object))

@@ -8,7 +8,6 @@ import "google/protobuf/descriptor.proto";
 import "saacs/auth/v0/policy.proto";
 import "saacs/auth/v0/type.proto";
 // ─────────────────────────────────────────────────────────────────────────────────
-
 import "saacs/common/v0/options.proto";
 
 // Identity Auth Object

@@ -1,0 +1,18 @@
+{
+  "$id": "saacs.auth.v0.Model.UserAttributes.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attributes": {
+      "items": {
+        "$ref": "saacs.auth.v0.KeyAttribute.schema.json"
+      },
+      "type": "array"
+    },
+    "collection": {
+      "$ref": "saacs.auth.v0.Collection.schema.json"
+    }
+  },
+  "title": "User Attributes",
+  "type": "object"
+}

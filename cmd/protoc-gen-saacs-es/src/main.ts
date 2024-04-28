@@ -140,6 +140,10 @@ function populateFields(message: AnyMessage): AnyMessage {
 
 function generateFabricTest(schema: Schema) {
   for (const file of schema.files) {
+    if (file.services.length === 0) {
+      continue
+    }
+
     const f = schema.generateFile(file.name + '.fabric')
     // const registry = createRegistryFromDescriptors(createDescriptorSet(schema.proto.sourceFileDescriptors) )
 

@@ -32,6 +32,7 @@
   "cSpell.enabled": true,
   "cSpell.enableFiletypes": [
     "!json",
+    "!plaintext",
     "!yaml",
     "proto3"
   ],
@@ -80,6 +81,7 @@
     "contractapi",
     "defu",
     "descriptorpb",
+    "extendee",
     "formkit",
     "golines",
     "gridlines",
@@ -130,6 +132,10 @@
   "eslint.rules.customizations": [
     {
       "rule": "prettier/*",
+      "severity": "off"
+    },
+    {
+      "rule": "style/*",
       "severity": "off"
     },
     {

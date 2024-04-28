@@ -255,6 +255,8 @@ func getHistory[T common.ItemInterface](
 			return nil, err
 		}
 
+		// todo: implement msp hidden
+
 	}
 
 	resultIterator, err := ctx.GetStub().GetHistoryForKey(key)

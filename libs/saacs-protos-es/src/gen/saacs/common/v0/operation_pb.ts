@@ -3,9 +3,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
-import { FieldMask, Message, proto3 } from "@bufbuild/protobuf";
-import { Action } from "./enums_pb.js";
+import type {
+  BinaryReadOptions,
+  FieldList,
+  JsonReadOptions,
+  JsonValue,
+  PartialMessage,
+  PlainMessage,
+} from '@bufbuild/protobuf'
+import { FieldMask, Message, proto3 } from '@bufbuild/protobuf'
+import { Action } from './enums_pb.js'
 
 /**
  * @generated from message saacs.common.v0.Operation
@@ -14,50 +21,67 @@ export class Operation extends Message<Operation> {
   /**
    * @generated from field: saacs.common.v0.Action action = 1;
    */
-  action = Action.UNSPECIFIED;
+  action = Action.UNSPECIFIED
 
   /**
    * @generated from field: string collection_id = 2;
    */
-  collectionId = "";
+  collectionId = ''
 
   /**
    * @generated from field: string item_type = 3;
    */
-  itemType = "";
+  itemType = ''
 
   /**
    * @generated from field: google.protobuf.FieldMask paths = 5;
    */
-  paths?: FieldMask;
+  paths?: FieldMask
 
   constructor(data?: PartialMessage<Operation>) {
-    super();
-    proto3.util.initPartial(data, this);
+    super()
+    proto3.util.initPartial(data, this)
   }
 
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "saacs.common.v0.Operation";
+  static readonly runtime: typeof proto3 = proto3
+  static readonly typeName = 'saacs.common.v0.Operation'
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "action", kind: "enum", T: proto3.getEnumType(Action) },
-    { no: 2, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "item_type", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 5, name: "paths", kind: "message", T: FieldMask },
-  ]);
+    { no: 1, name: 'action', kind: 'enum', T: proto3.getEnumType(Action) },
+    {
+      no: 2,
+      name: 'collection_id',
+      kind: 'scalar',
+      T: 9 /* ScalarType.STRING */,
+    },
+    { no: 3, name: 'item_type', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
+    { no: 5, name: 'paths', kind: 'message', T: FieldMask },
+  ])
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Operation {
-    return new Operation().fromBinary(bytes, options);
+  static fromBinary(
+    bytes: Uint8Array,
+    options?: Partial<BinaryReadOptions>,
+  ): Operation {
+    return new Operation().fromBinary(bytes, options)
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Operation {
-    return new Operation().fromJson(jsonValue, options);
+  static fromJson(
+    jsonValue: JsonValue,
+    options?: Partial<JsonReadOptions>,
+  ): Operation {
+    return new Operation().fromJson(jsonValue, options)
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Operation {
-    return new Operation().fromJsonString(jsonString, options);
+  static fromJsonString(
+    jsonString: string,
+    options?: Partial<JsonReadOptions>,
+  ): Operation {
+    return new Operation().fromJsonString(jsonString, options)
   }
 
-  static equals(a: Operation | PlainMessage<Operation> | undefined, b: Operation | PlainMessage<Operation> | undefined): boolean {
-    return proto3.util.equals(Operation, a, b);
+  static equals(
+    a: Operation | PlainMessage<Operation> | undefined,
+    b: Operation | PlainMessage<Operation> | undefined,
+  ): boolean {
+    return proto3.util.equals(Operation, a, b)
   }
 }

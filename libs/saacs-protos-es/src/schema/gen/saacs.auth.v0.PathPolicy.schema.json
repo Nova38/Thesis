@@ -25,7 +25,8 @@
               "ACTION_HIDE_TX",
               "ACTION_UNHIDE_TX",
               "ACTION_HIDE_MSP_TX",
-              "ACTION_UNHIDE_MSP_TX"
+              "ACTION_UNHIDE_MSP_TX",
+              "ACTION_VIEW_MSP_HIDDEN_TX"
             ],
             "title": "Action",
             "type": "string"

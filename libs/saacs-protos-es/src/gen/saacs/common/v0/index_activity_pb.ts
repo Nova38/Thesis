@@ -1,1 +1,1 @@
-export * from "./activity_pb.js"
+export * from './activity_pb.js'

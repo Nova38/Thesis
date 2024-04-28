@@ -3,7 +3,7 @@
   "description": "",
   "version": "0.0.0",
   "dependencies": {
-    "@bufbuild/protobuf": "^1.8.0",
+    "@bufbuild/protobuf": "^1.9.0",
     "@bufbuild/protoplugin": "^1.8.0",
     "@connectrpc/connect": "^1.4.0",
     "@connectrpc/connect-node": "^1.4.0",
@@ -59,9 +59,11 @@
   "scripts": {
     "api": "ts-node ./src/api/main.ts",
     "prepare": "pnpm run build",
-    "build": "unbuild",
+    "prebuild": "pnpm format",
+    "build": "pnpm format && unbuild",
     "lint": "eslint --ext .ts src",
     "lint:fix": "eslint --ext .ts src --fix",
+    "format": "prettier ./src --write",
     "dev": "vitest dev",
     "play": "jiti playground",
     "postinstall": "pnpm run build",

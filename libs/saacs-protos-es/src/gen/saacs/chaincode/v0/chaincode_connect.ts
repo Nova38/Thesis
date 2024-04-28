@@ -3,8 +3,45 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateRequest, CreateResponse, DeleteRequest, DeleteResponse, GetFullRequest, GetFullResponse, GetHiddenTxRequest, GetHiddenTxResponse, GetHistoryRequest, GetHistoryResponse, GetRequest, GetResponse, GetSuggestionRequest, GetSuggestionResponse, HideTxRequest, HideTxResponse, ListByAttrsRequest, ListByAttrsResponse, ListRequest, ListResponse, SuggestionApproveRequest, SuggestionApproveResponse, SuggestionByPartialKeyRequest, SuggestionByPartialKeyResponse, SuggestionCreateRequest, SuggestionCreateResponse, SuggestionDeleteRequest, SuggestionDeleteResponse, SuggestionListByCollectionRequest, SuggestionListByCollectionResponse, SuggestionListByItemRequest, SuggestionListByItemResponse, UnHideTxRequest, UnHideTxResponse, UpdateRequest, UpdateResponse } from "./chaincode_pb.js";
-import { MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
+import {
+  CreateRequest,
+  CreateResponse,
+  DeleteRequest,
+  DeleteResponse,
+  GetFullRequest,
+  GetFullResponse,
+  GetHiddenTxRequest,
+  GetHiddenTxResponse,
+  GetHistoryRequest,
+  GetHistoryResponse,
+  GetRequest,
+  GetResponse,
+  GetSuggestionRequest,
+  GetSuggestionResponse,
+  HideTxRequest,
+  HideTxResponse,
+  ListByAttrsRequest,
+  ListByAttrsResponse,
+  ListRequest,
+  ListResponse,
+  SuggestionApproveRequest,
+  SuggestionApproveResponse,
+  SuggestionByPartialKeyRequest,
+  SuggestionByPartialKeyResponse,
+  SuggestionCreateRequest,
+  SuggestionCreateResponse,
+  SuggestionDeleteRequest,
+  SuggestionDeleteResponse,
+  SuggestionListByCollectionRequest,
+  SuggestionListByCollectionResponse,
+  SuggestionListByItemRequest,
+  SuggestionListByItemResponse,
+  UnHideTxRequest,
+  UnHideTxResponse,
+  UpdateRequest,
+  UpdateResponse,
+} from './chaincode_pb.js'
+import { MethodIdempotency, MethodKind } from '@bufbuild/protobuf'
 
 /**
  * rpc CreateCollection(CreateCollectionRequest) returns
@@ -19,13 +56,13 @@ import { MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
  * @generated from service saacs.chaincode.v0.ItemService
  */
 export const ItemService = {
-  typeName: "saacs.chaincode.v0.ItemService",
+  typeName: 'saacs.chaincode.v0.ItemService',
   methods: {
     /**
      * @generated from rpc saacs.chaincode.v0.ItemService.Get
      */
     get: {
-      name: "Get",
+      name: 'Get',
       I: GetRequest,
       O: GetResponse,
       kind: MethodKind.Unary,
@@ -35,7 +72,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.GetFull
      */
     getFull: {
-      name: "GetFull",
+      name: 'GetFull',
       I: GetFullRequest,
       O: GetFullResponse,
       kind: MethodKind.Unary,
@@ -45,7 +82,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.List
      */
     list: {
-      name: "List",
+      name: 'List',
       I: ListRequest,
       O: ListResponse,
       kind: MethodKind.Unary,
@@ -55,7 +92,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.ListByAttrs
      */
     listByAttrs: {
-      name: "ListByAttrs",
+      name: 'ListByAttrs',
       I: ListByAttrsRequest,
       O: ListByAttrsResponse,
       kind: MethodKind.Unary,
@@ -65,7 +102,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.Create
      */
     create: {
-      name: "Create",
+      name: 'Create',
       I: CreateRequest,
       O: CreateResponse,
       kind: MethodKind.Unary,
@@ -74,7 +111,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.Update
      */
     update: {
-      name: "Update",
+      name: 'Update',
       I: UpdateRequest,
       O: UpdateResponse,
       kind: MethodKind.Unary,
@@ -83,7 +120,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.Delete
      */
     delete: {
-      name: "Delete",
+      name: 'Delete',
       I: DeleteRequest,
       O: DeleteResponse,
       kind: MethodKind.Unary,
@@ -92,7 +129,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.GetHistory
      */
     getHistory: {
-      name: "GetHistory",
+      name: 'GetHistory',
       I: GetHistoryRequest,
       O: GetHistoryResponse,
       kind: MethodKind.Unary,
@@ -102,7 +139,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.GetHiddenTx
      */
     getHiddenTx: {
-      name: "GetHiddenTx",
+      name: 'GetHiddenTx',
       I: GetHiddenTxRequest,
       O: GetHiddenTxResponse,
       kind: MethodKind.Unary,
@@ -112,7 +149,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.HideTx
      */
     hideTx: {
-      name: "HideTx",
+      name: 'HideTx',
       I: HideTxRequest,
       O: HideTxResponse,
       kind: MethodKind.Unary,
@@ -121,7 +158,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.UnHideTx
      */
     unHideTx: {
-      name: "UnHideTx",
+      name: 'UnHideTx',
       I: UnHideTxRequest,
       O: UnHideTxResponse,
       kind: MethodKind.Unary,
@@ -130,7 +167,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.GetSuggestion
      */
     getSuggestion: {
-      name: "GetSuggestion",
+      name: 'GetSuggestion',
       I: GetSuggestionRequest,
       O: GetSuggestionResponse,
       kind: MethodKind.Unary,
@@ -140,7 +177,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionListByCollection
      */
     suggestionListByCollection: {
-      name: "SuggestionListByCollection",
+      name: 'SuggestionListByCollection',
       I: SuggestionListByCollectionRequest,
       O: SuggestionListByCollectionResponse,
       kind: MethodKind.Unary,
@@ -150,7 +187,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionListByItem
      */
     suggestionListByItem: {
-      name: "SuggestionListByItem",
+      name: 'SuggestionListByItem',
       I: SuggestionListByItemRequest,
       O: SuggestionListByItemResponse,
       kind: MethodKind.Unary,
@@ -160,7 +197,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionByPartialKey
      */
     suggestionByPartialKey: {
-      name: "SuggestionByPartialKey",
+      name: 'SuggestionByPartialKey',
       I: SuggestionByPartialKeyRequest,
       O: SuggestionByPartialKeyResponse,
       kind: MethodKind.Unary,
@@ -172,7 +209,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionCreate
      */
     suggestionCreate: {
-      name: "SuggestionCreate",
+      name: 'SuggestionCreate',
       I: SuggestionCreateRequest,
       O: SuggestionCreateResponse,
       kind: MethodKind.Unary,
@@ -181,7 +218,7 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionDelete
      */
     suggestionDelete: {
-      name: "SuggestionDelete",
+      name: 'SuggestionDelete',
       I: SuggestionDeleteRequest,
       O: SuggestionDeleteResponse,
       kind: MethodKind.Unary,
@@ -190,10 +227,10 @@ export const ItemService = {
      * @generated from rpc saacs.chaincode.v0.ItemService.SuggestionApprove
      */
     suggestionApprove: {
-      name: "SuggestionApprove",
+      name: 'SuggestionApprove',
       I: SuggestionApproveRequest,
       O: SuggestionApproveResponse,
       kind: MethodKind.Unary,
     },
-  }
-} as const;
+  },
+} as const

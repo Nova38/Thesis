@@ -7,12 +7,7 @@ const CollectionId = computed(() => {
 </script>
 
 <template>
-  <div>
-    <!-- <pre wrap>{{ config.app.baseURL }}</pre> -->
-    <!-- {{ crush(MakeEmptySpecimen()) }} -->
-    {{ CollectionId }}
-
-  </div>
+  <div></div>
 </template>
 
 <style></style>

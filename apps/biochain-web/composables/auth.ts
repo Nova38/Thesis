@@ -2,14 +2,14 @@ export function useAuth() {
   const nuxtApp = useNuxtApp()
   return nuxtApp.$auth
 }
-const useLoggedIn = () => useState('loggedIn')
+export const useLoggedIn = () => useState('loggedIn')
 
 // const { $auth } = useNuxtApp();
 
 export async function authLogin(username: string, password: string) {
   try {
     // const useLoggedIn = () => useState('loggedIn')
-
+    const auth = useAuth()
     const result = await $fetch('/api/auth/login', {
       method: 'POST',
       body: {
@@ -18,7 +18,7 @@ export async function authLogin(username: string, password: string) {
       },
     })
     useLoggedIn().value = true
-    useAuth().redirectTo.value = null
+    auth.redirectTo.value = ''
     await useAuth().updateSession()
     await navigateTo(useAuth().redirectTo.value || '/')
 

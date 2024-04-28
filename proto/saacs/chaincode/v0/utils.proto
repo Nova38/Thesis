@@ -3,13 +3,13 @@ syntax = "proto3";
 package saacs.chaincode.v0;
 
 import "buf/validate/validate.proto";
-import "google/protobuf/any.proto";
+// import "google/protobuf/any.proto";
 import "google/protobuf/descriptor.proto";
 // ─────────────────────────────────────────────────────────────────────────────────
 import "saacs/auth/v0/collection.proto";
 import "saacs/auth/v0/identity.proto";
 import "saacs/auth/v0/roles.proto";
-import "saacs/auth/v0/type.proto";
+// import "saacs/auth/v0/type.proto";
 // ─────────────────────────────────────────────────────────────────────────────────
 import "saacs/common/v0/operation.proto";
 import "saacs/common/v0/options.proto";

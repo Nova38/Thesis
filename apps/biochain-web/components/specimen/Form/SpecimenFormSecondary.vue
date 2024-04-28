@@ -1,24 +1,17 @@
 <script lang="ts" setup>
 // import { useFormKitContext } from '#imports'
+import { ccbio } from '#imports'
+import { toPlainMessage } from '@bufbuild/protobuf'
+import { useFormKitContext } from '@formkit/vue'
 const sNode = ref(null)
 const collapsed = defineModel<boolean>('collapsed', {
-  default: true,
+  default: false,
 })
-import { ccbio } from '#imports'
-import { useFormKitContext } from '@formkit/vue'
+
+const defaultSecondary = toPlainMessage(new ccbio.Specimen_Secondary({}))
 
 const secondary = useFormKitContext('specimen.secondary', (node) => {
-  curValue.value = JSON.stringify(node.value, null, 2)
-  node.node.on('settled.deep', (v) => {
-    curValue.value = JSON.stringify(v.origin.value, null, 2)
-  })
-})
-
-const curValue = ref('{}')
-
-watch(secondary, (v) => {
-  console.log('secondary', v)
-  if (!v) return
+  node.node.on('settled.deep', () => {})
 })
 
 function addPreparation() {
@@ -43,9 +36,6 @@ function addPreparation() {
     })
   }
 }
-
-
-
 </script>
 
 <template>
@@ -57,9 +47,11 @@ function addPreparation() {
     >
       <FormKit
         id="secondary"
+        ref="sNode"
+        v-slot="{ value: v, state: { disabled } }"
         type="group"
         name="secondary"
-        ref="sNode"
+        :value="defaultSecondary"
       >
         <div class="subGroup">
           <FormKit
@@ -93,23 +85,23 @@ function addPreparation() {
             :options="[
               {
                 label: 'Not Specified',
-                value: ccbio.Specimen_Secondary_SEX.SEX_UNDEFINED,
+                value: 0,
               },
               {
                 label: 'Unknown',
-                value: ccbio.Specimen_Secondary_SEX.SEX_UNKNOWN,
+                value: 1,
               },
               {
                 label: 'Atypical',
-                value: ccbio.Specimen_Secondary_SEX.SEX_ATYPICAL,
+                value: 2,
               },
               {
                 label: 'Female',
-                value: ccbio.Specimen_Secondary_SEX.SEX_FEMALE,
+                value: 3,
               },
               {
                 label: 'Male',
-                value: ccbio.Specimen_Secondary_SEX.SEX_MALE,
+                value: 4,
               },
             ]"
           />
@@ -168,13 +160,14 @@ function addPreparation() {
         </div>
         <div class="inline-flex flex-wrap gap-2">
           <FormKit
+            v-if="v?.preparations"
             id="preparations"
             v-slot="{ value }"
             type="group"
             name="preparations"
           >
             <template
-              v-for="(v, name) in value"
+              v-for="(_v, name) in value"
               :key="name"
             >
               <template v-if="typeof name === 'string'">
@@ -195,14 +188,12 @@ function addPreparation() {
             </template>
           </FormKit>
         </div>
-
-        <div class="flex flex-wrap gap-2">
-          <FormKit
-            outer-class="w-full flex-grow"
-            type="button"
+        <div>
+          <UButton
+            block
+            :disabled="disabled"
             label="Add Preparation"
-
-            @click="addPreparation()"
+            @click="addPreparation"
           />
         </div>
       </FormKit>

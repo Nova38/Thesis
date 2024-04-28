@@ -2,7 +2,7 @@
   "$id": "saacs.biochain.v0.SpecimenHistory.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "option go_package =\n \"github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1\";",
+  "description": "option go_package =\r\n \"github.com/nova38/saacs/gen/lib/biochain/ccbio/schema/v1;schemav1\";",
   "properties": {
     "entries": {
       "items": {

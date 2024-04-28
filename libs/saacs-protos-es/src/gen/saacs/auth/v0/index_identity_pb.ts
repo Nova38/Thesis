@@ -1,1 +1,1 @@
-export * from "./identity_pb.js"
+export * from './identity_pb.js'

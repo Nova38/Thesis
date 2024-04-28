@@ -8,27 +8,15 @@ const specimen = defineModel<PlainSpecimen>('specimen', {
   default: () => MakeEmptySpecimen(),
 })
 
-const props = withDefaults(
-  defineProps<{
-    formPrefix: string
-  }>(),
-  {
-    formPrefix: 'specimen',
-    startCollapsed: false,
-  },
-)
-
 // type Sections = "taxon" | "primary" | "secondary" | "georeference" | "loans" | "grants"
 </script>
 
 <template>
   <FormKit
-    v-slot="{ value }"
     v-model="specimen"
     name="specimen"
     type="group"
     dirty-behavior="compare"
-    :actions="false"
     :plugins="[DirtyLabelPlugin]"
     validation-visibility="live"
     class="space-y-4"
@@ -52,7 +40,7 @@ const props = withDefaults(
       <SpecimenFormLoans />
       <SpecimenFormGrants />
 
-      <DevOnly>
+      <!-- <DevOnly>
         <PFieldset
           legend="Value"
           :toggleable="true"
@@ -66,7 +54,7 @@ const props = withDefaults(
             />
           </NuxtErrorBoundary>
         </PFieldset>
-      </DevOnly>
+      </DevOnly> -->
     </div>
   </FormKit>
 </template>

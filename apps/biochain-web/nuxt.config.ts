@@ -70,7 +70,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
-    // '@hebilicious/vue-query-nuxt',
+    '@hebilicious/vue-query-nuxt',
     '@formkit/nuxt',
     '@nuxt/eslint',
     'nuxt-build-cache',
@@ -108,12 +108,6 @@ export default defineNuxtConfig({
           imports: ['auth', 'ccbio', 'common', 'GlobalRegistry', 'pb'],
         },
       ],
-      // presets: [
-      //   {
-      //     from: './lib/pb/index.ts',
-      //     imports: ['auth', 'ccbio', 'common', 'GlobalRegistry'],
-      //   },
-      // ],
     },
   },
 

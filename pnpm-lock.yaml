@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@bufbuild/protobuf@1.8.0':
-    hash: 7ulosmmd4jahdqkqm4yv45frhq
-    path: patches/@bufbuild__protobuf@1.8.0.patch
-
 importers:
 
   .:
@@ -57,8 +52,8 @@ importers:
         specifier: ^2.15.0
         version: 2.15.0(@vue/compiler-sfc@3.4.23)(eslint@8.57.0)(typescript@5.4.5)(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1))
       '@bufbuild/protobuf':
-        specifier: ^1.8.0
-        version: 1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq)
+        specifier: ^1.9.0
+        version: 1.9.0
       '@tsconfig/node21':
         specifier: ^21.0.3
         version: 21.0.3
@@ -173,8 +168,8 @@ packages:
     resolution: {integrity: sha512-+j7a5c253RfKh8iABBhywc8NSfP5LURe7Uh4qpsh6jc+aLJguvmIUBdjSdEMQv2bENrCR5MfRdjGo7vzS/ob7w==}
     engines: {node: '>=6.9.0'}
 
-  '@bufbuild/protobuf@1.8.0':
-    resolution: {integrity: sha512-qR9FwI8QKIveDnUYutvfzbC21UZJJryYrLuZGjeZ/VGz+vXelUkK+xgkOHsvPEdYEdxtgUUq4313N8QtOehJ1Q==}
+  '@bufbuild/protobuf@1.9.0':
+    resolution: {integrity: sha512-W7gp8Q/v1NlCZLsv8pQ3Y0uCu/SHgXOVFK+eUluUKWXmsb6VHkpNx0apdOWWcDbB9sJoKeP8uPrjmehJz6xETQ==}
 
   '@clack/core@0.3.4':
     resolution: {integrity: sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==}
@@ -4114,7 +4109,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  '@bufbuild/protobuf@1.8.0(patch_hash=7ulosmmd4jahdqkqm4yv45frhq)': {}
+  '@bufbuild/protobuf@1.9.0': {}
 
   '@clack/core@0.3.4':
     dependencies:

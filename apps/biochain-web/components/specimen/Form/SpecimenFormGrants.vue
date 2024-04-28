@@ -2,7 +2,6 @@
 import { ccbio } from '#imports'
 import { useFormKitContext } from '@formkit/vue'
 
-
 const collapsed = defineModel<boolean>('collapsed', {
   default: true,
 })
@@ -18,7 +17,7 @@ function addGrant() {
     grants.value.node.input({
       '1': new ccbio.Specimen_Grant({
         grantedDate: new pb.Date({}),
-      }).toJson(),
+      }),
     })
   } else {
     grants.value.node.input({
@@ -28,7 +27,6 @@ function addGrant() {
       }),
     })
   }
-
 }
 </script>
 
@@ -40,20 +38,16 @@ function addGrant() {
       :collapsed
     >
       <FormKit
-        type="button"
-        label="Add Grant"
-        :outer-class="{
-            'max-w-[22em]': false,
-            'w-full': true,
-          }"
-        input-class="w-full justify-center items-center flex"
-        @click="addGrant"
-      />
-      <FormKit
-        v-slot="{ value }"
+        v-slot="{ value, state: { disabled } }"
         type="group"
         name="grants"
       >
+        <UButton
+          block
+          :disabled="disabled"
+          label="Add Preparation"
+          @click="addGrant"
+        />
         <template v-for="(v, name) in value">
           <template v-if="typeof name === 'string'">
             <FormKit
@@ -84,13 +78,14 @@ function addGrant() {
                   name="description"
                   label="Description"
                 />
-                <SpecimenFormDate v-if="value.grantedDate" name="grantedDate" />
+                <SpecimenFormDate
+                  v-if="value?.grantedDate"
+                  name="grantedDate"
+                />
               </div>
             </FormKit>
-            <UDivider class="my-2"/>
           </template>
         </template>
-
       </FormKit>
     </PFieldset>
   </div>

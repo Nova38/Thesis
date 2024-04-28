@@ -40,7 +40,7 @@ func PrimaryGet[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (err e
 func PrimaryGetFull[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
-	showHidden bool,
+	historyOptions *pb.HistoryOptions,
 ) (fullItem *pb.FullItem, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 
@@ -65,13 +65,23 @@ func PrimaryGetFull[T common.ItemInterface](
 		},
 	}
 
-	if showHidden {
+	if historyOptions.GetHidden().GetInclude() {
 		ops = append(ops, &pb.Operation{
 			Action:       pb.Action_ACTION_VIEW_HIDDEN_TXS,
 			CollectionId: obj.ItemKey().GetCollectionId(),
 			ItemType:     obj.ItemType(),
 			Paths:        nil,
 		})
+
+		if historyOptions.GetHidden().GetMspIds() != nil &&
+			len(historyOptions.GetHidden().GetMspIds()) > 0 {
+			ops = append(ops, &pb.Operation{
+				Action:       pb.Action_ACTION_VIEW_MSP_HIDDEN_TX,
+				CollectionId: obj.ItemKey().GetCollectionId(),
+				ItemType:     obj.ItemType(),
+				Paths:        nil,
+			})
+		}
 	}
 
 	if auth, err := ctx.Authorize(ops); !auth || err != nil {
@@ -96,7 +106,7 @@ func PrimaryGetFull[T common.ItemInterface](
 	}
 
 	// Get the history
-	fullItem.History, err = getHistory(ctx, obj, &pb.HiddenOptions{Include: true})
+	fullItem.History, err = getHistory(ctx, obj, historyOptions.GetHidden())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}

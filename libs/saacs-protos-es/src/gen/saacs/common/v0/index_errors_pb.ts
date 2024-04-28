@@ -1,1 +1,1 @@
-export * from "./errors_pb.js"
+export * from './errors_pb.js'

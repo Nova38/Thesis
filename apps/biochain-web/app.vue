@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 // import 'primevue/resources/themes/aura-light-green/theme.css'
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 
 // import { devtools } from '@vue/devtools'
 // if (process.env.NODE_ENV === 'development')
@@ -12,11 +13,11 @@ const isOpen = ref(false)
 <template>
   <div>
     <div class="flex min-h-screen w-full flex-col">
-      <NavHeader class="sticky" />
+      <AppHeader class="sticky" />
       <!-- <UButton label="Open" @click="isOpen = true" /> -->
 
       <div class="flex max-w-full flex-grow flex-row flex-nowrap p-0.5">
-        <NavSidebar class="bg-zinc-100 dark:bg-zinc-800" />
+        <AppSidebar class="bg-zinc-100 dark:bg-zinc-800" />
 
         <!--        <USlideover v-model="isOpen" :overlay="true">-->
         <!--          <NavSidebar class="bg-zinc-100 dark:bg-zinc-800" />-->
@@ -24,10 +25,14 @@ const isOpen = ref(false)
 
         <div class="flex-grow overflow-x-scroll">
           <NuxtLoadingIndicator />
+          <UNotifications />
 
           <NuxtPage class="p-2" />
+
+          <DevOnly>
+            <VueQueryDevtools />
+          </DevOnly>
         </div>
-        <UNotifications />
       </div>
     </div>
   </div>
