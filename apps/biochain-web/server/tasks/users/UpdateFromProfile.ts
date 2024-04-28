@@ -1,5 +1,5 @@
 import { ChaincodeAsUser } from '~/server/utils/useChaincode'
-import { GetAllUsers, type User } from '../../utils/db'
+import { GetAllUsers } from '../../utils/db'
 
 export default defineTask({
   meta: {
@@ -20,7 +20,10 @@ export default defineTask({
         // await using cc = await ChaincodeAsUser(user.username)
         const cc = await ChaincodeAsUser(user.username)
         const { user: ccUser } = await cc.utilService.getCurrentUser({})
-        const updatedUser = { ...user, ...ccUser }
+
+        const certSubject = atob(ccUser?.userId ?? '')
+
+        const updatedUser = { ...user, ...ccUser, certSubject }
         console.log('Updated User:', updatedUser)
         cc.client.close()
         cc.gateway.close()
