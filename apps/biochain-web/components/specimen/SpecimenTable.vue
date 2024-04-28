@@ -5,7 +5,6 @@ import type {
   DataTableFilterMeta,
   DataTableOperatorFilterMetaData,
 } from 'primevue/datatable'
-import { first } from 'radash'
 
 const props = defineProps<{
   specimenList: PlainSpecimen[]

@@ -1,11 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div>
-    <Feildset />
-
-    <CopyTailwind />
-  </div>
+  <div></div>
 </template>
 
 <style>

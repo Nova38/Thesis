@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import HandleFabricError from '~/server/utils/FabricErrors'
 // import { auth, common } from 'saacs'
 
 const querySchema = z.object({
@@ -6,28 +7,31 @@ const querySchema = z.object({
 })
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
-  const query = await getValidatedQuery(event, (body) =>
-    querySchema.safeParse(body),
-  )
-  console.log(query)
-  if (!query.success) throw query.error.issues
+  const query = await getValidatedQuery(event, querySchema.parse)
 
   const { user } = await cc.utilService.getCurrentUser({})
   if (!user) throw new Error('User not found')
 
-  const result = await cc.service.get(
-    new pb.GetRequest({
-      key: new pb.ItemKey({
-        collectionId: query.data.collectionId,
-        itemKeyParts: [user.mspId, user.userId],
-        itemType: pb.UserCollectionRoles.typeName,
+  try {
+    const result = await cc.service.get(
+      new pb.GetRequest({
+        key: new pb.ItemKey({
+          collectionId: query.collectionId,
+          itemKeyParts: [user.mspId, user.userId],
+          itemType: pb.UserCollectionRoles.typeName,
+        }),
       }),
-    }),
-  )
-  console.log(result)
+    )
+    console.log(result)
 
-  const role = new pb.UserCollectionRoles()
-  result.item?.value?.unpackTo(role)
+    const role = new pb.UserCollectionRoles()
+    result.item?.value?.unpackTo(role)
 
-  return role
+    return role
+  } catch (error) {
+    const e = HandleFabricError(error)
+
+    // console.log(e)
+    return createError(e)
+  }
 })

@@ -106,7 +106,7 @@ async function submitHandler(
   <div>
     <FormKit
       id="NewSpecimen"
-      #default="{ disabled }"
+      v-slot="{ disabled }"
       v-model="specimen"
       type="form"
       :plugins="[]"

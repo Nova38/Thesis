@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
       collectionId: z.string(),
     }).parse,
   )
+  //await requireAuthSession(event)
 
   const body = await readValidatedBody(
     event,
@@ -42,10 +43,15 @@ export default defineEventHandler(async (event) => {
         reply: reply.toJson({ typeRegistry: cc.service.registry }),
       })
       console.log(`Creation of  ${key} successful`)
+      replies.push({
+        key,
+        success: true,
+        reply: reply.toJson({ typeRegistry: cc.service.registry }),
+      })
     } catch (error) {
       console.error('Failed to create', key, JSON.stringify(error))
       console.warn(`Creation of  ${key} Failed`)
-      replies.push({ key: key, error })
+      replies.push({ key, error })
     }
   }
 

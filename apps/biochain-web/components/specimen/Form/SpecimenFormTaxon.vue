@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-
 const collapsed = defineModel<boolean>('collapsed', {
   default: false,
 })
-
 </script>
 
 <template>

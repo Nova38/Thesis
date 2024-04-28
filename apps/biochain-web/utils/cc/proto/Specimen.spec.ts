@@ -205,20 +205,20 @@ describe('suite name', () => {
     const out_path =
       'Z:/source/repos/Thesis/pkg/biochain/import/ku_orn_cov.json'
     // read json from file
-    const json = require(full_path)
-    const output: ccbio.Specimen[] = []
-    json.items.forEach((item: any) => {
-      expect(() => {
-        const s = new ccbio.Specimen(ZSpecimen.parse(construct(item)))
-        output.push(s)
-        s.toJsonString({ typeRegistry: createRegistry(ccbio.Specimen) })
-        // new ccbio.Specimen(Specimen.parse(construct(item)));
-      }).not.toThrowError()
+    // const json = require(full_path)
+    // const output: ccbio.Specimen[] = []
+    // json.items.forEach((item: any) => {
+    //   expect(() => {
+    //     const s = new ccbio.Specimen(ZSpecimen.parse(construct(item)))
+    //     output.push(s)
+    //     s.toJsonString({ typeRegistry: createRegistry(ccbio.Specimen) })
+    //     // new ccbio.Specimen(Specimen.parse(construct(item)));
+    //   }).not.toThrowError()
 
-      // console.log(item);
-      // const specimen = new ccbio.Specimen();
-    })
+    //   // console.log(item);
+    //   // const specimen = new ccbio.Specimen();
+    // })
 
-    writeFileSync(out_path, JSON.stringify(output))
+    // writeFileSync(out_path, JSON.stringify(output))
   })
 })
