@@ -379,21 +379,185 @@ const filters = useState<DataTableFilterMeta>('filters', () => {
       operator: FilterOperator.AND,
       constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
     },
+    'primary.accessionNumber': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.fieldNumber': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.tissueNumber': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.cataloger': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.collector': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.determiner': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.fieldDate.verbatim': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.determinedDate.verbatim': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.determinedReason': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'primary.originalDate.verbatim': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.kingdom': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.phylum': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.class': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.order': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.family': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.genus': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.species': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'taxon.subspecies': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.sex': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.age': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.weight': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.weightUnits': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.condition': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.molt': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'secondary.notes': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.country': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.stateProvince': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.county': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.locality': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.latitude': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.longitude': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.habitat': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.continent': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.locationRemarks': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.coordinateUncertaintyInMeters': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.georeferenceBy': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.georeferenceDate.verbatim': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.georeferenceProtocol': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.geodeticDatum': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.footprintWkt': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'georeference.notes': {
+      operator: FilterOperator.AND,
+      constraints: [{ value: '', matchMode: FilterMatchMode.STARTS_WITH }],
+    },
   }
 })
 
-function initFilter() {
-  filters.value = filterFields.value.reduce(
-    (acc: Record<string, DataTableOperatorFilterMetaData>, field) => {
-      acc[field] = {
-        operator: FilterOperator.AND,
-        constraints: [{ value: '', matchMode: FilterMatchMode.CONTAINS }],
-      }
-      return acc
-    },
-    {} as Record<string, DataTableOperatorFilterMetaData>,
-  )
-}
+// function initFilter() {
+//   filters.value = filterFields.value.reduce(
+//     (acc: Record<string, DataTableOperatorFilterMetaData>, field) => {
+//       acc[field] = {
+//         operator: FilterOperator.AND,
+//         constraints: [{ value: '', matchMode: FilterMatchMode.CONTAINS }],
+//       }
+//       return acc
+//     },
+//     {} as Record<string, DataTableOperatorFilterMetaData>,
+//   )
+// }
 
 const pageState = useState<{
   first: number
