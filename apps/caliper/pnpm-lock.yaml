@@ -15,22 +15,22 @@ importers:
         specifier: 1.10.3
         version: 1.10.3
       '@hyperledger/caliper-cli':
-        specifier: 0.5.1-unstable-20240422122901
-        version: 0.5.1-unstable-20240422122901
+        specifier: '0.6'
+        version: 0.6.0
       '@hyperledger/caliper-core':
-        specifier: 0.5.1-unstable-20240422122901
-        version: 0.5.1-unstable-20240422122901
+        specifier: '0.6'
+        version: 0.6.0
       '@hyperledger/caliper-fabric':
-        specifier: 0.5.1-unstable-20240422122901
-        version: 0.5.1-unstable-20240422122901
+        specifier: '0.6'
+        version: 0.6.0
       '@hyperledger/fabric-gateway':
-        specifier: 1.5.0
-        version: 1.5.0
+        specifier: 1.5.1
+        version: 1.5.1
       '@saacs/client':
-        specifier: workspace:../../libs/client
+        specifier: workspace:^
         version: link:../../libs/client
       '@saacs/saacs-pb':
-        specifier: workspace:../../libs/saacs-protos-es
+        specifier: workspace:^
         version: link:../../libs/saacs-protos-es
       '@types/node':
         specifier: ^20.12.7
@@ -206,45 +206,25 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  '@hapi/address@2.1.4':
-    resolution: {integrity: sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==}
-    deprecated: Moved to 'npm install @sideway/address'
-
-  '@hapi/bourne@1.3.2':
-    resolution: {integrity: sha512-1dVNHT76Uu5N3eJNTYcvxee+jzX4Z9lfciqRRHCU27ihbUcYi+iSc2iml5Ke1LXe1SyJCLA0+14Jh4tXJgOppA==}
-    deprecated: This version has been deprecated and is no longer supported or maintained
-
-  '@hapi/hoek@8.5.1':
-    resolution: {integrity: sha512-yN7kbciD87WzLGc5539Tn0sApjyiGHAJgKvG9W8C7O+6c7qmoQMfVs0W4bX17eqz6C78QJqqFrtgdK5EWf6Qow==}
-    deprecated: This version has been deprecated and is no longer supported or maintained
-
-  '@hapi/joi@15.1.1':
-    resolution: {integrity: sha512-entf8ZMOK8sc+8YfeOlM8pCfg3b5+WZIKBfUaaJT8UsjAAPjartzxIYm3TIbjvA4u+u++KbcXD38k682nVHDAQ==}
-    deprecated: Switch to 'npm install joi'
-
-  '@hapi/topo@3.1.6':
-    resolution: {integrity: sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==}
-    deprecated: This version has been deprecated and is no longer supported or maintained
-
-  '@hyperledger/caliper-cli@0.5.1-unstable-20240422122901':
-    resolution: {integrity: sha512-Pgpj5IJL21eORmqZJ26seyXpoZWsZcEsrKRlGD/BS9zF34jhDpNq08BNpHUzWV8+oUCMXqEuwNyXC2zT+uqmEg==}
+  '@hyperledger/caliper-cli@0.6.0':
+    resolution: {integrity: sha512-2asKHxyUhTCmIvYI8K6wVGRCaWl1P+9kKn2ruqjsDUizN9PXLa7Ur+qaQ6BJLk0fY59kVrxMP4bA6iMO2tlXWg==}
     engines: {node: '>=18.19.0', npm: '>=6.14.16'}
     hasBin: true
 
-  '@hyperledger/caliper-core@0.5.1-unstable-20240422122901':
-    resolution: {integrity: sha512-oL1/5Z4owFeB3KdwxDKR09mh0/fAWWYFgwvNDUJg0+3t9rqq6eDFnyC/pXL6oOqa6w9CGOqGvdoeV0GMv3LxIw==}
+  '@hyperledger/caliper-core@0.6.0':
+    resolution: {integrity: sha512-RrnsLJIXLyswIy9deq3p3N7CvBSKaIPDvIPeJ51omTQrk03NUSMxKgbztlU5mv8m8TvqL8N29IiCpsVjyphrvg==}
     engines: {node: '>=18.19.0', npm: '>=6.14.16'}
 
-  '@hyperledger/caliper-ethereum@0.5.1-unstable-20240422122901':
-    resolution: {integrity: sha512-alRWmb90BaAzcAgmH0H4Q6L54WthzMNxlSzgV8zriEiNQdmaSxWWETplIOKg1HlVoQsGHvcMzF+pDmTCS1SZwQ==}
+  '@hyperledger/caliper-ethereum@0.6.0':
+    resolution: {integrity: sha512-cbP7xhYT0HhFzaQH75VQ/H5JeDlDvA+gxdTEE8pfY2yi3A7XG5pWi3F5P5u2iI2obh2YceFpWOvEYt+7a3Dv3A==}
     engines: {node: '>=18.19.0', npm: '>=6.14.16'}
 
-  '@hyperledger/caliper-fabric@0.5.1-unstable-20240422122901':
-    resolution: {integrity: sha512-xD989UjlXuevAp/rs4jURUXIguSokYDjU0hm7F5nt2aXfqgAHi2O04Gd7Uw/37ECna/tO23mz4mq+nMuTx7ENw==}
+  '@hyperledger/caliper-fabric@0.6.0':
+    resolution: {integrity: sha512-iL/crnjhje6TE8TOsYu3xnfuhhbUSI4O3dKsqTfvVjJpwtNnE/6SHZWHbNFVLwVQ5hTa27Fbma1sa3f+WW/HpQ==}
     engines: {node: '>=18.19.0', npm: '>=6.14.16'}
 
-  '@hyperledger/fabric-gateway@1.5.0':
-    resolution: {integrity: sha512-36DRkcUrtJA4Ktr9uPYlEfWte79ceFd53oYVvFOLImxkvL0Tm4gqyvR6Pg7J9EgdhXZ9StR7FLYxILtS52RB4Q==}
+  '@hyperledger/fabric-gateway@1.5.1':
+    resolution: {integrity: sha512-d9Hw1nK4Bn8KZEf2ojvFb952Q4Z+d6keS/iiwPHcweAQBUXs5GjdD3ET9xSTiuIjmfibcUH2BB8L2V67fvvGgA==}
     engines: {node: '>=18.12.0'}
 
   '@hyperledger/fabric-protos@0.3.3':
@@ -263,6 +243,9 @@ packages:
 
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
+
+  '@noble/curves@1.4.0':
+    resolution: {integrity: sha512-p+4cb332SFCrReJkCYe8Xzm0OWi4Jji5jVdIZRL/PmacmDkFNw6MrrV+gGpiPxLHbV+zKFRywUWbaseT+tZRXg==}
 
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
@@ -414,9 +397,6 @@ packages:
 
   asn1.js@4.10.1:
     resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
-
-  asn1.js@5.4.1:
-    resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
 
   asn1@0.2.6:
     resolution: {integrity: sha512-ix/FxPn0MDjeyJ7i/yoHGFt/EX6LyNbxSEhPPXODPL+KB0VPk86UYfL0lMdy+KCnv+fmvIzySwaK5COwqVbWTQ==}
@@ -2450,35 +2430,18 @@ snapshots:
       protobufjs: 7.2.6
       yargs: 17.7.2
 
-  '@hapi/address@2.1.4': {}
-
-  '@hapi/bourne@1.3.2': {}
-
-  '@hapi/hoek@8.5.1': {}
-
-  '@hapi/joi@15.1.1':
+  '@hyperledger/caliper-cli@0.6.0':
     dependencies:
-      '@hapi/address': 2.1.4
-      '@hapi/bourne': 1.3.2
-      '@hapi/hoek': 8.5.1
-      '@hapi/topo': 3.1.6
-
-  '@hapi/topo@3.1.6':
-    dependencies:
-      '@hapi/hoek': 8.5.1
-
-  '@hyperledger/caliper-cli@0.5.1-unstable-20240422122901':
-    dependencies:
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240422122901
-      '@hyperledger/caliper-ethereum': 0.5.1-unstable-20240422122901
-      '@hyperledger/caliper-fabric': 0.5.1-unstable-20240422122901
+      '@hyperledger/caliper-core': 0.6.0
+      '@hyperledger/caliper-ethereum': 0.6.0
+      '@hyperledger/caliper-fabric': 0.6.0
       yargs: 15.3.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  '@hyperledger/caliper-core@0.5.1-unstable-20240422122901':
+  '@hyperledger/caliper-core@0.6.0':
     dependencies:
       color-scheme: 1.0.1
       colors: 1.4.0
@@ -2505,9 +2468,9 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@hyperledger/caliper-ethereum@0.5.1-unstable-20240422122901':
+  '@hyperledger/caliper-ethereum@0.6.0':
     dependencies:
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240422122901
+      '@hyperledger/caliper-core': 0.6.0
       ethereumjs-wallet: 0.6.5
       web3-eea: 0.10.0
     transitivePeerDependencies:
@@ -2515,23 +2478,20 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@hyperledger/caliper-fabric@0.5.1-unstable-20240422122901':
+  '@hyperledger/caliper-fabric@0.6.0':
     dependencies:
-      '@hapi/joi': 15.1.1
-      '@hyperledger/caliper-core': 0.5.1-unstable-20240422122901
+      '@hyperledger/caliper-core': 0.6.0
       semver: 7.1.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  '@hyperledger/fabric-gateway@1.5.0':
+  '@hyperledger/fabric-gateway@1.5.1':
     dependencies:
       '@grpc/grpc-js': 1.10.3
       '@hyperledger/fabric-protos': 0.3.3
-      asn1.js: 5.4.1
-      bn.js: 5.2.1
-      elliptic: 6.5.5
+      '@noble/curves': 1.4.0
       google-protobuf: 3.21.2
     optionalDependencies:
       pkcs11js: 2.1.0
@@ -2551,6 +2511,10 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
 
   '@js-sdsl/ordered-map@4.4.2': {}
+
+  '@noble/curves@1.4.0':
+    dependencies:
+      '@noble/hashes': 1.4.0
 
   '@noble/hashes@1.4.0': {}
 
@@ -2649,9 +2613,9 @@ snapshots:
 
   aes-js@3.1.2: {}
 
-  ajv-keywords@3.5.2(ajv@6.12.0):
+  ajv-keywords@3.5.2(ajv@6.12.6):
     dependencies:
-      ajv: 6.12.0
+      ajv: 6.12.6
 
   ajv@6.12.0:
     dependencies:
@@ -2659,6 +2623,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
+    optional: true
 
   ajv@6.12.6:
     dependencies:
@@ -2694,13 +2659,6 @@ snapshots:
       bn.js: 4.12.0
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
-
-  asn1.js@5.4.1:
-    dependencies:
-      bn.js: 4.12.0
-      inherits: 2.0.4
-      minimalistic-assert: 1.0.1
-      safer-buffer: 2.1.2
 
   asn1@0.2.6:
     dependencies:
@@ -3227,7 +3185,7 @@ snapshots:
     dependencies:
       bn.js: 4.12.0
       brorand: 1.1.0
-      hash.js: 1.1.3
+      hash.js: 1.1.7
       inherits: 2.0.4
 
   elliptic@6.5.5:
@@ -3354,7 +3312,7 @@ snapshots:
 
   eth-lib@0.2.7:
     dependencies:
-      bn.js: 4.11.8
+      bn.js: 4.12.0
       elliptic: 6.5.5
       xhr-request-promise: 0.1.3
 
@@ -3398,7 +3356,7 @@ snapshots:
   ethereumjs-tx@2.1.2:
     dependencies:
       ethereumjs-common: 1.5.2
-      ethereumjs-util: 6.1.0
+      ethereumjs-util: 6.2.1
 
   ethereumjs-util@5.2.1:
     dependencies:
@@ -3407,7 +3365,7 @@ snapshots:
       elliptic: 6.5.5
       ethereum-cryptography: 0.1.3
       ethjs-util: 0.1.6
-      rlp: 2.2.4
+      rlp: 2.2.7
       safe-buffer: 5.2.1
 
   ethereumjs-util@6.1.0:
@@ -3416,7 +3374,7 @@ snapshots:
       create-hash: 1.2.0
       ethjs-util: 0.1.6
       keccak: 1.4.0
-      rlp: 2.2.4
+      rlp: 2.2.7
       safe-buffer: 5.2.1
       secp256k1: 3.8.0
 
@@ -4667,8 +4625,8 @@ snapshots:
 
   table@4.0.3:
     dependencies:
-      ajv: 6.12.0
-      ajv-keywords: 3.5.2(ajv@6.12.0)
+      ajv: 6.12.6
+      ajv-keywords: 3.5.2(ajv@6.12.6)
       chalk: 2.4.2
       lodash: 4.17.21
       slice-ansi: 1.0.0

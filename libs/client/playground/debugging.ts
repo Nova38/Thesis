@@ -98,7 +98,7 @@ const OrgUsersDir = join(
 
 const userDir = resolve('.', 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
 
-const { Users, client } = await BuildFromBaseDir(_debug_baseDir)
+const { Users, client } = await BuildFromBaseDir(OrgUsersDir)
 
 const gateway = connect({
   client,

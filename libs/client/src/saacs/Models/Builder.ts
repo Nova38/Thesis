@@ -8,14 +8,24 @@ enum UserAuth {
 }
 
 export function AuthModelBuilder(
-  collection: string,
-  type: pb.AuthType,
+  name: string,
+  collectionId: string,
+  authType: pb.AuthType,
   itemTypes: string[],
-  users: map<UserAuth, string>,
+  users: Record<UserAuth, string>,
 ) {
+  const collection = new pb.Collection({
+    authType,
+    collectionId,
+    name,
+    itemTypes,
+  })
+
+  const model = new pb.AuthModel(raw)
+
   switch (type) {
     case pb.AuthType.NONE :
-      return new pb.AuthModel({})
+      return
 
     case pb.AuthType.IDENTITY:
       return new pb.AuthModel({})

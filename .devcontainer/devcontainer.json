@@ -38,7 +38,14 @@
         "PeterSchmalfeldt.explorer-exclude",
         "streetsidesoftware.code-spell-checker",
         "mads-hartmann.bash-ide-vscode",
-        "Spydra.hyperledger-fabric-debugger"
+        "Spydra.hyperledger-fabric-debugger",
+        "charliermarsh.ruff",
+        "yzhang.markdown-all-in-one",
+        "eamodio.gitlens",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "ms-azuretools.vscode-docker",
+        "task.vscode-task"
       ]
     }
   }

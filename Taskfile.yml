@@ -4,13 +4,6 @@ dotenv:
   - "./infra/network/k8s/.env"
 
 includes:
-  # network:
-  #   taskfile: ./infra/network/Taskfile.yml
-  #   dir: ./infra/network
-  # k8s:
-  #   taskfile: ./infra/network/k8s/Taskfile.yml
-  #   dir: ./infra/network/k8Hi
-
   caliper:
     taskfile: ./apps/caliper/Taskfile.yml
     dir: ./apps/caliper
@@ -21,12 +14,29 @@ tasks:
     cmds:
       - find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 
-  install:proto:
+  setup:
+    desc: Setup Nessisary tools
+    cmds:
+      - task: setup:go:protoc-saacs-go
+      - task: setup:fabric:binaries
+
+
+  setup:go:protoc-saacs-go:
     desc: |
       Install all the protoc plugins
 
     cmds:
       - go install ./cmd/protoc-gen-saacs-go
+
+
+  setup:fabric:binaries:
+      desc: |
+        Install all the fabric binaries
+
+      cmds:
+        - bash -c "cd ./infra/network && curl -sSLO
+          https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh
+          && chmod +x install-fabric.sh && ./install-fabric.sh b d"
 
   gen:clean:
     cmd:
@@ -36,14 +46,7 @@ tasks:
         - './libs/saacs-protos-es/src/schema/gen'
       cmd: rm -rf {{ .ITEM }}
 
-  install:bin:
-    desc: |
-      Install all the binaries
 
-    cmds:
-      - bash -c "cd ./infra/network && curl -sSLO
-        https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh
-        && chmod +x install-fabric.sh && ./install-fabric.sh b d"
   net:up:
     desc: |
       Start the network
@@ -74,6 +77,14 @@ tasks:
       - task: net:down
       - task: net:up
 
+  caliper:setup:
+    desc: |
+      Setup the caliper
+
+    cmds:
+      - task: net:up
+      - task: cc:deploy
+
   cc:reload:
     cmds:
       # - go mod tidy
@@ -88,23 +99,8 @@ tasks:
       - for: ["saacs"]
         # cmd: bash -c "echo {{ .ITEM }}"
         cmd:
-          bash -c "cd ./infra/network && ./network.sh deployCCAAS -ccn {{
-          .ITEM }} -ccp ../../ "
+          bash -c "cd ./infra/network && ./network.sh deployCCAAS -ccn {{.ITEM }} -ccp ../../ "
 
-  # cc:redeploy:
-  #   desc: Deploy Updated saacs-cc containers
-  #   cmds:
-  #     - for: ["saacs"]
-  #       # cmd: bash -c "echo {{ .ITEM }}"
-  #       cmd: bash -c "cd ./infra/network && ./cc_restart/{{ .ITEM }}.sh "
-
-  # cc:deploy:biochain:
-  #   desc: Deploy saacs-cc to the channel and start the saacs-cc container
-  #   cmds:
-  #     - buf generate
-  #     - cmd:
-  #         bash -c "cd ./infra/network && ./network.sh deployCCAAS -ccn
-  #         roles -ccp ../../ "
 
   cc:redeploy:biochain:
     desc: Deploy saacs-cc to the channel and start the saacs-cc container
@@ -115,22 +111,12 @@ tasks:
       - docker build -t nova38/saacs:latest .
       - docker tag nova38/saacs:latest saacs_ccaas:latest
 
-
-  build:cc:push:
+  cc:build:push:
     cmds:
       - task: cc:build
       - docker tag nova38/saacs:latest nova38/saacs:latest
       - docker push nova38/saacs:latest
 
-  #  build:es-stub:
-  #    cmd: cd ./pkg/saacs-es && pnpm run stub
-
-  # build:gen-lint:
-  #   cmd: cd ./pkg/web/biochain && pnpm lint-gen:fix
-
-  #es:run:
-  #  dir: ./pkg/saacs-es
-  #  cmd: pnpm run api
   build:es:
     dir: ./libs/saacs-protos-es
     cmd: pnpm run build
