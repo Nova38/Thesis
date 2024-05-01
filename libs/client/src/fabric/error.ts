@@ -7,6 +7,7 @@ export class AuthError extends Error {
     super(message.message)
     this.name = 'AuthError'
   }
+
 }
 
 export function isCommitError(error: Error): error is CommitError {

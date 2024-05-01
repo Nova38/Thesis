@@ -1,26 +1,39 @@
+import { saacs } from '@saacs/client'
 import { z } from 'zod'
 // import { auth, common } from 'saacs'
 
 import { useChaincode } from '~/server/utils/useChaincode'
 
-const querySchema = z.object({
+const bodySchema = z.object({
   collectionId: z.string(),
   userName: z.string(),
-  userId: z.string().optional(),
+  role: z.string(),
 })
 
 export default defineEventHandler(async (event) => {
   const cc = await useChaincode(event)
 
-  const query = await getValidatedQuery(event, querySchema.parse)
+  const query = await readValidatedBody(event, bodySchema.parse)
 
-  // console.log(result);
-  const UserRoles = result.items.map((i) => {
-    const s = new pb.UserCollectionRoles()
-    i.value?.unpackTo(s)
-    return s.toJson({ emitDefaultValues: true })
+  const user = await findUserByUsername(query.userName)
+
+  if (user.userId === undefined || user.userId === '')
+    return createError("User's UserID is not valid or doesn't have one")
+  if (user.mspId === undefined || user.mspId === '')
+    return createError("User's mspId is not valid or doesn't exist")
+
+  const userRole = new pb.UserCollectionRoles({
+    collectionId: query.collectionId,
+    mspId: user.mspId,
+    userId: user.userId,
+    roleIds: ['role'],
   })
 
-  console.log({ UserRoles })
-  return UserRoles
+  // console.log(result);
+  const result = await cc.service.create({
+    item: saacs.PrimaryToItem(userRole),
+  })
+
+  console.log(result)
+  return { result }
 })

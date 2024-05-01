@@ -79,3 +79,10 @@ export function CaliperUtilsArgsBuilder() {
     ...Object.entries(buildCaliperClient(chaincode.utils.UtilsService)),
   ]) as CaliperClient<typeof chaincode.utils.UtilsService>
 }
+
+function testing() {
+  const itemArgsBuilder = CaliperItemArgsBuilder()
+  const utilsArgsBuilder = CaliperUtilsArgsBuilder()
+
+  itemArgsBuilder.get({ key: { collectionId: '1', itemId: '1' } })
+}

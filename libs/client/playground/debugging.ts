@@ -37,6 +37,8 @@ export async function BuildFromBaseDir(path: string) {
   async function getUserCryptoFiles(user: string) {
     const userDir = join(path, user, 'msp')
     const keyDir = join(userDir, 'keystore')
+    const x = await fs.readdir(keyDir)
+
     const keyName = (await fs.readdir(keyDir)).pop() || ''
 
     const privateKey = await fs.readFile(join(userDir, 'keystore', keyName))
@@ -96,7 +98,7 @@ const OrgUsersDir = join(
 
 const userDir = resolve('.', 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
 
-const { Users, client } = await BuildFromBaseDir(userDir)
+const { Users, client } = await BuildFromBaseDir(_debug_baseDir)
 
 const gateway = connect({
   client,
@@ -112,20 +114,20 @@ const utils = createUtilGateway(contract)
 
 utils.getCurrentUser({})
 
-try {
-  const u = await utils.getCurrentUser({})
-  console.log(u)
+// try {
+//   const u = await utils.getCurrentUser({})
+//   console.log(u)
 
-  // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
-  //   'saacs.biochain.v0.Specimen',
-  // ] } })
+//   // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
+//   //   'saacs.biochain.v0.Specimen',
+//   // ] } })
 
-  // console.log(r)
+//   // console.log(r)
 
-  const r2 = await utils.getCollectionsList({})
-  console.log(r2)
-}
+//   const r2 = await utils.getCollectionsList({})
+//   console.log(r2)
+// }
 
-catch (error) {
-  console.error(error)
-}
+// catch (error) {
+//   console.error(error)
+// }

@@ -2,7 +2,7 @@ import type { PlainMessage } from '@bufbuild/protobuf'
 import { Timestamp } from '@bufbuild/protobuf'
 import { pb } from '@saacs/saacs-pb'
 
-export function NormalizeSpecimen(input: PlainMessage<pb.Specimen>) {
+export function NormalizeSpecimen(input: PlainMessage<pb.Specimen>): pb.Specimen {
   const response = new pb.Specimen(input)
 
   // Make sure all sub felids are initialized

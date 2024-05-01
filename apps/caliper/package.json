@@ -23,9 +23,9 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.9.0",
     "@grpc/grpc-js": "1.10.3",
-    "@hyperledger/caliper-cli": "0.5.1-unstable-20240422122901",
-    "@hyperledger/caliper-core": "0.5.1-unstable-20240422122901",
-    "@hyperledger/caliper-fabric": "0.5.1-unstable-20240422122901",
+    "@hyperledger/caliper-cli": "0.6",
+    "@hyperledger/caliper-core": "0.6",
+    "@hyperledger/caliper-fabric": "0.6",
     "@hyperledger/fabric-gateway": "1.5.0",
     "@saacs/client": "workspace:../../libs/client",
     "@saacs/saacs-pb": "workspace:../../libs/saacs-protos-es",
