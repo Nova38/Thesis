@@ -338,3 +338,4 @@ export class HiddenOptions extends Message<HiddenOptions> {
     return proto3.util.equals(HiddenOptions, a, b);
   }
 }
+

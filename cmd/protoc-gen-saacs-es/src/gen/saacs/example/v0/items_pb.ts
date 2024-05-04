@@ -115,3 +115,4 @@ export class Group extends Message<Group> {
     return proto3.util.equals(Group, a, b);
   }
 }
+

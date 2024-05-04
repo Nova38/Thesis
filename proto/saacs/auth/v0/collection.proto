@@ -35,6 +35,7 @@ message Collection {
     id: "Collection.AuthType.ItemTypes",
     message: "Collection is missing the required item types for the auth type",
     expression:
+      "( this.auth_type == 1) ||"
       "( this.auth_type == 2"
       "&& 'saacs.auth.v0.UserDirectMembership' in this.item_types"
       ")||( this.auth_type == 3"
@@ -57,10 +58,7 @@ message Collection {
   // The key for the ledger
   string collection_id = 1 [(buf.validate.field).string.min_len = 1];
   string name = 2 [(buf.validate.field).string.min_len = 1];
-  AuthType auth_type = 3 [(buf.validate.field).enum = {
-    defined_only: true
-    not_in: [0]
-  }];
+  AuthType auth_type = 3 [(buf.validate.field).enum = {defined_only: true}];
 
   repeated string item_types = 4 [(buf.validate.field).repeated = {
     unique: true,

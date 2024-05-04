@@ -27,7 +27,7 @@ test:
       type: fixed-rate
       opts: { tps: 1 }
     workload:
-      module: benchmarks/workloads/auth/saacs/Bootstrap.js
+      module: benchmarks/workloads/Bootstrap.js
       arguments:
         contractId: roles
         numCollections: 1

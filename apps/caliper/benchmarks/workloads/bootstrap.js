@@ -69,14 +69,14 @@ class BootstrapWorkload extends WorkloadModuleBase {
 
 
         const arg = new hlf.pb.BootstrapRequest({
-                name: `collection-s`,
-                authType: hlf.pb.AuthType.NONE,
-                itemTypes: [hlf.pb.Book.typeName, hlf.pb.SimpleItem.typeName, hlf.pb.Collection.typeName],
-                collectionId: `collection-s`,
-                default: new hlf.pb.PathPolicy(),
-            })
-        // for (let i = 0; i < this.numCollections; i++) {
-        //     arg.collections.push()
+          collection: {
+            authType: hlf.pb.AuthType.NO_AUTH,
+            name: "collection1",
+            collectionId: "collection1",
+            itemTypes: [hlf.pb.Book.typeName, hlf.pb.SimpleItem.typeName, hlf.pb.Collection.typeName]
+          }
+        })
+
         // }
 
         // logger.info('this', this)

@@ -19,7 +19,7 @@ import {
   connect,
   signers,
 } from '@hyperledger/fabric-gateway'
-import type { pb } from '@saacs/saacs-pb'
+import { pb } from '@saacs/saacs-pb'
 import type { PlainMessage } from '@bufbuild/protobuf'
 import { createBiochainGateway, createUtilGateway } from '../src/fabric/client'
 
@@ -27,7 +27,7 @@ interface UserCrypto { signer: Signer, identity: Identity }
 
 export async function BuildFromBaseDir(path: string) {
   const mspId = 'Org1MSP'
-  const peerEndpoint = 'localhost:5051'
+  const peerEndpoint = 'localhost:7051'
   const OrgUsers = await fs.readdir(path)
 
   async function newGRPCClient() {
@@ -98,7 +98,7 @@ const OrgUsersDir = join(
 
 const userDir = resolve('.', 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
 
-const { Users, client } = await BuildFromBaseDir(OrgUsersDir)
+const { Users, client } = await BuildFromBaseDir(userDir)
 
 const gateway = connect({
   client,
@@ -110,24 +110,30 @@ const network = await gateway.getNetwork('default')
 const contract = network.getContract('saacs-caas')
 
 const utils = createUtilGateway(contract)
-// const BiochainClient = createBiochainGateway(contract)
+const BiochainClient = createBiochainGateway(contract)
+const arg = new pb.BootstrapRequest({
+  collection: {
+    collectionId: 'Testing',
+    name: 'Testing',
+    authType: pb.AuthType.ROLE,
+    itemTypes: ['saacs.biochain.v0.Specimen'],
+  },
+})
 
-utils.getCurrentUser({})
+try {
+  const u = await utils.getCurrentUser({})
+  console.log(u)
 
-// try {
-//   const u = await utils.getCurrentUser({})
-//   console.log(u)
+  // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
+  //   //   'saacs.biochain.v0.Specimen',
+  //   // ] } })
 
-//   // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
-//   //   'saacs.biochain.v0.Specimen',
-//   // ] } })
-
-//   // console.log(r)
+  // console.log(r)
 
 //   const r2 = await utils.getCollectionsList({})
 //   console.log(r2)
-// }
+}
 
-// catch (error) {
-//   console.error(error)
-// }
+catch (error) {
+  console.error(error)
+}

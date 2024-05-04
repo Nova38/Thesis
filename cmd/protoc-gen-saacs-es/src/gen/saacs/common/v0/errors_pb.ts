@@ -247,3 +247,4 @@ export class ErrorWrapper extends Message<ErrorWrapper> {
     return proto3.util.equals(ErrorWrapper, a, b);
   }
 }
+

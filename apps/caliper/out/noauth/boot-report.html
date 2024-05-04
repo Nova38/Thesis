@@ -152,7 +152,7 @@
                     </tr>
 
                     <tr>
-                         <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>23.8</td>
+                         <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>9.3</td>
                     </tr>
                 </table>
             </div>
@@ -170,7 +170,7 @@
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>23.8</td>
+                                     <td>Bootstrap</td> <td>0</td> <td>1</td> <td>Infinity</td> <td>-</td> <td>-</td> <td>-</td> <td>9.3</td>
                                 </tr>
                             </table>
                         <h3>Resource utilization for Bootstrap</h3>
@@ -185,16 +185,16 @@ workers:
   number: 1
 rounds:
   - label: Bootstrap
-    contractId: saacs
+    contractId: roles
     txNumber: 1
     rateControl:
       type: fixed-rate
       opts:
         tps: 1
     workload:
-      module: benchmarks&#x2F;workloads&#x2F;auth&#x2F;saacs&#x2F;Bootstrap.js
+      module: benchmarks&#x2F;workloads&#x2F;Bootstrap.js
       arguments:
-        contractId: saacs
+        contractId: roles
         numCollections: 1
 </pre>
                 <h3>SUT</h3>

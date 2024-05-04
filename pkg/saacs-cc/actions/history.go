@@ -21,7 +21,7 @@ import (
 func GetHiddenTxs[T common.ItemInterface](
 	ctx common.TxCtxInterface,
 	obj T,
-	msp_ids ...string,
+	mspIDs ...string,
 ) (list *pb.HiddenTxList, key string, err error) {
 	defer func() { ctx.HandleFnError(&err, recover()) }()
 

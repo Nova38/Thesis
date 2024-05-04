@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import {
   type Message,
   MethodIdempotency,
@@ -84,5 +85,5 @@ function testing() {
   const itemArgsBuilder = CaliperItemArgsBuilder()
   const utilsArgsBuilder = CaliperUtilsArgsBuilder()
 
-  itemArgsBuilder.get({ key: { collectionId: '1', itemId: '1' } })
+  const a = itemArgsBuilder.get({ key: { collectionId: '1' } })
 }

@@ -103,3 +103,4 @@ export class Nested extends Message<Nested> {
     return proto3.util.equals(Nested, a, b);
   }
 }
+

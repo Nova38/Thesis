@@ -96,6 +96,18 @@
       }
     },
     {
+      "name": "Debug Chaincode Protobuf",
+      "type": "hlf-go",
+      "request": "launch",
+      "debugAdapter": "dlv-dap",
+      "isCaas": true,
+      "program": "${workspaceFolder}/pkg/saacs-cc/bin/",
+      "console": "integratedTerminal",
+      "env": {
+        // "SERIALIZATION": "proto"
+      }
+    },
+    {
       "type": "msedge",
       "request": "launch",
       "name": "client: edge",

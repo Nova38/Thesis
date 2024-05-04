@@ -64,3 +64,4 @@ export class Suggestion extends Message<Suggestion> {
     return proto3.util.equals(Suggestion, a, b);
   }
 }
+

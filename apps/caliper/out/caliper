@@ -1418,3 +1418,754 @@
 [32m[39m
 2024.04.25-14:12:38.235[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.141 seconds[39m
 2024.04.25-14:12:38.245[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:20:03.220[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:20:03.221[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:20:03.222[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:20:03.222[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:20:03.243[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:20:03.244[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:20:03.244[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:20:03.626[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:20:03.693[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:20:03.696[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:20:03.698[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:20:03.700[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:20:03.703[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:20:03.706[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:20:03.710[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:20:03.711[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:20:03.711[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:20:03.711[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0 seconds[39m
+2024.05.03-19:20:03.724[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:20:03.732[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:20:03.735[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:20:03.736[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:20:03.748[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:20:03.749[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:20:03.750[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:20:04.251[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:20:04.251[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:20:04.252[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:20:04.260[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:20:04.220[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:20:04.261[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:20:04.221[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:20:04.222[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:20:04.222[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:20:04.262[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:20:04.456[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:20:04.509[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:20:04.511[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:20:04.514[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:20:04.515[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:20:04.517[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:20:04.518[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:20:04.850[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:20:04.852[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:20:04.852[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:20:04.853[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:20:04.855[31m error[39m [caliper] [worker-message-handler] [31m	Error while handling "prepare" message for Worker (23128): Error: Module "C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\workloads\auth\saacs\Bootstrap.js" could not be loaded: Error: Cannot find module 'C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\workloads\auth\saacs\Bootstrap.js'[39m
+[31mRequire stack:[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\caliper-utils.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\core\connector-base.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\index.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-cli@0.6.0\node_modules\@hyperledger\caliper-cli\caliper.js[39m
+[31mSearched paths: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\node_modules,C:\Users\devcs\tmp\saacs\saacs\node_modules,C:\Users\devcs\tmp\saacs\node_modules,C:\Users\devcs\tmp\node_modules,C:\Users\devcs\node_modules,C:\Users\node_modules,C:\node_modules[39m
+[31m    at CaliperUtils.loadModule (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\caliper-utils.js:117:19)[39m
+[31m    at CaliperUtils.loadModuleFunction (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\caliper-utils.js:159:35)[39m
+[31m    at CaliperWorker.prepareTest (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\worker\caliper-worker.js:151:52)[39m
+[31m    at WorkerMessageHandler._handlePrepareMessage (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\worker\worker-message-handler.js:210:31)[39m
+[31m    at ProcessMessenger.<anonymous> (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\worker\worker-message-handler.js:89:24)[39m
+[31m    at ProcessMessenger.emit (node:events:518:28)[39m
+[31m    at ProcessMessenger.onMessage (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\messengers\messenger-interface.js:40:14)[39m
+[31m    at process.<anonymous> (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\messengers\process\process-messenger.js:59:26)[39m
+[31m    at process.emit (node:events:530:35)[39m
+[31m    at emit (node:internal/child_process:951:14)[39m
+2024.05.03-19:20:04.856[31m error[39m [caliper] [round-orchestrator] [31m	Failed round 1 (Bootstrap): Error: Error: Module "C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\workloads\auth\saacs\Bootstrap.js" could not be loaded: Error: Cannot find module 'C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\workloads\auth\saacs\Bootstrap.js'[39m
+[31mRequire stack:[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\caliper-utils.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\core\connector-base.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\index.js[39m
+[31m- C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-cli@0.6.0\node_modules\@hyperledger\caliper-cli\caliper.js[39m
+[31mSearched paths: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\utils\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules,C:\Users\devcs\tmp\saacs\saacs\apps\node_modules,C:\Users\devcs\tmp\saacs\saacs\node_modules,C:\Users\devcs\tmp\saacs\node_modules,C:\Users\devcs\tmp\node_modules,C:\Users\devcs\node_modules,C:\Users\node_modules,C:\node_modules[39m
+[31m    at WorkerOrchestrator.updateWorkerPhase (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\manager\orchestrators\worker-orchestrator.js:306:61)[39m
+[31m    at ProcessMessenger.<anonymous> (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\manager\orchestrators\worker-orchestrator.js:109:18)[39m
+[31m    at ProcessMessenger.emit (node:events:518:28)[39m
+[31m    at ProcessMessenger.onMessage (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\messengers\messenger-interface.js:40:14)[39m
+[31m    at ChildProcess.<anonymous> (C:\Users\devcs\tmp\saacs\saacs\apps\caliper\node_modules\.pnpm\@hyperledger+caliper-core@0.6.0\node_modules\@hyperledger\caliper-core\lib\common\messengers\process\process-messenger.js:59:26)[39m
+[31m    at ChildProcess.emit (node:events:518:28)[39m
+[31m    at emit (node:internal/child_process:951:14)[39m
+[31m    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)[39m
+2024.05.03-19:20:04.861[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:20:23.719[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:20:23.720[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:20:23.721[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:20:23.721[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:20:23.732[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:20:23.732[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:20:23.733[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:20:23.945[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:20:23.994[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:20:23.995[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:20:23.997[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:20:23.998[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:20:23.999[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:20:23.999[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:20:24.002[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:20:24.002[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.001 seconds[39m
+2024.05.03-19:20:24.002[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:20:24.002[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0 seconds[39m
+2024.05.03-19:20:24.008[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:20:24.010[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:20:24.012[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:20:24.012[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:20:24.020[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:20:24.020[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:20:24.021[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:20:24.487[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:20:24.487[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:20:24.488[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:20:24.493[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:20:24.455[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:20:24.493[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:20:24.456[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:20:24.457[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:20:24.457[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:20:24.494[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:20:24.720[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:20:24.781[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:20:24.784[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:20:24.787[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:20:24.789[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:20:24.790[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:20:24.791[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:20:24.962[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:20:24.964[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:20:24.965[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:20:24.965[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:20:25.125[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:20:25.127[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:20:25.128[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:20:25.130[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:20:25.131[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:20:25.131[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:20:25.132[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:20:25.134[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:20:25.134[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:20:25.135[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:20:25.135[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:20:25.135[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:20:25.135[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:20:25.135[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:20:25.136[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:20:25.136[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:20:25.138[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:20:25.138[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:20:25.138[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:20:25.142[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:20:25.142[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:20:25.144[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:20:25.144[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:20:25.145[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:20:25.146[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:20:25.151[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:20:25.298[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:20:25.300[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"5986dd12d4c817592a6989a2e8e7d20f04cf5e9278e37b43e4acc7c813395020","status":"failed","time_create":1714782025173,"time_final":1714782025299,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:20:25.300[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"5986dd12d4c817592a6989a2e8e7d20f04cf5e9278e37b43e4acc7c813395020","status":"failed","time_create":1714782025173,"time_final":1714782025299,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:20:26.365[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:20:26.365[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:20:26.365[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:20:26.366[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:20:26.366[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:20:26.366[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:20:26.366[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:20:26.366[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:20:31.389[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:20:31.391[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:20:31.394[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 7.9              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:20:31.428[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.209 seconds[39m
+2024.05.03-19:20:31.438[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:23:48.878[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:23:48.880[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:23:48.881[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:23:48.881[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:23:48.895[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:23:48.896[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:23:48.896[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:23:49.132[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:23:49.186[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:23:49.187[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:23:49.188[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:23:49.189[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:23:49.190[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:23:49.191[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:23:49.193[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:23:49.194[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:23:49.194[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:23:49.194[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0 seconds[39m
+2024.05.03-19:23:49.199[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:23:49.201[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:23:49.205[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:23:49.206[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:23:49.213[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:23:49.214[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:23:49.215[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:23:49.698[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:23:49.699[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:23:49.699[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:23:49.705[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:23:49.670[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:23:49.705[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:23:49.671[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:23:49.672[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:23:49.672[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:23:49.707[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:23:49.906[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:23:49.954[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:23:49.955[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:23:49.957[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:23:49.958[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:23:49.959[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:23:49.960[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:23:50.116[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:23:50.117[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:23:50.118[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:23:50.119[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:23:50.213[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:23:50.215[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:23:50.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:23:50.217[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:23:50.218[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:23:50.219[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:23:50.219[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:23:50.232[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:23:50.233[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:23:50.233[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:23:50.233[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:23:50.234[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:23:50.234[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:23:50.234[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:23:50.235[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:23:50.235[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:23:50.236[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:23:50.236[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:23:50.237[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:23:50.241[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:23:50.242[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:23:50.244[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:23:50.245[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:23:50.246[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:23:50.247[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:23:50.251[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:23:50.365[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:23:50.366[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"237fbd8eeef56e50a1005d8177ae378ff5c2ff3e2a49b638fb0f2431634026bb","status":"failed","time_create":1714782230256,"time_final":1714782230366,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:23:50.367[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"237fbd8eeef56e50a1005d8177ae378ff5c2ff3e2a49b638fb0f2431634026bb","status":"failed","time_create":1714782230256,"time_final":1714782230366,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:23:51.446[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:23:51.446[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:23:51.447[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:23:51.447[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:23:51.447[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:23:51.448[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:23:51.448[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:23:51.448[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:23:56.472[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:23:56.473[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:23:56.477[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 9.1              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:23:56.505[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.187 seconds[39m
+2024.05.03-19:23:56.514[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:24:12.632[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:24:12.634[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:24:12.635[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:24:12.635[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:24:12.650[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:24:12.651[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:24:12.652[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:24:12.933[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:24:12.986[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:24:12.988[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:24:12.989[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:24:12.990[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:24:12.991[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:24:12.992[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:24:12.995[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:24:12.996[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:24:12.996[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:24:12.997[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0.001 seconds[39m
+2024.05.03-19:24:13.002[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:24:13.004[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:24:13.006[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:24:13.007[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:24:13.013[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:24:13.014[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:24:13.015[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:24:13.504[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:24:13.504[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:24:13.505[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:24:13.512[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:24:13.471[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:24:13.512[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:24:13.473[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:24:13.473[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:24:13.474[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:24:13.513[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:24:13.744[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:24:13.799[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:24:13.801[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:24:13.804[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:24:13.805[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:24:13.806[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:24:13.807[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:24:13.967[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:24:13.968[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:24:13.969[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:24:13.970[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:24:14.059[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:24:14.061[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:24:14.062[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:24:14.064[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:24:14.065[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:24:14.066[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:24:14.066[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:24:14.069[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:24:14.069[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:24:14.069[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:24:14.069[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:24:14.070[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:24:14.070[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:24:14.070[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:24:14.070[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:24:14.071[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:24:14.072[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:24:14.072[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:24:14.073[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:24:14.077[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:24:14.078[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:24:14.080[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:24:14.081[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:24:14.082[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:24:14.083[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:24:14.088[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:24:14.204[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:24:14.206[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"bc0a084bfdcb89fdb9498fb8465a53b218f7b11f104e13d4f35df810c8d1923d","status":"failed","time_create":1714782254095,"time_final":1714782254205,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:24:14.206[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"bc0a084bfdcb89fdb9498fb8465a53b218f7b11f104e13d4f35df810c8d1923d","status":"failed","time_create":1714782254095,"time_final":1714782254205,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:24:15.287[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:24:15.288[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:24:15.288[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:24:15.288[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:24:15.288[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:24:15.289[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:24:15.289[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:24:15.289[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:24:20.311[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:24:20.312[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:24:20.315[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 9.1              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:24:20.340[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.193 seconds[39m
+2024.05.03-19:24:20.348[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:30:02.707[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:30:02.709[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:30:02.709[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:30:02.709[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:30:02.719[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:30:02.720[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:30:02.720[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:30:02.926[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:30:02.976[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:30:02.978[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:30:02.979[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:30:02.980[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:30:02.981[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:30:02.982[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:30:02.985[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:30:02.985[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:30:02.985[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:30:02.986[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0.001 seconds[39m
+2024.05.03-19:30:02.991[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:30:02.993[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:30:02.996[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:30:02.996[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:30:03.005[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:30:03.005[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:30:03.006[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:30:03.480[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:30:03.481[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:30:03.481[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:30:03.486[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:30:03.449[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:30:03.487[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:30:03.450[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:30:03.451[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:30:03.451[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:30:03.488[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:30:03.690[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:30:03.739[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:30:03.741[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:30:03.745[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:30:03.746[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:30:03.747[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:30:03.748[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:30:03.891[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:30:03.892[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:30:03.892[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:30:03.893[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:30:03.978[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:30:03.979[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:30:03.980[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:30:03.982[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:30:03.983[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:30:03.984[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:30:03.984[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:30:03.985[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:30:03.985[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:30:03.985[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:30:03.985[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:30:03.986[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:30:03.986[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:30:03.986[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:30:03.987[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:30:03.987[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:30:03.988[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:30:03.989[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:30:03.990[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:30:03.993[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:30:03.995[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:30:03.996[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:30:03.997[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:30:03.998[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:30:03.999[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:30:04.003[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:30:04.124[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:30:04.126[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"e34458ab487870a5e453212964156aaff7f9310965820ec4a39ad20cfd140ad5","status":"failed","time_create":1714782604021,"time_final":1714782604125,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:30:04.127[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"e34458ab487870a5e453212964156aaff7f9310965820ec4a39ad20cfd140ad5","status":"failed","time_create":1714782604021,"time_final":1714782604125,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:30:05.215[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:30:05.215[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:30:05.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:30:05.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:30:05.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:30:05.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:30:05.216[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:30:05.217[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:30:10.238[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:30:10.239[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:30:10.243[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 9.6              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:30:10.267[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.207 seconds[39m
+2024.05.03-19:30:10.276[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:31:09.046[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:31:09.049[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:31:09.049[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:31:09.050[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:31:09.068[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:31:09.069[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:31:09.070[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:31:09.411[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:31:09.497[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:31:09.499[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:31:09.501[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:31:09.503[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:31:09.505[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:31:09.507[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:31:09.511[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:31:09.511[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:31:09.512[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:31:09.512[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0 seconds[39m
+2024.05.03-19:31:09.523[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:31:09.527[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:31:09.530[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:31:09.531[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:31:09.543[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:31:09.544[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:31:09.545[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:31:10.321[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:31:10.322[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:31:10.323[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:31:10.278[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:31:10.337[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:31:10.338[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:31:10.281[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:31:10.281[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:31:10.282[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:31:10.339[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:31:10.623[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:31:10.704[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:31:10.707[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:31:10.714[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:31:10.717[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:31:10.719[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:31:10.720[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:31:10.965[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:31:10.966[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:31:10.967[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:31:10.968[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:31:11.113[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:31:11.115[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:31:11.117[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:31:11.119[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:31:11.120[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:31:11.122[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:31:11.122[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:31:11.125[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:31:11.125[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:31:11.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:31:11.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:31:11.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:31:11.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:31:11.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:31:11.127[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:31:11.127[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:31:11.129[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:31:11.129[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:31:11.130[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:31:11.136[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:31:11.137[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:31:11.138[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:31:11.139[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:31:11.140[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:31:11.141[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:31:11.147[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:31:11.319[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:31:11.321[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"98119f793b429a6667a7ad9e126d7dcf746cda82e4aeec5684d99d3bd3623552","status":"failed","time_create":1714782671153,"time_final":1714782671320,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:31:11.321[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"98119f793b429a6667a7ad9e126d7dcf746cda82e4aeec5684d99d3bd3623552","status":"failed","time_create":1714782671153,"time_final":1714782671320,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:31:12.382[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:31:12.383[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:31:12.383[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:31:12.383[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:31:12.384[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:31:12.384[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:31:12.384[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:31:12.385[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:31:17.398[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:31:17.399[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:31:17.402[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 6.0              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:31:17.429[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.233 seconds[39m
+2024.05.03-19:31:17.438[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:31:27.446[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:31:27.449[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:31:27.450[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:31:27.450[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:31:27.469[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:31:27.469[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:31:27.470[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:31:27.855[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:31:27.933[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:31:27.935[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:31:27.938[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:31:27.939[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:31:27.941[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:31:27.943[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:31:27.947[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:31:27.948[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.002 seconds[39m
+2024.05.03-19:31:27.948[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:31:27.949[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0.001 seconds[39m
+2024.05.03-19:31:27.956[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:31:27.959[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:31:27.962[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:31:27.963[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:31:27.974[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:31:27.974[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:31:27.975[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:31:28.818[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:31:28.818[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:31:28.819[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:31:28.849[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:31:28.752[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:31:28.850[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:31:28.755[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:31:28.756[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:31:28.757[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:31:28.852[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:31:29.266[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:31:29.387[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:31:29.390[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:31:29.393[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:31:29.395[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:31:29.397[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:31:29.399[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:31:29.643[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:31:29.644[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:31:29.645[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:31:29.646[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:31:29.747[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:31:29.749[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:31:29.751[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:31:29.752[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:31:29.753[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:31:29.755[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:31:29.755[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:31:29.759[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:31:29.759[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:31:29.760[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:31:29.760[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:31:29.760[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:31:29.761[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:31:29.761[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:31:29.762[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:31:29.762[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:31:29.763[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:31:29.764[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:31:29.766[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:31:29.771[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:31:29.772[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:31:29.774[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:31:29.776[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:31:29.778[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:31:29.780[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:31:29.790[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:31:29.989[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:31:29.991[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"bfdd043e476bd6e0e9d8da78c0019320179ba49389761dd03e39698e2ca4b82a","status":"failed","time_create":1714782689801,"time_final":1714782689990,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:31:29.992[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"bfdd043e476bd6e0e9d8da78c0019320179ba49389761dd03e39698e2ca4b82a","status":"failed","time_create":1714782689801,"time_final":1714782689990,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:31:31.063[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:31:31.063[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:31:31.064[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:31:31.064[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:31:31.064[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:31:31.065[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:31:31.065[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:31:31.066[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:31:36.086[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:31:36.087[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:31:36.090[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 5.3              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:31:36.117[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.259 seconds[39m
+2024.05.03-19:31:36.127[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m
+2024.05.03-19:34:11.771[32m info [39m [caliper] [cli-launch-manager] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:34:11.772[32m info [39m [caliper] [cli-launch-manager] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:34:11.772[32m info [39m [caliper] [cli-launch-manager] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:34:11.773[32m info [39m [caliper] [cli-launch-manager] [32m	Set SUT type: fabric[39m
+2024.05.03-19:34:11.782[32m info [39m [caliper] [benchmark-validator] [32m	No observer specified, will default to `none`[39m
+2024.05.03-19:34:11.783[32m info [39m [caliper] [caliper-engine] [32m	Starting benchmark flow[39m
+2024.05.03-19:34:11.783[32m info [39m [caliper] [caliper-engine] [32m	Network configuration attribute "caliper.command.start" is not present, skipping start command[39m
+2024.05.03-19:34:11.992[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:34:12.041[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:34:12.043[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:34:12.043[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:34:12.044[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:34:12.046[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:34:12.047[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:34:12.050[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Fabric-Gateway SDK version: 1.5.1 for Peer-Gateway connector; TLS based on Org1MSP: server[39m
+2024.05.03-19:34:12.050[32m info [39m [caliper] [caliper-engine] [32m	Executed "init" step in 0.001 seconds[39m
+2024.05.03-19:34:12.050[33m warn [39m [caliper] [connectors/peer-gateway/PeerGateway] [33m	Install smart contract not available for the Fabric Peer Gateway connector[39m
+2024.05.03-19:34:12.051[32m info [39m [caliper] [caliper-engine] [32m	Executed "install" step in 0.001 seconds[39m
+2024.05.03-19:34:12.056[32m info [39m [caliper] [monitor.js] [32m	Attempting to create resource monitor of type prometheus[39m
+2024.05.03-19:34:12.058[32m info [39m [caliper] [default-observer] [32m	Observer interval set to 5000 milliseconds[39m
+2024.05.03-19:34:12.060[32m info [39m [caliper] [round-orchestrator] [32m	Preparing worker connections[39m
+2024.05.03-19:34:12.060[32m info [39m [caliper] [worker-orchestrator] [32m	Launching worker 1 of 1[39m
+2024.05.03-19:34:12.068[32m info [39m [caliper] [worker-orchestrator] [32m	Messenger not configured, entering configure phase...[39m
+2024.05.03-19:34:12.069[32m info [39m [caliper] [worker-orchestrator] [32m	No existing workers detected, entering worker launch phase...[39m
+2024.05.03-19:34:12.070[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be connected...[39m
+2024.05.03-19:34:12.559[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers connected, progressing to worker assignment phase.[39m
+2024.05.03-19:34:12.559[32m info [39m [caliper] [worker-orchestrator] [32m	Workers currently unassigned, awaiting index assignment...[39m
+2024.05.03-19:34:12.560[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be assigned...[39m
+2024.05.03-19:34:12.566[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers assigned, progressing to worker initialization phase.[39m
+2024.05.03-19:34:12.525[32m info [39m [caliper] [cli-launch-worker] [32m	Set workspace path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper[39m
+2024.05.03-19:34:12.566[32m info [39m [caliper] [worker-orchestrator] [32m	Waiting for 1 workers to be ready...[39m
+2024.05.03-19:34:12.527[32m info [39m [caliper] [cli-launch-worker] [32m	Set benchmark configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\benchmarks\SAACS.boot.yaml[39m
+2024.05.03-19:34:12.527[32m info [39m [caliper] [cli-launch-worker] [32m	Set network configuration path: C:\Users\devcs\tmp\saacs\saacs\apps\caliper\networks\test-network.yaml[39m
+2024.05.03-19:34:12.527[32m info [39m [caliper] [cli-launch-worker] [32m	Set SUT type: fabric[39m
+2024.05.03-19:34:12.568[32m info [39m [caliper] [worker-message-handler] [32m	Initializing Worker#0...[39m
+2024.05.03-19:34:12.793[32m info [39m [caliper] [FabricConnectorFactory] [32m	Initializing peer gateway connector compatible with installed fabric-gateway SDK: 1.5.1[39m
+2024.05.03-19:34:12.847[32m info [39m [caliper] [IdentityManager] [32m	Adding Admin (admin=true) as Admin for organization Org1MSP[39m
+2024.05.03-19:34:12.849[32m info [39m [caliper] [IdentityManager] [32m	Adding User1 (admin=false) as User1 for organization Org1MSP[39m
+2024.05.03-19:34:12.853[32m info [39m [caliper] [IdentityManager] [32m	Adding User2 (admin=false) as User2 for organization Org1MSP[39m
+2024.05.03-19:34:12.854[32m info [39m [caliper] [IdentityManager] [32m	Adding User3 (admin=false) as User3 for organization Org1MSP[39m
+2024.05.03-19:34:12.856[32m info [39m [caliper] [IdentityManager] [32m	Adding User4 (admin=false) as User4 for organization Org1MSP[39m
+2024.05.03-19:34:12.857[32m info [39m [caliper] [IdentityManager] [32m	Adding User5 (admin=false) as User5 for organization Org1MSP[39m
+2024.05.03-19:34:13.023[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 initialized[39m
+2024.05.03-19:34:13.024[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers ready, progressing to test preparation phase.[39m
+2024.05.03-19:34:13.024[32m info [39m [caliper] [round-orchestrator] [32m	Started round 1 (Bootstrap)[39m
+2024.05.03-19:34:13.025[32m info [39m [caliper] [worker-message-handler] [32m	Preparing Worker#0 for Round#0[39m
+2024.05.03-19:34:13.107[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:34:13.108[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:34:13.110[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:34:13.111[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:34:13.112[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:34:13.113[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:34:13.113[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is starting...[39m
+2024.05.03-19:34:13.115[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:34:13.115[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:34:13.115[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:34:13.115[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:34:13.116[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:34:13.116[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:34:13.116[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:34:13.116[32m info [39m [caliper] [caliper-worker] [32m	Info: worker 0 prepare test phase for round 0 is completed[39m
+2024.05.03-19:34:13.117[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 prepared for Round#0[39m
+2024.05.03-19:34:13.117[32m info [39m [caliper] [worker-orchestrator] [32m	1 workers prepared, progressing to test phase.[39m
+2024.05.03-19:34:13.118[32m info [39m [caliper] [round-orchestrator] [32m	Monitors successfully started[39m
+2024.05.03-19:34:13.119[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is starting Round#0[39m
+2024.05.03-19:34:13.122[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user Admin[39m
+2024.05.03-19:34:13.123[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User1[39m
+2024.05.03-19:34:13.124[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User2[39m
+2024.05.03-19:34:13.125[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User3[39m
+2024.05.03-19:34:13.126[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User4[39m
+2024.05.03-19:34:13.127[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	Generating contract map for user User5[39m
+2024.05.03-19:34:13.132[32m info [39m [caliper] [caliper-worker] [32m	Worker #0 starting workload loop[39m
+2024.05.03-19:34:13.246[31m error[39m [caliper] [connectors/peer-gateway/PeerGateway] [31m	Failed to perform submit transaction [Bootstrap] using arguments [{}],  with error: EndorseError: 10 ABORTED: failed to endorse transaction, see attached details for more info[39m
+[31mDetails:[39m
+[31m-  peer0.org1.example.com:7051:chaincode response 500, Invalid AuthType[39m
+2024.05.03-19:34:13.248[32m info [39m [caliper] [txinfo] [32m	{"status":{"id":"90c7e9e3c2832e0de5beca9b7d797927d1bfb56931bc30c9ed572ab770cfbc70","status":"failed","time_create":1714782853140,"time_final":1714782853247,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0}[39m
+2024.05.03-19:34:13.248[32m info [39m [caliper] [my-module] [32m	txStatus[39m ({"status":{"id":"90c7e9e3c2832e0de5beca9b7d797927d1bfb56931bc30c9ed572ab770cfbc70","status":"failed","time_create":1714782853140,"time_final":1714782853247,"result":"","verified":true,"flags":0,"error_messages":[],"custom_data":{}},"workerIndex":0})
+2024.05.03-19:34:14.330[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user Admin[39m
+2024.05.03-19:34:14.331[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User1[39m
+2024.05.03-19:34:14.331[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User2[39m
+2024.05.03-19:34:14.331[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User3[39m
+2024.05.03-19:34:14.331[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User4[39m
+2024.05.03-19:34:14.331[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gateway for user User5[39m
+2024.05.03-19:34:14.332[32m info [39m [caliper] [connectors/peer-gateway/PeerGateway] [32m	disconnecting gRpc client at peer peer0.org1.example.com[39m
+2024.05.03-19:34:14.332[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 finished Round#0[39m
+2024.05.03-19:34:19.355[32m info [39m [caliper] [default-observer] [32m	Resetting txCount indicator count[39m
+2024.05.03-19:34:19.356[32m info [39m [caliper] [report-builder] [32m	### Test result ###[39m
+2024.05.03-19:34:19.359[32m info [39m [caliper] [report-builder] [32m	[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m| Name      | Succ | Fail | Send Rate (TPS) | Max Latency (s) | Min Latency (s) | Avg Latency (s) | Throughput (TPS) |[39m
+[32m|-----------|------|------|-----------------|-----------------|-----------------|-----------------|------------------|[39m
+[32m| Bootstrap | 0    | 1    | Infinity        | -               | -               | -               | 9.3              |[39m
+[32m+-----------+------+------+-----------------+-----------------+-----------------+-----------------+------------------+[39m
+[32m[39m
+2024.05.03-19:34:19.384[32m info [39m [caliper] [round-orchestrator] [32m	Finished round 1 (Bootstrap) in 0.195 seconds[39m
+2024.05.03-19:34:19.392[32m info [39m [caliper] [worker-message-handler] [32m	Worker#0 is exiting[39m

@@ -65,7 +65,8 @@ proto3.util.setEnumType(AuthType, "saacs.auth.v0.AuthType", [
  * @generated from extension: saacs.auth.v0.AuthType auth_type = 55888;
  */
 export const auth_type = proto3.makeExtension<MessageOptions, AuthType>(
-  "saacs.auth.v0.auth_type",
-  MessageOptions,
+  "saacs.auth.v0.auth_type", 
+  MessageOptions, 
   () => ({ no: 55888, kind: "enum", T: proto3.getEnumType(AuthType) }),
 );
+

@@ -120,3 +120,7 @@ export async function GetService({
     utilService,
   }
 }
+
+const s = await GetService({ userIdex: 0, channel: 'default', contractName: 'saacs-caas' })
+const r = await s.utilService.getCurrentUser({})
+console.log(r)

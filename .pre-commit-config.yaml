@@ -7,15 +7,17 @@ repos:
       - id: end-of-file-fixer
         exclude: |
           (?x)^(
-          pkg/saacs-es/src/gen/.*|
-          lib/other/.* |
+          lib/proto-saacs-es/src/gen/.*|
+          cmd/protoc-gen-saacs-es/src/gen/.*|
+          cmd/other/.* |
           lib/other/doc/.*
           )$
 
       - id: trailing-whitespace
         exclude: |
           (?x)^(
-          pkg/saacs-es/src/gen/.*|
+          lib/proto-saacs-es/src/gen/.*|
+          cmd/protoc-gen-saacs-es/src/gen/.*|
           lib/other/.* |
           lib/other/doc/.*
           )$

@@ -61,3 +61,4 @@ export class Operation extends Message<Operation> {
     return proto3.util.equals(Operation, a, b);
   }
 }
+

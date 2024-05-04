@@ -242,3 +242,4 @@ export class UserGlobalRoles extends Message<UserGlobalRoles> {
     return proto3.util.equals(UserGlobalRoles, a, b);
   }
 }
+

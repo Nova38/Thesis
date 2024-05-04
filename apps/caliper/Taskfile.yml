@@ -7,7 +7,7 @@ tasks:
         --caliper-report-path=./out/noauth/boot-report.html
   bootstrap:saacs:
     cmds:
-      - echo "Bootstrapping no auth..."
+      - echo "Bootstrapping saacs..."
       - pnpm run launch --caliper-benchconfig=benchmarks/SAACS.boot.yaml
         --caliper-report-path=./out/noauth/boot-report.html
 
