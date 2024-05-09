@@ -3,15 +3,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type {
-  BinaryReadOptions,
-  FieldList,
-  JsonReadOptions,
-  JsonValue,
-  PartialMessage,
-  PlainMessage,
-} from '@bufbuild/protobuf'
-import { Message, proto3, Struct } from '@bufbuild/protobuf'
+import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
+import { Message, proto3, Struct } from "@bufbuild/protobuf";
 
 /**
  * @generated from enum saacs.common.v0.TxError
@@ -179,32 +172,32 @@ export enum TxError {
   INVALID_ITEM_FIELD_VALUE = 36,
 }
 // Retrieve enum metadata with: proto3.getEnumType(TxError)
-proto3.util.setEnumType(TxError, 'saacs.common.v0.TxError', [
-  { no: 0, name: 'UNSPECIFIED' },
-  { no: 1, name: 'REQUEST_INVALID' },
-  { no: 2, name: 'RUNTIME' },
-  { no: 3, name: 'RUNTIME_BAD_OPS' },
-  { no: 4, name: 'KEY_NOT_FOUND' },
-  { no: 5, name: 'KEY_ALREADY_EXISTS' },
-  { no: 11, name: 'COLLECTION_INVALID_ID' },
-  { no: 12, name: 'COLLECTION_UNREGISTERED' },
-  { no: 13, name: 'COLLECTION_ALREADY_REGISTERED' },
-  { no: 14, name: 'COLLECTION_INVALID' },
-  { no: 15, name: 'COLLECTION_INVALID_ITEM_TYPE' },
-  { no: 16, name: 'COLLECTION_INVALID_ROLE_ID' },
-  { no: 20, name: 'USER_INVALID_ID' },
-  { no: 21, name: 'USER_UNREGISTERED' },
-  { no: 22, name: 'USER_ALREADY_REGISTERED' },
-  { no: 23, name: 'USER_INVALID' },
-  { no: 24, name: 'USER_NO_ROLE' },
-  { no: 26, name: 'USER_PERMISSION_DENIED' },
-  { no: 31, name: 'ITEM_INVALID_ID' },
-  { no: 32, name: 'ITEM_UNREGISTERED' },
-  { no: 33, name: 'ITEM_ALREADY_REGISTERED' },
-  { no: 34, name: 'ITEM_INVALID' },
-  { no: 35, name: 'INVALID_ITEM_FIELD_PATH' },
-  { no: 36, name: 'INVALID_ITEM_FIELD_VALUE' },
-])
+proto3.util.setEnumType(TxError, "saacs.common.v0.TxError", [
+  { no: 0, name: "UNSPECIFIED" },
+  { no: 1, name: "REQUEST_INVALID" },
+  { no: 2, name: "RUNTIME" },
+  { no: 3, name: "RUNTIME_BAD_OPS" },
+  { no: 4, name: "KEY_NOT_FOUND" },
+  { no: 5, name: "KEY_ALREADY_EXISTS" },
+  { no: 11, name: "COLLECTION_INVALID_ID" },
+  { no: 12, name: "COLLECTION_UNREGISTERED" },
+  { no: 13, name: "COLLECTION_ALREADY_REGISTERED" },
+  { no: 14, name: "COLLECTION_INVALID" },
+  { no: 15, name: "COLLECTION_INVALID_ITEM_TYPE" },
+  { no: 16, name: "COLLECTION_INVALID_ROLE_ID" },
+  { no: 20, name: "USER_INVALID_ID" },
+  { no: 21, name: "USER_UNREGISTERED" },
+  { no: 22, name: "USER_ALREADY_REGISTERED" },
+  { no: 23, name: "USER_INVALID" },
+  { no: 24, name: "USER_NO_ROLE" },
+  { no: 26, name: "USER_PERMISSION_DENIED" },
+  { no: 31, name: "ITEM_INVALID_ID" },
+  { no: 32, name: "ITEM_UNREGISTERED" },
+  { no: 33, name: "ITEM_ALREADY_REGISTERED" },
+  { no: 34, name: "ITEM_INVALID" },
+  { no: 35, name: "INVALID_ITEM_FIELD_PATH" },
+  { no: 36, name: "INVALID_ITEM_FIELD_VALUE" },
+]);
 
 /**
  * @generated from message saacs.common.v0.ErrorWrapper
@@ -213,56 +206,45 @@ export class ErrorWrapper extends Message<ErrorWrapper> {
   /**
    * @generated from field: saacs.common.v0.TxError code = 1;
    */
-  code = TxError.UNSPECIFIED
+  code = TxError.UNSPECIFIED;
 
   /**
    * @generated from field: google.protobuf.Struct error = 2;
    */
-  error?: Struct
+  error?: Struct;
 
   /**
    * @generated from field: string message = 3;
    */
-  message = ''
+  message = "";
 
   constructor(data?: PartialMessage<ErrorWrapper>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.common.v0.ErrorWrapper'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.common.v0.ErrorWrapper";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: 'code', kind: 'enum', T: proto3.getEnumType(TxError) },
-    { no: 2, name: 'error', kind: 'message', T: Struct },
-    { no: 3, name: 'message', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
-  ])
+    { no: 1, name: "code", kind: "enum", T: proto3.getEnumType(TxError) },
+    { no: 2, name: "error", kind: "message", T: Struct },
+    { no: 3, name: "message", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): ErrorWrapper {
-    return new ErrorWrapper().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ErrorWrapper {
+    return new ErrorWrapper().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): ErrorWrapper {
-    return new ErrorWrapper().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ErrorWrapper {
+    return new ErrorWrapper().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): ErrorWrapper {
-    return new ErrorWrapper().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ErrorWrapper {
+    return new ErrorWrapper().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: ErrorWrapper | PlainMessage<ErrorWrapper> | undefined,
-    b: ErrorWrapper | PlainMessage<ErrorWrapper> | undefined,
-  ): boolean {
-    return proto3.util.equals(ErrorWrapper, a, b)
+  static equals(a: ErrorWrapper | PlainMessage<ErrorWrapper> | undefined, b: ErrorWrapper | PlainMessage<ErrorWrapper> | undefined): boolean {
+    return proto3.util.equals(ErrorWrapper, a, b);
   }
 }
+

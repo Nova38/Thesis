@@ -10,6 +10,8 @@ export default antfu({
     'ts/no-redeclare': 'off',
     'ts/no-unused-vars': 'off',
     'ts/no-unsafe-argument': 'off',
+    'ts/no-unused-vars': 'off',
+    'unused-imports/no-unused-vars': 'off',
     'ts/no-unsafe-assignment': 'off',
     'ts/no-throw-literal': 'off',
     'node/prefer-global/process': 'off',

@@ -1,20 +1,24 @@
 # yaml-language-server: $schema=../../.vscode/schemas/caliper-runtime.schema.json
+saacs:
+  Serialization: json
+  performance:
+    shouldbefast: true
 
 caliper:
   # Report file-related options
   report:
-    path: "./out/report.html"
+    path: ./out/report.html
     # The options to pass to fs.writeFile
     options:
-      flag: "w"
+      flag: w
       mode: 0666
     precision: 3
     # Charting options
     charting:
       hue: 21
-      scheme: "triade"
+      scheme: triade
       transparency: 0.6
-  workspace: "./"
+  workspace: ./
   projectconfig: ./caliper.yaml
   networkconfig: ./networks/test-network.yaml
 
@@ -54,12 +58,12 @@ caliper:
   # Configurations related to the logging mechanism
   logging:
     # Specifies the message structure through placeholders
-    template: "%timestamp%%level%%label%%module%%message%%metadata%"
+    template: '%timestamp%%level%%label%%module%%message%%metadata%'
     # Enables the different formats to apply to the log messages FOR ALL transports
     # Each format can be disabled by setting it to false
     formats:
       # Adds a timestamp to the messages with the following format
-      timestamp: "YYYY.MM.DD-HH:mm:ss.SSS"
+      timestamp: 'YYYY.MM.DD-HH:mm:ss.SSS'
       # Adds a specified label to every message. Useful for distributed workers scenario
       label: caliper
       # serializes the log messages as JSON
@@ -71,13 +75,13 @@ caliper:
       # specifies formatting strings for different log message attributes
       attributeformat:
         # add a space before the level
-        level: " %attribute%"
+        level: ' %attribute%'
         # put [] around the label and space before it
-        label: " [%attribute%]"
+        label: ' [%attribute%]'
         # put [] around the module name and space before/after it
-        module: " [%attribute%] "
+        module: ' [%attribute%] '
         # put () around the metadata and space before it
-        metadata: " (%attribute%)"
+        metadata: ' (%attribute%)'
       # defines coloring for the different levels for each (or all) message property
       colorize:
         # Apply it to levels
@@ -98,17 +102,17 @@ caliper:
         options: # These are passed to the winston console target as-is
           level: info
       # Defines a file target with debug level but is disabled by default
-      file:
-        target: file
-        enabled: true
-        options:
-          level: info
-          filename: out/caliper
-          maxSize: 5m
-          zippedArchive: false
-          options:
-            flags: a
-            mode: 0666
+      # file:
+      #   target: file
+      #   enabled: true
+      #   options:
+      #     level: info
+      #     filename: out/caliper
+      #     maxSize: 5m
+      #     zippedArchive: false
+      #     options:
+      #       flags: a
+      #       mode: 0666
   # Worker options
   worker:
     # Indicate if workers are in distributed mode

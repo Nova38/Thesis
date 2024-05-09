@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { proto3 } from '@bufbuild/protobuf'
+import { proto3 } from "@bufbuild/protobuf";
 
 /**
  * @generated from enum saacs.common.v0.TransactionType
@@ -25,11 +25,11 @@ export enum TransactionType {
   QUERY = 2,
 }
 // Retrieve enum metadata with: proto3.getEnumType(TransactionType)
-proto3.util.setEnumType(TransactionType, 'saacs.common.v0.TransactionType', [
-  { no: 0, name: 'TRANSACTION_TYPE_UNSPECIFIED' },
-  { no: 1, name: 'TRANSACTION_TYPE_INVOKE' },
-  { no: 2, name: 'TRANSACTION_TYPE_QUERY' },
-])
+proto3.util.setEnumType(TransactionType, "saacs.common.v0.TransactionType", [
+  { no: 0, name: "TRANSACTION_TYPE_UNSPECIFIED" },
+  { no: 1, name: "TRANSACTION_TYPE_INVOKE" },
+  { no: 2, name: "TRANSACTION_TYPE_QUERY" },
+]);
 
 /**
  * @generated from enum saacs.common.v0.ItemKind
@@ -61,12 +61,12 @@ export enum ItemKind {
   REFERENCE = 4,
 }
 // Retrieve enum metadata with: proto3.getEnumType(ItemKind)
-proto3.util.setEnumType(ItemKind, 'saacs.common.v0.ItemKind', [
-  { no: 0, name: 'ITEM_KIND_UNSPECIFIED' },
-  { no: 2, name: 'ITEM_KIND_PRIMARY_ITEM' },
-  { no: 3, name: 'ITEM_KIND_SUB_ITEM' },
-  { no: 4, name: 'ITEM_KIND_REFERENCE' },
-])
+proto3.util.setEnumType(ItemKind, "saacs.common.v0.ItemKind", [
+  { no: 0, name: "ITEM_KIND_UNSPECIFIED" },
+  { no: 2, name: "ITEM_KIND_PRIMARY_ITEM" },
+  { no: 3, name: "ITEM_KIND_SUB_ITEM" },
+  { no: 4, name: "ITEM_KIND_REFERENCE" },
+]);
 
 /**
  * @generated from enum saacs.common.v0.Action
@@ -179,22 +179,23 @@ export enum Action {
   VIEW_MSP_HIDDEN_TX = 24,
 }
 // Retrieve enum metadata with: proto3.getEnumType(Action)
-proto3.util.setEnumType(Action, 'saacs.common.v0.Action', [
-  { no: 0, name: 'ACTION_UNSPECIFIED' },
-  { no: 1, name: 'ACTION_UTILITY' },
-  { no: 10, name: 'ACTION_VIEW' },
-  { no: 11, name: 'ACTION_CREATE' },
-  { no: 12, name: 'ACTION_UPDATE' },
-  { no: 13, name: 'ACTION_DELETE' },
-  { no: 14, name: 'ACTION_SUGGEST_VIEW' },
-  { no: 15, name: 'ACTION_SUGGEST_CREATE' },
-  { no: 16, name: 'ACTION_SUGGEST_DELETE' },
-  { no: 17, name: 'ACTION_SUGGEST_APPROVE' },
-  { no: 18, name: 'ACTION_VIEW_HISTORY' },
-  { no: 19, name: 'ACTION_VIEW_HIDDEN_TXS' },
-  { no: 20, name: 'ACTION_HIDE_TX' },
-  { no: 21, name: 'ACTION_UNHIDE_TX' },
-  { no: 22, name: 'ACTION_HIDE_MSP_TX' },
-  { no: 23, name: 'ACTION_UNHIDE_MSP_TX' },
-  { no: 24, name: 'ACTION_VIEW_MSP_HIDDEN_TX' },
-])
+proto3.util.setEnumType(Action, "saacs.common.v0.Action", [
+  { no: 0, name: "ACTION_UNSPECIFIED" },
+  { no: 1, name: "ACTION_UTILITY" },
+  { no: 10, name: "ACTION_VIEW" },
+  { no: 11, name: "ACTION_CREATE" },
+  { no: 12, name: "ACTION_UPDATE" },
+  { no: 13, name: "ACTION_DELETE" },
+  { no: 14, name: "ACTION_SUGGEST_VIEW" },
+  { no: 15, name: "ACTION_SUGGEST_CREATE" },
+  { no: 16, name: "ACTION_SUGGEST_DELETE" },
+  { no: 17, name: "ACTION_SUGGEST_APPROVE" },
+  { no: 18, name: "ACTION_VIEW_HISTORY" },
+  { no: 19, name: "ACTION_VIEW_HIDDEN_TXS" },
+  { no: 20, name: "ACTION_HIDE_TX" },
+  { no: 21, name: "ACTION_UNHIDE_TX" },
+  { no: 22, name: "ACTION_HIDE_MSP_TX" },
+  { no: 23, name: "ACTION_UNHIDE_MSP_TX" },
+  { no: 24, name: "ACTION_VIEW_MSP_HIDDEN_TX" },
+]);
+

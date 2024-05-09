@@ -21,14 +21,23 @@ export function AuthModelBuilder(
     itemTypes,
   })
 
-  const model = new pb.AuthModel(raw)
-
-  switch (type) {
-    case pb.AuthType.NONE :
-      return
-
+  switch (authType) {
     case pb.AuthType.IDENTITY:
-      return new pb.AuthModel({})
+
+      return new pb.AuthModel({
+        name,
+        model: {
+          case: 'identity',
+          value: {
+            collection,
+            userDirectMembership: [
+              {
+                collectionId,
+              },
+            ],
+          },
+        },
+      })
 
     case pb.AuthType.GLOBAL_ROLE:
       return new pb.AuthModel({})

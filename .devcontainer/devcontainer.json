@@ -11,6 +11,7 @@
     "ghcr.io/marcozac/devcontainer-features/buf:1": {},
     "ghcr.io/devcontainers-contrib/features/kind:1": {},
     // "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+    "ghcr.io/devcontainers/features/docker-in-docker": "",
     "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {}
   },
   "containerEnv": {
@@ -45,7 +46,9 @@
         "dbaeumer.vscode-eslint",
         "EditorConfig.EditorConfig",
         "ms-azuretools.vscode-docker",
-        "task.vscode-task"
+        "task.vscode-task",
+        "vitest.explorer",
+        "Nuxtr.nuxt-vscode-extentions"
       ]
     }
   }

@@ -22,7 +22,6 @@
     "@tsconfig/node21": "^21.0.3",
     "@types/node": "^20.12.7",
     "@vitest/coverage-v8": "^1.5.2",
-    "eslint": "^8.57.0",
     "jiti": "^1.21.0",
     "magicast": "^0.3.4",
     "prettier": "^3.2.5",

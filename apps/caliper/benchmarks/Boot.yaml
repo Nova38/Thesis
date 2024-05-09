@@ -24,22 +24,18 @@ test:
       txNumber: 2000
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/Create.js
         arguments:
           authMode: roles
-
-
-
-
 
 monitors:
   transaction:
     - module: prometheus-push
       options:
         pushInterval: 5000
-        pushUrl: "http://localhost:9091"
+        pushUrl: 'http://localhost:9091'
     - module: prometheus
     - module: logging
       options:
@@ -66,7 +62,7 @@ monitors:
 
     - module: prometheus
       options:
-        url: "http://localhost:9090"
+        url: 'http://localhost:9090'
         charting:
           polar:
             metrics: [all]

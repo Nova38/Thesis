@@ -58,6 +58,7 @@ export function AuthModelToRequests(authModel: PartialMessage<pb.AuthModel>): {
         }),
       }
 
+
     default:
       throw new Error('AuthModel case not recognized')
       break

@@ -53,11 +53,11 @@ plugins:
     out: libs/saacs-protos-es/src/gen
     opt: target=ts
 
-  - plugin: protoc-gen-saacs-es
-    path: ["jiti", "cmd/protoc-gen-saacs-es/src/main.ts"]
-    opt: target=ts
-    out: libs/saacs-protos-es/src/gen
-    strategy: all
+  # - plugin: protoc-gen-saacs-es
+  #   path: ["tsx", "cmd/protoc-gen-saacs-es/src/main.ts"]
+  #   opt: target=ts
+  #   out: libs/saacs-protos-es/src/gen
+  #   strategy: all
 
   #  # JSON Schema
   #

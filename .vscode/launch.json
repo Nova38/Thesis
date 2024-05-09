@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch file",
+      "name": "Launch file Go",
       "type": "go",
       "request": "launch",
       "mode": "auto",
@@ -31,6 +31,31 @@
       "mode": "remote",
       "port": 40000,
       "host": "localhost"
+    },
+    {
+      "name": "tsx",
+      "type": "node",
+      "request": "launch",
+      // Debug current file in VSCode
+      "program": "${file}",
+      /*
+    Path to tsx binary
+    Assuming locally installed
+    */
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/tsx",
+      /*
+    Open terminal when debugging starts (Optional)
+    Useful to see console.logs
+    */
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      // Files to exclude from debugger (e.g. call stack)
+      "skipFiles": [
+        // Node.js internal core modules
+        "<node_internals>/**",
+        // Ignore all dependencies (optional)
+        "${workspaceFolder}/node_modules/**",
+      ],
     },
     // {
     //     "name": "NoAuth CC ",

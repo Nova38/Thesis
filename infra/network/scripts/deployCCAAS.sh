@@ -21,6 +21,8 @@ DELAY=${10:-"3"}
 MAX_RETRY=${11:-"5"}
 VERBOSE=${12:-"false"}
 
+CCAAS_DOCKER_EXTRA=${14:-""}
+
 CCAAS_SERVER_PORT=9999
 
 : ${CONTAINER_CLI:="docker"}
@@ -40,6 +42,7 @@ println "- CCAAS_DOCKER_RUN: ${C_GREEN}${CCAAS_DOCKER_RUN}${C_RESET}"
 println "- DELAY: ${C_GREEN}${DELAY}${C_RESET}"
 println "- MAX_RETRY: ${C_GREEN}${MAX_RETRY}${C_RESET}"
 println "- VERBOSE: ${C_GREEN}${VERBOSE}${C_RESET}"
+println "- CCAAS_DOCKER_EXTRA: ${CCAAS_DOCKER_EXTRA}"
 
 FABRIC_CFG_PATH=$PWD/config/
 
@@ -158,6 +161,7 @@ writeDockerRestart() {
                     -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
                     -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
                     -e AUTH_MODE=${CC_NAME} \
+                    ${CCAAS_DOCKER_EXTRA} \
                     saacs_ccaas:latest
 
     ${CONTAINER_CLI} stop peer0org2_${CC_NAME}_ccaas
@@ -166,6 +170,7 @@ writeDockerRestart() {
                     -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
                     -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
                     -e AUTH_MODE=${CC_NAME} \
+                    ${CCAAS_DOCKER_EXTRA} \
                     saacs_ccaas:latest
 EOF
 
@@ -181,6 +186,7 @@ startDockerContainer() {
       -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
       -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
       -e AUTH_MODE=${CC_NAME} \
+      ${CCAAS_DOCKER_EXTRA} \
       saacs_ccaas:latest
 
     ${CONTAINER_CLI} run --rm -d --name peer0org2_${CC_NAME}_ccaas \
@@ -188,6 +194,7 @@ startDockerContainer() {
       -e CHAINCODE_SERVER_ADDRESS=0.0.0.0:${CCAAS_SERVER_PORT} \
       -e CHAINCODE_ID=$PACKAGE_ID -e CORE_CHAINCODE_ID_NAME=$PACKAGE_ID \
       -e AUTH_MODE=${CC_NAME} \
+      ${CCAAS_DOCKER_EXTRA} \
       saacs_ccaas:latest
     res=$?
     { set +x; } 2>/dev/null

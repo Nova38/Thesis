@@ -26,7 +26,7 @@ declare module '@hyperledger/caliper-core' {
     /**
      * Return required arguments for reach workers process, e.g., return information generated during an admin phase, such as contract installation.
      * Information returned here is passed to the workers through the messaging protocol on test.
-     * @param {Number} number The total number of worker processes.
+     * @param {number} number The total number of worker processes.
      * @return {Promise<object[]>} Array of data objects, one for each worker process.
      * @async
      */
@@ -226,7 +226,7 @@ declare module '@hyperledger/caliper-core' {
     SetErrMsg(idx: int, msg: any): void
     /**
      * Getter of the error messages
-     * @return {array}, stored messages
+     * @return {Array}, stored messages
      */
     GetErrMsg(): any[]
     /**
@@ -296,7 +296,7 @@ declare module '@hyperledger/caliper-core' {
      * @param {object} module The module exporting the function.
      * @param {string} functionName The name of the function.
      * @param {string} moduleName The name of the module.
-     * @return {function} The loaded function.
+     * @return {Function} The loaded function.
      */
     static loadFunction(
       module: object,
@@ -353,15 +353,15 @@ declare module '@hyperledger/caliper-core' {
     static getLogger(name: string): Logger
     /**
      * Creates an absolute path from the provided relative path if necessary.
-     * @param {String} relOrAbsPath The relative or absolute path to convert to an absolute path.
+     * @param {string} relOrAbsPath The relative or absolute path to convert to an absolute path.
      *                              Relative paths are considered relative to the Caliper root folder.
-     * @param {String} root_path root path to use
-     * @return {String} The resolved absolute path.
+     * @param {string} root_path root path to use
+     * @return {string} The resolved absolute path.
      */
     static resolvePath(relOrAbsPath: string, root_path?: string): string
     /**
      * parse a yaml file.
-     * @param {String} filenameOrFilePath the yaml file path
+     * @param {string} filenameOrFilePath the yaml file path
      * @return {object} the parsed data.
      */
     static parseYaml(filenameOrFilePath: string): object
@@ -595,7 +595,7 @@ declare module '@hyperledger/caliper-core' {
     roundIndex: number
     /**
      * The user-provided arguments for the round from the benchmark configuration file.
-     * @type {Object}
+     * @type {object}
      */
     roundArguments: any
     /**
@@ -605,7 +605,7 @@ declare module '@hyperledger/caliper-core' {
     sutAdapter: ConnectorBase
     /**
      * The custom context object provided by the SUT adapter.
-     * @type {Object}
+     * @type {object}
      */
     sutContext: any
   }
@@ -615,7 +615,7 @@ declare module '@hyperledger/caliper-core' {
      * Initializes the CaliperEngine instance.
      * @param {object} benchmarkConfig The benchmark configuration object.
      * @param {object} networkConfig The network configuration object.
-     * @param {function} adapterFactory The factory function for creating an adapter instance.
+     * @param {Function} adapterFactory The factory function for creating an adapter instance.
      */
     constructor(
       benchmarkConfig: object,

@@ -66,7 +66,7 @@ export function BiochainModel(collectionId?: string): pb.AuthModel {
           },
           {
             roleId: 'Contributor',
-            note: '',
+            note: 'I am a note',
             parentRoleIds: [],
             collectionId,
             polices: {

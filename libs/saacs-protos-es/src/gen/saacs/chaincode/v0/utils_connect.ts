@@ -3,29 +3,20 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import {
-  AuthorizeOperationRequest,
-  AuthorizeOperationResponse,
-  BootstrapRequest,
-  BootstrapResponse,
-  GetCollectionsListRequest,
-  GetCollectionsListResponse,
-  GetCurrentUserRequest,
-  GetCurrentUserResponse,
-} from './utils_pb.js'
-import { MethodIdempotency, MethodKind } from '@bufbuild/protobuf'
+import { AuthorizeOperationRequest, AuthorizeOperationResponse, BootstrapRequest, BootstrapResponse, GetCollectionsListRequest, GetCollectionsListResponse, GetCurrentUserRequest, GetCurrentUserResponse } from "./utils_pb.js";
+import { MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
 
 /**
  * @generated from service saacs.chaincode.v0.UtilsService
  */
 export const UtilsService = {
-  typeName: 'saacs.chaincode.v0.UtilsService',
+  typeName: "saacs.chaincode.v0.UtilsService",
   methods: {
     /**
      * @generated from rpc saacs.chaincode.v0.UtilsService.GetCurrentUser
      */
     getCurrentUser: {
-      name: 'GetCurrentUser',
+      name: "GetCurrentUser",
       I: GetCurrentUserRequest,
       O: GetCurrentUserResponse,
       kind: MethodKind.Unary,
@@ -35,7 +26,7 @@ export const UtilsService = {
      * @generated from rpc saacs.chaincode.v0.UtilsService.Bootstrap
      */
     bootstrap: {
-      name: 'Bootstrap',
+      name: "Bootstrap",
       I: BootstrapRequest,
       O: BootstrapResponse,
       kind: MethodKind.Unary,
@@ -44,7 +35,7 @@ export const UtilsService = {
      * @generated from rpc saacs.chaincode.v0.UtilsService.AuthorizeOperation
      */
     authorizeOperation: {
-      name: 'AuthorizeOperation',
+      name: "AuthorizeOperation",
       I: AuthorizeOperationRequest,
       O: AuthorizeOperationResponse,
       kind: MethodKind.Unary,
@@ -54,11 +45,12 @@ export const UtilsService = {
      * @generated from rpc saacs.chaincode.v0.UtilsService.GetCollectionsList
      */
     getCollectionsList: {
-      name: 'GetCollectionsList',
+      name: "GetCollectionsList",
       I: GetCollectionsListRequest,
       O: GetCollectionsListResponse,
       kind: MethodKind.Unary,
       idempotency: MethodIdempotency.NoSideEffects,
     },
-  },
-} as const
+  }
+} as const;
+

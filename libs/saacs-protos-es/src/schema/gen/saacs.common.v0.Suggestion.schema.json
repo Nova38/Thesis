@@ -2,7 +2,7 @@
   "$id": "saacs.common.v0.Suggestion.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "Key should be\r\n {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}",
+  "description": "Key should be\n {auth.Suggestion}{COLLECTION_ID}{ITEM_TYPE}{...ITEM_ID}{SUGGESTION_ID}",
   "properties": {
     "paths": {
       "$ref": "google.protobuf.FieldMask.schema.json"

@@ -16,12 +16,17 @@ func MakeComposeKey(namespace string, attrs []string) (key string, err error) {
 	// return shim.CreateCompositeKey(namespace, []string{attrs})
 	key = namespace + sep
 
-	for _, attr := range attrs {
-		// TODO Validate the attribute
-
-		key = key + attr + sep
+	if len(attrs) == 0 {
+		return key, nil
 	}
-	return key, nil
+	return key + strings.Join(attrs, sep) + sep, nil
+
+	// for _, attr := range attrs {
+	// 	// TODO Validate the attribute
+
+	// 	key = key + attr + sep
+	// }
+	// return key, nil
 
 }
 
@@ -103,6 +108,21 @@ func MakeItemHiddenKey[T ItemInterface](objKey *pb.ItemKey) (hiddenKey string) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────
+func MakeItemSuggestionDomain[T ItemInterface](objKey *pb.ItemKey) (hiddenKey string) {
+	subKey := KeyToSubKey(objKey, SuggestionItemType)
+	return MakeStateKey(subKey)
+}
+
+func MakeSuggestionDomainKey(s *pb.Suggestion) (suggestionKey string, err error) {
+	base, err := MakeComposeKey(
+		SuggestionItemType,
+		MakeSubItemKeyAtter(s.GetPrimaryKey()),
+	)
+	if err != nil {
+		return "", err
+	}
+	return base, nil
+}
 
 func MakeSuggestionKey[T ItemInterface](obj T) (suggestionKey string, err error) {
 	return MakeComposeKey(

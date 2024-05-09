@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 // Path to crypto materials: On Windows machine - %USERPROFILE%.vscode\extensions\spydra.hyperledger-fabric-debugger-{version}\fabric\local\organizations\peerOrganizations\org1.debugger.com. On Linux and Mac, it will be - ~/.vscode/extensions/spydra.hyperledger-fabric-debugger-{version}/fabric/local/organizations/peerOrganizations/org1.debugger.com.
 // User key directory: users/Org1Admin/msp/keystore
 // User certificate path: users/Org1Admin/msp/signcerts/cert.pem
@@ -8,6 +7,7 @@
 
 import { promises as fs } from 'node:fs'
 import * as crypto from 'node:crypto'
+import { fileURLToPath } from 'node:url'
 import { join, resolve } from 'pathe'
 import * as grpc from '@grpc/grpc-js'
 
@@ -23,16 +23,22 @@ import { pb } from '@saacs/saacs-pb'
 import type { PlainMessage } from '@bufbuild/protobuf'
 import { createBiochainGateway, createUtilGateway } from '../src/fabric/client'
 
+const __filename = fileURLToPath(import.meta.url)
+const repo_base = resolve(__filename, '..', '..', '..', '..')
+const fabric_dir = resolve(repo_base, 'infra', 'network')
+const cryptoPath = resolve(fabric_dir, 'organizations', 'peerOrganizations', 'org1.example.com')
+console.log('repo_base:', { repo_base, fabric_dir, cryptoPath })
+
+// get current file path
+const peerEndpoint = 'localhost:7051'
+const peerHostAlias = 'peer0.org1.example.com'
+const tlsCertPath = resolve(cryptoPath, 'peers', 'peer0.org1.example.com', 'tls', 'ca.crt')
+
 interface UserCrypto { signer: Signer, identity: Identity }
 
 export async function BuildFromBaseDir(path: string) {
   const mspId = 'Org1MSP'
-  const peerEndpoint = 'localhost:7051'
   const OrgUsers = await fs.readdir(path)
-
-  async function newGRPCClient() {
-    return new grpc.Client(peerEndpoint, grpc.credentials.createInsecure())
-  }
 
   async function getUserCryptoFiles(user: string) {
     const userDir = join(path, user, 'msp')
@@ -74,10 +80,8 @@ export async function BuildFromBaseDir(path: string) {
     },
     {},
   )
-  const client = await newGRPCClient()
-  console.log('Users:', Users)
 
-  return { Users, client }
+  return { Users }
 }
 
 const _debug_baseDir = join(
@@ -96,9 +100,19 @@ const OrgUsersDir = join(
   'users',
 )
 
-const userDir = resolve('.', 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
+async function newGrpcConnection(): Promise<grpc.Client> {
+  const tlsRootCert = await fs.readFile(tlsCertPath)
+  const tlsCredentials = grpc.credentials.createSsl(tlsRootCert)
+  return new grpc.Client(peerEndpoint, tlsCredentials, {
+    'grpc.ssl_target_name_override': peerHostAlias,
+  })
+}
 
-const { Users, client } = await BuildFromBaseDir(userDir)
+const client = await newGrpcConnection()
+
+const userDir = resolve(repo_base, 'infra', 'network', 'organizations', 'peerOrganizations', 'org1.example.com', 'users')
+
+const { Users } = await BuildFromBaseDir(userDir)
 
 const gateway = connect({
   client,
@@ -106,23 +120,28 @@ const gateway = connect({
   signer: Users['Admin@org1.example.com'].signer,
 })
 
-const network = await gateway.getNetwork('default')
-const contract = network.getContract('saacs-caas')
+const network = await gateway.getNetwork('mychannel')
+const contract = network.getContract('roles')
+
+const v = await contract.evaluateTransaction('org.hyperledger.fabric:GetMetadata')
 
 const utils = createUtilGateway(contract)
-const BiochainClient = createBiochainGateway(contract)
-const arg = new pb.BootstrapRequest({
-  collection: {
-    collectionId: 'Testing',
-    name: 'Testing',
-    authType: pb.AuthType.ROLE,
-    itemTypes: ['saacs.biochain.v0.Specimen'],
-  },
-})
+const u = await utils.getCurrentUser({})
+console.log(u)
+// const utils = createUtilGateway(contract)
+// const BiochainClient = createBiochainGateway(contract)
+// const arg = new pb.BootstrapRequest({
+//   collection: {
+//     collectionId: 'Testing',
+//     name: 'Testing',
+//     authType: pb.AuthType.ROLE,
+//     itemTypes: ['saacs.biochain.v0.Specimen'],
+//   },
+// })
 
 try {
-  const u = await utils.getCurrentUser({})
-  console.log(u)
+  // const u = await utils.getCurrentUser({})
+  // console.log(u)
 
   // const r = await utils.bootstrap({ collection: { collectionId: 'Testing', name: 'Testing', authType: pb.AuthType.ROLE, itemTypes: [
   //   //   'saacs.biochain.v0.Specimen',

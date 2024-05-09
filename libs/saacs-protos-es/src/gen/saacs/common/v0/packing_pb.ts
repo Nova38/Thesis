@@ -3,18 +3,11 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type {
-  BinaryReadOptions,
-  FieldList,
-  JsonReadOptions,
-  JsonValue,
-  PartialMessage,
-  PlainMessage,
-} from '@bufbuild/protobuf'
-import { Message, proto3 } from '@bufbuild/protobuf'
-import { Item } from './item_pb.js'
-import { History } from './history_pb.js'
-import { Suggestion } from './suggestion_pb.js'
+import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
+import { Message, proto3 } from "@bufbuild/protobuf";
+import { Item } from "./item_pb.js";
+import { History } from "./history_pb.js";
+import { Suggestion } from "./suggestion_pb.js";
 
 /**
  * @generated from message saacs.common.v0.FullItem
@@ -23,63 +16,45 @@ export class FullItem extends Message<FullItem> {
   /**
    * @generated from field: saacs.common.v0.Item item = 1;
    */
-  item?: Item
+  item?: Item;
 
   /**
    * @generated from field: saacs.common.v0.History history = 2;
    */
-  history?: History
+  history?: History;
 
   /**
    * @generated from field: repeated saacs.common.v0.Suggestion suggestions = 3;
    */
-  suggestions: Suggestion[] = []
+  suggestions: Suggestion[] = [];
 
   constructor(data?: PartialMessage<FullItem>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.common.v0.FullItem'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.common.v0.FullItem";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: 'item', kind: 'message', T: Item },
-    { no: 2, name: 'history', kind: 'message', T: History },
-    {
-      no: 3,
-      name: 'suggestions',
-      kind: 'message',
-      T: Suggestion,
-      repeated: true,
-    },
-  ])
+    { no: 1, name: "item", kind: "message", T: Item },
+    { no: 2, name: "history", kind: "message", T: History },
+    { no: 3, name: "suggestions", kind: "message", T: Suggestion, repeated: true },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): FullItem {
-    return new FullItem().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): FullItem {
+    return new FullItem().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): FullItem {
-    return new FullItem().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): FullItem {
+    return new FullItem().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): FullItem {
-    return new FullItem().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): FullItem {
+    return new FullItem().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: FullItem | PlainMessage<FullItem> | undefined,
-    b: FullItem | PlainMessage<FullItem> | undefined,
-  ): boolean {
-    return proto3.util.equals(FullItem, a, b)
+  static equals(a: FullItem | PlainMessage<FullItem> | undefined, b: FullItem | PlainMessage<FullItem> | undefined): boolean {
+    return proto3.util.equals(FullItem, a, b);
   }
 }
 
@@ -90,50 +65,39 @@ export class Pagination extends Message<Pagination> {
   /**
    * @generated from field: int32 page_size = 1;
    */
-  pageSize = 0
+  pageSize = 0;
 
   /**
    * @generated from field: string bookmark = 2;
    */
-  bookmark = ''
+  bookmark = "";
 
   constructor(data?: PartialMessage<Pagination>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.common.v0.Pagination'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.common.v0.Pagination";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: 'page_size', kind: 'scalar', T: 5 /* ScalarType.INT32 */ },
-    { no: 2, name: 'bookmark', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
-  ])
+    { no: 1, name: "page_size", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+    { no: 2, name: "bookmark", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): Pagination {
-    return new Pagination().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Pagination {
+    return new Pagination().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): Pagination {
-    return new Pagination().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Pagination {
+    return new Pagination().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): Pagination {
-    return new Pagination().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Pagination {
+    return new Pagination().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: Pagination | PlainMessage<Pagination> | undefined,
-    b: Pagination | PlainMessage<Pagination> | undefined,
-  ): boolean {
-    return proto3.util.equals(Pagination, a, b)
+  static equals(a: Pagination | PlainMessage<Pagination> | undefined, b: Pagination | PlainMessage<Pagination> | undefined): boolean {
+    return proto3.util.equals(Pagination, a, b);
   }
 }
+

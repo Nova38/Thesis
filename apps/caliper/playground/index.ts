@@ -1,8 +1,6 @@
 import { pb } from '@saacs/saacs-pb'
 import {
-  WorkloadModuleInterface,
   WorkloadModuleBase,
-  CaliperWorker,
 } from '@hyperledger/caliper-core'
 
 const x = pb.Book.fromJson({})
@@ -19,7 +17,7 @@ WorkloadModuleBase
 
 class MyWorkload extends WorkloadModuleBase {
   async submitTransaction() {
-    let txArgs = {
+    const txArgs = {
       // TX arguments for "mycontract"
     }
 

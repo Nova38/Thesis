@@ -29,7 +29,6 @@ COPY --from=builder /saacs .
 # COPY --from=builder /go/bin/dlv .
 
 EXPOSE 9999
-ENV AUTH_MODE=
 
 
 # CMD [ "/bin/sh" ]

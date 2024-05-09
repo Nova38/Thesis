@@ -24,7 +24,7 @@ test:
       txNumber: 2000
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/Create.js
         arguments: &ItemSettings
@@ -37,7 +37,7 @@ test:
       txNumber: 200
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/Get.js
         arguments: *ItemSettings
@@ -47,17 +47,17 @@ test:
       txNumber: 20
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/GetList.js
         arguments: *ItemSettings
 
-    - label: "create item suggestions"
+    - label: create item suggestions
       contractId: roles
       txNumber: 200
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/CreateSuggestions.js
         arguments: &ItemSuggestionSettings
@@ -66,14 +66,12 @@ test:
           numItems: 200
           numSuggestions: 10
 
-
-
     - label: CreateBook
       contractId: roles
       txNumber: 200
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/Create.js
         arguments: &BookSettings
@@ -86,18 +84,17 @@ test:
       txNumber: 2000
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/Get.js
         arguments: *BookSettings
-
 
     - label: GetAllBooks
       contractId: roles
       txNumber: 20
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/GetList.js
         arguments: *BookSettings
@@ -107,7 +104,7 @@ test:
       txNumber: 200
       rateControl:
         type: fixed-rate
-        opts: { tps: 30 }
+        opts: {tps: 30}
       workload:
         module: benchmarks/workloads/auth/role/CreateSuggestions.js
         arguments: &BookSuggestionSettings
@@ -116,13 +113,12 @@ test:
           numItems: 200
           numSuggestions: 10
 
-
 monitors:
   transaction:
     - module: prometheus-push
       options:
         pushInterval: 5000
-        pushUrl: "http://localhost:9091"
+        pushUrl: 'http://localhost:9091'
     - module: prometheus
     - module: logging
       options:
@@ -149,7 +145,7 @@ monitors:
 
     - module: prometheus
       options:
-        url: "http://localhost:9090"
+        url: 'http://localhost:9090'
         charting:
           polar:
             metrics: [all]

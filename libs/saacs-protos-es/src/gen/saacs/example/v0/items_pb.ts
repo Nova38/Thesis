@@ -3,15 +3,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type {
-  BinaryReadOptions,
-  FieldList,
-  JsonReadOptions,
-  JsonValue,
-  PartialMessage,
-  PlainMessage,
-} from '@bufbuild/protobuf'
-import { Message, proto3 } from '@bufbuild/protobuf'
+import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
+import { Message, proto3 } from "@bufbuild/protobuf";
 
 /**
  * @generated from message saacs.sample.v0.SimpleItem
@@ -20,68 +13,51 @@ export class SimpleItem extends Message<SimpleItem> {
   /**
    * @generated from field: string collection_id = 1;
    */
-  collectionId = ''
+  collectionId = "";
 
   /**
    * @generated from field: string id = 2;
    */
-  id = ''
+  id = "";
 
   /**
    * @generated from field: string name = 3;
    */
-  name = ''
+  name = "";
 
   /**
    * @generated from field: int32 quantity = 4;
    */
-  quantity = 0
+  quantity = 0;
 
   constructor(data?: PartialMessage<SimpleItem>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.sample.v0.SimpleItem'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.sample.v0.SimpleItem";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    {
-      no: 1,
-      name: 'collection_id',
-      kind: 'scalar',
-      T: 9 /* ScalarType.STRING */,
-    },
-    { no: 2, name: 'id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: 'name', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: 'quantity', kind: 'scalar', T: 5 /* ScalarType.INT32 */ },
-  ])
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "quantity", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): SimpleItem {
-    return new SimpleItem().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): SimpleItem {
+    return new SimpleItem().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): SimpleItem {
-    return new SimpleItem().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): SimpleItem {
+    return new SimpleItem().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): SimpleItem {
-    return new SimpleItem().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): SimpleItem {
+    return new SimpleItem().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: SimpleItem | PlainMessage<SimpleItem> | undefined,
-    b: SimpleItem | PlainMessage<SimpleItem> | undefined,
-  ): boolean {
-    return proto3.util.equals(SimpleItem, a, b)
+  static equals(a: SimpleItem | PlainMessage<SimpleItem> | undefined, b: SimpleItem | PlainMessage<SimpleItem> | undefined): boolean {
+    return proto3.util.equals(SimpleItem, a, b);
   }
 }
 
@@ -92,67 +68,51 @@ export class Group extends Message<Group> {
   /**
    * @generated from field: string collection_id = 1;
    */
-  collectionId = ''
+  collectionId = "";
 
   /**
    * @generated from field: string group_id = 2;
    */
-  groupId = ''
+  groupId = "";
 
   /**
    * @generated from field: saacs.sample.v0.SimpleItem item1 = 3;
    */
-  item1?: SimpleItem
+  item1?: SimpleItem;
 
   /**
    * @generated from field: saacs.sample.v0.SimpleItem item2 = 4;
    */
-  item2?: SimpleItem
+  item2?: SimpleItem;
 
   constructor(data?: PartialMessage<Group>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.sample.v0.Group'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.sample.v0.Group";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    {
-      no: 1,
-      name: 'collection_id',
-      kind: 'scalar',
-      T: 9 /* ScalarType.STRING */,
-    },
-    { no: 2, name: 'group_id', kind: 'scalar', T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: 'item1', kind: 'message', T: SimpleItem },
-    { no: 4, name: 'item2', kind: 'message', T: SimpleItem },
-  ])
+    { no: 1, name: "collection_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "group_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "item1", kind: "message", T: SimpleItem },
+    { no: 4, name: "item2", kind: "message", T: SimpleItem },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): Group {
-    return new Group().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): Group {
+    return new Group().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): Group {
-    return new Group().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): Group {
+    return new Group().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): Group {
-    return new Group().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): Group {
+    return new Group().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: Group | PlainMessage<Group> | undefined,
-    b: Group | PlainMessage<Group> | undefined,
-  ): boolean {
-    return proto3.util.equals(Group, a, b)
+  static equals(a: Group | PlainMessage<Group> | undefined, b: Group | PlainMessage<Group> | undefined): boolean {
+    return proto3.util.equals(Group, a, b);
   }
 }
+

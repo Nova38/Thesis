@@ -9,6 +9,8 @@ repos:
           (?x)^(
           lib/proto-saacs-es/src/gen/.*|
           cmd/protoc-gen-saacs-es/src/gen/.*|
+          libs/saacs-protos-es/src/gen/.*|
+          libs/saacs-protos-es/src/schema/.*|
           cmd/other/.* |
           lib/other/doc/.*
           )$
@@ -18,6 +20,8 @@ repos:
           (?x)^(
           lib/proto-saacs-es/src/gen/.*|
           cmd/protoc-gen-saacs-es/src/gen/.*|
+          libs/saacs-protos-es/src/gen/.*|
+          libs/saacs-protos-es/src/schema/.*|
           lib/other/.* |
           lib/other/doc/.*
           )$

@@ -3,17 +3,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import type {
-  BinaryReadOptions,
-  FieldList,
-  JsonReadOptions,
-  JsonValue,
-  PartialMessage,
-  PlainMessage,
-} from '@bufbuild/protobuf'
-import { Message, proto3, Timestamp } from '@bufbuild/protobuf'
-import { Operation } from '../../common/v0/operation_pb.js'
-import { User } from '../../common/v0/user_pb.js'
+import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
+import { Message, proto3, Timestamp } from "@bufbuild/protobuf";
+import { Operation } from "../../common/v0/operation_pb.js";
+import { User } from "../../common/v0/user_pb.js";
 
 /**
  * @generated from message saacs.chaincode.v0.OperationsPerformed
@@ -22,62 +15,45 @@ export class OperationsPerformed extends Message<OperationsPerformed> {
   /**
    * @generated from field: repeated saacs.common.v0.Operation operations = 1;
    */
-  operations: Operation[] = []
+  operations: Operation[] = [];
 
   /**
    * @generated from field: saacs.common.v0.User user = 2;
    */
-  user?: User
+  user?: User;
 
   /**
    * @generated from field: google.protobuf.Timestamp timestamp = 3;
    */
-  timestamp?: Timestamp
+  timestamp?: Timestamp;
 
   constructor(data?: PartialMessage<OperationsPerformed>) {
-    super()
-    proto3.util.initPartial(data, this)
+    super();
+    proto3.util.initPartial(data, this);
   }
 
-  static readonly runtime: typeof proto3 = proto3
-  static readonly typeName = 'saacs.chaincode.v0.OperationsPerformed'
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "saacs.chaincode.v0.OperationsPerformed";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    {
-      no: 1,
-      name: 'operations',
-      kind: 'message',
-      T: Operation,
-      repeated: true,
-    },
-    { no: 2, name: 'user', kind: 'message', T: User },
-    { no: 3, name: 'timestamp', kind: 'message', T: Timestamp },
-  ])
+    { no: 1, name: "operations", kind: "message", T: Operation, repeated: true },
+    { no: 2, name: "user", kind: "message", T: User },
+    { no: 3, name: "timestamp", kind: "message", T: Timestamp },
+  ]);
 
-  static fromBinary(
-    bytes: Uint8Array,
-    options?: Partial<BinaryReadOptions>,
-  ): OperationsPerformed {
-    return new OperationsPerformed().fromBinary(bytes, options)
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): OperationsPerformed {
+    return new OperationsPerformed().fromBinary(bytes, options);
   }
 
-  static fromJson(
-    jsonValue: JsonValue,
-    options?: Partial<JsonReadOptions>,
-  ): OperationsPerformed {
-    return new OperationsPerformed().fromJson(jsonValue, options)
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): OperationsPerformed {
+    return new OperationsPerformed().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(
-    jsonString: string,
-    options?: Partial<JsonReadOptions>,
-  ): OperationsPerformed {
-    return new OperationsPerformed().fromJsonString(jsonString, options)
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): OperationsPerformed {
+    return new OperationsPerformed().fromJsonString(jsonString, options);
   }
 
-  static equals(
-    a: OperationsPerformed | PlainMessage<OperationsPerformed> | undefined,
-    b: OperationsPerformed | PlainMessage<OperationsPerformed> | undefined,
-  ): boolean {
-    return proto3.util.equals(OperationsPerformed, a, b)
+  static equals(a: OperationsPerformed | PlainMessage<OperationsPerformed> | undefined, b: OperationsPerformed | PlainMessage<OperationsPerformed> | undefined): boolean {
+    return proto3.util.equals(OperationsPerformed, a, b);
   }
 }
+
