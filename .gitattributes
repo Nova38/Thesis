@@ -1,3 +1,9 @@
-network/** text eol=lf
+* text=auto eol=lf
 
-.sh text eol=lf
+*.sh text eol=lf
+
+* text eol=lf
+
+infra/network/** text eol=lf
+
+infra/network/*.sh text eol=lf

@@ -78,7 +78,7 @@ func TestCollections(t *testing.T) {
 		// Identity Collections
 		// ───────────────────────────────────────────────────────────────────────
 		{
-			desc: "InValid Role Collection (missing Role)",
+			desc: "Valid Identity Collection",
 			collection: &authpb.Collection{
 				CollectionId: "ColId",
 				Name:         "Collection",
@@ -89,7 +89,7 @@ func TestCollections(t *testing.T) {
 				Default:        &authpb.Polices{},
 				UseAuthParents: false,
 			},
-			valid: false,
+			valid: true,
 		},
 		{
 			desc: "InValid Role Collection (missing UserDirectMembership)",
@@ -147,6 +147,21 @@ func TestCollections(t *testing.T) {
 				UseAuthParents: true,
 			},
 			valid: false,
+		},
+		{
+			desc: "Valid NoAUth Collection",
+			collection: &authpb.Collection{
+				CollectionId: "ColId",
+				Name:         "Collection",
+				AuthType:     authpb.AuthType_AUTH_TYPE_NONE,
+				ItemTypes: []string{
+					"saacs.auth.v0.UserCollectionRoles",
+					"saacs.auth.v0.Role",
+				},
+				Default:        &authpb.Polices{},
+				UseAuthParents: false,
+			},
+			valid: true,
 		},
 	}
 	for _, tC := range testCases {

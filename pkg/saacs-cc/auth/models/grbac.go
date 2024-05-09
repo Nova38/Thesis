@@ -128,18 +128,35 @@ func (ac *GRBAC) getUserRoles(collectionId string) ([]*authpb.Role, error) {
 		return nil, oops.Wrap(err)
 	}
 
-	userRoles := &authpb.UserCollectionRoles{
-		CollectionId: collectionId,
+	// userRoles := &authpb.UserCollectionRoles{
+	// 	CollectionId: collectionId,
+	// 	MspId:        user.GetMspId(),
+	// 	UserId:       user.GetUserId(),
+	// 	RoleIds:      []string{},
+	// }
+
+	userRoles := &authpb.UserGlobalRoles{
+		CollectionId: "global",
 		MspId:        user.GetMspId(),
 		UserId:       user.GetUserId(),
-		RoleIds:      []string{},
+		Roles:        map[string]*authpb.RoleIDList{},
 	}
 
 	if err := state.Get(ac.TxCtx, userRoles); err != nil {
 		return nil, oops.Wrap(err)
 	}
 
-	roles, err := ac.getRoles(userRoles.GetRoleIds())
+	// check if the user has roles for the collection
+	rolesIDs, ok := userRoles.GetRoles()[collectionId]
+	if !ok {
+		return nil, oops.With(
+			"collectionId", collectionId,
+			"user", user.GetUserId(),
+			"MspId", user.GetMspId()).
+			Wrap(common.UserNoRole)
+	}
+
+	roles, err := ac.getRoles(rolesIDs.GetRoleId())
 	if err != nil {
 		return nil, oops.Wrap(err)
 	}

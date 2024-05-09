@@ -23,7 +23,7 @@ export FABRIC_CFG_PATH=${PWD}/configtx
 export VERBOSE=false
 
 # push to the required directory & set a trap to go back if needed
-pushd ${ROOTDIR} > /dev/null
+pushd ${ROOTDIR} >/dev/null
 trap "popd > /dev/null" EXIT
 
 . scripts/utils.sh
@@ -57,8 +57,7 @@ NONWORKING_VERSIONS="^1\.0\. ^1\.1\. ^1\.2\. ^1\.3\. ^1\.4\."
 # of go or other items could be added.
 function checkPrereqs() {
   ## Check if your have cloned the peer binaries and configuration files.
-  peer version > /dev/null 2>&1
-
+  peer version >/dev/null 2>&1
 
   if [[ $? -ne 0 || ! -d "config" ]]; then
     errorln "Peer binary and configuration files not found.."
@@ -94,7 +93,7 @@ function checkPrereqs() {
   ## check for cfssl binaries
   if [ "$CRYPTO" == "cfssl" ]; then
 
-    cfssl version > /dev/null 2>&1
+    cfssl version >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
       errorln "cfssl binary not found.."
       errorln
@@ -107,7 +106,7 @@ function checkPrereqs() {
   ## Check for fabric-ca
   if [ "$CRYPTO" == "Certificate Authorities" ]; then
 
-    fabric-ca-client version > /dev/null 2>&1
+    fabric-ca-client version >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
       errorln "fabric-ca-client binary not found.."
       errorln
@@ -223,8 +222,7 @@ function createOrgs() {
 
     . organizations/fabric-ca/registerEnroll.sh
 
-    while :
-    do
+    while :; do
       if [ ! -f "organizations/fabric-ca/org1/tls-cert.pem" ]; then
         sleep 1
       else
@@ -308,7 +306,7 @@ function createChannel() {
 
   local bft_true=$1
 
-  if ! $CONTAINER_CLI info > /dev/null 2>&1 ; then
+  if ! $CONTAINER_CLI info >/dev/null 2>&1; then
     fatalln "$CONTAINER_CLI network is required to be running to create a channel"
   fi
 
@@ -323,7 +321,7 @@ function createChannel() {
 
   [[ $len -lt 4 ]] || [[ ! -d "organizations/peerOrganizations" ]] && bringUpNetwork="true" || echo "Network Running Already"
 
-  if [ $bringUpNetwork == "true"  ]; then
+  if [ $bringUpNetwork == "true" ]; then
     infoln "Bringing up network"
     networkUp
   fi
@@ -332,7 +330,6 @@ function createChannel() {
   # to create the channel creation transaction and the anchor peer updates.
   scripts/createChannel.sh $CHANNEL_NAME $CLI_DELAY $MAX_RETRY $VERBOSE $bft_true
 }
-
 
 ## Call the script to deploy a chaincode to the channel
 function deployCC() {
@@ -345,7 +342,7 @@ function deployCC() {
 
 ## Call the script to deploy a chaincode to the channel
 function deployCCAAS() {
-  scripts/deployCCAAS.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CCAAS_DOCKER_RUN $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE $CCAAS_DOCKER_RUN
+  scripts/deployCCAAS.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CCAAS_DOCKER_RUN $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE $CCAAS_DOCKER_RUN $CCAAS_DOCKER_EXTRA
 
   if [ $? -ne 0 ]; then
     fatalln "Deploying chaincode-as-a-service failed"
@@ -360,7 +357,6 @@ function deployMultiCCAAS() {
     fatalln "Deploying chaincode-as-a-service failed"
   fi
 }
-
 
 ## Call the script to package the chaincode
 function packageChaincode() {
@@ -420,7 +416,6 @@ function queryChaincode() {
   chaincodeQuery $ORG $CHANNEL_NAME $CC_NAME $CC_QUERY_CONSTRUCTOR
 
 }
-
 
 # Tear down running network
 function networkDown() {
@@ -493,7 +488,7 @@ BFT=0
 # Parse commandline args
 
 ## Parse mode
-if [[ $# -lt 1 ]] ; then
+if [[ $# -lt 1 ]]; then
   printHelp
   exit 0
 else
@@ -508,12 +503,12 @@ if [ "$MODE" == "cc" ] && [[ $# -lt 1 ]]; then
 fi
 
 # parse subcommands if used
-if [[ $# -ge 1 ]] ; then
+if [[ $# -ge 1 ]]; then
   key="$1"
   # check for the createChannel subcommand
   if [[ "$key" == "createChannel" ]]; then
-      export MODE="createChannel"
-      shift
+    export MODE="createChannel"
+    shift
   # check for the cc command
   elif [[ "$MODE" == "cc" ]]; then
     if [ "$1" != "-h" ]; then
@@ -523,101 +518,104 @@ if [[ $# -ge 1 ]] ; then
   fi
 fi
 
-
 # parse flags
 
-while [[ $# -ge 1 ]] ; do
+while [[ $# -ge 1 ]]; do
   key="$1"
   case $key in
-  -h )
+  -h)
     printHelp $MODE
     exit 0
     ;;
-  -c )
+  -c)
     CHANNEL_NAME="$2"
     shift
     ;;
-  -bft )
+  -bft)
     BFT=1
     ;;
-  -ca )
+  -ca)
     CRYPTO="Certificate Authorities"
     ;;
-  -cfssl )
+  -cfssl)
     CRYPTO="cfssl"
     ;;
-  -r )
+  -r)
     MAX_RETRY="$2"
     shift
     ;;
-  -d )
+  -d)
     CLI_DELAY="$2"
     shift
     ;;
-  -s )
+  -s)
     DATABASE="$2"
     shift
     ;;
-  -ccl )
+  -ccl)
     CC_SRC_LANGUAGE="$2"
     shift
     ;;
-  -ccn )
+  -ccn)
     CC_NAME="$2"
     shift
     ;;
-  -ccv )
+  -ccv)
     CC_VERSION="$2"
     shift
     ;;
-  -ccs )
+  -ccs)
     CC_SEQUENCE="$2"
     shift
     ;;
-  -ccp )
+  -ccp)
     CC_SRC_PATH="$2"
     shift
     ;;
-  -ccep )
+  -ccep)
     CC_END_POLICY="$2"
     shift
     ;;
-  -cccg )
+  -cccg)
     CC_COLL_CONFIG="$2"
     shift
     ;;
-  -cci )
+  -cci)
     CC_INIT_FCN="$2"
     shift
     ;;
-  -ccaasdocker )
+  -ccaasdocker)
     CCAAS_DOCKER_RUN="$2"
     shift
     ;;
-  -verbose )
+  -ccaasdockerextra)
+    CCAAS_DOCKER_EXTRA="$2"
+    shift
+    ;;
+  -verbose)
     VERBOSE=true
     ;;
-  -org )
+  -org)
     ORG="$2"
     shift
     ;;
-  -i )
+  -i)
     IMAGETAG="$2"
     shift
     ;;
-  -cai )
+  -cai)
     CA_IMAGETAG="$2"
     shift
     ;;
-  -ccic )
+  -ccic)
     CC_INVOKE_CONSTRUCTOR="$2"
     shift
     ;;
-  -ccqc )
+  -ccqc)
     CC_QUERY_CONSTRUCTOR="$2"
     shift
     ;;
-  * )
+  *)
     errorln "Unknown flag: $key"
     printHelp
     exit 1

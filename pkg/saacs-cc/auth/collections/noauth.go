@@ -21,6 +21,13 @@ func (c *NoAuth) CreateCollection(
 		return nil, ctx.ErrorBase().Wrap(err)
 	}
 
+	// Check if the collection already exists
+	if exist := state.Exists(ctx, col); exist {
+		return nil, ctx.ErrorBase().
+			With("CollectionId", col.CollectionId).
+			Wrap(common.AlreadyExists)
+	}
+
 	// Make Sure the auth types are in the collection
 	authTypes := []string{
 		common.CollectionItemType,

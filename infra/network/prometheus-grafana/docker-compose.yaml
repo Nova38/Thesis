@@ -14,7 +14,7 @@ networks:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.32.1
+    image: prom/prometheus:latest
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -70,7 +70,7 @@ services:
     restart: always
 
   node-exporter:
-    image: prom/node-exporter:v1.3.1
+    image: prom/node-exporter:latest
     container_name: node-exporter
     volumes:
       - /proc:/host/proc:ro

@@ -183,7 +183,11 @@ func PrimaryCreate[T common.ItemInterface](ctx common.TxCtxInterface, obj T) (er
 		return oops.Wrap(err)
 	}
 
-	if err := state.Insert(ctx, obj); err != nil {
+	// if err := state.Insert(ctx, obj); err != nil {
+	// 	return oops.Wrap(err)
+	// }
+
+	if err = (state.Ledger[T]{}.PrimaryCreate(ctx, obj)); err != nil {
 		return oops.Wrap(err)
 	}
 

@@ -1,0 +1,2 @@
+specimen.bin filter=lfs diff=lfs merge=lfs -text
+specimen.json filter=lfs diff=lfs merge=lfs -text

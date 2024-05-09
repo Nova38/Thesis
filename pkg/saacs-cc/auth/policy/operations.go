@@ -42,7 +42,6 @@ func ValidateOperation(collection *authpb.Collection, op *pb.Operation) (bool, e
 		return false, oops.Errorf("Operation item type is empty")
 	case op.GetAction() == pb.Action_ACTION_UNSPECIFIED:
 		return false, oops.Errorf("Operation action is empty")
-
 	}
 
 	if op.GetItemType() == common.CollectionItemType {

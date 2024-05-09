@@ -1,0 +1,152 @@
+version: '3'
+
+volumes:
+    prometheus_data: {}
+    grafana_storage: {}
+
+networks:
+  default:
+      external: true
+      name: fabric_test
+  bridge:
+    driver: bridge
+
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.32.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - default
+      - bridge
+
+  pushGateway:
+    image: prom/pushgateway
+    container_name: pushGateway
+    ports:
+    - "9091:9091"
+
+
+  grafana:
+    image: grafana/grafana:latest #:8.3.4
+    container_name: grafana
+    user: "104"
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_storage:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./grafana/config.monitoring
+    environment:
+      - GF_FEATURE_TOGGLES_ENABLE=flameGraph
+    restart: always
+
+  cadvisor:
+    image: google/cadvisor:latest # gcr.io/cadvisor/cadvisor:latest for ios
+    privileged: true
+    container_name: cadvisor
+    volumes:
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      # - /cgroup:/cgroup:ro
+    ports:
+      - 8080:8080
+    restart: always
+
+  node-exporter:
+    image: prom/node-exporter:v1.3.1
+    container_name: node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - 9100:9100
+    restart: always
+
+  pyroscope:
+    image: grafana/pyroscope:latest
+    container_name: pyroscope
+    ports:
+      - 4040:4040
+  # #  --network=pyroscope-demo -p 4040:4040 grafana/pyroscope:latest
+  agent:
+    image: grafana/agent:latest
+    volumes:
+      - ./agent/config:/etc/agent-config
+    command:
+      - run
+      - /etc/agent-config/config.river
+      - --server.http.listen-addr=0.0.0.0:12345
+    environment:
+      HOSTNAME: agent
+      AGENT_MODE: flow
+    ports:
+      - "12345:12345"
+
+
+  # explorerdb.mynetwork.com:
+  #   image: ghcr.io/hyperledger-labs/explorer-db:latest
+  #   container_name: explorerdb.mynetwork.com
+  #   hostname: explorerdb.mynetwork.com
+  #   environment:
+  #     - DATABASE_DATABASE=fabricexplorer
+  #     - DATABASE_USERNAME=hppoc
+  #     - DATABASE_PASSWORD=password
+  #   healthcheck:
+  #     test: "pg_isready -h localhost -p 5432 -q -U postgres"
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   networks:
+  #     - mynetwork.com
+
+  # explorer.mynetwork.com:
+  #   image: ghcr.io/hyperledger-labs/explorer:latest
+  #   container_name: explorer.mynetwork.com
+  #   hostname: explorer.mynetwork.com
+  #   environment:
+  #     - DATABASE_HOST=explorerdb.mynetwork.com
+  #     - DATABASE_DATABASE=fabricexplorer
+  #     - DATABASE_USERNAME=hppoc
+  #     - DATABASE_PASSWD=password
+  #     - LOG_LEVEL_APP=info
+  #     - LOG_LEVEL_DB=info
+  #     - LOG_LEVEL_CONSOLE=debug
+  #     - LOG_CONSOLE_STDOUT=true
+  #     - DISCOVERY_AS_LOCALHOST=false
+  #     - PORT=${PORT:-8081}
+  #   volumes:
+  #     - ./config.json:/opt/explorer/app/platform/fabric/config.json
+  #     - ./connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+  #     - ../organizations:/tmp/crypto
+  #     - walletstore:/opt/explorer/wallet
+  #   ports:
+  #     - ${PORT:-8081}:${PORT:-8081}
+  #   depends_on:
+  #     explorerdb.mynetwork.com:
+  #       condition: service_healthy
+  #   networks:
+  #     - mynetwork.com

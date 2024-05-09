@@ -10,22 +10,30 @@
   {
     "invoke": "getCurrentUser",
     "args": [
-      {},
+      "",
       {}
     ]
   },
   {
     "invoke": "getCurrentUser",
     "args": [
+      "",
       {}
     ],
     "identity": "user1"
   },
   // Bootstrap BootstrapRequest
   {
-    "invoke": "Bo",
+    "invoke": "bootstrap",
     "args": [
-      {}
+      {},
+      {
+        "collection": {
+          "collectionId": "Collection",
+          "name": "Collection",
+          "authType": "1"
+        }
+      }
     ]
   },
   {

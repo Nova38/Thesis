@@ -16,17 +16,27 @@ type Config struct {
 func LoadConfig() {
 	viper.SetDefault("ChaincodeName", "saacs")
 	viper.SetDefault("Serialization", "json")
-	viper.BindEnv("CCID", "CHAINCODE_ID")
-	viper.BindEnv("Address", "CHAINCODE_SERVER_ADDRESS")
-	viper.BindEnv("ChaincodeName", "CHAINCODE_NAME")
-	viper.BindEnv("LogLevel", "LOG_LEVEL")
+	viper.MustBindEnv("Serialization", "SERIALIZATION")
+	viper.MustBindEnv("CCID", "CHAINCODE_ID")
+	viper.MustBindEnv("Address", "CHAINCODE_SERVER_ADDRESS")
+	viper.MustBindEnv("ChaincodeName", "CHAINCODE_NAME")
+	viper.MustBindEnv("LogLevel", "LOG_LEVEL")
 }
 
 func init() {
 	LoadConfig()
+
+	config := GetConfig()
+	slog.Info("Config loaded",
+		"CCID", config.CCID,
+		"Address", config.Address,
+		"ChaincodeName", config.ChaincodeName,
+		"Serialization", config.Serialization,
+	)
 }
 
 func GetConfig() Config {
+
 	return Config{
 		CCID:          viper.GetString("CCID"),
 		Address:       viper.GetString("Address"),

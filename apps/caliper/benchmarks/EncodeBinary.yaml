@@ -1,0 +1,124 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+---
+
+test:
+  name: Biochain
+  description:
+  workers:
+    number: 1
+  rounds:
+    - label: Bootstrap
+      contractId: &contractID caliper-saacs-binary
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/biochain/bootstrap.js
+        arguments:
+          contractId: *contractID
+
+    - label: Batchimport
+      contractId: *contractID
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/biochain/batchImport.js
+        arguments:
+          contractId: *contractID
+          batchSize: 10000
+
+    - label: GetAll
+      contractId: *contractID
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/biochain/getAll.js
+        arguments:
+          contractId: *contractID
+
+    - label: UpdateAll
+      contractId: *contractID
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/biochain/updateAll.js
+        arguments:
+          contractId: *contractID
+
+
+    - label: GetAll
+      contractId: *contractID
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/biochain/getAll.js
+        arguments:
+          contractId: *contractID
+
+monitors:
+  transaction:
+    - module: prometheus-push
+      options:
+        pushInterval: 5000
+        pushUrl: 'http://localhost:9091'
+    - module: prometheus
+    # - module: logging
+    #   options:
+    #     loggerModuleName: txinfo
+    #     messageLevel: info
+  resource:
+    - module: prometheus
+      options:
+        url: 'http://localhost:9090'
+        metrics:
+          include: [.*]
+          queries:
+
+            - name: Avg Shim Requests
+              query: 'avg(chaincode_shim_requests_received{chaincode=~"caliper*"}) '
+              step: 1
+              label: type
+              statistic: avg
+              multiplier: 1
+            - name: Min Shim Request Duration
+              query: min(chaincode_shim_request_duration_sum{chaincode=~"caliper.*"}) by (type)
+              step: 1
+              label: instance
+              statistic: min
+            - name: Max Shim Request Duration
+              query: max(chaincode_shim_request_duration_sum{chaincode=~"caliper.*"}) by (type)
+              step: 1
+              label: instance
+              statistic: max
+            - name: Avg Shim Request Duration
+              query: avg(chaincode_shim_request_duration{chaincode=~"caliper.*"})
+              step: 1
+              label: instance
+              statistic: avg
+            - name: Avg Shim Request Duration by type
+              query: avg(chaincode_shim_request_duration_bucket{chaincode=~"caliper.*"})  by (type)
+              step: 1
+              label: type
+              statistic: avg

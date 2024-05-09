@@ -2,38 +2,43 @@
   "name": "caliper",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.js",
+  "files": [
+    "benchmarks/**/*",
+    "playground"
+  ],
   "scripts": {
     "bind": "caliper bind --caliper-bind-sut fabric:2.4",
-    "start": "node index.js",
-    "t": "ts-node t.ts",
-    "launch-old": "caliper launch manager --caliper-bind-sut fabric:2.4 --Caliper-ProjectConfig caliper.yaml --caliper-workspace ./ --caliper-networkconfig networks/test-network.yaml  --caliper-benchconfig benchmarks/config.yaml  --caliper-flow-only-test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "echo": "echo %npm_config_varname%",
     "argument": "echo \"The value of --foo is '${npm_config_foo}'\"",
     "launch": "caliper launch manager --Caliper-ProjectConfig caliper.yaml ",
     "bench:noauth": "caliper launch manager "
   },
-  "files": [
-    "benchmarks/**/*",
-    "playground"
-  ],
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "@antfu/eslint-config": "^2.16.1",
     "@bufbuild/protobuf": "^1.9.0",
     "@grpc/grpc-js": "1.10.3",
-    "@hyperledger/caliper-cli": "0.5.1-unstable-20240422122901",
-    "@hyperledger/caliper-core": "0.5.1-unstable-20240422122901",
-    "@hyperledger/caliper-fabric": "0.5.1-unstable-20240422122901",
-    "@hyperledger/fabric-gateway": "1.5.0",
+    "@hyperledger/caliper-cli": "0.6",
+    "@hyperledger/caliper-core": "0.6",
+    "@hyperledger/caliper-fabric": "0.6",
+    "@hyperledger/fabric-gateway": "1.5.1",
     "@saacs/client": "workspace:../../libs/client",
     "@saacs/saacs-pb": "workspace:../../libs/saacs-protos-es",
     "@types/node": "^20.12.7",
-    "jiti": "^1.21.0"
+    "jiti": "^1.21.0",
+    "lodash.chunk": "^4.2.0",
+    "pathe": "^1.1.2"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.16.1",
     "esbuild": "0.19.7",
+    "eslint": "^9.1.1",
+    "eslint-plugin-format": "^0.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },

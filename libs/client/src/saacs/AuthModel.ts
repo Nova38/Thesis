@@ -1,7 +1,7 @@
 import { pb } from '@saacs/saacs-pb'
 import type { PartialMessage } from '@bufbuild/protobuf'
 import { PrimaryToItem } from './Item'
-import { BiochainModel } from './Biochain'
+import { BiochainModel } from './Models/Biochain'
 
 // export interface AuthModel =
 
@@ -57,6 +57,7 @@ export function AuthModelToRequests(authModel: PartialMessage<pb.AuthModel>): {
           })
         }),
       }
+
 
     default:
       throw new Error('AuthModel case not recognized')

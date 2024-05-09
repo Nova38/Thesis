@@ -20,59 +20,59 @@ test:
   workers:
     number: 1
   rounds:
-  - label: Bootstrap
-    contractId: roles
-    txNumber: 1
-    rateControl:
-      type: fixed-rate
-      opts: { tps: 1 }
-    workload:
-      module: benchmarks/workloads/auth/saacs/Bootstrap.js
-      arguments:
-        contractId: roles
-        numCollections: 1
+    - label: Bootstrap
+      contractId: roles
+      txNumber: 1
+      rateControl:
+        type: fixed-rate
+        opts: {tps: 1}
+      workload:
+        module: benchmarks/workloads/bootstrap.js
+        arguments:
+          contractId: roles
+          numCollections: 1
 monitors:
   transaction:
     - module: prometheus-push
       options:
         pushInterval: 5000
-        pushUrl: "http://localhost:9091"
+        pushUrl: 'http://localhost:9091'
     - module: prometheus
     - module: logging
       options:
         loggerModuleName: txinfo
         messageLevel: info
   resource:
-  - module: prometheus
-    options:
-      url: "http://localhost:9090"
-      metrics:
-        include: [.*]
-        queries:
+    - module: prometheus
+      options:
+        url: 'http://localhost:9090'
+        metrics:
+          include: [.*]
+          queries:
 
-        - name: Avg Shim Requests
-          query: 'avg(chaincode_shim_requests_received{chaincode=~"noauth.*"}) '
-          step: 1
-          label: type
-          statistic: avg
-          multiplier: 1
-        - name: Min Shim Request Duration
-          query: min(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
-          step: 1
-          label: instance
-          statistic: min
-        - name: Max Shim Request Duration
-          query: max(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
-          step: 1
-          label: instance
-          statistic: max
-        - name: Avg Shim Request Duration
-          query: avg(chaincode_shim_request_duration{chaincode=~"noauth.*"})
-          step: 1
-          label: instance
-          statistic: avg
-        - name: Avg Shim Request Duration by type
-          query: avg(chaincode_shim_request_duration_bucket{chaincode=~"noauth.*"})  by (type)
-          step: 1
-          label: type
-          statistic: avg
+            - name: Avg Shim Requests
+              query: 'avg(chaincode_shim_requests_received{chaincode=~"noauth.*"}) '
+              step: 1
+              label: type
+              statistic: avg
+              multiplier: 1
+            - name: Min Shim Request Duration
+              query: min(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
+              step: 1
+              label: instance
+              statistic: min
+            - name: Max Shim Request Duration
+              query: max(chaincode_shim_request_duration_sum{chaincode=~"noauth.*"}) by (type)
+              step: 1
+              label: instance
+              statistic: max
+            - name: Avg Shim Request Duration
+              query: avg(chaincode_shim_request_duration{chaincode=~"noauth.*"})
+              step: 1
+              label: instance
+              statistic: avg
+            - name: Avg Shim Request Duration by type
+              query: avg(chaincode_shim_request_duration_bucket{chaincode=~"noauth.*"})  by (type)
+              step: 1
+              label: type
+              statistic: avg

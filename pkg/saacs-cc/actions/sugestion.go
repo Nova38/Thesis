@@ -5,7 +5,6 @@ import (
 
 	"github.com/nova38/saacs/pkg/saacs-cc/common"
 	"github.com/nova38/saacs/pkg/saacs-cc/state"
-	"github.com/samber/lo"
 
 	pb "github.com/nova38/saacs/pkg/saacs-protos/saacs/common/v0"
 
@@ -43,14 +42,38 @@ func SuggestionCreate(ctx common.TxCtxInterface, s *pb.Suggestion) (err error) {
 
 	// Extract the item from the suggestion
 
-	if exists := state.KeyExists(ctx, lo.Must(common.MakeSuggestionKey(s))); !exists {
+	// domainKey, err := common.MakeSuggestionDomainKey(s)
+	// if err != nil {
+	// 	return oops.Wrap(err)
+	// }
+	// hiddenkey := common.MakeItemHiddenKey[*pb.Suggestion](s.GetPrimaryKey())
+	// ctx.GetLogger().Info("SuggestionCreate", "domainKey", domainKey, "suggestion", s, "hiddenkey", hiddenkey)
+
+	if exists := state.Exists(ctx, &pb.Suggestion{PrimaryKey: s.GetPrimaryKey()}); !exists {
+		// if exists := state.KeyExists(ctx, common.MakeStateKey(s.GetPrimaryKey())); !exists {
+
 		return oops.
 			With(
 				"suggestion ID", s.GetSuggestionId(),
 				"Primary Key", s.GetPrimaryKey(),
+				"primary Key Not Found",
 			).
 			Wrap(common.KeyNotFound)
 	}
+
+	// if exists := state.KeyExists(ctx, domainKey); !exists {
+	// 	return oops.
+	// 		With(
+	// 			"suggestion ID", s.GetSuggestionId(),
+	// 			"Primary Key", s.GetPrimaryKey(),
+	// 			"domainKey", domainKey,
+	// 			"Domain Key Not Found",
+	// 			"hiddenkey", hiddenkey,
+	// 		).
+	// 		Wrap(common.KeyNotFound)
+
+	// 	// return ctx.GetStub().PutState(domainKey, []byte("Domain key not found"))
+	// }
 
 	if exists := state.Exists(ctx, s); exists {
 		return oops.
