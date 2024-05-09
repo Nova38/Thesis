@@ -198,3 +198,4 @@ proto3.util.setEnumType(Action, "saacs.common.v0.Action", [
   { no: 23, name: "ACTION_UNHIDE_MSP_TX" },
   { no: 24, name: "ACTION_VIEW_MSP_HIDDEN_TX" },
 ]);
+

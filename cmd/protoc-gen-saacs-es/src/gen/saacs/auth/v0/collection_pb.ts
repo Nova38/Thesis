@@ -82,3 +82,4 @@ export class Collection extends Message<Collection> {
     return proto3.util.equals(Collection, a, b);
   }
 }
+

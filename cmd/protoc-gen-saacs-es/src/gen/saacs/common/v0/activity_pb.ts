@@ -92,3 +92,4 @@ export class StateActivity extends Message<StateActivity> {
     return proto3.util.equals(StateActivity, a, b);
   }
 }
+

@@ -130,3 +130,4 @@ export class PathPolicy extends Message<PathPolicy> {
     return proto3.util.equals(PathPolicy, a, b);
   }
 }
+

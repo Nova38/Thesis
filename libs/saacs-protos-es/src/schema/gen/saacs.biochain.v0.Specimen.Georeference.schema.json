@@ -54,7 +54,11 @@
           "type": "string"
         },
         {
-          "enum": ["NaN", "Infinity", "-Infinity"],
+          "enum": [
+            "NaN",
+            "Infinity",
+            "-Infinity"
+          ],
           "type": "string"
         }
       ]
@@ -75,7 +79,11 @@
           "type": "string"
         },
         {
-          "enum": ["NaN", "Infinity", "-Infinity"],
+          "enum": [
+            "NaN",
+            "Infinity",
+            "-Infinity"
+          ],
           "type": "string"
         }
       ]

@@ -44,6 +44,7 @@ tasks:
       - bash -c "cd ./infra/network && curl -sSLO
         https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh
         && chmod +x install-fabric.sh && ./install-fabric.sh b d"
+      - pip install pyyaml rich
   net:up:
     desc: |
       Start the network
@@ -55,7 +56,7 @@ tasks:
       - python ./infra/network/scripts/build_configs.py
       - docker-compose -f ./infra/network/explorer/docker-compose.yaml up -d
       - docker-compose -f ./infra/network/prometheus-grafana/docker-compose.yaml up -d
-      - task: cc:deploy:biochain
+      - task: cc:deploy
 
   net:down:
     desc: |

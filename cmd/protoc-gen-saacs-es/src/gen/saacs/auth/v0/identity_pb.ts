@@ -77,3 +77,4 @@ export class UserDirectMembership extends Message<UserDirectMembership> {
     return proto3.util.equals(UserDirectMembership, a, b);
   }
 }
+

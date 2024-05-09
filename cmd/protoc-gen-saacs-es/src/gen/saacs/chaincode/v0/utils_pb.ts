@@ -410,3 +410,4 @@ export class GetCollectionAuthModelRequest extends Message<GetCollectionAuthMode
     return proto3.util.equals(GetCollectionAuthModelRequest, a, b);
   }
 }
+

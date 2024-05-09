@@ -15,18 +15,18 @@ class User:
     certificate: pathlib.Path
 
 
-def GetBasePath() -> pathlib.Path:
+def GetBasePath():
     """Returns the base path of the project."""
     return pathlib.Path(__file__).parent.parent
 
-def GetCaliperPath() -> pathlib.Path:
+def GetCaliperPath():
     """Returns the path to the caliper network file."""
     return pathlib.Path(__file__).parent.parent.parent.parent / "apps/caliper/networks"/"test-network.yaml"
 
 
 
 
-def GetUserPaths() -> list[User]:
+def GetUserPaths() :
     """Returns a list of paths to the user's config files."""
     users : list[User] = []
 

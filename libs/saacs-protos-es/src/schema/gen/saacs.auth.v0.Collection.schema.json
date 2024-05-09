@@ -2,7 +2,7 @@
   "$id": "saacs.auth.v0.Collection.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "Collection\r\n ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\r\n Note that the types of items are stored in the default ACLEntry\r\n\r\n key := {COLLECTION}{COLLECTION_ID}",
+  "description": "Collection\n ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n Note that the types of items are stored in the default ACLEntry\n\n key := {COLLECTION}{COLLECTION_ID}",
   "properties": {
     "auth_type": {
       "anyOf": [

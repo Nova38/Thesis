@@ -56,3 +56,4 @@ export class OperationsPerformed extends Message<OperationsPerformed> {
     return proto3.util.equals(OperationsPerformed, a, b);
   }
 }
+

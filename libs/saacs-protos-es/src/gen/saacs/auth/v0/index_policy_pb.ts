@@ -1,1 +1,2 @@
-export * from './policy_pb.js'
+export * from "./policy_pb.js"
+

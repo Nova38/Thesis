@@ -12,8 +12,8 @@ import { KeySchema } from "./item_pb.js";
  * @generated from extension: saacs.common.v0.Operation operation = 57775;
  */
 export const operation = proto3.makeExtension<MethodOptions, Operation>(
-  "saacs.common.v0.operation",
-  MethodOptions,
+  "saacs.common.v0.operation", 
+  MethodOptions, 
   () => ({ no: 57775, kind: "message", T: Operation }),
 );
 
@@ -21,8 +21,8 @@ export const operation = proto3.makeExtension<MethodOptions, Operation>(
  * @generated from extension: saacs.common.v0.TransactionType transaction_type = 50556;
  */
 export const transaction_type = proto3.makeExtension<MethodOptions, TransactionType>(
-  "saacs.common.v0.transaction_type",
-  MethodOptions,
+  "saacs.common.v0.transaction_type", 
+  MethodOptions, 
   () => ({ no: 50556, kind: "enum", T: proto3.getEnumType(TransactionType) }),
 );
 
@@ -30,7 +30,8 @@ export const transaction_type = proto3.makeExtension<MethodOptions, TransactionT
  * @generated from extension: saacs.common.v0.KeySchema key_schema = 54599;
  */
 export const key_schema = proto3.makeExtension<MessageOptions, KeySchema>(
-  "saacs.common.v0.key_schema",
-  MessageOptions,
+  "saacs.common.v0.key_schema", 
+  MessageOptions, 
   () => ({ no: 54599, kind: "message", T: KeySchema }),
 );
+

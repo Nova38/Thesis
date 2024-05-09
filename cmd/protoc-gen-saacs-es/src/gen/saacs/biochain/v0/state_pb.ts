@@ -1213,3 +1213,4 @@ export class SpecimenMap extends Message<SpecimenMap> {
     return proto3.util.equals(SpecimenMap, a, b);
   }
 }
+

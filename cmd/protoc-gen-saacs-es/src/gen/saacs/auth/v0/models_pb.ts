@@ -364,3 +364,4 @@ export class AuthModel extends Message<AuthModel> {
     return proto3.util.equals(AuthModel, a, b);
   }
 }
+

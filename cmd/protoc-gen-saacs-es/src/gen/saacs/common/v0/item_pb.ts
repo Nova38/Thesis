@@ -221,3 +221,4 @@ export class ReadWriteSet extends Message<ReadWriteSet> {
     return proto3.util.equals(ReadWriteSet, a, b);
   }
 }
+
