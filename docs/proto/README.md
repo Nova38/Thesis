@@ -7,45 +7,45 @@
     - [Action](#saacs-common-v0-Action)
     - [ItemKind](#saacs-common-v0-ItemKind)
     - [TransactionType](#saacs-common-v0-TransactionType)
-
+  
 - [saacs/auth/v0/policy.proto](#saacs_auth_v0_policy-proto)
     - [PathPolicy](#saacs-auth-v0-PathPolicy)
     - [PathPolicy.SubPathsEntry](#saacs-auth-v0-PathPolicy-SubPathsEntry)
     - [Polices](#saacs-auth-v0-Polices)
     - [Polices.ItemPoliciesEntry](#saacs-auth-v0-Polices-ItemPoliciesEntry)
-
+  
 - [saacs/auth/v0/type.proto](#saacs_auth_v0_type-proto)
     - [AuthType](#saacs-auth-v0-AuthType)
-
+  
     - [File-level Extensions](#saacs_auth_v0_type-proto-extensions)
-
+  
 - [saacs/common/v0/item.proto](#saacs_common_v0_item-proto)
     - [Item](#saacs-common-v0-Item)
     - [ItemKey](#saacs-common-v0-ItemKey)
     - [KeySchema](#saacs-common-v0-KeySchema)
     - [ReadWriteSet](#saacs-common-v0-ReadWriteSet)
-
+  
 - [saacs/common/v0/operation.proto](#saacs_common_v0_operation-proto)
     - [Operation](#saacs-common-v0-Operation)
-
+  
 - [saacs/common/v0/options.proto](#saacs_common_v0_options-proto)
     - [File-level Extensions](#saacs_common_v0_options-proto-extensions)
     - [File-level Extensions](#saacs_common_v0_options-proto-extensions)
     - [File-level Extensions](#saacs_common_v0_options-proto-extensions)
-
+  
 - [saacs/auth/v0/collection.proto](#saacs_auth_v0_collection-proto)
     - [Collection](#saacs-auth-v0-Collection)
-
+  
 - [saacs/auth/v0/identity.proto](#saacs_auth_v0_identity-proto)
     - [UserDirectMembership](#saacs-auth-v0-UserDirectMembership)
-
+  
 - [saacs/auth/v0/roles.proto](#saacs_auth_v0_roles-proto)
     - [Role](#saacs-auth-v0-Role)
     - [RoleIDList](#saacs-auth-v0-RoleIDList)
     - [UserCollectionRoles](#saacs-auth-v0-UserCollectionRoles)
     - [UserGlobalRoles](#saacs-auth-v0-UserGlobalRoles)
     - [UserGlobalRoles.RolesEntry](#saacs-auth-v0-UserGlobalRoles-RolesEntry)
-
+  
 - [saacs/auth/v0/models.proto](#saacs_auth_v0_models-proto)
     - [AuthModel](#saacs-auth-v0-AuthModel)
     - [KeyAttribute](#saacs-auth-v0-KeyAttribute)
@@ -54,10 +54,10 @@
     - [Model.Identity](#saacs-auth-v0-Model-Identity)
     - [Model.Roles](#saacs-auth-v0-Model-Roles)
     - [Model.UserAttributes](#saacs-auth-v0-Model-UserAttributes)
-
+  
 - [saacs/common/v0/activity.proto](#saacs_common_v0_activity-proto)
     - [StateActivity](#saacs-common-v0-StateActivity)
-
+  
 - [saacs/common/v0/history.proto](#saacs_common_v0_history-proto)
     - [HiddenOptions](#saacs-common-v0-HiddenOptions)
     - [HiddenTx](#saacs-common-v0-HiddenTx)
@@ -66,7 +66,7 @@
     - [History.HiddenTxsByMspIdEntry](#saacs-common-v0-History-HiddenTxsByMspIdEntry)
     - [HistoryEntry](#saacs-common-v0-HistoryEntry)
     - [HistoryOptions](#saacs-common-v0-HistoryOptions)
-
+  
 - [saacs/biochain/v0/state.proto](#saacs_biochain_v0_state-proto)
     - [Date](#saacs-biochain-v0-Date)
     - [Researcher](#saacs-biochain-v0-Researcher)
@@ -89,17 +89,17 @@
     - [SpecimenMap](#saacs-biochain-v0-SpecimenMap)
     - [SpecimenMap.SpecimensEntry](#saacs-biochain-v0-SpecimenMap-SpecimensEntry)
     - [SpecimenUpdate](#saacs-biochain-v0-SpecimenUpdate)
-
+  
     - [Specimen.Secondary.AGE](#saacs-biochain-v0-Specimen-Secondary-AGE)
     - [Specimen.Secondary.SEX](#saacs-biochain-v0-Specimen-Secondary-SEX)
-
+  
 - [saacs/common/v0/suggestion.proto](#saacs_common_v0_suggestion-proto)
     - [Suggestion](#saacs-common-v0-Suggestion)
-
+  
 - [saacs/common/v0/packing.proto](#saacs_common_v0_packing-proto)
     - [FullItem](#saacs-common-v0-FullItem)
     - [Pagination](#saacs-common-v0-Pagination)
-
+  
 - [saacs/chaincode/v0/chaincode.proto](#saacs_chaincode_v0_chaincode-proto)
     - [BatchCreateRequest](#saacs-chaincode-v0-BatchCreateRequest)
     - [BatchCreateResponse](#saacs-chaincode-v0-BatchCreateResponse)
@@ -141,15 +141,15 @@
     - [UnHideTxResponse](#saacs-chaincode-v0-UnHideTxResponse)
     - [UpdateRequest](#saacs-chaincode-v0-UpdateRequest)
     - [UpdateResponse](#saacs-chaincode-v0-UpdateResponse)
-
+  
     - [ItemService](#saacs-chaincode-v0-ItemService)
-
+  
 - [saacs/common/v0/user.proto](#saacs_common_v0_user-proto)
     - [User](#saacs-common-v0-User)
-
+  
 - [saacs/chaincode/v0/events.proto](#saacs_chaincode_v0_events-proto)
     - [OperationsPerformed](#saacs-chaincode-v0-OperationsPerformed)
-
+  
 - [saacs/chaincode/v0/utils.proto](#saacs_chaincode_v0_utils-proto)
     - [AuthorizeOperationRequest](#saacs-chaincode-v0-AuthorizeOperationRequest)
     - [AuthorizeOperationResponse](#saacs-chaincode-v0-AuthorizeOperationResponse)
@@ -161,25 +161,25 @@
     - [GetCurrentFullUserResponse](#saacs-chaincode-v0-GetCurrentFullUserResponse)
     - [GetCurrentUserRequest](#saacs-chaincode-v0-GetCurrentUserRequest)
     - [GetCurrentUserResponse](#saacs-chaincode-v0-GetCurrentUserResponse)
-
+  
     - [UtilsService](#saacs-chaincode-v0-UtilsService)
-
+  
 - [saacs/common/v0/errors.proto](#saacs_common_v0_errors-proto)
     - [ErrorWrapper](#saacs-common-v0-ErrorWrapper)
-
+  
     - [TxError](#saacs-common-v0-TxError)
-
+  
 - [saacs/example/v0/book.proto](#saacs_example_v0_book-proto)
     - [Book](#saacs-sample-v0-Book)
-
+  
 - [saacs/example/v0/items.proto](#saacs_example_v0_items-proto)
     - [Group](#saacs-sample-v0-Group)
     - [SimpleItem](#saacs-sample-v0-SimpleItem)
-
+  
 - [saacs/example/v0/nested.proto](#saacs_example_v0_nested-proto)
     - [ItemWithNestedKey](#saacs-sample-v0-ItemWithNestedKey)
     - [Nested](#saacs-sample-v0-Nested)
-
+  
 - [Scalar Value Types](#scalar-value-types)
 
 
@@ -190,7 +190,7 @@
 ## saacs/common/v0/enums.proto
 
 
-
+ 
 
 
 <a name="saacs-common-v0-Action"></a>
@@ -246,11 +246,11 @@
 | TRANSACTION_TYPE_QUERY | 2 |  |
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 
@@ -328,13 +328,13 @@ This message is the tree node for operations on the state item
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -344,7 +344,7 @@ This message is the tree node for operations on the state item
 ## saacs/auth/v0/type.proto
 
 
-
+ 
 
 
 <a name="saacs-auth-v0-AuthType"></a>
@@ -362,7 +362,7 @@ This message is the tree node for operations on the state item
 | AUTH_TYPE_ATTRIBUTE | 5 | Attribute-based authentication, Attributes are stored per msp per collection |
 
 
-
+ 
 
 
 <a name="saacs_auth_v0_type-proto-extensions"></a>
@@ -372,9 +372,9 @@ This message is the tree node for operations on the state item
 | --------- | ---- | ---- | ------ | ----------- |
 | auth_type | AuthType | .google.protobuf.MessageOptions | 55888 |  |
 
+ 
 
-
-
+ 
 
 
 
@@ -468,13 +468,13 @@ Examples
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -502,13 +502,13 @@ Examples
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -518,9 +518,9 @@ Examples
 ## saacs/common/v0/options.proto
 
 
+ 
 
-
-
+ 
 
 
 <a name="saacs_common_v0_options-proto-extensions"></a>
@@ -532,9 +532,9 @@ Examples
 | operation | Operation | .google.protobuf.MethodOptions | 57775 |  |
 | transaction_type | TransactionType | .google.protobuf.MethodOptions | 50556 |  |
 
+ 
 
-
-
+ 
 
 
 
@@ -568,13 +568,13 @@ key := {COLLECTION}{COLLECTION_ID}
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -603,13 +603,13 @@ Identity Auth Object
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -706,13 +706,13 @@ Auth Object For Embedded RBAC
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -836,13 +836,13 @@ Auth Object For Embedded RBAC
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -873,13 +873,13 @@ Can be used as the history entry
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -1010,13 +1010,13 @@ Key should be {COLLECTION_ID}{auth.HiddenTxList}{?msp_id}{ITEM_TYPE}{...ITEM_ID}
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -1430,7 +1430,7 @@ option go_package =
 
 
 
-
+ 
 
 
 <a name="saacs-biochain-v0-Specimen-Secondary-AGE"></a>
@@ -1465,11 +1465,11 @@ CHICK_SUBADULT, ADULT, UNKNOWN, CONTINGENT, blank
 | SEX_FEMALE | 4 |  |
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 
@@ -1498,13 +1498,13 @@ Key should be
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -1547,13 +1547,13 @@ Key should be
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2205,11 +2205,11 @@ List of a type
 
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 <a name="saacs-chaincode-v0-ItemService"></a>
@@ -2245,7 +2245,7 @@ rpc CreateCollection(CreateCollectionRequest) returns
 | SuggestionDelete | [SuggestionDeleteRequest](#saacs-chaincode-v0-SuggestionDeleteRequest) | [SuggestionDeleteResponse](#saacs-chaincode-v0-SuggestionDeleteResponse) |  |
 | SuggestionApprove | [SuggestionApproveRequest](#saacs-chaincode-v0-SuggestionApproveRequest) | [SuggestionApproveResponse](#saacs-chaincode-v0-SuggestionApproveResponse) |  |
 
-
+ 
 
 
 
@@ -2271,13 +2271,13 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2304,13 +2304,13 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2475,11 +2475,11 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 <a name="saacs-chaincode-v0-UtilsService"></a>
@@ -2494,7 +2494,7 @@ rpc CreateCollection(CreateCollectionRequest) returns
 | AuthorizeOperation | [AuthorizeOperationRequest](#saacs-chaincode-v0-AuthorizeOperationRequest) | [AuthorizeOperationResponse](#saacs-chaincode-v0-AuthorizeOperationResponse) |  |
 | GetCollectionsList | [GetCollectionsListRequest](#saacs-chaincode-v0-GetCollectionsListRequest) | [GetCollectionsListResponse](#saacs-chaincode-v0-GetCollectionsListResponse) |  |
 
-
+ 
 
 
 
@@ -2521,7 +2521,7 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
-
+ 
 
 
 <a name="saacs-common-v0-TxError"></a>
@@ -2557,11 +2557,11 @@ rpc CreateCollection(CreateCollectionRequest) returns
 | INVALID_ITEM_FIELD_VALUE | 36 | The value at the item field path is invalid for the item type |
 
 
+ 
 
+ 
 
-
-
-
+ 
 
 
 
@@ -2593,13 +2593,13 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2645,13 +2645,13 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2695,13 +2695,13 @@ rpc CreateCollection(CreateCollectionRequest) returns
 
 
 
+ 
 
+ 
 
+ 
 
-
-
-
-
+ 
 
 
 
@@ -2724,3 +2724,4 @@ rpc CreateCollection(CreateCollectionRequest) returns
 | <a name="bool" /> bool |  | bool | boolean | boolean | bool | bool | boolean | TrueClass/FalseClass |
 | <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode | string | string | string | String (UTF-8) |
 | <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str | []byte | ByteString | string | String (ASCII-8BIT) |
+
